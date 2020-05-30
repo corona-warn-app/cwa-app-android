@@ -402,6 +402,13 @@
     <string name="submission_positive_dialog_confirmation_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
     <string name="submission_positive_dialog_confirmation_positive">Erlauben</string>
     <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string>
+    <!-- Submission Done -->
+    <string name="submission_done_headline">Vielen dank!</string>
+    <string name="submission_done_body">Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren.</string>
+    <string name="submission_done_subtitle">Bitte beachten Sie:</string>
+    <string name="submission_done_contagious">Sie sind ansteckend.</string>
+    <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
+    <string name="submission_done_button_done">Fertig</string>
 
 
     <!-- ####################################

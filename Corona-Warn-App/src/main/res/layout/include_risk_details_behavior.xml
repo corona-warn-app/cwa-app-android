@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tracingViewModel="@{tracingViewModel}"
+            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_wash_hands" />
 
         <include
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wash_hands"
-            app:tracingViewModel="@{tracingViewModel}"
+            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_wear_mask" />
 
         <include
@@ -57,7 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wear_mask"
-            app:tracingViewModel="@{tracingViewModel}"
+            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_stay_away" />
 
         <include
@@ -71,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_away"
-            app:tracingViewModel="@{tracingViewModel}"
+            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_cough_sneeze" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

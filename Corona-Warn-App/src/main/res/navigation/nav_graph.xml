@@ -265,4 +265,8 @@
             app:destination="@id/submissionResultFragment"
             app:popUpTo="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/submissionDoneFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionDoneFragment"
+        android:label="SubmissionDoneFragment" />
 </navigation>
