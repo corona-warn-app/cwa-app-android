@@ -65,13 +65,6 @@
             android:exported="false"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-
-        <service
-            android:name=".notification.ExposureNotificationIntentService"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
     </application>
 
 </manifest>
