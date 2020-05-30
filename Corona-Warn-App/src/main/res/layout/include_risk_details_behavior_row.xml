@@ -7,8 +7,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+            name="riskLevel"
+            type="Integer" />
 
         <variable
             name="body"
@@ -30,10 +30,10 @@
             android:layout_width="@dimen/icon_size_risk_details_behavior"
             android:layout_height="@dimen/icon_size_risk_details_behavior"
             android:background="@drawable/circle"
-            android:backgroundTint="@{FormatterRiskHelper.formatBehaviorIconBackground(tracingViewModel.riskLevel)}"
+            android:backgroundTint="@{FormatterRiskHelper.formatBehaviorIconBackground(riskLevel)}"
             android:importantForAccessibility="no"
             android:src="@{icon}"
-            android:tint="@{FormatterRiskHelper.formatBehaviorIcon(tracingViewModel.riskLevel)}"
+            android:tint="@{FormatterRiskHelper.formatBehaviorIcon(riskLevel)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

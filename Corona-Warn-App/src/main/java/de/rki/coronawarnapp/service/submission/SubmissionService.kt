@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.service.submission
 
 import de.rki.coronawarnapp.exception.InvalidQRCodeExcpetion
-import de.rki.coronawarnapp.exception.NoAuthCodeSetException
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
@@ -49,23 +48,18 @@ object SubmissionService {
         deleteTeleTAN()
     }
 
-    suspend fun asyncRequestAuthCode() {
+    suspend fun asyncRequestAuthCode(): String {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
 
         val authCode = WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
-
-        LocalData.authCode(authCode)
-        deleteRegistrationToken()
+        return authCode
     }
 
     suspend fun asyncSubmitExposureKeys() {
-        val authCode =
-            LocalData.authCode() ?: throw NoAuthCodeSetException()
-
-        SubmitDiagnosisKeysTransaction.start(authCode)
-
-        deleteAuthCode()
+        val registrationToken =
+            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+        SubmitDiagnosisKeysTransaction.start(registrationToken)
     }
 
     fun validateAndStoreTestGUID(testGUID: String) {
