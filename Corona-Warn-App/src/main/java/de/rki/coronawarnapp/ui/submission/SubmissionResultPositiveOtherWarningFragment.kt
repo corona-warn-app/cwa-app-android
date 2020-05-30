@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.ui.register.ApiRequestState
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment() {

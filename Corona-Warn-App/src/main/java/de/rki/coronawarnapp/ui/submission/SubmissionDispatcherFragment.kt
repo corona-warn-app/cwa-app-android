@@ -43,7 +43,8 @@ class SubmissionDispatcherFragment : BaseFragment() {
         }
         binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             doNavigate(
-                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionTanFragment()
+                SubmissionDispatcherFragmentDirections
+                    .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
         binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
@@ -70,10 +71,10 @@ class SubmissionDispatcherFragment : BaseFragment() {
         val alertDialog: AlertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setTitle(R.string.register_qr_code_scan_permission_rationale_dialog_headline)
-                setMessage(R.string.register_qr_code_scan_permission_rationale_dialog_body)
+                setTitle(R.string.submission_qr_code_scan_permission_rationale_dialog_headline)
+                setMessage(R.string.submission_qr_code_scan_permission_rationale_dialog_body)
                 setPositiveButton(
-                    R.string.register_qr_code_scan_permission_rationale_dialog_button_positive
+                    R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive
                 ) { _, _ ->
                     requestPermissions(
                         arrayOf(Manifest.permission.CAMERA),
@@ -81,7 +82,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
                     )
                 }
                 setNegativeButton(
-                    R.string.register_qr_code_scan_permission_rationale_dialog_button_negative
+                    R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative
                 ) { _, _ -> }
             }
             builder.create()
@@ -106,10 +107,10 @@ class SubmissionDispatcherFragment : BaseFragment() {
         val alertDialog: AlertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setTitle(R.string.register_qr_code_scan_permission_denied_dialog_headline)
-                setMessage(R.string.register_qr_code_scan_permission_denied_dialog_body)
+                setTitle(R.string.submission_qr_code_scan_permission_denied_dialog_headline)
+                setMessage(R.string.submission_qr_code_scan_permission_denied_dialog_body)
                 setPositiveButton(
-                    R.string.register_qr_code_scan_permission_denied_dialog_button_positive
+                    R.string.submission_qr_code_scan_permission_denied_dialog_button_positive
                 ) { _, _ -> }
             }
             builder.create()
@@ -119,7 +120,8 @@ class SubmissionDispatcherFragment : BaseFragment() {
 
     private fun cameraPermissionIsGranted() {
         doNavigate(
-            SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToRegisterQRCodeFragment()
+            SubmissionDispatcherFragmentDirections
+                .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
         )
     }
 }

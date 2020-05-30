@@ -45,6 +45,7 @@
                 app:illustration="@{@drawable/ic_submission_illustration_qr_code_card}"
                 app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
+                android:focusable="true"
                 app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_subtitle" />
 
             <include
@@ -99,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/sm_guideline_button" />
+                app:layout_constraintGuide_end="@dimen/submission_guideline_button" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/submission_guideline_top"

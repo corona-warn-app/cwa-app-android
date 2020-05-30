@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_end="@dimen/sm_guideline_button" />
+                    app:layout_constraintGuide_end="@dimen/submission_guideline_button" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/submission_guideline_top"

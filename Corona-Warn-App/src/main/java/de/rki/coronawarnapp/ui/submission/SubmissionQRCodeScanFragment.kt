@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.register
+package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,28 +11,28 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentRegisterQrCodeScanBinding
+import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
 /**
  * A simple [BaseFragment] subclass.
  */
-class RegisterQRCodeScanFragment : BaseFragment() {
+class SubmissionQRCodeScanFragment : BaseFragment() {
 
     companion object {
-        private val TAG: String? = RegisterQRCodeScanFragment::class.simpleName
+        private val TAG: String? = SubmissionQRCodeScanFragment::class.simpleName
     }
 
     private val viewModel: SubmissionViewModel by viewModels()
-    private lateinit var binding: FragmentRegisterQrCodeScanBinding
+    private lateinit var binding: FragmentSubmissionQrCodeScanBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegisterQrCodeScanBinding.inflate(inflater)
+        binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -42,27 +42,25 @@ class RegisterQRCodeScanFragment : BaseFragment() {
     }
 
     private fun startDecode() {
-        binding.registerQrCodeScanPreview.decodeSingle { decodeCallback(it) }
+        binding.submissionQrCodeScanPreview.decodeSingle { decodeCallback(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.registerQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-            binding.registerQrCodeScanPreview.setTorch(
+        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+            binding.submissionQrCodeScanPreview.setTorch(
                 isChecked
             )
         }
 
-        binding.registerQrCodeScanClose.buttonIcon.setOnClickListener {
-            doNavigate(
-                RegisterQRCodeScanFragmentDirections.actionRegisterQRCodeFragmentToSubmissionDispatcherFragment()
-            )
+        binding.submissionQrCodeScanClose.buttonIcon.setOnClickListener {
+            navigateToDispatchScreen()
         }
 
-        binding.registerQrCodeScanPreview.decoderFactory =
+        binding.submissionQrCodeScanPreview.decoderFactory =
             DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-        binding.registerQrCodeScanViewfinderView.setCameraPreview(binding.registerQrCodeScanPreview)
+        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
         viewModel.scanStatus.observe(viewLifecycleOwner, Observer {
             if (ScanStatus.SUCCESS == it) {
@@ -73,30 +71,30 @@ class RegisterQRCodeScanFragment : BaseFragment() {
                 showInvalidScanDialog()
             }
         })
-
-        startDecode()
     }
 
     private fun navigateToDispatchScreen() =
         doNavigate(
-            RegisterQRCodeScanFragmentDirections.actionRegisterQRCodeFragmentToSubmissionDispatcherFragment()
+            SubmissionQRCodeScanFragmentDirections
+                .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )
 
     private fun showSuccessfulScanDialog() {
         val alertDialog: AlertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setTitle(R.string.register_qr_code_scan_successful_dialog_headline)
-                setMessage(R.string.register_qr_code_scan_successful_dialog_body)
+                setTitle(R.string.submission_qr_code_scan_successful_dialog_headline)
+                setMessage(R.string.submission_qr_code_scan_successful_dialog_body)
                 setPositiveButton(
-                    R.string.register_qr_code_scan_successful_dialog_button_positive
+                    R.string.submission_qr_code_scan_successful_dialog_button_positive
                 ) { _, _ ->
                     doNavigate(
-                        RegisterQRCodeScanFragmentDirections.actionRegisterQRCodeFragmentToDeviceRegistrationFragment()
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionRegisterDeviceFragment()
                     )
                 }
                 setNegativeButton(
-                    R.string.register_qr_code_scan_successful_dialog_button_negative
+                    R.string.submission_qr_code_scan_successful_dialog_button_negative
                 ) { _, _ ->
                     viewModel.deleteTestGUID()
                     navigateToDispatchScreen()
@@ -111,15 +109,15 @@ class RegisterQRCodeScanFragment : BaseFragment() {
         val alertDialog: AlertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setTitle(R.string.register_qr_code_scan_invalid_dialog_headline)
-                setMessage(R.string.register_qr_code_scan_invalid_dialog_body)
+                setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
+                setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
                 setPositiveButton(
-                    R.string.register_qr_code_scan_invalid_dialog_button_positive
+                    R.string.submission_qr_code_scan_invalid_dialog_button_positive
                 ) { _, _ ->
                     startDecode()
                 }
                 setNegativeButton(
-                    R.string.register_qr_code_scan_invalid_dialog_button_negative
+                    R.string.submission_qr_code_scan_invalid_dialog_button_negative
                 ) { _, _ ->
                     navigateToDispatchScreen()
                 }
@@ -131,11 +129,12 @@ class RegisterQRCodeScanFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.registerQrCodeScanPreview.resume()
+        binding.submissionQrCodeScanPreview.resume()
+        startDecode()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.registerQrCodeScanPreview.pause()
+        binding.submissionQrCodeScanPreview.pause()
     }
 }
