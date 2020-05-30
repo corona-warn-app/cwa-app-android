@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.risk
 
+import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
@@ -183,9 +186,20 @@ object TimeVariables {
             .getIntervals()
             .toMutableList()
 
-        if (!InternalExposureNotificationClient.asyncIsEnabled()) {
+        // by default the tracing is deactivated
+        // if the API is reachable we set the value accordingly 
+        var enIsEnabled = false
+
+        try {
+            enIsEnabled = !InternalExposureNotificationClient.asyncIsEnabled()
+        } catch (e: ApiException) {
+            e.report(ExceptionCategory.EXPOSURENOTIFICATION)
+        }
+
+        if (enIsEnabled) {
             val current = System.currentTimeMillis()
-            var lastTimeTracingWasNotActivated = LocalData.lastNonActiveTracingTimestamp() ?: current
+            var lastTimeTracingWasNotActivated =
+                LocalData.lastNonActiveTracingTimestamp() ?: current
 
             if (lastTimeTracingWasNotActivated < (current - getTimeRangeFromRetentionPeriod())) {
                 lastTimeTracingWasNotActivated = current - getTimeRangeFromRetentionPeriod()
@@ -193,6 +207,7 @@ object TimeVariables {
 
             inactiveTracingIntervals.add(Pair(lastTimeTracingWasNotActivated, current))
         }
+
         val finalTracingMS = tracingActiveMS - inactiveTracingIntervals
             .map { it.second - it.first }
             .sum()
