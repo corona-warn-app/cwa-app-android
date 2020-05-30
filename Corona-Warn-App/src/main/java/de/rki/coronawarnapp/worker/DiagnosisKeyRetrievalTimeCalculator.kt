@@ -65,20 +65,14 @@ object DiagnosisKeyRetrievalTimeCalculator {
         var earliestSchedulingTime = timeMin
         var latestSchedulingTime = timeMax
 
-        if (timeMin.isAfter(earliestAllowedScheduleTime) && timeMax.isBefore(
-                latestAllowedScheduleTime
-            )
-        ) {
+        if (timeMin.isAfter(earliestAllowedScheduleTime) && timeMax.isBefore(latestAllowedScheduleTime)) {
             earliestSchedulingTime = timeMin
             latestSchedulingTime = timeMax
         } else if (timeMin.isBefore(earliestAllowedScheduleTime)) {
             earliestSchedulingTime = earliestAllowedScheduleTime
             latestSchedulingTime =
                 earliestAllowedScheduleTime.plusMinutes(BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_MAX_DELAY)
-        } else if (timeMin.isAfter(earliestAllowedScheduleTime) && timeMax.isAfter(
-                latestAllowedScheduleTime
-            )
-        ) {
+        } else if (timeMin.isAfter(earliestAllowedScheduleTime) && timeMax.isAfter(latestAllowedScheduleTime)) {
             earliestSchedulingTime = timeMin
             latestSchedulingTime = latestAllowedScheduleTime
         }
