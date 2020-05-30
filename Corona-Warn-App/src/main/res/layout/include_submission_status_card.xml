@@ -15,7 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_status_card"
-        style="@style/cardSubmission"
+        style="@style/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -25,6 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentVisible(submissionViewModel.deviceRegistered, submissionViewModel.testResultState)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:testResult="@{submissionViewModel.testResult}" />
 
         <include
@@ -32,14 +36,22 @@
             layout="@layout/include_submission_status_card_unregistered"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterHelper.formatVisibility(!submissionViewModel.deviceRegistered)}" />
+            android:visibility="@{FormatterHelper.formatVisibility(!submissionViewModel.deviceRegistered)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/submission_status_card_fetching"
             layout="@layout/include_submission_status_card_fetching"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardFetchingVisible(submissionViewModel.deviceRegistered, submissionViewModel.testResultState)}" />
+            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardFetchingVisible(submissionViewModel.deviceRegistered, submissionViewModel.testResultState)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

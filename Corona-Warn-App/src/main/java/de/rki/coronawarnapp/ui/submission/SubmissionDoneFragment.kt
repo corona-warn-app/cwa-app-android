@@ -31,10 +31,14 @@ class SubmissionDoneFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.submissionDoneHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            TODO("Integrate this fragment into new ui")
+            doNavigate(
+                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+            )
         }
         binding.submissionDoneButtonDone.setOnClickListener {
-            TODO("Integrate this fragment into new ui")
+            doNavigate(
+                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+            )
         }
     }
 }
