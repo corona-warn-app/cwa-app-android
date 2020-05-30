@@ -62,8 +62,7 @@
     <!-- todo illustration sizes -->
 
     <!-- Submission -->
-    <dimen name="sm_guideline_body">200dp</dimen>
-    <dimen name="sm_guideline_button">@dimen/spacing_large</dimen>
+    <dimen name="submission_guideline_button">@dimen/spacing_large</dimen>
 
     <!-- Submission Test Result -->
     <dimen name="submission_test_result_guideline_body">84dp</dimen>
@@ -81,9 +80,6 @@
     <dimen name="submission_tan_input_digit_width">36dp</dimen>
     <dimen name="submission_tan_input_digit_height">50dp</dimen>
 
-    <!-- Registration -->
-    <dimen name="scan_qr_code_guideline_body">200dp</dimen>
-    <dimen name="scan_qr_code_guideline_button">@dimen/spacing_large</dimen>
-    <dimen name="scan_qr_code_close_icon_size">14dp</dimen>
-    <dimen name="scan_qr_code_viewfinder_size">240dp</dimen>
+    <!-- Submission QR Code Scan -->
+    <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
 </resources>

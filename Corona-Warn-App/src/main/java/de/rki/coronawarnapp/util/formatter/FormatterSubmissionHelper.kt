@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.register.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.TestResultStatus
 import de.rki.coronawarnapp.util.formatter.TestResult.INVALID
 import de.rki.coronawarnapp.util.formatter.TestResult.NEGATIVE
