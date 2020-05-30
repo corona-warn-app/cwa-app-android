@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.register
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentRegisterQrCodeScanBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.util.CameraPermissionHelper
 
 /**
  * A simple [BaseFragment] subclass.
@@ -25,7 +22,6 @@ class RegisterQRCodeScanFragment : BaseFragment() {
 
     companion object {
         private val TAG: String? = RegisterQRCodeScanFragment::class.simpleName
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
     }
 
     private val viewModel: SubmissionViewModel by viewModels()
@@ -51,8 +47,6 @@ class RegisterQRCodeScanFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        checkForCameraPermission()
 
         binding.registerQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
             binding.registerQrCodeScanPreview.setTorch(
@@ -126,81 +120,6 @@ class RegisterQRCodeScanFragment : BaseFragment() {
                 }
                 setNegativeButton(
                     R.string.register_qr_code_scan_invalid_dialog_button_negative
-                ) { _, _ ->
-                    navigateToDispatchScreen()
-                }
-            }
-            builder.create()
-        }
-        alertDialog.show()
-    }
-
-    private fun checkForCameraPermission() {
-        if (!CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                showCameraPermissionRationaleDialog()
-            } else {
-                requestPermissions(
-                    arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_CAMERA_PERMISSION_CODE
-                )
-            }
-        } else {
-            cameraPermissionIsGranted()
-        }
-    }
-
-    private fun cameraPermissionIsGranted() {
-        binding.registerQrCodeScanPreview.resume()
-        startDecode()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            cameraPermissionIsGranted()
-        } else {
-            showCameraPermissionDeniedDialog()
-        }
-    }
-
-    private fun showCameraPermissionRationaleDialog() {
-        val alertDialog: AlertDialog = requireActivity().let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.register_qr_code_scan_permission_rationale_dialog_headline)
-                setMessage(R.string.register_qr_code_scan_permission_rationale_dialog_body)
-                setPositiveButton(
-                    R.string.register_qr_code_scan_permission_rationale_dialog_button_positive
-                ) { _, _ ->
-                    requestPermissions(
-                        arrayOf(Manifest.permission.CAMERA),
-                        REQUEST_CAMERA_PERMISSION_CODE
-                    )
-                }
-                setNegativeButton(
-                    R.string.register_qr_code_scan_permission_rationale_dialog_button_negative
-                ) { _, _ ->
-                    navigateToDispatchScreen()
-                }
-            }
-            builder.create()
-        }
-        alertDialog.show()
-    }
-
-    private fun showCameraPermissionDeniedDialog() {
-        val alertDialog: AlertDialog = requireActivity().let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.register_qr_code_scan_permission_denied_dialog_headline)
-                setMessage(R.string.register_qr_code_scan_permission_denied_dialog_body)
-                setPositiveButton(
-                    R.string.register_qr_code_scan_permission_denied_dialog_button_positive
                 ) { _, _ ->
                     navigateToDispatchScreen()
                 }
