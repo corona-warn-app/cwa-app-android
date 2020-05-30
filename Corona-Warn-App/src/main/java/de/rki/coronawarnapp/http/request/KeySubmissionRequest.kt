@@ -44,7 +44,7 @@ class KeySubmissionRequest(
         val headers = HashMap<String, String>(super.getHeaders())
         if (faked) headers["cwa-fake"] = Math.random().toInt().toString()
         else headers["cwa-fake"] = "0"
-        headers["cwa-authorization"] = "TAN 123456"
+        headers["cwa-authorization"] = authCode
         this.addMarker("headers:$headers")
         return headers
     }

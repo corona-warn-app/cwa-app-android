@@ -38,9 +38,6 @@ class SubmissionViewModel : ViewModel() {
     fun submitDiagnosisKeys() =
         executeRequestWithState(SubmissionService::asyncSubmitExposureKeys, _submissionState)
 
-    fun requestAuthCode() =
-        executeRequestWithState(SubmissionService::asyncRequestAuthCode, _authCodeState)
-
     fun doDeviceRegistration() =
         executeRequestWithState(SubmissionService::asyncRegisterDevice, _registrationState)
 
