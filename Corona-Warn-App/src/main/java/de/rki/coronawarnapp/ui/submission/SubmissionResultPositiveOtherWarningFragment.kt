@@ -1,14 +1,16 @@
 package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment() {
 
@@ -16,6 +18,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment() {
         private val TAG: String? = SubmissionResultPositiveOtherWarningFragment::class.simpleName
     }
 
+    private val viewModel: SubmissionViewModel by activityViewModels()
     private lateinit var binding: FragmentSubmissionPositiveOtherWarningBinding
 
     override fun onCreateView(
@@ -31,16 +34,34 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        // TODO Maybe move this to a discrete transaction containing both steps
+        viewModel.authCodeState.observe(viewLifecycleOwner, Observer {
+            if (it == ApiRequestState.SUCCESS) {
+                viewModel.submitDiagnosisKeys()
+            }
+        })
+
+        viewModel.submissionState.observe(viewLifecycleOwner, Observer {
+            if (it == ApiRequestState.SUCCESS) {
+                doNavigate(
+                    SubmissionResultPositiveOtherWarningFragmentDirections
+                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
+                )
+            }
+        })
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionPositiveOtherWarningButton.setOnClickListener {
-            Log.i(TAG, "Weiter pressed")
             showShareIDConfirmationDialog()
         }
         binding.submissionPositiveOtherWarningHeader
             .informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                Log.i(TAG, "Back button pressed")
+                doNavigate(
+                    SubmissionResultPositiveOtherWarningFragmentDirections
+                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
+                )
             }
     }
 
@@ -53,14 +74,11 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment() {
                 setPositiveButton(
                     R.string.submission_positive_dialog_confirmation_positive
                 ) { _, _ ->
-                    Log.i(TAG, "Agreed")
-                    // Navigate to next screen
+                    viewModel.requestAuthCode()
                 }
                 setNegativeButton(
                     R.string.submission_positive_dialog_confirmation_negative
-                ) { _, _ ->
-                    Log.i(TAG, "Declined")
-                }
+                ) { _, _ -> }
             }
             builder.create()
         }

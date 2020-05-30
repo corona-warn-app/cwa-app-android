@@ -17,9 +17,6 @@ import java.util.Date
 fun formatTestResultStatusVisibility(testResultStatus: TestResultStatus?): Int =
     formatVisibility(testResultStatus != TestResultStatus.SUCCESS)
 
-fun formatTestResultHeadingTextVisible(testResult: TestResult?): Int =
-    formatVisibility(testResult != PENDING)
-
 fun formatTestResultVirusNameTextVisible(testResult: TestResult?): Int {
     return when (testResult) {
         POSITIVE, NEGATIVE -> View.VISIBLE
@@ -56,23 +53,19 @@ fun formatTestStatusIcon(testResult: TestResult?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
     // TODO Replace with real drawables when design is finished
     return when (testResult) {
-        PENDING -> appContext.getDrawable(R.drawable.ic_risk_details_stethoscope)
-        POSITIVE -> appContext.getDrawable(R.drawable.rectangle)
-        NEGATIVE -> appContext.getDrawable(R.drawable.circle)
-        INVALID -> appContext.getDrawable(R.drawable.button)
-        else -> appContext.getDrawable(R.drawable.button)
+        PENDING -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
+        POSITIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_positive)
+        NEGATIVE -> appContext.getDrawable(R.drawable.ic_main_illustration_negative)
+        INVALID -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
+        else -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
     }
 }
 
 fun formatTestResultInvalidStatusTextVisible(testResult: TestResult?): Int =
     formatVisibility(testResult == INVALID)
 
-fun formatTestResultRegisteredAtVisible(testResult: TestResult?): Int {
-    return when (testResult) {
-        POSITIVE, NEGATIVE, INVALID -> View.VISIBLE
-        else -> View.GONE
-    }
-}
+fun formatTestResultPendingStatusTextVisible(testResult: TestResult?): Int =
+    formatVisibility(testResult == PENDING)
 
 fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
     val appContext = CoronaWarnApplication.getAppContext()
