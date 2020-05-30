@@ -6,14 +6,13 @@ This document outlines the architecture of the CWA mobile client. It not necessa
 The Corona Warn App Client ("CWA-Client") is a native mobile phone application developed for the mobile platforms iOS and Android. The CWA-Client is embedded into the overall Corona Warn App EcoSystem. (For an end to end overview please refer to the [Solution Architecture Overview](https://github.com/corona-warn-app/cwa-documentation/blob/master/solution_architecture.md))
 
 The key functionality of the CWA-Client is divided into the following pillars:
-1. Exposure Tracing Management:
-The reliable activation as well as configuration management of the Mobile OS Exposure Notification Tracing functionality.
-2. Exposure Risk Level Calculation
-The calculation of the exposure risk level using the detected exposure events as well as the exposure risk configuration data.
-3. Test Result Access
-Access Corona test results using a Test-GUID or a TeleTAN.
-4. Diagnosis Key Submission
-Allowing positive tested user to share (submit) his TemporaryExposureKeys as DiagnosisKey.
+1. Exposure Tracing Management: The reliable activation as well as configuration management of the Mobile OS Exposure Notification Tracing functionality.
+
+2. Exposure Risk Level Calculation: The calculation of the exposure risk level using the detected exposure events as well as the exposure risk configuration data.
+
+3. Test Result Access: Access Corona test results using a Test-GUID or a TeleTAN.
+
+4. Diagnosis Key Submission: Allowing positive tested user to share (submit) his TemporaryExposureKeys as DiagnosisKey.
 
 ![Overview Diagram](./images/Architecture_Overview_v1.svg)
 
