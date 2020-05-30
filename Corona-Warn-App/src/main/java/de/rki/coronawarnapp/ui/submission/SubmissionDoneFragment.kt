@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 
 /**
- * The [SubmissionIntroFragment] displays information about how the corona warning system works
+ * The [SubmissionDoneFragment] displays information to a user that submitted his exposure keys
  */
 class SubmissionDoneFragment : BaseFragment() {
 
