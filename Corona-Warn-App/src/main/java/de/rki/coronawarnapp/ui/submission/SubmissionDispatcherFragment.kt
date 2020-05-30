@@ -7,11 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.util.CameraPermissionHelper
+import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionDispatcherFragment : BaseFragment() {
 
@@ -68,26 +68,21 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        val alertDialog: AlertDialog = requireActivity().let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.submission_qr_code_scan_permission_rationale_dialog_headline)
-                setMessage(R.string.submission_qr_code_scan_permission_rationale_dialog_body)
-                setPositiveButton(
-                    R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive
-                ) { _, _ ->
-                    requestPermissions(
-                        arrayOf(Manifest.permission.CAMERA),
-                        REQUEST_CAMERA_PERMISSION_CODE
-                    )
-                }
-                setNegativeButton(
-                    R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative
-                ) { _, _ -> }
+        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_body,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
+            {
+                requestPermissions(
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_CAMERA_PERMISSION_CODE
+                )
             }
-            builder.create()
-        }
-        alertDialog.show()
+        )
+
+        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
     override fun onRequestPermissionsResult(
@@ -104,18 +99,14 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        val alertDialog: AlertDialog = requireActivity().let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.submission_qr_code_scan_permission_denied_dialog_headline)
-                setMessage(R.string.submission_qr_code_scan_permission_denied_dialog_body)
-                setPositiveButton(
-                    R.string.submission_qr_code_scan_permission_denied_dialog_button_positive
-                ) { _, _ -> }
-            }
-            builder.create()
-        }
-        alertDialog.show()
+        val cameraPermissionDeniedDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_permission_denied_dialog_headline,
+            R.string.submission_qr_code_scan_permission_denied_dialog_body,
+            R.string.submission_qr_code_scan_permission_denied_dialog_button_positive
+        )
+
+        DialogHelper.showDialog(cameraPermissionDeniedDialogInstance)
     }
 
     private fun cameraPermissionIsGranted() {

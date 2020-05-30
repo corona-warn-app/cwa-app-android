@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.zxing.BarcodeFormat
@@ -14,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 
 /**
  * A simple [BaseFragment] subclass.
@@ -80,51 +80,39 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
         )
 
     private fun showSuccessfulScanDialog() {
-        val alertDialog: AlertDialog = requireActivity().let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.submission_qr_code_scan_successful_dialog_headline)
-                setMessage(R.string.submission_qr_code_scan_successful_dialog_body)
-                setPositiveButton(
-                    R.string.submission_qr_code_scan_successful_dialog_button_positive
-                ) { _, _ ->
-                    doNavigate(
-                        SubmissionQRCodeScanFragmentDirections
-                            .actionSubmissionQRCodeScanFragmentToSubmissionRegisterDeviceFragment()
-                    )
-                }
-                setNegativeButton(
-                    R.string.submission_qr_code_scan_successful_dialog_button_negative
-                ) { _, _ ->
-                    viewModel.deleteTestGUID()
-                    navigateToDispatchScreen()
-                }
+        val successfulScanDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_successful_dialog_headline,
+            R.string.submission_qr_code_scan_successful_dialog_body,
+            R.string.submission_qr_code_scan_successful_dialog_button_positive,
+            R.string.submission_qr_code_scan_successful_dialog_button_negative,
+            {
+                doNavigate(
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionRegisterDeviceFragment()
+                )
+            },
+            {
+                viewModel.deleteTestGUID()
+                navigateToDispatchScreen()
             }
-            builder.create()
-        }
-        alertDialog.show()
+        )
+
+        DialogHelper.showDialog(successfulScanDialogInstance)
     }
 
     private fun showInvalidScanDialog() {
-        val alertDialog: AlertDialog = requireActivity().let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
-                setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
-                setPositiveButton(
-                    R.string.submission_qr_code_scan_invalid_dialog_button_positive
-                ) { _, _ ->
-                    startDecode()
-                }
-                setNegativeButton(
-                    R.string.submission_qr_code_scan_invalid_dialog_button_negative
-                ) { _, _ ->
-                    navigateToDispatchScreen()
-                }
-            }
-            builder.create()
-        }
-        alertDialog.show()
+        val invalidScanDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_invalid_dialog_headline,
+            R.string.submission_qr_code_scan_invalid_dialog_body,
+            R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+            R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+            ::startDecode,
+            ::navigateToDispatchScreen
+        )
+
+        DialogHelper.showDialog(invalidScanDialogInstance)
     }
 
     override fun onResume() {
