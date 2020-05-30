@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
-import de.rki.coronawarnapp.notification.ExposureNotificationIntentService
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.BaseFragment
@@ -152,8 +151,11 @@ class MainFragment : BaseFragment() {
                             .toString()
                     )
                     NotificationHelper.createNotificationChannel()
-                    val intent = Intent(context, ExposureNotificationIntentService::class.java)
-                    activity?.startService(intent)
+                    NotificationHelper.sendNotification(
+                        getString(R.string.notification_headline),
+                        getString(R.string.notification_body),
+                        NotificationCompat.PRIORITY_HIGH
+                    )
                     true
                 }
                 else -> super.onOptionsItemSelected(it)
