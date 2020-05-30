@@ -24,7 +24,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-    ndkVersion "21.1.6352462"
+    ndkVersion "21.2.6472646"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
