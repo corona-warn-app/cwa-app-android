@@ -150,6 +150,7 @@
     <string name="test_result_card_status_negative">Negativ</string>
     <string name="test_result_card_status_positive">Positiv</string>
     <string name="test_result_card_status_invalid">Auswertung nicht möglich</string>
+    <string name="test_result_card_status_pending">Ergebnis liegt noch nicht vor</string>
     <!-- Submission Status Card -->
     <string name="submission_status_card_title_fetching">Datenabruf…</string>
     <string name="submission_status_card_title_unregistered">Wurden Sie getestet?</string>
