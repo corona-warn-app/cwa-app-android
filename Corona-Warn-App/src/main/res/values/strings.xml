@@ -236,7 +236,7 @@
     <string name="onboarding_tracing_body">@string/lorem_ipsum</string>
     <string name="onboarding_tracing_body_emphasized">@string/lorem_ipsum</string>
     <string name="onboarding_tracing_dialog_headline">Berechtigung</string>
-    <string name="onboarding_tracing_dialog_body">Corona-Wran-App kann dadurch keine Benachrichtigungen zu COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit einschalten.</string>
+    <string name="onboarding_tracing_dialog_body">Corona-Warn-App kann dadurch keine Benachrichtigungen zu COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit einschalten.</string>
     <string name="onboarding_tracing_dialog_button_positive">Trotzdem weiter</string>
     <string name="onboarding_tracing_dialog_button_negative">Zurück</string>
     <!-- 4 Tracing -->
