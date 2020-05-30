@@ -31,7 +31,7 @@ Once a user is tested positive the Diagnosis Key Submission component can be use
 ## Libraries
 
 ### Google Exposure Notification
-[Dedicated wiki page](https://github.com/corona-warn-app/cwa-app-android/wiki/4-Google-Exposure-Notifications-API)
+[Link to Google's page](https://www.google.com/covid19/exposurenotifications/)
 
 ### ZXing Embeded
 Barcode scanning library by https://journeyapps.com/ based on ZXing decoder.
