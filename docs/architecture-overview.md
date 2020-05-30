@@ -15,7 +15,7 @@ Access Corona test results using a Test-GUID or a TeleTAN.
 4. Diagnosis Key Submission
 Allowing positive tested user to share (submit) his TemporaryExposureKeys as DiagnosisKey.
 
-![Overview Diagram](./images/Architecture_Overview_v1.png)
+![Overview Diagram](./images/Architecture_Overview_v1.svg)
 
 ### Exposure Tracing Management
 The Exposure Tracing Management component uses the native implementation of the Exposure Notification Framework provided by Google and Apple to activate, deactivate or check the status of the tracing functionality. If exposure tracing is actived by the user the activation-status of needed technical services (e.g. Bluetooth) is verified as well. To calculate the Exposure Risk Level of the business user the active tracing time is considered. As a result initial tracing activation timestamp as well as the time were tracing was deactivated during the last 14 days is persisted.
