@@ -187,7 +187,7 @@ object TimeVariables {
             .toMutableList()
 
         // by default the tracing is deactivated
-        // if the API is reachable we set the value accordingly
+        // if the API is reachable we set the value accordingly 
         var enIsEnabled = false
 
         try {
