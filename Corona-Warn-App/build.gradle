@@ -196,6 +196,6 @@ dependencies {
     implementation "androidx.security:security-crypto:1.0.0-rc02"
 
     implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
-    implementation "androidx.sqlite:sqlite:2.0.1"
+    implementation "androidx.sqlite:sqlite:2.1.0"
 
 }
