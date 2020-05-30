@@ -1,0 +1,21 @@
+{
+  "collections": [
+    {
+      "collectionName": "cwa-app-android",
+      "folders": [
+        {
+          "startingFolderPath": "**/res/values/**",
+          "sourceFilters": [
+            "strings.xml"
+          ],
+          "targetFolderPath": "../values-[langCode]"
+        }
+      ]
+    }
+  ],
+  "defaultConfiguration": {
+    "pseudoLocFolderPath": "../values-2Q",
+    "oneQFolderPath": "../values-1Q",
+    "targetFileNamingConvention": "[filename].[extension]"
+  }
+}

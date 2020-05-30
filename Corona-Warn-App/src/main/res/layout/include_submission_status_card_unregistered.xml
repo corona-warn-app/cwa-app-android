@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_status_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/submission_status_card_unregistered_title"
+            style="@style/textTitle"
+            android:layout_width="@dimen/submission_status_card_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_status_card_title_unregistered"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/submission_status_card_unregistered_body"
+            android:layout_width="@dimen/submission_status_card_text_width"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:text="@string/submission_status_card_body_unregistered"
+            app:layout_constraintBottom_toTopOf="@+id/submission_status_card_unregistered_button"
+            app:layout_constraintStart_toStartOf="@+id/submission_status_card_unregistered_title" />
+
+        <Button
+            android:id="@+id/submission_status_card_unregistered_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            android:backgroundTint="@color/tracingIconActive"
+            android:text="@string/submission_status_card_button_unregistered"
+            android:textColor="@color/colorLight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_icon" />
+
+        <ImageView
+            android:id="@+id/submission_status_card_unregistered_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/submission_status_card_unregistered_title"
+            app:srcCompat="@drawable/ic_main_illustration_untested" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

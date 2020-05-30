@@ -1,0 +1,160 @@
+package de.rki.coronawarnapp.timer
+
+import android.util.Log
+import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
+import java.util.Date
+import java.util.Timer
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.fixedRateTimer
+
+/**
+ * Singleton class for timer handling
+ */
+object TimerHelper {
+
+    private val TAG: String? = TimerHelper::class.simpleName
+
+    /**
+     * Atomic boolean for timer existence check
+     *
+     * @see AtomicBoolean
+     */
+    private val isManualKeyRetrievalOnTimer = AtomicBoolean(false)
+
+    /**
+     * A timer for manual key retrieval button
+     *
+     * @see Timer
+     */
+    private var manualKeyRetrievalTimer: Timer? = null
+
+    /**
+     * Manual key retrieval button timer unique name
+     */
+    private const val MANUAL_KEY_RETRIEVAL_TIMER_NAME = "ManualKeyRetrievalTimer"
+
+    /**
+     * Timer tick in milliseconds
+     */
+    private const val TIMER_TICK = 1000L
+
+    /**
+     * Initial timer delay in milliseconds
+     */
+    private const val INITIAL_TIMER_DELAY = 0L
+
+    /**
+     * Get cooldown time left between last time update button was triggered and current time
+     *
+     * @return Long
+     *
+     * @see LocalData.lastTimeManualDiagnosisKeysRetrieved
+     * @see TimeVariables.getManualKeyRetrievalDelay
+     */
+    private fun getManualKeyRetrievalTimeLeft(): Long {
+        val lastTime = LocalData.lastTimeManualDiagnosisKeysRetrieved()
+        val currentTime = Date(System.currentTimeMillis()).time
+        return TimeVariables.getManualKeyRetrievalDelay() - (currentTime - lastTime)
+    }
+
+    /**
+     * Start manual key retrieval timer
+     * Update last call time with current time in shared preferences, set the enable flag to false
+     * and starts the cooldown timer.
+     *
+     * @see SettingsRepository.isManualKeyRetrievalEnabled
+     */
+    fun startManualKeyRetrievalTimer() {
+        LocalData.lastTimeManualDiagnosisKeysRetrieved(Date(System.currentTimeMillis()).time)
+        SettingsRepository.isManualKeyRetrievalEnabled.postValue(false)
+        checkManualKeyRetrievalTimer()
+    }
+
+    /**
+     * Start manual key retrieval timer if not yet started
+     * Every timer tick refresh manual key retrieval button status and text
+     *
+     * @see isManualKeyRetrievalOnTimer
+     * @see MANUAL_KEY_RETRIEVAL_TIMER_NAME
+     * @see TIMER_TICK
+     */
+    fun checkManualKeyRetrievalTimer() {
+        if (!isManualKeyRetrievalOnTimer.get() && getManualKeyRetrievalTimeLeft() > 0) {
+            try {
+                isManualKeyRetrievalOnTimer.set(true)
+                manualKeyRetrievalTimer =
+                    fixedRateTimer(MANUAL_KEY_RETRIEVAL_TIMER_NAME, true, INITIAL_TIMER_DELAY, TIMER_TICK) {
+                        onManualKeyRetrievalTimerTick()
+                    }.also { it.logTimerStart() }
+            } catch (e: Exception) {
+                logTimerException(e)
+            }
+        }
+    }
+
+    /**
+     * Process manual key retrieval timer tick
+     * If no cooldown time left - stop timer, change text and enable update button
+     * Else - update text with timer HMS format
+     *
+     * @see getManualKeyRetrievalTimeLeft
+     * @see SettingsRepository.isManualKeyRetrievalEnabled
+     * @see SettingsRepository.manualKeyRetrievalText
+     * @see de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
+     */
+    private fun onManualKeyRetrievalTimerTick() {
+        val context = CoronaWarnApplication.getAppContext()
+        val timeDifference = getManualKeyRetrievalTimeLeft()
+        val result = timeDifference <= 0
+        SettingsRepository.isManualKeyRetrievalEnabled.postValue(result)
+        if (result) {
+            stopManualKeyRetrievalTimer()
+            SettingsRepository.manualKeyRetrievalText.postValue(
+                context.getString(R.string.risk_card_button_update)
+            )
+        } else {
+            val hmsCooldownTime = timeDifference.millisecondsToHMS()
+            val cooldownText = context.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+            SettingsRepository.manualKeyRetrievalText.postValue(cooldownText)
+        }
+    }
+
+    /**
+     * Stop manual key retrieval timer and set timer flag to false
+     *
+     * @see isManualKeyRetrievalOnTimer
+     * @see MANUAL_KEY_RETRIEVAL_TIMER_NAME
+     */
+    private fun stopManualKeyRetrievalTimer() {
+        manualKeyRetrievalTimer?.cancel()
+        isManualKeyRetrievalOnTimer.set(false)
+        logTimerStop(MANUAL_KEY_RETRIEVAL_TIMER_NAME)
+    }
+
+    /**
+     * Log timer start
+     */
+    private fun Timer.logTimerStart() {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Timer started: $this")
+    }
+
+    /**
+     * Log timer stop
+     */
+    private fun logTimerStop(timerName: String) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Timer stopped: $timerName")
+    }
+
+    /**
+     * Log timer exception
+     */
+    private fun logTimerException(exception: java.lang.Exception) {
+        Log.e(TAG, "Timer exception: $exception")
+    }
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TODO: Add variables when colors are final to reduce maintenance -->
+
+    <!--    TODO: green, blue, etc. should be exchanged by meaningful colors when they are final -->
+    <!-- Status Colors -->
+    <color name="colorGreen">#2E854B</color>
+    <color name="colorRed">#C00F2D</color>
+
+    <!-- App Color -->
+    <color name="appTheme">#ffffff</color>
+
+    <!-- Primary Colors -->
+    <color name="colorPrimary">#2C79A9</color>
+    <color name="colorPrimaryDark">#1B4865</color>
+    <color name="colorTransparent">#00FFFFFF</color>
+
+    <!-- Risk Card Colors -->
+    <color name="colorRiskCardIncreasedRisk">#C00F2D</color>
+    <color name="colorRiskCardIncreasedRiskPressed">#A30C26</color>
+    <color name="colorRiskCardLowRisk">#2E854B</color>
+    <color name="colorRiskCardLowRiskPressed">#27713F</color>
+    <color name="colorRiskCardNoCalculationPossible">@color/colorLight</color>
+    <color name="colorRiskCardNoCalculationPossiblePressed">@color/colorGreyLight</color>
+    <color name="colorRiskCardOutdatedRisk">#657888</color>
+    <color name="colorRiskCardOutdatedRiskPressed">#556673</color>
+    <color name="colorRiskCardUnknownRisk">#657888</color>
+    <color name="colorRiskCardUnknownRiskPressed">#556673</color>
+    <color name="riskCardGrey">#F5F5F5</color>
+
+    <!-- Light/Grey Colors -->
+    <color name="colorLight">#ffffff</color>
+    <color name="colorGrey">#C3C3C3</color>
+    <color name="colorGreyLight">#F5F5F5</color>
+    <color name="colorGreyDisabled">#9917191A</color>
+
+    <!-- Text Colors -->
+    <color name="textColorPrimary">#000000</color>
+    <color name="textColorSecondary">#333333</color>
+    <color name="textColorLight">#ffffff</color>
+    <color name="textColorRed">#C00F2D</color>
+    <color name="textColorBlue">#2C79A9</color>
+
+    <!-- Visual Elements -->
+    <color name="dividerColor">#0D000000</color>
+    <color name="iconColor">#000000</color>
+
+    <!-- Stable Colors -->
+    <color name="stableBackgroundColor">#ffffff</color>
+    <color name="stableHighlightColor">#C3C3C3</color>
+    <color name="stableTextColor">#000000</color>
+    <color name="stableIconColor">#ffffff</color>
+    <color name="stableButtonColorGrey">#C3C3C3</color>
+    <color name="stableButtonColorGreyHighlight">#AEAEAE</color>
+
+    <!-- Tracing Icon -->
+    <color name="tracingIconActive">#007FAD</color>
+    <color name="tracingIconInactive">#C00F2D</color>
+
+    <!-- Settings Icon -->
+    <color name="settingsIconActive">#2C79A9</color>
+    <color name="settingsIconInactive">#C3C3C3</color>
+
+    <!-- Tan Input -->
+    <color name="tanInputBackground">#1A17191A</color>
+
+
+</resources>

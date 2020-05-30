@@ -1,0 +1,34 @@
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols;
+
+// ExposureKeyPackage v0.1
+
+message TemporaryExposureKeyBucket {
+    string shardKey = 1; // e.g. Country-Code
+    sfixed32 timestamp = 2; // publishing timestamp of this exposure key package - unix epoch
+    AggregationInterval aggregationInterval = 3; // time interval aggregated in this package
+    repeated TemporaryExposureKey exposureKeys = 4; // list of temporary exposure keys
+
+    enum AggregationInterval {
+        HOURLY = 0; // Aggregation of 1 hour / 60 minutes
+        DAILY = 1; // Aggregation of 24 hours / 1440 minutes
+    }
+}
+
+message TemporaryExposureKey {
+    bytes keyData = 1; // 16 bytes long exposure key
+    sfixed32 rollingStartNumber = 2; // unix epoch timestamp / 600
+    RiskLevel riskLevel = 3; // risk level from the sending device
+
+    enum RiskLevel {
+        RISK_LEVEL_INVALID = 0;
+        RISK_LEVEL_LOWEST = 1;
+        RISK_LEVEL_LOW = 2;
+        RISK_LEVEL_LOW_MEDIUM = 3;
+        RISK_LEVEL_MEDIUM = 4;
+        RISK_LEVEL_MEDIUM_HIGH = 5;
+        RISK_LEVEL_HIGH = 6;
+        RISK_LEVEL_VERY_HIGH = 7;
+        RISK_LEVEL_HIGHEST = 8;
+    }
+}

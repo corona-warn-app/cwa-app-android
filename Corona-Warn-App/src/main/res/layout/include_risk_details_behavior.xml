@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/risk_details_behavior_wash_hands"
+            layout="@layout/include_risk_details_behavior_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:body="@{@string/risk_details_behavior_body_wash_hands}"
+            app:icon="@{@drawable/ic_risk_details_wash}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tracingViewModel="@{tracingViewModel}"
+            tools:text="@string/risk_details_behavior_body_wash_hands" />
+
+        <include
+            android:id="@+id/risk_details_behavior_wear_mask"
+            layout="@layout/include_risk_details_behavior_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            app:body="@{@string/risk_details_behavior_body_wear_mask}"
+            app:icon="@{@drawable/ic_risk_details_mask}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wash_hands"
+            app:tracingViewModel="@{tracingViewModel}"
+            tools:text="@string/risk_details_behavior_body_wear_mask" />
+
+        <include
+            android:id="@+id/risk_details_behavior_stay_away"
+            layout="@layout/include_risk_details_behavior_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            app:body="@{@string/risk_details_behavior_body_stay_away}"
+            app:icon="@{@drawable/ic_risk_details_distance}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wear_mask"
+            app:tracingViewModel="@{tracingViewModel}"
+            tools:text="@string/risk_details_behavior_body_stay_away" />
+
+        <include
+            android:id="@+id/risk_details_behavior_cough_sneeze"
+            layout="@layout/include_risk_details_behavior_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            app:body="@{@string/risk_details_behavior_body_cough_sneeze}"
+            app:icon="@{@drawable/ic_risk_details_sneeze}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_away"
+            app:tracingViewModel="@{tracingViewModel}"
+            tools:text="@string/risk_details_behavior_body_cough_sneeze" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

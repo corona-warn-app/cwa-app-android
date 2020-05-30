@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.register.RegisterDeviceFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/register_device_headline"
+                style="@style/textTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register_device_headline"
+                app:layout_constraintEnd_toStartOf="@+id/register_device_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/register_device_guideline_start"
+                app:layout_constraintTop_toTopOf="@+id/register_device_guideline_top" />
+
+            <TextView
+                android:id="@+id/register_device_text"
+                style="@style/textMultiline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/register_device_body"
+                app:layout_constraintEnd_toStartOf="@+id/register_device_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/register_device_guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/register_device_headline" />
+
+            <ProgressBar
+                android:id="@+id/register_device_spinner"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/register_device_guideline_bottom"
+                app:layout_constraintEnd_toStartOf="@+id/register_device_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/register_device_guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/register_device_text" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/register_device_guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/register_device_guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/register_device_guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/register_device_guideline_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/guideline_top" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

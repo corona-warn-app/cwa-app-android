@@ -1,0 +1,9 @@
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols;
+import "applicationConfiguration.proto";
+
+message QRCodeKeyData {
+    bytes keyData = 1; // 16 bytes long exposure key
+    int64 rollingStartNumber = 2; // unix epoch timestamp / 600
+    RiskLevel riskLevel = 3; // risk level from the sending device
+}

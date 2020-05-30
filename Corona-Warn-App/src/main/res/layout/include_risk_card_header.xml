@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+        <!-- todo include 'x' button? -->
+        <variable
+            name="showDetails"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/risk_card_header_button_back"
+            style="@style/buttonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:backgroundTint="@{FormatterRiskHelper.formatStableBackButtonColor(tracingViewModel.riskLevel)}"
+            android:visibility="@{FormatterRiskHelper.formatRiskButtonBackVisibility(showDetails)}"
+            app:layout_constraintBottom_toTopOf="@+id/risk_card_header_headline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size_button"
+                android:layout_height="@dimen/icon_size_button"
+                android:contentDescription="@string/lorem_ipsum"
+                android:src="@drawable/ic_close"
+                android:tint="@{FormatterRiskHelper.formatStableIconColor(tracingViewModel.riskLevel)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/risk_card_header_headline"
+            style="@style/cardHeadline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@{FormatterRiskHelper.formatRiskLevelHeadline(tracingViewModel.riskLevel, tracingViewModel.isRefreshing)}"
+            android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/risk_card_header_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_card_header_button_back" />
+
+        <ImageView
+            android:id="@+id/risk_card_header_icon"
+            android:layout_width="@dimen/icon_size_risk_card"
+            android:layout_height="@dimen/icon_size_risk_card"
+            android:contentDescription="@string/lorem_ipsum"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_forward"
+            android:tint="@{FormatterRiskHelper.formatStableIconColor(tracingViewModel.riskLevel)}"
+            android:visibility="@{FormatterHelper.formatVisibilityInverted(showDetails)}"
+            app:layout_constraintBottom_toBottomOf="@+id/risk_card_header_headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

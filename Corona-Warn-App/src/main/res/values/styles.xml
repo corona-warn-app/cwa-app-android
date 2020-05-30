@@ -1,0 +1,248 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/appTheme</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Launcher theme with background -->
+    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <!-- Main Application -->
+    <style name="AppTheme.Main" parent="AppTheme.NoActionBar" />
+
+    <style name="actionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:background">@color/colorLight</item>
+    </style>
+
+    <!-- ####################################
+                    Button
+    ###################################### -->
+    <style name="button">
+        <item name="android:paddingStart">@dimen/button_padding_start_end</item>
+        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
+        <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
+        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
+        <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="buttonPrimary" parent="@style/button">
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:backgroundTint">@color/button_primary</item>
+    </style>
+
+    <style name="buttonReset" parent="@style/button">
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:backgroundTint">@color/button_red</item>
+    </style>
+
+    <style name="buttonLight" parent="@style/button">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:backgroundTint">@color/button_light</item>
+    </style>
+
+    <style name="buttonGrey" parent="@style/button">
+        <item name="android:textColor">@color/textColorBlue</item>
+        <item name="android:backgroundTint">@color/button_stable_grey</item>
+    </style>
+
+    <style name="buttonStable" parent="@style/button">
+        <item name="android:textColor">@color/stableTextColor</item>
+        <item name="android:backgroundTint">@color/button_stable</item>
+    </style>
+
+    <style name="buttonIcon">
+        <item name="android:background">@drawable/circle</item>
+        <item name="android:backgroundTint">@color/button_back</item>
+    </style>
+
+    <style name="buttonTracing">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:background">@drawable/rectangle</item>
+        <item name="android:backgroundTint">@color/button_main_tracing</item>
+        <item name="android:paddingStart">@dimen/button_padding_start_end</item>
+        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
+        <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
+        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
+    </style>
+
+    <style name="switchBase" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <!-- ####################################
+                  Row
+  ###################################### -->
+    <style name="row">
+        <item name="android:paddingStart">@dimen/button_padding_start_end</item>
+        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
+        <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
+        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
+        <item name="android:elevation">@dimen/elevation_weak</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/row</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="rowDanger" parent="row">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:background">@drawable/row</item>
+        <item name="android:backgroundTint">@color/button_light</item>
+    </style>
+
+    <!-- ####################################
+                    Card
+    ###################################### -->
+    <style name="card">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/card_light</item>
+        <item name="android:elevation">@dimen/elevation_strong</item>
+    </style>
+    <!-- todo unify padding with main card - tbr -->
+    <style name="cardSubmission">
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/card_light</item>
+        <item name="android:elevation">@dimen/elevation_strong</item>
+    </style>
+
+    <style name="cardHeadline" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/font_larger</item>
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="cardText" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textColor">@color/textColorLight</item>
+    </style>
+
+    <style name="cardTextDispatcher" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+
+    <!-- ####################################
+                    Text
+    ###################################### -->
+    <style name="textTitle" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textSize">@dimen/font_larger</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textSubTitle" parent="textTitle" />
+
+    <style name="textTitleCentered" parent="textTitle">
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="textMultiline" parent="@style/TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="textLargeEmphasized" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textMultilineEmphasized" parent="@style/textMultiline">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textMultilineCentered" parent="@style/textMultiline">
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="textDanger">
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textColor">@color/colorRed</item>
+    </style>
+
+    <style name="textLink" parent="@style/textMultilineEmphasized">
+        <item name="android:textColor">@color/textColorBlue</item>
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <!-- ####################################
+              Icons
+    ###################################### -->
+    <style name="icon">
+        <item name="android:tint">@color/iconColor</item>
+    </style>
+
+    <style name="iconStable">
+        <item name="android:tint">@color/stableIconColor</item>
+    </style>
+
+    <!-- ####################################
+          Progress Bar
+    ###################################### -->
+
+    <style name="progressBar" parent="android:Widget.ProgressBar.Inverse">
+        <!-- todo apply styling -->
+    </style>
+
+    <!-- ####################################
+              Onboarding (ob)
+    ###################################### -->
+    <style name="AppTheme.Onboarding" parent="AppTheme.NoActionBar">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="fadingScrollView">
+        <item name="android:requiresFadingEdge">vertical</item>
+        <item name="android:fadingEdgeLength">150dp</item>
+    </style>
+
+
+    <!-- ####################################
+              Submission
+    ###################################### -->
+
+    <style name="tanInputDigit" parent="textTitle">
+        <item name="android:layout_width">@dimen/submission_tan_input_digit_width</item>
+        <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
+        <item name="android:background">@drawable/tan_input_digit</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="tanInputEdittext">
+        <item name="android:layout_width">@dimen/submission_tan_input_edittext_size</item>
+        <item name="android:layout_height">@dimen/submission_tan_input_edittext_size</item>
+        <item name="android:alpha">0</item>
+        <item name="android:background">@null</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">@integer/submission_tan_length</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="testResultCardLargeText">
+        <item name="android:textSize">@dimen/font_larger</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <!-- ####################################
+            Registration
+    ###################################### -->
+    <style name="registrationQRCodeScanBody">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorLight</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

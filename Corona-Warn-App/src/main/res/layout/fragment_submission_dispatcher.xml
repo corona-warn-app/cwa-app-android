@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.submission.SubmissionDispatcherFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/submission_dispatcher_title"
+                style="@style/textTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/submission_dispatcher_headline"
+                app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
+                app:layout_constraintTop_toTopOf="@+id/submission_guideline_top" />
+
+            <TextView
+                android:id="@+id/submission_dispatcher_subtitle"
+                style="@style/textLargeEmphasized"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/submission_dispatcher_subheadline"
+                app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_title" />
+
+            <include
+                android:id="@+id/submission_dispatcher_qr"
+                layout="@layout/include_dispatcher_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:clickable="true"
+                app:body="@{@string/submission_dispatcher_qr_card_text}"
+                app:headline="@{@string/submission_dispatcher_card_qr}"
+                app:illustration="@{@drawable/ic_submission_illustration_qr_code_card}"
+                app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_subtitle" />
+
+            <include
+                android:id="@+id/submission_dispatcher_tan_code"
+                layout="@layout/include_dispatcher_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:body="@{@string/submission_dispatcher_tan_code_card_text}"
+                app:headline="@{@string/submission_dispatcher_card_tan_code}"
+                app:illustration="@{@drawable/ic_submission_illustration_tan_code_card}"
+                app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_qr" />
+
+            <include
+                android:id="@+id/submission_dispatcher_tan_tele"
+                layout="@layout/include_dispatcher_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:body="@{@string/submission_dispatcher_tan_tele_card_text}"
+                app:headline="@{@string/submission_dispatcher_card_tan_tele}"
+                app:illustration="@{@drawable/ic_submission_illustration_tan_hotline_card}"
+                app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_tan_code" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/submission_guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/submission_guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/submission_guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/submission_guideline_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/sm_guideline_button" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/submission_guideline_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/guideline_top" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

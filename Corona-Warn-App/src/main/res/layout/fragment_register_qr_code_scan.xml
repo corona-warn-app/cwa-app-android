@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.journeyapps.barcodescanner.BarcodeView
+            android:id="@+id/register_qr_code_scan_preview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:zxing_framing_rect_height="@dimen/scan_qr_code_viewfinder_size"
+            app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size">
+
+        </com.journeyapps.barcodescanner.BarcodeView>
+
+        <com.journeyapps.barcodescanner.ViewfinderView
+            android:id="@+id/register_qr_code_scan_viewfinder_view"
+            android:layout_width="@dimen/scan_qr_code_viewfinder_size"
+            android:layout_height="@dimen/scan_qr_code_viewfinder_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:zxing_viewfinder_laser_visibility="false" />
+
+        <TextView
+            android:id="@+id/register_qr_code_scan_body"
+            style="@style/registrationQRCodeScanBody"
+            android:layout_width="@dimen/scan_qr_code_viewfinder_size"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/register_qr_code_scan_body"
+            app:layout_constraintEnd_toEndOf="@+id/register_qr_code_scan_preview"
+            app:layout_constraintStart_toStartOf="@+id/register_qr_code_scan_preview"
+            app:layout_constraintTop_toBottomOf="@+id/register_qr_code_scan_viewfinder_view" />
+
+
+        <include
+            android:id="@+id/register_qr_code_scan_close"
+            layout="@layout/include_button_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintBottom_toTopOf="@+id/register_qr_code_scan_guideline_top"
+            app:layout_constraintEnd_toStartOf="@+id/register_qr_code_scan_guideline_start"
+            app:layout_constraintStart_toStartOf="@+id/register_qr_code_scan_guideline_start"
+            app:layout_constraintTop_toTopOf="@+id/register_qr_code_scan_guideline_top" />
+
+        <ToggleButton
+            android:id="@+id/register_qr_code_scan_torch"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
+            android:backgroundTint="@color/iconColor"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toTopOf="@+id/register_qr_code_scan_guideline_top"
+            app:layout_constraintEnd_toStartOf="@+id/register_qr_code_scan_guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/register_qr_code_scan_guideline_end"
+            app:layout_constraintTop_toTopOf="@+id/register_qr_code_scan_guideline_top" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/register_qr_code_scan_guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/register_qr_code_scan_guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="707dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/register_qr_code_scan_guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/guideline_end" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

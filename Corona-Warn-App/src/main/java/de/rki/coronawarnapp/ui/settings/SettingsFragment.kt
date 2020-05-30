@@ -1,0 +1,82 @@
+package de.rki.coronawarnapp.ui.settings
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
+import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+
+/**
+ * This is the setting overview page.
+ *
+ * @see TracingViewModel
+ * @see SettingsViewModel
+ */
+class SettingsFragment : BaseFragment() {
+
+    companion object {
+        private val TAG: String? = SettingsFragment::class.simpleName
+    }
+
+    private val tracingViewModel: TracingViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
+    private lateinit var binding: FragmentSettingsBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSettingsBinding.inflate(inflater)
+        binding.tracingViewModel = tracingViewModel
+        binding.settingsViewModel = settingsViewModel
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setButtonOnClickListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // refresh required data
+        tracingViewModel.refreshIsTracingEnabled()
+        settingsViewModel.refreshNotificationsEnabled(requireContext())
+        settingsViewModel.refreshNotificationsRiskEnabled()
+        settingsViewModel.refreshNotificationsTestEnabled()
+        settingsViewModel.refreshMobileDataEnabled()
+        settingsViewModel.refreshBackgroundJobEnabled()
+    }
+
+    private fun setButtonOnClickListener() {
+        val tracingRow = binding.settingsTracing.settingsRow
+        val notificationRow = binding.settingsNotifications.settingsRow
+        val resetRow = binding.settingsReset
+        val goBack = binding.settingsHeader.settingsDetailsHeaderButtonBack.buttonIcon
+        resetRow.setOnClickListener {
+            doNavigate(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsResetFragment()
+            )
+        }
+        tracingRow.setOnClickListener {
+            doNavigate(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsTracingFragment()
+            )
+        }
+        notificationRow.setOnClickListener {
+            doNavigate(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsNotificationFragment()
+            )
+        }
+        goBack.setOnClickListener {
+            (activity as MainActivity).goBack()
+        }
+    }
+}

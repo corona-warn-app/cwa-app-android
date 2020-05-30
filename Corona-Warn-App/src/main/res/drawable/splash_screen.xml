@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- background with solid color -->
+    <item android:drawable="@color/appTheme" />
+
+    <!-- logo -->
+    <item
+        android:drawable="@drawable/ic_splash_logo"
+        android:gravity="center" />
+
+</layer-list>

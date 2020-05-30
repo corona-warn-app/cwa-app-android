@@ -1,0 +1,83 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.3.72'
+    ext.protobufVersion = '0.8.12'
+    ext.navVersion = "2.2.2"
+
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.9.1"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+subprojects {
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    detekt {
+        debug = true
+        ignoreFailures = false
+        failFast = false // fail build on any finding
+        buildUponDefaultConfig = true // preconfigure defaults
+        config = files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+        baseline = file("$projectDir/config/detekt-baseline.xml")
+        parallel = true
+        reports {
+            html.enabled = true // observe findings in your browser with structure and code snippets
+            xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+            txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+        }
+    }
+
+    ktlint {
+        debug = true
+        ignoreFailures = false
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+//        mavenLocal()
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task quickBuild {
+    dependsOn ':Corona-Warn-App:assembleDeviceRelease'
+    dependsOn ':Corona-Warn-App:testDeviceReleaseUnitTest'
+    dependsOn ':Corona-Warn-App:lintDeviceRelease'
+    dependsOn ':Corona-Warn-App:ktlintDeviceReleaseCheck'
+    dependsOn ':Corona-Warn-App:detekt'
+}
+
+task quickBuildWithFixes {
+    dependsOn ':Corona-Warn-App:assembleDeviceRelease'
+    dependsOn ':Corona-Warn-App:testDeviceReleaseUnitTest'
+    dependsOn ':Corona-Warn-App:lintDeviceRelease'
+    dependsOn ':Corona-Warn-App:ktlintFormat'
+    dependsOn ':Corona-Warn-App:ktlintDeviceReleaseCheck'
+    dependsOn ':Corona-Warn-App:detekt'
+}
+
+

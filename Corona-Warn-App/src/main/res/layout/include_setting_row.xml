@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="subtitle"
+            type="String" />
+
+        <variable
+            name="status"
+            type="Boolean" />
+
+        <variable
+            name="body"
+            type="String" />
+
+        <variable
+            name="showDivider"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settings_row"
+            style="@style/row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/settings_row_icon"
+                style="@style/icon"
+                android:layout_width="@dimen/icon_size_settings"
+                android:layout_height="@dimen/icon_size_settings"
+                android:importantForAccessibility="no"
+                android:src="@{icon}"
+                android:tint="@{FormatterSettingsHelper.formatIconColor(status)}"
+                app:layout_constraintBottom_toBottomOf="@id/settings_row_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/settings_row_header" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/settings_row_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/settings_guideline_body"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/settings_row_header_subtitle"
+                    style="@style/textLargeEmphasized"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{subtitle}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/spacing_mega_tiny"
+                    android:text="@{FormatterSettingsHelper.formatStatus(status)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_row_header_subtitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/settings_row_body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/spacing_tiny"
+                android:text="@{body}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/settings_guideline_body"
+                app:layout_constraintTop_toBottomOf="@+id/settings_row_header" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/settings_guideline_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_body_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/include_divider"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/card_divider"
+            android:visibility="@{FormatterHelper.formatVisibility(showDivider)}"
+            app:layout_constraintBottom_toBottomOf="@id/settings_row"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/settings_guideline_divider"
+            app:layout_constraintTop_toBottomOf="@id/settings_row" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/settings_guideline_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

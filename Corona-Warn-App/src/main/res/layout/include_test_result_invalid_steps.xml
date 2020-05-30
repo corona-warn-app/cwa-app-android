@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/test_result_invalid_steps_added"
+            layout="@layout/include_test_result_step"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bodyText="@{@string/submission_test_result_steps_added_body}"
+            app:finalStep="@{false}"
+            app:headingText="@{@string/submission_test_result_steps_added_heading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stepStatus="@{@drawable/ic_test_result_step_done}" />
+
+        <include
+            android:id="@+id/test_result_invalid_steps_invalid_result"
+            layout="@layout/include_test_result_step"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bodyText="@{@string/submission_test_result_invalid_steps_invalid_body}"
+            app:finalStep="@{true}"
+            app:headingText="@{@string/submission_test_result_invalid_steps_invalid_heading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test_result_invalid_steps_added"
+            app:stepStatus="@{@drawable/ic_test_result_step_invalid}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

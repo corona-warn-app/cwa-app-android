@@ -1,0 +1,89 @@
+<resources>
+    <!-- spacing, used as reference for everything else -->
+    <dimen name="spacing_large">48dp</dimen>
+    <dimen name="spacing_normal">24dp</dimen>
+    <dimen name="spacing_small">12dp</dimen>
+    <dimen name="spacing_tiny">6dp</dimen>
+    <dimen name="spacing_mega_tiny">3dp</dimen>
+
+    <!-- font sizes -->
+    <dimen name="font_larger">24sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+
+    <!-- header height -->
+    <dimen name="header">50dp</dimen>
+
+
+    <!-- elevation -->
+    <dimen name="elevation_strong">10dp</dimen>
+    <dimen name="elevation_weak">4dp</dimen>
+
+    <!-- default spacing for guidelines -->
+    <dimen name="guideline_start">@dimen/spacing_normal</dimen>
+    <dimen name="guideline_end">@dimen/spacing_normal</dimen>
+    <dimen name="guideline_top">@dimen/spacing_normal</dimen>
+    <dimen name="guideline_bottom">@dimen/spacing_normal</dimen>
+    <dimen name="guideline_action">90dp</dimen>
+    <dimen name="guideline_action_large">150dp</dimen>
+    <dimen name="guideline_body_title">45dp</dimen>
+    <dimen name="guideline_back">14dp</dimen> <!-- guideline_start - button_icon_padding -->
+    <dimen name="guideline_top_onboarding">64dp</dimen>
+    <dimen name="guideline_top_submission">72dp</dimen>
+    <!-- guideline_top + button_icon_padding + icon_size  only for first onboarding screen-->
+    <dimen name="guideline_start_divider">69dp</dimen>
+    <!-- guideline_body_title + guideline start -->
+
+    <!-- button -->
+    <dimen name="button_padding_start_end">@dimen/spacing_normal</dimen>
+    <dimen name="button_padding_top_bottom">@dimen/spacing_small</dimen>
+    <dimen name="button_icon_margin">8dp</dimen>
+
+    <!-- card -->
+    <dimen name="card_padding">@dimen/spacing_normal</dimen>
+    <dimen name="card_divider">1dp</dimen>
+    <dimen name="submission_status_card_text_width">200dp</dimen>
+    <dimen name="submission_status_card_fetching_body_width">150dp</dimen>
+
+
+    <!-- general -->
+    <dimen name="radius_button">@dimen/spacing_tiny</dimen>
+    <dimen name="radius_card">@dimen/spacing_tiny</dimen>
+    <dimen name="icon_size">20dp</dimen>
+    <dimen name="icon_size_risk_card">35dp</dimen>
+    <dimen name="icon_size_main_card">35dp</dimen>
+    <dimen name="icon_size_main_card_end">35dp</dimen>
+    <dimen name="icon_size_button">40dp</dimen>
+    <dimen name="icon_size_settings">40dp</dimen>
+    <dimen name="icon_size_risk_details_behavior">35dp</dimen>
+    <dimen name="match_constraint">0dp</dimen>
+
+    <!-- todo illustration sizes -->
+
+    <!-- Submission -->
+    <dimen name="sm_guideline_body">200dp</dimen>
+    <dimen name="sm_guideline_button">@dimen/spacing_large</dimen>
+
+    <!-- Submission Test Result -->
+    <dimen name="submission_test_result_guideline_body">84dp</dimen>
+
+    <!-- Test Result Card -->
+    <dimen name="test_result_card_body_height">120dp</dimen>
+
+    <!-- Test Result Steps -->
+    <dimen name="test_result_step_progress_line_width">1dp</dimen>
+    <dimen name="test_result_step_text_width">256dp</dimen>
+
+    <!-- Submission Tan Input -->
+    <dimen name="submission_tan_input_edittext_size">1dp</dimen>
+    <dimen name="submission_tan_input_digit_radius">2dp</dimen>
+    <dimen name="submission_tan_input_digit_width">36dp</dimen>
+    <dimen name="submission_tan_input_digit_height">50dp</dimen>
+
+    <!-- Registration -->
+    <dimen name="scan_qr_code_guideline_body">200dp</dimen>
+    <dimen name="scan_qr_code_guideline_button">@dimen/spacing_large</dimen>
+    <dimen name="scan_qr_code_close_icon_size">14dp</dimen>
+    <dimen name="scan_qr_code_viewfinder_size">240dp</dimen>
+</resources>

@@ -1,0 +1,22 @@
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols;
+
+message File {
+    Header header = 1;
+    repeated Key keys = 2;
+}
+
+message Header {
+    int64 startTimestamp = 1; // Time window of keys in this file based on arrival to server, in UTC.
+    int64 endTimestamp = 2;
+    string region = 3; // Region for which these keys came from (e.g., country)
+    int32 batchNum = 4; // E.g., Batch 2 of 10
+    int32 batchSize = 5;
+}
+
+message Key {
+    bytes keyData = 1; // Key of infected user
+    uint32 rollingStartNumber = 2; // Interval number when the key's EKRollingPeriod started.
+    uint32 rollingPeriod = 3; // Number of 10-minute windows between key rolling.
+    int32 transmissionRiskLevel = 4; // Risk of transmission associated with the person this key came from.
+}

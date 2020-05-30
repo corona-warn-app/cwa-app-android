@@ -1,0 +1,39 @@
+version: 2.1
+orbs:
+  android: circleci/android@0.2.1
+commands:
+  install-ndk: android/install-ndk
+  restore-build-cache: android/restore-build-cache
+  save-build-cache: android/save-build-cache
+jobs:
+  quickBuildReleaseWithTestsAndChecks:
+    executor: android/android
+
+    steps:
+      - checkout
+      - install-ndk:
+          ndk-sha: "50250fcba479de477b45801e2699cca47f7e1267"
+          ndk-version: "android-ndk-r21b"
+      - restore-build-cache
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}
+      - run:
+          command: ./gradlew quickBuild
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-build-cache
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+      - store_test_results:
+          path: Corona-Warn-App/build/test-results
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - quickBuildReleaseWithTestsAndChecks

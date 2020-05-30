@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/tan_input_edittext"
+            style="@style/tanInputEdittext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tan_input_textview_1"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+
+        <TextView
+            android:id="@+id/tan_input_textview_2"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_3"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_1"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_textview_3"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_4"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_textview_4"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_5"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_3"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_textview_5"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_6"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_4"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_textview_6"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_7"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_5"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_textview_7"
+            style="@style/tanInputDigit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_6"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="X" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

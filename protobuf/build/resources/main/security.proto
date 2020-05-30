@@ -1,0 +1,10 @@
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols;
+
+// ExposureKeyPackage v0.1
+
+message SignedPayload {
+    bytes payload = 1; // serialized Payload message
+    bytes certificateChain = 2; // X509 certificate chain
+    bytes signature = 3; // signature of payload
+}
