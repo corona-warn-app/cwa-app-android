@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,13 +35,11 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        Log.d(TAG, "Received permission to get keys")
         viewModel.submitDiagnosisKeys()
     }
 
     override fun onFailure(exception: Exception?) {
         submissionFailed = true
-        Log.e(TAG, "User rejected to provide permission for key retrieval")
     }
 
     override fun onCreateView(
