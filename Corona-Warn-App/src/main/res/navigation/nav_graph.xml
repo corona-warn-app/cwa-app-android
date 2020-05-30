@@ -191,7 +191,7 @@
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionResultPositiveOtherWarningFragment"
         android:label="fragment_submission_result_positive_other_warning"
-        tools:layout="@layout/fragment_submission_positive_other_warning"></fragment>
+        tools:layout="@layout/fragment_submission_positive_other_warning" />
     <fragment
         android:id="@+id/submissionResultFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionTestResultFragment"
@@ -266,4 +266,8 @@
             android:id="@+id/deepLink"
             app:uri="coronawarnapp://launch" />
     </activity>
+    <fragment
+        android:id="@+id/submissionDoneFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionDoneFragment"
+        android:label="SubmissionDoneFragment" />
 </navigation>
