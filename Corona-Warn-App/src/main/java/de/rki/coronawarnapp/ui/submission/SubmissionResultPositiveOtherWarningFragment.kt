@@ -46,7 +46,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment() {
             if (it == ApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToMainFragment()
+                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
                 )
             }
         })

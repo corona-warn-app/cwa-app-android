@@ -193,14 +193,14 @@
         android:label="fragment_submission_result_positive_other_warning"
         tools:layout="@layout/fragment_submission_positive_other_warning">
         <action
-            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
             app:popUpTo="@id/submissionResultFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionDoneFragment"
+            app:destination="@id/submissionDoneFragment"
+            app:popUpTo="@id/submissionDoneFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -282,5 +282,11 @@
     <fragment
         android:id="@+id/submissionDoneFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionDoneFragment"
-        android:label="SubmissionDoneFragment" />
+        android:label="SubmissionDoneFragment">
+        <action
+            android:id="@+id/action_submissionDoneFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
