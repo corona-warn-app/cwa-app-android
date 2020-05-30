@@ -34,12 +34,14 @@ class SubmissionDispatcherFragment : BaseFragment() {
     private fun setButtonOnClickListener() {
         binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
             doNavigate(
-                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToRegisterQRCodeFragment()
+                SubmissionDispatcherFragmentDirections
+                    .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
             )
         }
         binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             doNavigate(
-                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionTanFragment()
+                SubmissionDispatcherFragmentDirections
+                    .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
         binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
