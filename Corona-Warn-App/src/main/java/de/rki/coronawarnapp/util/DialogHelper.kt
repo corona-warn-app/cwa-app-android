@@ -10,7 +10,7 @@ object DialogHelper {
         val title: Int,
         val message: Int,
         val positiveButton: Int,
-        val negativeButton: Int,
+        val negativeButton: Int? = null,
         val positiveButtonFunction: () -> Unit? = {},
         val negativeButtonFunction: () -> Unit? = {}
     )
@@ -28,10 +28,12 @@ object DialogHelper {
                 ) { _, _ ->
                     dialogInstance.positiveButtonFunction()
                 }
-                setNegativeButton(
-                    dialogInstance.negativeButton
-                ) { _, _ ->
-                    dialogInstance.negativeButtonFunction()
+                if (dialogInstance.negativeButton != null) {
+                    setNegativeButton(
+                        dialogInstance.negativeButton
+                    ) { _, _ ->
+                        dialogInstance.negativeButtonFunction()
+                    }
                 }
             }
             builder.create()
