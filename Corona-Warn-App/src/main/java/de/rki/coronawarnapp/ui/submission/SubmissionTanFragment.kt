@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.ui.BaseFragment
@@ -25,6 +26,7 @@ class SubmissionTanFragment : BaseFragment() {
         binding = FragmentSubmissionTanBinding.inflate(inflater)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         return binding.root
     }
 
