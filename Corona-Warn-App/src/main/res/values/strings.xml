@@ -199,7 +199,7 @@
     <string name="risk_details_behavior_body_wash_hands">Waschen Sie Ihre Hände</string>
     <string name="risk_details_behavior_body_wear_mask">Tragen Sie eine Schutzmaske</string>
     <string name="risk_details_behavior_body_stay_away">Halten Sie 2 Meter Abstand zu anderen Personen</string>
-    <string name="risk_details_behavior_body_cough_sneeze">Husten und Niesen Sie in Ihre Armbeuge</string>
+    <string name="risk_details_behavior_body_cough_sneeze">Husten und niesen Sie in Ihre Armbeuge</string>
     <string name="risk_details_behavior_increased_body_1">- Ihren Hausartzt/Ihre Hausärtztin</string>
     <string name="risk_details_behavior_increased_body_2">- Den Kassenärtzlichen Notdienst (Tel: 116117)</string>
     <string name="risk_details_behavior_increased_body_3">- Ihr Gesundheitsamt</string>
@@ -236,7 +236,7 @@
     <string name="onboarding_tracing_body">@string/lorem_ipsum</string>
     <string name="onboarding_tracing_body_emphasized">@string/lorem_ipsum</string>
     <string name="onboarding_tracing_dialog_headline">Berechtigung</string>
-    <string name="onboarding_tracing_dialog_body">Corona-Wran-App kann dadurch keine Benachrichtigungen zu COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit einschalten.</string>
+    <string name="onboarding_tracing_dialog_body">Corona-Warn-App kann dadurch keine Benachrichtigungen zu COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit einschalten.</string>
     <string name="onboarding_tracing_dialog_button_positive">Trotzdem weiter</string>
     <string name="onboarding_tracing_dialog_button_negative">Zurück</string>
     <!-- 4 Tracing -->
@@ -335,7 +335,7 @@
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- Submission Tan -->
     <string name="submission_tan_title">TAN Eingabe</string>
-    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
+    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer Ihres Befundes ein. Die TAN ist 7-stellig. Groß- und Kleinschreibung muss nicht beachtet werden.</string>
     <string name="submission_tan_button_text">Weiter</string>
     <!-- Submission Intro -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
@@ -355,13 +355,13 @@
 
     <string name="submission_dispatcher_subheadline">Welche Informationen liegen Ihnen vor?</string>
     <string name="submission_dispatcher_card_qr">Dokument mit QR-Code</string>
-    <string name="submission_dispatcher_qr_card_text">Verifizieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string>
+    <string name="submission_dispatcher_qr_card_text">Verifizieren Sie Ihren Test, indem Sie den QR-Code Ihres Test-Dokument scannen</string>
 
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
-    <string name="submission_dispatcher_tan_code_card_text">Verifizieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <string name="submission_dispatcher_tan_code_card_text">Verifizieren Sie Ihren Test per manueller TAN Eingabe</string>
 
     <string name="submission_dispatcher_card_tan_tele">TAN telefonisch anfragen</string>
-    <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string>
+    <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie positiv getestet wurden</string>
 
     <!-- Submission Positive Other Warning -->
     <string name="submission_positive_other_warning_title">Andere warnen</string>
