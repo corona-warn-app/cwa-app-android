@@ -26,8 +26,17 @@ class SubmissionTanFragment : BaseFragment() {
         binding = FragmentSubmissionTanBinding.inflate(inflater)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
-        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
