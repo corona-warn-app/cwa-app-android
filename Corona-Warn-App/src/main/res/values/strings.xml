@@ -388,7 +388,7 @@
     <string name="submission_dispatcher_qr_card_text">Verifizieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string>
 
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
-    <string name="submission_dispatcher_tan_code_card_text">Verifizieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <string name="submission_dispatcher_tan_code_card_text">Verifizieren Sie Ihren Test per manueller TAN Eingabe</string>
 
     <string name="submission_dispatcher_card_tan_tele">TAN telefonisch anfragen</string>
     <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string>
