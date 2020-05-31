@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_KEY_T
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_VALIDATION_REGEX
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.REGISTRATION_TOKEN_URL
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TAN_REQUEST_URL
-import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN__KEY_TYPE
+import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_TYPE
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 
@@ -41,7 +41,7 @@ object SubmissionService {
             WebRequestBuilder.asyncGetRegistrationToken(
                 REGISTRATION_TOKEN_URL,
                 tan,
-                TELE_TAN__KEY_TYPE
+                TELE_TAN_KEY_TYPE
             )
 
         LocalData.registrationToken(registrationToken)
