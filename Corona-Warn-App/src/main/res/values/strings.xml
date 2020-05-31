@@ -85,7 +85,7 @@
                      Menu
     ###################################### -->
     <string name="menu_help">Überblick</string>
-    <string name="menu_information">App Informationen</string>
+    <string name="menu_information">App-Informationen</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_share">Teilen Sie die App</string>
 
@@ -115,7 +115,7 @@
     <!-- Generic - used in multiple cards -->
     <string name="risk_card_body_contact">Bisher keine Risikobegegnung</string>
     <string name="risk_card_body_contact_value">%1$s Risikobegegnungen</string>
-    <string name="risk_card_body_saved_days">%1$s von 14 Tage protokolliert</string>
+    <string name="risk_card_body_saved_days">%1$s von 14 Tagen protokolliert</string>
     <string name="risk_card_body_not_yet_fetched">Kontakte wurden noch nicht überprüft.</string>
     <string name="risk_card_body_time_fetched">Aktualisiert: %1$s</string>
     <string name="risk_card_body_next_update">Nächste Aktualisierung in: %1$s</string>
@@ -159,7 +159,7 @@
     <string name="submission_status_card_body_fetching">Das Ergebnis wird aktualisiert</string>
     <string name="submission_status_card_body_unregistered">Helfen Sie mit, die Infektionskette zu durchbrechen und warnen Sie Andere.</string>
     <string name="submission_status_card_body_pending">Die Auswertung dauert zwischen 1–3 Tagen.</string>
-    <string name="submission_status_card_body_invalid">Ihr test könnte nicht ausgewertet werden.</string>
+    <string name="submission_status_card_body_invalid">Ihr Test könnte nicht ausgewertet werden.</string>
     <string name="submission_status_card_body_positive">Sie wurden positiv auf SARS-CoV-2 getestet.</string>
     <string name="submission_status_card_body_negative">Sie wurden negativ auf SARS-CoV-2 getestet.</string>
     <string name="submission_status_card_button_unregistered">Informieren &amp; mitmachen</string>
@@ -179,7 +179,7 @@
     ###################################### -->
     <string name="main_share_title">Corona-Warn-App teilen</string>
     <string name="main_share_headline">Gemeinsam Corona bekämpfen</string>
-    <string name="main_share_body">Je mehr Menschen mitmachen, desto schneller durchbrechen wir dir Infektionsketten. Laden Sie Familie, Freunde und Bekannte zum Download ein!</string>
+    <string name="main_share_body">Je mehr Menschen mitmachen, desto schneller durchbrechen wir die Infektionsketten. Laden Sie Familie, Freunde und Bekannte zum Download ein!</string>
     <string name="main_share_button">Download-Link versenden</string>
     <string name="main_share_message">
         Erzähle es jedem!<xliff:g id="line_break">\n</xliff:g>
@@ -195,7 +195,7 @@
     ###################################### -->
     <string name="risk_details_headline_behavior">Verhalten Sie sich richtig</string>
     <string name="risk_details_behavior_body_stay_home">Bleiben Sie zu Hause</string>
-    <string name="risk_details_behavior_body_avoid_contact">Vermeiden Sie sozialen Kontakt</string>
+    <string name="risk_details_behavior_body_avoid_contact">Vermeiden Sie soziale Kontakte</string>
     <string name="risk_details_behavior_body_contact_doctor">Für Fragen zu auftretenden Symptomen, Testmöglichkeiten und weiteren Absonderungsmaßnahmen wenden Sie sich bitte an:</string>
     <string name="risk_details_behavior_body_wash_hands">Waschen Sie Ihre Hände</string>
     <string name="risk_details_behavior_body_wear_mask">Tragen Sie eine Schutzmaske</string>
@@ -219,7 +219,7 @@
     <string name="onboarding_button_finish">Zustimmen</string>
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <string name="onboarding_button_next">Weiter</string>
-    <string name="onboarding_button_start">Los Geht\'s</string>
+    <string name="onboarding_button_start">Los geht\'s</string>
     <string name="onboarding_button_back_description">Zurück</string>
     <!-- 1 Together -->
     <string name="onboarding_headline">Zusammen gegen Corona</string>
@@ -232,7 +232,7 @@
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
     <!-- 3 Permission -->
-    <string name="onboarding_tracing_headline">Wie Sie die Risikoerkennung ermöglichen</string>
+    <string name="onboarding_tracing_headline">Wie Sie die Risiko-Ermittlung ermöglichen</string>
     <string name="onboarding_tracing_subtitle">@string/lorem_ipsum</string>
     <string name="onboarding_tracing_body">@string/lorem_ipsum</string>
     <string name="onboarding_tracing_body_emphasized">@string/lorem_ipsum</string>
@@ -251,7 +251,7 @@
     <string name="onboarding_notifications_body">@string/lorem_ipsum</string>
     <string name="onboarding_notifications_body_emphasized">@string/lorem_ipsum</string>
     <string name="onboarding_notifications_dialog_headline">Erlaubnis</string>
-    <string name="onboarding_notifications_dialog_body">Die Benachrichtigungen für die Corona-Warn-App sind ausgestellt. Um Sie bezüglich Ihres Status immer auf dem neusten Stand zu halten wäre es hilfreich wenn sie ihre Benachrichtigungen aktivieren.</string>
+    <string name="onboarding_notifications_dialog_body">Die Benachrichtigungen für die Corona-Warn-App sind ausgestellt. Um Sie bezüglich Ihres Status immer auf dem neusten Stand zu halten wäre es hilfreich, wenn Sie ihre Benachrichtigungen aktivieren.</string>
     <string name="onboarding_notifications_dialog_button_positive">Zu den Einstellungen</string>
     <string name="onboarding_notifications_dialog_button_negative">Trotzdem weiter</string> <!--<string name="onboarding_privacy_body_emphasized_address"></string> -->
 
@@ -264,9 +264,9 @@
     <!-- Tracing -->
     <string name="settings_tracing_title">Risiko-Ermittlung</string>
     <string name="settings_tracing_headline">Aktivieren Sie die Aufzeichnung Ihrer Begegnungen</string>
-    <string name="settings_tracing_body_description">Erlauben Sie Erfassung und Weitergabe von Covid-19-Zufalls-IDs.</string>
-    <string name="settings_tracing_body_active">Risiko-Ermittlung Aktiv</string>
-    <string name="settings_tracing_body_inactive">Risiko-Ermittlung Gestoppt</string>
+    <string name="settings_tracing_body_description">Erlauben Sie die Erfassung und Weitergabe von Covid-19-Zufalls-IDs.</string>
+    <string name="settings_tracing_body_active">Risiko-Ermittlung aktiv</string>
+    <string name="settings_tracing_body_inactive">Risiko-Ermittlung gestoppt</string>
     <string name="settings_tracing_body_active_description">Risiko-Ermittlung ist aktiv. Eine verlässliche Risikoprüfung kann nur mit dauerhaft aktivierter Risiko-Ermittlung durchgeführt werden.</string>
     <string name="settings_tracing_body_inactive_description">Risiko-Ermittlung ist gestoppt. Eine verlässliche Risikoprüfung kann nur mit dauerhaft aktivierter Risiko-Ermittlung durchgeführt werden.</string>
     <string name="settings_tracing_body_text">@string/lorem_ipsum</string>
@@ -275,13 +275,13 @@
     <string name="settings_notifications_headline_active">Möchten Sie Mitteilungen zu Ihrem Covid-19-Risikostatus aktivieren?</string>
     <string name="settings_notifications_headline_inactive">Mitteilungen sind deaktiviert</string>
     <string name="settings_notifications_body_description">Erlauben Sie automatische Mitteilungen zu Covid-19-Risikostatus.</string>
-    <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
+    <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert bleiben möchten.</string>
     <string name="settings_notifications_body_inactive">Um Mitteilungen zu aktivieren, müssen Sie Mitteilungen für die Corona-Warn-App in Ihren Telefoneinstellungen zulassen.</string>
     <string name="settings_notifications_subtitle_notification">@string/settings_notifications_title</string>
     <string name="settings_notifications_subtitle_update_risk">Ändern Ihres Infektionsrisikos</string>
     <string name="settings_notifications_subtitle_update_test">Status Ihres COVID-19-Tests</string>
     <string name="settings_notifications_subtitle_update_news">Update zu COVID-19</string>
-    <string name="settings_notifications_subtitle_update_app">Neue App Funktionen</string>
+    <string name="settings_notifications_subtitle_update_app">Neue App-Funktionen</string>
     <string name="settings_notifications_button_open_settings">Einstellungen öffnen</string>
     <!-- Reset-->
     <string name="settings_reset_title">Anwendung zurücksetzen</string>
@@ -314,13 +314,13 @@
              TODO: rename if screens are available
     ###################################### -->
     <!-- Permission Rationale Dialog -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
+    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera-Berechtigung benötigt</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_body">@string/lorem_ipsum</string>
 
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
     <!-- Permission Denied Dialog -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">Keine Kamera Berechtigung</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_headline">Keine Kamera-Berechtigung</string>
     <string name="submission_qr_code_scan_permission_denied_dialog_body">@string/lorem_ipsum</string>
 
     <string name="submission_qr_code_scan_permission_denied_dialog_button_positive">Zurück</string>
@@ -331,13 +331,13 @@
     <string name="submission_qr_code_scan_successful_dialog_button_positive">Registrieren</string>
     <string name="submission_qr_code_scan_successful_dialog_button_negative">Abbrechen</string>
     <!-- QR Code Scan Invalid Dialog -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">Falscher QR Code</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">Falscher QR-Code</string>
     <string name="submission_qr_code_scan_invalid_dialog_body">@string/lorem_ipsum</string>
 
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">Erneut versuchen</string>
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">Abbrechen</string>
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
+    <string name="submission_qr_code_scan_body">Positionieren Sie den QR-Code in den Rahmen</string>
     <!-- Register Device Screen -->
     <string name="submission_register_device_headline">Gerät Registrieren</string>
     <string name="submission_register_device_body">@string/lorem_ipsum</string>
@@ -361,7 +361,7 @@
     <string name="submission_test_result_positive_steps_positive_heading">Testergebnis Positiv</string>
     <string name="submission_test_result_positive_steps_positive_body">Ihr Testergebnis wurde erfolgreich als “Positiv” verifiziert.</string>
     <string name="submission_test_result_positive_steps_warning_others_heading">Andere warnen</string>
-    <string name="submission_test_result_positive_steps_warning_others_body">Teilen Sie Ihre Zufallskennungen, damit andere gewarnt werden können.</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">Teilen Sie Ihre Zufallskennungen, damit Andere gewarnt werden können.</string>
     <string name="submission_test_result_positive_continue_button">Weiter</string>
 
     <string name="submission_test_result_invalid_steps_invalid_heading">Test fehlerhaft</string>
@@ -369,16 +369,16 @@
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- Submission Tan -->
     <string name="submission_tan_title">TAN Eingabe</string>
-    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
+    <string name="submission_tan_body">Geben Sie bitte die TAN (Transaktionsnummer) Ihres Befundes ein. Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
     <string name="submission_tan_button_text">Weiter</string>
     <!-- Submission Intro -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
-    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, wird die freiwillige Mithilfe von allen Corona positiven Personen benötigt.</string>
+    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, wird die freiwillige Mithilfe von allen Corona-positiven Personen benötigt.</string>
     <string name="submission_intro_text_b">@string/lorem_ipsum</string>
     <string name="submission_intro_button_next">Weiter</string>
     <!-- sm Notification -->
-    <string name="sm_result_dialog_headline">Danke für die Mithilfe!</string>
+    <string name="sm_result_dialog_headline">Danke für Ihre Mithilfe!</string>
     <string name="sm_result_dialog_body">Ihr verifizierter Befund wurde anonym übertragen.</string>
     <!-- sm Dispatcher -->
     <string name="submission_dispatcher_headline">Auswahl</string>
