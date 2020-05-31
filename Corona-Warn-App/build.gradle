@@ -32,8 +32,8 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 5
-        versionName "0.5.5"
+        versionCode 6
+        versionName "0.5.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -62,14 +62,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         releaseForTest {
             applicationIdSuffix '.dev'
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -133,11 +133,6 @@ android {
         exclude 'CODE_OF_CONDUCT.md'
     }
 
-}
-
-configurations.all {
-    resolutionStrategy.force "org.antlr:antlr4-runtime:4.7.1"
-    resolutionStrategy.force "org.antlr:antlr4-tool:4.7.1"
 }
 
 dependencies {
