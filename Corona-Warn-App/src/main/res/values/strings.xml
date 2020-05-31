@@ -121,8 +121,8 @@
     <string name="risk_card_body_next_update">Nächste Aktualisierung in: %1$s</string>
     <string name="risk_card_button_update">Aktualisieren</string>
     <string name="risk_card_button_cooldown">Aktualisierung in %1$s</string>
-    <string name="risk_card_button_enable_tracing">Risikoermittlung einschalten</string>
-    <string name="risk_card_body_tracing_off">Schalten Sie die Risikoermittlung ein, um Ihr Risiko zu aktualisieren.</string>
+    <string name="risk_card_button_enable_tracing">Risiko-Ermittlung einschalten</string>
+    <string name="risk_card_body_tracing_off">Schalten Sie die Risiko-Ermittlung ein, um Ihr Risiko zu aktualisieren.</string>
 
     <!-- LOW_RISK -->
     <string name="risk_card_low_risk_headline">Niedriges Risiko</string>
@@ -134,7 +134,7 @@
     <string name="risk_card_unknown_risk_body">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string>
     <!-- NO_CALCULATION_POSSIBLE -->
     <!-- TODO: no screens available -->
-    <string name="risk_card_no_calculation_possible_headline">Risikoermittlung gestoppt</string>
+    <string name="risk_card_no_calculation_possible_headline">Risiko-Ermittlung gestoppt</string>
     <string name="risk_card_no_calculation_possible_body_saved_risk">Letzte Ermittlung:\n%1$s</string>
     <!-- OUTDATED_RISK-->
     <!-- TODO: no screens available -->
