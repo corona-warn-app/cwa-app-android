@@ -24,7 +24,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-    ndkVersion "21.2.6472646"
+    ndkVersion "21.1.6352462"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -196,6 +196,6 @@ dependencies {
     implementation "androidx.security:security-crypto:1.0.0-rc02"
 
     implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
-    implementation "androidx.sqlite:sqlite:2.1.0"
+    implementation "androidx.sqlite:sqlite:2.0.1"
 
 }
