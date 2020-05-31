@@ -12,8 +12,11 @@ class SubmissionTanViewModel : ViewModel() {
         private val TAG: String? = SubmissionTanViewModel::class.simpleName
 
         private const val TAN_LENGTH = 7
-        private val EXCLUDED_TAN_CHARS = listOf('0', 'O', 'I', '1')
-        private val VALID_TAN_CHARS = ('A'..'Z').plus('0'..'9').minus(EXCLUDED_TAN_CHARS)
+
+        // TODO switch these back after testing
+        // private val EXCLUDED_TAN_CHARS = listOf('0', 'O', 'I', '1')
+        // private val VALID_TAN_CHARS = ('A'..'Z').plus('0'..'9').minus(EXCLUDED_TAN_CHARS)
+        private val VALID_TAN_CHARS = ('A'..'Z').plus('0'..'9')
     }
 
     val tan = MutableLiveData<String?>(null)
