@@ -203,7 +203,7 @@ object WebRequestBuilder {
                     Response.Listener { response ->
                         Log.d(
                             TAG,
-                            "$requestID: Test Result Request successful"
+                            "$requestID: TAN Request successful"
                         )
                         cont.resume(response)
                     },
