@@ -251,7 +251,7 @@
     <string name="onboarding_notifications_body">@string/lorem_ipsum</string>
     <string name="onboarding_notifications_body_emphasized">@string/lorem_ipsum</string>
     <string name="onboarding_notifications_dialog_headline">Erlaubnis</string>
-    <string name="onboarding_notifications_dialog_body">Die Benachrichtigungen für die Corona-Warn-App sind ausgestellt. Um Sie bezüglich Ihres Status immer auf dem neusten Stand zu halten wäre es hilfreich, wenn Sie ihre Benachrichtigungen aktivieren.</string>
+    <string name="onboarding_notifications_dialog_body">Die Benachrichtigungen für die Corona-Warn-App sind ausgeschaltet. Um Sie bezüglich Ihres Status immer auf dem neusten Stand zu halten wäre es hilfreich, wenn Sie ihre Benachrichtigungen aktivieren.</string>
     <string name="onboarding_notifications_dialog_button_positive">Zu den Einstellungen</string>
     <string name="onboarding_notifications_dialog_button_negative">Trotzdem weiter</string> <!--<string name="onboarding_privacy_body_emphasized_address"></string> -->
 
