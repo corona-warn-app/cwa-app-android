@@ -228,7 +228,7 @@
     <string name="onboarding_body_emphasized">@string/lorem_ipsum</string>
     <!-- 2 Privacy -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
-    <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
+    <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \nRobert Koch-Institut\nNordufer 20\n13353 Berlin</string>
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
     <!-- 3 Permission -->
