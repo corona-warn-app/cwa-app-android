@@ -61,4 +61,6 @@
     <color name="settingsIconActive">#2C79A9</color>
     <color name="settingsIconInactive">#C3C3C3</color>
 
+	<!-- Tan Input -->
+    <color name="tanInputBackground">#565656</color>
 </resources>
