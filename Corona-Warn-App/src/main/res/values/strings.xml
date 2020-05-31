@@ -201,8 +201,8 @@
     <string name="risk_details_behavior_body_wear_mask">Tragen Sie eine Schutzmaske</string>
     <string name="risk_details_behavior_body_stay_away">Halten Sie 2 Meter Abstand zu anderen Personen</string>
     <string name="risk_details_behavior_body_cough_sneeze">Husten und Niesen Sie in Ihre Armbeuge</string>
-    <string name="risk_details_behavior_increased_body_1">- Ihren Hausartzt/Ihre Hausärtztin</string>
-    <string name="risk_details_behavior_increased_body_2">- Den Kassenärtzlichen Notdienst (Tel: 116117)</string>
+    <string name="risk_details_behavior_increased_body_1">- Ihren Hausarzt/Ihre Hausärztin</string>
+    <string name="risk_details_behavior_increased_body_2">- Den Kassenärzlichen Notdienst (Tel: 116117)</string>
     <string name="risk_details_behavior_increased_body_3">- Ihr Gesundheitsamt</string>
     <string name="risk_details_headline_infection_risk">Infektionsrisiko</string>
     <string name="risk_details_body_infection_risk">So wird Ihr Risiko ermittelt</string>
