@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainShareBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.ShareHelper
 
 /**
  * This fragment informs the user about what he is going to share and how he is going to help everybody with this :)
@@ -43,20 +44,10 @@ class MainShareFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.mainShareButton.setOnClickListener {
-            share()
+            ShareHelper.shareText(this, getString(R.string.main_share_message), null)
         }
         binding.mainShareHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-    }
-
-    // TODO move to helper
-    private fun share() {
-        val share = Intent.createChooser(Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.main_share_message))
-        }, null)
-        startActivity(share)
     }
 }
