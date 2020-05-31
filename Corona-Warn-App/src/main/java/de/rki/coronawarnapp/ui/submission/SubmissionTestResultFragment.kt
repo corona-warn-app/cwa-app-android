@@ -63,7 +63,10 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
-            viewModel.submitDiagnosisKeys()
+            doNavigate(
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+            )
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {

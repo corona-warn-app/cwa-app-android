@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.register.ApiRequestState
-import de.rki.coronawarnapp.ui.register.ScanStatus
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -37,9 +37,6 @@ class SubmissionViewModel : ViewModel() {
 
     fun submitDiagnosisKeys() =
         executeRequestWithState(SubmissionService::asyncSubmitExposureKeys, _submissionState)
-
-    fun requestAuthCode() =
-        executeRequestWithState(SubmissionService::asyncRequestAuthCode, _authCodeState)
 
     fun doDeviceRegistration() =
         executeRequestWithState(SubmissionService::asyncRegisterDevice, _registrationState)
