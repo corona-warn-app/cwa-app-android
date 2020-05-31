@@ -217,7 +217,7 @@
     <string name="onboarding_title">Onboarding</string>
     <string name="onboarding_image_description">IS MISSING</string>
     <string name="onboarding_button_finish">Agree</string>
-    <string name="onboarding_button_disable">Not enable</string>
+    <string name="onboarding_button_disable">Don\'t enable</string>
     <string name="onboarding_button_next">Next</string>
     <string name="onboarding_button_start">Let\'s go</string>
     <string name="onboarding_button_back_description">Back</string>
@@ -318,7 +318,7 @@
     <string name="submission_qr_code_scan_permission_rationale_dialog_body">@string/lorem_ipsum</string>
 
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Allow</string>
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Don't allow</string>
+    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Don\'t allow</string>
     <!-- Permission Denied Dialog -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">No camera permission</string>
     <string name="submission_qr_code_scan_permission_denied_dialog_body">@string/lorem_ipsum</string>
@@ -402,7 +402,7 @@
     <string name="submission_positive_dialog_confirmation_title">Share random IDs with the "Corona-Warn" app?</string>
     <string name="submission_positive_dialog_confirmation_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
     <string name="submission_positive_dialog_confirmation_positive">Allow</string>
-    <string name="submission_positive_dialog_confirmation_negative">Don't allow</string>
+    <string name="submission_positive_dialog_confirmation_negative">Don\'t allow</string>
     <!-- Submission Done -->
     <string name="submission_done_headline">Thanks a lot!</string>
     <string name="submission_done_body">You have made an important contribution! Thanks to your help, others can be warned and react accordingly.</string>
