@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.ui.information
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.UiConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.CallHelper
+
 
 /**
  * Basic Fragment which only displays static content.
@@ -34,6 +39,9 @@ class InformationContactFragment : BaseFragment() {
     private fun setButtonOnClickListener() {
         binding.informationContactHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
+        }
+        binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
+            CallHelper.call(this, UiConstants.TECHNICAL_HOTLINE)
         }
     }
 }
