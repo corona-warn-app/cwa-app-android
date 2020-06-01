@@ -160,8 +160,8 @@
     <string name="submission_status_card_body_unregistered">Help to break the chain of infection and warn others.</string>
     <string name="submission_status_card_body_pending">The evaluation takes between 1-3 days.</string>
     <string name="submission_status_card_body_invalid">Your test could not be evaluated.</string>
-    <string name="submission_status_card_body_positive">They tested positive for SARS-CoV-2.</string>
-    <string name="submission_status_card_body_negative">They tested negative for SARS-CoV-2.</string>
+    <string name="submission_status_card_body_positive">You tested positive for SARS-CoV-2.</string>
+    <string name="submission_status_card_body_negative">You tested negative for SARS-CoV-2.</string>
     <string name="submission_status_card_button_unregistered">Inform &amp; participate</string>
     <string name="submission_status_card_button_show_results">Show result</string>
     <string name="submission_status_card_button_show_details">Show details</string>
@@ -171,7 +171,7 @@
     ###################################### -->
     <string name="main_title">Overview</string>
     <!-- About COVID-19 -->
-    <string name="main_about_headline">Frequently asked questions</string>
+    <string name="main_about_headline">Frequent questions</string>
     <string name="main_about_body">Find reliable answers and concrete information on how to protect yourself and help others.</string>
 
     <!-- ####################################
