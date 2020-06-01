@@ -192,7 +192,7 @@ object WebRequestBuilder {
     ) =
         suspendCoroutine<String> { cont ->
             val requestID = UUID.randomUUID()
-            val getTestResultRequest =
+            val getTANRequest =
                 TanRequest(
                     url,
                     requestID,
@@ -209,7 +209,7 @@ object WebRequestBuilder {
                     },
                     RequestErrorListener(requestID, cont)
                 )
-            RequestQueueHolder.addToRequestQueue(getTestResultRequest)
+            RequestQueueHolder.addToRequestQueue(getTANRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
         }
 
