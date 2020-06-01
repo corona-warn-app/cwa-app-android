@@ -72,7 +72,7 @@
 
             <include
                 android:id="@+id/settings_navigation_row_system"
-                layout="@layout/include_settings_navigation_row"
+                layout="@layout/include_navigation_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -80,7 +80,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings_switch_row_notifications_test"
-                app:showDivider="@{true}" />
+                app:subtitle="@{@string/settings_notifications_button_open_settings}" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_top"
