@@ -30,7 +30,7 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 
 ## Known Issues
 
-* The Exposure Notification API is going block you from successfully testing the Application unless you are whitelisted inside GMS.
+* The Exposure Notification API is going to block you from successfully testing the Application unless you are whitelisted inside GMS.
 * The Submission Flow is currently not working inside the Test Fragment and is heavily WIP
 * The Exception Handler may not include every exception and thus some Toasts (temporary) might not show the error or cause crashes
 * The Storage is currently based on Encrypted Shared Preferences and SQL Cipher (SQLite) - this could change in the future
