@@ -411,6 +411,25 @@
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
     <string name="submission_done_button_done">Fertig</string>
 
+    <!-- ####################################
+                    Settings
+                    TODO move to settings block
+    ###################################### -->
+    <!-- Tracing -->
+    <string name="settings_tracing_status_active">Aktiv</string>
+    <string name="settings_tracing_status_inactive">Gestoppt</string>
+    <string name="settings_tracing_status_restricted">Eingeschränkt</string>
+    <string name="settings_tracing_body_connection_inactive">Keine Internetverbindung</string>
+    <string name="settings_tracing_body_bluetooth_inactive">Bluetooth deaktiviert</string>
+    <string name="settings_tracing_status_bluetooth_headline">Bluetooth aktivieren</string>
+    <string name="settings_tracing_status_bluetooth_body">Die Risiko-Ermittlung benötigt aktiviertes Bluetooth um Begegnungen zu protokollieren. Bitte aktivieren Sie Bluetooth in Ihren Einstellungen.</string>
+    <string name="settings_tracing_status_bluetooth_button">Einstellungen öffnen</string>
+    <string name="settings_tracing_status_connection_headline">Internetverbindung aktivieren</string>
+    <string name="settings_tracing_status_connection_body">Die Risiko-Ermittlung benötigt eine Internetverbindung um Risikobegegnungen berechnen zu können. Bitte aktivieren Sie WLAN oder Mobile Daten in Ihren Einstellungen.</string>
+    <string name="settings_tracing_status_connection_button">Einstellungen öffnen</string>
+    <string name="settings_tracing_status_body_active">Risiko-Ermittlung ist seit %1$s Tagen aktiv.</string>
+    <string name="settings_tracing_status_body_inactive">Die Risiko-Ermittlung umfasst %1$s von 14 Tagen.</string>
+
 
     <!-- ####################################
            Just for Development
