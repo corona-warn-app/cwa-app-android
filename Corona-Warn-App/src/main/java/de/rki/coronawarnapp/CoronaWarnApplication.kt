@@ -13,9 +13,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver {
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
         private lateinit var instance: CoronaWarnApplication
-
-        var isAppInForeground = true
-
+        var isAppInForeground = false
         fun getAppContext(): Context =
             instance.applicationContext
     }
