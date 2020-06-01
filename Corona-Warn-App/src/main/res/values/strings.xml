@@ -168,6 +168,10 @@
     <string name="submission_status_card_positive_result_title">Positives Ergebnis</string>
     <string name="submission_status_card_positive_result_subtitle">Bitte beachten Sie:</string>
     <string name="submission_status_card_positive_result_show_button">Test-Ergebnis anzeigen</string>
+    <string name="submission_status_card_positive_result_contagious">@string/submission_done_contagious</string>
+    <string name="submission_status_card_positive_result_isolate">@string/submission_done_isolate</string>
+    <string name="submission_status_card_positive_result_share">Teilen Sie Ihre Zufallskennungen, damit andere gewarnt werden können.</string>
+
     <!-- ####################################
                     Main
     ###################################### -->
