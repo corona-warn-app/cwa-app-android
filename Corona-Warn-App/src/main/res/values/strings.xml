@@ -86,9 +86,8 @@
     ###################################### -->
     <!-- Todo remove 'final' comments once all text are finalized -->
     <string name="menu_help">Überblick</string>
-    <string name="menu_information">App Informationen</string>
-    <string name="menu_settings">Einstellungen</string>
-    <string name="menu_share">Teilen Sie die App</string>
+    <string name="menu_information">App-Informationen</string> <!-- final -->
+    <string name="menu_settings">Einstellungen</string> <!-- final -->
 
     <!-- ####################################
                Notification (nt)
@@ -170,18 +169,17 @@
     <!-- ####################################
                     Main
     ###################################### -->
-    <string name="main_title">Übersicht</string>
     <!-- About COVID-19 -->
-    <string name="main_about_headline">Häufige Fragen</string>
-    <string name="main_about_body">Finden Sie verlässliche Antworten und konkrete Informationen, wie Sie sich schützen und anderen helfen können.</string>
+    <string name="main_about_headline">Häufige Fragen</string> <!-- final -->
+    <string name="main_about_body">Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App.</string> <!-- final -->
 
     <!-- ####################################
                    Main - Share
     ###################################### -->
-    <string name="main_share_title">Corona-Warn-App teilen</string>
-    <string name="main_share_headline">Gemeinsam Corona bekämpfen</string>
-    <string name="main_share_body">Je mehr Menschen mitmachen, desto schneller durchbrechen wir dir Infektionsketten. Laden Sie Familie, Freunde und Bekannte zum Download ein!</string>
-    <string name="main_share_button">Download-Link versenden</string>
+    <string name="main_share_title">Corona-Warn-App teilen</string>  <!-- final -->
+    <string name="main_share_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
+    <string name="main_share_body">Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Laden Sie Familie, Freunde und Bekannte ein!</string> <!-- final -->
+    <string name="main_share_button">Download-Link versenden</string> <!-- final -->
     <string name="main_share_message">
         Erzähle es jedem!<xliff:g id="line_break">\n</xliff:g>
         <xliff:g id="hashtag">#</xliff:g>zusammenDieKurveAbflachen<xliff:g id="line_break">\n</xliff:g>
