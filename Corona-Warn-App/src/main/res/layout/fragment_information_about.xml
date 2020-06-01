@@ -25,31 +25,26 @@
                 app:title="@{@string/information_about_title}" />
 
             <TextView
-                android:id="@+id/text_sample_1"
+                android:id="@+id/information_about_body_emphasized"
+                style="@style/textMultilineEmphasized"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/information_about_body_emphasized"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toEndOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/information_about_header" />
 
             <TextView
-                android:id="@+id/text_sample_2"
+                android:id="@+id/information_about_body"
+                style="@style/textMultiline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/information_about_body"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/text_sample_1" />
-
-            <TextView
-                android:id="@+id/text_sample_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/text_sample_2" />
+                app:layout_constraintTop_toBottomOf="@+id/information_about_body_emphasized" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_top"
