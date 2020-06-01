@@ -19,6 +19,7 @@ import kotlin.random.Random
 
 /**
  * Singleton class for notification handling
+ * Notifications should only be sent when the app is not in foreground.
  * The helper uses externalised constants for readability.
  *
  * @see NotificationConstants
@@ -147,6 +148,7 @@ object NotificationHelper {
     /**
      * Send notification
      * Build and send notification with content and visibility.
+     * Notification is only sent if app is not in foreground.
      *
      * @param content: String
      * @param visibility: Int
