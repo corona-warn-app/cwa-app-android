@@ -18,9 +18,6 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
-          name: Sudo GradleWrapper
-          command: chmod +x ./gradlew
-      - run:
           command: ./gradlew quickBuild
           environment:
             JVM_OPTS: -Xmx2048m
