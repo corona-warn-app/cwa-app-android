@@ -29,7 +29,6 @@ enum class RiskLevel(val raw: Int) {
     // this should never happen
     UNDETERMINED(RiskLevelConstants.UNDETERMINED);
 
-
     companion object {
         fun forValue(value: Int): RiskLevel {
             return when (value) {
@@ -42,7 +41,7 @@ enum class RiskLevel(val raw: Int) {
             }
         }
 
-        //risk level categories
+        // risk level categories
         private val HIGH_RISK_LEVELS = arrayOf(INCREASED_RISK)
         private val LOW_RISK_LEVELS = arrayOf(
             UNKNOWN_RISK_INITIAL,
