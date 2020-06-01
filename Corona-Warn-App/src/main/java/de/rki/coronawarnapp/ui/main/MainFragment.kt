@@ -150,9 +150,7 @@ class MainFragment : BaseFragment() {
                         NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
                             .toString()
                     )
-                    NotificationHelper.createNotificationChannel()
                     NotificationHelper.sendNotification(
-                        getString(R.string.notification_headline),
                         getString(R.string.notification_body),
                         NotificationCompat.PRIORITY_HIGH
                     )

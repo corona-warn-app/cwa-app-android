@@ -1,31 +1,22 @@
 package de.rki.coronawarnapp.transaction
 
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel
-import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
-import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
-import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
-import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevel.*
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
 import de.rki.coronawarnapp.service.riskscoreclassification.RiskScoreClassificationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_INCREASED_RISK
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_TRACING
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_OUTDATED
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CLOSE
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_RISK_THRESHOLD
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.*
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
@@ -444,6 +435,13 @@ object RiskLevelTransaction : Transaction() {
      * @param riskLevel
      */
     private fun updateRiskLevelScore(riskLevel: RiskLevel) {
+        val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
+        if (RiskLevel.riskLevelChangedBetweenLowAndHigh(lastCalculatedScore, riskLevel)) {
+            NotificationHelper.sendNotification(
+                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
+                NotificationCompat.PRIORITY_HIGH
+            )
+        }
         RiskLevelRepository.setRiskLevelScore(riskLevel)
     }
 

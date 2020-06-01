@@ -91,14 +91,23 @@ object NotificationHelper {
     private fun buildNotification(title: String, content: String, visibility: Int): Notification? {
         val builder = NotificationCompat.Builder(CoronaWarnApplication.getAppContext(), channelId)
             .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
-            .setContentTitle(title)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setVisibility(visibility)
             .setContentIntent(createPendingIntentToMainActivity())
             .setAutoCancel(true)
 
+        if (title.isNotEmpty()) {
+            builder.setContentTitle(title)
+        }
+
         if (visibility == NotificationCompat.VISIBILITY_PRIVATE) {
-            builder.setPublicVersion(buildNotification(title, content, NotificationCompat.VISIBILITY_PUBLIC))
+            builder.setPublicVersion(
+                buildNotification(
+                    title,
+                    content,
+                    NotificationCompat.VISIBILITY_PUBLIC
+                )
+            )
         } else if (visibility == NotificationCompat.VISIBILITY_PUBLIC) {
             builder.setContentText(content)
         }
@@ -137,16 +146,17 @@ object NotificationHelper {
 
     /**
      * Send notification
-     * Build and send notification with predefined title and content.
-     * Visibility is auto set to NotificationCompat.VISIBILITY_PRIVATE
+     * Build and send notification with content and visibility.
      *
-     * @param title: String
      * @param content: String
-     *
-     * @see NotificationCompat.VISIBILITY_PRIVATE
+     * @param visibility: Int
      */
-    fun sendNotification(title: String, content: String) {
-        sendNotification(title, content, NotificationCompat.VISIBILITY_PRIVATE)
+    fun sendNotification(content: String, visibility: Int) {
+        createNotificationChannel()
+        val notification = buildNotification("", content, visibility) ?: return
+        with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
+            notify(Random.nextInt(), notification)
+        }
     }
 
     /**

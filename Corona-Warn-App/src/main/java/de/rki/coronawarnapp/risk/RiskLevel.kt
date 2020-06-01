@@ -29,6 +29,7 @@ enum class RiskLevel(val raw: Int) {
     // this should never happen
     UNDETERMINED(RiskLevelConstants.UNDETERMINED);
 
+
     companion object {
         fun forValue(value: Int): RiskLevel {
             return when (value) {
@@ -39,6 +40,41 @@ enum class RiskLevel(val raw: Int) {
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> UNKNOWN_RISK_OUTDATED_RESULTS
                 else -> UNDETERMINED
             }
+        }
+
+        //risk level categories
+        private val HIGH_RISK_LEVELS = arrayOf(INCREASED_RISK)
+        private val LOW_RISK_LEVELS = arrayOf(
+            UNKNOWN_RISK_INITIAL,
+            NO_CALCULATION_POSSIBLE_TRACING_OFF,
+            LOW_LEVEL_RISK,
+            UNKNOWN_RISK_OUTDATED_RESULTS
+        )
+
+        /**
+         * Checks if the RiskLevel has change from a high to low or from low to high
+         *
+         * @param previousRiskLevel previously persisted RiskLevel
+         * @param currentRiskLevel newly calculated RiskLevel
+         * @return
+         */
+        fun riskLevelChangedBetweenLowAndHigh(
+            previousRiskLevel: RiskLevel,
+            currentRiskLevel: RiskLevel
+        ): Boolean {
+            var riskLevelChangedBetweenLowAndHigh = false
+            if (HIGH_RISK_LEVELS.contains(previousRiskLevel) && LOW_RISK_LEVELS.contains(
+                    currentRiskLevel
+                )
+            ) {
+                riskLevelChangedBetweenLowAndHigh = true
+            } else if (LOW_RISK_LEVELS.contains(previousRiskLevel) && HIGH_RISK_LEVELS.contains(
+                    currentRiskLevel
+                )
+            ) {
+                riskLevelChangedBetweenLowAndHigh = true
+            }
+            return riskLevelChangedBetweenLowAndHigh
         }
     }
 }
