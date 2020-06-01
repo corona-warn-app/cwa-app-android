@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#development">Development</a> •
-  <a href="#architecture--documentation">Documenation</a> •
+  <a href="#architecture--documentation">Documentation</a> •
   <a href="#how-to-contribute">Contribute</a> •
   <a href="#support--feedback">Support</a> •
   <a href="https://github.com/corona-warn-app/cwa-app-android/releases">Changelog</a> •
