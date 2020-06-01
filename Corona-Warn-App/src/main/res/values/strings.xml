@@ -369,7 +369,7 @@
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- Submission Tan -->
     <string name="submission_tan_title">TAN Eingabe</string>
-    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
+    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig.</string>
     <string name="submission_tan_button_text">Weiter</string>
     <!-- Submission Intro -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
