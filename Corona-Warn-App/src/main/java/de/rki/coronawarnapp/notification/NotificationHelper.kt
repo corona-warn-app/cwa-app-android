@@ -136,7 +136,7 @@ object NotificationHelper {
      * @param content: String
      * @param visibility: Int
      */
-    fun sendNotification(title: String, content: String, visibility: Int) {
+    private fun sendNotification(title: String, content: String, visibility: Int) {
         createNotificationChannel()
         val notification = buildNotification(title, content, visibility) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
@@ -152,10 +152,8 @@ object NotificationHelper {
      * @param visibility: Int
      */
     fun sendNotification(content: String, visibility: Int) {
-        createNotificationChannel()
-        val notification = buildNotification("", content, visibility) ?: return
-        with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
-            notify(Random.nextInt(), notification)
+        if (!CoronaWarnApplication.isAppInForeground) {
+            sendNotification("", content, visibility)
         }
     }
 
