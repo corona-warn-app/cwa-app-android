@@ -86,6 +86,11 @@ class MainFragment : BaseFragment() {
                 MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
             )
         }
+        binding.mainTestPositive.submissionStatusCardPositiveResultShowButton.setOnClickListener {
+            doNavigate(
+                MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
+            )
+        }
         binding.mainTest.submissionStatusCardUnregistered.submissionStatusCardUnregisteredButton.setOnClickListener {
             doNavigate(
                 MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()

@@ -156,3 +156,12 @@ fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
     R.color.textColorLight,
     R.color.colorGreyDisabled
 )
+
+fun formatShowSubmissionStatusCard(testResult: TestResult?): Int =
+    formatVisibility(testResult != POSITIVE)
+
+fun formatShowSubmissionStatusPositiveCard(testResult: TestResult?): Int =
+    formatVisibility(testResult == POSITIVE)
+
+fun formatShowRiskStatusCard(testResult: TestResult?): Int =
+    formatVisibility(testResult != POSITIVE)

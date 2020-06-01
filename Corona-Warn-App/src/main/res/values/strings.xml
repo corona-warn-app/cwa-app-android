@@ -165,7 +165,9 @@
     <string name="submission_status_card_button_unregistered">Informieren &amp; mitmachen</string>
     <string name="submission_status_card_button_show_results">Ergebnis anzeigen</string>
     <string name="submission_status_card_button_show_details">Details anzeigen</string>
-
+    <string name="submission_status_card_positive_result_title">Positives Ergebnis</string>
+    <string name="submission_status_card_positive_result_subtitle">Bitte beachten Sie:</string>
+    <string name="submission_status_card_positive_result_show_button">Test-Ergebnis anzeigen</string>
     <!-- ####################################
                     Main
     ###################################### -->
