@@ -298,7 +298,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
             .minus(TimeUnit.MINUTES.toMillis(30))
 
-        // teh active tracing duration is above the threshold
+        // the active tracing duration is above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
         coEvery { RiskScoreClassificationService.asyncRetrieveRiskScoreClassification() } returns testRiskScoreClassification

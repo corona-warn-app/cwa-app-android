@@ -33,7 +33,7 @@ Once a user is tested positive the Diagnosis Key Submission component can be use
 ### Google Exposure Notification
 [Link to Google's page](https://www.google.com/covid19/exposurenotifications/)
 
-### ZXing Embeded
+### ZXing Embedded
 Barcode scanning library by https://journeyapps.com/ based on ZXing decoder.
 
 This library is being used for embedded QR code scanning process during TAN submission to help end users of the application quickly submit their SARS-CoV-2 results without installing additional scanning software.
@@ -93,7 +93,7 @@ Databinding is the final component to connect the various view types and viewmod
 ## Storage and Encryption
 
 ### Database
-The [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room) is used to store Exposure Summaries retrieved from the Exposure Notification API. These are used to calculate risks levels in accordance to specifications provided by the Robert Koch-Institut. Also we use it as a local persistance library for various complex data structures, e.g. cached date intervals or a map to our downloaded key files. The Room Library uses SQLite by default.
+The [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room) is used to store Exposure Summaries retrieved from the Exposure Notification API. These are used to calculate risks levels in accordance to specifications provided by the Robert Koch-Institut. Also we use it as a local persistence library for various complex data structures, e.g. cached date intervals or a map to our downloaded key files. The Room Library uses SQLite by default.
 
 [SQLCipher](https://www.zetetic.net/sqlcipher/) is used to encrypt the database. Thus a key is initialised for the database access the first time we access it. The AppDatabase stores the key inside the shared preferences, which are themselves encrypted and bound to the master key from the android key store. On application reset (in the settings), the complete database is reinitialised. The password is randomly generated and is not used outside the storage package for accessing the data.
 
@@ -116,7 +116,7 @@ Concrete Data Objects:
 * database password
 * flag to check if we can submit diagnosis keys
 * the number of successful submissions
-* a flag that stores wether notifications are enabled
+* a flag that stores whether notifications are enabled
 * the token used for accessing the exposure summaries
 * the last time diagnosis keys were retrieved manually
 * the last time diagnosis keys were fetched from the server
