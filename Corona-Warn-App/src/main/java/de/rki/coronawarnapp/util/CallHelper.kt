@@ -5,7 +5,7 @@ import android.net.Uri
 import de.rki.coronawarnapp.ui.BaseFragment
 
 /**
- * Helper class for intents triggering a phone call
+ * Helper object for intents triggering a phone call
  * todo unify once necessary intents are final with share, external url and others
  */
 object CallHelper {

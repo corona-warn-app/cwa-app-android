@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.information
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +9,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.UiConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.CallHelper
-
 
 /**
  * Basic Fragment which only displays static content.
