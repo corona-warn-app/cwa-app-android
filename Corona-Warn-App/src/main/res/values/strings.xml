@@ -84,7 +84,9 @@
     <!-- ####################################
                      Menu
     ###################################### -->
-    <!-- Todo remove 'final' comments once all text are finalized -->
+    <!-- Todo remove 'final' comments once all text are finalized, strings flagged with final can still change however its unlikely  -->
+    <!-- Todo pluralize strings when necessary -->
+    <!-- Todo include date formats when necessary -->
     <string name="menu_help">Überblick</string>
     <string name="menu_information">App-Informationen</string> <!-- final -->
     <string name="menu_settings">Einstellungen</string> <!-- final -->
