@@ -24,7 +24,7 @@ object SubmissionRepository {
 
         if (initialTestResultReceivedTimestamp == null) {
             val currentTime = System.currentTimeMillis()
-            LocalData.initialTracingActivationTimestamp(currentTime)
+            LocalData.inititalTestResultReceivedTimestamp(currentTime)
             testResultReceivedDate.value = Date(currentTime)
         } else {
             testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
