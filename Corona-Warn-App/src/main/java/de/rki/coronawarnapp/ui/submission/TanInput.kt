@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_4
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_5
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_6
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_7
-import java.util.Locale
 
 class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -46,7 +45,7 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     }
 
     private fun updateTan(text: CharSequence?) {
-        this.tan = text?.toString()?.toUpperCase(Locale.getDefault())
+        this.tan = text?.toString()
         updateDigits()
         notifyListener()
     }
