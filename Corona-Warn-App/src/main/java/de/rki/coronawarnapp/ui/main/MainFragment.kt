@@ -23,11 +23,12 @@ import de.rki.coronawarnapp.util.OpenUrlHelper
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
- * Two ViewModels are needed that this fragment shows all relevant information to the user.
+ * Three ViewModels are needed that this fragment shows all relevant information to the user.
  * Also the Menu is set here.
  *
  * @see tracingViewModel
  * @see settingsViewModel
+ * @see submissionViewModel
  * @see PopupMenu
  */
 class MainFragment : BaseFragment() {
@@ -82,6 +83,11 @@ class MainFragment : BaseFragment() {
             )
         }
         binding.mainTest.submissionStatusCardContent.submissionStatusCardContentButton.setOnClickListener {
+            doNavigate(
+                MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
+            )
+        }
+        binding.mainTestPositive.submissionStatusCardPositiveResultShowButton.setOnClickListener {
             doNavigate(
                 MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
             )

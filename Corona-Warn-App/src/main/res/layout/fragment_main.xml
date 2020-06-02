@@ -6,6 +6,7 @@
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
             name="submissionViewModel"
@@ -125,6 +126,7 @@
             <include
                 android:id="@+id/main_risk"
                 layout="@layout/include_risk_card"
+                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.testResult)}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -136,14 +138,27 @@
                 app:tracingViewModel="@{tracingViewModel}" />
 
             <include
+                android:id="@+id/main_test_positive"
+                layout="@layout/include_submission_status_card_positive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusPositiveCard(submissionViewModel.testResult)}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/main_risk"
+                app:registerDate="@{submissionViewModel.testResultReceivedDate}" />
+
+            <include
                 android:id="@+id/main_test"
                 layout="@layout/include_submission_status_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusCard(submissionViewModel.testResult)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_risk"
+                app:layout_constraintTop_toBottomOf="@+id/main_test_positive"
                 app:submissionViewModel="@{submissionViewModel}" />
 
             <include
