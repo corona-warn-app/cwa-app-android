@@ -1,15 +1,19 @@
 package de.rki.coronawarnapp
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import de.rki.coronawarnapp.notification.NotificationHelper
 
-class CoronaWarnApplication : Application(), LifecycleObserver {
+class CoronaWarnApplication : Application(), LifecycleObserver,
+    Application.ActivityLifecycleCallbacks {
 
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
@@ -31,6 +35,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver {
         NotificationHelper.createNotificationChannel()
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        registerActivityLifecycleCallbacks(this)
     }
 
     /**
@@ -49,5 +54,37 @@ class CoronaWarnApplication : Application(), LifecycleObserver {
     fun onAppForegrounded() {
         isAppInForeground = true
         Log.v(TAG, "App foregrounded")
+    }
+
+    override fun onActivityPaused(activity: Activity) {
+        // does not override function. Empty on intention
+    }
+
+    override fun onActivityStarted(activity: Activity) {
+        // does not override function. Empty on intention
+    }
+
+    override fun onActivityDestroyed(activity: Activity) {
+        // does not override function. Empty on intention
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        // does not override function. Empty on intention
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+        // does not override function. Empty on intention
+    }
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        // prevents screenshot of the app for all activities
+        activity.window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+    }
+
+    override fun onActivityResumed(activity: Activity) {
+        // does not override function. Empty on intention
     }
 }
