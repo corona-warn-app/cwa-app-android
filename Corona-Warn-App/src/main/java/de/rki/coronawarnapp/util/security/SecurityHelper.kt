@@ -29,7 +29,6 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.OkHttp3Stack
 import java.security.KeyStore
 
-
 /**
  * Key Store and Password Access
  */
@@ -68,7 +67,6 @@ object SecurityHelper {
         .getKey(masterKeyAlias, null)
         .toString()
         .toCharArray()
-
 
     fun getPinnedWebStack(appContext: Context): RequestQueue {
         return Volley.newRequestQueue(appContext, OkHttp3Stack(appContext))

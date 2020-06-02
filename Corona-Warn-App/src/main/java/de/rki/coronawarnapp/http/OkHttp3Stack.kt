@@ -7,7 +7,6 @@ import com.android.volley.toolbox.BaseHttpStack
 import com.android.volley.toolbox.HttpResponse
 import de.rki.coronawarnapp.risk.TimeVariables
 import okhttp3.Cache
-import okhttp3.CertificatePinner
 import okhttp3.ConnectionPool
 import okhttp3.ConnectionSpec
 import okhttp3.Headers
@@ -18,8 +17,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.TlsVersion
 import java.io.File
-import java.util.ArrayList
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 /**
@@ -172,7 +169,7 @@ class OkHttp3Stack(context: Context, interceptors: List<Interceptor>) : BaseHttp
 
         val spec: ConnectionSpec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
             .tlsVersions(TlsVersion.TLS_1_2, TlsVersion.TLS_1_3)
-            .allEnabledCipherSuites() //TODO clarify more concrete Ciphers
+            .allEnabledCipherSuites() // TODO clarify more concrete Ciphers
             .build()
 
         clientBuilder.connectionSpecs(listOf(spec))
