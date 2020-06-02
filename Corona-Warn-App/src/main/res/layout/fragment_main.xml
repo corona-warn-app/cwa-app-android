@@ -26,7 +26,7 @@
         android:fillViewport="true"
         tools:context="de.rki.coronawarnapp.ui.main.MainFragment">
 
-        <!-- todo apply merge tags throught xml when applicable (eod) -->
+        <!-- todo apply merge tags through xml when applicable (eod) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -94,7 +94,7 @@
                     style="@style/textLargeEmphasized"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{FormatterSettingsHelper.formatTracingText(tracingViewModel.isTracingEnabled())}"
+                    android:text="@{FormatterSettingsHelper.formatTracingDescription(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,8 +105,8 @@
                     android:layout_width="@dimen/icon_size_main_card"
                     android:layout_height="@dimen/icon_size_main_card"
                     android:importantForAccessibility="no"
-                    android:src="@{FormatterSettingsHelper.formatTracingIcon(tracingViewModel.isTracingEnabled())}"
-                    android:tint="@{FormatterSettingsHelper.formatTracingIconColor(tracingViewModel.isTracingEnabled())}"
+                    android:src="@{FormatterSettingsHelper.formatTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    android:tint="@{FormatterSettingsHelper.formatTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

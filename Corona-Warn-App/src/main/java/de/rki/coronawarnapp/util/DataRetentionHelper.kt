@@ -24,7 +24,6 @@ import android.util.Log
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
-import java.util.UUID
 
 /**
  * Helper for supplying functionality regarding Data Retention
@@ -44,7 +43,6 @@ object DataRetentionHelper {
         LocalData.getSharedPreferenceInstance().edit().clear().apply()
         // Delete Database Instance
         AppDatabase.resetInstance(context)
-        LocalData.databasePassword(UUID.randomUUID().toString().toCharArray())
         // Export File Reset
         FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
         Log.w(TAG, "CWA LOCAL DATA DELETION COMPLETED.")
