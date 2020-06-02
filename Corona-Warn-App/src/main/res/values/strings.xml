@@ -164,7 +164,7 @@
     <string name="submission_status_card_body_fetching">Das Ergebnis wird aktualisiert</string>
     <string name="submission_status_card_body_unregistered">Helfen Sie mit, die Infektionskette zu durchbrechen und warnen Sie Andere.</string>
     <string name="submission_status_card_body_pending">Die Auswertung dauert zwischen 1–3 Tagen.</string>
-    <string name="submission_status_card_body_invalid">Ihr test könnte nicht ausgewertet werden.</string>
+    <string name="submission_status_card_body_invalid">Ihr Test konnte nicht ausgewertet werden.</string>
     <string name="submission_status_card_body_positive">Sie wurden positiv auf SARS-CoV-2 getestet.</string>
     <string name="submission_status_card_body_negative">Sie wurden negativ auf SARS-CoV-2 getestet.</string>
     <string name="submission_status_card_button_unregistered">Informieren &amp; mitmachen</string>
@@ -232,13 +232,13 @@
     <string name="onboarding_button_finish">Weiter</string> <!-- final -->
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <string name="onboarding_button_next">Weiter</string>
-    <string name="onboarding_button_start">Los Geht\'s</string> <!-- final -->
+    <string name="onboarding_button_start">Los geht\'s</string> <!-- final -->
     <string name="onboarding_button_back_description">Zurück</string>
     <!-- 1 Together -->
     <string name="onboarding_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
     <string name="onboarding_subtitle">Mehr Schutz für Sie und uns alle. Mit der Corona-Warn-App durchbrechen wir Infektionsketten schneller.</string> <!-- final -->
-    <string name="onboarding_body">Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen infizierte Personen in ihrer Nähe waren.</string> <!-- final -->
-    <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string> <!-- final -->
+    <string name="onboarding_body">Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen infizierte Personen in Ihrer Nähe waren.</string> <!-- final -->
+    <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem Ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string> <!-- final -->
     <!-- 2 Privacy -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
     <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
@@ -272,8 +272,8 @@
     <string name="settings_tracing_title">Risiko-Ermittlung</string>
     <string name="settings_tracing_headline">Aktivieren Sie die Aufzeichnung Ihrer Begegnungen</string>
     <string name="settings_tracing_body_description">Erlauben Sie Erfassung und Weitergabe von Covid-19-Zufalls-IDs.</string>
-    <string name="settings_tracing_body_active">Risiko-Ermittlung Aktiv</string>
-    <string name="settings_tracing_body_inactive">Risiko-Ermittlung Gestoppt</string>
+    <string name="settings_tracing_body_active">Risiko-Ermittlung aktiv</string>
+    <string name="settings_tracing_body_inactive">Risiko-Ermittlung gestoppt</string>
     <string name="settings_tracing_body_active_description">Risiko-Ermittlung ist aktiv. Eine verlässliche Risikoprüfung kann nur mit dauerhaft aktivierter Risiko-Ermittlung durchgeführt werden.</string>
     <string name="settings_tracing_body_inactive_description">Risiko-Ermittlung ist gestoppt. Eine verlässliche Risikoprüfung kann nur mit dauerhaft aktivierter Risiko-Ermittlung durchgeführt werden.</string>
     <string name="settings_tracing_body_text">@string/lorem_ipsum</string>
@@ -294,14 +294,14 @@
     <string name="settings_notifications_title">Mitteilungen</string>
     <string name="settings_notifications_headline_active">Möchten Sie Mitteilungen zu Ihrem Covid-19-Risikostatus aktivieren?</string>
     <string name="settings_notifications_headline_inactive">Mitteilungen sind deaktiviert</string>
-    <string name="settings_notifications_body_description">Erlauben Sie automatische Mitteilungen zu Covid-19-Risikostatus.</string>
+    <string name="settings_notifications_body_description">Erlauben Sie automatische Mitteilungen zu Ihrem Covid-19-Risikostatus.</string>
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <string name="settings_notifications_body_inactive">Um Mitteilungen zu aktivieren, müssen Sie Mitteilungen für die Corona-Warn-App in Ihren Telefoneinstellungen zulassen.</string>
     <string name="settings_notifications_subtitle_notification">@string/settings_notifications_title</string>
     <string name="settings_notifications_subtitle_update_risk">Ändern Ihres Infektionsrisikos</string>
     <string name="settings_notifications_subtitle_update_test">Status Ihres COVID-19-Tests</string>
     <string name="settings_notifications_subtitle_update_news">Update zu COVID-19</string>
-    <string name="settings_notifications_subtitle_update_app">Neue App Funktionen</string>
+    <string name="settings_notifications_subtitle_update_app">Neue App-Funktionen</string>
     <string name="settings_notifications_button_open_settings">Einstellungen öffnen</string>
     <!-- Reset-->
     <string name="settings_reset_title">Anwendung zurücksetzen</string>
@@ -342,13 +342,13 @@
              TODO: rename if screens are available
     ###################################### -->
     <!-- Permission Rationale Dialog -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
+    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera-Berechtigung benötigt</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_body">@string/lorem_ipsum</string>
 
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
     <!-- Permission Denied Dialog -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">Keine Kamera Berechtigung</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_headline">Keine Kamera-Berechtigung</string>
     <string name="submission_qr_code_scan_permission_denied_dialog_body">@string/lorem_ipsum</string>
 
     <string name="submission_qr_code_scan_permission_denied_dialog_button_positive">Zurück</string>
@@ -365,9 +365,9 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">Erneut versuchen</string>
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">Abbrechen</string>
     <!-- QR Code Scan Screen -->
-    <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
+    <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code im Rahmen</string>
     <!-- Register Device Screen -->
-    <string name="submission_register_device_headline">Gerät Registrieren</string>
+    <string name="submission_register_device_headline">Gerät registrieren</string>
     <string name="submission_register_device_body">@string/lorem_ipsum</string>
     <!-- Submission Test Result -->
     <string name="submission_test_result_headline">Testergebnis</string>
@@ -382,22 +382,22 @@
     <string name="submission_test_result_pending_refresh_button">Aktualisieren</string>
     <string name="submission_test_result_pending_remove_test_button">Test entfernen</string>
 
-    <string name="submission_test_result_negative_steps_negative_heading">Testergebnis Negativ</string>
+    <string name="submission_test_result_negative_steps_negative_heading">Testergebnis negativ</string>
     <string name="submission_test_result_negative_steps_negative_body">Ihr Testergebnis wurde erfolgreich als “Negativ” verifiziert. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
     <string name="submission_test_result_negative_remove_test_button">Test entfernen</string>
 
-    <string name="submission_test_result_positive_steps_positive_heading">Testergebnis Positiv</string>
+    <string name="submission_test_result_positive_steps_positive_heading">Testergebnis positiv</string>
     <string name="submission_test_result_positive_steps_positive_body">Ihr Testergebnis wurde erfolgreich als “Positiv” verifiziert.</string>
     <string name="submission_test_result_positive_steps_warning_others_heading">Andere warnen</string>
     <string name="submission_test_result_positive_steps_warning_others_body">Teilen Sie Ihre Zufallskennungen, damit andere gewarnt werden können.</string>
     <string name="submission_test_result_positive_continue_button">Weiter</string>
 
     <string name="submission_test_result_invalid_steps_invalid_heading">Test fehlerhaft</string>
-    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt, um Informationen zum weiteren Vorgehen zu erhalten. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- Submission Tan -->
     <string name="submission_tan_title">TAN Eingabe</string>
-    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig.</string>
+    <string name="submission_tan_body">Geben Sie bitte den TAN-Code ihres Befundes ein. Die TAN ist 7-stellig.</string>
     <string name="submission_tan_button_text">Weiter</string>
     <!-- Submission Intro -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
@@ -413,13 +413,13 @@
 
     <string name="submission_dispatcher_subheadline">Welche Informationen liegen Ihnen vor?</string>
     <string name="submission_dispatcher_card_qr">Dokument mit QR-Code</string>
-    <string name="submission_dispatcher_qr_card_text">Verifizieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string>
+    <string name="submission_dispatcher_qr_card_text">Verifizieren Sie Ihren Test, indem Sie den QR-Code Ihres Test-Dokument scannen</string>
 
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
-    <string name="submission_dispatcher_tan_code_card_text">Verifizieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <string name="submission_dispatcher_tan_code_card_text">Verifizieren Sie Ihren Test per manueller TAN Eingabe</string>
 
     <string name="submission_dispatcher_card_tan_tele">TAN telefonisch anfragen</string>
-    <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string>
+    <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie positiv getestet wurden</string>
 
     <!-- Submission Positive Other Warning -->
     <string name="submission_positive_other_warning_title">Andere warnen</string>
@@ -432,7 +432,7 @@
     <string name="submission_positive_dialog_confirmation_positive">Erlauben</string>
     <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string>
     <!-- Submission Done -->
-    <string name="submission_done_headline">Vielen dank!</string>
+    <string name="submission_done_headline">Vielen Dank!</string>
     <string name="submission_done_body">Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren.</string>
     <string name="submission_done_subtitle">Bitte beachten Sie:</string>
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
