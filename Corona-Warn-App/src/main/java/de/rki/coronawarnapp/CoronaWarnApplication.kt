@@ -72,7 +72,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        //prevents screenshot of the app for all activities
+        // prevents screenshot of the app for all activities
         activity.window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
