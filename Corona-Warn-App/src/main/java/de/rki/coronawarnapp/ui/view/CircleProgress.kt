@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
@@ -11,7 +10,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
-
 
 class CircleProgress @JvmOverloads constructor(
     context: Context,
@@ -49,13 +47,13 @@ class CircleProgress @JvmOverloads constructor(
         textView.setTextColor(textColor)
         textView.isEnabled = textEnabled
         textView.visibility = if (textEnabled) View.VISIBLE else View.INVISIBLE
-        secondaryPaint =  Paint().apply {
+        secondaryPaint = Paint().apply {
             color = secondaryColor
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
             isAntiAlias = true
         }
-        progressPaint =  Paint().apply {
+        progressPaint = Paint().apply {
             color = progressColor
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
