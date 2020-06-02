@@ -57,18 +57,23 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityPaused(activity: Activity) {
+        // does not override function. Empty on intention
     }
 
     override fun onActivityStarted(activity: Activity) {
+        // does not override function. Empty on intention
     }
 
     override fun onActivityDestroyed(activity: Activity) {
+        // does not override function. Empty on intention
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        // does not override function. Empty on intention
     }
 
     override fun onActivityStopped(activity: Activity) {
+        // does not override function. Empty on intention
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -80,5 +85,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityResumed(activity: Activity) {
+        // does not override function. Empty on intention
     }
 }
