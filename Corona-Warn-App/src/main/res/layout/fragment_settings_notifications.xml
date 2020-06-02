@@ -53,8 +53,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/settings_details_header_notifications"
                 app:showDivider="@{true}"
                 app:status="@{settingsViewModel.isNotificationsRiskEnabled()}"
-                app:subtitle="@{@string/settings_notifications_subtitle_update_risk}"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isNotificationsRiskEnabled())}"
+                app:subtitle="@{@string/settings_notifications_subtitle_update_risk}" />
 
             <include
                 android:id="@+id/settings_switch_row_notifications_test"
@@ -67,8 +67,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/settings_switch_row_notifications_risk"
                 app:showDivider="@{true}"
                 app:status="@{settingsViewModel.isNotificationsTestEnabled()}"
-                app:subtitle="@{@string/settings_notifications_subtitle_update_test}"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isNotificationsRiskEnabled())}"
+                app:subtitle="@{@string/settings_notifications_subtitle_update_test}" />
 
             <include
                 android:id="@+id/settings_navigation_row_system"
