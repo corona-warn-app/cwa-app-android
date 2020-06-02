@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
         <variable
             name="illustration"
             type="android.graphics.drawable.Drawable" />
@@ -84,11 +86,12 @@
 
             <TextView
                 android:id="@+id/onboarding_body_emphasized"
-                style="@style/textMultilineEmphasized"
+                style="@style/textMultiline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{bodyEmphasized}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(bodyEmphasized)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body"
