@@ -45,7 +45,7 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
         ?.convertToExposureSummary()
         .also {
             matchedKeyCount.postValue(it?.matchedKeyCount)
-            daysSinceLastExposure.postValue(10)
+            daysSinceLastExposure.postValue(it?.daysSinceLastExposure)
         }
 
     private fun ExposureSummaryEntity.convertToExposureSummary() = ExposureSummary.ExposureSummaryBuilder()
