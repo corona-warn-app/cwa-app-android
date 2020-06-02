@@ -123,7 +123,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:circleWidth="10"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:progress="13" />
+                        app:progress="@{tracingViewModel.daysSinceLastExposure}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

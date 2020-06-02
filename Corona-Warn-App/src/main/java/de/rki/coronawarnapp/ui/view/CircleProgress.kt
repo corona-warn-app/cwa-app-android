@@ -5,11 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.ViewCircleProgressBinding
 import de.rki.coronawarnapp.risk.TimeVariables
-import kotlinx.android.synthetic.main.view_circle_progress.view.circle_progress_text
 
 class CircleProgress @JvmOverloads constructor(
     context: Context,
@@ -25,7 +27,7 @@ class CircleProgress @JvmOverloads constructor(
 
     //val
     private val maxProgress = DEFAULT_MAX_PROGRESS
-    private val secondaryPaint: Paint
+    private val circlePaint: Paint
     private val progressPaint: Paint
     private val rect = RectF()
 
@@ -35,32 +37,44 @@ class CircleProgress @JvmOverloads constructor(
     private var radius: Float = 0f
     private var progressWidth: Float = 0f
 
-    private var progress: Int = 0
+    var progress: Int = 0
         set(value) {
-            circle_progress_text.text = value.toString()
             field = value
+            if (value == maxProgress) {
+                binding.circleProgressText.text = ""
+                binding.circleProgressText.visibility = View.GONE
+                binding.circleProgressIcon.visibility = View.VISIBLE
+            } else {
+                binding.circleProgressText.visibility = View.VISIBLE
+                binding.circleProgressIcon.visibility = View.GONE
+                binding.circleProgressText.text = value.toString()
+            }
             invalidate()
         }
 
+
+    private var binding: ViewCircleProgressBinding
+
     init {
         setWillNotDraw(false)
+        binding = ViewCircleProgressBinding.inflate(LayoutInflater.from(context), this)
+
+
         val styleAttrs = context.obtainStyledAttributes(attrs, R.styleable.CircleProgress)
-        inflate(context, R.layout.view_circle_progress, this)
-        val secondaryColor = styleAttrs.getColor(R.styleable.CircleProgress_secondaryColor,
-            ContextCompat.getColor(context, R.color.colorGrey))
+        val circleColor = styleAttrs.getColor(
+            R.styleable.CircleProgress_secondaryColor,
+            ContextCompat.getColor(context, R.color.colorGreyLight)
+        )
         val progressColor = styleAttrs.getColor(R.styleable.CircleProgress_progressColor,
             ContextCompat.getColor(context, R.color.colorPrimary))
         val textColor = styleAttrs.getColor(R.styleable.CircleProgress_textColor,
             ContextCompat.getColor(context, R.color.colorGrey))
         progressWidth = styleAttrs.getFloat(R.styleable.CircleProgress_circleWidth, DEFAULT_WIDTH)
         progress = styleAttrs.getInt(R.styleable.CircleProgress_progress, 0)
-        val progressText = progress.toString()
-        val textView = circle_progress_text
-        textView.text = progressText
+        val textView = binding.circleProgressText
         textView.setTextColor(textColor)
-        // textView.visibility = if (progressText == "") View.VISIBLE else View.INVISIBLE
-        secondaryPaint = Paint().apply {
-            color = secondaryColor
+        circlePaint = Paint().apply {
+            color = circleColor
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
             isAntiAlias = true
@@ -70,6 +84,7 @@ class CircleProgress @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
             isAntiAlias = true
+            strokeCap = Paint.Cap.ROUND
         }
         styleAttrs.recycle()
     }
@@ -88,7 +103,7 @@ class CircleProgress @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawCircle(centerX, centerY, radius, secondaryPaint)
+        canvas?.drawCircle(centerX, centerY, radius, circlePaint)
         canvas?.drawArc(
             rect,
             START_ANGLE,
