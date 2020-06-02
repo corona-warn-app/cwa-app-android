@@ -31,7 +31,7 @@
 
     <!-- Light/Grey Colors -->
     <color name="colorLight">#ffffff</color>
-    <color name="colorGrey">#C3C3C3</color>
+    <color name="colorGrey">#747576</color>
     <color name="colorGreyLight">#F5F5F5</color>
     <color name="colorGreyDisabled">#9917191A</color>
 
@@ -41,10 +41,11 @@
     <color name="textColorLight">#ffffff</color>
     <color name="textColorRed">#C00F2D</color>
     <color name="textColorBlue">#2C79A9</color>
+    <color name="textColorGrey">#747576</color>
 
     <!-- Visual Elements -->
     <color name="dividerColor">#0D000000</color>
-    <color name="iconColor">#000000</color>
+    <color name="iconColor">@color/colorGrey</color>
 
     <!-- Stable Colors -->
     <color name="stableBackgroundColor">#ffffff</color>
