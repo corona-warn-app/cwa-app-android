@@ -47,6 +47,9 @@
     <string name="preference_m_registration_token">
         <xliff:g id="preference">preference_m_registration_token</xliff:g>
     </string>
+    <string name="preference_device_pairing_successful_time">
+        <xliff:g id="preference">preference_device_pairing_successful_time</xliff:g>
+    </string>
     <string name="preference_initial_tracing_activation_time">
         <xliff:g id="preference">preference_initial_tracing_activation_time</xliff:g>
     </string>
