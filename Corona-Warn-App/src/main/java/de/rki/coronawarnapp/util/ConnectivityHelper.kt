@@ -2,17 +2,14 @@ package de.rki.coronawarnapp.util
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.provider.Settings
 import android.util.Log
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.report
 
-// TODO integrate the ConnectivityHelper into the UI logic (e.g. RiskLevelTransaction)
 object ConnectivityHelper {
     private val TAG: String? = ConnectivityHelper::class.simpleName
 
@@ -59,21 +56,6 @@ object ConnectivityHelper {
             return false
         }
         return bAdapter.isEnabled
-    }
-
-    fun navigateToBluetoothSettings(context: Context, onFailure: () -> Unit? = {}) {
-        val intent = Intent()
-        intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-        try {
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            e.report(
-                ExceptionCategory.CONNECTIVITY,
-                TAG,
-                null
-            )
-            onFailure()
-        }
     }
 
     abstract class NetworkCallback : ConnectivityManager.NetworkCallback() {
