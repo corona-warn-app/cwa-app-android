@@ -114,22 +114,6 @@ fun formatSubmissionStatusCardContentButtonText(testResult: TestResult?): String
     }
 }
 
-fun formatSubmissionStatusCardContentButtonColor(testResult: TestResult?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (testResult) {
-        INVALID, NEGATIVE, POSITIVE -> appContext.getColor(R.color.tracingIconActive)
-        else -> appContext.getColor(R.color.colorLight)
-    }
-}
-
-fun formatSubmissionStatusCardContentButtonTextColor(testResult: TestResult?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (testResult) {
-        INVALID, NEGATIVE, POSITIVE -> appContext.getColor(R.color.colorLight)
-        else -> appContext.getColor(R.color.tracingIconActive)
-    }
-}
-
 fun formatSubmissionStatusCardContentStatusTextVisible(testResult: TestResult?): Int {
     return when (testResult) {
         POSITIVE, NEGATIVE, INVALID -> View.VISIBLE
@@ -174,3 +158,12 @@ fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
     R.color.textColorLight,
     R.color.colorGreyDisabled
 )
+
+fun formatShowSubmissionStatusCard(testResult: TestResult?): Int =
+    formatVisibility(testResult != POSITIVE)
+
+fun formatShowSubmissionStatusPositiveCard(testResult: TestResult?): Int =
+    formatVisibility(testResult == POSITIVE)
+
+fun formatShowRiskStatusCard(testResult: TestResult?): Int =
+    formatVisibility(testResult != POSITIVE)
