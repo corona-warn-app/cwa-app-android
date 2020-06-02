@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.storage
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
@@ -37,12 +38,11 @@ object LocalData {
      *
      * @param value boolean if onboarding was completed
      */
-    fun isOnboarded(value: Boolean) = with(getSharedPreferenceInstance().edit()) {
+    fun isOnboarded(value: Boolean) = getSharedPreferenceInstance().edit(true) {
         putBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_onboarding_completed), value
         )
-        commit()
     }
 
     /****************************************************
@@ -73,7 +73,7 @@ object LocalData {
      * @param value timestamp in ms
      */
     fun initialTracingActivationTimestamp(value: Long) =
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_initial_tracing_activation_time),
@@ -106,7 +106,7 @@ object LocalData {
      *
      * @param value timestamp in ms
      */
-    fun lastNonActiveTracingTimestamp(value: Long?) = with(getSharedPreferenceInstance().edit()) {
+    fun lastNonActiveTracingTimestamp(value: Long?) = getSharedPreferenceInstance().edit(true) {
         // TODO need this for nullable ref, shout not be goto for nullable storage
         putLong(
             CoronaWarnApplication.getAppContext().getString(
@@ -139,7 +139,7 @@ object LocalData {
      */
     fun totalNonActiveTracing(value: Long?) {
         // TODO need this for nullable ref, shout not be goto for nullable storage
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_total_non_active_tracing),
@@ -180,7 +180,7 @@ object LocalData {
      */
     fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) {
         // TODO need this for nullable ref, shout not be goto for nullable storage
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch),
@@ -205,7 +205,7 @@ object LocalData {
      * Sets the last timestamp the user manually triggered the key retrieval process
      */
     fun lastTimeManualDiagnosisKeysRetrieved(value: Long) =
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_m_timestamp_manual_diagnosis_keys_retrieval),
@@ -234,7 +234,7 @@ object LocalData {
      *
      * @param value UUID as string
      */
-    fun googleApiToken(value: String?) = with(getSharedPreferenceInstance().edit()) {
+    fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
         putString(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_m_string_google_api_token),
@@ -262,7 +262,7 @@ object LocalData {
      * Toggles the user decision if notification should be enabled for a risk change
      *
      */
-    fun toggleNotificationsRiskEnabled() = with(getSharedPreferenceInstance().edit()) {
+    fun toggleNotificationsRiskEnabled() = getSharedPreferenceInstance().edit(true) {
         putBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_notifications_risk_enabled),
@@ -277,7 +277,7 @@ object LocalData {
         true
     )
 
-    fun toggleNotificationsTestEnabled() = with(getSharedPreferenceInstance().edit()) {
+    fun toggleNotificationsTestEnabled() = getSharedPreferenceInstance().edit(true) {
         putBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_notifications_test_enabled),
@@ -300,7 +300,7 @@ object LocalData {
      * Toggles the decision if background jobs are enabled
      *
      */
-    fun toggleBackgroundJobEnabled() = with(getSharedPreferenceInstance().edit()) {
+    fun toggleBackgroundJobEnabled() = getSharedPreferenceInstance().edit(true) {
         putBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_background_job_allowed),
@@ -323,7 +323,7 @@ object LocalData {
      * Toggles the boolean if the user has mobile data enabled
      *
      */
-    fun toggleMobileDataEnabled() = with(getSharedPreferenceInstance().edit()) {
+    fun toggleMobileDataEnabled() = getSharedPreferenceInstance().edit(true) {
         putBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_mobile_data_allowed),
@@ -353,7 +353,7 @@ object LocalData {
      * @param value registration token as string
      */
     fun registrationToken(value: String?) {
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_m_registration_token),
@@ -364,7 +364,7 @@ object LocalData {
     }
 
     fun inititalTestResultReceivedTimestamp(value: Long) =
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_initial_result_received_time),
@@ -387,7 +387,7 @@ object LocalData {
     }
 
     fun numberOfSuccessfulSubmissions(value: Int) =
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putInt(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_number_successful_submissions),
@@ -411,7 +411,7 @@ object LocalData {
     )
 
     fun testGUID(value: String?) {
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_m_test_guid),
@@ -428,7 +428,7 @@ object LocalData {
     )
 
     fun authCode(value: String?) {
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_m_auth_code),
@@ -439,7 +439,7 @@ object LocalData {
     }
 
     fun isAllowedToSubmitDiagnosisKeys(isAllowedToSubmitDiagnosisKeys: Boolean) {
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_m_is_allowed_to_submit_diagnosis_keys),
@@ -457,7 +457,7 @@ object LocalData {
         )
     }
 
-    fun teletan(value: String?) = with(getSharedPreferenceInstance().edit()) {
+    fun teletan(value: String?) = getSharedPreferenceInstance().edit(true) {
         putString(
             CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan),
             value
