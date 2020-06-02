@@ -139,29 +139,6 @@ object ConnectivityHelper {
     }
 
     /**
-     * Navigate to bluetooth system settings.
-     *
-     * @param context the context
-     * @param onFailure on navigation failure callback
-     *
-     * @see [Settings.ACTION_BLUETOOTH_SETTINGS]
-     */
-    fun navigateToBluetoothSettings(context: Context, onFailure: () -> Unit? = {}) {
-        val intent = Intent()
-        intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-        try {
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            e.report(
-                ExceptionCategory.CONNECTIVITY,
-                TAG,
-                null
-            )
-            onFailure()
-        }
-    }
-
-    /**
      * Abstract bluetooth state change callback.
      *
      * @see BroadcastReceiver

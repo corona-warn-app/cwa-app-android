@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.settings
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.SettingsNavigationHelper
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -57,13 +56,9 @@ class SettingsNotificationFragment : Fragment() {
         // Notifications about risk status
         val updateRiskNotificationSwitch =
             binding.settingsSwitchRowNotificationsRisk.settingsSwitchRowSwitch
-        val updateRiskNotificationRow =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRow
         // Notifications about test status
         val updateTestNotificationSwitch =
             binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
-        val updateTestNotificationRow =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRow
         // Settings
         val settingsRow = binding.settingsNavigationRowSystem.navigationRow
         val goBack =
@@ -75,9 +70,6 @@ class SettingsNotificationFragment : Fragment() {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
-        updateRiskNotificationRow.setOnClickListener {
-            settingsViewModel.toggleNotificationsRiskEnabled()
-        }
         // Update Test
         updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
@@ -85,26 +77,12 @@ class SettingsNotificationFragment : Fragment() {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
         }
-        updateTestNotificationRow.setOnClickListener {
-            settingsViewModel.toggleNotificationsTestEnabled()
-        }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         // System Settings
         settingsRow.setOnClickListener {
-            navigateToSettings()
+            SettingsNavigationHelper.toNotifications(requireContext())
         }
-    }
-
-    private fun navigateToSettings() {
-        // Todo change to api level 23
-        val intent = Intent()
-        intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-        intent.putExtra(
-            Settings.EXTRA_APP_PACKAGE,
-            requireContext().packageName
-        )
-        startActivity(intent)
     }
 }

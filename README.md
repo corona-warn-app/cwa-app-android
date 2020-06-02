@@ -27,10 +27,10 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 * [3 UI](https://github.com/corona-warn-app/cwa-app-android/wiki/3-UI)
 * [4 Exposure Notification Google API](https://github.com/corona-warn-app/cwa-app-android/wiki/4-Exposure-Notification-Google-API)
 * [5 Packages](https://github.com/corona-warn-app/cwa-app-android/wiki/5-Packages)
-    
+
 ## Known Issues
 
-* The Exposure Notification API is gonna block you from successfully testing the Application unless you are whitelisted inside GMS.
+* The Exposure Notification API is going to block you from successfully testing the Application unless you are whitelisted inside GMS.
 * The Submission Flow is currently not working inside the Test Fragment and is heavily WIP.
 * The Exception Handler is heavily WIP and may not include every exception and thus some Toasts (temporary) might not show the error or cause crashes, this also applies to error handling in general.
 * The Storage is currently based on Encrypted Shared Preferences and SQL Cipher (SQLite) - this could change in the future
@@ -38,7 +38,7 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 * Test Coverage is generally low and needs to be improved. We appreciate your help here!
 * In General every TODO can be regarded as an issue. You are free to tackle the TODO's anytime!
 * We are aware of the Play Store Limitations of GMS.
-* Without your own server instance (e.g. a local docker setup), you will not be able to test the Application. For help, please refer to the [server implementation](https://github.com/corona-warn-app/cwa-server).
+* Without your own server instance (e.g. a local Docker setup), you will not be able to test the Application. For help, please refer to the [server implementation](https://github.com/corona-warn-app/cwa-server).
 * Strings in general are WIP, the base language is German, the English translation will be provided by SAP.
 * Application design is WIP (e.g. colors, fonts, screen layout) and will be provided once it is final.
 

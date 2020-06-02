@@ -24,16 +24,30 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.CoronaWarnApplication
+import java.security.KeyStore
 
+/**
+ * Key Store and Password Access
+ */
 object SecurityHelper {
     private const val SHARED_PREF_NAME = "shared_preferences_cwa"
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
+    private const val AndroidKeyStore = "AndroidKeyStore"
+
+    private val keyStore: KeyStore by lazy {
+        KeyStore.getInstance(AndroidKeyStore).also {
+            it.load(null)
+        }
+    }
 
     val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
         CoronaWarnApplication.getAppContext().getEncryptedSharedPrefs(SHARED_PREF_NAME)
     }
 
+    /**
+     * Initializes the private encrypted key store
+     */
     private fun Context.getEncryptedSharedPrefs(fileName: String) = EncryptedSharedPreferences
         .create(
             fileName,
@@ -42,4 +56,12 @@ object SecurityHelper {
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
+
+    /**
+     * Retrieves the Master Key from the Android KeyStore to use in SQLCipher
+     */
+    fun getDBPassword() = keyStore
+        .getKey(masterKeyAlias, null)
+        .toString()
+        .toCharArray()
 }
