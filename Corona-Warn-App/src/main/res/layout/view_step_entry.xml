@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/step_entry_imageview_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_step_background"
+            android:src="@drawable/ic_step_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/step_entry_framelayout_body"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/step_entry_imageview_icon"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+        <View
+            android:id="@+id/test_result_step_placeholder"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/spacing_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/step_entry_imageview_icon"
+            app:layout_constraintTop_toBottomOf="@id/step_entry_framelayout_body" />
+
+        <View
+            android:id="@+id/step_entry_view_line"
+            android:layout_width="@dimen/test_result_step_progress_line_width"
+            android:layout_height="@dimen/match_constraint"
+            android:background="@color/colorGreyLight"
+            app:layout_constraintBottom_toBottomOf="@+id/test_result_step_placeholder"
+            app:layout_constraintEnd_toEndOf="@id/step_entry_imageview_icon"
+            app:layout_constraintStart_toStartOf="@id/step_entry_imageview_icon"
+            app:layout_constraintTop_toBottomOf="@id/step_entry_imageview_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

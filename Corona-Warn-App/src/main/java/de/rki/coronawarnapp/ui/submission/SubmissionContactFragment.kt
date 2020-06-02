@@ -1,0 +1,53 @@
+package de.rki.coronawarnapp.ui.submission
+
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
+import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.main.MainActivity
+
+/**
+ * The [SubmissionContactFragment] allows requesting a teletan via phone
+ */
+class SubmissionContactFragment : BaseFragment() {
+
+    private lateinit var binding: FragmentSubmissionContactBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // get the binding reference by inflating it with the current layout
+        binding = FragmentSubmissionContactBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setButtonOnClickListener()
+    }
+
+    private fun setButtonOnClickListener() {
+        binding.submissionContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            (activity as MainActivity).goBack()
+        }
+        binding.submissionContactButtonCall.setOnClickListener {
+            dial()
+        }
+        binding.submissionContactButtonEnter.setOnClickListener {
+            doNavigate(SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment())
+        }
+    }
+
+    private fun dial() = context?.let {
+        val number = getString(R.string.submission_contact_number)
+        val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
+        startActivity(callIntent)
+    }
+}
