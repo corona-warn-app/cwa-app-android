@@ -90,7 +90,7 @@
     <!-- Todo remove 'final' comments once all text are finalized, strings flagged with final can still change however its unlikely  -->
     <!-- Todo pluralize strings when necessary -->
     <!-- Todo include date formats when necessary -->
-    <string name="menu_help">Überblick</string>
+    <string name="menu_help">Überblick</string> <!-- final -->
     <string name="menu_information">App-Informationen</string> <!-- final -->
     <string name="menu_settings">Einstellungen</string> <!-- final -->
 
@@ -191,12 +191,7 @@
     <string name="main_share_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
     <string name="main_share_body">Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Laden Sie Familie, Freunde und Bekannte ein!</string> <!-- final -->
     <string name="main_share_button">Download-Link versenden</string> <!-- final -->
-    <string name="main_share_message">
-        Erzähle es jedem!<xliff:g id="line_break">\n</xliff:g>
-        <xliff:g id="hashtag">#</xliff:g>zusammenDieKurveAbflachen<xliff:g id="line_break">\n</xliff:g>
-        Play Store (Android): <xliff:g id="link_play_store">https://play.google.com/</xliff:g><xliff:g id="line_break">\n</xliff:g>
-        App Store (iOS): <xliff:g id="link_app_store">https://www.apple.com/ios/app-store/</xliff:g><xliff:g id="line_break">\n</xliff:g>
-    </string>
+    <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.coronawarn.app/</xliff:g><xliff:g id="line_break">\n</xliff:g></string> <!-- final -->
     <string name="sm_result_button_dialog_close">OK</string>
 
     <!-- ####################################
