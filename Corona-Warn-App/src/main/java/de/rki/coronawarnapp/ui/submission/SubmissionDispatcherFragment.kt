@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,10 @@ class SubmissionDispatcherFragment : BaseFragment() {
             )
         }
         binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
-            Log.i(TAG, "TAN tele pressed")
+            doNavigate(
+                SubmissionDispatcherFragmentDirections
+                    .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
+            )
         }
     }
 
