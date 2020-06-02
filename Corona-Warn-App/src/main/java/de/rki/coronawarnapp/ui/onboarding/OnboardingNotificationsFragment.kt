@@ -1,10 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +11,7 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.SettingsNavigationHelper
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
@@ -83,30 +80,10 @@ class OnboardingNotificationsFragment : BaseFragment() {
             R.string.onboarding_notifications_dialog_button_positive,
             R.string.onboarding_notifications_dialog_button_negative,
             {
-                navigateToNotificationSettings()
+                SettingsNavigationHelper.toNotifications(requireContext())
             }, {
                 navigateToMain()
             })
         DialogHelper.showDialog(dialog)
-    }
-
-    private fun navigateToNotificationSettings() {
-        val intent = Intent()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.i(TAG, "current")
-            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            intent.putExtra(
-                Settings.EXTRA_APP_PACKAGE,
-                requireContext().packageName
-            )
-        } else {
-            Log.i(TAG, "old")
-            intent.putExtra(
-                "app_package",
-                requireContext().packageName
-            )
-            intent.putExtra("app_uid", requireContext().applicationInfo.uid)
-        }
-        startActivity(intent)
     }
 }
