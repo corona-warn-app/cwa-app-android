@@ -111,7 +111,7 @@
         <xliff:g id="notification_id">1</xliff:g>
     </string>
     <string name="notification_headline">Risk notification title</string>
-    <string name="notification_body">Risk notification content"</string>
+    <string name="notification_body">Es gibt Neuigkeiten von Ihrer Corona-Warn-App</string>
 
     <!-- ####################################
                     Cards

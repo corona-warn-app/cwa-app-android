@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.transaction
 
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
@@ -444,6 +448,13 @@ object RiskLevelTransaction : Transaction() {
      * @param riskLevel
      */
     private fun updateRiskLevelScore(riskLevel: RiskLevel) {
+        val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
+        if (RiskLevel.riskLevelChangedBetweenLowAndHigh(lastCalculatedScore, riskLevel)) {
+            NotificationHelper.sendNotification(
+                CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
+                NotificationCompat.PRIORITY_HIGH
+            )
+        }
         RiskLevelRepository.setRiskLevelScore(riskLevel)
     }
 

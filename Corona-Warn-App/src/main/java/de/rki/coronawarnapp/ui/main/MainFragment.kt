@@ -157,7 +157,6 @@ class MainFragment : BaseFragment() {
                             .toString()
                     )
                     NotificationHelper.sendNotification(
-                        getString(R.string.notification_headline),
                         getString(R.string.notification_body),
                         NotificationCompat.PRIORITY_HIGH
                     )
