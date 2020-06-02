@@ -9,6 +9,10 @@ object ProtoFormatConverterExtensions {
 
     private const val ROLLING_PERIOD = 144
     private const val DEFAULT_TRANSMISSION_RISK_LEVEL = 1
+    private const val MAXIMUM_KEYS = 14
+
+    fun List<TemporaryExposureKey>.limitKeyCount() =
+        this.sortedWith(compareBy({it.rollingStartIntervalNumber})).asReversed().take(MAXIMUM_KEYS)
 
     fun List<TemporaryExposureKey>.transformKeyHistoryToExternalFormat() = this.map {
         KeyExportFormat.TemporaryExposureKey.newBuilder()
