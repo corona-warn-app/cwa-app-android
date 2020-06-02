@@ -57,7 +57,7 @@ class RiskLevelTest {
             RiskLevel.UNDETERMINED,
             RiskLevel.INCREASED_RISK
         )
-        assertFalse(riskLevelHasChanged)
+        assertTrue(riskLevelHasChanged)
     }
 
     @Test

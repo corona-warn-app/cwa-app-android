@@ -47,7 +47,8 @@ enum class RiskLevel(val raw: Int) {
             UNKNOWN_RISK_INITIAL,
             NO_CALCULATION_POSSIBLE_TRACING_OFF,
             LOW_LEVEL_RISK,
-            UNKNOWN_RISK_OUTDATED_RESULTS
+            UNKNOWN_RISK_OUTDATED_RESULTS,
+            UNDETERMINED
         )
 
         /**
