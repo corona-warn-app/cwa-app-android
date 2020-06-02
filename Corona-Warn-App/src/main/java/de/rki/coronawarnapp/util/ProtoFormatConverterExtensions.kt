@@ -12,7 +12,7 @@ object ProtoFormatConverterExtensions {
     private const val MAXIMUM_KEYS = 14
 
     fun List<TemporaryExposureKey>.limitKeyCount() =
-        this.sortedWith(compareBy({it.rollingStartIntervalNumber})).asReversed().take(MAXIMUM_KEYS)
+        this.sortedWith(compareBy({ it.rollingStartIntervalNumber })).asReversed().take(MAXIMUM_KEYS)
 
     fun List<TemporaryExposureKey>.transformKeyHistoryToExternalFormat() = this.map {
         KeyExportFormat.TemporaryExposureKey.newBuilder()
