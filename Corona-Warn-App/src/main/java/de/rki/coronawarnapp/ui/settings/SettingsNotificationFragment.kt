@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ui.settings
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.SettingsNavigationHelper
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -93,18 +92,7 @@ class SettingsNotificationFragment : Fragment() {
         }
         // System Settings
         settingsRow.setOnClickListener {
-            navigateToSettings()
+            SettingsNavigationHelper.toNotifications(requireContext())
         }
-    }
-
-    private fun navigateToSettings() {
-        // Todo change to api level 23
-        val intent = Intent()
-        intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-        intent.putExtra(
-            Settings.EXTRA_APP_PACKAGE,
-            requireContext().packageName
-        )
-        startActivity(intent)
     }
 }

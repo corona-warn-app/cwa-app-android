@@ -1,20 +1,13 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
-import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.util.DialogHelper
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
