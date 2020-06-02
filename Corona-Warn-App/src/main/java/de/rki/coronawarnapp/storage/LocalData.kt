@@ -469,6 +469,7 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
+    /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
