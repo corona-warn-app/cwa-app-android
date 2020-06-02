@@ -89,27 +89,16 @@ class SettingsTracingFragment : BaseFragment(),
             exception?.localizedMessage ?: "Unknown Error",
             Toast.LENGTH_SHORT
         ).show()
-        tracingViewModel.refreshIsTracingEnabled()
     }
 
     private fun setButtonOnClickListener() {
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
-        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
             if (switch.isPressed) {
-                ViewBlocker.runAndBlockInteraction(arrayOf(row, switch)) {
-                    startStopTracing()
-                }
-            }
-        }
-        row.setOnClickListener {
-            ViewBlocker.runAndBlockInteraction(arrayOf(row, switch)) {
-                // only if the switch is enabled the user is allowed to toggle it, this implements the
-                // same behaviour if he clicks on the row
-                if (switch.isEnabled) {
+                ViewBlocker.runAndBlockInteraction(arrayOf(switch)) {
                     startStopTracing()
                 }
             }
@@ -126,10 +115,9 @@ class SettingsTracingFragment : BaseFragment(),
     }
 
     private fun startStopTracing() {
-        if (tracingViewModel.isTracingEnabled.value != null) {
-            // if tracing is enabled when listener is activated it should be disabled
-            if (tracingViewModel.isTracingEnabled.value!!) {
-                lifecycleScope.launch {
+        // if tracing is enabled when listener is activated it should be disabled
+        lifecycleScope.launch {
+            if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     try {
                         Toast.makeText(
                             requireContext(),
@@ -137,24 +125,20 @@ class SettingsTracingFragment : BaseFragment(),
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        tracingViewModel.refreshIsTracingEnabled()
+
+                        InternalExposureNotificationClient.asyncStop()
                     } catch (exception: Exception) {
                         exception.report(
                             ExceptionCategory.EXPOSURENOTIFICATION,
                             TAG,
                             null
                         )
-                        tracingViewModel.refreshIsTracingEnabled()
                     }
-                    InternalExposureNotificationClient.asyncStop()
                     tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()
-                }
             } else {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }
         }
-        tracingViewModel.refreshIsTracingEnabled()
-        settingsViewModel.refreshBluetoothEnabled()
     }
 }
