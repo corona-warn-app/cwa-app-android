@@ -7,15 +7,17 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.TestResultStatus
 import de.rki.coronawarnapp.util.formatter.TestResult.INVALID
 import de.rki.coronawarnapp.util.formatter.TestResult.NEGATIVE
 import de.rki.coronawarnapp.util.formatter.TestResult.PENDING
 import de.rki.coronawarnapp.util.formatter.TestResult.POSITIVE
 import java.util.Date
 
-fun formatTestResultStatusVisibility(testResultStatus: TestResultStatus?): Int =
-    formatVisibility(testResultStatus != TestResultStatus.SUCCESS)
+fun formatTestResultSpinnerVisible(testResultStatus: ApiRequestState?): Int =
+    formatVisibility(testResultStatus != ApiRequestState.SUCCESS)
+
+fun formatTestResultVisible(testResultStatus: ApiRequestState?): Int =
+    formatVisibility(testResultStatus == ApiRequestState.SUCCESS)
 
 fun formatTestResultVirusNameTextVisible(testResult: TestResult?): Int {
     return when (testResult) {
