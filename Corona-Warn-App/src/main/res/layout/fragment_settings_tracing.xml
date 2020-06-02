@@ -120,7 +120,7 @@
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_small"
-                        android:text="@{FormatterSettingsHelper.formatTracingStatusBody(tracingViewModel.isTracingEnabled(), tracingViewModel.daysSinceLastExposure)}"
+                        android:text="@{FormatterSettingsHelper.formatTracingStatusBody(tracingViewModel.isTracingEnabled(), tracingViewModel.activeTracingDaysInRetentionPeriod)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/settings_tracing_status_tracing_circle_progress"

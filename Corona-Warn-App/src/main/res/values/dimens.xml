@@ -15,7 +15,6 @@
     <!-- header height -->
     <dimen name="header">50dp</dimen>
 
-
     <!-- elevation -->
     <dimen name="elevation_strong">10dp</dimen>
     <dimen name="elevation_weak">4dp</dimen>
@@ -43,9 +42,6 @@
     <!-- card -->
     <dimen name="card_padding">@dimen/spacing_normal</dimen>
     <dimen name="card_divider">1dp</dimen>
-    <dimen name="submission_status_card_text_width">200dp</dimen>
-    <dimen name="submission_status_card_fetching_body_width">150dp</dimen>
-
 
     <!-- general -->
     <dimen name="radius_button">@dimen/spacing_tiny</dimen>

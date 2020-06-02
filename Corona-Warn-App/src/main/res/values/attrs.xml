@@ -8,4 +8,13 @@
         <attr name="circleWidth" format="float" />
         <attr name="disableText" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="StepEntry">
+        <attr name="step_entry_icon" format="integer" />
+        <attr name="step_entry_final" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleStepEntry">
+        <attr name="simple_step_entry_title" format="string" />
+        <attr name="simple_step_entry_text" format="string" />
+    </declare-styleable>
 </resources>
