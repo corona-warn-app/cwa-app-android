@@ -265,20 +265,44 @@ fun formatNextUpdate(
 }
 
 /**
- * Formats the risk details text display for each risk level
+ * Formats the risk details subtitle text display depending on risk level
  *
  * @param riskLevelScore
  * @return
  */
-fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?): String {
-    // TODO replace lorem ipsum by text from rki
+fun formatRiskDetailsRiskLevelSubtitle(riskLevelScore: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> appContext.getString(R.string.lorem_ipsum)
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getString(R.string.lorem_ipsum)
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> appContext.getString(R.string.lorem_ipsum)
-        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(R.string.lorem_ipsum)
-        else -> appContext.getString(R.string.lorem_ipsum)
+        RiskLevelConstants.LOW_LEVEL_RISK,
+        RiskLevelConstants.INCREASED_RISK -> appContext.getString(R.string.risk_details_subtitle_infection_risk_past)
+        else -> appContext.getString(R.string.risk_details_subtitle_infection_risk)
+    }
+}
+
+/**
+ * Formats the risk details text display for each risk level
+ *
+ * @param riskLevelScore
+ * @param daysSinceLastExposure
+ * @return
+ */
+fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: Int?): String {
+    // TODO replace lorem ipsum by text from rki
+    val appContext = CoronaWarnApplication.getAppContext()
+    val daysArg = daysSinceLastExposure.toString()
+
+    return when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> {
+            appContext.getString(R.string.risk_details_information_body_increased_risk)
+                .format(daysArg)
+        }
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ->
+            appContext.getString(R.string.risk_details_information_body_outdated_risk)
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            appContext.getString(R.string.risk_details_information_body_low_risk)
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
+            appContext.getString(R.string.risk_details_information_body_unknown_risk)
+        else -> ""
     }
 }
 
