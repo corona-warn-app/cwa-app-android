@@ -92,7 +92,7 @@ class CircleProgress @JvmOverloads constructor(
         val textColor = styleAttrs.getColor(R.styleable.CircleProgress_textColor,
             ContextCompat.getColor(context, R.color.colorGrey))
         // attribute disableText; default = true
-        disableText = styleAttrs.getBoolean(R.styleable.CircleProgress_disableText, true)
+        disableText = styleAttrs.getBoolean(R.styleable.CircleProgress_disableText, false)
         // attribute progressWidth; default = DEFAULT_WIDTH
         progressWidth = styleAttrs.getFloat(R.styleable.CircleProgress_circleWidth, DEFAULT_WIDTH)
         // attribute progress; default = 0
