@@ -469,28 +469,6 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
-    /****************************************************
-     * DATABASE PASSWORD
-     ****************************************************/
-
-    fun databasePassword(): CharArray? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_database_password),
-        null
-    )?.toCharArray()
-
-    fun databasePassword(password: CharArray) {
-        getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_database_password),
-                password.toString()
-            )
-            commit()
-        }
-    }
-
-    /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
