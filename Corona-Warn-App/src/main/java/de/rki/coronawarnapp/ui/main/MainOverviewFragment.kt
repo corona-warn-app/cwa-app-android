@@ -41,5 +41,4 @@ class MainOverviewFragment : BaseFragment() {
             (activity as MainActivity).goBack()
         }
     }
-
 }
