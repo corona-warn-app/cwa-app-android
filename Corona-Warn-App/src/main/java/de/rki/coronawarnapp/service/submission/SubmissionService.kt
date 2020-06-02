@@ -22,6 +22,7 @@ object SubmissionService {
             testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
             else -> throw NoGUIDOrTANSetException()
         }
+        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
@@ -73,6 +74,7 @@ object SubmissionService {
 
     fun deleteRegistrationToken() {
         LocalData.registrationToken(null)
+        LocalData.devicePairingSuccessfulTimestamp(0L)
     }
 
     private fun deleteAuthCode() {

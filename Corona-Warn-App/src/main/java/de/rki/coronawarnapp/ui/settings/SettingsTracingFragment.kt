@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
+import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
@@ -17,6 +18,7 @@ import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.SettingsNavigationHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -57,29 +59,6 @@ class SettingsTracingFragment : BaseFragment(),
         setButtonOnClickListener()
     }
 
-    private fun setButtonOnClickListener() {
-        val switch = binding.settingsSwitchRowTracing.settingsSwitchRowSwitch
-        val row = binding.settingsSwitchRowTracing.settingsSwitchRow
-        internalExposureNotificationPermissionHelper =
-            InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (switch.isPressed) {
-                ViewBlocker.runAndBlockInteraction(arrayOf(row, switch)) {
-                    startStopTracing()
-                }
-            }
-        }
-        row.setOnClickListener {
-            ViewBlocker.runAndBlockInteraction(arrayOf(row, switch)) {
-                startStopTracing()
-            }
-        }
-        binding.settingsDetailsHeaderTracing.settingsDetailsHeaderButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         // refresh required data
@@ -103,21 +82,42 @@ class SettingsTracingFragment : BaseFragment(),
 
     override fun onFailure(exception: Exception?) {
         tracingViewModel.refreshIsTracingEnabled()
-        exception?.report(de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION)
+        exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
         // TODO
         Toast.makeText(
             requireContext(),
             exception?.localizedMessage ?: "Unknown Error",
             Toast.LENGTH_SHORT
         ).show()
-        tracingViewModel.refreshIsTracingEnabled()
+    }
+
+    private fun setButtonOnClickListener() {
+        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
+        internalExposureNotificationPermissionHelper =
+            InternalExposureNotificationPermissionHelper(this, this)
+        switch.setOnCheckedChangeListener { _, _ ->
+            // android calls this listener also on start, so it has to be verified if the user pressed the switch
+            if (switch.isPressed) {
+                ViewBlocker.runAndBlockInteraction(arrayOf(switch)) {
+                    startStopTracing()
+                }
+            }
+        }
+        binding.settingsTracingHeader.settingsDetailsHeaderButtonBack.buttonIcon.setOnClickListener {
+            (activity as MainActivity).goBack()
+        }
+        binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
+            SettingsNavigationHelper.toConnections(requireContext())
+        }
+        binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
+            SettingsNavigationHelper.toConnections(requireContext())
+        }
     }
 
     private fun startStopTracing() {
-        if (tracingViewModel.isTracingEnabled.value != null) {
-            // if tracing is enabled when listener is activated it should be disabled
-            if (tracingViewModel.isTracingEnabled.value!!) {
-                lifecycleScope.launch {
+        // if tracing is enabled when listener is activated it should be disabled
+        lifecycleScope.launch {
+            if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     try {
                         Toast.makeText(
                             requireContext(),
@@ -125,19 +125,17 @@ class SettingsTracingFragment : BaseFragment(),
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                        tracingViewModel.refreshIsTracingEnabled()
+
+                        InternalExposureNotificationClient.asyncStop()
                     } catch (exception: Exception) {
                         exception.report(
-                            de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION,
+                            ExceptionCategory.EXPOSURENOTIFICATION,
                             TAG,
                             null
                         )
-                        tracingViewModel.refreshIsTracingEnabled()
                     }
-                    InternalExposureNotificationClient.asyncStop()
                     tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()
-                }
             } else {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }

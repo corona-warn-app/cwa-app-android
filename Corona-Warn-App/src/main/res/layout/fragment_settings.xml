@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+
         <variable
             name="tracingViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
@@ -12,6 +14,7 @@
         <variable
             name="settingsViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
+
     </data>
 
     <ScrollView
@@ -42,12 +45,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:body="@{@string/settings_tracing_body_description}"
-                app:icon="@{@drawable/ic_tracing_on}"
+                app:icon="@{@drawable/ic_settings_tracing_active}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings_header"
                 app:showDivider="@{true}"
-                app:status="@{tracingViewModel.isTracingEnabled()}"
+                app:color="@{FormatterSettingsHelper.formatIconColor(tracingViewModel.isTracingEnabled())}"
+                app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                 app:subtitle="@{@string/settings_tracing_title}"
                 app:tracingViewModel="@{tracingViewModel}" />
 
@@ -62,7 +66,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings_tracing"
                 app:showDivider="@{true}"
-                app:status="@{settingsViewModel.isNotificationsEnabled()}"
+                app:color="@{FormatterSettingsHelper.formatIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                app:statusText="@{FormatterSettingsHelper.formatNotificationsStatusText(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
                 app:subtitle="@{@string/settings_notifications_title}"
                 app:tracingViewModel="@{tracingViewModel}" />
 

@@ -19,12 +19,14 @@ object SubmissionRepository {
         val testResultValue =
             WebRequestBuilder.asyncGetTestResult(TEST_RESULT_URL, registrationToken)
         testResult.value = TestResult.fromInt(testResultValue)
-
+        if (testResult == TestResult.POSITIVE) {
+            LocalData.isAllowedToSubmitDiagnosisKeys(true)
+        }
         val initialTestResultReceivedTimestamp = LocalData.inititalTestResultReceivedTimestamp()
 
         if (initialTestResultReceivedTimestamp == null) {
             val currentTime = System.currentTimeMillis()
-            LocalData.initialTracingActivationTimestamp(currentTime)
+            LocalData.inititalTestResultReceivedTimestamp(currentTime)
             testResultReceivedDate.value = Date(currentTime)
         } else {
             testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)

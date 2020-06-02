@@ -13,7 +13,11 @@ class SubmissionTanViewModel : ViewModel() {
 
         private const val TAN_LENGTH = 7
         private val EXCLUDED_TAN_CHARS = listOf('0', 'O', 'I', '1')
-        private val VALID_TAN_CHARS = ('A'..'Z').plus('0'..'9').minus(EXCLUDED_TAN_CHARS)
+        private val VALID_TAN_CHARS =
+            ('a'..'z')
+                .plus('A'..'Z')
+                .plus('0'..'9')
+                .minus(EXCLUDED_TAN_CHARS)
     }
 
     val tan = MutableLiveData<String?>(null)
