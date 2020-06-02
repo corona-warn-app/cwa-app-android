@@ -13,8 +13,8 @@
             style="@style/textTitle"
             android:layout_width="@dimen/submission_status_card_text_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_status_card_title_unregistered"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

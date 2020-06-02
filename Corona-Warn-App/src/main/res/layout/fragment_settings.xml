@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:body="@{@string/settings_tracing_body_description}"
-                app:icon="@{@drawable/ic_tracing_on}"
+                app:icon="@{@drawable/ic_settings_tracing_active}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings_header"
