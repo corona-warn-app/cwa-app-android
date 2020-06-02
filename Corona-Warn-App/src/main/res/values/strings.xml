@@ -47,6 +47,9 @@
     <string name="preference_m_registration_token">
         <xliff:g id="preference">preference_m_registration_token</xliff:g>
     </string>
+    <string name="preference_device_pairing_successful_time">
+        <xliff:g id="preference">preference_device_pairing_successful_time</xliff:g>
+    </string>
     <string name="preference_initial_tracing_activation_time">
         <xliff:g id="preference">preference_initial_tracing_activation_time</xliff:g>
     </string>
@@ -84,10 +87,12 @@
     <!-- ####################################
                      Menu
     ###################################### -->
+    <!-- Todo remove 'final' comments once all text are finalized, strings flagged with final can still change however its unlikely  -->
+    <!-- Todo pluralize strings when necessary -->
+    <!-- Todo include date formats when necessary -->
     <string name="menu_help">Überblick</string>
-    <string name="menu_information">App Informationen</string>
-    <string name="menu_settings">Einstellungen</string>
-    <string name="menu_share">Teilen Sie die App</string>
+    <string name="menu_information">App-Informationen</string> <!-- final -->
+    <string name="menu_settings">Einstellungen</string> <!-- final -->
 
     <!-- ####################################
                Notification (nt)
@@ -113,36 +118,36 @@
     ###################################### -->
 
     <!-- Generic - used in multiple cards -->
-    <string name="risk_card_body_contact">Bisher keine Risikobegegnung</string>
+    <string name="risk_card_body_contact">Bisher keine Risiko-Begegnungen</string> <!-- final -->
     <string name="risk_card_body_contact_value">%1$s Risikobegegnungen</string>
-    <string name="risk_card_body_saved_days">%1$s von 14 Tage protokolliert</string>
+    <string name="risk_card_body_saved_days">%1$s von 14 Tagen aktiv</string> <!-- final -->
     <string name="risk_card_body_not_yet_fetched">Kontakte wurden noch nicht überprüft.</string>
     <string name="risk_card_body_time_fetched">Aktualisiert: %1$s</string>
     <string name="risk_card_body_next_update">Nächste Aktualisierung in: %1$s</string>
-    <string name="risk_card_button_update">Aktualisieren</string>
+    <string name="risk_card_button_update">Aktualisieren</string> <!-- final -->
     <string name="risk_card_button_cooldown">Aktualisierung in %1$s</string>
-    <string name="risk_card_button_enable_tracing">Risikoermittlung einschalten</string>
-    <string name="risk_card_body_tracing_off">Schalten Sie die Risikoermittlung ein, um Ihr Risiko zu aktualisieren.</string>
+    <string name="risk_card_button_enable_tracing">Risiko-Ermittlung einschalten</string> <!-- final -->
+    <string name="risk_card_body_tracing_off">Aktivieren Sie die Risiko-Ermittlung, um Ihre heutige Risiko-Einschätzung zu berechnen.</string> <!-- final -->
 
     <!-- LOW_RISK -->
-    <string name="risk_card_low_risk_headline">Niedriges Risiko</string>
+    <string name="risk_card_low_risk_headline">Niedriges Risiko</string>  <!-- final -->
     <!-- INCREASED_RISK -->
-    <string name="risk_card_increased_risk_headline">Erhöhtes Risiko</string>
+    <string name="risk_card_increased_risk_headline">Erhöhtes Risiko</string> <!-- final -->
     <string name="risk_card_increased_risk_body_contact_last">%1$s Tage seit der letzten Begegnung</string>
     <!-- UNKNOWN_RISK -->
-    <string name="risk_card_unknown_risk_headline">Unbekanntes Risiko</string>
-    <string name="risk_card_unknown_risk_body">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string>
+    <string name="risk_card_unknown_risk_headline">Unbekanntes Risiko</string>  <!-- final -->
+    <string name="risk_card_unknown_risk_body">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string> <!-- final -->
     <!-- NO_CALCULATION_POSSIBLE -->
     <!-- TODO: no screens available -->
-    <string name="risk_card_no_calculation_possible_headline">Risikoermittlung gestoppt</string>
+    <string name="risk_card_no_calculation_possible_headline">Risiko-Ermittlung gestoppt</string> <!-- final -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">Letzte Ermittlung:\n%1$s</string>
     <!-- OUTDATED_RISK-->
     <!-- TODO: no screens available -->
-    <string name="risk_card_outdated_risk_headline">Veraltetes Risiko</string>
-    <string name="risk_card_outdated_risk_body">Da Sie die Risiko-Ermittlung zu lange nicht aktiviert hatten, ist Ihr Infektionsrisiko veraltet. Bitte aktualisieren Sie Ihr Risiko. </string>
+    <string name="risk_card_outdated_risk_headline">Risiko-Ermittlung nicht möglich</string> <!-- final -->
+    <string name="risk_card_outdated_risk_body">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string> <!-- final -->
     <!-- LOADING -->
-    <string name="risk_card_loading_headline">Prüfung läuft</string>
-    <string name="risk_card_loading_body">Es werden aktuelle Daten heruntergeladen und geprüft. Dies kann mehrere Minuten dauern.</string>
+    <string name="risk_card_loading_headline">Prüfung läuft...</string> <!-- final -->
+    <string name="risk_card_loading_body">Es werden aktuelle Daten heruntergeladen und geprüft. Dies kann mehrere Minuten dauern.</string> <!-- final -->
     <!-- Test Result Card -->
     <string name="test_result_card_headline">Ihr Befund:</string>
     <string name="test_result_card_virus_name_text">SARS-CoV-2</string>
@@ -175,18 +180,17 @@
     <!-- ####################################
                     Main
     ###################################### -->
-    <string name="main_title">Übersicht</string>
     <!-- About COVID-19 -->
-    <string name="main_about_headline">Häufige Fragen</string>
-    <string name="main_about_body">Finden Sie verlässliche Antworten und konkrete Informationen, wie Sie sich schützen und anderen helfen können.</string>
+    <string name="main_about_headline">Häufige Fragen</string> <!-- final -->
+    <string name="main_about_body">Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App.</string> <!-- final -->
 
     <!-- ####################################
                    Main - Share
     ###################################### -->
-    <string name="main_share_title">Corona-Warn-App teilen</string>
-    <string name="main_share_headline">Gemeinsam Corona bekämpfen</string>
-    <string name="main_share_body">Je mehr Menschen mitmachen, desto schneller durchbrechen wir dir Infektionsketten. Laden Sie Familie, Freunde und Bekannte zum Download ein!</string>
-    <string name="main_share_button">Download-Link versenden</string>
+    <string name="main_share_title">Corona-Warn-App teilen</string>  <!-- final -->
+    <string name="main_share_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
+    <string name="main_share_body">Je mehr Menschen mitmachen, desto besser durchbrechen wir Infektionsketten. Laden Sie Familie, Freunde und Bekannte ein!</string> <!-- final -->
+    <string name="main_share_button">Download-Link versenden</string> <!-- final -->
     <string name="main_share_message">
         Erzähle es jedem!<xliff:g id="line_break">\n</xliff:g>
         <xliff:g id="hashtag">#</xliff:g>zusammenDieKurveAbflachen<xliff:g id="line_break">\n</xliff:g>
@@ -199,23 +203,27 @@
     <!-- ####################################
                Risk Details
     ###################################### -->
-    <string name="risk_details_headline_behavior">Verhalten Sie sich richtig</string>
-    <string name="risk_details_behavior_body_stay_home">Bleiben Sie zu Hause</string>
-    <string name="risk_details_behavior_body_avoid_contact">Vermeiden Sie sozialen Kontakt</string>
-    <string name="risk_details_behavior_body_contact_doctor">Für Fragen zu auftretenden Symptomen, Testmöglichkeiten und weiteren Absonderungsmaßnahmen wenden Sie sich bitte an:</string>
-    <string name="risk_details_behavior_body_wash_hands">Waschen Sie Ihre Hände</string>
-    <string name="risk_details_behavior_body_wear_mask">Tragen Sie eine Schutzmaske</string>
-    <string name="risk_details_behavior_body_stay_away">Halten Sie 2 Meter Abstand zu anderen Personen</string>
-    <string name="risk_details_behavior_body_cough_sneeze">Husten und Niesen Sie in Ihre Armbeuge</string>
-    <string name="risk_details_behavior_increased_body_1">- Ihren Hausartzt/Ihre Hausärtztin</string>
-    <string name="risk_details_behavior_increased_body_2">- Den Kassenärtzlichen Notdienst (Tel: 116117)</string>
-    <string name="risk_details_behavior_increased_body_3">- Ihr Gesundheitsamt</string>
-    <string name="risk_details_headline_infection_risk">Infektionsrisiko</string>
-    <string name="risk_details_body_infection_risk">So wird Ihr Risiko ermittelt</string>
+    <string name="risk_details_headline_behavior">Verhalten</string> <!-- final -->
+    <string name="risk_details_subtitle_behavior">So verhalten Sie sich richtig</string> <!-- final -->
+    <string name="risk_details_behavior_body_stay_home">Begeben Sie sich umgehend nach Hause bzw. bleiben Sie zu Hause.</string> <!-- final -->
+    <string name="risk_details_behavior_body_contact_doctor">Für Fragen zu auftretenden Symptomen, Testmöglichkeiten und weiteren Isolationsmaßnahmen wenden Sie sich bitte an eine der folgenden Stellen:</string> <!-- final -->
+    <string name="risk_details_behavior_body_wash_hands">Waschen Sie Ihre Hände regelmäßig.</string> <!-- final -->
+    <string name="risk_details_behavior_body_wear_mask">Tragen Sie einen Mundschutz bei Kontakt mit anderen Personen.</string> <!-- final -->
+    <string name="risk_details_behavior_body_stay_away">Halten Sie mindestens 1,5 Meter Abstand zu anderen Personen.</string> <!-- final -->
+    <string name="risk_details_behavior_body_cough_sneeze">Niesen oder husten Sie in die Armbeuge oder in ein Taschentuch.</string> <!-- final -->
+    <string name="risk_details_behavior_increased_body_1">- Ihre Hausärztin/Ihren Hausarzt</string> <!-- final -->
+    <string name="risk_details_behavior_increased_body_2">- Den Kassenärztlichen Bereitschaftsdienst unter der Telefonnummer: 116117</string> <!-- final -->
+    <string name="risk_details_behavior_increased_body_3">- Ihr Gesundheitsamt</string> <!-- final -->
+    <string name="risk_details_headline_infection_risk">Infektionsrisiko</string> <!-- final -->
+    <string name="risk_details_subtitle_infection_risk_past">So wurde Ihr Risiko ermittelt</string> <!-- final -->
+    <string name="risk_details_subtitle_infection_risk">So wird Ihr Risiko ermittelt</string> <!-- final -->
+    <string name="risk_details_information_body_unknown_risk">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string> <!-- final -->
+    <string name="risk_details_information_body_outdated_risk">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string>
+    <string name="risk_details_information_body_low_risk">Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Coronapositiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat.</string> <!-- final -->
+    <string name="risk_details_information_body_increased_risk">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</string>
+    <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string> <!-- final -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
-    <!-- TODO check if needed -->
-    <string name="main_government_headline">Gesundheitsamt anrufen</string>
 
     <!-- ####################################
               Onboarding
@@ -276,6 +284,19 @@
     <string name="settings_tracing_body_active_description">Risiko-Ermittlung ist aktiv. Eine verlässliche Risikoprüfung kann nur mit dauerhaft aktivierter Risiko-Ermittlung durchgeführt werden.</string>
     <string name="settings_tracing_body_inactive_description">Risiko-Ermittlung ist gestoppt. Eine verlässliche Risikoprüfung kann nur mit dauerhaft aktivierter Risiko-Ermittlung durchgeführt werden.</string>
     <string name="settings_tracing_body_text">@string/lorem_ipsum</string>
+    <string name="settings_tracing_status_active">Aktiv</string>
+    <string name="settings_tracing_status_inactive">Gestoppt</string>
+    <string name="settings_tracing_status_restricted">Eingeschränkt</string>
+    <string name="settings_tracing_body_connection_inactive">Keine Internetverbindung</string>
+    <string name="settings_tracing_body_bluetooth_inactive">Bluetooth deaktiviert</string>
+    <string name="settings_tracing_status_bluetooth_headline">Bluetooth aktivieren</string>
+    <string name="settings_tracing_status_bluetooth_body">Die Risiko-Ermittlung benötigt aktiviertes Bluetooth um Begegnungen zu protokollieren. Bitte aktivieren Sie Bluetooth in Ihren Einstellungen.</string>
+    <string name="settings_tracing_status_bluetooth_button">Einstellungen öffnen</string>
+    <string name="settings_tracing_status_connection_headline">Internetverbindung aktivieren</string>
+    <string name="settings_tracing_status_connection_body">Die Risiko-Ermittlung benötigt eine Internetverbindung um Risikobegegnungen berechnen zu können. Bitte aktivieren Sie WLAN oder Mobile Daten in Ihren Einstellungen.</string>
+    <string name="settings_tracing_status_connection_button">Einstellungen öffnen</string>
+    <string name="settings_tracing_status_body_active">Risiko-Ermittlung ist seit %1$s Tagen aktiv.</string>
+    <string name="settings_tracing_status_body_inactive">Die Risiko-Ermittlung umfasst %1$s von 14 Tagen.</string>
     <!-- Notifications -->
     <string name="settings_notifications_title">Mitteilungen</string>
     <string name="settings_notifications_headline_active">Möchten Sie Mitteilungen zu Ihrem Covid-19-Risikostatus aktivieren?</string>
@@ -299,19 +320,27 @@
     <!-- ####################################
                App Information
     ###################################### -->
-    <string name="information_title">Information</string>
-    <string name="information_about_title">Über die App</string>
-    <string name="information_about_headline">Gemeinsam Corona bekämpfen</string>
-    <string name="information_privacy_title">Datenschutzinformation</string>
+    <string name="information_title">App-Informationen</string>  <!-- final -->
+    <string name="information_about_title">Über die App</string>  <!-- final -->
+    <string name="information_about_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
+    <string name="information_about_body_emphasized">Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationalesPublic-Health-Institut veröffentlicht die Corona-Warn-App für die gesamte Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske.</string> <!-- final -->
+    <string name="information_about_body">Wer sie nutzt, hilft, Infektionsketten schnell nachzuverfolgen und zu durchbrechen. Die App speichert dezentral – auf Ihrem Smartphone –  Begegnungen mit anderen.Sie werden informiert, wenn Sie Kontakt mit nachweislich infizierten Personen hatten.Ihre Privatsphärebleibt dabeibestens geschützt.</string> <!-- final -->
+    <string name="information_privacy_title">Datenschutzinformation</string> <!-- final -->
     <string name="information_privacy_headline">@string/lorem_ipsum</string>
-    <string name="information_terms_title">Nutzungsbedingungen</string>
+    <string name="information_terms_title">Nutzungsbedingungen</string> <!-- final -->
     <string name="information_terms_headline">@string/lorem_ipsum</string>
-    <string name="information_contact_title">Kontakt</string>
-    <string name="information_contact_headline">Wie können wir Ihnen helfen?</string>
-    <string name="information_help_title">Häufige Fragen</string>
-    <string name="information_technical_title">Rechtliche Hinweise</string>
+    <string name="information_contact_title">Technische Hotline</string> <!-- final -->
+    <string name="information_contact_headline">Wie können wir Ihnen helfen?</string> <!-- final -->
+    <string name="information_contact_body">Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere  technische Hotline wenden.</string> <!-- final -->
+    <string name="information_contact_subtitle_phone">Technische Hotline:</string> <!-- final -->
+    <string name="information_contact_button_phone">+49 (0)800 7540001</string> <!-- final -->
+    <string name="information_contact_body_phone">Unser Kundenservice ist für Sie da.</string> <!-- final -->
+    <string name="information_contact_body_open">Unsere Öffnungszeiten:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nEs gelten die Preise Ihres Telefonanbieters.</string>
+    <string name="information_contact_body_other">Für gesundheitliche Fragen, wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117.</string> <!-- final -->
+    <string name="information_help_title">Häufige Fragen</string> <!-- final -->
+    <string name="information_technical_title">Rechtliche Hinweise</string> <!-- final -->
     <string name="information_technical_headline">FTP/SFTP/FTPS client uses libs</string>
-    <string name="information_legal_title">Impressum</string>
+    <string name="information_legal_title">Impressum</string> <!-- final -->
     <string name="information_legal_headline">Herausgeber</string>
     <string name="information_legal_body">SAP Deutschland SE &amp; Co. KG \n \nHauptsitz: \nSAP Deutschland SE &amp; Co. KG \nHasso-Plattner-Ring 7 \n69190 Walldorf </string>
 
@@ -375,7 +404,7 @@
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- Submission Tan -->
     <string name="submission_tan_title">TAN Eingabe</string>
-    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
+    <string name="submission_tan_body">Geben Sie bitte die TAN Nummer ihres Befundes ein. Die TAN ist 7-stellig.</string>
     <string name="submission_tan_button_text">Weiter</string>
     <!-- Submission Intro -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
@@ -416,7 +445,6 @@
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
     <string name="submission_done_button_done">Fertig</string>
-
 
     <!-- ####################################
            Just for Development
