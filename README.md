@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#development">Development</a> •
-  <a href="#architecture--documentation">Documenation</a> •
+  <a href="#architecture--documentation">Documentation</a> •
   <a href="#how-to-contribute">Contribute</a> •
   <a href="#support--feedback">Support</a> •
   <a href="https://github.com/corona-warn-app/cwa-app-android/releases">Changelog</a> •
@@ -31,14 +31,16 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 ## Known Issues
 
 * The Exposure Notification API is gonna block you from successfully testing the Application unless you are whitelisted inside GMS.
-* The Submission Flow is currently not working inside the Test Fragment and is heavily WIP
-* The Exception Handler may not include every exception and thus some Toasts (temporary) might not show the error or cause crashes
+* The Submission Flow is currently not working inside the Test Fragment and is heavily WIP.
+* The Exception Handler is heavily WIP and may not include every exception and thus some Toasts (temporary) might not show the error or cause crashes, this also applies to error handling in general.
 * The Storage is currently based on Encrypted Shared Preferences and SQL Cipher (SQLite) - this could change in the future
 * The App could crash, it is generally heavily WIP. We do not guarantee stability right now.
 * Test Coverage is generally low and needs to be improved. We appreciate your help here!
 * In General every TODO can be regarded as an issue. You are free to tackle the TODO's anytime!
 * We are aware of the Play Store Limitations of GMS.
-* Without your own server instance (e.g. a local docker setup), you will not be able to test the Application. For help, please refer to the [server implementation](https://github.com/corona-warn-app/cwa-server)
+* Without your own server instance (e.g. a local docker setup), you will not be able to test the Application. For help, please refer to the [server implementation](https://github.com/corona-warn-app/cwa-server).
+* Strings in general are WIP, the base language is German, the English translation will be provided by SAP.
+* Application design is WIP (e.g. colors, fonts, screen layout) and will be provided once it is final.
 
 ## Architecture & Documentation
 
