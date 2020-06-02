@@ -22,6 +22,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'jacoco'
 
 android {
     ndkVersion "21.1.6352462"
@@ -133,6 +134,13 @@ android {
         exclude 'CODE_OF_CONDUCT.md'
     }
 
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDeviceReleaseUnitTest']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }
 
 dependencies {
