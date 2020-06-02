@@ -60,7 +60,7 @@ class OnboardingTracingFragment : BaseFragment(),
             internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
         }
         binding.onboardingButtonDisable.setOnClickListener {
-            navigate()
+            showCancelDialog()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
@@ -72,7 +72,7 @@ class OnboardingTracingFragment : BaseFragment(),
     }
 
     override fun onFailure(exception: Exception?) {
-        showCancelDialog()
+        navigate()
     }
 
     private fun showCancelDialog() {
