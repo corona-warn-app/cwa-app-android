@@ -20,16 +20,40 @@ fun formatStatus(value: Boolean): String = formatText(
 )
 
 /**
- * Formats the main text display of tracing status depending on tracing status
+ * Formats the text display of settings notification status depending on notification values
+ *
+ * @param notifications
+ * @param notificationsRisk
+ * @param notificationsTest
+ * @return
+ */
+fun formatNotificationsStatusText(
+    notifications: Boolean,
+    notificationsRisk: Boolean,
+    notificationsTest: Boolean
+): String =
+    formatStatus((notifications && (notificationsRisk || notificationsTest)))
+
+/**
+ * Change the tracing text in the row based on the tracing status.
  *
  * @param tracing
+ * @param bluetooth
+ * @param connection
  * @return String
  */
-fun formatTracingStatusText(tracing: Boolean): String = formatText(
-    tracing,
-    R.string.settings_tracing_body_active,
-    R.string.settings_tracing_body_inactive
-)
+fun formatTracingStatusText(tracing: Boolean, bluetooth: Boolean, connection: Boolean): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (tracingStatusHelper(tracing, bluetooth, connection)) {
+        TracingStatusHelper.CONNECTION, TracingStatusHelper.BLUETOOTH ->
+            appContext.getString(R.string.settings_tracing_status_restricted)
+        TracingStatusHelper.TRACING_ACTIVE ->
+            appContext.getString(R.string.settings_tracing_status_active)
+        TracingStatusHelper.TRACING_INACTIVE ->
+            appContext.getString(R.string.settings_tracing_status_inactive)
+        else -> ""
+    }
+}
 
 /**
  * Format the settings tracing description text display depending on tracing status
@@ -106,6 +130,21 @@ fun formatTracingStatusBody(tracing: Boolean, daysSinceLastExposure: Int): Strin
  */
 fun formatIconColor(active: Boolean): Int =
     formatColor(active, R.color.settingsIconActive, R.color.settingsIconInactive)
+
+/**
+ * Formats the settings icon color for notifications depending on notification values
+ *
+ * @param notifications
+ * @param notificationsRisk
+ * @param notificationsTest
+ * @return Int
+ */
+fun formatIconColor(
+    notifications: Boolean,
+    notificationsRisk: Boolean,
+    notificationsTest: Boolean
+): Int =
+    formatIconColor((notifications && (notificationsRisk || notificationsTest)))
 
 /**
  * Formats the tracing switch status based on the tracing status
@@ -255,27 +294,6 @@ fun formatTracingStatusVisibilityTracing(
         tracingStatus == TracingStatusHelper.TRACING_ACTIVE ||
                 tracingStatus == TracingStatusHelper.TRACING_INACTIVE
     )
-}
-
-/**
- * Change the tracing text in the row based on the tracing status.
- *
- * @param tracing
- * @param bluetooth
- * @param connection
- * @return String
- */
-fun formatTracingStatusText(tracing: Boolean, bluetooth: Boolean, connection: Boolean): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (tracingStatusHelper(tracing, bluetooth, connection)) {
-        TracingStatusHelper.CONNECTION, TracingStatusHelper.BLUETOOTH ->
-            appContext.getString(R.string.settings_tracing_status_restricted)
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getString(R.string.settings_tracing_status_active)
-        TracingStatusHelper.TRACING_INACTIVE ->
-            appContext.getString(R.string.settings_tracing_status_inactive)
-        else -> ""
-    }
 }
 
 /**
