@@ -106,12 +106,12 @@ fun formatNotificationsDescription(notifications: Boolean): String = formatText(
  * Formats the tracing body depending on the tracing status and the days since last exposure.
  *
  * @param tracing
- * @param daysSinceLastExposure
+ * @param activeTracingDaysInRetentionPeriod
  * @return String
  */
-fun formatTracingStatusBody(tracing: Boolean, daysSinceLastExposure: Int): String {
+fun formatTracingStatusBody(tracing: Boolean, activeTracingDaysInRetentionPeriod: Long): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    val daysArg = daysSinceLastExposure.toString()
+    val daysArg = activeTracingDaysInRetentionPeriod.toString()
     return if (tracing) {
         appContext.getString(R.string.settings_tracing_status_body_active)
             .format(daysArg)
