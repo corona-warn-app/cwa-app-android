@@ -199,6 +199,31 @@
     </string>
     <string name="sm_result_button_dialog_close">OK</string>
 
+    <!-- ####################################
+                   Main - Overview
+    ###################################### -->
+    <string name="main_overview_title">Überblick</string>
+    <string name="main_overview_subtitle_tracing">Risiko-Ermittlung</string>
+    <string name="main_overview_body_tracing">Die Risiko-Ermittung ist eine der drei zentralen Funktionen der App. Ist sie aktiv, werden Begegnungen aufgezeichnet. Sie brauchen sich um ncihts mehr zu kümmern.</string>
+    <string name="main_overview_subtitle_risk">Infektionsrisiko</string>
+    <string name="main_overview_body_risk">Sind Sie innerhalb der letzten 14 Tage einer corona- positiven Person begegnet, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche dauer und mit welchem Abstand eine Begegnung stattfand.</string>
+    <string name="main_overview_subtitle_risk_levels">Folgende Risikostufen können angezeigt werden:</string>
+    <string name="main_overview_subtitle_increased_risk">Erhöhtes Risiko</string>
+    <string name="main_overview_subtitle_low_risk">Niedriges Risiko</string>
+    <string name="main_overview_subtitle_unknown_risk">Unbekanntes Risiko</string>
+    <string name="main_overview_headline_test">Benachrichtigung Anderer</string>
+    <string name="main_overview_body_test">Eine weitere zentrale Funktion. Hier können Sie Ihren Test registrieren und seinen Status abfragen. Bei einem positiven Test können Sie andere warnen und damit Infektionsketten unterbrechen.</string>
+    <string name="main_overview_headline_glossary">Wichtige Begriffe:</string>
+    <string name="main_overview_subtitle_glossary_tracing">Begegnungs-Aufzeichnung</string>
+    <string name="main_overview_body_glossary_tracing">Liste der empfangenen und vorübergehend im Betriebssystemspeicher abgelegten kurzlebigen Zufallscodes. Diese Liste wird bei der Risiko-Überprüfung gelesen. Alle Zufallscodes werden nach 14 Tagen automatisch gelöscht.</string>
+    <string name="main_overview_subtitle_glossary_calculation">Risiko-Überprüfung</string>
+    <string name="main_overview_body_glossary_calculation">Abfrage der Begegnungs-Aufzeichnung und Abgleich mit den gemeldeten Infektionen anderer Nutzerinnen und Nutzer. Die Risiko-Überprüfung erfolgt automatisch ungefähr alle zwei Stunden. </string>
+    <string name="main_overview_subtitle_glossary_contact">Risiko-Begegnung</string>
+    <string name="main_overview_body_glossary_contact">Jede Begegnungen mit einer Corona-positiv getesteten Person, der Sie über einen längeren Zeitraum und in geringer Distanz begegnet sind.</string>
+    <string name="main_overview_subtitle_glossary_notification">Risiko-Benachrichtigung</string>
+    <string name="main_overview_body_glossary_notification">Die Anzeige von Risiko-Begegnungen in der Corona-Warn-App.</string>
+    <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
+    <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
 
     <!-- ####################################
                Risk Details
@@ -473,5 +498,8 @@
     <string name="test_api_body_my_keys">My keys (count: %1$d) </string>
     <string name="test_api_body_other_keys">Other key </string>
     <string name="test_api_calculate_risk_level">Calculate Risk Level</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -128,11 +128,7 @@ class MainFragment : BaseFragment() {
         popup.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Help Navigation isn't implemented",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    doNavigate(MainFragmentDirections.actionMainFragmentToMainOverviewFragment())
                     true
                 }
                 R.id.menu_information -> {
