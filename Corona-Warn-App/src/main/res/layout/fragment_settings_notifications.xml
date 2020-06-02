@@ -54,6 +54,7 @@
                 app:showDivider="@{true}"
                 app:status="@{settingsViewModel.isNotificationsRiskEnabled()}"
                 app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isNotificationsRiskEnabled())}"
+                app:enabled="@{true}"
                 app:subtitle="@{@string/settings_notifications_subtitle_update_risk}" />
 
             <include
@@ -67,7 +68,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/settings_switch_row_notifications_risk"
                 app:showDivider="@{true}"
                 app:status="@{settingsViewModel.isNotificationsTestEnabled()}"
-                app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isNotificationsRiskEnabled())}"
+                app:enabled="@{true}"
+                app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isNotificationsTestEnabled())}"
                 app:subtitle="@{@string/settings_notifications_subtitle_update_test}" />
 
             <include

@@ -56,13 +56,9 @@ class SettingsNotificationFragment : Fragment() {
         // Notifications about risk status
         val updateRiskNotificationSwitch =
             binding.settingsSwitchRowNotificationsRisk.settingsSwitchRowSwitch
-        val updateRiskNotificationRow =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRow
         // Notifications about test status
         val updateTestNotificationSwitch =
             binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
-        val updateTestNotificationRow =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRow
         // Settings
         val settingsRow = binding.settingsNavigationRowSystem.navigationRow
         val goBack =
@@ -74,18 +70,12 @@ class SettingsNotificationFragment : Fragment() {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
-        updateRiskNotificationRow.setOnClickListener {
-            settingsViewModel.toggleNotificationsRiskEnabled()
-        }
         // Update Test
         updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
             if (updateTestNotificationSwitch.isPressed) {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
-        }
-        updateTestNotificationRow.setOnClickListener {
-            settingsViewModel.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
