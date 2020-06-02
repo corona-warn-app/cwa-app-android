@@ -117,11 +117,13 @@
 
                     <de.rki.coronawarnapp.ui.view.CircleProgress
                         android:id="@+id/settings_tracing_status_tracing_circle_progress"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:circleWidth="10"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:progress="13" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

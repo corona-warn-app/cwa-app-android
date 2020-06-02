@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources> <!--
-    <declare-styleable name="OnboardingExchangeableFragment">
-        <attr name="onboarding_exchangeable_headline" format="string" />
-        <attr name="onboarding_exchangeable_image" format="reference" />
-        <attr name="onboarding_exchangeable_body_emphasized" format="string" />
-        <attr name="onboarding_exchangeable_body" format="string" />
-        <attr name="onboarding_exchangeable_body_notifications" format="string" />
-    </declare-styleable> -->
+<resources>
     <declare-styleable name="CircleProgress">
         <attr name="progressColor" format="color" />
         <attr name="secondaryColor" format="color" />
         <attr name="textColor" format="color" />
-        <attr name="enableText" format="boolean" />
+        <attr name="progress" format="integer" />
+        <attr name="circleWidth" format="float" />
     </declare-styleable>
 </resources>
