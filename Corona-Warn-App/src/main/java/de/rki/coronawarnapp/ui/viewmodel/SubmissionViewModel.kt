@@ -60,6 +60,8 @@ class SubmissionViewModel : ViewModel() {
     fun deregisterTestFromDevice() {
         deleteTestGUID()
         SubmissionService.deleteRegistrationToken()
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.inititalTestResultReceivedTimestamp(0L)
     }
 
     private fun executeRequestWithState(apiRequest: suspend () -> Unit, state: MutableLiveData<ApiRequestState>) {
