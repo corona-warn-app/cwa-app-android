@@ -2,11 +2,7 @@ package de.rki.coronawarnapp.http
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.BaseHttpStack
-import com.android.volley.toolbox.HurlStack
-import com.android.volley.toolbox.Volley
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.security.PinnedTLSSocketFactory
 import de.rki.coronawarnapp.util.security.SecurityHelper
 
 /**

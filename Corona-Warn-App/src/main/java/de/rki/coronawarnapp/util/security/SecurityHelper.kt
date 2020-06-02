@@ -21,25 +21,13 @@ package de.rki.coronawarnapp.util.security
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.provider.ContactsContract.PinnedPositions.pin
-import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.Volley
-import com.google.android.play.core.assetpacks.ca
-import com.google.common.io.Resources
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
-import java.io.BufferedInputStream
-import java.io.InputStream
+import de.rki.coronawarnapp.http.OkHttp3Stack
 import java.security.KeyStore
-import java.security.cert.Certificate
-import java.security.cert.CertificateFactory
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.TrustManagerFactory
 
 
 /**
@@ -83,7 +71,6 @@ object SecurityHelper {
 
 
     fun getPinnedWebStack(appContext: Context): RequestQueue {
-        val sf: SSLSocketFactory = PinnedTLSSocketFactory(appContext)
-        return Volley.newRequestQueue(appContext, HurlStack(null, sf))
+        return Volley.newRequestQueue(appContext, OkHttp3Stack(appContext))
     }
 }
