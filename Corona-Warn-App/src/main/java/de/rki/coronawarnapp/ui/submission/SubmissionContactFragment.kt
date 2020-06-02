@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.CallHelper
 
 /**
  * The [SubmissionContactFragment] allows requesting a teletan via phone
@@ -47,7 +46,6 @@ class SubmissionContactFragment : BaseFragment() {
 
     private fun dial() = context?.let {
         val number = getString(R.string.submission_contact_number)
-        val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
-        startActivity(callIntent)
+        CallHelper.call(this, "tel:$number")
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/simple_step_entry_textview_title"
+        android:id="@+id/simple_step_entry_title"
         style="@style/textTitle"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
@@ -16,13 +16,13 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/simple_step_entry_textview_body"
+        android:id="@+id/simple_step_entry_body"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simple_step_entry_textview_title"
+        app:layout_constraintTop_toBottomOf="@+id/simple_step_entry_title"
         tools:text="Text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
