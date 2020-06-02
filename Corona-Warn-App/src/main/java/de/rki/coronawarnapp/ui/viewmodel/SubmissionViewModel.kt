@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.InvalidQRCodeExcpetion
 import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
@@ -22,18 +24,33 @@ class SubmissionViewModel : ViewModel() {
     private val _testResultState = MutableLiveData(ApiRequestState.IDLE)
     private val _authCodeState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
+    private val _permissionState = MutableLiveData(ApiRequestState.IDLE)
 
     val scanStatus: LiveData<ScanStatus> = _scanStatus
     val registrationState: LiveData<ApiRequestState> = _registrationState
     val testResultState: LiveData<ApiRequestState> = _testResultState
     val authCodeState: LiveData<ApiRequestState> = _authCodeState
     val submissionState: LiveData<ApiRequestState> = _submissionState
+    val permissionState: LiveData<ApiRequestState> = _permissionState
 
     val deviceRegistered get() = LocalData.registrationToken() != null
 
     val testResult: LiveData<TestResult> =
         SubmissionRepository.testResult
     val testResultReceivedDate: LiveData<Date> = SubmissionRepository.testResultReceivedDate
+
+    fun requestSubmissionPermission(
+        internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
+    ) {
+            viewModelScope.launch {
+                if (!InternalExposureNotificationClient.asyncIsEnabled()) {
+                    _permissionState.postValue(ApiRequestState.FAILED)
+                } else {
+                    _permissionState.postValue(ApiRequestState.SUCCESS)
+                    internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+                }
+        }
+    }
 
     fun submitDiagnosisKeys() =
         executeRequestWithState(SubmissionService::asyncSubmitExposureKeys, _submissionState)

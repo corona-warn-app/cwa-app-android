@@ -473,5 +473,9 @@
     <string name="test_api_body_my_keys">My keys (count: %1$d) </string>
     <string name="test_api_body_other_keys">Other key </string>
     <string name="test_api_calculate_risk_level">Calculate Risk Level</string>
+    <string name="submission_en_disabled_dialog_headline">Bitte einschalten</string>
+    <string name="submission_en_disabled_dialog_body">Die Risiko-Ermittlung muss aktiv sein, damit die Schlüssel übertragen werden können. Wollen Sie den entsprechenden Dialog öffnen?</string>
+    <string name="submission_en_disabled_dialog_button_positive">Ja</string>
+    <string name="submission_en_disabled_dialog_button_negative">Nein</string>
 
 </resources>

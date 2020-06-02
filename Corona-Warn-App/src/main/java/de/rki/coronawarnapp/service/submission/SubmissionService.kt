@@ -49,7 +49,7 @@ object SubmissionService {
         deleteTeleTAN()
     }
 
-    suspend fun asyncRequestAuthCode(registrationToken : String): String {
+    suspend fun asyncRequestAuthCode(registrationToken: String): String {
         val authCode = WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
         return authCode
     }
