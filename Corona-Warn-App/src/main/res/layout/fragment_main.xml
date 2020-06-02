@@ -26,7 +26,7 @@
         android:fillViewport="true"
         tools:context="de.rki.coronawarnapp.ui.main.MainFragment">
 
-        <!-- todo apply merge tags throught xml when applicable (eod) -->
+        <!-- todo apply merge tags through xml when applicable (eod) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
