@@ -21,10 +21,26 @@ package de.rki.coronawarnapp.util.security
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.provider.ContactsContract.PinnedPositions.pin
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.HurlStack
+import com.android.volley.toolbox.Volley
+import com.google.android.play.core.assetpacks.ca
+import com.google.common.io.Resources
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
+import java.io.BufferedInputStream
+import java.io.InputStream
 import java.security.KeyStore
+import java.security.cert.Certificate
+import java.security.cert.CertificateFactory
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManagerFactory
+
 
 /**
  * Key Store and Password Access
@@ -35,7 +51,7 @@ object SecurityHelper {
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
     private const val AndroidKeyStore = "AndroidKeyStore"
 
-    private val keyStore: KeyStore by lazy {
+    val keyStore: KeyStore by lazy {
         KeyStore.getInstance(AndroidKeyStore).also {
             it.load(null)
         }
@@ -64,4 +80,10 @@ object SecurityHelper {
         .getKey(masterKeyAlias, null)
         .toString()
         .toCharArray()
+
+
+    fun getPinnedWebStack(appContext: Context): RequestQueue {
+        val sf: SSLSocketFactory = PinnedTLSSocketFactory(appContext)
+        return Volley.newRequestQueue(appContext, HurlStack(null, sf))
+    }
 }
