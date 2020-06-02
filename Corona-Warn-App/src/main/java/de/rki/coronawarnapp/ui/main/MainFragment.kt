@@ -69,7 +69,6 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshIsTracingEnabled()
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         settingsViewModel.refreshBackgroundJobEnabled()
-        settingsViewModel.refreshBluetoothEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
         if (submissionViewModel.deviceRegistered) {
             submissionViewModel.refreshTestResult()

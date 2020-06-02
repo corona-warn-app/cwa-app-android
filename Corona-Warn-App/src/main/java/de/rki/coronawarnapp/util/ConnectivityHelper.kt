@@ -9,12 +9,10 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.provider.Settings
 import android.util.Log
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.report
 
-// TODO integrate the ConnectivityHelper into the UI logic (e.g. RiskLevelTransaction)
 /**
  * Helper for connectivity statuses.
  */
