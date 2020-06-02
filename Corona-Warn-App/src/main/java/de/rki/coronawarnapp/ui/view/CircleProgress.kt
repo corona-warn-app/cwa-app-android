@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.risk.TimeVariables
 
 class CircleProgress @JvmOverloads constructor(
     context: Context,
@@ -20,7 +21,7 @@ class CircleProgress @JvmOverloads constructor(
         private const val START_ANGLE = 270f
         private const val FULL_CIRCLE = 360f
         private const val DEFAULT_WIDTH = 20f
-        private const val DEFAULT_MAX_PROGRESS = 14
+        private val DEFAULT_MAX_PROGRESS = TimeVariables.getDefaultRetentionPeriodInDays()
     }
     private val secondaryPaint: Paint
     private val progressPaint: Paint

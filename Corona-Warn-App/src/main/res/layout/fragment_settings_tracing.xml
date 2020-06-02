@@ -110,8 +110,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:text="@{FormatterSettingsHelper.formatTracingStatusBody(tracingViewModel.isTracingEnabled(), tracingViewModel.daysSinceLastExposure)}"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/settings_tracing_status_tracing_circle_progress"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <de.rki.coronawarnapp.ui.view.CircleProgress
+                        android:id="@+id/settings_tracing_status_tracing_circle_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
