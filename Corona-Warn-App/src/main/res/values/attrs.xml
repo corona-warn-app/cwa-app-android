@@ -6,5 +6,6 @@
         <attr name="textColor" format="color" />
         <attr name="progress" format="integer" />
         <attr name="circleWidth" format="float" />
+        <attr name="disableText" format="boolean" />
     </declare-styleable>
 </resources>

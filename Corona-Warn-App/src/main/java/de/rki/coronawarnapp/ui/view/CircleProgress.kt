@@ -36,18 +36,25 @@ class CircleProgress @JvmOverloads constructor(
     private var centerY: Float = 0f
     private var radius: Float = 0f
     private var progressWidth: Float = 0f
+    private var disableText: Boolean = false
 
     var progress: Int = 0
         set(value) {
             field = value
+            val body = binding.circleProgressBody
+            val icon = binding.circleProgressIcon
             if (value == maxProgress) {
-                binding.circleProgressText.text = ""
-                binding.circleProgressText.visibility = View.GONE
-                binding.circleProgressIcon.visibility = View.VISIBLE
+                body.visibility = View.GONE
+                icon.visibility = View.VISIBLE
             } else {
-                binding.circleProgressText.visibility = View.VISIBLE
-                binding.circleProgressIcon.visibility = View.GONE
-                binding.circleProgressText.text = value.toString()
+                body.visibility = View.VISIBLE
+                icon.visibility = View.GONE
+            }
+            if (disableText) {
+                body.visibility = View.GONE
+            } else {
+                body.visibility = View.VISIBLE
+                body.text = value.toString()
             }
             invalidate()
         }
@@ -59,26 +66,40 @@ class CircleProgress @JvmOverloads constructor(
         setWillNotDraw(false)
         binding = ViewCircleProgressBinding.inflate(LayoutInflater.from(context), this)
 
-
         val styleAttrs = context.obtainStyledAttributes(attrs, R.styleable.CircleProgress)
+
         val circleColor = styleAttrs.getColor(
             R.styleable.CircleProgress_secondaryColor,
             ContextCompat.getColor(context, R.color.colorGreyLight)
         )
+
         val progressColor = styleAttrs.getColor(R.styleable.CircleProgress_progressColor,
             ContextCompat.getColor(context, R.color.colorPrimary))
+
         val textColor = styleAttrs.getColor(R.styleable.CircleProgress_textColor,
             ContextCompat.getColor(context, R.color.colorGrey))
+
+        disableText = styleAttrs.getBoolean(R.styleable.CircleProgress_disableText, true)
+
         progressWidth = styleAttrs.getFloat(R.styleable.CircleProgress_circleWidth, DEFAULT_WIDTH)
+
         progress = styleAttrs.getInt(R.styleable.CircleProgress_progress, 0)
-        val textView = binding.circleProgressText
-        textView.setTextColor(textColor)
+
+        val body = binding.circleProgressBody
+        body.setTextColor(textColor)
+        if (disableText) {
+            body.visibility = View.GONE
+        } else {
+            body.visibility = View.VISIBLE
+        }
+
         circlePaint = Paint().apply {
             color = circleColor
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
             isAntiAlias = true
         }
+
         progressPaint = Paint().apply {
             color = progressColor
             style = Paint.Style.STROKE
@@ -86,6 +107,7 @@ class CircleProgress @JvmOverloads constructor(
             isAntiAlias = true
             strokeCap = Paint.Cap.ROUND
         }
+
         styleAttrs.recycle()
     }
 

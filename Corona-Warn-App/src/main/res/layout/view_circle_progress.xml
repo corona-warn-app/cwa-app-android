@@ -6,7 +6,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/circle_progress_text"
+                android:id="@+id/circle_progress_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

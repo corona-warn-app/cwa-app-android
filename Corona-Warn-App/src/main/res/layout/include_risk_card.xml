@@ -139,20 +139,54 @@
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact"
                 app:tracingViewModel="@{tracingViewModel}" />
 
-            <!-- todo icon formatter , exchange variable-->
-            <include
+            <!-- todo exchange variable-->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/risk_card_row_saved_days"
-                layout="@layout/include_risk_card_row"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod))}"
-                app:body="@{FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod)}"
-                app:icon="@{FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriodIcon(tracingViewModel.activeTracingDaysInRetentionPeriod)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact_last"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact_last">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/risk_card_row_saved_days_circle_progress"
+                    android:layout_width="@dimen/icon_size_risk_card"
+                    android:layout_height="@dimen/icon_size_risk_card"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.rki.coronawarnapp.ui.view.CircleProgress
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        app:circleWidth="7"
+                        app:disableText="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:progress="@{tracingViewModel.daysSinceLastExposure}"
+                        app:progressColor="@color/colorLight"
+                        app:secondaryColor="#33FFFFFF" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/risk_card_row_saved_days_body"
+                    style="@style/cardText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    android:text="@{FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod)}"
+                    android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/risk_card_row_saved_days_circle_progress"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- todo exchange variable in body text formatter -->
             <include
