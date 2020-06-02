@@ -11,16 +11,20 @@
         <import type="android.view.View" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
             name="subtitle"
             type="String" />
 
         <variable
+            name="enabled"
+            type="Boolean" />
+
+        <variable
             name="status"
             type="Boolean" />
+
+        <variable
+            name="statusText"
+            type="String" />
 
         <variable
             name="body"
@@ -70,7 +74,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_mega_tiny"
-                    android:text="@{FormatterSettingsHelper.formatStatus(status)}"
+                    android:text="@{statusText}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{status}"
+                android:enabled="@{enabled}"
                 android:theme="@style/switchBase"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

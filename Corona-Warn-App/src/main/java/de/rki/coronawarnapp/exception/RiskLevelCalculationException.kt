@@ -1,4 +1,4 @@
 package de.rki.coronawarnapp.exception
 
 class RiskLevelCalculationException(cause: Throwable) :
-    Exception("an exception occured during risk level calculation", cause)
+    Exception("an exception occurred during risk level calculation", cause)
