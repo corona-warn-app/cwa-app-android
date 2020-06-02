@@ -12,17 +12,6 @@ import android.provider.Settings
 object SettingsNavigationHelper {
 
     /**
-     * Navigate the user to the os bluetooth settings.
-     *
-     * @param context
-     */
-    fun toBluetooth(context: Context) {
-        val intent = Intent()
-        intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-        context.startActivity(intent)
-    }
-
-    /**
      * Navigate the user to the os connection settings.
      *
      * @param context
