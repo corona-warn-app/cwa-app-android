@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import de.rki.coronawarnapp.notification.NotificationHelper
 
 class CoronaWarnApplication : Application(), LifecycleObserver {
 
@@ -27,6 +28,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver {
 
     override fun onCreate() {
         instance = this
+        NotificationHelper.createNotificationChannel()
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
