@@ -13,6 +13,14 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ViewCircleProgressBinding
 import de.rki.coronawarnapp.risk.TimeVariables
 
+/**
+ * Used on the tracing details fragment without text and also on the risk card with the progress
+ * number in the circle.
+ *
+ * @param context
+ * @param attrs
+ * @param defStyleAttr
+ */
 class CircleProgress @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -25,25 +33,27 @@ class CircleProgress @JvmOverloads constructor(
         private val DEFAULT_MAX_PROGRESS = TimeVariables.getDefaultRetentionPeriodInDays()
     }
 
-    //val
-    private val maxProgress = DEFAULT_MAX_PROGRESS
     private val circlePaint: Paint
     private val progressPaint: Paint
     private val rect = RectF()
 
-    // var
+    private var binding: ViewCircleProgressBinding
     private var centerX: Float = 0f
     private var centerY: Float = 0f
     private var radius: Float = 0f
     private var progressWidth: Float = 0f
     private var disableText: Boolean = false
 
+    /**
+     * Setter for progress. Text and icon depend on the progress value.
+     * The visibility is also influenced by the disableText attribute.
+     */
     var progress: Int = 0
         set(value) {
             field = value
             val body = binding.circleProgressBody
             val icon = binding.circleProgressIcon
-            if (value == maxProgress) {
+            if (value == DEFAULT_MAX_PROGRESS) {
                 body.visibility = View.GONE
                 icon.visibility = View.VISIBLE
             } else {
@@ -59,47 +69,45 @@ class CircleProgress @JvmOverloads constructor(
             invalidate()
         }
 
-
-    private var binding: ViewCircleProgressBinding
-
+    /**
+     * Initialise the view with the following attributes or some default values:
+     * - circleColor
+     * - textColor
+     * - disableText
+     * - progressWidth
+     */
     init {
         setWillNotDraw(false)
         binding = ViewCircleProgressBinding.inflate(LayoutInflater.from(context), this)
-
         val styleAttrs = context.obtainStyledAttributes(attrs, R.styleable.CircleProgress)
-
+        // attribute circleColor; default = colorGreyLight
         val circleColor = styleAttrs.getColor(
             R.styleable.CircleProgress_secondaryColor,
             ContextCompat.getColor(context, R.color.colorGreyLight)
         )
-
+        // attribute progressColor; default = colorPrimary
         val progressColor = styleAttrs.getColor(R.styleable.CircleProgress_progressColor,
             ContextCompat.getColor(context, R.color.colorPrimary))
-
+        // attribute textColor; default = colorGrey
         val textColor = styleAttrs.getColor(R.styleable.CircleProgress_textColor,
             ContextCompat.getColor(context, R.color.colorGrey))
-
+        // attribute disableText; default = true
         disableText = styleAttrs.getBoolean(R.styleable.CircleProgress_disableText, true)
-
+        // attribute progressWidth; default = DEFAULT_WIDTH
         progressWidth = styleAttrs.getFloat(R.styleable.CircleProgress_circleWidth, DEFAULT_WIDTH)
-
+        // attribute progress; default = 0
         progress = styleAttrs.getInt(R.styleable.CircleProgress_progress, 0)
-
+        // set textColor
         val body = binding.circleProgressBody
         body.setTextColor(textColor)
-        if (disableText) {
-            body.visibility = View.GONE
-        } else {
-            body.visibility = View.VISIBLE
-        }
-
+        // circlePaint based on the attributes and default value
         circlePaint = Paint().apply {
             color = circleColor
             style = Paint.Style.STROKE
             strokeWidth = progressWidth
             isAntiAlias = true
         }
-
+        // progressPaint based on the attributes and default value
         progressPaint = Paint().apply {
             color = progressColor
             style = Paint.Style.STROKE
@@ -107,7 +115,6 @@ class CircleProgress @JvmOverloads constructor(
             isAntiAlias = true
             strokeCap = Paint.Cap.ROUND
         }
-
         styleAttrs.recycle()
     }
 
@@ -129,7 +136,7 @@ class CircleProgress @JvmOverloads constructor(
         canvas?.drawArc(
             rect,
             START_ANGLE,
-            FULL_CIRCLE.times(progress).div(maxProgress),
+            FULL_CIRCLE.times(progress).div(DEFAULT_MAX_PROGRESS),
             false,
             progressPaint)
     }
