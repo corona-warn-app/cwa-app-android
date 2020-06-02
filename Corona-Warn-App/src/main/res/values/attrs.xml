@@ -7,4 +7,14 @@
         <attr name="onboarding_exchangeable_body" format="string" />
         <attr name="onboarding_exchangeable_body_notifications" format="string" />
     </declare-styleable> -->
+
+    <declare-styleable name="StepEntry">
+        <attr name="step_entry_icon" format="integer" />
+        <attr name="step_entry_final" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleStepEntry">
+        <attr name="simple_step_entry_title" format="string" />
+        <attr name="simple_step_entry_text" format="string" />
+    </declare-styleable>
 </resources>

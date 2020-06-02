@@ -445,6 +445,15 @@
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
     <string name="submission_done_button_done">Fertig</string>
+    <!-- Submission Contact -->
+    <string name="submission_contact_title">TAN anfragen</string>
+    <string name="submission_contact_headline">Info zum Ablauf:</string>
+    <string name="submission_contact_body">Wir teilen Ihnen Ihren TAN-Code gerne per Telefon mit.</string>
+    <string name="submission_contact_button_call">Anrufen</string>
+    <string name="submission_contact_button_enter">TAN-Code eingeben</string>
+    <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
+    <string name="submission_contact_number">0800 7540002</string>
+    <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
 
     <!-- ####################################
            Just for Development
