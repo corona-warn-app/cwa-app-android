@@ -63,7 +63,6 @@ class SettingsTracingFragment : BaseFragment(),
         super.onResume()
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
-        settingsViewModel.refreshBluetoothEnabled()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
