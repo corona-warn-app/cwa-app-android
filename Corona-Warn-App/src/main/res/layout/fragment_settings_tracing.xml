@@ -72,7 +72,6 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                    app:backgroundTint="@color/colorGrey"
                     app:body="@{@string/settings_tracing_status_bluetooth_body}"
                     app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
                     app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
