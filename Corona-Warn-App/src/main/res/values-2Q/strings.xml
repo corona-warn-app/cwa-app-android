@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+
+    <!-- ####################################
+               Preference Keys
+    ######################################
+    TODO: Check what is needed -->
+    <string name="preference_name"><xliff:g id="preference">"[[[şĥąŗēƌ_ρŗēƒēŗēŋċēş_ċŵą∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_onboarding_completed"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŏŋƃŏąŗƌįŋğ_ċŏɱρĺēţēƌ∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_reset_app"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŗēşēţ_ąρρ∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_only_wifi"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŏŋĺŷ_ŵįƒį∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_tracing"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ţŗąċįŋğ∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_timestamp_diagnosis_keys_fetch"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_ţįɱēşţąɱρ_ƌįąğŋŏşįş_ķēŷş_ƒēţċĥ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_ţįɱēşţąɱρ_ɱąŋűąĺ_ƌįąğŋŏşįş_ķēŷş_ŗēţŗįēʋąĺ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_string_google_api_token"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_şţŗįŋğ_ğŏŏğĺē_ąρį_ţŏķēŋ∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_notifications_enabled"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŋŏţįƒįċąţįŏŋş_ēŋąƃĺēƌ∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_notifications_risk_enabled"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŋŏţįƒįċąţįŏŋş_ŗįşķ_ēŋąƃĺēƌ∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_notifications_test_enabled"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŋŏţįƒįċąţįŏŋş_ţēşţ_ēŋąƃĺēƌ∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_background_job_allowed"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ƃąċķğŗŏűŋƌ_ĵŏƃ_ēŋąƃĺēƌ∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_mobile_data_allowed"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱŏƃįĺē_ƌąţą_ēŋąƃĺēƌ∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_registration_token"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_ŗēğįşţŗąţįŏŋ_ţŏķēŋ∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_initial_tracing_activation_time"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_įŋįţįąĺ_ţŗąċįŋğ_ąċţįʋąţįŏŋ_ţįɱē∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_initial_result_received_time"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_įŋįţįąĺ_ŗēşűĺţ_ŗēċēįʋēƌ_ţįɱē∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_risk_level_score"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŗįşķ_ĺēʋēĺ_şċŏŗē∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_test_guid"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_ţēşţ_ğűįƌ∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_įş_ąĺĺŏŵēƌ_ţŏ_şűƃɱįţ_ƌįąğŋŏşįş_ķēŷş∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_m_auth_code"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ɱ_ąűţĥ_ċŏƌē∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_database_password"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ƌąţąƃąşē_ρąşşŵŏŗƌ∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_total_non_active_tracing"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ţŏţąĺ_ŋŏŋ_ąċţįʋē_ţŗąċįŋğ∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ĺąşţ_ŋŏŋ_ąċţįʋē_ţŗąċįŋğ_ţįɱēşţąɱρ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_number_successful_submissions"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ŋűɱƃēŗ_şűċċēşşƒűĺ_şűƃɱįşşįŏŋş∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="preference_teletan"><xliff:g id="preference">"[[[ρŗēƒēŗēŋċē_ţēĺēţąŋ∙∙∙∙∙∙]]]"</xliff:g></string>
+
+    <!-- ####################################
+                     Menu
+    ###################################### -->
+    <string name="menu_help">"[[[Üƃēŗƃĺįċķ∙∙∙∙∙]]]"</string>
+    <string name="menu_information">"[[[Āρρ Ĭŋƒŏŗɱąţįŏŋēŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="menu_settings">"[[[Ĕįŋşţēĺĺűŋğēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="menu_share">"[[[Ţēįĺēŋ Ŝįē ƌįē Āρρ∙∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+               Notification (nt)
+    ######################################
+    TODO MOST OF THIS SHOULD BE TRANSLATABLE -->
+    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"[[[ƌē.ŗķį.ċŏŗŏŋąŵąŗŋąρρ.ŋŏţįƒįċąţįŏŋ.ēχρŏşűŗēŃŏţįƒįċąţįŏŋĈĥąŋŋēĺĬƌ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="notification_name"><xliff:g id="notification_name">"[[[ĔχρŏşűŗēŃŏţįƒįċąţįŏŋ∙∙∙∙]]]"</xliff:g></string>
+    <string name="notification_description"><xliff:g id="notification_description">"[[[Ńŏţįƒįēş űşēŗ ŏƒ ρŏţēŋţįąĺ ēχρŏşűŗē.∙∙∙∙∙∙∙∙∙∙∙∙]]]"</xliff:g></string>
+    <string name="notification_id"><xliff:g id="notification_id">"[[[1∙∙∙]]]"</xliff:g></string>
+    <string name="notification_headline">"[[[Řįşķ ŋŏţįƒįċąţįŏŋ ţįţĺē∙∙∙∙∙∙]]]"</string>
+    <string name="notification_body">"[[[Řįşķ ŋŏţįƒįċąţįŏŋ ċŏŋţēŋţ∙∙∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+                    Cards
+    ###################################### -->
+
+    <!-- Generic - used in multiple cards -->
+    <string name="risk_card_body_contact">"[[[Ɓįşĥēŗ ķēįŋē Řįşįķŏƃēğēğŋűŋğ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_body_contact_value">"[[[%1$s Řįşįķŏƃēğēğŋűŋğēŋ]]]"</string>
+    <string name="risk_card_body_saved_days">"[[[%1$s ʋŏŋ 14 Ţąğē ρŗŏţŏķŏĺĺįēŗţ]]]"</string>
+    <string name="risk_card_body_not_yet_fetched">"[[[Ķŏŋţąķţē ŵűŗƌēŋ ŋŏċĥ ŋįċĥţ üƃēŗρŗüƒţ.∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_body_time_fetched">"[[[Āķţűąĺįşįēŗţ: %1$s]]]"</string>
+    <string name="risk_card_body_next_update">"[[[Ńäċĥşţē Āķţűąĺįşįēŗűŋğ įŋ: %1$s]]]"</string>
+    <string name="risk_card_button_update">"[[[Āķţűąĺįşįēŗēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_button_cooldown">"[[[Āķţűąĺįşįēŗűŋğ įŋ %1$s]]]"</string>
+    <string name="risk_card_button_enable_tracing">"[[[Řįşįķŏēŗɱįţţĺűŋğ ēįŋşċĥąĺţēŋ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_body_tracing_off">"[[[Ŝċĥąĺţēŋ Ŝįē ƌįē Řįşįķŏēŗɱįţţĺűŋğ ēįŋ, űɱ Ĭĥŗ Řįşįķŏ žű ąķţűąĺįşįēŗēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+
+    <!-- LOW_RISK -->
+    <string name="risk_card_low_risk_headline">"[[[Ńįēƌŗįğēş Řįşįķŏ∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- INCREASED_RISK -->
+    <string name="risk_card_increased_risk_headline">"[[[Ĕŗĥöĥţēş Řįşįķŏ∙∙∙∙]]]"</string>
+    <string name="risk_card_increased_risk_body_contact_last">"[[[%1$s Ţąğē şēįţ ƌēŗ ĺēţžţēŋ Ɓēğēğŋűŋğ]]]"</string>
+    <!-- UNKNOWN_RISK -->
+    <string name="risk_card_unknown_risk_headline">"[[[Ůŋƃēķąŋŋţēş Řįşįķŏ∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_unknown_risk_body">"[[[Ďą Ŝįē ƌįē Řįşįķŏ-Ĕŗɱįţţĺűŋğ ŋŏċĥ ŋįċĥţ ĺąŋğē ğēŋűğ ąķţįʋįēŗţ ĥąƃēŋ, ķŏŋŋţēŋ ŵįŗ ƒüŗ Ŝįē ķēįŋ Ĭŋƒēķţįŏŋşŗįşįķŏ ƃēŗēċĥŋēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- NO_CALCULATION_POSSIBLE -->
+    <!-- TODO: no screens available -->
+    <string name="risk_card_no_calculation_possible_headline">"[[[Řįşįķŏēŗɱįţţĺűŋğ ğēşţŏρρţ∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_no_calculation_possible_body_saved_risk">"[[[Ļēţžţē Ĕŗɱįţţĺűŋğ:\n%1$s]]]"</string>
+    <!-- OUTDATED_RISK-->
+    <!-- TODO: no screens available -->
+    <string name="risk_card_outdated_risk_headline">"[[[Ʋēŗąĺţēţēş Řįşįķŏ∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_outdated_risk_body">"[[[Ďą Ŝįē ƌįē Řįşįķŏ-Ĕŗɱįţţĺűŋğ žű ĺąŋğē ŋįċĥţ ąķţįʋįēŗţ ĥąţţēŋ, įşţ Ĭĥŗ Ĭŋƒēķţįŏŋşŗįşįķŏ ʋēŗąĺţēţ. Ɓįţţē ąķţűąĺįşįēŗēŋ Ŝįē Ĭĥŗ Řįşįķŏ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- LOADING -->
+    <string name="risk_card_loading_headline">"[[[Ƥŗüƒűŋğ ĺäűƒţ∙∙∙∙∙∙]]]"</string>
+    <string name="risk_card_loading_body">"[[[Ĕş ŵēŗƌēŋ ąķţűēĺĺē Ďąţēŋ ĥēŗűŋţēŗğēĺąƌēŋ űŋƌ ğēρŗüƒţ. Ďįēş ķąŋŋ ɱēĥŗēŗē Μįŋűţēŋ ƌąűēŗŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- Test Result Card -->
+    <string name="test_result_card_headline">"[[[Ĭĥŗ Ɓēƒűŋƌ:∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_result_card_virus_name_text">"[[[ŜĀŘŜ-ĈŏƲ-2∙∙∙∙]]]"</string>
+    <string name="test_result_card_registered_at_text">"[[[Řēğįşţŗįēŗţ ąɱ %tF]]]"</string>
+    <string name="test_result_card_status_negative">"[[[Ńēğąţįʋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_result_card_status_positive">"[[[Ƥŏşįţįʋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_result_card_status_invalid">"[[[Āűşŵēŗţűŋğ ŋįċĥţ ɱöğĺįċĥ∙∙∙∙∙∙]]]"</string>
+    <!-- Submission Status Card -->
+    <string name="submission_status_card_title_fetching">"[[[Ďąţēŋąƃŗűƒ…∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_title_unregistered">"[[[Ŵűŗƌēŋ Ŝįē ğēţēşţēţ?∙∙∙∙]]]"</string>
+    <string name="submission_status_card_title_pending">"[[[Ĕŗğēƃŋįş ĺįēğţ ŋŏċĥ ŋįċĥţ ʋŏŗ∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_title_available">"[[[Ĭĥŗ Ĕŗğēƃŋįş ĺįēğţ ʋŏŗ∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_body_fetching">"[[[Ďąş Ĕŗğēƃŋįş ŵįŗƌ ąķţűąĺįşįēŗţ∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_body_unregistered">"[[[Ĥēĺƒēŋ Ŝįē ɱįţ, ƌįē Ĭŋƒēķţįŏŋşķēţţē žű ƌűŗċĥƃŗēċĥēŋ űŋƌ ŵąŗŋēŋ Ŝįē Āŋƌēŗē.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_body_pending">"[[[Ďįē Āűşŵēŗţűŋğ ƌąűēŗţ žŵįşċĥēŋ 1–3 Ţąğēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_body_invalid">"[[[Ĭĥŗ ţēşţ ķöŋŋţē ŋįċĥţ ąűşğēŵēŗţēţ ŵēŗƌēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_body_positive">"[[[Ŝįē ŵűŗƌēŋ ρŏşįţįʋ ąűƒ ŜĀŘŜ-ĈŏƲ-2 ğēţēşţēţ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_body_negative">"[[[Ŝįē ŵűŗƌēŋ ŋēğąţįʋ ąűƒ ŜĀŘŜ-ĈŏƲ-2 ğēţēşţēţ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_button_unregistered">"[[[Ĭŋƒŏŗɱįēŗēŋ &amp; ɱįţɱąċĥēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_button_show_results">"[[[Ĕŗğēƃŋįş ąŋžēįğēŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_status_card_button_show_details">"[[[Ďēţąįĺş ąŋžēįğēŋ∙∙∙∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+                    Main
+    ###################################### -->
+    <string name="main_title">"[[[Üƃēŗşįċĥţ∙∙∙∙∙]]]"</string>
+    <!-- About COVID-19 -->
+    <string name="main_about_headline">"[[[Ĥäűƒįğē Ƒŗąğēŋ∙∙∙∙∙]]]"</string>
+    <string name="main_about_body">"[[[Ƒįŋƌēŋ Ŝįē ʋēŗĺäşşĺįċĥē Āŋţŵŏŗţēŋ űŋƌ ķŏŋķŗēţē Ĭŋƒŏŗɱąţįŏŋēŋ, ŵįē Ŝįē şįċĥ şċĥüţžēŋ űŋƌ ąŋƌēŗēŋ ĥēĺƒēŋ ķöŋŋēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+                   Main - Share
+    ###################################### -->
+    <string name="main_share_title">"[[[Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ ţēįĺēŋ∙∙∙∙∙]]]"</string>
+    <string name="main_share_headline">"[[[Ģēɱēįŋşąɱ Ĉŏŗŏŋą ƃēķäɱρƒēŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="main_share_body">"[[[Ĵē ɱēĥŗ Μēŋşċĥēŋ ɱįţɱąċĥēŋ, ƌēşţŏ şċĥŋēĺĺēŗ ƌűŗċĥƃŗēċĥēŋ ŵįŗ ƌįŗ Ĭŋƒēķţįŏŋşķēţţēŋ. Ļąƌēŋ Ŝįē Ƒąɱįĺįē, Ƒŗēűŋƌē űŋƌ Ɓēķąŋŋţē žűɱ Ďŏŵŋĺŏąƌ ēįŋ!∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="main_share_button">"[[[Ďŏŵŋĺŏąƌ-Ļįŋķ ʋēŗşēŋƌēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="main_share_message">"[[[Ĕŗžäĥĺē ēş ĵēƌēɱ!"<xliff:g id="line_break">"\n"</xliff:g>" "<xliff:g id="hashtag">"#"</xliff:g>"žűşąɱɱēŋĎįēĶűŗʋēĀƃƒĺąċĥēŋ"<xliff:g id="line_break">"\n"</xliff:g>" Ƥĺąŷ Ŝţŏŗē (Āŋƌŗŏįƌ): "<xliff:g id="link_play_store">"ĥţţρş://ρĺąŷ.ğŏŏğĺē.ċŏɱ/"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>" Āρρ Ŝţŏŗē (įŎŜ): "<xliff:g id="link_app_store">"ĥţţρş://ŵŵŵ.ąρρĺē.ċŏɱ/įŏş/ąρρ-şţŏŗē/"</xliff:g><xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="sm_result_button_dialog_close">"[[[ŎĶ∙∙]]]"</string>
+
+
+    <!-- ####################################
+               Risk Details
+    ###################################### -->
+    <string name="risk_details_headline_behavior">"[[[Ʋēŗĥąĺţēŋ Ŝįē şįċĥ ŗįċĥţįğ∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_stay_home">"[[[Ɓĺēįƃēŋ Ŝįē žű Ĥąűşē∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_avoid_contact">"[[[Ʋēŗɱēįƌēŋ Ŝįē şŏžįąĺēŋ Ķŏŋţąķţ∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"[[[Ƒüŗ Ƒŗąğēŋ žű ąűƒţŗēţēŋƌēŋ Ŝŷɱρţŏɱēŋ, Ţēşţɱöğĺįċĥķēįţēŋ űŋƌ ŵēįţēŗēŋ Āƃşŏŋƌēŗűŋğşɱąßŋąĥɱēŋ ŵēŋƌēŋ Ŝįē şįċĥ ƃįţţē ąŋ:∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_wash_hands">"[[[Ŵąşċĥēŋ Ŝįē Ĭĥŗē Ĥäŋƌē∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_wear_mask">"[[[Ţŗąğēŋ Ŝįē ēįŋē Ŝċĥűţžɱąşķē∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_stay_away">"[[[Ĥąĺţēŋ Ŝįē 2 Μēţēŗ Āƃşţąŋƌ žű ąŋƌēŗēŋ Ƥēŗşŏŋēŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_body_cough_sneeze">"[[[Ĥűşţēŋ űŋƌ Ńįēşēŋ Ŝįē įŋ Ĭĥŗē Āŗɱƃēűğē∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_increased_body_1">"[[[- Ĭĥŗēŋ Ĥąűşąŗţžţ/Ĭĥŗē Ĥąűşäŗţžţįŋ∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_increased_body_2">"[[[- Ďēŋ Ķąşşēŋäŗţžĺįċĥēŋ Ńŏţƌįēŋşţ (Ţēĺ: 116117)∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_behavior_increased_body_3">"[[[- Ĭĥŗ Ģēşűŋƌĥēįţşąɱţ∙∙∙∙]]]"</string>
+    <string name="risk_details_headline_infection_risk">"[[[Ĭŋƒēķţįŏŋşŗįşįķŏ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_body_infection_risk">"[[[Ŝŏ ŵįŗƌ Ĭĥŗ Řįşįķŏ ēŗɱįţţēĺţ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="risk_details_button_update">@string/risk_card_button_update</string>
+    <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
+    <!-- TODO check if needed -->
+    <string name="main_government_headline">"[[[Ģēşűŋƌĥēįţşąɱţ ąŋŗűƒēŋ∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+              Onboarding
+    ###################################### -->
+    <string name="onboarding_title">"[[[Ŏŋƃŏąŗƌįŋğ∙∙∙∙]]]"</string>
+    <string name="onboarding_image_description">"[[[ĬŜ ΜĬŜŜĬŃĢ∙∙∙∙]]]"</string>
+    <string name="onboarding_button_finish">"[[[Żűşţįɱɱēŋ∙∙∙∙∙]]]"</string>
+    <string name="onboarding_button_disable">"[[[Ńįċĥţ ąķţįʋįēŗēŋ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_button_next">"[[[Ŵēįţēŗ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_button_start">"[[[Ļŏş Ģēĥţ\'ş∙∙∙∙]]]"</string>
+    <string name="onboarding_button_back_description">"[[[Żűŗüċķ∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- 1 Together -->
+    <string name="onboarding_headline">"[[[Żűşąɱɱēŋ ğēğēŋ Ĉŏŗŏŋą∙∙∙∙∙]]]"</string>
+    <string name="onboarding_subtitle">@string/lorem_ipsum</string>
+    <string name="onboarding_body">@string/lorem_ipsum</string>
+    <string name="onboarding_body_emphasized">@string/lorem_ipsum</string>
+    <!-- 2 Privacy -->
+    <string name="onboarding_privacy_headline">"[[[Ďąţēŋşċĥűţž∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_privacy_subtitle">"[[[Ʋēŗąŋţŵŏŗţĺįċĥē Ŝţēĺĺē įɱ Ŝįŋŋē ƌēş Āŗţ. 4 Āƃş. 7 ĎŜĢƲŎ: \n \n Řŏƃēŗţ Ķŏċĥ-Ĭŋşţįţűţ\nŃŏŗƌűƒēŗ 20\n13353 Ɓēŗĺįŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
+    <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
+    <!-- 3 Permission -->
+    <string name="onboarding_tracing_headline">"[[[Ŵįē Ŝįē ƌįē Řįşįķŏēŗķēŋŋűŋğ ēŗɱöğĺįċĥēŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_tracing_subtitle">@string/lorem_ipsum</string>
+    <string name="onboarding_tracing_body">@string/lorem_ipsum</string>
+    <string name="onboarding_tracing_body_emphasized">@string/lorem_ipsum</string>
+    <string name="onboarding_tracing_dialog_headline">"[[[Ɓēŗēċĥţįğűŋğ∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_tracing_dialog_body">"[[[Ĉŏŗŏŋą-Ŵŗąŋ-Āρρ ķąŋŋ ƌąƌűŗċĥ ķēįŋē Ɓēŋąċĥŗįċĥţįğűŋğēŋ žű ĈŎƲĬĎ-19-Řįşįķŏşţąţűş ʋēŗşēŋƌēŋ űŋƌ ēɱρƒąŋğēŋ. Ŝįē ķöŋŋēŋ ƌįē Ƒűŋķţįŏŋ ĵēƌēŗžēįţ ēįŋşċĥąĺţēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_tracing_dialog_button_positive">"[[[Ţŗŏţžƌēɱ ŵēįţēŗ∙∙∙∙]]]"</string>
+    <string name="onboarding_tracing_dialog_button_negative">"[[[Żűŗüċķ∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- 4 Tracing -->
+    <string name="onboarding_test_headline">"[[[Ŝįē şįŋƌ ρŏşįţįʋ ğēţēşţēţ?∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_test_subtitle">@string/lorem_ipsum</string>
+    <string name="onboarding_test_body">@string/lorem_ipsum</string>
+    <string name="onboarding_test_body_emphasized">"[[[Ůɱƒēĺƌąűƒŋąĥɱē ąķţįʋįēŗēŋ∙∙∙∙∙∙∙]]]"</string>
+    <!-- 5 Datashare -->
+    <string name="onboarding_notifications_headline">"[[[Ŵąŗŋűŋğēŋ ēŗĥąĺţēŋ, Řįşįķēŋ ķēŋŋēŋ∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_notifications_subtitle">@string/lorem_ipsum</string>
+    <string name="onboarding_notifications_body">@string/lorem_ipsum</string>
+    <string name="onboarding_notifications_body_emphasized">@string/lorem_ipsum</string>
+    <string name="onboarding_notifications_dialog_headline">"[[[Ĕŗĺąűƃŋįş∙∙∙∙∙]]]"</string>
+    <string name="onboarding_notifications_dialog_body">"[[[Ďįē Ɓēŋąċĥŗįċĥţįğűŋğēŋ ƒüŗ ƌįē Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ şįŋƌ ąűşğēşţēĺĺţ. Ůɱ Ŝįē ƃēžüğĺįċĥ Ĭĥŗēş Ŝţąţűş įɱɱēŗ ąűƒ ƌēɱ ŋēűşţēŋ Ŝţąŋƌ žű ĥąĺţēŋ ŵäŗē ēş ĥįĺƒŗēįċĥ ŵēŋŋ şįē įĥŗē Ɓēŋąċĥŗįċĥţįğűŋğēŋ ąķţįʋįēŗēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="onboarding_notifications_dialog_button_positive">"[[[Żű ƌēŋ Ĕįŋşţēĺĺűŋğēŋ∙∙∙∙]]]"</string>
+    <string name="onboarding_notifications_dialog_button_negative">"[[[Ţŗŏţžƌēɱ ŵēįţēŗ∙∙∙∙]]]"</string> <!--<string name="onboarding_privacy_body_emphasized_address"></string> -->
+
+    <!-- ####################################
+                  Settings
+    ###################################### -->
+    <string name="settings_title">"[[[Ĕįŋşţēĺĺűŋğēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="settings_on">"[[[Āŋ∙∙]]]"</string>
+    <string name="settings_off">"[[[Āűş∙]]]"</string>
+    <!-- Tracing -->
+    <string name="settings_tracing_title">"[[[Řįşįķŏ-Ĕŗɱįţţĺűŋğ∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_headline">"[[[Āķţįʋįēŗēŋ Ŝįē ƌįē Āűƒžēįċĥŋűŋğ Ĭĥŗēŗ Ɓēğēğŋűŋğēŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_body_description">"[[[Ĕŗĺąűƃēŋ Ŝįē Ĕŗƒąşşűŋğ űŋƌ Ŵēįţēŗğąƃē ʋŏŋ Ĉŏʋįƌ-19-Żűƒąĺĺş-ĬĎş.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_body_active">"[[[Řįşįķŏ-Ĕŗɱįţţĺűŋğ Āķţįʋ∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_body_inactive">"[[[Řįşįķŏ-Ĕŗɱįţţĺűŋğ Ģēşţŏρρţ∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_body_active_description">"[[[Řįşįķŏ-Ĕŗɱįţţĺűŋğ įşţ ąķţįʋ. Ĕįŋē ʋēŗĺäşşĺįċĥē Řįşįķŏρŗüƒűŋğ ķąŋŋ ŋűŗ ɱįţ ƌąűēŗĥąƒţ ąķţįʋįēŗţēŗ Řįşįķŏ-Ĕŗɱįţţĺűŋğ ƌűŗċĥğēƒüĥŗţ ŵēŗƌēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_body_inactive_description">"[[[Řįşįķŏ-Ĕŗɱįţţĺűŋğ įşţ ğēşţŏρρţ. Ĕįŋē ʋēŗĺäşşĺįċĥē Řįşįķŏρŗüƒűŋğ ķąŋŋ ŋűŗ ɱįţ ƌąűēŗĥąƒţ ąķţįʋįēŗţēŗ Řįşįķŏ-Ĕŗɱįţţĺűŋğ ƌűŗċĥğēƒüĥŗţ ŵēŗƌēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_tracing_body_text">@string/lorem_ipsum</string>
+    <!-- Notifications -->
+    <string name="settings_notifications_title">"[[[Μįţţēįĺűŋğēŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_headline_active">"[[[Μöċĥţēŋ Ŝįē Μįţţēįĺűŋğēŋ žű Ĭĥŗēɱ Ĉŏʋįƌ-19-Řįşįķŏşţąţűş ąķţįʋįēŗēŋ?∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_headline_inactive">"[[[Μįţţēįĺűŋğēŋ şįŋƌ ƌēąķţįʋįēŗţ∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_body_description">"[[[Ĕŗĺąűƃēŋ Ŝįē ąűţŏɱąţįşċĥē Μįţţēįĺűŋğēŋ žű Ĉŏʋįƌ-19-Řįşįķŏşţąţűş.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_body_active">"[[[Ļēğēŋ Ŝįē ƒēşţ, žű ŵēĺċĥēŋ Ţĥēɱēŋ Ŝįē įŋƒŏŗɱįēŗţ ƃēįƃēŋ ɱöċĥţēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_body_inactive">"[[[Ůɱ Μįţţēįĺűŋğēŋ žű ąķţįʋįēŗēŋ, ɱüşşēŋ Ŝįē Μįţţēįĺűŋğēŋ ƒüŗ ƌįē Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ įŋ Ĭĥŗēŋ Ţēĺēƒŏŋēįŋşţēĺĺűŋğēŋ žűĺąşşēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_subtitle_notification">@string/settings_notifications_title</string>
+    <string name="settings_notifications_subtitle_update_risk">"[[[Äŋƌēŗŋ Ĭĥŗēş Ĭŋƒēķţįŏŋşŗįşįķŏş∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_subtitle_update_test">"[[[Ŝţąţűş Ĭĥŗēş ĈŎƲĬĎ-19-Ţēşţş∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_subtitle_update_news">"[[[Ůρƌąţē žű ĈŎƲĬĎ-19∙∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_subtitle_update_app">"[[[Ńēűē Āρρ Ƒűŋķţįŏŋēŋ∙∙∙∙∙]]]"</string>
+    <string name="settings_notifications_button_open_settings">"[[[Ĕįŋşţēĺĺűŋğēŋ öƒƒŋēŋ∙∙∙∙]]]"</string>
+    <!-- Reset-->
+    <string name="settings_reset_title">"[[[Āŋŵēŋƌűŋğ žűŗüċķşēţžēŋ∙∙∙∙∙]]]"</string>
+    <string name="settings_reset_headline">"[[[Ŝįŋƌ Ŝįē şįċĥēŗ, ƌąşş Ŝįē ƌįē Āŋŵēŋƌűŋğ žűŗüċķşēţžēŋ ŵŏĺĺēŋ?∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="settings_reset_body">@string/lorem_ipsum</string>
+    <string name="settings_reset_button_positive">@string/settings_reset_title</string>
+    <string name="settings_reset_button_negative">"[[[Āƃƃŗēċĥēŋ∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+               App Information
+    ###################################### -->
+    <string name="information_title">"[[[Ĭŋƒŏŗɱąţįŏŋ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_about_title">"[[[Üƃēŗ ƌįē Āρρ∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_about_headline">"[[[Ģēɱēįŋşąɱ Ĉŏŗŏŋą ƃēķäɱρƒēŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_privacy_title">"[[[Ďąţēŋşċĥűţžįŋƒŏŗɱąţįŏŋ∙∙∙∙∙]]]"</string>
+    <string name="information_privacy_headline">@string/lorem_ipsum</string>
+    <string name="information_terms_title">"[[[Ńűţžűŋğşƃēƌįŋğűŋğēŋ∙∙∙∙∙]]]"</string>
+    <string name="information_terms_headline">@string/lorem_ipsum</string>
+    <string name="information_contact_title">"[[[Ķŏŋţąķţ∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_contact_headline">"[[[Ŵįē ķöŋŋēŋ ŵįŗ Ĭĥŋēŋ ĥēĺƒēŋ?∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_help_title">"[[[Ĥäűƒįğē Ƒŗąğēŋ∙∙∙∙∙]]]"</string>
+    <string name="information_technical_title">"[[[Řēċĥţĺįċĥē Ĥįŋŵēįşē∙∙∙∙∙]]]"</string>
+    <string name="information_technical_headline">"[[[ƑŢƤ/ŜƑŢƤ/ƑŢƤŜ ċĺįēŋţ űşēş ĺįƃş∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_legal_title">"[[[Ĭɱρŗēşşűɱ∙∙∙∙∙]]]"</string>
+    <string name="information_legal_headline">"[[[Ĥēŗąűşğēƃēŗ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="information_legal_body">"[[[ŜĀƤ Ďēűţşċĥĺąŋƌ ŜĔ &amp; Ĉŏ. ĶĢ \n \nĤąűρţşįţž: \nŜĀƤ Ďēűţşċĥĺąŋƌ ŜĔ &amp; Ĉŏ. ĶĢ \nĤąşşŏ-Ƥĺąţţŋēŗ-Řįŋğ 7 \n69190 Ŵąĺĺƌŏŗƒ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+
+    <!-- ####################################
+             Submission
+             TODO: rename if screens are available
+    ###################################### -->
+    <!-- Submission Test Result -->
+    <string name="submission_test_result_headline">"[[[Ţēşţēŗğēƃŋįş∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_subtitle">"[[[Ĭŋƒŏ žűɱ Āƃĺąűƒ:∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_button_finish">"[[[Āƃşċĥĺįēßēŋ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_steps_added_heading">"[[[Ţēşţ ēŗƒŏĺğŗēįċĥ ĥįŋžűğēƒüğţ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_steps_added_body">"[[[Ĭĥŗ Ţēşţ ŵűŗƌē įŋ ƌēŗ Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ ĥįŋţēŗĺēğţ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"[[[Ţēşţēŗğēƃŋįş ŋŏċĥ ŋįċĥţ ʋēŗƒüğƃąŗ∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"[[[Ĭĥŗ Ţēşţēŗğēƃŋįş şţēĥţ ŋŏċĥ ŋįċĥţ žűŗ Ʋēŗƒüğűŋğ. Ńŏŗɱąĺēŗŵēįşē ƌąűēŗţ ƌįē Āűşŵēŗţűŋğ 1–3 Ţąğē.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_pending_refresh_button">"[[[Āķţűąĺįşįēŗēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_pending_remove_test_button">"[[[Ţēşţ ēŋţƒēŗŋēŋ∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_negative_steps_negative_heading">"[[[Ţēşţēŗğēƃŋįş Ńēğąţįʋ∙∙∙∙]]]"</string>
+    <string name="submission_test_result_negative_steps_negative_body">"[[[Ĭĥŗ Ţēşţēŗğēƃŋįş ŵűŗƌē ēŗƒŏĺğŗēįċĥ ąĺş “Ńēğąţįʋ” ʋēŗįƒįžįēŗţ. Ɓįţţē ēŋţƒēŗŋēŋ Ŝįē ƌēŋ Ţēşţ ŵįēƌēŗ ąűş ƌēŗ Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ, ƌąɱįţ Ŝįē ƃēį Ɓēƌąŗƒ ēįŋēŋ ŋēűēŋ Ţēşţ ĥįŋţēŗĺēğēŋ ķöŋŋēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_negative_remove_test_button">"[[[Ţēşţ ēŋţƒēŗŋēŋ∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_positive_steps_positive_heading">"[[[Ţēşţēŗğēƃŋįş Ƥŏşįţįʋ∙∙∙∙]]]"</string>
+    <string name="submission_test_result_positive_steps_positive_body">"[[[Ĭĥŗ Ţēşţēŗğēƃŋįş ŵűŗƌē ēŗƒŏĺğŗēįċĥ ąĺş “Ƥŏşįţįʋ” ʋēŗįƒįžįēŗţ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_positive_steps_warning_others_heading">"[[[Āŋƌēŗē ŵąŗŋēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"[[[Ţēįĺēŋ Ŝįē Ĭĥŗē Żűƒąĺĺşķēŋŋűŋğēŋ, ƌąɱįţ ąŋƌēŗē ğēŵąŗŋţ ŵēŗƌēŋ ķöŋŋēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_positive_continue_button">"[[[Ŵēįţēŗ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"[[[Ţēşţ ƒēĥĺēŗĥąƒţ∙∙∙∙]]]"</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"[[[Ĕş ğąƃ ēįŋ Ƥŗŏƃĺēɱ ƃēį ƌēŗ Āűşŵēŗţűŋğ Ĭĥŗēş Ţēşţş. Ɓįţţē ķŏŋţąķţįēŗēŋ Ŝįē ƌąş Ģēşűŋƌĥēįţşąɱţ űɱ Ĭŋƒŏŗɱąţįŏŋ žűɱ ŵēįţēŗēŋ Ʋŏŗğēĥēŋ žű ēŗĥąĺţēŋ. Ɓįţţē ēŋţƒēŗŋēŋ Ŝįē ƌēŋ Ţēşţ ŵįēƌēŗ ąűş ƌēŗ Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ, ƌąɱįţ Ŝįē ƃēį Ɓēƌąŗƒ ēįŋēŋ ŋēűēŋ Ţēşţ ĥįŋţēŗĺēğēŋ ķöŋŋēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"[[[Ţēşţ ēŋţƒēŗŋēŋ∙∙∙∙∙]]]"</string>
+    <!-- Submission Tan -->
+    <string name="submission_tan_title">"[[[ŢĀŃ Ĕįŋğąƃē∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_tan_body">"[[[Ģēƃēŋ Ŝįē ƃįţţē ƌįē ŢĀŃ Ńűɱɱēŗ įĥŗēş Ɓēƒűŋƌēş ēįŋ. Ďįē ŢĀŃ įşţ 7-şţēĺĺįğ űŋƌ Ģŗŏß- űŋƌ Ķĺēįŋşċĥŗēįƃűŋğ ɱűşş ŋįċĥţ ƃēąċĥţēţ ŵēŗƌēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_tan_button_text">"[[[Ŵēįţēŗ∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- Submission Intro -->
+    <string name="submission_intro_title">"[[[Ŵűŗƌēŋ Ŝįē ğēţēşţēţ?∙∙∙∙]]]"</string>
+    <string name="submission_intro_headline">"[[[Ŝŏ ƒűŋķţįŏŋēŗţ ƌąş Ĉŏŗŏŋą-Ŵąŗŋ-Ŝŷşţēɱ∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_intro_text_a">"[[[Ďąɱįţ ƌįē Ĉŏŗŏŋą-Ŵąŗŋ-Āρρ ƒűŋķţįŏŋįēŗţ, ŵįŗƌ ƌįē ƒŗēįŵįĺĺįğē Μįţĥįĺƒē ʋŏŋ ąĺĺēŋ Ĉŏŗŏŋą ρŏşįţįʋēŋ Ƥēŗşŏŋēŋ ƃēŋöţįğţ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_intro_text_b">@string/lorem_ipsum</string>
+    <string name="submission_intro_button_next">"[[[Ŵēįţēŗ∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- sm Result -->
+    <string name="sm_result_headline">"[[[Ƥŏşįţįʋē Ďįąğŋŏşē∙∙∙∙∙∙∙]]]"</string>
+    <string name="sm_result_body">@string/lorem_ipsum</string>
+    <string name="sm_result_button_finish">"[[[Āƃşċĥĺįēşşēŋ∙∙∙∙∙∙∙]]]"</string>
+    <!-- sm Notification -->
+    <string name="sm_result_dialog_headline">"[[[Ďąŋķē ƒüŗ ƌįē Μįţĥįĺƒē!∙∙∙∙∙∙]]]"</string>
+    <string name="sm_result_dialog_body">"[[[Ĭĥŗ ʋēŗįƒįžįēŗţēŗ Ɓēƒűŋƌ ŵűŗƌē ąŋŏŋŷɱ üƃēŗţŗąğēŋ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- sm Dispatcher -->
+    <string name="submission_dispatcher_headline">"[[[Āűşŵąĥĺ∙∙∙∙∙∙∙]]]"</string>
+
+    <string name="submission_dispatcher_subheadline">"[[[Ŵēĺċĥē Ĭŋƒŏŗɱąţįŏŋēŋ ĺįēğēŋ Ĭĥŋēŋ ʋŏŗ?∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_dispatcher_card_qr">"[[[Ďŏķűɱēŋţ ɱįţ ǬŘ-Ĉŏƌē∙∙∙∙]]]"</string>
+    <string name="submission_dispatcher_qr_card_text">"[[[Ʋēŗįƒįžįēŗēŋ Ŝįē Ĭĥŗēŋ Ţēşţ, įŋƌēɱ Ŝįē ƌēŋ ǬŘ-Ĉŏƌē įĥŗēş Ţēşţ-Ďŏķűɱēŋţ şċąŋŋēŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+
+    <string name="submission_dispatcher_card_tan_code">"[[[ŢĀŃ-Ĉŏƌē∙∙∙∙∙∙]]]"</string>
+    <string name="submission_dispatcher_tan_code_card_text">"[[[Ʋēŗįƒįžįēŗēŋ Ŝįē Ĭĥŗēŋ Ţēşţ ρēŗ ɱąŋűēķķēŗ ŢĀŃ Ĕįŋğąƃē∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+
+    <string name="submission_dispatcher_card_tan_tele">"[[[ŢĀŃ ţēĺēƒŏŋįşċĥ ąŋƒŗąğēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="submission_dispatcher_tan_tele_card_text">"[[[Ɓįţţē ŗűƒēŋ Ŝįē űŋş ąŋ, ƒąĺĺş Ŝįē Ƥŏşįţįʋ ğēţēşţēţ ŵűŗƌēŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+
+    <!-- Submission Positive Other Warning -->
+    <string name="submission_positive_other_warning_title">"[[[Āŋƌēŗē ŵąŗŋēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_other_warning_headline">"[[[Ŝŏ ğēĥţ ēş ŵēįţēŗ:∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_other_warning_body">"[[[Ļŏŗēɱ įρşűɱ ƌŏĺŏŗ şįţ ąɱēţ, ċŏŋşēċţēţűŗ ąƌįρįşċįŋğ ēĺįţ, şēƌ ƌŏ ēįűşɱŏƌ ţēɱρŏŗ įŋċįƌįƌűŋţ űţ ĺąƃŏŗē ēţ ƌŏĺŏŗē ɱąğŋą ąĺįƣűą. Ůţ ēŋįɱ ąƌ ɱįŋįɱ ʋēŋįąɱ, ƣűįş ŋŏşţŗűƌ ēχēŗċįţąţįŏŋ űĺĺąɱċŏ ĺąƃŏŗįş ŋįşį űţ ąĺįƣűįρ ēχ ēą ċŏɱɱŏƌŏ ċŏŋşēƣűąţ. \n\nĻŏŗēɱ įρşűɱ ƌŏĺŏŗ şįţ ąɱēţ, ċŏŋşēċţēţűŗ ąƌįρįşċįŋğ ēĺįţ, şēƌ ƌŏ ēįűşɱŏƌ ţēɱρŏŗ įŋċįƌįƌűŋţ űţ ĺąƃŏŗē ēţ ƌŏĺŏŗē ɱąğŋą ąĺįƣűą. Ůţ ēŋįɱ ąƌ ɱįŋįɱ ʋēŋįąɱ, ƣűįş ŋŏşţŗűƌ ēχēŗċįţąţįŏŋ űĺĺąɱċŏ ĺąƃŏŗįş ŋįşį űţ ąĺįƣűįρ ēχ ēą ċŏɱɱŏƌŏ ċŏŋşēƣűąţ. \n\nĎűįş ąűţē įŗűŗē ƌŏĺŏŗ įŋ ŗēρŗēĥēŋƌēŗįţ įŋ ʋŏĺűρţąţē ʋēĺįţ ēşşē ċįĺĺűɱ ƌŏĺŏŗē ēű ƒűğįąţ ŋűĺĺą ρąŗįąţűŗ. Ĕχċēρţēűŗ şįŋţ ŏċċąēċąţ ċűρįƌąţąţ ŋŏŋ ρŗŏįƌēŋţ, şűŋţ įŋ ċűĺρą ƣűį ŏƒƒįċįą ƌēşēŗűŋţ ɱŏĺĺįţ ąŋįɱ įƌ ēşţ ĺąƃŏŗűɱ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_other_warning_data_security_body">"[[[+Ďąţą-Ŝēċűŗįţŷ Ţēχţ∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_other_warning_button">"[[[Ŵēįţēŗ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_dialog_confirmation_title">"[[[Żűƒąĺĺş-ĬĎş ɱįţ ƌēŗ Āρρ Ĉŏŗŏŋą-Ŵąŗŋ ţēįĺēŋ?∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_dialog_confirmation_body">"[[[Ļŏŗēɱ įρşűɱ ƌŏĺŏŗ şįţ ąɱēţ, ċŏŋşēċţēţűŗ ąƌįρįşċįŋğ ēĺįţ, şēƌ ƌŏ ēįűşɱŏƌ ţēɱρŏŗ įŋċįƌįƌűŋţ űţ ĺąƃŏŗē ēţ ƌŏĺŏŗē ɱąğŋą ąĺįƣűą. Ůţ ēŋįɱ ąƌ ɱįŋįɱ ʋēŋįąɱ, ƣűįş ŋŏşţŗűƌ ēχēŗċįţąţįŏŋ űĺĺąɱċŏ ĺąƃŏŗįş ŋįşį űţ ąĺįƣűįρ ēχ ēą ċŏɱɱŏƌŏ ċŏŋşēƣűąţ. Ďűįş ąűţē įŗűŗē ƌŏĺŏŗ įŋ ŗēρŗēĥēŋƌēŗįţ įŋ ʋŏĺűρţąţē ʋēĺįţ ēşşē ċįĺĺűɱ ƌŏĺŏŗē ēű ƒűğįąţ ŋűĺĺą ρąŗįąţűŗ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_dialog_confirmation_positive">"[[[Ĕŗĺąűƃēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="submission_positive_dialog_confirmation_negative">"[[[Ńįċĥţ ēŗĺąűƃēŋ∙∙∙∙∙]]]"</string>
+
+
+    <!-- ####################################
+           Just for Development
+    ###################################### -->
+    <string name="lorem_ipsum">"[[[Ļŏŗēɱ įρşűɱ ƌŏĺŏŗ şįţ ąɱēţ, ċŏŋşēċţēţűŗ ąƌįρįşċįŋğ ēĺįţ, şēƌ ƌŏ ēįűşɱŏƌ ţēɱρŏŗ įŋċįƌįƌűŋţ űţ ĺąƃŏŗē ēţ ƌŏĺŏŗē ɱąğŋą ąĺįƣűą. Ůţ ēŋįɱ ąƌ ɱįŋįɱ ʋēŋįąɱ, ƣűįş ŋŏşţŗűƌ ēχēŗċįţąţįŏŋ űĺĺąɱċŏ ĺąƃŏŗįş ŋįşį űţ ąĺįƣűįρ ēχ ēą ċŏɱɱŏƌŏ ċŏŋşēƣűąţ. Ďűįş ąűţē įŗűŗē ƌŏĺŏŗ įŋ ŗēρŗēĥēŋƌēŗįţ įŋ ʋŏĺűρţąţē ʋēĺįţ ēşşē ċįĺĺűɱ ƌŏĺŏŗē ēű ƒűğįąţ ŋűĺĺą ρąŗįąţűŗ. Ĕχċēρţēűŗ şįŋţ ŏċċąēċąţ ċűρįƌąţąţ ŋŏŋ ρŗŏįƌēŋţ, şűŋţ įŋ ċűĺρą ƣűį ŏƒƒįċįą ƌēşēŗűŋţ ɱŏĺĺįţ ąŋįɱ įƌ ēşţ ĺąƃŏŗűɱ.∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="menu_test_api">"[[[Ţēşţ ĀƤĬ∙∙∙∙∙∙]]]"</string>
+    <string name="menu_test_notification">"[[[Ţēşţ Ńŏţįƒįċąţįŏŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_api_launch">"[[[Āŋƌŗŏįƌ ĀƤĬ Ţēşţ(Μąŋűąĺ Ţēşţ)∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_start">"[[[Ŝţąŗţ (Ɓŗŏąƌċąşţ/Řēċēįʋē Ɓĺűēţŏŏţĥ)∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_get_exposure_keys">"[[[Ģēţ Ĕχρŏşűŗē ķēŷş (ɱŷ ķēŷş ĥįşţŏŗŷ ƒŗŏɱ ąρį)∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_share_my_keys">"[[[Ŝĥąŗē ɱŷ ķēŷş ʋįą Ĕɱąįĺ∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_enter_other_keys">"[[[Ŝűƃɱįţ Ĕχρŏşűŗē Ķēŷ∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_show_qr_code">"[[[Ŝĥŏŵ ǬŘ Ĉŏƌē∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_submit_keys">"[[[Ŝűƃɱįţ ķēŷş ţŏ Ŝēŗʋēŗ∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_scan_qr_code">"[[[Ŝċąŋ Ĕχρŏşűŗē Ķēŷ∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_button_check_exposure">"[[[Ĉĥēċķ Ĕχρŏşűŗē Ŝűɱɱąŗŷ∙∙∙∙∙]]]"</string>
+    <string name="test_api_exposure_summary_headline">"[[[Ĕχρŏşűŗē şűɱɱąŗŷ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="test_api_body_daysSinceLastExposure">"[[[Ďąŷş şįŋċē ĺąşţ ēχρŏşűŗē: %1$s]]]"</string>
+    <string name="test_api_body_attenuation">"[[[Āţţēŋűąţįŏŋ Ďűŗąţįŏŋş įŋ Μįŋűţēş: %1$s]]]"</string>
+    <string name="test_api_body_summation_risk">"[[[Ŝűɱɱąţįŏŋ Řįşķ Ŝċŏŗē: %1$s]]]"</string>
+    <string name="test_api_body_matchedKeyCount">"[[[Μąţċĥēƌ ķēŷ ċŏűŋţ: %1$s]]]"</string>
+    <string name="test_api_body_maximumRiskScore">"[[[Μąχįɱűɱ ŗįşķ şċŏŗē %1$s]]]"</string>
+    <string name="test_api_body_my_keys">"[[[Μŷ ķēŷş (ċŏűŋţ: %1$d)]]]"</string>
+    <string name="test_api_body_other_keys">"[[[Ŏţĥēŗ ķēŷ∙∙∙∙∙]]]"</string>
+    <string name="test_api_calculate_risk_level">"[[[Ĉąĺċűĺąţē Řįşķ Ļēʋēĺ∙∙∙∙]]]"</string>
+
+
+    <!-- ####################################
+                Register
+    ###################################### -->
+    <!-- Permission Rationale Dialog -->
+    <string name="register_qr_code_scan_permission_rationale_dialog_headline">"[[[Ķąɱēŗą Ɓēŗēċĥţįğűŋğ ƃēŋöţįğţ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_permission_rationale_dialog_body">@string/lorem_ipsum</string>
+    <string name="register_qr_code_scan_permission_rationale_dialog_button_positive">"[[[Ĕŗĺąűƃēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_permission_rationale_dialog_button_negative">"[[[Ńįċĥţ ēŗĺąűƃēŋ∙∙∙∙∙]]]"</string>
+    <!-- Permission Denied Dialog -->
+    <string name="register_qr_code_scan_permission_denied_dialog_headline">"[[[Ķēįŋē Ķąɱēŗą Ɓēŗēċĥţįğűŋğ∙∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_permission_denied_dialog_body">@string/lorem_ipsum</string>
+    <string name="register_qr_code_scan_permission_denied_dialog_button_positive">"[[[Żűŗüċķ∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- QR Code Scan Successful Dialog -->
+    <string name="register_qr_code_scan_successful_dialog_headline">"[[[Ŝċąŋ ēŗƒŏĺğŗēįċĥ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_successful_dialog_body">@string/lorem_ipsum</string>
+    <string name="register_qr_code_scan_successful_dialog_button_positive">"[[[Řēğįşţŗįēŗēŋ∙∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_successful_dialog_button_negative">"[[[Āƃƃŗēċĥēŋ∙∙∙∙∙]]]"</string>
+    <!-- QR Code Scan Invalid Dialog -->
+    <string name="register_qr_code_scan_invalid_dialog_headline">"[[[Ƒąĺşċĥēŗ ǬŘ Ĉŏƌē∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_invalid_dialog_body">@string/lorem_ipsum</string>
+    <string name="register_qr_code_scan_invalid_dialog_button_positive">"[[[Ĕŗŋēűţ ʋēŗşűċĥēŋ∙∙∙∙∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_invalid_dialog_button_negative">"[[[Āƃƃŗēċĥēŋ∙∙∙∙∙]]]"</string>
+    <!-- QR Code Scan Screen -->
+    <string name="register_qr_code_scan_headline">"[[[ǬŘ Ĉŏƌē Ŝċąŋŋēŋ∙∙∙∙]]]"</string>
+    <string name="register_qr_code_scan_body">"[[[Ƥŏşįţįŏŋįēŗēŋ Ŝįē ƌēŋ ǬŘ Ĉŏƌē įŋ ƌēŋ Řąĥɱēŋ∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙]]]"</string>
+    <!-- Register Device Screen -->
+    <string name="register_device_headline">"[[[Ģēŗäţ Řēğįşţŗįēŗēŋ∙∙∙∙∙∙]]]"</string>
+    <string name="register_device_body">@string/lorem_ipsum</string>
+
+</resources>
