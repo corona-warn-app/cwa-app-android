@@ -3,13 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
             name="registerDate"
             type="java.util.Date" />
-
         <variable
             name="testResult"
             type="de.rki.coronawarnapp.util.formatter.TestResult" />
@@ -31,27 +29,26 @@
 
             <ImageView
                 android:id="@+id/test_result_card_status_icon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(testResult)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(testResult)}"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/test_result_card_headline"
-                style="@style/textMultiline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/test_result_card_headline"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultHeadingTextVisible(testResult)}"
+                style="@style/textMultiline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/test_result_card_virus_name"
-                style="@style/testResultCardLargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/testResultCardLargeText"
                 android:text="@string/test_result_card_virus_name_text"
                 android:visibility="@{FormatterSubmissionHelper.formatTestResultVirusNameTextVisible(testResult)}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,18 +57,32 @@
             <TextView
                 android:id="@+id/test_result_card_invalid_status_text"
                 style="@style/testResultCardLargeText"
-                android:layout_width="250dp"
                 android:layout_height="wrap_content"
+                android:layout_width="@dimen/match_constraint"
                 android:text="@string/test_result_card_status_invalid"
+                android:layout_marginEnd="@dimen/spacing_large"
                 android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStatusTextVisible(testResult)}"
+                app:layout_constraintEnd_toStartOf="@+id/test_result_card_status_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
+
+            <TextView
+                android:id="@+id/test_result_card_pending_status_text"
+                style="@style/testResultCardLargeText"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:text="@string/test_result_card_status_pending"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStatusTextVisible(testResult)}"
+                app:layout_constraintEnd_toStartOf="@+id/test_result_card_status_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
 
             <TextView
                 android:id="@+id/test_result_card_status_text"
-                style="@style/testResultCardLargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/testResultCardLargeText"
                 android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(testResult)}"
                 android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(testResult)}"
                 android:visibility="@{FormatterSubmissionHelper.formatTestResultStatusTextVisible(testResult)}"
@@ -80,11 +91,10 @@
 
             <TextView
                 android:id="@+id/test_result_card_registered_at_text"
-                style="@style/textMultiline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{FormatterSubmissionHelper.formatTestResultRegisteredAtText(registerDate)}"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultRegisteredAtVisible(testResult)}"
+                style="@style/textMultiline"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

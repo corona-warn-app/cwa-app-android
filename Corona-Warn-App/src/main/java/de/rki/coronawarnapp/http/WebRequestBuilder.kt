@@ -192,7 +192,7 @@ object WebRequestBuilder {
     ) =
         suspendCoroutine<String> { cont ->
             val requestID = UUID.randomUUID()
-            val getTestResultRequest =
+            val getTANRequest =
                 TanRequest(
                     url,
                     requestID,
@@ -203,13 +203,13 @@ object WebRequestBuilder {
                     Response.Listener { response ->
                         Log.d(
                             TAG,
-                            "$requestID: Test Result Request successful"
+                            "$requestID: TAN Request successful"
                         )
                         cont.resume(response)
                     },
                     RequestErrorListener(requestID, cont)
                 )
-            RequestQueueHolder.addToRequestQueue(getTestResultRequest)
+            RequestQueueHolder.addToRequestQueue(getTANRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
         }
 
@@ -254,7 +254,7 @@ object WebRequestBuilder {
         Response.ErrorListener {
         override fun onErrorResponse(error: VolleyError?) {
             if (error != null) {
-                val webRequestException = WebRequestException("an error occured during a webrequest", error)
+                val webRequestException = WebRequestException("an error occurred during a webrequest", error)
                 webRequestException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
                 cont.resumeWithException(webRequestException)
             } else {

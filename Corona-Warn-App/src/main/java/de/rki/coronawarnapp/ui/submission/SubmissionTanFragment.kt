@@ -48,6 +48,6 @@ class SubmissionTanFragment : BaseFragment() {
         // store locally
         viewModel.storeTeletan()
 
-        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToDeviceRegistrationFragment())
+        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionRegisterDeviceFragment())
     }
 }

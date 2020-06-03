@@ -10,6 +10,7 @@ import com.android.volley.RetryPolicy
 import com.android.volley.toolbox.HttpHeaderParser
 import de.rki.coronawarnapp.exception.ExceptionCategory.HTTP
 import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
@@ -37,12 +38,17 @@ class RegistrationTokenRequest(
 
     override fun getBody(): ByteArray {
         val body = JSONObject()
-        val md = MessageDigest.getInstance("SHA-256")
-        val keyDigest = md.digest(key.toByteArray())
 
         var keyStr = ""
-        for (b in keyDigest) {
-            keyStr += String.format("%02x", b)
+        if (keyType == SubmissionConstants.QR_CODE_KEY_TYPE) {
+            val md = MessageDigest.getInstance("SHA-256")
+            val keyDigest = md.digest(key.toByteArray())
+
+            for (b in keyDigest) {
+                keyStr += String.format("%02x", b)
+            }
+        } else {
+            keyStr = key
         }
 
         body.put("keyType", keyType)

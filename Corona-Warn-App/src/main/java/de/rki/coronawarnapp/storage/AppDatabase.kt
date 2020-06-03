@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
 import de.rki.coronawarnapp.util.Converters
+import de.rki.coronawarnapp.util.security.SecurityHelper
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
-import java.util.UUID
 
 @Database(
     entities = [ExposureSummaryEntity::class, KeyCacheEntity::class, TracingIntervalEntity::class],
@@ -39,11 +39,8 @@ abstract class AppDatabase : RoomDatabase() {
         fun resetInstance(context: Context) = { instance = null }.also { getInstance(context) }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            if (LocalData.databasePassword() == null) {
-                LocalData.databasePassword(UUID.randomUUID().toString().toCharArray())
-            }
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes(LocalData.databasePassword())))
+                .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes(SecurityHelper.getDBPassword())))
                 .build()
         }
     }

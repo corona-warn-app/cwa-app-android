@@ -18,7 +18,7 @@
         <include
             android:id="@+id/submission_test_result_header"
             layout="@layout/include_information_details_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,10 +26,24 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/submission_test_result_headline}" />
 
+        <ProgressBar
+            android:id="@+id/submission_test_result_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultSpinnerVisible(submissionViewModel.testResultState)}"
+            app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_button_container"
+            app:layout_constraintEnd_toStartOf="@+id/submission_test_result_guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/submission_test_result_guideline_start"
+            app:layout_constraintTop_toTopOf="@+id/submission_test_result_guideline_top" />
+
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_guideline_bottom"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:fillViewport="true"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.testResultState)}"
+            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_container"
             app:layout_constraintEnd_toStartOf="@+id/submission_test_result_guideline_end"
             app:layout_constraintStart_toStartOf="@+id/submission_test_result_guideline_start"
             app:layout_constraintTop_toTopOf="@+id/submission_test_result_guideline_body">
@@ -41,7 +55,7 @@
                 <include
                     android:id="@+id/submission_test_result_card"
                     layout="@layout/include_test_result_card"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -52,9 +66,9 @@
                 <TextView
                     android:id="@+id/submission_test_result_subtitle"
                     style="@style/textSubTitle"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,9 +77,9 @@
                 <include
                     android:id="@+id/submission_test_result_pending_steps"
                     layout="@layout/include_test_result_pending_steps"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -74,9 +88,9 @@
                 <include
                     android:id="@+id/submission_test_result_negative_steps"
                     layout="@layout/include_test_result_negative_steps"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.testResult)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -85,9 +99,9 @@
                 <include
                     android:id="@+id/submission_test_result_positive_steps"
                     layout="@layout/include_test_result_positive_steps"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.testResult)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,78 +110,90 @@
                 <include
                     android:id="@+id/submission_test_result_invalid_steps"
                     layout="@layout/include_test_result_invalid_steps"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.testResult)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </ScrollView>
 
-        <Button
-            android:id="@+id/submission_test_result_button_pending_refresh"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/submission_test_result_button_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:text="@string/submission_test_result_pending_refresh_button"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
-            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_pending_remove_test"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.testResultState)}"
+            app:layout_constraintBottom_toBottomOf="@id/submission_test_result_guideline_bottom">
 
-        <Button
-            android:id="@+id/submission_test_result_button_pending_remove_test"
-            style="@style/buttonLight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:text="@string/submission_test_result_pending_remove_test_button"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/submission_test_result_button_pending_refresh"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_small"
+                android:text="@string/submission_test_result_pending_refresh_button"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
+                app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_pending_remove_test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/submission_test_result_button_invalid_remove_test"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:text="@string/submission_test_result_invalid_remove_test_button"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.testResult)}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/submission_test_result_button_pending_remove_test"
+                style="@style/buttonLight"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_small"
+                android:text="@string/submission_test_result_pending_remove_test_button"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/submission_test_result_button_positive_continue"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:text="@string/submission_test_result_positive_continue_button"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.testResult)}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/submission_test_result_button_invalid_remove_test"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_small"
+                android:text="@string/submission_test_result_invalid_remove_test_button"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.testResult)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/submission_test_result_button_negative_remove_test"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:text="@string/submission_test_result_negative_remove_test_button"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.testResult)}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/submission_test_result_button_positive_continue"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_small"
+                android:text="@string/submission_test_result_positive_continue_button"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.testResult)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/submission_test_result_button_negative_remove_test"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_small"
+                android:text="@string/submission_test_result_negative_remove_test_button"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.testResult)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/submission_test_result_guideline_start"

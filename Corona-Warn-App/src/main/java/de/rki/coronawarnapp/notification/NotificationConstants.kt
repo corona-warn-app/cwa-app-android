@@ -17,7 +17,7 @@ object NotificationConstants {
     /**
      * Notification small icon String.xml path
      */
-    const val NOTIFICATION_SMALL_ICON = R.drawable.ic_app_launch_icon
+    const val NOTIFICATION_SMALL_ICON = R.drawable.ic_splash_logo
 
     /**
      * Notification channel name String.xml path

@@ -1,5 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-enum class TestResultStatus {
+enum class ApiRequestState {
     IDLE, STARTED, FAILED, SUCCESS
 }

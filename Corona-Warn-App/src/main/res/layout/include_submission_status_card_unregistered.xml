@@ -11,35 +11,32 @@
         <TextView
             android:id="@+id/submission_status_card_unregistered_title"
             style="@style/textTitle"
-            android:layout_width="@dimen/submission_status_card_text_width"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_status_card_title_unregistered"
+            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/submission_status_card_unregistered_body"
-            android:layout_width="@dimen/submission_status_card_text_width"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_normal"
+            style="@style/textMultiline"
+            android:layout_width="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_height="wrap_content"
             android:text="@string/submission_status_card_body_unregistered"
             app:layout_constraintBottom_toTopOf="@+id/submission_status_card_unregistered_button"
+            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="@+id/submission_status_card_unregistered_title" />
 
         <Button
             android:id="@+id/submission_status_card_unregistered_button"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginVertical="@dimen/spacing_normal"
-            android:backgroundTint="@color/tracingIconActive"
+            style="@style/buttonPrimary"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_status_card_button_unregistered"
-            android:textColor="@color/colorLight"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_icon" />

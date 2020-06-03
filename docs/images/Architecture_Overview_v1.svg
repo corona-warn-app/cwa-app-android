@@ -906,7 +906,7 @@
 						x="27.59" dy="1.2em" class="st5">Key Access</tspan></text>		</g>
 		<g id="shape2793-130" v:mID="2793" v:groupContext="shape" transform="translate(-21.1295,334.302) rotate(-90)">
 			<title>vert/hor (rw) access.2793</title>
-			<desc>Exposure Risk Calculation (Configuration &#38; positve DiagnosisK...</desc>
+			<desc>Exposure Risk Calculation (Configuration &#38; positive DiagnosisK...</desc>
 			<v:custProps>
 				<v:cp v:nameU="FMCType" v:lbl="Type" v:type="0" v:format="@" v:invis="true" v:langID="1031" v:val="VT4(connection)"/>
 			</v:custProps>
@@ -925,7 +925,7 @@
 			<path d="M0 640.14 L-73.99 640.14" class="st19"/>
 			<text x="603.57" y="14.95" transform="rotate(90)" class="st18" v:langID="1031"><v:paragraph v:horizAlign="2"/><v:tabList/>Exposure<v:newlineChar/><tspan
 						x="580.01" dy="1.2em" class="st5">Risk Calculation<v:newlineChar/></tspan><tspan x="494.19" dy="1.2em"
-						class="st5">(</tspan>Configuration &#38; positve DiagnosisKeys)</text>		</g>
+						class="st5">(</tspan>Configuration &#38; positive DiagnosisKeys)</text>		</g>
 		<g id="shape2798-139" v:mID="2798" v:groupContext="shape" transform="translate(546.369,-338.964)">
 			<title>storage</title>
 			<desc>DiagnosisKeyCache</desc>

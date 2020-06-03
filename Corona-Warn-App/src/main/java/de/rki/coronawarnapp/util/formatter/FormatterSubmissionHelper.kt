@@ -6,19 +6,18 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.register.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.TestResultStatus
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.formatter.TestResult.INVALID
 import de.rki.coronawarnapp.util.formatter.TestResult.NEGATIVE
 import de.rki.coronawarnapp.util.formatter.TestResult.PENDING
 import de.rki.coronawarnapp.util.formatter.TestResult.POSITIVE
 import java.util.Date
 
-fun formatTestResultStatusVisibility(testResultStatus: TestResultStatus?): Int =
-    formatVisibility(testResultStatus != TestResultStatus.SUCCESS)
+fun formatTestResultSpinnerVisible(testResultStatus: ApiRequestState?): Int =
+    formatVisibility(testResultStatus != ApiRequestState.SUCCESS)
 
-fun formatTestResultHeadingTextVisible(testResult: TestResult?): Int =
-    formatVisibility(testResult != PENDING)
+fun formatTestResultVisible(testResultStatus: ApiRequestState?): Int =
+    formatVisibility(testResultStatus == ApiRequestState.SUCCESS)
 
 fun formatTestResultVirusNameTextVisible(testResult: TestResult?): Int {
     return when (testResult) {
@@ -56,23 +55,19 @@ fun formatTestStatusIcon(testResult: TestResult?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
     // TODO Replace with real drawables when design is finished
     return when (testResult) {
-        PENDING -> appContext.getDrawable(R.drawable.ic_risk_details_stethoscope)
-        POSITIVE -> appContext.getDrawable(R.drawable.rectangle)
-        NEGATIVE -> appContext.getDrawable(R.drawable.circle)
-        INVALID -> appContext.getDrawable(R.drawable.button)
-        else -> appContext.getDrawable(R.drawable.button)
+        PENDING -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
+        POSITIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_positive)
+        NEGATIVE -> appContext.getDrawable(R.drawable.ic_main_illustration_negative)
+        INVALID -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
+        else -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
     }
 }
 
 fun formatTestResultInvalidStatusTextVisible(testResult: TestResult?): Int =
     formatVisibility(testResult == INVALID)
 
-fun formatTestResultRegisteredAtVisible(testResult: TestResult?): Int {
-    return when (testResult) {
-        POSITIVE, NEGATIVE, INVALID -> View.VISIBLE
-        else -> View.GONE
-    }
-}
+fun formatTestResultPendingStatusTextVisible(testResult: TestResult?): Int =
+    formatVisibility(testResult == PENDING)
 
 fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
     val appContext = CoronaWarnApplication.getAppContext()
@@ -116,22 +111,6 @@ fun formatSubmissionStatusCardContentButtonText(testResult: TestResult?): String
     return when (testResult) {
         INVALID, NEGATIVE, POSITIVE -> appContext.getString(R.string.submission_status_card_button_show_results)
         else -> appContext.getString(R.string.submission_status_card_button_show_details)
-    }
-}
-
-fun formatSubmissionStatusCardContentButtonColor(testResult: TestResult?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (testResult) {
-        INVALID, NEGATIVE, POSITIVE -> appContext.getColor(R.color.tracingIconActive)
-        else -> appContext.getColor(R.color.colorLight)
-    }
-}
-
-fun formatSubmissionStatusCardContentButtonTextColor(testResult: TestResult?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (testResult) {
-        INVALID, NEGATIVE, POSITIVE -> appContext.getColor(R.color.colorLight)
-        else -> appContext.getColor(R.color.tracingIconActive)
     }
 }
 
@@ -179,3 +158,12 @@ fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
     R.color.textColorLight,
     R.color.colorGreyDisabled
 )
+
+fun formatShowSubmissionStatusCard(testResult: TestResult?): Int =
+    formatVisibility(testResult != POSITIVE)
+
+fun formatShowSubmissionStatusPositiveCard(testResult: TestResult?): Int =
+    formatVisibility(testResult == POSITIVE)
+
+fun formatShowRiskStatusCard(testResult: TestResult?): Int =
+    formatVisibility(testResult != POSITIVE)
