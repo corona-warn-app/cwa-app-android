@@ -31,31 +31,27 @@ object SubmissionRepository {
     }
 
     private suspend fun fetchTestResult(): DeviceUIState {
-        try {
-            val testResult = SubmissionService.asyncRequestTestResult()
+        val testResult = SubmissionService.asyncRequestTestResult()
 
-            if (testResult == TestResult.POSITIVE) {
-                LocalData.isAllowedToSubmitDiagnosisKeys(true)
-            }
+        if (testResult == TestResult.POSITIVE) {
+            LocalData.isAllowedToSubmitDiagnosisKeys(true)
+        }
 
-            val initialTestResultReceivedTimestamp = LocalData.inititalTestResultReceivedTimestamp()
+        val initialTestResultReceivedTimestamp = LocalData.inititalTestResultReceivedTimestamp()
 
-            if (initialTestResultReceivedTimestamp == null) {
-                val currentTime = System.currentTimeMillis()
-                LocalData.inititalTestResultReceivedTimestamp(currentTime)
-                testResultReceivedDate.value = Date(currentTime)
-            } else {
-                testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
-            }
+        if (initialTestResultReceivedTimestamp == null) {
+            val currentTime = System.currentTimeMillis()
+            LocalData.inititalTestResultReceivedTimestamp(currentTime)
+            testResultReceivedDate.value = Date(currentTime)
+        } else {
+            testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
+        }
 
-            return when (testResult) {
-                TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
-                TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
-                TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
-                TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
-            }
-        } catch (err: Exception) {
-            return DeviceUIState.PAIRED_ERROR
+        return when (testResult) {
+            TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+            TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+            TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
+            TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
         }
     }
 
