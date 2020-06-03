@@ -2,14 +2,7 @@ package de.rki.coronawarnapp.worker
 
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.util.Log
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.Operation
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
@@ -109,6 +102,8 @@ object BackgroundWorkScheduler {
         LocalData.getSharedPreferenceInstance().registerOnSharedPreferenceChangeListener(
             sharedPrefListener
         )
+        //TODO: Reimplement after clarifications
+        WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
     }
 
     /**
