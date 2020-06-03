@@ -27,6 +27,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.exception.TestAlreadyPairedException
 import de.rki.coronawarnapp.exception.WebRequestException
 import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.http.request.ApplicationConfigurationRequest
@@ -153,7 +154,7 @@ object WebRequestBuilder {
                         )
                         cont.resume(response)
                     },
-                    RequestErrorListener(requestID, cont)
+                    RegistrationTokenRequestErrorListener(requestID, cont)
                 )
             RequestQueueHolder.addToRequestQueue(getRegistrationTokenRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
@@ -257,6 +258,25 @@ object WebRequestBuilder {
                 val webRequestException = WebRequestException("an error occurred during a webrequest", error)
                 webRequestException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
                 cont.resumeWithException(webRequestException)
+            } else {
+                cont.resumeWithException(NullPointerException("the provided exception from volley was null"))
+            }
+        }
+    }
+
+    private class RegistrationTokenRequestErrorListener<T>(
+        private val requestID: UUID,
+        private val cont: Continuation<T>
+    ) :
+        Response.ErrorListener {
+        override fun onErrorResponse(error: VolleyError?) {
+            if (error != null) {
+                val resultingException = when(error.networkResponse.statusCode) {
+                    400 -> TestAlreadyPairedException("the test was already paired to a different device", error)
+                    else -> WebRequestException("an error occurred during a webrequest", error)
+                }
+                resultingException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
+                cont.resumeWithException(resultingException)
             } else {
                 cont.resumeWithException(NullPointerException("the provided exception from volley was null"))
             }
