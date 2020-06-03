@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.activityViewModels
@@ -23,11 +22,12 @@ import de.rki.coronawarnapp.util.OpenUrlHelper
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
- * Two ViewModels are needed that this fragment shows all relevant information to the user.
+ * Three ViewModels are needed that this fragment shows all relevant information to the user.
  * Also the Menu is set here.
  *
  * @see tracingViewModel
  * @see settingsViewModel
+ * @see submissionViewModel
  * @see PopupMenu
  */
 class MainFragment : BaseFragment() {
@@ -68,7 +68,6 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshIsTracingEnabled()
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         settingsViewModel.refreshBackgroundJobEnabled()
-        settingsViewModel.refreshBluetoothEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
         if (submissionViewModel.deviceRegistered) {
             submissionViewModel.refreshTestResult()
@@ -82,6 +81,11 @@ class MainFragment : BaseFragment() {
             )
         }
         binding.mainTest.submissionStatusCardContent.submissionStatusCardContentButton.setOnClickListener {
+            doNavigate(
+                MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
+            )
+        }
+        binding.mainTestPositive.submissionStatusCardPositiveResultShowButton.setOnClickListener {
             doNavigate(
                 MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
             )
@@ -122,11 +126,7 @@ class MainFragment : BaseFragment() {
         popup.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Help Navigation isn't implemented",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    doNavigate(MainFragmentDirections.actionMainFragmentToMainOverviewFragment())
                     true
                 }
                 R.id.menu_information -> {
@@ -151,7 +151,6 @@ class MainFragment : BaseFragment() {
                             .toString()
                     )
                     NotificationHelper.sendNotification(
-                        getString(R.string.notification_headline),
                         getString(R.string.notification_body),
                         NotificationCompat.PRIORITY_HIGH
                     )

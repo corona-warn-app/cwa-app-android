@@ -374,6 +374,23 @@ object LocalData {
         return timestamp
     }
 
+    fun devicePairingSuccessfulTimestamp(value: Long) =
+        with(getSharedPreferenceInstance().edit()) {
+            putLong(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_device_pairing_successful_time),
+                value
+            )
+        }
+
+    fun devicePairingSuccessfulTimestamp(): Long? {
+        return getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_device_pairing_successful_time),
+            0L
+        )
+    }
+
     fun numberOfSuccessfulSubmissions(value: Int) =
         getSharedPreferenceInstance().edit(true) {
             putInt(
