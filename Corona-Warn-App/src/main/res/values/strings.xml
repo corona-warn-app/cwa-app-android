@@ -113,7 +113,10 @@
     ###################################### -->
     <!-- Generic -->
     <string name="risk_card_body_contact">Bisher keine Risiko-Begegnungen</string> <!-- final -->
-    <string name="risk_card_body_contact_value">%1$s Risikobegegnungen</string>
+    <plurals name="risk_card_body_contact_value">
+        <item quantity="one">%1$s Risikobegegnung</item>
+        <item quantity="other">%1$s Risikobegegnungen</item>
+    </plurals>
     <string name="risk_card_body_saved_days">%1$s von 14 Tagen aktiv</string> <!-- final -->
     <string name="risk_card_body_not_yet_fetched">Kontakte wurden noch nicht überprüft.</string>
     <string name="risk_card_body_time_fetched">Aktualisiert: %1$s</string>
@@ -126,7 +129,10 @@
     <string name="risk_card_low_risk_headline">Niedriges Risiko</string>  <!-- final -->
     <!-- INCREASED_RISK -->
     <string name="risk_card_increased_risk_headline">Erhöhtes Risiko</string> <!-- final -->
-    <string name="risk_card_increased_risk_body_contact_last">%1$s Tage seit der letzten Begegnung</string>
+    <plurals name="risk_card_increased_risk_body_contact_last">
+        <item quantity="one">%1$s Tag seit der letzten Begegnung</item>
+        <item quantity="other">%1$s Tage seit der letzten Begegnung</item>
+    </plurals>
     <!-- UNKNOWN_RISK -->
     <string name="risk_card_unknown_risk_headline">Unbekanntes Risiko</string>  <!-- final -->
     <string name="risk_card_unknown_risk_body">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string> <!-- final -->
@@ -202,7 +208,10 @@
     <string name="risk_details_information_body_unknown_risk">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string> <!-- final -->
     <string name="risk_details_information_body_outdated_risk">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string>
     <string name="risk_details_information_body_low_risk">Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Coronapositiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat.</string> <!-- final -->
-    <string name="risk_details_information_body_increased_risk">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</string>
+    <plurals name="risk_details_information_body_increased_risk">
+        <item quantity="one">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</item>
+        <item quantity="other">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</item>
+    </plurals>
     <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string> <!-- final -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
@@ -288,7 +297,10 @@
     <string name="settings_tracing_status_connection_headline">Internetverbindung aktivieren</string>
     <string name="settings_tracing_status_connection_body">Die Risiko-Ermittlung benötigt eine Internetverbindung um Risikobegegnungen berechnen zu können. Bitte aktivieren Sie WLAN oder Mobile Daten in Ihren Einstellungen.</string>
     <string name="settings_tracing_status_connection_button">Einstellungen öffnen</string>
-    <string name="settings_tracing_status_body_active">Risiko-Ermittlung ist seit %1$s Tagen aktiv.</string>
+    <plurals name="settings_tracing_status_body_active">
+        <item quantity="one">Risiko-Ermittlung ist seit %1$s Tag aktiv.</item>
+        <item quantity="other">Risiko-Ermittlung ist seit %1$s Tagen aktiv.</item>
+    </plurals>
     <string name="settings_tracing_status_body_inactive">Die Risiko-Ermittlung umfasst %1$s von 14 Tagen.</string>
     <!-- Notifications -->
     <string name="settings_notifications_title">Mitteilungen</string>
