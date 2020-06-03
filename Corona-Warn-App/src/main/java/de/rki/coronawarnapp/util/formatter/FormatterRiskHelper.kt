@@ -23,7 +23,11 @@ import java.util.Date
  * @return
  */
 private fun isTracingOffRiskLevel(riskLevelScore: Int?): Boolean {
-    return (riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF)
+    return when (riskLevelScore) {
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> true
+        else -> false
+    }
 }
 
 /**
@@ -83,10 +87,11 @@ fun formatRiskBody(riskLevelScore: Int?): String {
  */
 fun formatRiskSavedRisk(riskLevelScore: Int?, savedRiskLevelScore: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    return if (riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF) {
+    return if (riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF || riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS) {
         when (savedRiskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
-            RiskLevelConstants.INCREASED_RISK ->
+            RiskLevelConstants.INCREASED_RISK,
+            RiskLevelConstants.UNKNOWN_RISK_INITIAL->
                 appContext.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                     .format(formatRiskLevelHeadline(savedRiskLevelScore, false))
             else -> ""
@@ -209,10 +214,12 @@ fun formatTimeFetched(
                 appContext.getString(R.string.risk_card_body_not_yet_fetched)
             }
         }
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> {
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> {
             when (savedRiskLevelScore) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
-                RiskLevelConstants.INCREASED_RISK -> {
+                RiskLevelConstants.INCREASED_RISK,
+                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
                     if (lastTimeDiagnosisKeysFetched != null) {
                         appContext.getString(
                             R.string.risk_card_body_time_fetched,
@@ -286,7 +293,6 @@ fun formatRiskDetailsRiskLevelSubtitle(riskLevelScore: Int?): String {
  * @return
  */
 fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: Int?): String {
-    // TODO replace lorem ipsum by text from rki
     val appContext = CoronaWarnApplication.getAppContext()
     val daysArg = daysSinceLastExposure.toString()
 
