@@ -40,12 +40,12 @@ class SubmissionTestResultFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshTestResult()
+        viewModel.refreshDeviceUIState()
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
-            viewModel.refreshTestResult()
+            viewModel.refreshDeviceUIState()
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {

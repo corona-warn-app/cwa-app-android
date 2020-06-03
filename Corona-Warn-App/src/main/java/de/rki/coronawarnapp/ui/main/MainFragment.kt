@@ -70,9 +70,6 @@ class MainFragment : BaseFragment() {
         settingsViewModel.refreshBackgroundJobEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
-        if (submissionViewModel.deviceRegistered) {
-            submissionViewModel.refreshTestResult()
-        }
     }
 
     private fun setButtonOnClickListener() {
