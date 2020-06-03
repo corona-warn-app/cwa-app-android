@@ -30,7 +30,7 @@ class CircleProgress @JvmOverloads constructor(
         private const val START_ANGLE = 270f
         private const val FULL_CIRCLE = 360f
         private const val DEFAULT_WIDTH = 10f
-        private val DEFAULT_MAX_PROGRESS = TimeVariables.getDefaultRetentionPeriodInDays()
+        private val DEFAULT_MAX_PROGRESS = TimeVariables.getDefaultRetentionPeriodInDays().toFloat()
     }
 
     private val circlePaint: Paint
@@ -48,23 +48,23 @@ class CircleProgress @JvmOverloads constructor(
      * Setter for progress. Text and icon depend on the progress value.
      * The visibility is also influenced by the disableText attribute.
      */
-    var progress: Int = 0
+    var progress: Float = 0F
         set(value) {
             field = value
             val body = binding.circleProgressBody
             val icon = binding.circleProgressIcon
-            if (value == DEFAULT_MAX_PROGRESS) {
+            // text visibility
+            if (disableText || value == DEFAULT_MAX_PROGRESS) {
                 body.visibility = View.GONE
+            } else {
+                body.visibility = View.VISIBLE
+                body.text = value.toInt().toString()
+            }
+            // icon visibility
+            if (value == DEFAULT_MAX_PROGRESS) {
                 icon.visibility = View.VISIBLE
             } else {
-                body.visibility = View.VISIBLE
                 icon.visibility = View.GONE
-            }
-            if (disableText) {
-                body.visibility = View.GONE
-            } else {
-                body.visibility = View.VISIBLE
-                body.text = value.toString()
             }
             invalidate()
         }
@@ -82,7 +82,7 @@ class CircleProgress @JvmOverloads constructor(
         val styleAttrs = context.obtainStyledAttributes(attrs, R.styleable.CircleProgress)
         // attribute circleColor; default = colorGreyLight
         val circleColor = styleAttrs.getColor(
-            R.styleable.CircleProgress_secondaryColor,
+            R.styleable.CircleProgress_circleColor,
             ContextCompat.getColor(context, R.color.colorGreyLight)
         )
         // attribute progressColor; default = colorPrimary
@@ -90,16 +90,20 @@ class CircleProgress @JvmOverloads constructor(
             ContextCompat.getColor(context, R.color.colorPrimary))
         // attribute textColor; default = colorGrey
         val textColor = styleAttrs.getColor(R.styleable.CircleProgress_textColor,
-            ContextCompat.getColor(context, R.color.colorGrey))
+            ContextCompat.getColor(context, R.color.textColorGrey)
+        )
         // attribute disableText; default = true
         disableText = styleAttrs.getBoolean(R.styleable.CircleProgress_disableText, false)
         // attribute progressWidth; default = DEFAULT_WIDTH
         progressWidth = styleAttrs.getFloat(R.styleable.CircleProgress_circleWidth, DEFAULT_WIDTH)
         // attribute progress; default = 0
-        progress = styleAttrs.getInt(R.styleable.CircleProgress_progress, 0)
+        progress = styleAttrs.getFloat(R.styleable.CircleProgress_progress, 0F)
         // set textColor
         val body = binding.circleProgressBody
         body.setTextColor(textColor)
+        // set icon color
+        val icon = binding.circleProgressIcon
+        icon.setColorFilter(progressColor, android.graphics.PorterDuff.Mode.SRC_IN)
         // circlePaint based on the attributes and default value
         circlePaint = Paint().apply {
             color = circleColor
