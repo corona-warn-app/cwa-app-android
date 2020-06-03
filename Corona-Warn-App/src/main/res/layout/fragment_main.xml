@@ -177,7 +177,7 @@
                 android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_risk"
+                app:layout_constraintTop_toBottomOf="@+id/main_test_positive"
                 app:submissionViewModel="@{submissionViewModel}" />
 
             <include

@@ -63,7 +63,6 @@ class SettingsTracingFragment : BaseFragment(),
         super.onResume()
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
-        settingsViewModel.refreshBluetoothEnabled()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -107,7 +106,7 @@ class SettingsTracingFragment : BaseFragment(),
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toBluetooth(requireContext())
+            SettingsNavigationHelper.toConnections(requireContext())
         }
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
             SettingsNavigationHelper.toConnections(requireContext())

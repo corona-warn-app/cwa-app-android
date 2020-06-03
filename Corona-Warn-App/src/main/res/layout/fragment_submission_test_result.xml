@@ -26,11 +26,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/submission_test_result_headline}" />
 
+        <ProgressBar
+            android:id="@+id/submission_test_result_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultSpinnerVisible(submissionViewModel.testResultState)}"
+            app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_button_container"
+            app:layout_constraintEnd_toStartOf="@+id/submission_test_result_guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/submission_test_result_guideline_start"
+            app:layout_constraintTop_toTopOf="@+id/submission_test_result_guideline_top" />
+
         <ScrollView
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:fillViewport="true"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.testResultState)}"
             app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_container"
             app:layout_constraintEnd_toStartOf="@+id/submission_test_result_guideline_end"
             app:layout_constraintStart_toStartOf="@+id/submission_test_result_guideline_start"
@@ -113,6 +125,7 @@
             android:id="@+id/submission_test_result_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.testResultState)}"
             app:layout_constraintBottom_toBottomOf="@id/submission_test_result_guideline_bottom">
 
             <Button

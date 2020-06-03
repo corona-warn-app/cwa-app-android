@@ -92,8 +92,8 @@ object SettingsRepository {
      *
      * @see ConnectivityHelper
      */
-    fun refreshBluetoothEnabled() {
-        isBluetoothEnabled.value = ConnectivityHelper.isBluetoothEnabled()
+    fun updateBluetoothEnabled(value: Boolean) {
+        isBluetoothEnabled.postValue(value)
     }
 
     /**
