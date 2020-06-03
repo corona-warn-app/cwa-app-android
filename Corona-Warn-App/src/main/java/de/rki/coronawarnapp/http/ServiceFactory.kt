@@ -10,7 +10,6 @@ import okhttp3.ConnectionPool
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.TlsVersion
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,7 +36,9 @@ class ServiceFactory {
     private val mInterceptors: List<Interceptor> = listOf(
         HttpLoggingInterceptor().also {
             it.setLevel(HttpLoggingInterceptor.Level.BODY)
-        }
+        },
+        OfflineCacheInterceptor(CoronaWarnApplication.getAppContext()),
+        RetryInterceptor()
     )
 
     /**
@@ -70,14 +71,22 @@ class ServiceFactory {
         cache.evictAll()
         clientBuilder.cache(cache)
 
-        val spec: ConnectionSpec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-            .tlsVersions(TlsVersion.TLS_1_2, TlsVersion.TLS_1_3)
+        val spec: ConnectionSpec = ConnectionSpec.Builder(ConnectionSpec.RESTRICTED_TLS)
             .allEnabledCipherSuites() // TODO clarify more concrete Ciphers
             .build()
 
         clientBuilder.connectionSpecs(listOf(spec))
 
-        // TODO add certificate pinning
+        /**
+         * TODO add certificate pinning
+         *
+         * Intermediates will be encoded like this:
+         * openssl x509 -in CERTNAME -pubkey -noout | \
+         * openssl pkey -pubin -outform der | \
+         * openssl dgst -sha256 -binary | \
+         * openssl enc -base64
+         */
+
 //        val certificatePinner = CertificatePinner.Builder()
 //            .add(
 //                "x.de",
@@ -97,7 +106,8 @@ class ServiceFactory {
             .client(okHttpClient)
             .baseUrl(DynamicURLs.DOWNLOAD_CDN_URL)
             .addConverterFactory(gsonConverterFactory)
-            .build().create(DistributionService::class.java)
+            .build()
+            .create(DistributionService::class.java)
     }
 
     fun verificationService(): VerificationService = verificationService
@@ -106,7 +116,8 @@ class ServiceFactory {
             .client(okHttpClient)
             .baseUrl(DynamicURLs.VERIFICATION_CDN_URL)
             .addConverterFactory(gsonConverterFactory)
-            .build().create(VerificationService::class.java)
+            .build()
+            .create(VerificationService::class.java)
     }
 
     fun submissionService(): SubmissionService = submissionService

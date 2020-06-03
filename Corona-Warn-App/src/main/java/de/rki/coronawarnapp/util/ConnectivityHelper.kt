@@ -127,13 +127,26 @@ object ConnectivityHelper {
      *
      * @see [BluetoothAdapter]
      */
-    fun isBluetoothEnabled(): Boolean {
+    private fun isBluetoothEnabled(): Boolean {
         val bAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bAdapter == null) {
             Log.d(TAG, "Device does not have bluetooth hardware")
             return false
         }
         return bAdapter.isEnabled
+    }
+
+    /**
+     * Get network enabled status.
+     *
+     * @return current network status
+     *
+     */
+    fun isNetworkEnabled(context: Context): Boolean {
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: Network? = manager.activeNetwork
+        val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
+        return caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
     }
 
     /**
