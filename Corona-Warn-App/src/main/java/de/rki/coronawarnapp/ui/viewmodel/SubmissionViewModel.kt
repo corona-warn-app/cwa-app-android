@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -20,20 +21,21 @@ class SubmissionViewModel : ViewModel() {
     private val _scanStatus = MutableLiveData(ScanStatus.STARTED)
     private val _registrationState = MutableLiveData(ApiRequestState.IDLE)
     private val _testResultState = MutableLiveData(ApiRequestState.IDLE)
-    private val _authCodeState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
 
     val scanStatus: LiveData<ScanStatus> = _scanStatus
     val registrationState: LiveData<ApiRequestState> = _registrationState
     val testResultState: LiveData<ApiRequestState> = _testResultState
-    val authCodeState: LiveData<ApiRequestState> = _authCodeState
     val submissionState: LiveData<ApiRequestState> = _submissionState
 
     val deviceRegistered get() = LocalData.registrationToken() != null
 
     val testResult: LiveData<TestResult> =
         SubmissionRepository.testResult
-    val testResultReceivedDate: LiveData<Date> = SubmissionRepository.testResultReceivedDate
+    val testResultReceivedDate: LiveData<Date> =
+        SubmissionRepository.testResultReceivedDate
+    val deviceUiState: LiveData<DeviceUIState> =
+        SubmissionRepository.deviceUIState
 
     fun submitDiagnosisKeys() =
         executeRequestWithState(SubmissionService::asyncSubmitExposureKeys, _submissionState)
@@ -43,6 +45,9 @@ class SubmissionViewModel : ViewModel() {
 
     fun refreshTestResult() =
         executeRequestWithState(SubmissionRepository::refreshTestResult, _testResultState)
+
+    fun refreshDeviceUIState() =
+        SubmissionRepository.refreshUIState()
 
     fun validateAndStoreTestGUID(testGUID: String) {
         try {

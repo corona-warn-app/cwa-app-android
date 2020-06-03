@@ -71,6 +71,7 @@ class MainFragment : BaseFragment() {
         settingsViewModel.refreshBackgroundJobEnabled()
         settingsViewModel.refreshBluetoothEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
+        submissionViewModel.refreshDeviceUIState()
         if (submissionViewModel.deviceRegistered) {
             submissionViewModel.refreshTestResult()
         }
