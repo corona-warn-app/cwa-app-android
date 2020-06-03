@@ -40,6 +40,7 @@
     <color name="textColorLight">#ffffff</color>
     <color name="textColorRed">#C4314A</color>
     <color name="textColorBlue">#2C79A9</color>
+    <color name="textColorGrey">#D3D3D3</color>
 
     <!-- Visual Elements-->
     <color name="dividerColor">#0D000000</color>

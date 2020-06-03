@@ -22,9 +22,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'jacoco'
 
 android {
-    ndkVersion "21.1.6352462"
+    ndkVersion "21.2.6472646"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -32,8 +33,8 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 7
-        versionName "0.8.0"
+        versionCode 8
+        versionName "0.8.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -62,14 +63,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         releaseForTest {
             applicationIdSuffix '.dev'
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -86,17 +87,15 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding {
+            enabled true
+        }
+
+        viewBinding {
+            enabled true
+        }
     }
-
-    viewBinding {
-        enabled true
-    }
-
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -135,6 +134,13 @@ android {
 
 }
 
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDeviceReleaseUnitTest']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
 dependencies {
     api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.2-eap.aar'])
     implementation project(":Server-Protocol-Buffer")
@@ -153,6 +159,7 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.3.4'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.google.android.play:core:1.7.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.guava:guava:29.0-android'

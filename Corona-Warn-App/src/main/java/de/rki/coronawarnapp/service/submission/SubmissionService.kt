@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.service.submission
 
-import de.rki.coronawarnapp.exception.InvalidQRCodeExcpetion
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_KEY_TYPE
-import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_VALIDATION_REGEX
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.REGISTRATION_TOKEN_URL
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TAN_REQUEST_URL
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_TYPE
@@ -63,10 +61,18 @@ object SubmissionService {
         SubmitDiagnosisKeysTransaction.start(registrationToken)
     }
 
-    fun validateAndStoreTestGUID(testGUID: String) {
-        val regexMatch = QR_CODE_VALIDATION_REGEX.find(testGUID) ?: throw InvalidQRCodeExcpetion()
-        LocalData.testGUID(regexMatch.value)
+    /**
+     * extracts the GUID from [scanResult]. Returns null if it does not match the required pattern
+     */
+    fun extractGUID(scanResult: String): String? {
+        val potentialGUID = scanResult.substringAfterLast("?", "")
+        return if (potentialGUID.isEmpty())
+            null
+        else
+            potentialGUID
     }
+
+    fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
 
     fun deleteTestGUID() {
         LocalData.testGUID(null)
