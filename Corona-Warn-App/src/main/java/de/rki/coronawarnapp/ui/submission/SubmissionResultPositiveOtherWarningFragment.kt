@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.android.volley.TimeoutError
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
+import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
+import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
@@ -54,9 +57,49 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         return binding.root
     }
 
+    private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
+        return when (exception) {
+            is TimeoutError -> DialogHelper.DialogInstance(
+                R.string.submission_error_dialog_web_generic_timeout_title,
+                R.string.submission_error_dialog_web_generic_timeout_body,
+                R.string.submission_error_dialog_web_generic_timeout_button_positive,
+                R.string.submission_error_dialog_web_generic_timeout_button_negative,
+                viewModel::submitDiagnosisKeys,
+                ::navigateToSubmissionResultFragment
+            )
+            is TestPairingInvalidException -> DialogHelper.DialogInstance(
+                R.string.submission_error_dialog_web_paring_invalid_title,
+                R.string.submission_error_dialog_web_paring_invalid_body,
+                R.string.submission_error_dialog_web_paring_invalid_button_positive,
+                null,
+                ::navigateToSubmissionResultFragment
+            )
+            is SubmissionTanInvalidException -> DialogHelper.DialogInstance(
+                R.string.submission_error_dialog_web_tan_invalid_title,
+                R.string.submission_error_dialog_web_tan_invalid_body,
+                R.string.submission_error_dialog_web_tan_invalid_button_positive,
+                null,
+                ::navigateToSubmissionResultFragment
+            )
+            else -> DialogHelper.DialogInstance(
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                ::navigateToSubmissionResultFragment
+            )
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        viewModel.submissionError.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                DialogHelper.showDialog(requireActivity(), buildErrorDialog(it))
+            }
+        })
 
         viewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
@@ -75,10 +118,13 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         }
         binding.submissionPositiveOtherWarningHeader
             .informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
-                )
+                navigateToSubmissionResultFragment()
             }
     }
+
+    private fun navigateToSubmissionResultFragment() =
+        doNavigate(
+            SubmissionResultPositiveOtherWarningFragmentDirections
+                .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
+        )
 }

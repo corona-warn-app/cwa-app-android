@@ -370,6 +370,14 @@
     <string name="submission_error_dialog_web_test_paired_title">Fehler</string>
     <string name="submission_error_dialog_web_test_paired_body">Der Test ist bereits mit einem anderen Gerät assoziiert.</string>
     <string name="submission_error_dialog_web_test_paired_button_positive">Zurück</string>
+    <!-- Test Pairing Invalid Error Messages -->
+    <string name="submission_error_dialog_web_paring_invalid_title">Fehler</string>
+    <string name="submission_error_dialog_web_paring_invalid_body">Die Test assoziazion zu diesem Gerät ist fehlerhaft.</string>
+    <string name="submission_error_dialog_web_paring_invalid_button_positive">Zurück</string>
+    <!-- Submission TAN Invalid Error Messages -->
+    <string name="submission_error_dialog_web_tan_invalid_title">Fehler</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">Die TAN für das Gerät ist fehlerhaft.</string>
+    <string name="submission_error_dialog_web_tan_invalid_button_positive">Zurück</string>
     <!-- Permission Rationale Dialog -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
