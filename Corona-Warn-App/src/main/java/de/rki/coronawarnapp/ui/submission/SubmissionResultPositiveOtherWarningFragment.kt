@@ -66,6 +66,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
                 R.string.submission_error_dialog_web_generic_timeout_button_negative,
+                true,
                 viewModel::submitDiagnosisKeys,
                 ::navigateToSubmissionResultFragment
             )
@@ -74,6 +75,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 R.string.submission_error_dialog_web_paring_invalid_body,
                 R.string.submission_error_dialog_web_paring_invalid_button_positive,
                 null,
+                true,
                 ::navigateToSubmissionResultFragment
             )
             is SubmissionTanInvalidException -> DialogHelper.DialogInstance(
@@ -81,6 +83,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 R.string.submission_error_dialog_web_tan_invalid_body,
                 R.string.submission_error_dialog_web_tan_invalid_button_positive,
                 null,
+                true,
                 ::navigateToSubmissionResultFragment
             )
             else -> DialogHelper.DialogInstance(
@@ -88,6 +91,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 R.string.submission_error_dialog_web_generic_error_body,
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
+                true,
                 ::navigateToSubmissionResultFragment
             )
         }

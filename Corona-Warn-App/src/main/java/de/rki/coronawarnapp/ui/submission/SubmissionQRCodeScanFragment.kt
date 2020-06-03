@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 
 /**
@@ -21,6 +24,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 class SubmissionQRCodeScanFragment : BaseFragment() {
 
     companion object {
+        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
         private val TAG: String? = SubmissionQRCodeScanFragment::class.simpleName
     }
 
@@ -85,6 +89,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             R.string.submission_qr_code_scan_successful_dialog_body,
             R.string.submission_qr_code_scan_successful_dialog_button_positive,
             R.string.submission_qr_code_scan_successful_dialog_button_negative,
+            true,
             {
                 doNavigate(
                     SubmissionQRCodeScanFragmentDirections
@@ -106,6 +111,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             R.string.submission_qr_code_scan_invalid_dialog_body,
             R.string.submission_qr_code_scan_invalid_dialog_button_positive,
             R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+            true,
             ::startDecode,
             ::navigateToDispatchScreen
         )
@@ -115,9 +121,43 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.submissionQrCodeScanPreview.resume()
-        startDecode()
+
+        if (!CameraPermissionHelper.hasCameraPermission(requireActivity())) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                showCameraPermissionRationaleDialog()
+            } else {
+                requestCameraPermission()
+            }
+        } else {
+            binding.submissionQrCodeScanPreview.resume()
+            startDecode()
+        }
     }
+
+    private fun showCameraPermissionRationaleDialog() {
+        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
+            R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_body,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
+            false,
+            {
+                requestCameraPermission()
+            },
+            {
+                goBack()
+            }
+        )
+
+        DialogHelper.showDialog(requireActivity(), cameraPermissionRationaleDialogInstance)
+    }
+
+    private fun goBack() = (activity as MainActivity).goBack()
+
+    private fun requestCameraPermission() = requestPermissions(
+        arrayOf(Manifest.permission.CAMERA),
+        REQUEST_CAMERA_PERMISSION_CODE
+    )
 
     override fun onPause() {
         super.onPause()

@@ -40,6 +40,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
                 R.string.submission_error_dialog_web_generic_timeout_button_negative,
+                true,
                 viewModel::doDeviceRegistration,
                 ::navigateToDispatchScreen
             )
@@ -48,6 +49,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
                 R.string.submission_error_dialog_web_test_paired_body,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
                 null,
+                true,
                 ::navigateToDispatchScreen
             )
             else -> DialogHelper.DialogInstance(
@@ -55,6 +57,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
                 R.string.submission_error_dialog_web_generic_error_body,
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
+                true,
                 ::navigateToDispatchScreen
             )
         }

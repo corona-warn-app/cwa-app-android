@@ -47,6 +47,7 @@ class SubmissionTestResultFragment : BaseFragment() {
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
                 R.string.submission_error_dialog_web_generic_timeout_button_negative,
+                true,
                 viewModel::refreshTestResult,
                 ::navigateToMainScreen
             )
@@ -55,6 +56,7 @@ class SubmissionTestResultFragment : BaseFragment() {
                 R.string.submission_error_dialog_web_generic_error_body,
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
+                true,
                 ::navigateToMainScreen
             )
         }
