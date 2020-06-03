@@ -47,10 +47,7 @@ object SubmissionService {
         deleteTeleTAN()
     }
 
-    suspend fun asyncRequestAuthCode(): String {
-        val registrationToken =
-            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-
+    suspend fun asyncRequestAuthCode(registrationToken: String): String {
         val authCode = WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
         return authCode
     }
