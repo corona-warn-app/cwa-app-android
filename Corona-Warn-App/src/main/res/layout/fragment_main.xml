@@ -6,6 +6,7 @@
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
             name="submissionViewModel"
@@ -26,7 +27,7 @@
         android:fillViewport="true"
         tools:context="de.rki.coronawarnapp.ui.main.MainFragment">
 
-        <!-- todo apply merge tags throught xml when applicable (eod) -->
+        <!-- todo apply merge tags through xml when applicable (eod) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -94,7 +95,7 @@
                     style="@style/textLargeEmphasized"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{FormatterSettingsHelper.formatTracingText(tracingViewModel.isTracingEnabled())}"
+                    android:text="@{FormatterSettingsHelper.formatTracingDescription(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,8 +106,8 @@
                     android:layout_width="@dimen/icon_size_main_card"
                     android:layout_height="@dimen/icon_size_main_card"
                     android:importantForAccessibility="no"
-                    android:src="@{FormatterSettingsHelper.formatTracingIcon(tracingViewModel.isTracingEnabled())}"
-                    android:tint="@{FormatterSettingsHelper.formatTracingIconColor(tracingViewModel.isTracingEnabled())}"
+                    android:src="@{FormatterSettingsHelper.formatTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    android:tint="@{FormatterSettingsHelper.formatTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -125,6 +126,7 @@
             <include
                 android:id="@+id/main_risk"
                 layout="@layout/include_risk_card"
+                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.testResult)}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -136,14 +138,27 @@
                 app:tracingViewModel="@{tracingViewModel}" />
 
             <include
+                android:id="@+id/main_test_positive"
+                layout="@layout/include_submission_status_card_positive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusPositiveCard(submissionViewModel.testResult)}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/main_risk"
+                app:registerDate="@{submissionViewModel.testResultReceivedDate}" />
+
+            <include
                 android:id="@+id/main_test"
                 layout="@layout/include_submission_status_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusCard(submissionViewModel.testResult)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_risk"
+                app:layout_constraintTop_toBottomOf="@+id/main_test_positive"
                 app:submissionViewModel="@{submissionViewModel}" />
 
             <include

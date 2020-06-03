@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
@@ -44,16 +45,14 @@ class RiskLevelTransactionTest {
         mockkObject(RiskLevelTransaction)
         mockkObject(TimeVariables)
         mockkObject(ExposureSummaryRepository.Companion)
+        mockkObject(RiskLevel.Companion)
 
         every { ExposureSummaryRepository.getExposureSummaryRepository() } returns esRepositoryMock
 
         every { RiskLevelRepository.getLastCalculatedScore() } returns UNDETERMINED
 
-        every { RiskLevelRepository.setRiskLevelScore(NO_CALCULATION_POSSIBLE_TRACING_OFF) } just Runs
-        every { RiskLevelRepository.setRiskLevelScore(UNKNOWN_RISK_OUTDATED_RESULTS) } just Runs
-        every { RiskLevelRepository.setRiskLevelScore(INCREASED_RISK) } just Runs
-        every { RiskLevelRepository.setRiskLevelScore(UNKNOWN_RISK_INITIAL) } just Runs
-        every { RiskLevelRepository.setRiskLevelScore(LOW_LEVEL_RISK) } just Runs
+        every { RiskLevelRepository.setRiskLevelScore(any()) } just Runs
+        every { RiskLevel.riskLevelChangedBetweenLowAndHigh(any(), any()) } returns false
     }
 
     /** Test case for [NO_CALCULATION_POSSIBLE_TRACING_OFF] */
@@ -298,7 +297,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
             .minus(TimeUnit.MINUTES.toMillis(30))
 
-        // teh active tracing duration is above the threshold
+        // the active tracing duration is above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
         coEvery { RiskScoreClassificationService.asyncRetrieveRiskScoreClassification() } returns testRiskScoreClassification

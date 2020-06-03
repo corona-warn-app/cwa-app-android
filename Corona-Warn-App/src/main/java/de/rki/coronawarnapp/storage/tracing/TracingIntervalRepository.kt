@@ -49,7 +49,7 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
 
     suspend fun createInterval(from: Long, to: Long) {
         Log.v(TAG, "Insert Tracing Interval $from, $to")
-        if (to < from) throw IllegalArgumentException("to cannot be after from")
+        if (to < from) throw IllegalArgumentException("to cannot be after or equal from")
         tracingIntervalDao.insertInterval(TracingIntervalEntity().apply {
             this.from = from
             this.to = to
