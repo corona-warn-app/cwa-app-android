@@ -8,12 +8,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.android.volley.TimeoutError
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
 import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
 import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     InternalExposureNotificationPermissionHelper.Callback {
