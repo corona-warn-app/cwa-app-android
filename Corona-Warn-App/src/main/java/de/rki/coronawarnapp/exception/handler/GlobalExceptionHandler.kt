@@ -41,6 +41,13 @@ class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
         }
     }
 
+    /**
+     * Restarts the app by sending an Intent to start LauncherActivitiy and
+     * terminating the JVM
+     *
+     * @param context application context
+     * @param exceptionMessage exception that caused the crash
+     */
     private fun triggerRestart(context: Context, exceptionMessage: String) {
         val intent = Intent(context, LauncherActivity::class.java)
         intent.addFlags(
