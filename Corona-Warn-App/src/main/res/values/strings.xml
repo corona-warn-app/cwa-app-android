@@ -451,7 +451,8 @@
     <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string> <!-- final -->
 
     <!-- Submission Done -->
-    <string name="submission_done_headline">Vielen Dank!</string>
+    <string name="submission_done_title">Vielen Dank!</string> <!-- final -->
+    <string name="submission_done_headline">Sie haben einen wichtigen Beitrag geleistet!</string> <!-- final -->
     <string name="submission_done_body">Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren.</string>
     <string name="submission_done_subtitle">Bitte beachten Sie:</string>
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
