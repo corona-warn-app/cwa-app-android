@@ -1,6 +1,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-
     <!-- ####################################
                Preference Keys
     ######################################
@@ -212,37 +211,56 @@
               Onboarding
     ###################################### -->
     <string name="onboarding_image_description">IS MISSING</string>
-    <string name="onboarding_button_finish">Weiter</string> <!-- final -->
     <string name="onboarding_button_disable">Nicht aktivieren</string>
-    <string name="onboarding_button_next">Weiter</string>
+    <!-- XBUT: onboarding - next -->
+    <string name="onboarding_button_next">Weiter</string> <!-- final -->
+    <!-- -->
+    <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">Los Geht\'s</string> <!-- final -->
     <string name="onboarding_button_back_description">Zurück</string>
     <!-- 1 Together -->
+    <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
+    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
     <string name="onboarding_subtitle">Mehr Schutz für Sie und uns alle. Mit der Corona-Warn-App durchbrechen wir Infektionsketten schneller.</string> <!-- final -->
+    <!-- YTXT: onboarding(together) - inform about the app -->
     <string name="onboarding_body">Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen infizierte Personen in ihrer Nähe waren.</string> <!-- final -->
+    <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string> <!-- final -->
     <!-- 2 Privacy -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
     <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
-    <!-- 3 Permission -->
+    <!-- 3 Tracing -->
+    <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">Wie Sie die Risiko-Ermittlung ermöglichen</string> <!-- final -->
+    <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren.</string> <!-- final -->
+    <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">Die Risiko-Ermittlung funktioniert, indem Ihr Handy per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren.</string> <!-- final -->
+    <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich.</string> <!-- final -->
     <string name="onboarding_tracing_dialog_headline">Berechtigung</string>
+    <!-- YMSI: onboarding(tracing) - dialog about tracing -->
     <string name="onboarding_tracing_dialog_body">Corona-Warn-App kann dadurch keine Benachrichtigungen zum COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit ausschalten.</string> <!-- final -->
+    <!-- XBUT: onboarding(tracing) - positive button (right) -->
     <string name="onboarding_tracing_dialog_button_positive">Nicht aktivieren</string> <!-- final -->
+    <!-- XBUT: onboarding(tracing) - negative button (right)-->
     <string name="onboarding_tracing_dialog_button_negative">Zurück</string> <!-- final -->
-    <!-- 4 Tracing -->
+    <!-- 4 Test -->
+    <!-- XHED: onboarding(test) - about positive tests-->
     <string name="onboarding_test_headline">Falls Sie positiv getestet werden …</string> <!-- final -->
+    <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller.</string> <!-- final -->
+    <!-- YTXT: onboarding(test) - explain test -->
     <string name="onboarding_test_body">Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen.</string> <!-- final -->
     <!-- 5 Datashare -->
+    <!-- XHED: onboarding(datashare) - about positive tests-->
     <string name="onboarding_notifications_headline">Warnungen erhalten, Risiken erkennen</string> <!-- final -->
+    <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
     <string name="onboarding_notifications_subtitle">Die App kann Sie automatisch über Ihren Risikostatus informieren und bei Neuinfektionen von Menschen, denen Sie begegnet sind, warnen. Erlauben Sie der App jetzt, Sie zu benachrichtigen.</string> <!-- final -->
+    <!-- YTXT: onboarding(datashare) - explain test -->
     <string name="onboarding_notifications_body">Auf diese Weise können Sie sich zum Schutz Ihrer Mitmenschen in Isolation begeben und nach entsprechender Abklärung testen lassen.</string> <!-- final -->
 
     <!-- ####################################
