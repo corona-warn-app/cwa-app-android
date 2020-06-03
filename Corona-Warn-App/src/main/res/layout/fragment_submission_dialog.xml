@@ -7,30 +7,30 @@
     android:padding="@dimen/spacing_normal">
 
     <TextView
-        android:id="@+id/sm_verification_success_headline"
+        android:id="@+id/submission_verification_success_headline"
         style="@style/textTitleCentered"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/sm_result_dialog_headline"
+        android:text="@string/submission_result_dialog_headline"
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/sm_verification_success_body"
+        android:id="@+id/submission_verification_success_body"
         style="@style/textMultilineCentered"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/sm_result_dialog_body" />
+        android:text="@string/submission_result_dialog_body" />
 
     <Button
-        android:id="@+id/sm_verification_success_button"
+        android:id="@+id/submission_verification_success_button"
         style="@style/buttonPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/sm_result_button_dialog_close" />
+        android:text="@string/submission_result_button_dialog_close" />
 
 </LinearLayout>
