@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterInformationHelper" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -93,6 +99,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/information_technical"
                 app:title="@{@string/information_legal_title}" />
+
+            <TextView
+                android:id="@+id/information_version"
+                style="@style/textMultiline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@{FormatterInformationHelper.formatVersion()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/information_legal" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_top"
