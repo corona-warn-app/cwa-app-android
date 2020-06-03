@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import com.android.volley.TimeoutError
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 
 /**
  * A simple [BaseFragment] subclass.
@@ -33,9 +37,38 @@ class SubmissionTestResultFragment : BaseFragment() {
         return binding.root
     }
 
+    private fun navigateToMainScreen() =
+        doNavigate(SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment())
+
+    private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
+        return when (exception) {
+            is TimeoutError -> DialogHelper.DialogInstance(
+                R.string.submission_error_dialog_web_generic_timeout_title,
+                R.string.submission_error_dialog_web_generic_timeout_body,
+                R.string.submission_error_dialog_web_generic_timeout_button_positive,
+                R.string.submission_error_dialog_web_generic_timeout_button_negative,
+                viewModel::doDeviceRegistration,
+                ::navigateToMainScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                ::navigateToMainScreen
+            )
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        viewModel.testResultError.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                DialogHelper.showDialog(requireActivity(), buildErrorDialog(it))
+            }
+        })
     }
 
     override fun onResume() {
