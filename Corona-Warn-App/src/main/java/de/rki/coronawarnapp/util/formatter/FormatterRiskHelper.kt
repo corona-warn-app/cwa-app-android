@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import de.rki.coronawarnapp.risk.TimeVariables
 import java.text.DateFormat
 import java.util.Date
 
@@ -403,36 +402,6 @@ fun formatRiskContactIcon(riskLevelScore: Int?): Drawable? =
         R.drawable.ic_risk_card_contact_increased,
         R.drawable.ic_risk_card_contact
     )
-
-/**
- * Formats the risk card icon display of tracing active duration in days
- *
- * @param activeTracingDaysInRetentionPeriod
- * @return
- */
-// TODO needs to be replaced by a custom view
-fun formatRiskActiveTracingDaysInRetentionPeriodIcon(activeTracingDaysInRetentionPeriod: Long): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-
-    return if (
-        activeTracingDaysInRetentionPeriod in
-        0..TimeVariables.getDefaultRetentionPeriodInDays()
-    ) {
-        val iconResString = "ic_risk_card_saved_days_"
-        val icon = iconResString +
-                activeTracingDaysInRetentionPeriod.toString()
-
-        appContext.getDrawable(
-            appContext.resources.getIdentifier(
-                icon,
-                "drawable",
-                appContext.applicationContext.packageName
-            )
-        )
-    } else {
-        appContext.getDrawable(R.drawable.ic_risk_card_saved_days_0)
-    }
-}
 
 /**
  * Formats the risk card button display for enable tracing depending on risk level and current view
