@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 /**
- * This activity holds all the fragments (except onboarding) and also registers a listener for the connectivity to update ui regarding.
+ * This activity holds all the fragments (except onboarding) and also registers a listener for
+ * connectivity and bluetooth to update the ui.
  *
  * @see SettingsViewModel
  * @see ConnectivityHelper
@@ -28,13 +29,28 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var settingsViewModel: SettingsViewModel
 
-    private val callback = object : ConnectivityHelper.NetworkCallback() {
+    /**
+     * Register connection callback.
+     */
+    private val callbackNetwork = object : ConnectivityHelper.NetworkCallback() {
         override fun onNetworkAvailable() {
             settingsViewModel.updateConnectionEnabled(true)
         }
-
         override fun onNetworkUnavailable() {
             settingsViewModel.updateConnectionEnabled(false)
+        }
+    }
+
+    /**
+     * Register bluetooth callback.
+     */
+    private val callbackBluetooth = object : ConnectivityHelper.BluetoothCallback() {
+        override fun onBluetoothAvailable() {
+            settingsViewModel.updateBluetoothEnabled(true)
+        }
+
+        override fun onBluetoothUnavailable() {
+            settingsViewModel.updateBluetoothEnabled(false)
         }
     }
 
@@ -48,14 +64,22 @@ class MainActivity : AppCompatActivity() {
         settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
     }
 
+    /**
+     * Register network and bluetooth callback.
+     */
     override fun onResume() {
         super.onResume()
-        ConnectivityHelper.registerNetworkStatusCallback(this, callback)
+        ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
+        ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
     }
 
+    /**
+     * Unregister network and bluetooth callback.
+     */
     override fun onPause() {
-        ConnectivityHelper.unregisterNetworkStatusCallback(this, callback)
         super.onPause()
+        ConnectivityHelper.unregisterNetworkStatusCallback(this, callbackNetwork)
+        ConnectivityHelper.unregisterBluetoothStatusCallback(this, callbackBluetooth)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -67,11 +91,15 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Function is called from back buttons in fragments.
+     */
     fun goBack() {
         onBackPressed()
     }
 
-    // Scheduling for a Download of Keys every Hour.
-    // private fun scheduleDiagnosisKeysDownload() = DiagnosisKeyWorkerScheduler.startWork()
+    /**
+     * Scheduling for a download of keys every hour.
+     */
     private fun scheduleWork() = BackgroundWorkScheduler.startWorkScheduler()
 }
