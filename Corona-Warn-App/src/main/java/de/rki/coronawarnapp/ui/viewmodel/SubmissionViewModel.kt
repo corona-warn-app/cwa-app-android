@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.InvalidQRCodeExcpetion
 import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -43,11 +42,12 @@ class SubmissionViewModel : ViewModel() {
     fun refreshDeviceUIState() =
         executeRequestWithState(SubmissionRepository::refreshUIState, _uiStateState)
 
-    fun validateAndStoreTestGUID(testGUID: String) {
-        try {
-            SubmissionService.validateAndStoreTestGUID(testGUID)
+    fun validateAndStoreTestGUID(scanResult: String) {
+        val guid = SubmissionService.extractGUID(scanResult)
+        if (guid != null) {
+            SubmissionService.storeTestGUID(guid)
             _scanStatus.value = ScanStatus.SUCCESS
-        } catch (ex: InvalidQRCodeExcpetion) {
+        } else {
             _scanStatus.value = ScanStatus.INVALID
         }
     }
@@ -63,7 +63,10 @@ class SubmissionViewModel : ViewModel() {
         LocalData.inititalTestResultReceivedTimestamp(0L)
     }
 
-    private fun executeRequestWithState(apiRequest: suspend () -> Unit, state: MutableLiveData<ApiRequestState>) {
+    private fun executeRequestWithState(
+        apiRequest: suspend () -> Unit,
+        state: MutableLiveData<ApiRequestState>
+    ) {
         state.value = ApiRequestState.STARTED
         viewModelScope.launch {
             try {

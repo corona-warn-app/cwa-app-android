@@ -22,10 +22,10 @@
 
             <include
                 android:id="@+id/settings_details_header_reset"
-                layout="@layout/include_settings_details_header"
+                layout="@layout/include_information_details_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:body="@{@string/lorem_ipsum}"
+                app:body="@{@string/settings_reset_body}"
                 app:headline="@{@string/settings_reset_headline}"
                 app:icon="@{@drawable/ic_back}"
                 app:illustration="@{@drawable/ic_settings_illustration_reset}"
@@ -36,16 +36,29 @@
                 app:layout_constraintVertical_bias="0"
                 app:title="@{@string/settings_reset_title}" />
 
+            <include
+                android:id="@+id/settings_reset_keys"
+                layout="@layout/include_tracing_status_card"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:body="@{@string/settings_reset_body_keys}"
+                app:headline="@{@string/settings_reset_headline_keys}"
+                app:icon="@{@drawable/ic_settings_reset_circle}"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/settings_details_header_reset" />
+
             <Button
                 android:id="@+id/settings_reset_button_delete"
                 style="@style/buttonReset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/settings_reset_button_positive"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/guideline_bottom" />
+                app:layout_constraintTop_toBottomOf="@+id/settings_reset_keys" />
 
             <Button
                 android:id="@+id/settings_reset_button_cancel"
@@ -56,7 +69,9 @@
                 android:text="@string/settings_reset_button_negative"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/settings_reset_button_delete" />
+                app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+                app:layout_constraintTop_toBottomOf="@id/settings_reset_button_delete"
+                app:layout_constraintVertical_bias="0" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_top"
@@ -70,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_action_large" />
+                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"

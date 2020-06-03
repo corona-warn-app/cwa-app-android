@@ -79,7 +79,6 @@ object LocalData {
                     .getString(R.string.preference_initial_tracing_activation_time),
                 value
             )
-            commit()
         }
 
     /**
@@ -114,7 +113,6 @@ object LocalData {
             ),
             value ?: 0L
         )
-        commit()
     }
 
     /**
@@ -145,7 +143,6 @@ object LocalData {
                     .getString(R.string.preference_total_non_active_tracing),
                 value ?: 0L
             )
-            commit()
         }
     }
 
@@ -163,7 +160,7 @@ object LocalData {
     fun lastTimeDiagnosisKeysFromServerFetch(): Date? {
         val time = getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch),
+                .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
             0L
         )
         // TODO need this for nullable ref, shout not be goto for nullable storage
@@ -183,10 +180,9 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch),
+                    .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
                 value?.time ?: 0L
             )
-            commit()
         }
     }
 
@@ -197,7 +193,7 @@ object LocalData {
      */
     fun lastTimeManualDiagnosisKeysRetrieved(): Long = getSharedPreferenceInstance().getLong(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_timestamp_manual_diagnosis_keys_retrieval),
+            .getString(R.string.preference_timestamp_manual_diagnosis_keys_retrieval),
         0L
     )
 
@@ -208,10 +204,9 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_timestamp_manual_diagnosis_keys_retrieval),
+                    .getString(R.string.preference_timestamp_manual_diagnosis_keys_retrieval),
                 value
             )
-            commit()
         }
 
     /****************************************************
@@ -225,7 +220,7 @@ object LocalData {
      */
     fun googleApiToken(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_string_google_api_token),
+            .getString(R.string.preference_string_google_api_token),
         null
     )
 
@@ -237,10 +232,9 @@ object LocalData {
     fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
         putString(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_m_string_google_api_token),
+                .getString(R.string.preference_string_google_api_token),
             value
         )
-        commit()
     }
 
     /****************************************************
@@ -268,7 +262,6 @@ object LocalData {
                 .getString(R.string.preference_notifications_risk_enabled),
             !isNotificationsRiskEnabled()
         )
-        commit()
     }
 
     fun isNotificationsTestEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
@@ -283,7 +276,6 @@ object LocalData {
                 .getString(R.string.preference_notifications_test_enabled),
             !isNotificationsTestEnabled()
         )
-        commit()
     }
 
     /**
@@ -306,7 +298,6 @@ object LocalData {
                 .getString(R.string.preference_background_job_allowed),
             !isBackgroundJobEnabled()
         )
-        commit()
     }
 
     /**
@@ -329,7 +320,6 @@ object LocalData {
                 .getString(R.string.preference_mobile_data_allowed),
             !isMobileDataEnabled()
         )
-        commit()
     }
 
     /****************************************************
@@ -343,7 +333,7 @@ object LocalData {
      */
     fun registrationToken(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_registration_token),
+            .getString(R.string.preference_registration_token),
         null
     )
 
@@ -356,10 +346,9 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_registration_token),
+                    .getString(R.string.preference_registration_token),
                 value
             )
-            commit()
         }
     }
 
@@ -370,7 +359,6 @@ object LocalData {
                     .getString(R.string.preference_initial_result_received_time),
                 value
             )
-            commit()
         }
 
     fun inititalTestResultReceivedTimestamp(): Long? {
@@ -393,7 +381,6 @@ object LocalData {
                     .getString(R.string.preference_device_pairing_successful_time),
                 value
             )
-            commit()
         }
 
     fun devicePairingSuccessfulTimestamp(): Long? {
@@ -411,7 +398,6 @@ object LocalData {
                     .getString(R.string.preference_number_successful_submissions),
                 value
             )
-            commit()
         }
 
     fun numberOfSuccessfulSubmissions(): Int {
@@ -424,7 +410,7 @@ object LocalData {
 
     fun testGUID(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_test_guid),
+            .getString(R.string.preference_test_guid),
         null
     )
 
@@ -432,16 +418,15 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_test_guid),
+                    .getString(R.string.preference_test_guid),
                 value
             )
-            commit()
         }
     }
 
     fun authCode(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_auth_code),
+            .getString(R.string.preference_auth_code),
         null
     )
 
@@ -449,10 +434,9 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_auth_code),
+                    .getString(R.string.preference_auth_code),
                 value
             )
-            commit()
         }
     }
 
@@ -460,17 +444,16 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_is_allowed_to_submit_diagnosis_keys),
+                    .getString(R.string.preference_is_allowed_to_submit_diagnosis_keys),
                 isAllowedToSubmitDiagnosisKeys
             )
-            commit()
         }
     }
 
     fun isAllowedToSubmitDiagnosisKeys(): Boolean? {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_m_is_allowed_to_submit_diagnosis_keys),
+                .getString(R.string.preference_is_allowed_to_submit_diagnosis_keys),
             false
         )
     }
@@ -480,7 +463,6 @@ object LocalData {
             CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan),
             value
         )
-        commit()
     }
 
     fun teletan(): String? = getSharedPreferenceInstance().getString(
@@ -500,5 +482,5 @@ object LocalData {
 
     fun getLastFetchDatePreference() =
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch)
+            .getString(R.string.preference_timestamp_diagnosis_keys_fetch)
 }
