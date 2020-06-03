@@ -37,7 +37,7 @@ object ProtoFormatConverterExtensions {
                 // The earliest key we receive is from yesterday (i.e. 1 day ago),
                 // thus we need use index+1
                 val riskValue =
-                    if (index+1 <= DEFAULT_TRANSMISSION_RISK_VECTOR.lastIndex) DEFAULT_TRANSMISSION_RISK_VECTOR[index+1]
+                    if (index + 1 <= DEFAULT_TRANSMISSION_RISK_VECTOR.lastIndex) DEFAULT_TRANSMISSION_RISK_VECTOR[index + 1]
                     else DEFAULT_TRANSMISSION_RISK_LEVEL
                 KeyExportFormat.TemporaryExposureKey.newBuilder()
                     .setKeyData(ByteString.readFrom(it.keyData.inputStream()))
