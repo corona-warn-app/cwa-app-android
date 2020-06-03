@@ -102,7 +102,7 @@
                         android:id="@+id/settings_reset_body"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_reset_headline"
+                        android:text="@string/settings_reset_body_description"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/settings_reset_subtitle" />

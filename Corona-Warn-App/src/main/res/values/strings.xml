@@ -305,9 +305,12 @@
     <string name="settings_notifications_button_open_settings">Einstellungen öffnen</string>
     <!-- Reset-->
     <string name="settings_reset_title">Anwendung zurücksetzen</string>
+    <string name="settings_reset_body_description">Löschen Sie alle Ihre Daten in der App.</string>
     <string name="settings_reset_headline">Sind Sie sicher, dass Sie die Anwendung zurücksetzen wollen?</string>
-    <string name="settings_reset_body">@string/lorem_ipsum</string>
-    <string name="settings_reset_button_positive">@string/settings_reset_title</string>
+    <string name="settings_reset_body">Sie werden nicht mehr über Ihre Risiko-Begegnungen informiert und können andere Nutzerinnen und Nutzer nicht mehr warnen.</string>
+    <string name="settings_reset_headline_keys">Begegnungs-<xliff:g id="line_break">\n</xliff:g>Aufzeichnungen löschen</string>
+    <string name="settings_reset_body_keys">Die Begegnungs-Aufzeichnung muss separat in den Geräte Einstellungen gelöscht werden.</string>
+    <string name="settings_reset_button_positive">Anwendung zurücksetzen</string>
     <string name="settings_reset_button_negative">Abbrechen</string>
 
     <!-- ####################################
