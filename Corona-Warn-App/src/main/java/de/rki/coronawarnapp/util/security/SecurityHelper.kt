@@ -66,14 +66,8 @@ object SecurityHelper {
         .toString()
         .toCharArray()
 
-    fun hash256(input: String): String {
-        val bytes = MessageDigest
-            .getInstance("SHA-256")
-            .digest(input.toByteArray())
-        val result = StringBuilder(bytes.size * 2)
-        bytes.forEach {
-            result.append(Integer.toHexString(it.toInt()))
-        }
-        return result.toString()
-    }
+    fun hash256(input: String): String = MessageDigest
+        .getInstance("SHA-256")
+        .digest(input.toByteArray())
+        .fold("", { str, it -> str + "%02x".format(it) })
 }
