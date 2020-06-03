@@ -341,13 +341,13 @@
     ###################################### -->
     <!-- Permission Rationale Dialog -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die autorisierung der kamera für das scannen von QR-Codes.</string>
+    <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
 
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
     <!-- Permission Denied Dialog -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">Keine Kamera Berechtigung</string>
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">Bitte erlauben Sie die autorisierung der kamera für das scannen von QR-Codes.</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
 
     <string name="submission_qr_code_scan_permission_denied_dialog_button_positive">Zurück</string>
     <!-- QR Code Scan Successful Dialog -->
@@ -387,7 +387,7 @@
     <string name="submission_test_result_positive_steps_positive_heading">Ihr Test-Ergebnis</string> <!-- final -->
     <string name="submission_test_result_positive_steps_positive_body">Ihr Test-Ergebnis wurde erfolgreich als “Positiv” verifiziert.</string> <!-- final -->
     <string name="submission_test_result_positive_steps_warning_others_heading">Andere warnen</string> <!-- final -->
-    <string name="submission_test_result_positive_steps_warning_others_body">Ihre Zufallscodes der letzten 14 Tageteilen,umanderezu schützen und dieInfektionskette zu unterbrechen.</string> <!-- final -->
+    <string name="submission_test_result_positive_steps_warning_others_body">Ihre Zufallscodes der letzten 14 Tage teilen, um andere zu schützen und die Infektionskette zu unterbrechen.</string> <!-- final -->
     <string name="submission_test_result_positive_continue_button">Weiter</string> <!-- final -->
 
     <string name="submission_test_result_invalid_steps_invalid_heading">Ihr Test-Ergebnis</string> <!-- final -->
@@ -431,9 +431,9 @@
     <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string> <!-- final -->
 
     <!-- Submission Done -->
-    <string name="submission_done_title">Vielen dank!</string> <!-- final -->
+    <string name="submission_done_title">Vielen Dank!</string> <!-- final -->
     <string name="submission_done_headline">Sie haben einen wichtigen Beitrag geleistet!</string> <!-- final -->
-    <string name="submission_done_body">Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren.</string> <!-- final -->
+    <string name="submission_done_body">Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren.</string> <!-- final -->
     <string name="submission_done_subtitle">Bitte beachten Sie:</string> <!-- final -->
     <string name="submission_done_contagious">Sie sind ansteckend.</string> <!-- final -->
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string> <!-- final -->
@@ -443,7 +443,7 @@
            Just for Development
     ###################################### -->
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <!-- TODO test fragment only - remove after test fragment s deleted-->
+    <!-- TODO test fragment only - remove after test fragment is deleted-->
     <string name="menu_test_api">Test API</string>
     <string name="menu_test_notification">Test Notification</string>
     <string name="test_api_button_api_launch">Android API Test(Manual Test)</string>
@@ -452,7 +452,7 @@
     <string name="test_api_button_share_my_keys">Share my keys via Email</string>
     <string name="test_api_button_enter_other_keys">Submit Exposure Key</string>
     <string name="test_api_button_show_qr_code">Show QR Code</string>
-    <string name="test_api_button_submit_keys">Submit keys to Servier</string>
+    <string name="test_api_button_submit_keys">Submit keys to Server</string>
     <string name="test_api_button_scan_qr_code">Scan Exposure Key</string>
     <string name="test_api_button_check_exposure">Check Exposure Summary</string>
     <string name="test_api_exposure_summary_headline">Exposure summary</string>
