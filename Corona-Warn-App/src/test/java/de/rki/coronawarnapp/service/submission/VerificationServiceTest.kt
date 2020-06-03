@@ -5,7 +5,7 @@ import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
-class SubmissionServiceTest {
+class VerificationServiceTest {
 
     @Test
     fun extractGUID() {
