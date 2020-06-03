@@ -157,7 +157,7 @@ object WebRequestBuilder {
                         )
                         cont.resume(response)
                     },
-                    RegistrationTokenRequestErrorListener(cont)
+                    RegistrationTokenRequestErrorListener(requestID, cont)
                 )
             RequestQueueHolder.addToRequestQueue(getRegistrationTokenRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
@@ -211,7 +211,7 @@ object WebRequestBuilder {
                         )
                         cont.resume(response)
                     },
-                    GetTanRequestErrorListener(cont)
+                    GetTanRequestErrorListener(requestID, cont)
                 )
             RequestQueueHolder.addToRequestQueue(getTANRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
@@ -245,13 +245,14 @@ object WebRequestBuilder {
                         )
                         cont.resume(response)
                     },
-                    SubmitKeysToServerRequestErrorListener(cont)
+                    SubmitKeysToServerRequestErrorListener(requestID, cont)
                 )
             RequestQueueHolder.addToRequestQueue(submitKeysRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
         }
 
     private class RequestErrorListener<T>(
+        private val requestID: UUID,
         private val cont: Continuation<T>
     ) :
         Response.ErrorListener {
@@ -267,6 +268,7 @@ object WebRequestBuilder {
     }
 
     private class RegistrationTokenRequestErrorListener<T>(
+        private val requestID: UUID,
         private val cont: Continuation<T>
     ) :
         Response.ErrorListener {
@@ -291,6 +293,7 @@ object WebRequestBuilder {
     }
 
     private class GetTanRequestErrorListener<T>(
+        private val requestID: UUID,
         private val cont: Continuation<T>
     ) :
         Response.ErrorListener {
@@ -315,6 +318,7 @@ object WebRequestBuilder {
     }
 
     private class SubmitKeysToServerRequestErrorListener<T>(
+        private val requestID: UUID,
         private val cont: Continuation<T>
     ) :
         Response.ErrorListener {
