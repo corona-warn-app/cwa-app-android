@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -34,8 +33,6 @@ class SubmissionViewModel : ViewModel() {
     val testResult: LiveData<TestResult> =
         SubmissionRepository.testResult
     val testResultReceivedDate: LiveData<Date> = SubmissionRepository.testResultReceivedDate
-
-    val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
 
     fun submitDiagnosisKeys() =
         executeRequestWithState(SubmissionService::asyncSubmitExposureKeys, _submissionState)
@@ -67,7 +64,10 @@ class SubmissionViewModel : ViewModel() {
         LocalData.inititalTestResultReceivedTimestamp(0L)
     }
 
-    private fun executeRequestWithState(apiRequest: suspend () -> Unit, state: MutableLiveData<ApiRequestState>) {
+    private fun executeRequestWithState(
+        apiRequest: suspend () -> Unit,
+        state: MutableLiveData<ApiRequestState>
+    ) {
         state.value = ApiRequestState.STARTED
         viewModelScope.launch {
             try {
@@ -78,9 +78,5 @@ class SubmissionViewModel : ViewModel() {
                 err.report(ExceptionCategory.INTERNAL)
             }
         }
-    }
-
-    fun refreshIsTracingEnabled() = viewModelScope.launch {
-        TracingRepository.refreshIsTracingEnabled()
     }
 }

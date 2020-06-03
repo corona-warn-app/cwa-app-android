@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBi
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
@@ -21,7 +22,9 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         private val TAG: String? = SubmissionResultPositiveOtherWarningFragment::class.simpleName
     }
 
-    private val viewModel: SubmissionViewModel by activityViewModels()
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+    private val tracingViewModel: TracingViewModel by activityViewModels()
+
     private lateinit var binding: FragmentSubmissionPositiveOtherWarningBinding
     private var submissionRequested = false
     private var submissionFailed = false
@@ -30,7 +33,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshIsTracingEnabled()
+        tracingViewModel.refreshIsTracingEnabled()
         if (submissionRequested && !submissionFailed) {
             internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
         }
@@ -38,7 +41,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        viewModel.submitDiagnosisKeys()
+        submissionViewModel.submitDiagnosisKeys()
     }
 
     override fun onFailure(exception: Exception?) {
@@ -61,7 +64,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.submissionState.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
@@ -85,7 +88,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     }
 
     private fun initiateWarningOthers() {
-        if (viewModel.isTracingEnabled.value != true) {
+        if (tracingViewModel.isTracingEnabled.value != true) {
             val tracingRequiredDialog = DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_test_result_dialog_tracing_required_title,
