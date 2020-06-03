@@ -33,7 +33,7 @@ class SubmissionSuccessDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.smVerificationSuccessButton.setOnClickListener {
+        binding.submissionVerificationSuccessButton.setOnClickListener {
             Log.i(TAG, "button OK clicked")
             dismiss()
             findNavController().navigate(

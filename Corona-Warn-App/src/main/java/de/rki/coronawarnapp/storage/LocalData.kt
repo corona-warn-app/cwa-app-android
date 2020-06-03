@@ -79,7 +79,6 @@ object LocalData {
                     .getString(R.string.preference_initial_tracing_activation_time),
                 value
             )
-            commit()
         }
 
     /**
@@ -114,7 +113,6 @@ object LocalData {
             ),
             value ?: 0L
         )
-        commit()
     }
 
     /**
@@ -145,7 +143,6 @@ object LocalData {
                     .getString(R.string.preference_total_non_active_tracing),
                 value ?: 0L
             )
-            commit()
         }
     }
 
@@ -186,7 +183,6 @@ object LocalData {
                     .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch),
                 value?.time ?: 0L
             )
-            commit()
         }
     }
 
@@ -211,7 +207,6 @@ object LocalData {
                     .getString(R.string.preference_m_timestamp_manual_diagnosis_keys_retrieval),
                 value
             )
-            commit()
         }
 
     /****************************************************
@@ -240,7 +235,6 @@ object LocalData {
                 .getString(R.string.preference_m_string_google_api_token),
             value
         )
-        commit()
     }
 
     /****************************************************
@@ -268,7 +262,6 @@ object LocalData {
                 .getString(R.string.preference_notifications_risk_enabled),
             !isNotificationsRiskEnabled()
         )
-        commit()
     }
 
     fun isNotificationsTestEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
@@ -283,7 +276,6 @@ object LocalData {
                 .getString(R.string.preference_notifications_test_enabled),
             !isNotificationsTestEnabled()
         )
-        commit()
     }
 
     /**
@@ -306,7 +298,6 @@ object LocalData {
                 .getString(R.string.preference_background_job_allowed),
             !isBackgroundJobEnabled()
         )
-        commit()
     }
 
     /**
@@ -329,7 +320,6 @@ object LocalData {
                 .getString(R.string.preference_mobile_data_allowed),
             !isMobileDataEnabled()
         )
-        commit()
     }
 
     /****************************************************
@@ -359,7 +349,6 @@ object LocalData {
                     .getString(R.string.preference_m_registration_token),
                 value
             )
-            commit()
         }
     }
 
@@ -370,7 +359,6 @@ object LocalData {
                     .getString(R.string.preference_initial_result_received_time),
                 value
             )
-            commit()
         }
 
     fun inititalTestResultReceivedTimestamp(): Long? {
@@ -393,7 +381,6 @@ object LocalData {
                     .getString(R.string.preference_device_pairing_successful_time),
                 value
             )
-            commit()
         }
 
     fun devicePairingSuccessfulTimestamp(): Long? {
@@ -411,7 +398,6 @@ object LocalData {
                     .getString(R.string.preference_number_successful_submissions),
                 value
             )
-            commit()
         }
 
     fun numberOfSuccessfulSubmissions(): Int {
@@ -435,7 +421,6 @@ object LocalData {
                     .getString(R.string.preference_m_test_guid),
                 value
             )
-            commit()
         }
     }
 
@@ -452,7 +437,6 @@ object LocalData {
                     .getString(R.string.preference_m_auth_code),
                 value
             )
-            commit()
         }
     }
 
@@ -463,7 +447,6 @@ object LocalData {
                     .getString(R.string.preference_m_is_allowed_to_submit_diagnosis_keys),
                 isAllowedToSubmitDiagnosisKeys
             )
-            commit()
         }
     }
 
@@ -480,7 +463,6 @@ object LocalData {
             CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan),
             value
         )
-        commit()
     }
 
     fun teletan(): String? = getSharedPreferenceInstance().getString(
