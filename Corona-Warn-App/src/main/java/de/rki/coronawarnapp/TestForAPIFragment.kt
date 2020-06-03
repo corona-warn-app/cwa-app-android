@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
@@ -75,6 +76,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
     companion object {
         val TAG: String? = TestForAPIFragment::class.simpleName
+
+        const val CONFIG_SCORE = 8
 
         fun keysToJson(keys: List<TemporaryExposureKey>): String {
             return Gson().toJson(keys).toString()
@@ -308,6 +311,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             showToast("No other keys provided. Please fill the EditText with the JSON containing keys")
         } else {
             token = UUID.randomUUID().toString()
+            LocalData.googleApiToken(token)
 
             val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
@@ -344,7 +348,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                         googleFileList,
-                        ExposureConfiguration.ExposureConfigurationBuilder().build(),
+                        getCustomConfig(),
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")
@@ -442,4 +446,48 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             keysToJson(keys)
         updateKeysDisplay()
     }
+
+    private fun getCustomConfig(): ExposureConfiguration = ExposureConfiguration
+        .ExposureConfigurationBuilder()
+        .setAttenuationScores(
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE
+        )
+        .setDaysSinceLastExposureScores(
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE
+        )
+        .setDurationScores(
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE
+        )
+        .setTransmissionRiskScores(
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE,
+            CONFIG_SCORE
+        )
+        .build()
 }
