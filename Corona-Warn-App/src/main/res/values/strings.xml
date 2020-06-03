@@ -328,8 +328,9 @@
     <string name="settings_on">An</string>
     <string name="settings_off">Aus</string>
     <!-- Tracing -->
+    <!-- XHED: settings(tracing) - tracing headline -->
     <string name="settings_tracing_title">Risiko-Ermittlung</string>
-    <string name="settings_tracing_headline">Aktivieren Sie die Aufzeichnung Ihrer Begegnungen</string>
+    <string name="settings_tracing_headline">So funktioniert die Aufzeichnung Ihrer Begegnungen</string>
     <string name="settings_tracing_body_description">Erlauben Sie Erfassung und Weitergabe von Covid-19-Zufalls-IDs.</string>
     <string name="settings_tracing_body_active">Risiko-Ermittlung Aktiv</string>
     <string name="settings_tracing_body_inactive">Risiko-Ermittlung Gestoppt</string>
