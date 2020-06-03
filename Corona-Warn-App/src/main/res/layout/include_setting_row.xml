@@ -21,8 +21,12 @@
             type="String" />
 
         <variable
-            name="status"
-            type="Boolean" />
+            name="color"
+            type="Integer" />
+
+        <variable
+            name="statusText"
+            type="String" />
 
         <variable
             name="body"
@@ -53,7 +57,7 @@
                 android:layout_height="@dimen/icon_size_settings"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                android:tint="@{FormatterSettingsHelper.formatIconColor(status)}"
+                android:tint="@{color}"
                 app:layout_constraintBottom_toBottomOf="@id/settings_row_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/settings_row_header" />
@@ -80,7 +84,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/spacing_mega_tiny"
-                    android:text="@{FormatterSettingsHelper.formatStatus(status)}"
+                    android:text="@{statusText}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

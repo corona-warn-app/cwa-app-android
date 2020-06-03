@@ -16,11 +16,15 @@
     private public protected *;
 }
 
+-keep class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite { *; }
+-keep class net.sqlcipher.** { *; }
+-dontwarn net.sqlcipher.**
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 -keepattributes SourceFile,LineNumberTable
 
--dontobfuscate
+#-dontobfuscate
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
