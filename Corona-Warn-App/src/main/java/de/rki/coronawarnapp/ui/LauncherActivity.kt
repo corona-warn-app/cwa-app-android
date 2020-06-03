@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import de.rki.coronawarnapp.http.DynamicURLs
@@ -17,13 +18,26 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        retrievePreviousCrashMessage()
         retrieveCustomURLsFromSchema(intent.data)
 
         if (LocalData.isOnboarded()) {
             startMainActivity()
         } else {
             startOnboardingActivity()
+        }
+    }
+
+    private fun retrievePreviousCrashMessage() {
+        val appCrashedAndWasRestarted = intent.getBooleanExtra("appCrashed", false)
+        if (appCrashedAndWasRestarted) {
+            Log.i(TAG, "has previous crash")
+            val crashInfo = intent.getStringExtra("crashInfo")
+            if (!crashInfo.isNullOrEmpty()) {
+                Log.i(TAG, "crash info:" + crashInfo)
+            }
+        } else {
+            Log.i(TAG, "no previous crash")
         }
     }
 

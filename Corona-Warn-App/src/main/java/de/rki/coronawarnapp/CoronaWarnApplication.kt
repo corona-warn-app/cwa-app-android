@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandler
 import de.rki.coronawarnapp.notification.NotificationHelper
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
@@ -33,9 +34,10 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onCreate() {
+        super.onCreate()
+        GlobalExceptionHandler(this)
         instance = this
         NotificationHelper.createNotificationChannel()
-        super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         registerActivityLifecycleCallbacks(this)
     }
