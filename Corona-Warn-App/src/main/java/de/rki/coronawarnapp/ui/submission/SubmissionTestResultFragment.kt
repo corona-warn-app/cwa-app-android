@@ -47,7 +47,7 @@ class SubmissionTestResultFragment : BaseFragment() {
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
                 R.string.submission_error_dialog_web_generic_timeout_button_negative,
-                viewModel::doDeviceRegistration,
+                viewModel::refreshTestResult,
                 ::navigateToMainScreen
             )
             else -> DialogHelper.DialogInstance(
