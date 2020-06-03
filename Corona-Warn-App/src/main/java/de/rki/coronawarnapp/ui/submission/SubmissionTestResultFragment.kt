@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 
 /**
  * A simple [BaseFragment] subclass.
@@ -41,6 +43,7 @@ class SubmissionTestResultFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refreshTestResult()
+        viewModel.refreshIsTracingEnabled()
     }
 
     private fun setButtonOnClickListener() {
@@ -63,10 +66,7 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
-            doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
+            continueIfTracingEnabled()
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
@@ -81,5 +81,23 @@ class SubmissionTestResultFragment : BaseFragment() {
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
         }
+    }
+
+    private fun continueIfTracingEnabled() {
+        if (viewModel.isTracingEnabled.value != true) {
+            val tracingRequiredDialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_test_result_dialog_tracing_required_title,
+                R.string.submission_test_result_dialog_tracing_required_message,
+                R.string.submission_test_result_dialog_tracing_required_button
+            )
+            DialogHelper.showDialog(tracingRequiredDialog)
+            return
+        }
+
+        doNavigate(
+            SubmissionTestResultFragmentDirections
+                .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+        )
     }
 }
