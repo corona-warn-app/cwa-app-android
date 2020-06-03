@@ -55,7 +55,7 @@ class SettingsResetFragment : BaseFragment() {
         binding.settingsResetButtonCancel.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.settingsDetailsHeaderReset.settingsDetailsHeaderButtonBack.buttonIcon.setOnClickListener {
+        binding.settingsDetailsHeaderReset.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

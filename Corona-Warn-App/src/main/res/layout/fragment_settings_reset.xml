@@ -22,7 +22,7 @@
 
             <include
                 android:id="@+id/settings_details_header_reset"
-                layout="@layout/include_settings_details_header"
+                layout="@layout/include_information_details_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:body="@{@string/settings_reset_body}"

@@ -87,11 +87,14 @@ fun formatRiskBody(riskLevelScore: Int?): String {
  */
 fun formatRiskSavedRisk(riskLevelScore: Int?, savedRiskLevelScore: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    return if (riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF || riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS) {
+    return if (
+        riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+    ) {
         when (savedRiskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK,
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL->
+            RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 appContext.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                     .format(formatRiskLevelHeadline(savedRiskLevelScore, false))
             else -> ""
