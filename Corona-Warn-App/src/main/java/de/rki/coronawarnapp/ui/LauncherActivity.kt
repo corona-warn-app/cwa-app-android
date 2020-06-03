@@ -18,7 +18,7 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retrievePreviousCrashMessage()
+        retrieveMessageIfPreviouslyCrashed()
         retrieveCustomURLsFromSchema(intent.data)
 
         if (LocalData.isOnboarded()) {
@@ -28,7 +28,7 @@ class LauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun retrievePreviousCrashMessage() {
+    private fun retrieveMessageIfPreviouslyCrashed() {
         val appCrashedAndWasRestarted = intent.getBooleanExtra("appCrashed", false)
         if (appCrashedAndWasRestarted) {
             Log.i(TAG, "has previous crash")
