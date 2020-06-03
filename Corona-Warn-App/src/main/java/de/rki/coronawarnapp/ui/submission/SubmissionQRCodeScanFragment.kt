@@ -81,7 +81,6 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
 
     private fun showSuccessfulScanDialog() {
         val successfulScanDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
             R.string.submission_qr_code_scan_successful_dialog_headline,
             R.string.submission_qr_code_scan_successful_dialog_body,
             R.string.submission_qr_code_scan_successful_dialog_button_positive,
@@ -98,12 +97,11 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             }
         )
 
-        DialogHelper.showDialog(successfulScanDialogInstance)
+        DialogHelper.showDialog(requireActivity(), successfulScanDialogInstance)
     }
 
     private fun showInvalidScanDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
             R.string.submission_qr_code_scan_invalid_dialog_headline,
             R.string.submission_qr_code_scan_invalid_dialog_body,
             R.string.submission_qr_code_scan_invalid_dialog_button_positive,
@@ -112,7 +110,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             ::navigateToDispatchScreen
         )
 
-        DialogHelper.showDialog(invalidScanDialogInstance)
+        DialogHelper.showDialog(requireActivity(), invalidScanDialogInstance)
     }
 
     override fun onResume() {

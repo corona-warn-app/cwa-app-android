@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog
 object DialogHelper {
 
     data class DialogInstance(
-        val activity: Activity,
         val title: Int,
         val message: Int,
         val positiveButton: Int,
@@ -16,9 +15,10 @@ object DialogHelper {
     )
 
     fun showDialog(
+        activity: Activity,
         dialogInstance: DialogInstance
     ) {
-        val alertDialog: AlertDialog = dialogInstance.activity.let {
+        val alertDialog: AlertDialog = activity.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
                 setTitle(dialogInstance.title)

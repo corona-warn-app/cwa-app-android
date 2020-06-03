@@ -77,7 +77,6 @@ class OnboardingTracingFragment : BaseFragment(),
 
     private fun showCancelDialog() {
         val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
             R.string.onboarding_tracing_dialog_headline,
             R.string.onboarding_tracing_dialog_body,
             R.string.onboarding_tracing_dialog_button_positive,
@@ -85,7 +84,7 @@ class OnboardingTracingFragment : BaseFragment(),
             {
                 navigate()
             })
-        DialogHelper.showDialog(dialog)
+        DialogHelper.showDialog(requireActivity(), dialog)
     }
 
     private fun navigate() {

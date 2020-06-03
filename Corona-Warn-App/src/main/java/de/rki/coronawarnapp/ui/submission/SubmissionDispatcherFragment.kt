@@ -71,7 +71,6 @@ class SubmissionDispatcherFragment : BaseFragment() {
 
     private fun showCameraPermissionRationaleDialog() {
         val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
             R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
             R.string.submission_qr_code_scan_permission_rationale_dialog_body,
             R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
@@ -84,7 +83,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
             }
         )
 
-        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
+        DialogHelper.showDialog(requireActivity(), cameraPermissionRationaleDialogInstance)
     }
 
     override fun onRequestPermissionsResult(
@@ -102,13 +101,12 @@ class SubmissionDispatcherFragment : BaseFragment() {
 
     private fun showCameraPermissionDeniedDialog() {
         val cameraPermissionDeniedDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
             R.string.submission_qr_code_scan_permission_denied_dialog_headline,
             R.string.submission_qr_code_scan_permission_denied_dialog_body,
             R.string.submission_qr_code_scan_permission_denied_dialog_button_positive
         )
 
-        DialogHelper.showDialog(cameraPermissionDeniedDialogInstance)
+        DialogHelper.showDialog(requireActivity(), cameraPermissionDeniedDialogInstance)
     }
 
     private fun cameraPermissionIsGranted() {
