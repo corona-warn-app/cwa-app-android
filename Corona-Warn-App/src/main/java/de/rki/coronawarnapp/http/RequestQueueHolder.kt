@@ -7,11 +7,10 @@ import de.rki.coronawarnapp.util.security.SecurityHelper
 
 /**
  * Request queue holder used to reference a singleton of a Volley request queue for simple web requests.
- * For more complex queries we use the os-owned DownloadManager.
+ * The Singleton is used here solely for Thread-Management, actual requests are executed by an OkHTTP
+ * Transport Layer
  */
 object RequestQueueHolder {
-    private const val PUBLIC_KEY = "volley_pinned_certs"
-
     /**
      * lazily initialized singleton reference to a request queue.
      */
