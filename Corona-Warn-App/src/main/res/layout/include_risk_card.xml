@@ -168,7 +168,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:progress="@{tracingViewModel.daysSinceLastExposure}"
+                        app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}"
                         app:progressColor="@color/colorLight"
                         app:secondaryColor="#33FFFFFF" />
 
