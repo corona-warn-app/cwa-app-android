@@ -73,7 +73,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- todo include proper icons for risk card when final -->
             <include
                 android:id="@+id/main_overview_risk_increased_risk"
                 layout="@layout/include_row"

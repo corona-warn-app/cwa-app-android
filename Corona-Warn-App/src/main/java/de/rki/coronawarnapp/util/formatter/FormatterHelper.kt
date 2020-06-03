@@ -5,6 +5,7 @@ package de.rki.coronawarnapp.util.formatter
 import android.graphics.drawable.Drawable
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 
 /*Style*/
 /**
@@ -102,4 +103,15 @@ fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int): String {
     } else {
         appContext.getString(stringFalse)
     }
+}
+
+/**
+ * Formats color to be displayed depending on color id provided with default option
+ *
+ * @param color
+ * @return
+ */
+fun formatColorIcon(color: Int?): Int {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return color ?: appContext.getColor(R.color.colorLight)
 }
