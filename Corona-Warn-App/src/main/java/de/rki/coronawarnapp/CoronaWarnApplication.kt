@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -77,6 +78,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         // does not override function. Empty on intention
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         // prevents screenshot of the app for all activities
         activity.window.setFlags(
