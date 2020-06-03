@@ -422,10 +422,11 @@
     <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.</string> <!-- final -->
     <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string> <!-- final -->
     <string name="submission_intro_button_next">Weiter</string> <!-- final -->
-    <!-- sm Notification -->
-    <string name="sm_result_dialog_headline">Danke für die Mithilfe!</string>
-    <string name="sm_result_dialog_body">Ihr verifizierter Befund wurde anonym übertragen.</string>
-    <!-- sm Dispatcher -->
+    <!-- Notification -->
+    <string name="submission_result_dialog_headline">Danke für die Mithilfe!</string>
+    <string name="submission_result_dialog_body">Ihr verifizierter Befund wurde anonym übertragen.</string>
+
+    <!-- Dispatcher -->
     <string name="submission_dispatcher_headline">Auswahl</string> <!-- final -->
 
     <string name="submission_dispatcher_subheadline">Welche Informationen liegen Ihnen vor?</string> <!-- final -->
