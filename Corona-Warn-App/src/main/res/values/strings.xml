@@ -214,7 +214,6 @@
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <!-- XBUT: onboarding - next -->
     <string name="onboarding_button_next">Weiter</string> <!-- final -->
-    <!-- -->
     <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">Los Geht\'s</string> <!-- final -->
     <string name="onboarding_button_back_description">Zurück</string>
