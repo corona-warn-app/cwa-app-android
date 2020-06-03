@@ -25,7 +25,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'jacoco'
 
 android {
-    ndkVersion "21.1.6352462"
+    ndkVersion "21.2.6472646"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -87,17 +87,15 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding {
+            enabled true
+        }
+
+        viewBinding {
+            enabled true
+        }
     }
-
-    viewBinding {
-        enabled true
-    }
-
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
