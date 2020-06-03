@@ -83,5 +83,4 @@ class SubmissionViewModel : ViewModel() {
     fun refreshIsTracingEnabled() = viewModelScope.launch {
         TracingRepository.refreshIsTracingEnabled()
     }
-
 }
