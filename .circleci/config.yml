@@ -1,15 +1,14 @@
 version: 2.1
 orbs:
   android: circleci/android@0.2.1
-  sonarcloud: sonarsource/sonarcloud@1.0.1
 commands:
   install-ndk: android/install-ndk
   restore-build-cache: android/restore-build-cache
   save-build-cache: android/save-build-cache
-  scan-sonar: sonarcloud/scan
 jobs:
   quickBuildReleaseWithTestsAndChecks:
     executor: android/android
+
     steps:
       - checkout
       - install-ndk:
@@ -19,17 +18,10 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
-          name: give execution rights to GradleWrapper
+          name: Sudo GradleWrapper
           command: chmod +x ./gradlew
       - run:
-          name: Quick Build
           command: ./gradlew quickBuild
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - run:
-          name: JaCoCo report
-          command: ./gradlew :Corona-Warn-App:jacocoTestReport
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -43,7 +35,6 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - scan-sonar
 workflows:
   version: 2
   workflow:
