@@ -358,6 +358,18 @@
     <!-- ####################################
              Submission
     ###################################### -->
+    <!-- Generic Submission Error Messages -->
+    <string name="submission_error_dialog_web_generic_timeout_title">Timeout</string>
+    <string name="submission_error_dialog_web_generic_timeout_body">Die Anfrage ist abgelaufen. Erneut versuchen?</string>
+    <string name="submission_error_dialog_web_generic_timeout_button_positive">Ja</string>
+    <string name="submission_error_dialog_web_generic_timeout_button_negative">Nein</string>
+    <string name="submission_error_dialog_web_generic_error_title">Fehler</string>
+    <string name="submission_error_dialog_web_generic_error_body">Ein unbekannter Fehler ist aufgetreten.</string>
+    <string name="submission_error_dialog_web_generic_error_button_positive">Zurück</string>
+    <!-- Test Already Paired Error Messages -->
+    <string name="submission_error_dialog_web_test_paired_title">Fehler</string>
+    <string name="submission_error_dialog_web_test_paired_body">Der Test ist bereits mit einem anderen Gerät assoziiert.</string>
+    <string name="submission_error_dialog_web_test_paired_button_positive">Zurück</string>
     <!-- Permission Rationale Dialog -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
