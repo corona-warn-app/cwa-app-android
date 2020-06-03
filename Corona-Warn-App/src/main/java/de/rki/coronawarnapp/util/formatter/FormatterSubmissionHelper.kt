@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.TestResultStatus
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult.INVALID
 import de.rki.coronawarnapp.util.formatter.TestResult.NEGATIVE
 import de.rki.coronawarnapp.util.formatter.TestResult.PENDING
@@ -157,11 +158,25 @@ fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
     R.color.colorGreyDisabled
 )
 
-fun formatShowSubmissionStatusCard(testResult: TestResult?): Int =
-    formatVisibility(testResult != POSITIVE)
+fun formatShowSubmissionStatusCard(deviceUiState: DeviceUIState?): Int =
+    formatVisibility(
+        deviceUiState != DeviceUIState.PAIRED_POSITIVE &&
+                deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
+                deviceUiState != DeviceUIState.SUBMITTED_FINAL
+    )
 
-fun formatShowSubmissionStatusPositiveCard(testResult: TestResult?): Int =
-    formatVisibility(testResult == POSITIVE)
+fun formatShowSubmissionStatusPositiveCard(deviceUiState: DeviceUIState?): Int =
+    formatVisibility(
+        deviceUiState == DeviceUIState.PAIRED_POSITIVE ||
+                deviceUiState == DeviceUIState.PAIRED_POSITIVE_TELETAN
+    )
 
-fun formatShowRiskStatusCard(testResult: TestResult?): Int =
-    formatVisibility(testResult != POSITIVE)
+fun formatShowSubmissionDoneCard(deviceUiState: DeviceUIState?): Int =
+    formatVisibility(deviceUiState == DeviceUIState.SUBMITTED_FINAL)
+
+fun formatShowRiskStatusCard(deviceUiState: DeviceUIState?): Int =
+    formatVisibility(
+        deviceUiState != DeviceUIState.PAIRED_POSITIVE &&
+                deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
+                deviceUiState != DeviceUIState.SUBMITTED_FINAL
+    )
