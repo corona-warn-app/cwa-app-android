@@ -25,15 +25,15 @@
         <xliff:g id="preference">preference_tracing</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_timestamp_diagnosis_keys_fetch">
+    <string name="preference_timestamp_diagnosis_keys_fetch">
         <xliff:g id="preference">preference_timestamp_diagnosis_keys_fetch</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_timestamp_manual_diagnosis_keys_retrieval">
+    <string name="preference_timestamp_manual_diagnosis_keys_retrieval">
         <xliff:g id="preference">preference_timestamp_manual_diagnosis_keys_retrieval</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_string_google_api_token">
+    <string name="preference_string_google_api_token">
         <xliff:g id="preference">preference_m_string_google_api_token</xliff:g>
     </string>
     <!-- NOTR -->
@@ -57,7 +57,7 @@
         <xliff:g id="preference">preference_mobile_data_enabled</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_registration_token">
+    <string name="preference_registration_token">
         <xliff:g id="preference">preference_registration_token</xliff:g>
     </string>
     <string name="preference_device_pairing_successful_time">
@@ -76,15 +76,15 @@
         <xliff:g id="preference">preference_risk_level_score</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_test_guid">
+    <string name="preference_test_guid">
         <xliff:g id="preference">preference_test_guid</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_is_allowed_to_submit_diagnosis_keys">
+    <string name="preference_is_allowed_to_submit_diagnosis_keys">
         <xliff:g id="preference">preference_is_allowed_to_submit_diagnosis_keys</xliff:g>
     </string>
     <!-- NOTR -->
-    <string name="preference_m_auth_code">
+    <string name="preference_auth_code">
         <xliff:g id="preference">preference_auth_code</xliff:g>
     </string>
     <!-- NOTR -->
