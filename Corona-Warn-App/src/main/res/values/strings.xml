@@ -315,6 +315,7 @@
     ###################################### -->
     <!-- XHED: Page title for menu information page -->
     <string name="information_title">App-Informationen</string>  <!-- final -->
+    <string name="information_version">Version: %1s</string>
     <!-- XHED: Page title for about information page, also menu item / button text -->
     <string name="information_about_title">Über die App</string>  <!-- final -->
     <!-- XHED: Subtitle for about information page -->
@@ -525,5 +526,4 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
