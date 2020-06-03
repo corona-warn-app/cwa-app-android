@@ -162,15 +162,15 @@
                     <de.rki.coronawarnapp.ui.view.CircleProgress
                         android:layout_width="23dp"
                         android:layout_height="23dp"
-                        app:circleWidth="7"
+                        app:circleColor="@color/stableLightTransparent"
                         app:disableText="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:progress="@{tracingViewModel.daysSinceLastExposure}"
-                        app:progressColor="@color/colorLight"
-                        app:secondaryColor="#33FFFFFF" />
+                        app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}"
+                        app:circleWidth="5"
+                        app:progressColor="@color/stableIconColor" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
