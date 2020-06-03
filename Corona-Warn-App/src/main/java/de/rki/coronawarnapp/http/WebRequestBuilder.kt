@@ -279,7 +279,7 @@ object WebRequestBuilder {
                     "an error occurred during a webrequest",
                     NullPointerException("The volley exception was null")
                 )
-                else -> when (error.networkResponse.statusCode) {
+                else -> when (error.networkResponse?.statusCode) {
                     400 -> TestAlreadyPairedException(
                         "the test was already paired to a different device",
                         error
@@ -304,7 +304,7 @@ object WebRequestBuilder {
                     "an error occurred during a webrequest",
                     NullPointerException("The volley exception was null")
                 )
-                else -> when (error.networkResponse.statusCode) {
+                else -> when (error.networkResponse?.statusCode) {
                     400 -> TestPairingInvalidException(
                         "the test paring to the device is invalid",
                         error
@@ -329,7 +329,7 @@ object WebRequestBuilder {
                     "an error occurred during a webrequest",
                     NullPointerException("The volley exception was null")
                 )
-                else -> when (error.networkResponse.statusCode) {
+                else -> when (error.networkResponse?.statusCode) {
                     403 -> SubmissionTanInvalidException(
                         "the tan used for submission is invalid",
                         error
