@@ -37,7 +37,7 @@ class OnboardingNotificationsFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.onboardingButtonFinish.setOnClickListener {
+        binding.onboardingButtonNext.setOnClickListener {
             navigateToMain()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {

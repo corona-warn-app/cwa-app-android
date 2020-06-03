@@ -112,7 +112,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:progress="@{tracingViewModel.daysSinceLastExposure}" />
+                        app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
 
                     <TextView
                         android:id="@+id/settings_tracing_status_tracing_body"
