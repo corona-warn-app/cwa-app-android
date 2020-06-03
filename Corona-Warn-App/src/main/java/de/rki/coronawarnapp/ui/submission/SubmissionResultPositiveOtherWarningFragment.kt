@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     InternalExposureNotificationPermissionHelper.Callback {
@@ -28,6 +30,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
+        viewModel.refreshIsTracingEnabled()
         if (submissionRequested && !submissionFailed) {
             internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
         }
@@ -70,8 +73,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     private fun setButtonOnClickListener() {
         binding.submissionPositiveOtherWarningButton.setOnClickListener {
-            submissionRequested = true
-            internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+            initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader
             .informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -80,5 +82,21 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                         .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
                 )
             }
+    }
+
+    private fun initiateWarningOthers() {
+        if (viewModel.isTracingEnabled.value != true) {
+            val tracingRequiredDialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_test_result_dialog_tracing_required_title,
+                R.string.submission_test_result_dialog_tracing_required_message,
+                R.string.submission_test_result_dialog_tracing_required_button
+            )
+            DialogHelper.showDialog(tracingRequiredDialog)
+            return
+        }
+
+        submissionRequested = true
+        internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
     }
 }
