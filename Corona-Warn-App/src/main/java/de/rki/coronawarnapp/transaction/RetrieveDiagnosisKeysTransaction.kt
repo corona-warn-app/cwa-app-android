@@ -37,7 +37,9 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import kotlinx.coroutines.delay
 import java.io.File
+import java.lang.IllegalArgumentException
 import java.util.Date
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
@@ -131,6 +133,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
          ****************************************************/
         val exposureConfiguration = executeRetrieveRiskScoreParams()
 
+        delay(5000L)
+        throw IllegalArgumentException("OOPS")
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/

@@ -7,13 +7,31 @@ object DialogHelper {
 
     data class DialogInstance(
         val activity: Activity,
-        val title: Int,
-        val message: Int,
-        val positiveButton: Int,
-        val negativeButton: Int? = null,
+        val title: String,
+        val message: String?,
+        val positiveButton: String,
+        val negativeButton: String? = null,
         val positiveButtonFunction: () -> Unit? = {},
         val negativeButtonFunction: () -> Unit? = {}
-    )
+    ) {
+        constructor(
+            activity: Activity,
+            title: Int,
+            message: Int,
+            positiveButton: Int,
+            negativeButton: Int? = null,
+            positiveButtonFunction: () -> Unit? = {},
+            negativeButtonFunction: () -> Unit? = {}
+        ) : this(
+            activity,
+            activity.resources.getString(title),
+            activity.resources.getString(message),
+            activity.resources.getString(positiveButton),
+            negativeButton?.let { activity.resources.getString(it) },
+            positiveButtonFunction,
+            negativeButtonFunction
+        )
+    }
 
     fun showDialog(
         dialogInstance: DialogInstance

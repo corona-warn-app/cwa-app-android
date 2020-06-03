@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.exception
 
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.rki.coronawarnapp.CoronaWarnApplication
 import kotlinx.coroutines.runBlocking
-
-private const val TAG: String = "ExceptionHandler"
 
 fun Throwable.report(exceptionCategory: ExceptionCategory) =
     this.report(exceptionCategory, null, null)
@@ -15,16 +15,10 @@ fun Throwable.report(
     prefix: String?,
     suffix: String?
 ) {
-    runBlocking {
-        Toast.makeText(
-            CoronaWarnApplication.getAppContext(),
-            this@report.localizedMessage ?: "This should never happen.",
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    Log.e(
-        TAG,
-        "[${exceptionCategory.name}]${(prefix ?: "")} ${(this.message ?: "Error Text Unavailable")}${(suffix ?: "")}"
-    )
+    val intent = Intent("error-report")
+    intent.putExtra("category", exceptionCategory.name)
+    intent.putExtra("prefix", prefix)
+    intent.putExtra("suffix", suffix)
+    intent.putExtra("message", this.message)
+    LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
 }
