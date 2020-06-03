@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClass
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
-import de.rki.coronawarnapp.service.riskscoreclassification.RiskScoreClassificationService
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import io.mockk.MockKAnnotations
@@ -40,7 +40,7 @@ class RiskLevelTransactionTest {
         MockKAnnotations.init(this)
 
         mockkObject(InternalExposureNotificationClient)
-        mockkObject(RiskScoreClassificationService)
+        mockkObject(ApplicationConfigurationService)
         mockkObject(RiskLevelRepository)
         mockkObject(RiskLevelTransaction)
         mockkObject(TimeVariables)
@@ -178,7 +178,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(2)
 
         // the risk score of the last exposure summary is above the high min threshold
-        coEvery { RiskScoreClassificationService.asyncRetrieveRiskScoreClassification() } returns testRiskScoreClassification
+        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testRiskScoreClassification
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
@@ -238,7 +238,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursBelowMinActiveTracingDuration
 
         // the exposure summary risk score is not below high min score
-        coEvery { RiskScoreClassificationService.asyncRetrieveRiskScoreClassification() } returns testRiskScoreClassification
+        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testRiskScoreClassification
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
@@ -300,7 +300,7 @@ class RiskLevelTransactionTest {
         // the active tracing duration is above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
-        coEvery { RiskScoreClassificationService.asyncRetrieveRiskScoreClassification() } returns testRiskScoreClassification
+        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testRiskScoreClassification
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {

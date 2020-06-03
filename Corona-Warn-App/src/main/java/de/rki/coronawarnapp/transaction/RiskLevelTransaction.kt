@@ -16,8 +16,8 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
-import de.rki.coronawarnapp.service.riskscoreclassification.RiskScoreClassificationService
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -27,8 +27,8 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_OUTDATED
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CLOSE
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_APPLICATION_CONFIG
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_RISK_THRESHOLD
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
@@ -101,7 +101,7 @@ import java.util.concurrent.atomic.AtomicReference
  * 1. [CHECK_TRACING]
  * 2. [CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS]
  * 3. [CHECK_UNKNOWN_RISK_OUTDATED]
- * 4. [RETRIEVE_RISK_THRESHOLD]
+ * 4. [RETRIEVE_APPLICATION_CONFIG]
  * 5. [RETRIEVE_EXPOSURE_SUMMARY]
  * 6. [CHECK_INCREASED_RISK]
  * 7. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
@@ -133,8 +133,9 @@ object RiskLevelTransaction : Transaction() {
         /** Check the conditions for the [UNKNOWN_RISK_OUTDATED_RESULTS] score */
         CHECK_UNKNOWN_RISK_OUTDATED,
 
-        /** Retrieve the RiskThreshold values to define the thresholds for [INCREASED_RISK] and [LOW_LEVEL_RISK] */
-        RETRIEVE_RISK_THRESHOLD,
+        /** Retrieve the Application Configuration values to calculate the RKI Risk Score
+         * and determine the [INCREASED_RISK] and [LOW_LEVEL_RISK] */
+        RETRIEVE_APPLICATION_CONFIG,
 
         /** Retrieve the last persisted [ExposureSummary] (if available) from the Google Exposure Notification API for
          * further calculation of the Risk Level Score */
@@ -178,9 +179,9 @@ object RiskLevelTransaction : Transaction() {
         if (isValidResult(result)) return@lockAndExecute
 
         /****************************************************
-         * RETRIEVE RISK THRESHOLD
+         * RETRIEVE APPLICATION CONFIGURATION
          ****************************************************/
-        val riskScoreClassification = executeRetrieveRiskThreshold()
+        val appConfiguration = executeRetrieveApplicationConfiguration()
 
         /****************************************************
          * RETRIEVE EXPOSURE SUMMARY
@@ -190,7 +191,7 @@ object RiskLevelTransaction : Transaction() {
         /****************************************************
          * CHECK [INCREASED_RISK] CONDITIONS
          ****************************************************/
-        result = executeCheckIncreasedRisk(riskScoreClassification, lastExposureSummary)
+        result = executeCheckIncreasedRisk(appConfiguration, lastExposureSummary)
         if (isValidResult(result)) return@lockAndExecute
 
         /****************************************************
@@ -282,13 +283,13 @@ object RiskLevelTransaction : Transaction() {
         }
 
     /**
-     * Executes the [RETRIEVE_RISK_THRESHOLD] Transaction State
+     * Executes the [RETRIEVE_APPLICATION_CONFIG] Transaction State
      */
-    private suspend fun executeRetrieveRiskThreshold(): RiskScoreClassification =
-        executeState(RETRIEVE_RISK_THRESHOLD) {
+    private suspend fun executeRetrieveApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        executeState(RiskLevelTransactionState.RETRIEVE_APPLICATION_CONFIG) {
             // these are the threshold values defined by RKI
-            return@executeState getRiskThreshold().also {
-                Log.v(TAG, "$transactionId - retrieved risk threshold")
+            return@executeState getApplicationConfiguration().also {
+                Log.v(TAG, "$transactionId - retrieved application configuration")
             }
         }
 
@@ -307,20 +308,38 @@ object RiskLevelTransaction : Transaction() {
      * Executes the [CHECK_INCREASED_RISK] Transaction State
      */
     private suspend fun executeCheckIncreasedRisk(
-        riskScoreClassification: RiskScoreClassification,
+        appConfig: ApplicationConfigurationOuterClass.ApplicationConfiguration,
         exposureSummary: ExposureSummary
     ): RiskLevel =
         executeState(CHECK_INCREASED_RISK) {
 
-            val highRiskScoreClass = riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
-                ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
+            // custom attenuation parameters defined by the RKI to weight the attenuation
+            // values provided by the Google API
+            val attenuationParameters = appConfig.attenuationDuration
 
-            // if the risk score is above the defined level threshold we always return the high level risk score
-            if (exposureSummary.maximumRiskScore >= highRiskScoreClass.min) return@executeState INCREASED_RISK
+            // calculate the risk score based on the values collected by the Google EN API and
+            // the backend configuration
+            val rkiRiskScore = calculateRkiRiskScore(
+                attenuationParameters,
+                exposureSummary
+            ).also {
+                Log.v(TAG, "calculated risk with the given config: $it")
+            }
+
+            // these are the defined risk classes by the RKI. They will divide the calculated
+            // risk score into the low and increased risk
+            val riskScoreClassification = appConfig.riskScoreClasses
+
+            // get the high risk score class
+            val highRiskScoreClass =
+                riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
+                    ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
+
+            // if the calculated risk score is above the defined level threshold we return the high level risk score
+            if (rkiRiskScore >= highRiskScoreClass.min) return@executeState INCREASED_RISK
                 .also {
                     Log.v(
-                        TAG,
-                        "${exposureSummary.maximumRiskScore} is above the defined " +
+                        TAG, "$rkiRiskScore is above the defined " +
                                 "min value ${highRiskScoreClass.min}"
                     )
                 }
@@ -404,14 +423,16 @@ object RiskLevelTransaction : Transaction() {
     }
 
     /**
-     * Make a call to the backend to retrieve the current risk threshold values from the RKI
+     * Make a call to the backend to retrieve the current application configuration values
+     * from the RKI
      *
-     * @return the [RiskScoreClassification] from the backend
+     * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
      */
-    private suspend fun getRiskThreshold(): RiskScoreClassification = withContext(Dispatchers.Default) {
-        return@withContext RiskScoreClassificationService.asyncRetrieveRiskScoreClassification()
-            .also { Log.v(TAG, "risk score classes from backend: $it") }
-    }
+    private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        withContext(Dispatchers.Default) {
+            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                .also { Log.v(TAG, "configuration from backend: $it") }
+        }
 
     /**
      * Returns a Boolean if the duration of the activated tracing time is above the
@@ -468,7 +489,8 @@ object RiskLevelTransaction : Transaction() {
         val googleToken = LocalData.googleApiToken()
             ?: throw RiskLevelCalculationException(IllegalStateException("exposure summary is not persisted"))
 
-        val exposureSummary = InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
+        val exposureSummary =
+            InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
         ExposureSummaryRepository.getExposureSummaryRepository()
             .insertExposureSummaryEntity(exposureSummary)
@@ -476,5 +498,25 @@ object RiskLevelTransaction : Transaction() {
         return exposureSummary.also {
             Log.v(TAG, "$transactionId - generated new exposure summary with $googleToken")
         }
+    }
+
+    private fun calculateRkiRiskScore(
+        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        exposureSummary: ExposureSummary
+    ): Double {
+
+        val weightedAttenuationLow =
+            attenuationParameters.weights.low * exposureSummary.attenuationDurationsInMinutes[0]
+        val weightedAttenuationMid =
+            attenuationParameters.weights.mid * exposureSummary.attenuationDurationsInMinutes[1]
+        val weightedAttenuationHigh =
+            attenuationParameters.weights.high * exposureSummary.attenuationDurationsInMinutes[2]
+
+        val maximumRiskScore = exposureSummary.maximumRiskScore
+
+        val w4 = 25
+        val attenuationNorm = 1
+
+        return (maximumRiskScore * (weightedAttenuationLow * weightedAttenuationMid * weightedAttenuationHigh + w4)) / attenuationNorm
     }
 }

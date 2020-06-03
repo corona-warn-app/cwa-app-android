@@ -8,16 +8,20 @@ message ApplicationConfiguration {
     RiskScoreClassification riskScoreClasses = 2;
 
     RiskScoreParameters exposureConfig = 3;
+
+    AttenuationDuration attenuationDuration = 4;
+
+    ApplicationVersionConfiguration appVersion = 5;
 }
 
 message RiskScoreParameters {
 
     // App-specific mapping
     TransmissionRiskParameter transmission = 1;
-    double transmissionWeight= 2;
+    double transmissionWeight = 2;
 
     DurationRiskParameter duration = 3;
-    double durationWeight= 4;
+    double durationWeight = 4;
 
     DaysSinceLastExposureRiskParameter daysSinceLastExposure = 5;
     double daysWeight= 6;
@@ -88,4 +92,36 @@ message RiskScoreClass {
     int32 min = 2;
     int32 max = 3;
     string url = 4;
+}
+
+message AttenuationDuration {
+    Thresholds thresholds = 1;
+    Weights weights = 2;
+}
+
+message Thresholds {
+    int32 lower = 1;
+    int32 upper = 2;
+}
+
+message Weights {
+    double low = 1;
+    double mid = 2;
+    double high = 3;
+}
+
+message ApplicationVersionConfiguration {
+    ApplicationVersionInfo ios = 1;
+    ApplicationVersionInfo android = 2;
+}
+
+message ApplicationVersionInfo {
+    SemanticVersion latest = 1;
+    SemanticVersion min = 2;
+}
+
+message SemanticVersion {
+    uint32 major = 1;
+    uint32 minor = 2;
+    uint32 patch = 3;
 }
