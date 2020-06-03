@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/sm_dispatcher_card_text"
+                android:id="@+id/submission_dispatcher_card_text"
                 style="@style/textMultiline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
