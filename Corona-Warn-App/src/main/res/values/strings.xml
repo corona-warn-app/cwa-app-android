@@ -132,7 +132,7 @@
     <string name="risk_card_unknown_risk_body">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string> <!-- final -->
     <!-- NO_CALCULATION_POSSIBLE -->
     <string name="risk_card_no_calculation_possible_headline">Risiko-Ermittlung gestoppt</string> <!-- final -->
-    <string name="risk_card_no_calculation_possible_body_saved_risk">Letzte Ermittlung:\n%1$s</string>
+    <string name="risk_card_no_calculation_possible_body_saved_risk">Letzte Ermittlung:<xliff:g id="line_break">\n</xliff:g>%1$s</string>
     <!-- OUTDATED_RISK-->
     <string name="risk_card_outdated_risk_headline">Risiko-Ermittlung nicht möglich</string> <!-- final -->
     <string name="risk_card_outdated_risk_body">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string> <!-- final -->
@@ -314,26 +314,44 @@
     <!-- ####################################
                App Information
     ###################################### -->
+    <!-- XHED: Page title for menu information page -->
     <string name="information_title">App-Informationen</string>  <!-- final -->
+    <!-- XHED: Page title for about information page, also menu item / button text -->
     <string name="information_about_title">Über die App</string>  <!-- final -->
+    <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
+    <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationalesPublic-Health-Institut veröffentlicht die Corona-Warn-App für die gesamte Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske.</string> <!-- final -->
+    <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">Wer sie nutzt, hilft, Infektionsketten schnell nachzuverfolgen und zu durchbrechen. Die App speichert dezentral – auf Ihrem Smartphone –  Begegnungen mit anderen.Sie werden informiert, wenn Sie Kontakt mit nachweislich infizierten Personen hatten.Ihre Privatsphärebleibt dabeibestens geschützt.</string> <!-- final -->
+    <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">Datenschutzinformation</string> <!-- final -->
     <string name="information_privacy_headline">@string/lorem_ipsum</string>
+    <!-- XHED: Page title for terms of use information page, also menu item / button text -->
     <string name="information_terms_title">Nutzungsbedingungen</string> <!-- final -->
     <string name="information_terms_headline">@string/lorem_ipsum</string>
+    <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
     <string name="information_contact_title">Technische Hotline</string> <!-- final -->
+    <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">Wie können wir Ihnen helfen?</string> <!-- final -->
+    <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body">Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere  technische Hotline wenden.</string> <!-- final -->
+    <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">Technische Hotline:</string> <!-- final -->
+    <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">+49 (0)800 7540001</string> <!-- final -->
+    <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">Unser Kundenservice ist für Sie da.</string> <!-- final -->
-    <string name="information_contact_body_open">Unsere Öffnungszeiten:\nMo – Fr: 08:00 – 22:00 Uhr\nSa – So: 10:00 – 22:00 Uhr\nEs gelten die Preise Ihres Telefonanbieters.</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="information_contact_body_open">Unsere Öffnungszeiten:<xliff:g id="line_break">\n</xliff:g>Mo – Fr: 08:00 – 22:00 Uhr<xliff:g id="line_break">\n</xliff:g>Sa – So: 10:00 – 22:00 Uhr<xliff:g id="line_break">\n</xliff:g>Es gelten die Preise Ihres Telefonanbieters.</string> <!-- final -->
+    <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">Für gesundheitliche Fragen, wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117.</string> <!-- final -->
+    <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">Häufige Fragen</string> <!-- final -->
+    <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">Rechtliche Hinweise</string> <!-- final -->
     <string name="information_technical_headline">FTP/SFTP/FTPS client uses libs</string>
+    <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">Impressum</string> <!-- final -->
     <string name="information_legal_headline">Herausgeber</string>
     <string name="information_legal_body">SAP Deutschland SE &amp; Co. KG \n \nHauptsitz: \nSAP Deutschland SE &amp; Co. KG \nHasso-Plattner-Ring 7 \n69190 Walldorf </string>

@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -76,12 +78,15 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         // does not override function. Empty on intention
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         // prevents screenshot of the app for all activities
         activity.window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
         )
+        // set screen orientation to portrait
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
     }
 
     override fun onActivityResumed(activity: Activity) {
