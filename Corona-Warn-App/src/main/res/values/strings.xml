@@ -367,11 +367,7 @@
 
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
-    <!-- Permission Denied Dialog -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">Keine Kamera Berechtigung</string>
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
 
-    <string name="submission_qr_code_scan_permission_denied_dialog_button_positive">Zurück</string>
     <!-- QR Code Scan Successful Dialog -->
     <string name="submission_qr_code_scan_successful_dialog_headline">Scan erfolgreich</string>
     <string name="submission_qr_code_scan_successful_dialog_body">Der QR-Code wurde erfolgreich gescannt</string>
@@ -435,6 +431,11 @@
     <string name="submission_dispatcher_subheadline">Welche Informationen liegen Ihnen vor?</string> <!-- final -->
     <string name="submission_dispatcher_card_qr">Dokument mit QR-Code</string> <!-- final -->
     <string name="submission_dispatcher_qr_card_text">Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string> <!-- final -->
+
+    <string name="submission_dispatcher_qr_privacy_dialog_headline">Datenschutz</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">@string/lorem_ipsum</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_button_positive">Erlauben</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_button_negative">Nicht Erlauben</string>
 
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string> <!-- final -->
     <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string> <!-- final -->
