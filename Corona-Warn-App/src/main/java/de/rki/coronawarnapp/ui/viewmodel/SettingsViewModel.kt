@@ -93,10 +93,12 @@ class SettingsViewModel : ViewModel() {
     }
 
     /**
-     * Update connection enabled
+     * Update bluetooth enabled
+     *
+     * @param value
      */
-    fun refreshBluetoothEnabled() {
-        SettingsRepository.refreshBluetoothEnabled()
+    fun updateBluetoothEnabled(value: Boolean) {
+        SettingsRepository.updateBluetoothEnabled(value)
     }
 
     /**

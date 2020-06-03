@@ -111,7 +111,7 @@
         <xliff:g id="notification_id">1</xliff:g>
     </string>
     <string name="notification_headline">Risk notification title</string>
-    <string name="notification_body">Risk notification content"</string>
+    <string name="notification_body">Es gibt Neuigkeiten von Ihrer Corona-Warn-App</string>
 
     <!-- ####################################
                     Cards
@@ -146,7 +146,7 @@
     <string name="risk_card_outdated_risk_headline">Risiko-Ermittlung nicht möglich</string> <!-- final -->
     <string name="risk_card_outdated_risk_body">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string> <!-- final -->
     <!-- LOADING -->
-    <string name="risk_card_loading_headline">Prüfung läuft...</string> <!-- final -->
+    <string name="risk_card_loading_headline">Prüfung läuft…</string> <!-- final -->
     <string name="risk_card_loading_body">Es werden aktuelle Daten heruntergeladen und geprüft. Dies kann mehrere Minuten dauern.</string> <!-- final -->
     <!-- Test Result Card -->
     <string name="test_result_card_headline">Ihr Befund:</string>
@@ -170,6 +170,12 @@
     <string name="submission_status_card_button_unregistered">Informieren &amp; mitmachen</string>
     <string name="submission_status_card_button_show_results">Ergebnis anzeigen</string>
     <string name="submission_status_card_button_show_details">Details anzeigen</string>
+    <string name="submission_status_card_positive_result_title">Positives Ergebnis</string>
+    <string name="submission_status_card_positive_result_subtitle">Bitte beachten Sie:</string>
+    <string name="submission_status_card_positive_result_show_button">Test-Ergebnis anzeigen</string>
+    <string name="submission_status_card_positive_result_contagious">@string/submission_done_contagious</string>
+    <string name="submission_status_card_positive_result_isolate">@string/submission_done_isolate</string>
+    <string name="submission_status_card_positive_result_share">Teilen Sie Ihre Zufallskennungen, damit andere gewarnt werden können.</string>
 
     <!-- ####################################
                     Main
@@ -222,46 +228,39 @@
     <!-- ####################################
               Onboarding
     ###################################### -->
-    <string name="onboarding_title">Onboarding</string>
     <string name="onboarding_image_description">IS MISSING</string>
-    <string name="onboarding_button_finish">Zustimmen</string>
+    <string name="onboarding_button_finish">Weiter</string> <!-- final -->
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <string name="onboarding_button_next">Weiter</string>
-    <string name="onboarding_button_start">Los Geht\'s</string>
+    <string name="onboarding_button_start">Los Geht\'s</string> <!-- final -->
     <string name="onboarding_button_back_description">Zurück</string>
     <!-- 1 Together -->
-    <string name="onboarding_headline">Zusammen gegen Corona</string>
-    <string name="onboarding_subtitle">@string/lorem_ipsum</string>
-    <string name="onboarding_body">@string/lorem_ipsum</string>
-    <string name="onboarding_body_emphasized">@string/lorem_ipsum</string>
+    <string name="onboarding_headline">Gemeinsam Corona bekämpfen</string> <!-- final -->
+    <string name="onboarding_subtitle">Mehr Schutz für Sie und uns alle. Mit der Corona-Warn-App durchbrechen wir Infektionsketten schneller.</string> <!-- final -->
+    <string name="onboarding_body">Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen infizierte Personen in ihrer Nähe waren.</string> <!-- final -->
+    <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string> <!-- final -->
     <!-- 2 Privacy -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
     <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
     <!-- 3 Permission -->
-    <string name="onboarding_tracing_headline">Wie Sie die Risikoerkennung ermöglichen</string>
-    <string name="onboarding_tracing_subtitle">@string/lorem_ipsum</string>
-    <string name="onboarding_tracing_body">@string/lorem_ipsum</string>
-    <string name="onboarding_tracing_body_emphasized">@string/lorem_ipsum</string>
+    <string name="onboarding_tracing_headline">Wie Sie die Risiko-Ermittlung ermöglichen</string> <!-- final -->
+    <string name="onboarding_tracing_subtitle">Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren.</string> <!-- final -->
+    <string name="onboarding_tracing_body">Die Risiko-Ermittlung funktioniert, indem Ihr Handy per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren.</string> <!-- final -->
+    <string name="onboarding_tracing_body_emphasized">Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich.</string> <!-- final -->
     <string name="onboarding_tracing_dialog_headline">Berechtigung</string>
-    <string name="onboarding_tracing_dialog_body">Corona-Warn-App kann dadurch keine Benachrichtigungen zu COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit einschalten.</string>
-    <string name="onboarding_tracing_dialog_button_positive">Trotzdem weiter</string>
-    <string name="onboarding_tracing_dialog_button_negative">Zurück</string>
+    <string name="onboarding_tracing_dialog_body">Corona-Warn-App kann dadurch keine Benachrichtigungen zum COVID-19-Risikostatus versenden und empfangen. Sie können die Funktion jederzeit ausschalten.</string> <!-- final -->
+    <string name="onboarding_tracing_dialog_button_positive">Nicht aktivieren</string> <!-- final -->
+    <string name="onboarding_tracing_dialog_button_negative">Zurück</string> <!-- final -->
     <!-- 4 Tracing -->
-    <string name="onboarding_test_headline">Sie sind positiv getestet?</string>
-    <string name="onboarding_test_subtitle">@string/lorem_ipsum</string>
-    <string name="onboarding_test_body">@string/lorem_ipsum</string>
-    <string name="onboarding_test_body_emphasized">Umfeldaufnahme aktivieren</string>
+    <string name="onboarding_test_headline">Falls Sie positiv getestet werden …</string> <!-- final -->
+    <string name="onboarding_test_subtitle">… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller.</string> <!-- final -->
+    <string name="onboarding_test_body">Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen.</string> <!-- final -->
     <!-- 5 Datashare -->
-    <string name="onboarding_notifications_headline">Warnungen erhalten, Risiken kennen</string>
-    <string name="onboarding_notifications_subtitle">@string/lorem_ipsum</string>
-    <string name="onboarding_notifications_body">@string/lorem_ipsum</string>
-    <string name="onboarding_notifications_body_emphasized">@string/lorem_ipsum</string>
-    <string name="onboarding_notifications_dialog_headline">Erlaubnis</string>
-    <string name="onboarding_notifications_dialog_body">Die Benachrichtigungen für die Corona-Warn-App sind ausgestellt. Um Sie bezüglich Ihres Status immer auf dem neusten Stand zu halten wäre es hilfreich wenn sie ihre Benachrichtigungen aktivieren.</string>
-    <string name="onboarding_notifications_dialog_button_positive">Zu den Einstellungen</string>
-    <string name="onboarding_notifications_dialog_button_negative">Trotzdem weiter</string> <!--<string name="onboarding_privacy_body_emphasized_address"></string> -->
+    <string name="onboarding_notifications_headline">Warnungen erhalten, Risiken erkennen</string> <!-- final -->
+    <string name="onboarding_notifications_subtitle">Die App kann Sie automatisch über Ihren Risikostatus informieren und bei Neuinfektionen von Menschen, denen Sie begegnet sind, warnen. Erlauben Sie der App jetzt, Sie zu benachrichtigen.</string> <!-- final -->
+    <string name="onboarding_notifications_body">Auf diese Weise können Sie sich zum Schutz Ihrer Mitmenschen in Isolation begeben und nach entsprechender Abklärung testen lassen.</string> <!-- final -->
 
     <!-- ####################################
                   Settings
@@ -329,7 +328,7 @@
     <string name="information_contact_subtitle_phone">Technische Hotline:</string> <!-- final -->
     <string name="information_contact_button_phone">+49 (0)800 7540001</string> <!-- final -->
     <string name="information_contact_body_phone">Unser Kundenservice ist für Sie da.</string> <!-- final -->
-    <string name="information_contact_body_open">Unsere Öffnungszeiten:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nEs gelten die Preise Ihres Telefonanbieters.</string>
+    <string name="information_contact_body_open">Unsere Öffnungszeiten:\nMo – Fr: 08:00 – 22:00 Uhr\nSa – So: 10:00 – 22:00 Uhr\nEs gelten die Preise Ihres Telefonanbieters.</string>
     <string name="information_contact_body_other">Für gesundheitliche Fragen, wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117.</string> <!-- final -->
     <string name="information_help_title">Häufige Fragen</string> <!-- final -->
     <string name="information_technical_title">Rechtliche Hinweise</string> <!-- final -->
@@ -439,6 +438,15 @@
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
     <string name="submission_done_button_done">Fertig</string>
+    <!-- Submission Contact -->
+    <string name="submission_contact_title">TAN anfragen</string>
+    <string name="submission_contact_headline">Info zum Ablauf:</string>
+    <string name="submission_contact_body">Wir teilen Ihnen Ihren TAN-Code gerne per Telefon mit.</string>
+    <string name="submission_contact_button_call">Anrufen</string>
+    <string name="submission_contact_button_enter">TAN-Code eingeben</string>
+    <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
+    <string name="submission_contact_number">0800 7540002</string>
+    <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
 
     <!-- ####################################
            Just for Development
