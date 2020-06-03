@@ -121,8 +121,8 @@ class OkHttp3Stack(context: Context, interceptors: List<Interceptor>) : BaseHttp
 
         val code = okHttpResponse.code
         val body = okHttpResponse.body
-        val content = body.byteStream()
-        val contentLength = body.contentLength().toInt() ?: 0
+        val content = body?.byteStream()
+        val contentLength = body?.contentLength()?.toInt() ?: 0
         val responseHeaders = mapHeaders(okHttpResponse.headers)
         return HttpResponse(code, responseHeaders, contentLength, content)
     }
