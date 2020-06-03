@@ -180,6 +180,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/main_test_positive"
                 app:submissionViewModel="@{submissionViewModel}" />
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/main_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="main_test, main_test_done, main_test_positive, main_risk"
+                 />
+
             <include
                 android:id="@+id/main_about"
                 layout="@layout/include_main_card"
@@ -194,7 +202,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_test"
+                app:layout_constraintTop_toBottomOf="@+id/main_barrier"
                 app:tracingViewModel="@{tracingViewModel}" />
 
             <androidx.constraintlayout.widget.Guideline
