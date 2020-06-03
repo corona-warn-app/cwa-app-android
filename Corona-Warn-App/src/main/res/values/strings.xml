@@ -4,81 +4,106 @@
                Preference Keys
     ######################################
     TODO: Check what is needed -->
+    <!-- NOTR -->
     <string name="preference_name">
         <xliff:g id="preference">shared_preferences_cwa</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_onboarding_completed">
         <xliff:g id="preference">preference_onboarding_completed</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_reset_app">
         <xliff:g id="preference">preference_reset_app</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_only_wifi">
         <xliff:g id="preference">preference_only_wifi</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_tracing">
         <xliff:g id="preference">preference_tracing</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_timestamp_diagnosis_keys_fetch">
-        <xliff:g id="preference">preference_m_timestamp_diagnosis_keys_fetch</xliff:g>
+        <xliff:g id="preference">preference_timestamp_diagnosis_keys_fetch</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_timestamp_manual_diagnosis_keys_retrieval">
-        <xliff:g id="preference">preference_m_timestamp_manual_diagnosis_keys_retrieval</xliff:g>
+        <xliff:g id="preference">preference_timestamp_manual_diagnosis_keys_retrieval</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_string_google_api_token">
         <xliff:g id="preference">preference_m_string_google_api_token</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_notifications_enabled">
         <xliff:g id="preference">preference_notifications_enabled</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_notifications_risk_enabled">
          <xliff:g id="preference">preference_notifications_risk_enabled</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_notifications_test_enabled">
          <xliff:g id="preference">preference_notifications_test_enabled</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_background_job_allowed">
         <xliff:g id="preference">preference_background_job_enabled</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_mobile_data_allowed">
         <xliff:g id="preference">preference_mobile_data_enabled</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_registration_token">
-        <xliff:g id="preference">preference_m_registration_token</xliff:g>
+        <xliff:g id="preference">preference_registration_token</xliff:g>
     </string>
     <string name="preference_device_pairing_successful_time">
         <xliff:g id="preference">preference_device_pairing_successful_time</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_initial_tracing_activation_time">
         <xliff:g id="preference">preference_initial_tracing_activation_time</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_initial_result_received_time">
         <xliff:g id="preference">preference_initial_result_received_time</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_risk_level_score">
         <xliff:g id="preference">preference_risk_level_score</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_test_guid">
-        <xliff:g id="preference">preference_m_test_guid</xliff:g>
+        <xliff:g id="preference">preference_test_guid</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_is_allowed_to_submit_diagnosis_keys">
-        <xliff:g id="preference">preference_m_is_allowed_to_submit_diagnosis_keys</xliff:g>
+        <xliff:g id="preference">preference_is_allowed_to_submit_diagnosis_keys</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_m_auth_code">
-        <xliff:g id="preference">preference_m_auth_code</xliff:g>
+        <xliff:g id="preference">preference_auth_code</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_database_password">
         <xliff:g id="preference">preference_database_password</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_total_non_active_tracing">
         <xliff:g id="preference">preference_total_non_active_tracing</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_last_non_active_tracing_timestamp">
         <xliff:g id="preference">preference_last_non_active_tracing_timestamp</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_number_successful_submissions">
         <xliff:g id="preference">preference_number_successful_submissions</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_teletan">
         <xliff:g id="preference">preference_teletan</xliff:g>
     </string>
