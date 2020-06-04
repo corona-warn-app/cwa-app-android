@@ -167,7 +167,6 @@ object RiskLevelTransaction : Transaction() {
     var recordedTransactionValuesForTestingOnly =
         TestRiskLevelCalculation.TransactionValues()
 
-
     /** atomic reference for the rollback value for the last calculated risk level score */
     private val lastCalculatedRiskLevelScoreForRollback = AtomicReference<RiskLevel>()
 
@@ -534,7 +533,7 @@ object RiskLevelTransaction : Transaction() {
             attenuationParameters.weights.high.capped() * exposureSummary.attenuationDurationsInMinutes[2]
 
         val maximumRiskScore = exposureSummary.maximumRiskScore
-        
+
         val defaultBucketOffset = attenuationParameters.defaultBucketOffset
         val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor
 

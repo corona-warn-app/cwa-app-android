@@ -38,6 +38,7 @@ import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
+@Suppress("MagicNumber")
 class TestRiskLevelCalculation : Fragment() {
     companion object {
         val TAG: String? = TestRiskLevelCalculation::class.simpleName
@@ -133,8 +134,8 @@ class TestRiskLevelCalculation : Fragment() {
         provideDiagnosisKey(key)
     }
 
-    private fun provideDiagnosisKey(TEkey: AppleLegacyKeyExchange.Key?) {
-        if (null == TEkey) {
+    private fun provideDiagnosisKey(key: AppleLegacyKeyExchange.Key?) {
+        if (null == key) {
             Toast.makeText(requireContext(), "No Key data found in QR code", Toast.LENGTH_SHORT)
                 .show()
         } else {
@@ -145,9 +146,9 @@ class TestRiskLevelCalculation : Fragment() {
 
             appleKeyList.add(
                 AppleLegacyKeyExchange.Key.newBuilder()
-                    .setKeyData(TEkey.keyData)
+                    .setKeyData(key.keyData)
                     .setRollingPeriod(144)
-                    .setRollingStartNumber(TEkey.rollingStartNumber)
+                    .setRollingStartNumber(key.rollingStartNumber)
                     .setTransmissionRiskLevel(1)
                     .build()
             )
@@ -220,10 +221,10 @@ class TestRiskLevelCalculation : Fragment() {
                                 "Attenuation Weight Mid: ${it.appConfig?.attenuationDuration?.weights?.mid}\n" +
                                 "Attenuation Weight High: ${it.appConfig?.attenuationDuration?.weights?.high}\n\n" +
                                 "Attenuation Offset: ${it.appConfig?.attenuationDuration?.defaultBucketOffset}\n" +
-                                "Attenuation Normalization: ${it.appConfig?.attenuationDuration?.riskScoreNormalizationDivisor}\n\n" +
+                                "Attenuation Normalization: " +
+                                "${it.appConfig?.attenuationDuration?.riskScoreNormalizationDivisor}\n\n" +
                                 "Risk Score Low Class: ${lowClass?.min ?: 0} - ${lowClass?.max ?: 0}\n" +
                                 "Risk Score High Class: ${highClass?.min ?: 0} - ${highClass?.max ?: 0}"
-
 
                     binding.labelBackendParameters.text = configAsString
 
@@ -258,5 +259,4 @@ class TestRiskLevelCalculation : Fragment() {
                 }
             })
     }
-
 }
