@@ -215,32 +215,54 @@
                 Main - Overview
     ###################################### -->
 
+    <!-- XHED: App overview page title -->
     <string name="main_overview_title">Überblick</string>
+    <!-- XHED: App overview subtitle for tracing explanation-->
     <string name="main_overview_subtitle_tracing">Risiko-Ermittlung</string>
-    <string name="main_overview_body_tracing">Die Risiko-Ermittung ist eine der drei zentralen Funktionen der App. Ist sie aktiv, werden Begegnungen aufgezeichnet. Sie brauchen sich um ncihts mehr zu kümmern.</string>
+    <!-- YTXT: App overview body text about tracing -->
+    <string name="main_overview_body_tracing">Die Risiko-Ermittlung ist eine der drei zentralen Funktionen der App. Ist sie aktiv, werden Begegnungen aufgezeichnet. Sie brauchen sich um nichts mehr zu kümmern.</string>
+    <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">Infektionsrisiko</string>
-    <string name="main_overview_body_risk">Sind Sie innerhalb der letzten 14 Tage einer corona- positiven Person begegnet, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche dauer und mit welchem Abstand eine Begegnung stattfand.</string>
+    <!-- YTXT: App overview body text about risk levels -->
+    <string name="main_overview_body_risk">Sind Sie innerhalb der letzten 14 Tage einer Corona-positiven Person begegnet, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche Dauer und mit welchem Abstand eine Begegnung stattfand.</string>
+    <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">Folgende Risikostufen können angezeigt werden:</string>
+    <!-- XTXT: App overview increased risk level -->
     <string name="main_overview_subtitle_increased_risk">Erhöhtes Risiko</string>
+    <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">Niedriges Risiko</string>
+    <!-- XTXT: App overview unknown risk level -->
     <string name="main_overview_subtitle_unknown_risk">Unbekanntes Risiko</string>
+    <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">Benachrichtigung Anderer</string>
-    <string name="main_overview_body_test">Eine weitere zentrale Funktion. Hier können Sie Ihren Test registrieren und seinen Status abfragen. Bei einem positiven Test können Sie andere warnen und damit Infektionsketten unterbrechen.</string>
-    <string name="main_overview_headline_glossary">Wichtige Begriffe:</string>
-    <string name="main_overview_subtitle_glossary_tracing">Begegnungs-Aufzeichnung</string>
-    <string name="main_overview_body_glossary_tracing">Liste der empfangenen und vorübergehend im Betriebssystemspeicher abgelegten kurzlebigen Zufallscodes. Diese Liste wird bei der Risiko-Überprüfung gelesen. Alle Zufallscodes werden nach 14 Tagen automatisch gelöscht.</string>
-    <string name="main_overview_subtitle_glossary_calculation">Risiko-Überprüfung</string>
-    <string name="main_overview_body_glossary_calculation">Abfrage der Begegnungs-Aufzeichnung und Abgleich mit den gemeldeten Infektionen anderer Nutzerinnen und Nutzer. Die Risiko-Überprüfung erfolgt automatisch ungefähr alle zwei Stunden. </string>
-    <string name="main_overview_subtitle_glossary_contact">Risiko-Begegnung</string>
-    <string name="main_overview_body_glossary_contact">Jede Begegnungen mit einer Corona-positiv getesteten Person, der Sie über einen längeren Zeitraum und in geringer Distanz begegnet sind.</string>
-    <string name="main_overview_subtitle_glossary_notification">Risiko-Benachrichtigung</string>
-    <string name="main_overview_body_glossary_notification">Die Anzeige von Risiko-Begegnungen in der Corona-Warn-App.</string>
-    <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
-    <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
+    <!-- YTXT: App overview body text about rest procedure -->
+    <string name="main_overview_body_test">Eine weitere zentrale Funktion. Hier können Sie Ihren Test registrieren und seinen Status abfragen. Bei einem positiven Test können Sie andere warnen und damit Infektionsketten unterbrechen.</string>
+    <!-- XHED: App overview headline for glossary -->
+   <string name="main_overview_headline_glossary">Wichtige Begriffe:</string>
+    <!-- XHED: App overview subtitle for glossary key storage -->
+   <string name="main_overview_subtitle_glossary_tracing">Begegnungs-Aufzeichnung</string>
+    <!-- YTXT: App overview body for glossary key storage -->
+   <string name="main_overview_body_glossary_tracing">Liste der empfangenen und vorübergehend im Betriebssystemspeicher abgelegten kurzlebigen Zufallscodes. Diese Liste wird bei der Risiko-Überprüfung gelesen. Alle Zufallscodes werden nach 14 Tagen automatisch gelöscht.</string>
+    <!-- XHED: App overview subtitle for glossary risk calculation  -->
+   <string name="main_overview_subtitle_glossary_calculation">Risiko-Überprüfung</string>
+    <!-- YTXT: App overview body for glossary risk calculation -->
+   <string name="main_overview_body_glossary_calculation">Abfrage der Begegnungs-Aufzeichnung und Abgleich mit den gemeldeten Infektionen anderer Nutzerinnen und Nutzer. Die Risiko-Überprüfung erfolgt automatisch ungefähr alle zwei Stunden.</string>
+    <!-- XHED: App overview subtitle for glossary contact  -->
+   <string name="main_overview_subtitle_glossary_contact">Risiko-Begegnungen</string>
+    <!-- YTXT: App overview body for glossary contact -->
+   <string name="main_overview_body_glossary_contact">Jene Begegnungen mit einer Corona-positiv getesteten Person, die über einen längeren Zeitraum und in geringer Distanz stattfanden.</string>
+    <!-- XHED: App overview subtitle for glossary notifications -->
+   <string name="main_overview_subtitle_glossary_notification">Risiko-Benachrichtigung</string>
+    <!-- YTXT: App overview body for glossary notifications -->
+   <string name="main_overview_body_glossary_notification">Die Anzeige von Risiko-Begegnungen in der Corona-Warn-App.</string>
+    <!-- XHED: App overview subtitle for glossary keys -->
+   <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
+    <!-- YTXT: App overview body for glossary keys -->
+   <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
 
-    <!-- ####################################
-               Risk Details
-    ###################################### -->
+   <!-- ####################################
+              Risk Details
+   ###################################### -->
 
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">Verhalten</string>
