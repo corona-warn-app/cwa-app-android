@@ -3,105 +3,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-    </data>
-
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.settings.SettingsResetFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!-- todo font adjustments needed through final styles -->
+        <include
+            android:id="@+id/settings_reset_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_back}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/settings_reset_title}" />
 
-            <include
-                android:id="@+id/settings_details_header_reset"
-                layout="@layout/include_information_details_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:body="@{@string/settings_reset_body}"
-                app:headline="@{@string/settings_reset_headline}"
-                app:icon="@{@drawable/ic_back}"
-                app:illustration="@{@drawable/ic_settings_illustration_reset}"
-                app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:title="@{@string/settings_reset_title}" />
+        <ScrollView
+            style="@style/fadingScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_reset_header">
 
-            <include
-                android:id="@+id/settings_reset_keys"
-                layout="@layout/include_tracing_status_card"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:body="@{@string/settings_reset_body_keys}"
-                app:headline="@{@string/settings_reset_headline_keys}"
-                app:icon="@{@drawable/ic_settings_reset_circle}"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/settings_details_header_reset" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/settings_reset_button_delete"
-                style="@style/buttonReset"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/settings_reset_button_positive"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/settings_reset_keys" />
+                <include
+                    android:id="@+id/settings_reset_header_details"
+                    layout="@layout/include_information_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_reset_body}"
+                    app:headline="@{@string/settings_reset_headline}"
+                    app:illustration="@{@drawable/ic_settings_illustration_reset}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/settings_reset_button_cancel"
-                style="@style/buttonLight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@string/settings_reset_button_negative"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/settings_reset_button_delete"
-                app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
-                app:layout_constraintVertical_bias="0"/>
+                <include
+                    android:id="@+id/settings_reset_keys"
+                    layout="@layout/include_tracing_status_card"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:body="@{@string/settings_reset_body_keys}"
+                    app:headline="@{@string/settings_reset_headline_keys}"
+                    app:icon="@{@drawable/ic_settings_reset_circle}"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_reset_header_details" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/guideline_top" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/guideline_end" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+        </ScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/settings_reset_button_delete"
+            style="@style/buttonReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/settings_reset_button_positive"
+            app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_cancel"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start_outer" />
 
-    </ScrollView>
+        <Button
+            android:id="@+id/settings_reset_button_cancel"
+            style="@style/buttonLight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_reset_button_negative"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start_outer" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start_outer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end_outer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
