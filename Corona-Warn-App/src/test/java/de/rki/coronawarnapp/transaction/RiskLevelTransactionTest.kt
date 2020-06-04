@@ -160,16 +160,7 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = INCREASED_RISK
 
-        val testAppConfig = buildTestAppConfig(
-            2749,
-            2750,
-            4096,
-            50,
-            70,
-            1.0,
-            1.0,
-            1.0
-        )
+        val testAppConfig = buildTestAppConfig()
 
         val testExposureSummary = buildSummary(1600, 0, 30, 15)
 
@@ -225,16 +216,7 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = UNKNOWN_RISK_INITIAL
 
-        val testAppConfig = buildTestAppConfig(
-            2749,
-            2750,
-            4096,
-            50,
-            70,
-            1.0,
-            1.0,
-            1.0
-        )
+        val testAppConfig = buildTestAppConfig()
 
         val testExposureSummary = buildSummary()
 
@@ -296,16 +278,7 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = LOW_LEVEL_RISK
 
-        val testAppConfig = buildTestAppConfig(
-            2749,
-            2750,
-            4096,
-            50,
-            70,
-            1.0,
-            1.0,
-            1.0
-        )
+        val testAppConfig = buildTestAppConfig()
 
         val testExposureSummary = buildSummary(10)
 
@@ -366,44 +339,33 @@ class RiskLevelTransactionTest {
     }
 
     private fun buildTestAppConfig(
-        lowMax: Int,
-        highMin: Int,
-        highMax: Int,
-        tLower: Int,
-        tUpper: Int,
-        wHigh: Double,
-        wMid: Double,
-        wLow: Double
+        lowMax: Int = 2749,
+        highMin: Int = 2750,
+        highMax: Int = 4096
     ): ApplicationConfigurationOuterClass.ApplicationConfiguration {
         return ApplicationConfigurationOuterClass.ApplicationConfiguration
             .newBuilder()
             .setRiskScoreClasses(buildRiskScoreClassification(lowMax, highMin, highMax))
-            .setAttenuationDuration(buildAttenuationDuration(tLower, tUpper, wHigh, wMid, wLow))
+            .setAttenuationDuration(buildAttenuationDuration())
             .build()
     }
 
-    private fun buildAttenuationDuration(
-        tLower: Int,
-        tUpper: Int,
-        wHigh: Double,
-        wMid: Double,
-        wLow: Double
-    ): ApplicationConfigurationOuterClass.AttenuationDuration {
+    private fun buildAttenuationDuration(): ApplicationConfigurationOuterClass.AttenuationDuration {
         return ApplicationConfigurationOuterClass.AttenuationDuration
             .newBuilder()
             .setThresholds(
                 ApplicationConfigurationOuterClass.Thresholds
                     .newBuilder()
-                    .setLower(tLower)
-                    .setUpper(tUpper)
+                    .setLower(50)
+                    .setUpper(70)
                     .build()
             )
             .setWeights(
                 ApplicationConfigurationOuterClass.Weights
                     .newBuilder()
-                    .setHigh(wHigh)
-                    .setMid(wMid)
-                    .setLow(wLow)
+                    .setHigh(1.0)
+                    .setMid(1.0)
+                    .setLow(1.0)
                     .build()
             )
             .build()
