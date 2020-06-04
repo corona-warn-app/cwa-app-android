@@ -59,10 +59,7 @@ object SubmissionService {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         return TestResult.fromInt(
-            WebRequestBuilder.asyncGetTestResult(
-                SubmissionConstants.TEST_RESULT_URL,
-                registrationToken
-            )
+            WebRequestBuilder.asyncGetTestResult(registrationToken)
         )
     }
 
