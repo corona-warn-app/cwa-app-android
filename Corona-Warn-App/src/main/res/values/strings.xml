@@ -487,7 +487,7 @@
     <string name="submission_test_result_dialog_tracing_required_button">OK</string>
     <!-- Submission Tan -->
     <string name="submission_tan_title">TAN Eingabe</string> <!-- final -->
-    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string> <!-- final -->
+    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string> <!-- final -->
     <string name="submission_tan_button_text">Weiter</string> <!-- final -->
     <!-- Submission Intro -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
