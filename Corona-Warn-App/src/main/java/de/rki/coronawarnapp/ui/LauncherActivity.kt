@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandlerConstants
+import de.rki.coronawarnapp.exception.reportGeneric
 import de.rki.coronawarnapp.http.DynamicURLs
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -34,9 +35,10 @@ class LauncherActivity : AppCompatActivity() {
             intent.getBooleanExtra(GlobalExceptionHandlerConstants.APP_CRASHED, false)
         if (appCrashedAndWasRestarted) {
             Log.i(TAG, "has previous crash")
-            val crashInfo = intent.getStringExtra(GlobalExceptionHandlerConstants.STACK_TRACE)
-            if (!crashInfo.isNullOrEmpty()) {
-                Log.i(TAG, "crash info:" + crashInfo)
+            val stackTrade = intent.getStringExtra(GlobalExceptionHandlerConstants.STACK_TRACE)
+            if (!stackTrade.isNullOrEmpty()) {
+                Log.i(TAG, "crash info:" + stackTrade)
+                reportGeneric(stackTrade)
             }
         } else {
             Log.i(TAG, "no previous crash")
