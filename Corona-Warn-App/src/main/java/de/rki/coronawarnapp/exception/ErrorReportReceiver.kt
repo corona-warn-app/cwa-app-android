@@ -21,23 +21,21 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         val prefix = intent.getStringExtra("prefix")
         val suffix = intent.getStringExtra("suffix")
         val message = intent.getStringExtra("message")
-        val title = context.resources.getString(R.string.test_something_went_wrong)
-        val confirm = context.resources.getString(R.string.test_something_went_wrong_confirm)
+        val title = context.resources.getString(R.string.errors_storage_headline)
+        val confirm = context.resources.getString(R.string.errors_storage_button_positive)
         if (CoronaWarnApplication.isAppInForeground) {
-            DialogHelper.showDialog(
-                DialogHelper.DialogInstance(
-                    activity,
-                    title,
-                    message,
-                    confirm
-                )
-            )
+            DialogHelper.showDialog(DialogHelper.DialogInstance(
+                activity,
+                title,
+                message,
+                confirm
+            ))
         } else {
             NotificationHelper.sendNotification(
-                    "an error occured",
-                    message ?: "",
-                    NotificationCompat.PRIORITY_HIGH
-                )
+                title,
+                message ?: "",
+                NotificationCompat.PRIORITY_HIGH
+            )
         }
         Log.e(
             TAG,

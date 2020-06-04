@@ -554,6 +554,11 @@
 
     <string name="submission_result_button_dialog_close">OK</string>
 
+    <!-- ####################################
+               Generic Error Messages
+        ###################################### -->
+    <string name="errors_storage_headline">Something went wrong</string>
+    <string name="errors_storage_button_positive">Continue</string>
 
     <!-- ####################################
            Just for Development
