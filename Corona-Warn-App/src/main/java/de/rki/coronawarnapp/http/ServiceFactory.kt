@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.http
 
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
@@ -35,7 +36,7 @@ class ServiceFactory {
      */
     private val mInterceptors: List<Interceptor> = listOf(
         HttpLoggingInterceptor().also {
-            it.setLevel(HttpLoggingInterceptor.Level.BODY)
+            if(BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
         },
         OfflineCacheInterceptor(CoronaWarnApplication.getAppContext()),
         RetryInterceptor()
