@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.util.DialogHelper
 
-
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
     companion object {
         private val TAG: String = ErrorReportReceiver::class.java.simpleName
@@ -39,7 +38,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         }
         Log.e(
             TAG,
-            "[${category}]${(prefix ?: "")} ${(message ?: "Error Text Unavailable")}${(suffix ?: "")}"
+            "[$category]${(prefix ?: "")} ${(message ?: "Error Text Unavailable")}${(suffix ?: "")}"
         )
     }
 }

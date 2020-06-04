@@ -1,11 +1,8 @@
 package de.rki.coronawarnapp.exception
 
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.rki.coronawarnapp.CoronaWarnApplication
-import kotlinx.coroutines.runBlocking
 
 fun Throwable.report(exceptionCategory: ExceptionCategory) =
     this.report(exceptionCategory, null, null)
