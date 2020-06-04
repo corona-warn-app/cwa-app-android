@@ -73,12 +73,20 @@ object SubmissionService {
     /**
      * extracts the GUID from [scanResult]. Returns null if it does not match the required pattern
      */
+    @SuppressWarnings("ReturnCount")
     fun extractGUID(scanResult: String): String? {
-        val potentialGUID = scanResult.substringAfterLast("?", "")
-        return if (potentialGUID.isEmpty())
-            null
-        else
-            potentialGUID
+        if (scanResult.length > SubmissionConstants.MAX_QR_CODE_LENGTH)
+            return null
+
+        if (scanResult.count { it == SubmissionConstants.GUID_SEPARATOR } != 1)
+            return null
+
+        val potentialGUID = scanResult.substringAfterLast(SubmissionConstants.GUID_SEPARATOR, "")
+
+        if (potentialGUID.isEmpty() || potentialGUID.length > SubmissionConstants.MAX_GUID_LENGTH)
+            return null
+
+        return potentialGUID
     }
 
     fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
