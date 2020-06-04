@@ -26,8 +26,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         val TAG: String? = CoronaWarnApplication::class.simpleName
         private lateinit var instance: CoronaWarnApplication
 
-        private lateinit var currentActivity: Activity
-
         /* describes if the app is in foreground
          * Initialized to false, because app could also be started by a background job.
          * For the cases where the app is started via the launcher icon, the onAppForegrounded
@@ -37,10 +35,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         fun getAppContext(): Context =
             instance.applicationContext
-
-        fun getCurrentActivity(): Activity {
-            return currentActivity
-        }
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver
