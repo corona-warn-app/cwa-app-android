@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import de.rki.coronawarnapp.exception.ErrorReportReceiver
+import de.rki.coronawarnapp.exception.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandler
 import de.rki.coronawarnapp.notification.NotificationHelper
 
@@ -22,6 +26,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         val TAG: String? = CoronaWarnApplication::class.simpleName
         private lateinit var instance: CoronaWarnApplication
 
+        private lateinit var currentActivity: Activity
+
         /* describes if the app is in foreground
          * Initialized to false, because app could also be started by a background job.
          * For the cases where the app is started via the launcher icon, the onAppForegrounded
@@ -31,7 +37,13 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         fun getAppContext(): Context =
             instance.applicationContext
+
+        fun getCurrentActivity(): Activity {
+            return currentActivity
+        }
     }
+
+    private val errorReceiver = ErrorReportReceiver()
 
     override fun onCreate() {
         super.onCreate()
@@ -61,7 +73,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityPaused(activity: Activity) {
-        // does not override function. Empty on intention
+        // unregisters error receiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(errorReceiver)
     }
 
     override fun onActivityStarted(activity: Activity) {
@@ -77,7 +90,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityStopped(activity: Activity) {
-        // does not override function. Empty on intention
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -92,6 +104,9 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityResumed(activity: Activity) {
-        // does not override function. Empty on intention
+        // registers error receiver
+        currentActivity = activity
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
 }
