@@ -27,7 +27,6 @@ import de.rki.coronawarnapp.exception.DiagnosisKeySubmissionException
 import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
 import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL
 
 /**
  * The Diagnosis Key Service is used to interact with the Server to submit and retrieve keys through
@@ -54,7 +53,6 @@ object DiagnosisKeyService {
         try {
             Log.d(TAG, "Diagnosis Keys will be submitted.")
             WebRequestBuilder.asyncSubmitKeysToServer(
-                DIAGNOSIS_KEYS_SUBMISSION_URL,
                 authCode,
                 false,
                 keysToReport

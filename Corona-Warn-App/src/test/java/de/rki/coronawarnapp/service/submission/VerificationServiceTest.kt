@@ -4,7 +4,7 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
-class SubmissionServiceTest {
+class VerificationServiceTest {
 
     @Test
     fun containsValidGUID() {

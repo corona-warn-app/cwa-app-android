@@ -3,12 +3,11 @@ package de.rki.coronawarnapp.service.applicationconfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 
 object ApplicationConfigurationService {
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration {
         return WebRequestBuilder
-            .asyncGetApplicationConfigurationFromServer(DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL)
+            .asyncGetApplicationConfigurationFromServer()
     }
 
     suspend fun asyncRetrieveExposureConfiguration(): ExposureConfiguration =

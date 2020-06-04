@@ -20,6 +20,7 @@ fun Throwable.report(
     intent.putExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA, suffix)
     intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, this.message)
     val sw = StringWriter()
+    this.printStackTrace()
     this.printStackTrace(PrintWriter(sw))
     intent.putExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA, sw.toString())
     LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
