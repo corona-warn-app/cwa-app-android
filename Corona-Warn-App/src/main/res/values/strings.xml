@@ -444,7 +444,7 @@
     <string name="submission_dispatcher_qr_privacy_dialog_button_negative">Nicht Erlauben</string>
 
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string> <!-- final -->
-    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string> <!-- final -->
+    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manueller TAN Eingabe</string> <!-- final -->
 
     <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string> <!-- final -->
     <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string> <!-- final -->
