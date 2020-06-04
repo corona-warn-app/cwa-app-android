@@ -133,7 +133,7 @@ object RiskLevelTransaction : Transaction() {
         /** Check the conditions for the [UNKNOWN_RISK_OUTDATED_RESULTS] score */
         CHECK_UNKNOWN_RISK_OUTDATED,
 
-        /** Retrieve the Application Configuration values to calculate the RKI Risk Score
+        /** Retrieve the Application Configuration values to calculate the Risk Score
          * and determine the [INCREASED_RISK] and [LOW_LEVEL_RISK] */
         RETRIEVE_APPLICATION_CONFIG,
 
@@ -205,7 +205,7 @@ object RiskLevelTransaction : Transaction() {
          * SET [LOW_LEVEL_RISK] LEVEL IF NONE ABOVE APPLIED
          ****************************************************/
         if (result == UNDETERMINED) {
-            lastCalculatedRiskLevelScoreForRollback.set(getLastCalculatedRiskLevelScore())
+            lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(LOW_LEVEL_RISK)
             executeClose()
             return@lockAndExecute
@@ -284,13 +284,14 @@ object RiskLevelTransaction : Transaction() {
 
     /**
      * Executes the [RETRIEVE_APPLICATION_CONFIG] Transaction State
+     *
+     * @return the values of the application configuration
      */
-    private suspend fun executeRetrieveApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
-        executeState(RiskLevelTransactionState.RETRIEVE_APPLICATION_CONFIG) {
-            // these are the threshold values defined by RKI
-            return@executeState getApplicationConfiguration().also {
-                Log.v(TAG, "$transactionId - retrieved application configuration")
-            }
+    private suspend fun executeRetrieveApplicationConfiguration():
+            ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        executeState(RETRIEVE_APPLICATION_CONFIG) {
+            return@executeState getApplicationConfiguration()
+                .also { Log.v(TAG, "configuration from backend: $it") }
         }
 
     /**
@@ -313,20 +314,20 @@ object RiskLevelTransaction : Transaction() {
     ): RiskLevel =
         executeState(CHECK_INCREASED_RISK) {
 
-            // custom attenuation parameters defined by the RKI to weight the attenuation
+            // custom attenuation parameters to weight the attenuation
             // values provided by the Google API
             val attenuationParameters = appConfig.attenuationDuration
 
             // calculate the risk score based on the values collected by the Google EN API and
             // the backend configuration
-            val rkiRiskScore = calculateRkiRiskScore(
+            val riskScore = calculateRiskScore(
                 attenuationParameters,
                 exposureSummary
             ).also {
                 Log.v(TAG, "calculated risk with the given config: $it")
             }
 
-            // these are the defined risk classes by the RKI. They will divide the calculated
+            // these are the defined risk classes. They will divide the calculated
             // risk score into the low and increased risk
             val riskScoreClassification = appConfig.riskScoreClasses
 
@@ -336,10 +337,10 @@ object RiskLevelTransaction : Transaction() {
                     ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
 
             // if the calculated risk score is above the defined level threshold we return the high level risk score
-            if (rkiRiskScore >= highRiskScoreClass.min) return@executeState INCREASED_RISK
+            if (riskScore >= highRiskScoreClass.min) return@executeState INCREASED_RISK
                 .also {
                     Log.v(
-                        TAG, "$rkiRiskScore is above the defined " +
+                        TAG, "$riskScore is above the defined " +
                                 "min value ${highRiskScoreClass.min}"
                     )
                 }
@@ -400,7 +401,7 @@ object RiskLevelTransaction : Transaction() {
                 "$transactionId - $riskLevel was determined by the transaction. " +
                         "UPDATE and CLOSE will be called"
             )
-            lastCalculatedRiskLevelScoreForRollback.set(getLastCalculatedRiskLevelScore())
+            lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(riskLevel)
             executeClose()
             return true
@@ -424,7 +425,6 @@ object RiskLevelTransaction : Transaction() {
 
     /**
      * Make a call to the backend to retrieve the current application configuration values
-     * from the RKI
      *
      * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
      */
@@ -452,15 +452,6 @@ object RiskLevelTransaction : Transaction() {
                         "($durationTracingIsActiveThreshold h): $it"
             )
         }
-    }
-
-    /**
-     * Retrieves the last calculated Risk Level Score from the persisted storage
-     *
-     * @return
-     */
-    private fun getLastCalculatedRiskLevelScore(): RiskLevel {
-        return RiskLevelRepository.getLastCalculatedScore()
     }
 
     /**
@@ -500,23 +491,36 @@ object RiskLevelTransaction : Transaction() {
         }
     }
 
-    private fun calculateRkiRiskScore(
+    private fun calculateRiskScore(
         attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double {
 
+        /** all attenuation values are capped to [TimeVariables.MAX_ATTENUATION_DURATION] */
         val weightedAttenuationLow =
-            attenuationParameters.weights.low * exposureSummary.attenuationDurationsInMinutes[0]
+            attenuationParameters.weights.low.capped() * exposureSummary.attenuationDurationsInMinutes[0]
         val weightedAttenuationMid =
-            attenuationParameters.weights.mid * exposureSummary.attenuationDurationsInMinutes[1]
+            attenuationParameters.weights.mid.capped() * exposureSummary.attenuationDurationsInMinutes[1]
         val weightedAttenuationHigh =
-            attenuationParameters.weights.high * exposureSummary.attenuationDurationsInMinutes[2]
+            attenuationParameters.weights.high.capped() * exposureSummary.attenuationDurationsInMinutes[2]
 
         val maximumRiskScore = exposureSummary.maximumRiskScore
 
-        val w4 = 25
-        val attenuationNorm = 1
+        // todo retrieve from backend
+        val w4 = 0
+        val attenuationNorm = 25
 
-        return (maximumRiskScore * (weightedAttenuationLow * weightedAttenuationMid * weightedAttenuationHigh + w4)) / attenuationNorm
+        val weightedAttenuationDuration =
+            weightedAttenuationLow + weightedAttenuationMid + weightedAttenuationHigh + w4
+
+        return (maximumRiskScore * weightedAttenuationDuration) / attenuationNorm
+    }
+
+    private fun Double.capped(): Double {
+        return if (this > TimeVariables.getMaxAttenuationDuration()) {
+            TimeVariables.getMaxAttenuationDuration()
+        } else {
+            this
+        }
     }
 }

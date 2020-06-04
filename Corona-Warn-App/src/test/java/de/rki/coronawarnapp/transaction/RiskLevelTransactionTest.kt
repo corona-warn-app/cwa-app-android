@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClass
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -159,13 +160,18 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = INCREASED_RISK
 
-        val testRiskScoreClassification = buildRiskScoreClassification(
+        val testAppConfig = buildTestAppConfig(
             2749,
             2750,
-            4096
+            4096,
+            50,
+            70,
+            1.0,
+            1.0,
+            1.0
         )
 
-        val testExposureSummary = buildSummary(2751)
+        val testExposureSummary = buildSummary(1600, 0, 30, 15)
 
         // tracing is activated
         coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
@@ -178,7 +184,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(2)
 
         // the risk score of the last exposure summary is above the high min threshold
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testRiskScoreClassification
+        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
@@ -197,11 +203,14 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeRetrieveRiskThreshold"]()
+                RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
 
-                RiskLevelTransaction["executeCheckIncreasedRisk"](testRiskScoreClassification, testExposureSummary)
+                RiskLevelTransaction["executeCheckIncreasedRisk"](
+                    testAppConfig,
+                    testExposureSummary
+                )
                 RiskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
@@ -216,13 +225,18 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = UNKNOWN_RISK_INITIAL
 
-        val testRiskScoreClassification = buildRiskScoreClassification(
+        val testAppConfig = buildTestAppConfig(
             2749,
             2750,
-            4096
+            4096,
+            50,
+            70,
+            1.0,
+            1.0,
+            1.0
         )
 
-        val testExposureSummary = buildSummary(2749)
+        val testExposureSummary = buildSummary()
 
         val twoHoursBelowMinActiveTracingDuration =
             TimeUnit.HOURS.toMillis(TimeVariables.getMinActivatedTracingTime().minus(2).toLong())
@@ -238,7 +252,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursBelowMinActiveTracingDuration
 
         // the exposure summary risk score is not below high min score
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testRiskScoreClassification
+        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
@@ -257,11 +271,14 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeRetrieveRiskThreshold"]()
+                RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
 
-                RiskLevelTransaction["executeCheckIncreasedRisk"](testRiskScoreClassification, testExposureSummary)
+                RiskLevelTransaction["executeCheckIncreasedRisk"](
+                    testAppConfig,
+                    testExposureSummary
+                )
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
                 RiskLevelTransaction["executeCheckUnknownRiskInitialTracingDuration"]()
@@ -279,13 +296,18 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = LOW_LEVEL_RISK
 
-        val testRiskScoreClassification = buildRiskScoreClassification(
+        val testAppConfig = buildTestAppConfig(
             2749,
             2750,
-            4096
+            4096,
+            50,
+            70,
+            1.0,
+            1.0,
+            1.0
         )
 
-        val testExposureSummary = buildSummary(2749)
+        val testExposureSummary = buildSummary(10)
 
         val twoHoursAboveMinActiveTracingDuration =
             TimeUnit.HOURS.toMillis(TimeVariables.getMinActivatedTracingTime().plus(2).toLong())
@@ -300,7 +322,7 @@ class RiskLevelTransactionTest {
         // the active tracing duration is above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testRiskScoreClassification
+        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
@@ -319,11 +341,14 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeRetrieveRiskThreshold"]()
+                RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
 
-                RiskLevelTransaction["executeCheckIncreasedRisk"](testRiskScoreClassification, testExposureSummary)
+                RiskLevelTransaction["executeCheckIncreasedRisk"](
+                    testAppConfig,
+                    testExposureSummary
+                )
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
                 RiskLevelTransaction["executeCheckUnknownRiskInitialTracingDuration"]()
@@ -338,6 +363,50 @@ class RiskLevelTransactionTest {
     @After
     fun cleanUp() {
         unmockkAll()
+    }
+
+    private fun buildTestAppConfig(
+        lowMax: Int,
+        highMin: Int,
+        highMax: Int,
+        tLower: Int,
+        tUpper: Int,
+        wHigh: Double,
+        wMid: Double,
+        wLow: Double
+    ): ApplicationConfigurationOuterClass.ApplicationConfiguration {
+        return ApplicationConfigurationOuterClass.ApplicationConfiguration
+            .newBuilder()
+            .setRiskScoreClasses(buildRiskScoreClassification(lowMax, highMin, highMax))
+            .setAttenuationDuration(buildAttenuationDuration(tLower, tUpper, wHigh, wMid, wLow))
+            .build()
+    }
+
+    private fun buildAttenuationDuration(
+        tLower: Int,
+        tUpper: Int,
+        wHigh: Double,
+        wMid: Double,
+        wLow: Double
+    ): ApplicationConfigurationOuterClass.AttenuationDuration {
+        return ApplicationConfigurationOuterClass.AttenuationDuration
+            .newBuilder()
+            .setThresholds(
+                ApplicationConfigurationOuterClass.Thresholds
+                    .newBuilder()
+                    .setLower(tLower)
+                    .setUpper(tUpper)
+                    .build()
+            )
+            .setWeights(
+                ApplicationConfigurationOuterClass.Weights
+                    .newBuilder()
+                    .setHigh(wHigh)
+                    .setMid(wMid)
+                    .setLow(wLow)
+                    .build()
+            )
+            .build()
     }
 
     private fun buildRiskScoreClassification(
@@ -369,7 +438,19 @@ class RiskLevelTransactionTest {
             .build()
     }
 
-    private fun buildSummary(maxRisk: Int): ExposureSummary {
-        return ExposureSummary.ExposureSummaryBuilder().setMaximumRiskScore(maxRisk).build()
+    private fun buildSummary(
+        maxRisk: Int = 0,
+        lowAttenuation: Int = 0,
+        midAttenuation: Int = 0,
+        highAttenuation: Int = 0
+    ): ExposureSummary {
+        val intArray = IntArray(3)
+        intArray[0] = lowAttenuation
+        intArray[1] = midAttenuation
+        intArray[2] = highAttenuation
+        return ExposureSummary.ExposureSummaryBuilder()
+            .setMaximumRiskScore(maxRisk)
+            .setAttenuationDurations(intArray)
+            .build()
     }
 }

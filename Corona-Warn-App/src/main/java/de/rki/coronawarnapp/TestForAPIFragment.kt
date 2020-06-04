@@ -32,7 +32,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.service.riskscoreparameter.RiskScoreParameterService
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -349,8 +349,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                         googleFileList,
-                        RiskScoreParameterService.asyncRetrieveRiskScoreParameters()
-                            .also { Log.v(TAG, it.toString()) },
+                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")
