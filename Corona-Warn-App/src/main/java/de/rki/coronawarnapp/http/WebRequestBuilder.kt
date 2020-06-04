@@ -23,14 +23,11 @@ import KeyExportFormat
 import android.util.Log
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
-import com.android.volley.TimeoutError
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
 import de.rki.coronawarnapp.exception.TestAlreadyPairedException
-import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.exception.WebRequestException
 import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.http.request.ApplicationConfigurationRequest
@@ -211,7 +208,7 @@ object WebRequestBuilder {
                         )
                         cont.resume(response)
                     },
-                    GetTanRequestErrorListener(requestID, cont)
+                    RequestErrorListener(requestID, cont)
                 )
             RequestQueueHolder.addToRequestQueue(getTANRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
@@ -245,7 +242,7 @@ object WebRequestBuilder {
                         )
                         cont.resume(response)
                     },
-                    SubmitKeysToServerRequestErrorListener(requestID, cont)
+                    RequestErrorListener(requestID, cont)
                 )
             RequestQueueHolder.addToRequestQueue(submitKeysRequest)
             Log.d(TAG, "$requestID: Added $url to queue.")
@@ -273,72 +270,16 @@ object WebRequestBuilder {
     ) :
         Response.ErrorListener {
         override fun onErrorResponse(error: VolleyError?) {
-            val resultingException = when (error) {
-                is TimeoutError -> error
-                null -> WebRequestException(
-                    "an error occurred during a webrequest",
-                    NullPointerException("The volley exception was null")
-                )
-                else -> when (error.networkResponse?.statusCode) {
-                    400 -> TestAlreadyPairedException(
-                        "the test was already paired to a different device",
-                        error
-                    )
+            if (error != null) {
+                val resultingException = when(error.networkResponse.statusCode) {
+                    400 -> TestAlreadyPairedException("the test was already paired to a different device", error)
                     else -> WebRequestException("an error occurred during a webrequest", error)
                 }
+                resultingException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
+                cont.resumeWithException(resultingException)
+            } else {
+                cont.resumeWithException(NullPointerException("the provided exception from volley was null"))
             }
-            resultingException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
-            cont.resumeWithException(resultingException)
-        }
-    }
-
-    private class GetTanRequestErrorListener<T>(
-        private val requestID: UUID,
-        private val cont: Continuation<T>
-    ) :
-        Response.ErrorListener {
-        override fun onErrorResponse(error: VolleyError?) {
-            val resultingException = when (error) {
-                is TimeoutError -> error
-                null -> WebRequestException(
-                    "an error occurred during a webrequest",
-                    NullPointerException("The volley exception was null")
-                )
-                else -> when (error.networkResponse?.statusCode) {
-                    400 -> TestPairingInvalidException(
-                        "the test paring to the device is invalid",
-                        error
-                    )
-                    else -> WebRequestException("an error occurred during a webrequest", error)
-                }
-            }
-            resultingException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
-            cont.resumeWithException(resultingException)
-        }
-    }
-
-    private class SubmitKeysToServerRequestErrorListener<T>(
-        private val requestID: UUID,
-        private val cont: Continuation<T>
-    ) :
-        Response.ErrorListener {
-        override fun onErrorResponse(error: VolleyError?) {
-            val resultingException = when (error) {
-                is TimeoutError -> error
-                null -> WebRequestException(
-                    "an error occurred during a webrequest",
-                    NullPointerException("The volley exception was null")
-                )
-                else -> when (error.networkResponse?.statusCode) {
-                    403 -> SubmissionTanInvalidException(
-                        "the tan used for submission is invalid",
-                        error
-                    )
-                    else -> WebRequestException("an error occurred during a webrequest", error)
-                }
-            }
-            resultingException.report(de.rki.coronawarnapp.exception.ExceptionCategory.HTTP)
-            cont.resumeWithException(resultingException)
         }
     }
 }
