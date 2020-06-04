@@ -209,7 +209,8 @@
     <string name="main_share_button">Download-Link versenden</string>
     <!-- YMSG: Message when sharing is executed -->
     <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.coronawarn.app/</xliff:g><xliff:g id="line_break">\n</xliff:g></string>
-
+    <!-- XACT: main (share) - illustraction description, explanation image -->
+    <string name="main_share_illustration_description">Ein Mann teilt die Corona-Warn-App mit vier anderen Personen.</string>
 
     <!-- ####################################
                 Main - Overview
@@ -259,6 +260,8 @@
    <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
     <!-- YTXT: App overview body for glossary keys -->
    <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image -->
+    <string name="main_overview_illustration_description">Ein Smartphone zeigt unterschiedliche Inhalte, die von eins bis drei nummeriert sind.</string>
 
    <!-- ####################################
               Risk Details
@@ -325,10 +328,14 @@
     <string name="onboarding_body">Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen infizierte Personen in ihrer Nähe waren.</string>
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string>
+    <!-- XACT: onboarding(together) - illustraction description, header image -->
+    <string name="onboarding_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <string name="onboarding_privacy_headline">Datenschutz</string>
     <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
+    <!-- XACT: onboarding(privacy) - illustraction description, header image -->
+    <string name="onboarding_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">Wie Sie die Risiko-Ermittlung ermöglichen</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
@@ -345,18 +352,24 @@
     <string name="onboarding_tracing_dialog_button_positive">Nicht aktivieren</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
     <string name="onboarding_tracing_dialog_button_negative">Zurück</string>
+    <!-- XACT: onboarding(tracing) - illustraction description, header image -->
+    <string name="onboarding_tracing_illustration_description">Drei Personen haben die Risiko-Erkennung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet.</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">Falls Sie positiv getestet werden …</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller.</string>
     <!-- YTXT: onboarding(test) - explain test -->
     <string name="onboarding_test_body">Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen.</string>
+    <!-- XACT: onboarding(test) - illustraction description, header image -->
+    <string name="onboarding_test_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">Warnungen erhalten, Risiken erkennen</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
     <string name="onboarding_notifications_subtitle">Die App kann Sie automatisch über Ihren Risikostatus informieren und bei Neuinfektionen von Menschen, denen Sie begegnet sind, warnen. Erlauben Sie der App jetzt, Sie zu benachrichtigen.</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
     <string name="onboarding_notifications_body">Auf diese Weise können Sie sich zum Schutz Ihrer Mitmenschen in Isolation begeben und nach entsprechender Abklärung testen lassen.</string>
+    <!-- XACT: onboarding(notifications) - illustraction description, header image -->
+    <string name="onboarding_notifications_illustration_description">Eine Frau erhält eine Benachrichtigung von ihrer Corona-Warn-App.</string>
 
     <!-- ####################################
                   Settings
@@ -407,6 +420,15 @@
         <item quantity="one">Die Risiko-Ermittlung ist seit insgesamt einem Tag aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen.</item>
         <item quantity="other">Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen.</item>
     </plurals>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_illustration_description_active">Drei Personen haben die Risiko-Erkennung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet.</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_illustration_description_inactive">Eine Person hat die Risiko-Erkennung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet. </string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_bluetooth_illustration_description_inactive">Eine Person hat Bluetooth auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet.</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_connection_illustration_description_inactive">Eine Person hat die Internetverbindung ihres Smartphones ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet.</string>
+
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">Benachrichtigungen</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
@@ -426,6 +448,10 @@
     <string name="settings_notifications_subtitle_update_test">Status Ihres COVID-19-Tests</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">Geräte-Einstellungen öffnen</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
+    <string name="settings_notifications_illustration_description_active">Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App.</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
+    <string name="settings_notifications_illustration_description_inactive">Eine Frau hat die Mitteilungen ihrer Corona-Warn-App ausgeschaltet.</string>
     <!-- XBUT: settings - go to reset application -->
     <string name="settings_reset_title">Anwendung zurücksetzen</string>
     <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
@@ -442,6 +468,9 @@
     <string name="settings_reset_button_positive">Anwendung zurücksetzen</string>
     <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
     <string name="settings_reset_button_negative">Abbrechen</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image -->
+    <string name="settings_reset_illustration_description">Eine Hand hält ein Smartphone, auf dem das Zurücksetzen der Anwendung symbolisiert wird.</string>
+
 
     <!-- ####################################
                App Information
@@ -459,12 +488,18 @@
     <string name="information_about_body_emphasized">Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationalesPublic-Health-Institut veröffentlicht die Corona-Warn-App für die gesamte Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske.</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">Wer sie nutzt, hilft, Infektionsketten schnell nachzuverfolgen und zu durchbrechen. Die App speichert dezentral – auf Ihrem Smartphone –  Begegnungen mit anderen.Sie werden informiert, wenn Sie Kontakt mit nachweislich infizierten Personen hatten.Ihre Privatsphärebleibt dabeibestens geschützt.</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_about_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">Datenschutzinformation</string>
     <string name="information_privacy_headline">@string/lorem_ipsum</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
     <string name="information_terms_title">Nutzungsbedingungen</string>
     <string name="information_terms_headline">@string/lorem_ipsum</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_terms_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Haken als Symbol für akzeptierte Nutzungsbedingungen.</string>
     <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
     <string name="information_contact_title">Technische Hotline</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
@@ -483,15 +518,22 @@
     <string name="information_contact_body_open">Unsere Öffnungszeiten:<xliff:g id="line_break">\n</xliff:g>Mo – Fr: 08:00 – 22:00 Uhr<xliff:g id="line_break">\n</xliff:g>Sa – So: 10:00 – 22:00 Uhr<xliff:g id="line_break">\n</xliff:g>Es gelten die Preise Ihres Telefonanbieters.</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">Für gesundheitliche Fragen, wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117.</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_contact_illustration_description">Ein Mann nutzt ein Headset zum Telefonieren.</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">Häufige Fragen</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">Rechtliche Hinweise</string>
     <string name="information_technical_headline">FTP/SFTP/FTPS client uses libs</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_technical_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist eine Balkenwaage als Symbol für rechtliche Hinweise.</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">Impressum</string>
     <string name="information_legal_headline">Herausgeber</string>
     <string name="information_legal_body">SAP Deutschland SE &amp; Co. KG \n \nHauptsitz: \nSAP Deutschland SE &amp; Co. KG \nHasso-Plattner-Ring 7 \n69190 Walldorf </string>
+    <!-- XACT: describes illustration -->
+    <string name="information_legal_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Paragraphenzeichen als Symbol für das Impressum.</string>
+
 
     <!-- ####################################
              Submission
