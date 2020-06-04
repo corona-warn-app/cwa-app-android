@@ -43,7 +43,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         }
     }
 
-    private val errorReceiver = ErrorReportReceiver()
+    private lateinit var errorReceiver: ErrorReportReceiver
 
     override fun onCreate() {
         super.onCreate()
@@ -104,8 +104,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityResumed(activity: Activity) {
-        // registers error receiver
-        currentActivity = activity
+        errorReceiver = ErrorReportReceiver(activity)
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }

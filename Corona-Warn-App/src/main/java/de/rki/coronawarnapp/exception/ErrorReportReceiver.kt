@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.exception
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,7 +9,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.DialogHelper
 
-class ErrorReportReceiver : BroadcastReceiver() {
+class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
     companion object {
         private val TAG: String = ErrorReportReceiver::class.java.simpleName
     }
@@ -26,12 +27,10 @@ class ErrorReportReceiver : BroadcastReceiver() {
         val details = context.resources.getString(R.string.errors_generic_button_negative)
         val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
 
-        val activityCurrent = CoronaWarnApplication.getCurrentActivity()
-
         if (CoronaWarnApplication.isAppInForeground) {
             DialogHelper.showDialog(
                 DialogHelper.DialogInstance(
-                    activityCurrent,
+                    activity,
                     title,
                     message,
                     confirm,
@@ -41,13 +40,14 @@ class ErrorReportReceiver : BroadcastReceiver() {
                     {
                         DialogHelper.showDialog(
                             DialogHelper.DialogInstance(
-                                activityCurrent,
+                                activity,
                                 title,
                                 "$detailsTitle:\n$stack",
                                 confirm
-                            )).run {}
-                }
-            ))
+                            )
+                        ).run {}
+                    }
+                ))
         }
         Log.e(
             TAG,

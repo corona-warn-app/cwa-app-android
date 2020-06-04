@@ -18,7 +18,6 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-     //  showDialogWithStacktraceIfPreviouslyCrashed()
         retrieveCustomURLsFromSchema(intent.data)
 
         if (LocalData.isOnboarded()) {
