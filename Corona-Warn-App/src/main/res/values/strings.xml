@@ -446,130 +446,245 @@
     <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
+
     <!-- QR Code Scan Successful Dialog -->
     <string name="submission_qr_code_scan_successful_dialog_headline">Scan erfolgreich</string>
     <string name="submission_qr_code_scan_successful_dialog_body">Der QR-Code wurde erfolgreich gescannt</string>
     <string name="submission_qr_code_scan_successful_dialog_button_positive">Registrieren</string>
     <string name="submission_qr_code_scan_successful_dialog_button_negative">Abbrechen</string>
+
     <!-- QR Code Scan Invalid Dialog -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">Falscher QR Code</string>
     <string name="submission_qr_code_scan_invalid_dialog_body">Es scheint, dass der falsche QR-Code gescannt wurde</string>
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">Erneut versuchen</string>
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">Abbrechen</string>
+
     <!-- QR Code Scan Screen -->
+    <!-- YTXT: instruction text for QR code scanning  -->
     <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
+
     <!-- Register Device Screen -->
     <string name="submission_register_device_headline">Gerät Registrieren</string>
     <string name="submission_register_device_body">@string/lorem_ipsum</string>
+
     <!-- Submission Test Result -->
-    <string name="submission_test_result_headline">Test-Ergebnis</string> <!--final -->
-    <string name="submission_test_result_subtitle">Info zum Ablauf:</string> <!-- final -->
+    <!-- XHED: Page headline for test result  -->
+    <string name="submission_test_result_headline">Test-Ergebnis</string>
+    <!-- XHED: Page subheadline for test result  -->
+    <string name="submission_test_result_subtitle">Info zum Ablauf:</string>
+    <!-- XBUT:  test result submission - finish button -->
     <string name="submission_test_result_button_finish">Abschließen</string>
-    <string name="submission_test_result_steps_added_heading">Test erfolgreich hinzugefügt</string> <!-- final -->
-    <string name="submission_test_result_steps_added_body">Ihr Test wurde in der Corona-Warn-App hinterlegt.</string> <!-- final -->
-    <string name="submission_test_result_pending_steps_waiting_heading">Test-Ergebnis noch nicht verfügbar</string> <!-- final -->
-    <string name="submission_test_result_pending_steps_waiting_body">Ihr Test-Ergebnis steht noch nicht zur Verfügung.</string> <!-- final -->
-    <string name="submission_test_result_pending_refresh_button">Aktualisieren</string> <!-- final -->
-    <string name="submission_test_result_pending_remove_test_button">Test entfernen</string> <!-- final -->
-    <string name="submission_test_result_negative_steps_negative_heading">Ihr Test-Ergebnis</string> <!-- final -->
-    <string name="submission_test_result_negative_steps_negative_body">Der Labortest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben. \n\nBitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string> <!-- final -->
-    <string name="submission_test_result_negative_remove_test_button">Test entfernen</string> <!-- final -->
-    <string name="submission_test_result_positive_steps_positive_heading">Ihr Test-Ergebnis</string> <!-- final -->
-    <string name="submission_test_result_positive_steps_positive_body">Ihr Test-Ergebnis wurde erfolgreich als “Positiv” verifiziert.</string> <!-- final -->
-    <string name="submission_test_result_positive_steps_warning_others_heading">Andere warnen</string> <!-- final -->
-    <string name="submission_test_result_positive_steps_warning_others_body">Ihre Zufallscodes der letzten 14 Tage teilen, um andere zu schützen und die Infektionskette zu unterbrechen.</string> <!-- final -->
-    <string name="submission_test_result_positive_continue_button">Weiter</string> <!-- final -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">Ihr Test-Ergebnis</string> <!-- final -->
-    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string> <!-- final -->
-    <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string> <!-- final -->
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_heading">Test erfolgreich hinzugefügt</string>
+    <!-- YTXT: Body text for for results next steps  -->
+    <string name="submission_test_result_steps_added_body">Ihr Test wurde in der Corona-Warn-App hinterlegt.</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_heading">Test-Ergebnis noch nicht verfügbar</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_body">Ihr Test-Ergebnis steht noch nicht zur Verfügung.</string>
+    <!-- XBUT: test result pending : refresh button -->
+    <string name="submission_test_result_pending_refresh_button">Aktualisieren</string>
+    <!-- XBUT: test result pending : remove the test button -->
+    <string name="submission_test_result_pending_remove_test_button">Test entfernen</string>
+    <!-- XHED: Page headline for negative test result next steps  -->
+    <string name="submission_test_result_negative_steps_negative_heading">Ihr Test-Ergebnis</string>
+    <!-- YTXT: Body text for next steps section of test negative result -->
+    <string name="submission_test_result_negative_steps_negative_body">Der Labortest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben. \n\nBitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
+    <!-- XBUT: negative test result : remove the test button -->
+    <string name="submission_test_result_negative_remove_test_button">Test entfernen</string>
+    <!-- XHED: Page headline for positive test result screen  -->
+    <string name="submission_test_result_positive_steps_positive_heading">Ihr Test-Ergebnis</string>
+    <!-- YTXT: Body text for next steps section of test positive result-->
+    <string name="submission_test_result_positive_steps_positive_body">Ihr Test-Ergebnis wurde erfolgreich als “Positiv” verifiziert.</string>
+    <!-- XHED: Page headline for other warnings screen  -->
+    <string name="submission_test_result_positive_steps_warning_others_heading">Andere warnen</string>
+    <!-- YTXT: Body text for for other warnings screen-->
+    <string name="submission_test_result_positive_steps_warning_others_body">Ihre Zufallscodes der letzten 14 Tage teilen, um andere zu schützen und die Infektionskette zu unterbrechen.</string>
+    <!-- XBUT: positive test result : continue button -->
+    <string name="submission_test_result_positive_continue_button">Weiter</string>
+    <!-- XHED: Page headline for invalid test result screen  -->
+    <string name="submission_test_result_invalid_steps_invalid_heading">Ihr Test-Ergebnis</string>
+    <!-- YTXT: Body text for next steps section of invalid test result-->
+    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
+    <!-- XBUT: invalid test result : remove the test button -->
+    <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
+    <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">Risiko-Ermittlung erforderlich</string>
+    <!-- YTXT: Dialog text for tracing required dialog-->
     <string name="submission_test_result_dialog_tracing_required_message">Bitte aktivieren Sie die Risiko-Ermittlung um andere zu warnen.</string>
+    <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">OK</string>
+
     <!-- Submission Tan -->
-    <string name="submission_tan_title">TAN Eingabe</string> <!-- final -->
-    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string> <!-- final -->
-    <string name="submission_tan_button_text">Weiter</string> <!-- final -->
+    <!-- XHED: Page title for TAN submission pge -->
+    <string name="submission_tan_title">TAN Eingabe</string>
+    <!-- YTXT: Body text for the tan submission page -->
+    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
+    <!-- XBUT: Submit TAN button -->
+    <string name="submission_tan_button_text">Weiter</string>
+
     <!-- Submission Intro -->
+    <!-- XHED: Page title for menu at the start of the submission process  -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
-    <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string> <!-- final -->
-    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.</string> <!-- final -->
-    <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string> <!-- final -->
-    <string name="submission_intro_button_next">Weiter</string> <!-- final -->
+    <!-- XHED: Page headline for menu the at start of the submission process  -->
+    <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
+    <!-- YTXT: submission introduction text part 1 -->
+    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.</string>
+    <!-- YTXT: submission introduction text part 2 -->
+    <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string>
+    <!-- XBUT: Submission introduction next button-->
+    <string name="submission_intro_button_next">Weiter</string>
+
     <!-- Notification -->
+    <!-- XHED: Dialog headline for result dialog  -->
     <string name="submission_result_dialog_headline">Danke für die Mithilfe!</string>
+    <!-- YTXT: Body text for result dialog -->
     <string name="submission_result_dialog_body">Ihr verifizierter Befund wurde anonym übertragen.</string>
+
     <!-- Dispatcher -->
-    <string name="submission_dispatcher_headline">Auswahl</string> <!-- final -->
-    <string name="submission_dispatcher_subheadline">Welche Informationen liegen Ihnen vor?</string> <!-- final -->
-    <string name="submission_dispatcher_card_qr">Dokument mit QR-Code</string> <!-- final -->
-    <string name="submission_dispatcher_qr_card_text">Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string> <!-- final -->
+    <!-- XHED: Page headline for dispatcher menu  -->
+    <string name="submission_dispatcher_headline">Auswahl</string>
+    <!-- XHED: Page subheadline for dispatcher menu  -->
+    <string name="submission_dispatcher_subheadline">Welche Informationen liegen Ihnen vor?</string>
+    <!-- YTXT: Dispatcher text for QR code option -->
+    <string name="submission_dispatcher_card_qr">Dokument mit QR-Code</string>
+    <!-- YTXT: Body text for QR code dispatcher option -->
+    <string name="submission_dispatcher_qr_card_text">Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string>
+    <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">Datenschutz</string>
     <string name="submission_dispatcher_qr_privacy_dialog_body">@string/lorem_ipsum</string>
+    <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">Erlauben</string>
+    <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_negative">Nicht Erlauben</string>
-    <string name="submission_dispatcher_card_tan_code">TAN-Code</string> <!-- final -->
-    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string> <!-- final -->
-    <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string> <!-- final -->
-    <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string> <!-- final -->
+    <!-- YTXT: Dispatcher text for TAN code option -->
+    <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
+    <!-- YTXT: Body text for TAN code dispatcher option -->
+    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <!-- YTXT: Dispatcher text for TELE-TAN option -->
+    <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string>
+    <!-- YTXT: Body text for TELE_TAN dispatcher option -->
+    <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string>
+
     <!-- Submission Positive Other Warning -->
-    <string name="submission_positive_other_warning_title">Andere warnen</string> <!-- final -->
-    <string name="submission_positive_other_warning_headline">Helfen Sie mit!</string> <!-- final -->
-    <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\n Da nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string> <!-- final -->
+    <!-- XHED: Page title for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_title">Andere warnen</string>
+    <!-- XHED: Page headline for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_headline">Helfen Sie mit!</string>
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\n Da nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
     <string name="submission_positive_other_warning_data_security_body">+Data-Security Text</string>
-    <string name="submission_positive_other_warning_button">Weiter</string> <!-- final -->
-    <string name="submission_positive_dialog_confirmation_title">Zufalls-IDs mit der App "Corona-Warn" teilen?</string> <!-- final -->
-    <string name="submission_positive_dialog_confirmation_body">Deine zufälligen IDs der letzten 14 Tage werden dazu genutzt, andere darüber zu informieren, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit COVID-19 gekommen sind.</string> <!-- final -->
-    <string name="submission_positive_dialog_confirmation_positive">Erlauben</string> <!-- final -->
-    <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string> <!-- final -->
+    <!-- XBUT: other warning continue button -->
+    <string name="submission_positive_other_warning_button">Weiter</string>
+    <!-- XHED: Dialog title for positive other warning dialog  -->
+    <string name="submission_positive_dialog_confirmation_title">Zufalls-IDs mit der App "Corona-Warn" teilen?</string>
+    <!-- YTXT: Body text for the positive result confirmation dialog-->
+    <string name="submission_positive_dialog_confirmation_body">Deine zufälligen IDs der letzten 14 Tage werden dazu genutzt, andere darüber zu informieren, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit COVID-19 gekommen sind.</string>
+    <!-- XBUT: submission(positive other warning) - positive button (right) -->
+    <string name="submission_positive_dialog_confirmation_positive">Erlauben</string>
+    <!-- XBUT: submission(positive other warning) - negative button (left) -->
+    <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string>
+
     <!-- Submission Done -->
-    <string name="submission_done_title">Vielen Dank!</string> <!-- final -->
-    <string name="submission_done_headline">Sie haben einen wichtigen Beitrag geleistet!</string> <!-- final -->
+    <!-- XHED: Page title for completed submission page -->
+    <string name="submission_done_title">Vielen Dank!</string>
+    <!-- XHED: Page subheadline for completed submission page -->
+    <string name="submission_done_headline">Sie haben einen wichtigen Beitrag geleistet!</string>
+    <!-- YTXT: Body text for completed submission page -->
     <string name="submission_done_body">Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren.</string>
+    <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">Bitte beachten Sie:</string>
+    <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
+    <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
+    <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">Fertig</string>
+
     <!-- Submission Contact -->
+    <!-- XHED: Page title for contact page in submission flow -->
     <string name="submission_contact_title">TAN anfragen</string>
+    <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">Info zum Ablauf:</string>
+    <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">Wir teilen Ihnen Ihren TAN-Code gerne per Telefon mit.</string>
+    <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">Anrufen</string>
+    <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">TAN-Code eingeben</string>
+    <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
+    <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number">0800 7540002</string>
+    <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
+
     <!-- Submission Status Card -->
+    <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">Datenabruf…</string>
+    <!-- XHED: Page title for the various submission status: unregistered -->
     <string name="submission_status_card_title_unregistered">Wurden Sie getestet?</string>
+    <!-- XHED: Page title for the various submission status: pending -->
     <string name="submission_status_card_title_pending">Ergebnis liegt noch nicht vor</string>
+    <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">Ihr Ergebnis liegt vor</string>
+    <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">Das Ergebnis wird aktualisiert</string>
+    <!-- YTXT: Body text for submission status: unregistered -->
     <string name="submission_status_card_body_unregistered">Helfen Sie mit, die Infektionskette zu durchbrechen und warnen Sie Andere.</string>
+    <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">Die Auswertung dauert zwischen 1–3 Tagen.</string>
+    <!-- YTXT: Body text for submission status: invalid -->
     <string name="submission_status_card_body_invalid">Ihr test könnte nicht ausgewertet werden.</string>
+    <!-- YTXT: Body text for submission status: positive -->
     <string name="submission_status_card_body_positive">Sie wurden positiv auf SARS-CoV-2 getestet.</string>
+    <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">Sie wurden negativ auf SARS-CoV-2 getestet.</string>
+    <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">Informieren &amp; mitmachen</string>
+    <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">Ergebnis anzeigen</string>
+    <!-- XBUT: submission status card show details button -->
     <string name="submission_status_card_button_show_details">Details anzeigen</string>
+    <!-- XHED: submission status card positive result title -->
     <string name="submission_status_card_positive_result_title">Positives Ergebnis</string>
+    <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">Bitte beachten Sie:</string>
+    <!-- XBUT: submission status card show positive result button -->
     <string name="submission_status_card_positive_result_show_button">Test-Ergebnis anzeigen</string>
+    <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">@string/submission_done_contagious</string>
+    <!-- YTXT: text for isolate card -->
     <string name="submission_status_card_positive_result_isolate">@string/submission_done_isolate</string>
+    <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">Teilen Sie Ihre Zufallskennungen, damit andere gewarnt werden können.</string>
+
     <!-- Test Result Card -->
     <string name="test_result_card_headline">Ihr Befund:</string>
+    <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">SARS-CoV-2</string>
+    <!-- YTXT: registered at text -->
     <string name="test_result_card_registered_at_text">Registriert am %tF</string>
+    <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">Negativ</string>
+    <!-- YTXT: positive status text -->
     <string name="test_result_card_status_positive">Positiv</string>
+    <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">Auswertung nicht möglich</string>
+    <!-- YTXT: pending status text -->
     <string name="test_result_card_status_pending">Ergebnis liegt noch nicht vor</string>
 
-
+    <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
 
+    <!-- ####################################
+               Generic Error Messages
+        ###################################### -->
+    <string name="errors_generic_headline">Etwas ist schief gelaufen</string>
+    <string name="errors_generic_details_headline">Ursache</string>
+    <string name="errors_generic_button_positive">Okay</string>
+    <string name="errors_generic_button_negative">Details</string>
+    <string name="errors_generic_text_unknown_error_cause">Ein unbekanntes Problem ist aufgetreten</string>
 
     <!-- ####################################
            Just for Development
@@ -617,4 +732,5 @@
     <string name="test_api_body_other_keys">Other key </string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">Calculate Risk Level</string>
+
 </resources>
