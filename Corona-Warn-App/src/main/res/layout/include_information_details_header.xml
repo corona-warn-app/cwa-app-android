@@ -54,7 +54,7 @@
             app:body="@{body}"
             app:headline="@{headline}"
             app:illustration="@{illustration}"
-            app:illustrationDetails="@{illustrationDescription}"
+            app:illustrationDescription="@{illustrationDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/information_header" />
