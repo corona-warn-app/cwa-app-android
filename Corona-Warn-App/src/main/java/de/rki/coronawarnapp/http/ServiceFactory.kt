@@ -36,7 +36,7 @@ class ServiceFactory {
      */
     private val mInterceptors: List<Interceptor> = listOf(
         HttpLoggingInterceptor().also {
-            if(BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
+            if (BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
         },
         OfflineCacheInterceptor(CoronaWarnApplication.getAppContext()),
         RetryInterceptor()
