@@ -69,9 +69,9 @@
                 android:text="@string/settings_reset_button_negative"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/settings_reset_button_delete"
                 app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
-                app:layout_constraintVertical_bias="0"/>
+                app:layout_constraintTop_toBottomOf="@id/settings_reset_button_delete"
+                app:layout_constraintVertical_bias="0" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_top"

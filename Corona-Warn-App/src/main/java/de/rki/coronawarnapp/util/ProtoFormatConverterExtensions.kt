@@ -25,7 +25,8 @@ object ProtoFormatConverterExtensions {
         TRANSMISSION_RISK_DAY_4,
         TRANSMISSION_RISK_DAY_5,
         TRANSMISSION_RISK_DAY_6,
-        TRANSMISSION_RISK_DAY_7)
+        TRANSMISSION_RISK_DAY_7
+    )
     private const val MAXIMUM_KEYS = 14
 
     fun List<TemporaryExposureKey>.limitKeyCount() =
@@ -47,7 +48,7 @@ object ProtoFormatConverterExtensions {
                     .setRollingPeriod(ROLLING_PERIOD)
                     .setTransmissionRiskLevel(riskValue)
                     .build()
-    }
+            }
 
     fun AppleLegacyKeyExchange.Key.convertToGoogleKey(): KeyExportFormat.TemporaryExposureKey =
         KeyExportFormat.TemporaryExposureKey.newBuilder()

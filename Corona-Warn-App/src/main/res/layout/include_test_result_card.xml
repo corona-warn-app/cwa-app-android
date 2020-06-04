@@ -9,8 +9,8 @@
             name="registerDate"
             type="java.util.Date" />
         <variable
-            name="testResult"
-            type="de.rki.coronawarnapp.util.formatter.TestResult" />
+            name="deviceUIState"
+            type="de.rki.coronawarnapp.util.DeviceUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(testResult)}"
+                android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(deviceUIState)}"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 style="@style/testResultCardLargeText"
                 android:text="@string/test_result_card_virus_name_text"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultVirusNameTextVisible(testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultVirusNameTextVisible(deviceUIState)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
 
@@ -61,7 +61,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:text="@string/test_result_card_status_invalid"
                 android:layout_marginEnd="@dimen/spacing_large"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStatusTextVisible(testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStatusTextVisible(deviceUIState)}"
                 app:layout_constraintEnd_toStartOf="@+id/test_result_card_status_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:text="@string/test_result_card_status_pending"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStatusTextVisible(testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStatusTextVisible(deviceUIState)}"
                 app:layout_constraintEnd_toStartOf="@+id/test_result_card_status_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
@@ -83,9 +83,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/testResultCardLargeText"
-                android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(testResult)}"
-                android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(testResult)}"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultStatusTextVisible(testResult)}"
+                android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(deviceUIState)}"
+                android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(deviceUIState)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultStatusTextVisible(deviceUIState)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_card_virus_name" />
 
