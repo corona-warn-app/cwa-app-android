@@ -23,7 +23,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.http.OkHttp3Stack
 import java.security.KeyStore
 
 /**
@@ -35,7 +38,7 @@ object SecurityHelper {
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
     private const val AndroidKeyStore = "AndroidKeyStore"
 
-    private val keyStore: KeyStore by lazy {
+    val keyStore: KeyStore by lazy {
         KeyStore.getInstance(AndroidKeyStore).also {
             it.load(null)
         }
@@ -64,4 +67,8 @@ object SecurityHelper {
         .getKey(masterKeyAlias, null)
         .toString()
         .toCharArray()
+
+    fun getPinnedWebStack(appContext: Context): RequestQueue {
+        return Volley.newRequestQueue(appContext, OkHttp3Stack(appContext))
+    }
 }
