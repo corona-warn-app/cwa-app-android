@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -339,7 +340,7 @@ object RiskLevelTransaction : Transaction() {
 
             // calculate the risk score based on the values collected by the Google EN API and
             // the backend configuration
-            val riskScore = calculateRiskScore(
+            val riskScore = RiskLevelCalculation.calculateRiskScore(
                 attenuationParameters,
                 exposureSummary
             ).also {
@@ -516,38 +517,6 @@ object RiskLevelTransaction : Transaction() {
 
         return exposureSummary.also {
             Log.v(TAG, "$transactionId - generated new exposure summary with $googleToken")
-        }
-    }
-
-    private fun calculateRiskScore(
-        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
-        exposureSummary: ExposureSummary
-    ): Double {
-
-        /** all attenuation values are capped to [TimeVariables.MAX_ATTENUATION_DURATION] */
-        val weightedAttenuationLow =
-            attenuationParameters.weights.low.capped() * exposureSummary.attenuationDurationsInMinutes[0]
-        val weightedAttenuationMid =
-            attenuationParameters.weights.mid.capped() * exposureSummary.attenuationDurationsInMinutes[1]
-        val weightedAttenuationHigh =
-            attenuationParameters.weights.high.capped() * exposureSummary.attenuationDurationsInMinutes[2]
-
-        val maximumRiskScore = exposureSummary.maximumRiskScore
-
-        val defaultBucketOffset = attenuationParameters.defaultBucketOffset
-        val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor
-
-        val weightedAttenuationDuration =
-            weightedAttenuationLow + weightedAttenuationMid + weightedAttenuationHigh + defaultBucketOffset
-
-        return (maximumRiskScore / normalizationDivisor) * weightedAttenuationDuration
-    }
-
-    private fun Double.capped(): Double {
-        return if (this > TimeVariables.getMaxAttenuationDuration()) {
-            TimeVariables.getMaxAttenuationDuration()
-        } else {
-            this
         }
     }
 }
