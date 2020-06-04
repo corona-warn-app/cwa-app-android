@@ -7,8 +7,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
-            name="testResult"
-            type="de.rki.coronawarnapp.util.formatter.TestResult" />
+            name="deviceUIState"
+            type="de.rki.coronawarnapp.util.DeviceUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             style="@style/textTitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentTitleText(testResult)}"
+            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentTitleText(deviceUIState)}"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,9 +33,9 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/spacing_tiny"
-            android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(testResult)}"
-            android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(testResult)}"
-            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentStatusTextVisible(testResult)}"
+            android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(deviceUIState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(deviceUIState)}"
+            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentStatusTextVisible(deviceUIState)}"
             app:layout_constraintBottom_toTopOf="@+id/submission_status_card_content_body"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="@+id/submission_status_card_content_title"
@@ -47,7 +47,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:layout_height="wrap_content"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentBodyText(testResult)}"
+            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentBodyText(deviceUIState)}"
             app:layout_constraintBottom_toTopOf="@+id/submission_status_card_content_button"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="@+id/submission_status_card_content_title" />
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             style="@style/buttonPrimary"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentButtonText(testResult)}"
+            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentButtonText(deviceUIState)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_icon" />
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentIcon(testResult)}"
+            android:background="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentIcon(deviceUIState)}"
             app:layout_constraintTop_toTopOf="@+id/submission_status_card_content_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

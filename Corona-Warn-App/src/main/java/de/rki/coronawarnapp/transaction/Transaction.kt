@@ -21,10 +21,8 @@ package de.rki.coronawarnapp.transaction
 
 import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.RollbackException
 import de.rki.coronawarnapp.exception.TransactionException
-import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.transaction.Transaction.InternalTransactionStates.INIT
 import kotlinx.coroutines.CoroutineScope
@@ -258,7 +256,6 @@ abstract class Transaction {
     protected open suspend fun handleTransactionError(error: Throwable?): Nothing {
         rollback()
         resetExecutedStateStack()
-        error?.report(INTERNAL)
         throw TransactionException(
             transactionId.get(),
             currentTransactionState.toString(),
