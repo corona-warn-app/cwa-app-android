@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.TestResult" />
+        <import type="de.rki.coronawarnapp.util.DeviceUIState" />
 
         <import type="de.rki.coronawarnapp.risk.RiskLevelConstants" />
 
@@ -48,7 +48,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_title"
                 app:registerDate="@{registerDate}"
-                app:testResult="@{TestResult.POSITIVE}" />
+                app:deviceUIState="@{DeviceUIState.PAIRED_POSITIVE}" />
 
             <TextView
                 android:id="@+id/submission_status_card_positive_result_subtitle"

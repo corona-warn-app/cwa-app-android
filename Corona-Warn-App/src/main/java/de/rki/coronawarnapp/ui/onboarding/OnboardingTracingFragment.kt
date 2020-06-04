@@ -82,6 +82,7 @@ class OnboardingTracingFragment : BaseFragment(),
             R.string.onboarding_tracing_dialog_body,
             R.string.onboarding_tracing_dialog_button_positive,
             R.string.onboarding_tracing_dialog_button_negative,
+            true,
             {
                 navigate()
             })

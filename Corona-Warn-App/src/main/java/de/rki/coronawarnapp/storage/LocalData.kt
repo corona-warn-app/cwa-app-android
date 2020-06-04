@@ -160,7 +160,7 @@ object LocalData {
     fun lastTimeDiagnosisKeysFromServerFetch(): Date? {
         val time = getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch),
+                .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
             0L
         )
         // TODO need this for nullable ref, shout not be goto for nullable storage
@@ -180,7 +180,7 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_timestamp_diagnosis_keys_fetch),
+                    .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
                 value?.time ?: 0L
             )
         }
@@ -193,7 +193,7 @@ object LocalData {
      */
     fun lastTimeManualDiagnosisKeysRetrieved(): Long = getSharedPreferenceInstance().getLong(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_timestamp_manual_diagnosis_keys_retrieval),
+            .getString(R.string.preference_timestamp_manual_diagnosis_keys_retrieval),
         0L
     )
 
@@ -204,7 +204,7 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_timestamp_manual_diagnosis_keys_retrieval),
+                    .getString(R.string.preference_timestamp_manual_diagnosis_keys_retrieval),
                 value
             )
         }
@@ -220,7 +220,7 @@ object LocalData {
      */
     fun googleApiToken(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_string_google_api_token),
+            .getString(R.string.preference_string_google_api_token),
         null
     )
 
@@ -232,7 +232,7 @@ object LocalData {
     fun googleApiToken(value: String?) = getSharedPreferenceInstance().edit(true) {
         putString(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_m_string_google_api_token),
+                .getString(R.string.preference_string_google_api_token),
             value
         )
     }
@@ -333,7 +333,7 @@ object LocalData {
      */
     fun registrationToken(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_registration_token),
+            .getString(R.string.preference_registration_token),
         null
     )
 
@@ -346,7 +346,7 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_registration_token),
+                    .getString(R.string.preference_registration_token),
                 value
             )
         }
@@ -410,7 +410,7 @@ object LocalData {
 
     fun testGUID(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_test_guid),
+            .getString(R.string.preference_test_guid),
         null
     )
 
@@ -418,7 +418,7 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_test_guid),
+                    .getString(R.string.preference_test_guid),
                 value
             )
         }
@@ -426,7 +426,7 @@ object LocalData {
 
     fun authCode(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_m_auth_code),
+            .getString(R.string.preference_auth_code),
         null
     )
 
@@ -434,7 +434,7 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putString(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_auth_code),
+                    .getString(R.string.preference_auth_code),
                 value
             )
         }
@@ -444,7 +444,7 @@ object LocalData {
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_m_is_allowed_to_submit_diagnosis_keys),
+                    .getString(R.string.preference_is_allowed_to_submit_diagnosis_keys),
                 isAllowedToSubmitDiagnosisKeys
             )
         }
@@ -453,7 +453,7 @@ object LocalData {
     fun isAllowedToSubmitDiagnosisKeys(): Boolean? {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_m_is_allowed_to_submit_diagnosis_keys),
+                .getString(R.string.preference_is_allowed_to_submit_diagnosis_keys),
             false
         )
     }

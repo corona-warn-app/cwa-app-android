@@ -3,22 +3,15 @@ package de.rki.coronawarnapp.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import com.google.android.gms.common.api.ApiException
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
-import de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
-import de.rki.coronawarnapp.exception.TransactionException
+import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.WrongReceiverException
 import de.rki.coronawarnapp.exception.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.util.UUID
+import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
 
 /**
  * Receiver to listen to the Exposure Notification Exposure State Updated event. This event will be triggered from the
@@ -36,8 +29,6 @@ import java.util.UUID
 class ExposureStateUpdateReceiver : BroadcastReceiver() {
     companion object {
         private val TAG: String? = ExposureStateUpdateReceiver::class.simpleName
-        private const val EXPOSURE_STATE_UPDATE_PERMISSION =
-            "com.google.android.gms.nearby.exposurenotification.EXPOSURE_CALLBACK"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -51,31 +42,26 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
                     IllegalArgumentException("wrong action was received")
                 )
             }
-            val token = LocalData.googleApiToken()
 
-            val pendingRepository = goAsync()
+            val token =
+                intent.getStringExtra(ExposureNotificationClient.EXTRA_TOKEN)
+                    ?: throw NoTokenException(
+                        IllegalArgumentException("no token was found in the intent")
+                    )
 
-            GlobalScope.launch(Dispatchers.Default) {
-                try {
-                    val exposureSummary = InternalExposureNotificationClient
-                        .asyncGetExposureSummary(token ?: UUID.randomUUID().toString())
-
-                    ExposureSummaryRepository.getExposureSummaryRepository()
-                        .insertExposureSummaryEntity(exposureSummary)
-                    pendingRepository.finish()
-                    Log.v(TAG, "exposure summary state updated")
-                    try {
-                        RiskLevelTransaction.start()
-                    } catch (e: TransactionException) {
-                        e.report(INTERNAL)
-                    }
-                    Log.v(TAG, "exposure summary updated - trigger a new risk level calculation")
-                    Log.v(TAG, exposureSummary.toString())
-                } catch (e: ApiException) {
-                    e.report(EXPOSURENOTIFICATION)
-                }
-            }
+            val workManager = WorkManager.getInstance(context)
+            workManager.enqueue(
+                OneTimeWorkRequest.Builder(ExposureStateUpdateWorker::class.java)
+                    .setInputData(
+                        Data.Builder()
+                            .putString(ExposureNotificationClient.EXTRA_TOKEN, token)
+                            .build()
+                    )
+                    .build()
+            )
         } catch (e: WrongReceiverException) {
+            e.report(INTERNAL)
+        } catch (e: NoTokenException) {
             e.report(INTERNAL)
         }
     }

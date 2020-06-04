@@ -12,6 +12,10 @@
             type="android.graphics.drawable.Drawable" />
 
         <variable
+            name="illustrationDescription"
+            type="String" />
+
+        <variable
             name="headline"
             type="String" />
 
@@ -28,8 +32,8 @@
             android:id="@+id/information_details_header_illustration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
             android:src="@{illustration}"
+            android:contentDescription="@{illustrationDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

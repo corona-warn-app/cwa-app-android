@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -19,156 +18,188 @@
             type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!-- todo font adjustments needed through final styles -->
+        <include
+            android:id="@+id/settings_tracing_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/settings_tracing_title}" />
 
-            <include
-                android:id="@+id/settings_tracing_header"
-                layout="@layout/include_settings_details_header"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                app:headline="@{@string/settings_tracing_headline}"
-                app:icon="@{@drawable/ic_close}"
-                app:illustration="@{FormatterSettingsHelper.formatTracingStatusImage(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/settings_tracing_title}" />
-
-            <include
-                android:id="@+id/settings_tracing_switch_row"
-                layout="@layout/include_settings_switch_row"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:enabled="@{FormatterSettingsHelper.formatTracingSwitchEnabled(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                app:showDivider="@{true}"
-                app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header"
-                app:status="@{FormatterSettingsHelper.formatTracingSwitch(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                app:subtitle="@{@string/settings_tracing_title}" />
+        <ScrollView
+            style="@style/fadingScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/settings_tracing_status"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/settings_tracing_switch_row">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <include
-                    android:id="@+id/settings_tracing_status_bluetooth"
-                    layout="@layout/include_tracing_status_card"
-                    android:layout_width="@dimen/match_constraint"
+                    android:id="@+id/settings_tracing_header_details"
+                    layout="@layout/include_information_details"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                    app:body="@{@string/settings_tracing_status_bluetooth_body}"
-                    app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
-                    app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
-                    app:icon="@{@drawable/ic_settings_tracing_bluetooth}"
+                    app:headline="@{@string/settings_tracing_headline}"
+                    app:illustration="@{FormatterSettingsHelper.formatTracingStatusImage(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:illustrationDescription="@{FormatterSettingsHelper.formatTracingIllustrationText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <include
-                    android:id="@+id/settings_tracing_status_connection"
-                    layout="@layout/include_tracing_status_card"
+                    android:id="@+id/settings_tracing_switch_row"
+                    layout="@layout/include_settings_switch_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:visibility="@{FormatterSettingsHelper.formatTracingStatusConnection(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                    app:body="@{@string/settings_tracing_status_connection_body}"
-                    app:buttonText="@{@string/settings_tracing_status_connection_button}"
-                    app:headline="@{@string/settings_tracing_status_connection_headline}"
-                    app:icon="@{@drawable/ic_settings_tracing_connection}"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:enabled="@{FormatterSettingsHelper.formatTracingSwitchEnabled(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header_details"
+                    app:showDivider="@{true}"
+                    app:status="@{FormatterSettingsHelper.formatTracingSwitch(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:subtitle="@{@string/settings_tracing_title}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/settings_tracing_status_tracing"
+                    android:id="@+id/settings_tracing_status"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_tracing_switch_row">
 
-                    <de.rki.coronawarnapp.ui.view.CircleProgress
-                        android:id="@+id/settings_tracing_status_tracing_circle_progress"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        app:circleWidth="10"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
-
-                    <TextView
-                        android:id="@+id/settings_tracing_status_tracing_body"
-                        style="@style/textMultiline"
+                    <include
+                        android:id="@+id/settings_tracing_status_bluetooth"
+                        layout="@layout/include_tracing_status_card"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_small"
-                        android:text="@{FormatterSettingsHelper.formatTracingStatusBody(tracingViewModel.isTracingEnabled(), tracingViewModel.activeTracingDaysInRetentionPeriod)}"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                        app:body="@{@string/settings_tracing_status_bluetooth_body}"
+                        app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
+                        app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
+                        app:icon="@{@drawable/ic_settings_tracing_bluetooth}"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/settings_tracing_status_tracing_circle_progress"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <include
+                        android:id="@+id/settings_tracing_status_connection"
+                        layout="@layout/include_tracing_status_card"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusConnection(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                        app:body="@{@string/settings_tracing_status_connection_body}"
+                        app:buttonText="@{@string/settings_tracing_status_connection_button}"
+                        app:headline="@{@string/settings_tracing_status_connection_headline}"
+                        app:icon="@{@drawable/ic_settings_tracing_connection}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/settings_tracing_status_tracing"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/settings_tracing_status_tracing_body"
+                            style="@style/textMultiline"
+                            android:layout_width="@dimen/match_constraint"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/spacing_small"
+                            android:text="@{FormatterSettingsHelper.formatTracingStatusBody(tracingViewModel.activeTracingDaysInRetentionPeriod)}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/settings_tracing_status_tracing_circle_progress"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <de.rki.coronawarnapp.ui.view.CircleProgress
+                            android:id="@+id/settings_tracing_status_tracing_circle_progress"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:circleWidth="10"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/risk_details_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/colorGreyLight"
+                    android:padding="@dimen/spacing_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_status">
+
+                    <TextView
+                        android:id="@+id/settings_tracing_body"
+                        style="@style/textMultiline"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_tracing_body_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/settings_tracing_body"
-                style="@style/textMultiline"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@string/settings_tracing_body_text"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/settings_tracing_status" />
+        </ScrollView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/guideline_top" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 </layout>
