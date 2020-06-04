@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.ui.UiConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.CallHelper
 
@@ -38,7 +38,12 @@ class InformationContactFragment : BaseFragment() {
             (activity as MainActivity).goBack()
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
-            CallHelper.call(this, UiConstants.TECHNICAL_HOTLINE)
+            CallHelper.call(
+                this,
+                requireContext().getString(
+                    R.string.information_contact_phone_call_number
+                )
+            )
         }
     }
 }

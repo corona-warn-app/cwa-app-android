@@ -50,14 +50,14 @@
                     app:title="@{@string/information_about_title}" />
 
                 <include
-                    android:id="@+id/information_privacy"
+                    android:id="@+id/information_help"
                     layout="@layout/include_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_about"
-                    app:title="@{@string/information_privacy_title}" />
+                    app:title="@{@string/information_help_title}" />
 
                 <include
                     android:id="@+id/information_terms"
@@ -66,28 +66,18 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_privacy"
+                    app:layout_constraintTop_toBottomOf="@+id/information_help"
                     app:title="@{@string/information_terms_title}" />
 
                 <include
-                    android:id="@+id/information_contact"
+                    android:id="@+id/information_privacy"
                     layout="@layout/include_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_terms"
-                    app:title="@{@string/information_contact_title}" />
-
-                <include
-                    android:id="@+id/information_help"
-                    layout="@layout/include_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_contact"
-                    app:title="@{@string/information_help_title}" />
+                    app:title="@{@string/information_privacy_title}" />
 
                 <include
                     android:id="@+id/information_technical"
@@ -96,8 +86,18 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_help"
+                    app:layout_constraintTop_toBottomOf="@+id/information_privacy"
                     app:title="@{@string/information_technical_title}" />
+
+                <include
+                    android:id="@+id/information_contact"
+                    layout="@layout/include_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/information_technical"
+                    app:title="@{@string/information_contact_title}" />
 
                 <include
                     android:id="@+id/information_legal"
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information_technical"
+                    app:layout_constraintTop_toBottomOf="@+id/information_contact"
                     app:title="@{@string/information_legal_title}" />
 
                 <TextView

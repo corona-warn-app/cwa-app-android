@@ -23,7 +23,7 @@ import android.util.Log
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.service.riskscoreparameter.RiskScoreParameterService
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
@@ -215,7 +215,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      */
     private suspend fun executeRetrieveRiskScoreParams() =
         executeState(RETRIEVE_RISK_SCORE_PARAMS) {
-            RiskScoreParameterService.asyncRetrieveRiskScoreParameters()
+            ApplicationConfigurationService.asyncRetrieveExposureConfiguration()
         }
 
     /**
