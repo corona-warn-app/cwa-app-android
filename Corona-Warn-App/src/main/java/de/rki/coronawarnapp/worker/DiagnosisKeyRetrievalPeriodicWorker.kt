@@ -28,7 +28,6 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
      */
-    @Suppress("ReturnCount")
     override suspend fun doWork(): Result {
         if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
 
@@ -37,11 +36,12 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             return Result.failure()
         }
+        var result = Result.success()
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
-            return Result.retry()
+            result = Result.retry()
         }
-        return Result.success()
+        return result
     }
 }

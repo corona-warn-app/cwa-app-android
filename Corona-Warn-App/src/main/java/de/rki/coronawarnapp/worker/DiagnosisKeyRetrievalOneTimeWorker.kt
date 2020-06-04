@@ -27,7 +27,6 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      *
      * @see RetrieveDiagnosisKeysTransaction
      */
-    @Suppress("ReturnCount")
     override suspend fun doWork(): Result {
         if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
 
@@ -35,11 +34,12 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
             if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
             return Result.failure()
         }
+        var result = Result.success()
         try {
             RetrieveDiagnosisKeysTransaction.start()
         } catch (e: Exception) {
-            return Result.retry()
+            result = Result.retry()
         }
-        return Result.success()
+        return result
     }
 }
