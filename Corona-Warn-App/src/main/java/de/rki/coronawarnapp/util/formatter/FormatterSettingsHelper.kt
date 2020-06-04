@@ -111,13 +111,13 @@ fun formatNotificationsDescription(notifications: Boolean): String = formatText(
  */
 fun formatTracingStatusBody(tracing: Boolean, activeTracingDaysInRetentionPeriod: Long): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    val daysArg = activeTracingDaysInRetentionPeriod.toString()
+    val resources = appContext.resources
+    val days = activeTracingDaysInRetentionPeriod.toInt()
     return if (tracing) {
-        appContext.getString(R.string.settings_tracing_status_body_active)
-            .format(daysArg)
+        resources.getQuantityString(R.plurals.settings_tracing_status_body_active, days, days)
     } else {
         appContext.getString(R.string.settings_tracing_status_body_inactive)
-            .format(daysArg)
+            .format(days)
     }
 }
 
