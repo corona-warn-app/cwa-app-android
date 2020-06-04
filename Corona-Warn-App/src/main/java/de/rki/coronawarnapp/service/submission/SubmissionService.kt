@@ -4,8 +4,6 @@ import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_KEY_TYPE
-import de.rki.coronawarnapp.service.submission.SubmissionConstants.REGISTRATION_TOKEN_URL
-import de.rki.coronawarnapp.service.submission.SubmissionConstants.TAN_REQUEST_URL
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_TYPE
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
@@ -27,7 +25,6 @@ object SubmissionService {
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
         val registrationToken =
             WebRequestBuilder.asyncGetRegistrationToken(
-                REGISTRATION_TOKEN_URL,
                 guid,
                 QR_CODE_KEY_TYPE
             )
@@ -39,7 +36,6 @@ object SubmissionService {
     private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationToken =
             WebRequestBuilder.asyncGetRegistrationToken(
-                REGISTRATION_TOKEN_URL,
                 tan,
                 TELE_TAN_KEY_TYPE
             )
@@ -49,7 +45,7 @@ object SubmissionService {
     }
 
     suspend fun asyncRequestAuthCode(registrationToken: String): String {
-        val authCode = WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
+        val authCode = WebRequestBuilder.asyncGetTan(registrationToken)
         return authCode
     }
 
@@ -63,23 +59,23 @@ object SubmissionService {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         return TestResult.fromInt(
-            WebRequestBuilder.asyncGetTestResult(
-                SubmissionConstants.TEST_RESULT_URL,
-                registrationToken
-            )
+            WebRequestBuilder.asyncGetTestResult(registrationToken)
         )
     }
 
-    /**
-     * extracts the GUID from [scanResult]. Returns null if it does not match the required pattern
-     */
-    fun extractGUID(scanResult: String): String? {
-        val potentialGUID = scanResult.substringAfterLast("?", "")
-        return if (potentialGUID.isEmpty())
-            null
-        else
-            potentialGUID
+    fun containsValidGUID(scanResult: String): Boolean {
+        if (scanResult.length > SubmissionConstants.MAX_QR_CODE_LENGTH ||
+            scanResult.count { it == SubmissionConstants.GUID_SEPARATOR } != 1
+        )
+            return false
+
+        val potentialGUID = extractGUID(scanResult)
+
+        return !(potentialGUID.isEmpty() || potentialGUID.length > SubmissionConstants.MAX_GUID_LENGTH)
     }
+
+    fun extractGUID(scanResult: String): String =
+        scanResult.substringAfterLast(SubmissionConstants.GUID_SEPARATOR, "")
 
     fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
 

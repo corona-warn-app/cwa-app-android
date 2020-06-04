@@ -13,6 +13,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import de.rki.coronawarnapp.notification.NotificationHelper
+import org.conscrypt.Conscrypt
+import java.security.Security
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
@@ -35,6 +37,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     override fun onCreate() {
         instance = this
         NotificationHelper.createNotificationChannel()
+        // Enable Conscrypt for TLS1.3 Support below API Level 29
+        Security.insertProviderAt(Conscrypt.newProvider(), 1)
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         registerActivityLifecycleCallbacks(this)

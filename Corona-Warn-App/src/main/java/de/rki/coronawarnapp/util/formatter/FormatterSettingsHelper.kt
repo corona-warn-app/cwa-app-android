@@ -129,7 +129,6 @@ fun formatNotificationIllustrationText(notifications: Boolean): String =
         R.string.settings_notifications_illustration_description_inactive
     )
 
-
 /**
  * Format the settings tracing content description for the header illustration
  *
