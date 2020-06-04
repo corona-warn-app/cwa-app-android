@@ -36,6 +36,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
             is TimeoutError -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_generic_timeout_title,
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
@@ -45,6 +46,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
                 ::navigateToDispatchScreen
             )
             is TestAlreadyPairedException -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_test_paired_title,
                 R.string.submission_error_dialog_web_test_paired_body,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
@@ -53,6 +55,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
                 ::navigateToDispatchScreen
             )
             else -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 R.string.submission_error_dialog_web_generic_error_body,
                 R.string.submission_error_dialog_web_generic_error_button_positive,
@@ -77,7 +80,7 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
 
         viewModel.registrationError.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                DialogHelper.showDialog(requireActivity(), buildErrorDialog(it))
+                DialogHelper.showDialog(buildErrorDialog(it))
             }
         })
     }

@@ -52,6 +52,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
 
     private fun checkForDataPrivacyPermission() {
         val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
             R.string.submission_dispatcher_qr_privacy_dialog_headline,
             R.string.submission_dispatcher_qr_privacy_dialog_body,
             R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
@@ -62,7 +63,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
             }
         )
 
-        DialogHelper.showDialog(requireActivity(), cameraPermissionRationaleDialogInstance)
+        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
     private fun privacyPermissionIsGranted() {

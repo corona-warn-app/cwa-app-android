@@ -19,6 +19,10 @@
             type="android.graphics.drawable.Drawable" />
 
         <variable
+            name="iconTint"
+            type="Integer" />
+
+        <variable
             name="iconStart"
             type="android.graphics.drawable.Drawable" />
 
@@ -51,6 +55,7 @@
                 android:layout_height="@dimen/icon_size_main_card"
                 android:importantForAccessibility="no"
                 android:src="@{iconStart}"
+                android:tint="@{FormatterHelper.formatColorIcon(iconTint)}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(iconStart)}"
                 app:layout_constraintBottom_toBottomOf="@+id/main_row_item_headline"
                 app:layout_constraintEnd_toStartOf="@+id/main_row_item_headline"
@@ -59,7 +64,7 @@
 
             <TextView
                 android:id="@+id/main_row_item_headline"
-                style="@style/textLargeEmphasized"
+                style="@style/textMultiline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{title}"

@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
@@ -24,15 +25,18 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         private val TAG: String? = SubmissionResultPositiveOtherWarningFragment::class.simpleName
     }
 
-    private val viewModel: SubmissionViewModel by activityViewModels()
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+    private val tracingViewModel: TracingViewModel by activityViewModels()
+
     private lateinit var binding: FragmentSubmissionPositiveOtherWarningBinding
     private var submissionRequested = false
     private var submissionFailed = false
     private lateinit var internalExposureNotificationPermissionHelper:
-        InternalExposureNotificationPermissionHelper
+            InternalExposureNotificationPermissionHelper
 
     override fun onResume() {
         super.onResume()
+        tracingViewModel.refreshIsTracingEnabled()
         if (submissionRequested && !submissionFailed) {
             internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
         }
@@ -40,7 +44,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        viewModel.submitDiagnosisKeys()
+        submissionViewModel.submitDiagnosisKeys()
     }
 
     override fun onFailure(exception: Exception?) {
@@ -62,15 +66,17 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
             is TimeoutError -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_generic_timeout_title,
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
                 R.string.submission_error_dialog_web_generic_timeout_button_negative,
                 true,
-                viewModel::submitDiagnosisKeys,
+                submissionViewModel::submitDiagnosisKeys,
                 ::navigateToSubmissionResultFragment
             )
             is TestPairingInvalidException -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_paring_invalid_title,
                 R.string.submission_error_dialog_web_paring_invalid_body,
                 R.string.submission_error_dialog_web_paring_invalid_button_positive,
@@ -79,6 +85,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 ::navigateToSubmissionResultFragment
             )
             is SubmissionTanInvalidException -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_tan_invalid_title,
                 R.string.submission_error_dialog_web_tan_invalid_body,
                 R.string.submission_error_dialog_web_tan_invalid_button_positive,
@@ -87,6 +94,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 ::navigateToSubmissionResultFragment
             )
             else -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 R.string.submission_error_dialog_web_generic_error_body,
                 R.string.submission_error_dialog_web_generic_error_button_positive,
@@ -101,13 +109,13 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.submissionError.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.submissionError.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                DialogHelper.showDialog(requireActivity(), buildErrorDialog(it))
+                DialogHelper.showDialog(buildErrorDialog(it))
             }
         })
 
-        viewModel.submissionState.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
@@ -119,8 +127,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     private fun setButtonOnClickListener() {
         binding.submissionPositiveOtherWarningButton.setOnClickListener {
-            submissionRequested = true
-            internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+            initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader
             .informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -133,4 +140,20 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
             SubmissionResultPositiveOtherWarningFragmentDirections
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
         )
+
+    private fun initiateWarningOthers() {
+        if (tracingViewModel.isTracingEnabled.value != true) {
+            val tracingRequiredDialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_test_result_dialog_tracing_required_title,
+                R.string.submission_test_result_dialog_tracing_required_message,
+                R.string.submission_test_result_dialog_tracing_required_button
+            )
+            DialogHelper.showDialog(tracingRequiredDialog)
+            return
+        }
+
+        submissionRequested = true
+        internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+    }
 }

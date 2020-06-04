@@ -20,11 +20,12 @@
             layout="@layout/include_onboarding"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             app:body="@{@string/onboarding_privacy_body}"
             app:bodyEmphasized="@{@string/onboarding_privacy_body_emphasized}"
             app:headline="@{@string/onboarding_privacy_headline}"
             app:illustration="@{@drawable/ic_onboarding_illustration_privacy}"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/onboarding_button_back"
@@ -36,9 +37,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_button_next"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/guideline_bottom" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"
@@ -52,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action" />
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 
 /**
@@ -21,7 +22,9 @@ class SubmissionTestResultFragment : BaseFragment() {
         private val TAG: String? = SubmissionTanFragment::class.simpleName
     }
 
-    private val viewModel: SubmissionViewModel by activityViewModels()
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+    private val tracingViewModel: TracingViewModel by activityViewModels()
+
     private lateinit var binding: FragmentSubmissionTestResultBinding
 
     override fun onCreateView(
@@ -31,7 +34,7 @@ class SubmissionTestResultFragment : BaseFragment() {
     ): View? {
         // get the binding reference by inflating it with the current layout
         binding = FragmentSubmissionTestResultBinding.inflate(inflater)
-        binding.submissionViewModel = viewModel
+        binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         // Inflate the layout for this fragment
         return binding.root
@@ -43,15 +46,17 @@ class SubmissionTestResultFragment : BaseFragment() {
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
             is TimeoutError -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_generic_timeout_title,
                 R.string.submission_error_dialog_web_generic_timeout_body,
                 R.string.submission_error_dialog_web_generic_timeout_button_positive,
                 R.string.submission_error_dialog_web_generic_timeout_button_negative,
                 true,
-                viewModel::refreshTestResult,
+                submissionViewModel::refreshDeviceUIState,
                 ::navigateToMainScreen
             )
             else -> DialogHelper.DialogInstance(
+                requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 R.string.submission_error_dialog_web_generic_error_body,
                 R.string.submission_error_dialog_web_generic_error_button_positive,
@@ -66,46 +71,44 @@ class SubmissionTestResultFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.testResultError.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.testResultError.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                DialogHelper.showDialog(requireActivity(), buildErrorDialog(it))
+                DialogHelper.showDialog(buildErrorDialog(it))
             }
         })
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshTestResult()
+        submissionViewModel.refreshDeviceUIState()
+        tracingViewModel.refreshIsTracingEnabled()
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
-            viewModel.refreshTestResult()
+            submissionViewModel.refreshDeviceUIState()
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
-            viewModel.deregisterTestFromDevice()
+            submissionViewModel.deregisterTestFromDevice()
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
         }
 
         binding.submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
-            viewModel.deregisterTestFromDevice()
+            submissionViewModel.deregisterTestFromDevice()
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
-            doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
+            continueIfTracingEnabled()
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
-            viewModel.deregisterTestFromDevice()
+            submissionViewModel.deregisterTestFromDevice()
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
@@ -116,5 +119,23 @@ class SubmissionTestResultFragment : BaseFragment() {
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
         }
+    }
+
+    private fun continueIfTracingEnabled() {
+        if (tracingViewModel.isTracingEnabled.value != true) {
+            val tracingRequiredDialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_test_result_dialog_tracing_required_title,
+                R.string.submission_test_result_dialog_tracing_required_message,
+                R.string.submission_test_result_dialog_tracing_required_button
+            )
+            DialogHelper.showDialog(tracingRequiredDialog)
+            return
+        }
+
+        doNavigate(
+            SubmissionTestResultFragmentDirections
+                .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+        )
     }
 }

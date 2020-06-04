@@ -85,6 +85,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
 
     private fun showSuccessfulScanDialog() {
         val successfulScanDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
             R.string.submission_qr_code_scan_successful_dialog_headline,
             R.string.submission_qr_code_scan_successful_dialog_body,
             R.string.submission_qr_code_scan_successful_dialog_button_positive,
@@ -102,11 +103,12 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             }
         )
 
-        DialogHelper.showDialog(requireActivity(), successfulScanDialogInstance)
+        DialogHelper.showDialog(successfulScanDialogInstance)
     }
 
     private fun showInvalidScanDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
             R.string.submission_qr_code_scan_invalid_dialog_headline,
             R.string.submission_qr_code_scan_invalid_dialog_body,
             R.string.submission_qr_code_scan_invalid_dialog_button_positive,
@@ -116,7 +118,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             ::navigateToDispatchScreen
         )
 
-        DialogHelper.showDialog(requireActivity(), invalidScanDialogInstance)
+        DialogHelper.showDialog(invalidScanDialogInstance)
     }
 
     override fun onResume() {
@@ -136,6 +138,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
 
     private fun showCameraPermissionRationaleDialog() {
         val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
             R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
             R.string.submission_qr_code_scan_permission_rationale_dialog_body,
             R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
@@ -149,7 +152,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             }
         )
 
-        DialogHelper.showDialog(requireActivity(), cameraPermissionRationaleDialogInstance)
+        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
     private fun goBack() = (activity as MainActivity).goBack()

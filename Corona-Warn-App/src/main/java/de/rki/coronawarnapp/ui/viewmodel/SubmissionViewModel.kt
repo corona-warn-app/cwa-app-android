@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
-import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.DeviceUIState
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -24,6 +24,8 @@ class SubmissionViewModel : ViewModel() {
     private val _testResultState = MutableLiveData(ApiRequestState.IDLE)
     private val _testResultError = MutableLiveData<Exception?>(null)
 
+    private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
+
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Exception?>(null)
 
@@ -35,14 +37,17 @@ class SubmissionViewModel : ViewModel() {
     val testResultState: LiveData<ApiRequestState> = _testResultState
     val testResultError: LiveData<Exception?> = _testResultError
 
+    val uiStateState: LiveData<ApiRequestState> = _uiStateState
+
     val submissionState: LiveData<ApiRequestState> = _submissionState
     val submissionError: LiveData<Exception?> = _submissionError
 
     val deviceRegistered get() = LocalData.registrationToken() != null
 
-    val testResult: LiveData<TestResult> =
-        SubmissionRepository.testResult
-    val testResultReceivedDate: LiveData<Date> = SubmissionRepository.testResultReceivedDate
+    val testResultReceivedDate: LiveData<Date> =
+        SubmissionRepository.testResultReceivedDate
+    val deviceUiState: LiveData<DeviceUIState> =
+        SubmissionRepository.deviceUIState
 
     fun submitDiagnosisKeys() =
         executeRequestWithState(
@@ -58,16 +63,12 @@ class SubmissionViewModel : ViewModel() {
             _registrationError
         )
 
-    fun refreshTestResult() =
-        executeRequestWithState(
-            SubmissionRepository::refreshTestResult,
-            _testResultState,
-            _testResultError
-        )
+    fun refreshDeviceUIState() =
+        executeRequestWithState(SubmissionRepository::refreshUIState, _uiStateState)
 
     fun validateAndStoreTestGUID(scanResult: String) {
-        val guid = SubmissionService.extractGUID(scanResult)
-        if (guid != null) {
+        if (SubmissionService.containsValidGUID(scanResult)) {
+            val guid = SubmissionService.extractGUID(scanResult)
             SubmissionService.storeTestGUID(guid)
             _scanStatus.value = ScanStatus.SUCCESS
         } else {
