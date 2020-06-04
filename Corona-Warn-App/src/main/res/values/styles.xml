@@ -120,11 +120,6 @@
         <item name="android:backgroundTint">@color/colorGreyLight</item>
     </style>
     <!-- todo unify padding with main card - tbr -->
-    <style name="cardSubmission">
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/card_light</item>
-        <item name="android:elevation">@dimen/elevation_strong</item>
-    </style>
 
     <style name="cardHeadline" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textSize">@dimen/font_larger</item>
@@ -140,6 +135,11 @@
     <style name="cardTextDispatcher" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="cardGrey">
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
 

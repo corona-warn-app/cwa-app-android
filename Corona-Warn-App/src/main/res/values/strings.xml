@@ -586,7 +586,7 @@
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manueller TAN Eingabe</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
