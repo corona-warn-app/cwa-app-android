@@ -15,18 +15,18 @@ object ApplicationConfigurationService {
             .mapRiskScoreToExposureConfiguration()
 
     // todo double check that the weighted params are not used
-    private fun ApplicationConfigurationOuterClass.ApplicationConfiguration.mapRiskScoreToExposureConfiguration(): ExposureConfiguration =
-        ExposureConfiguration
-            .ExposureConfigurationBuilder()
-            .setTransmissionRiskScores(
-                this.exposureConfig.transmission.appDefined1Value,
-                this.exposureConfig.transmission.appDefined2Value,
-                this.exposureConfig.transmission.appDefined3Value,
-                this.exposureConfig.transmission.appDefined4Value,
-                this.exposureConfig.transmission.appDefined5Value,
-                this.exposureConfig.transmission.appDefined6Value,
-                this.exposureConfig.transmission.appDefined7Value,
-                this.exposureConfig.transmission.appDefined8Value
+    private fun ApplicationConfigurationOuterClass.ApplicationConfiguration.mapRiskScoreToExposureConfiguration():
+            ExposureConfiguration = ExposureConfiguration
+        .ExposureConfigurationBuilder()
+        .setTransmissionRiskScores(
+            this.exposureConfig.transmission.appDefined1Value,
+            this.exposureConfig.transmission.appDefined2Value,
+            this.exposureConfig.transmission.appDefined3Value,
+            this.exposureConfig.transmission.appDefined4Value,
+            this.exposureConfig.transmission.appDefined5Value,
+            this.exposureConfig.transmission.appDefined6Value,
+            this.exposureConfig.transmission.appDefined7Value,
+            this.exposureConfig.transmission.appDefined8Value
             )
             .setDurationScores(
                 this.exposureConfig.duration.eq0MinValue,
