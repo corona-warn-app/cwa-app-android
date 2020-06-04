@@ -21,8 +21,11 @@ package de.rki.coronawarnapp.service.diagnosiskey
 
 import KeyExportFormat
 import android.util.Log
+import com.android.volley.VolleyError
 import de.rki.coronawarnapp.exception.DiagnosisKeyRetrievalException
 import de.rki.coronawarnapp.exception.DiagnosisKeySubmissionException
+import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
+import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL
 
@@ -57,7 +60,18 @@ object DiagnosisKeyService {
                 keysToReport
             )
         } catch (e: Exception) {
-            throw DiagnosisKeySubmissionException(e)
+            var cause = e.cause
+
+            if (cause is VolleyError) {
+                if (cause.networkResponse?.statusCode == 403) {
+                    cause = SubmissionTanInvalidException(
+                        "the tan used for submission is invalid",
+                        cause
+                    )
+                }
+            }
+
+            throw cause ?: e
         }
     }
 }

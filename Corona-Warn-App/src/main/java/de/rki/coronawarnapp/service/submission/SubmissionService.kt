@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.service.submission
 
+import com.android.volley.VolleyError
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.exception.TestAlreadyPairedException
+import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_KEY_TYPE
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.REGISTRATION_TOKEN_URL
@@ -13,15 +16,30 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 
 object SubmissionService {
     suspend fun asyncRegisterDevice() {
-        val testGUID = LocalData.testGUID()
-        val testTAN = LocalData.teletan()
+        try {
+            val testGUID = LocalData.testGUID()
+            val testTAN = LocalData.teletan()
 
-        when {
-            testGUID != null -> asyncRegisterDeviceViaGUID(testGUID)
-            testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
-            else -> throw NoGUIDOrTANSetException()
+            when {
+                testGUID != null -> asyncRegisterDeviceViaGUID(testGUID)
+                testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
+                else -> throw NoGUIDOrTANSetException()
+            }
+            LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
+        } catch (err: Exception) {
+            var cause = err.cause
+
+            if (cause is VolleyError) {
+                if (cause.networkResponse?.statusCode == 400) {
+                    cause = TestAlreadyPairedException(
+                        "the test was already paired to a different device",
+                        cause
+                    )
+                }
+            }
+
+            throw cause ?: err
         }
-        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
@@ -49,8 +67,22 @@ object SubmissionService {
     }
 
     suspend fun asyncRequestAuthCode(registrationToken: String): String {
-        val authCode = WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
-        return authCode
+        try {
+            return WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
+        } catch (err: Exception) {
+            var cause = err.cause
+
+            if (cause is VolleyError) {
+                if (cause.networkResponse?.statusCode == 400) {
+                    cause = TestPairingInvalidException(
+                        "the test paring to the device is invalid",
+                        cause
+                    )
+                }
+            }
+
+            throw cause ?: err
+        }
     }
 
     suspend fun asyncSubmitExposureKeys() {
@@ -93,10 +125,6 @@ object SubmissionService {
     fun deleteRegistrationToken() {
         LocalData.registrationToken(null)
         LocalData.devicePairingSuccessfulTimestamp(0L)
-    }
-
-    private fun deleteAuthCode() {
-        LocalData.authCode(null)
     }
 
     private fun deleteTeleTAN() {
