@@ -1,27 +1,42 @@
 package de.rki.coronawarnapp.storage
 
 import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.service.submission.SubmissionConstants.TEST_RESULT_URL
+import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import java.util.Date
 
 object SubmissionRepository {
     private val TAG: String? = SubmissionRepository::class.simpleName
 
-    val testResult = MutableLiveData(TestResult.INVALID)
     val testResultReceivedDate = MutableLiveData(Date())
+    val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)
 
-    suspend fun refreshTestResult() {
-        val registrationToken =
-            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        val testResultValue =
-            WebRequestBuilder.asyncGetTestResult(TEST_RESULT_URL, registrationToken)
-        testResult.value = TestResult.fromInt(testResultValue)
+    suspend fun refreshUIState() {
+        var uiState = DeviceUIState.UNPAIRED
+
+        if (LocalData.numberOfSuccessfulSubmissions() == 1) {
+            uiState = DeviceUIState.SUBMITTED_FINAL
+        } else {
+            if (LocalData.registrationToken() != "") {
+                uiState = when {
+                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
+                        DeviceUIState.PAIRED_POSITIVE
+                    }
+                    else -> fetchTestResult()
+                }
+            }
+        }
+        deviceUIState.value = uiState
+    }
+
+    private suspend fun fetchTestResult(): DeviceUIState {
+        val testResult = SubmissionService.asyncRequestTestResult()
+
         if (testResult == TestResult.POSITIVE) {
             LocalData.isAllowedToSubmitDiagnosisKeys(true)
         }
+
         val initialTestResultReceivedTimestamp = LocalData.inititalTestResultReceivedTimestamp()
 
         if (initialTestResultReceivedTimestamp == null) {
@@ -30,6 +45,13 @@ object SubmissionRepository {
             testResultReceivedDate.value = Date(currentTime)
         } else {
             testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
+        }
+
+        return when (testResult) {
+            TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+            TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+            TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
+            TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
         }
     }
 
