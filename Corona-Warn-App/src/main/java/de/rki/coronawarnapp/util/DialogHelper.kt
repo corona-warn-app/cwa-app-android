@@ -11,6 +11,7 @@ object DialogHelper {
         val message: String?,
         val positiveButton: String,
         val negativeButton: String? = null,
+        val cancelable: Boolean = true,
         val positiveButtonFunction: () -> Unit? = {},
         val negativeButtonFunction: () -> Unit? = {}
     ) {
@@ -20,6 +21,7 @@ object DialogHelper {
             message: Int,
             positiveButton: Int,
             negativeButton: Int? = null,
+            cancelable: Boolean,
             positiveButtonFunction: () -> Unit? = {},
             negativeButtonFunction: () -> Unit? = {}
         ) : this(
@@ -28,6 +30,7 @@ object DialogHelper {
             activity.resources.getString(message),
             activity.resources.getString(positiveButton),
             negativeButton?.let { activity.resources.getString(it) },
+            cancelable,
             positiveButtonFunction,
             negativeButtonFunction
         )
@@ -35,12 +38,13 @@ object DialogHelper {
 
     fun showDialog(
         dialogInstance: DialogInstance
-    ) {
+    ): AlertDialog {
         val alertDialog: AlertDialog = dialogInstance.activity.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
                 setTitle(dialogInstance.title)
                 setMessage(dialogInstance.message)
+                setCancelable(dialogInstance.cancelable)
                 setPositiveButton(
                     dialogInstance.positiveButton
                 ) { _, _ ->
@@ -57,5 +61,6 @@ object DialogHelper {
             builder.create()
         }
         alertDialog.show()
+        return alertDialog
     }
 }

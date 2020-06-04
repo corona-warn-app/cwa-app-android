@@ -52,7 +52,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * RETRIEVE TAN
          ****************************************************/
         val authCode = executeState(RETRIEVE_TAN) {
-            SubmissionService.asyncRequestAuthCode()
+            SubmissionService.asyncRequestAuthCode(registrationToken)
         }
         /****************************************************
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
