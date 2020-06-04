@@ -2,76 +2,100 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!-- todo font adjustments needed through final styles -->
+        <include
+            android:id="@+id/information_privacy_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_back}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/information_privacy_title}" />
 
-            <!-- todo separate icon from onboarding? -->
-            <include
-                android:id="@+id/information_privacy_header"
-                layout="@layout/include_information_details_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:headline="@{@string/information_privacy_headline}"
-                app:icon="@{@drawable/ic_back}"
-                app:illustration="@{@drawable/ic_information_illustration_privacy}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/information_privacy_title}" />
+        <ScrollView
+            style="@style/fadingScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/information_privacy_header">
 
-            <TextView
-                android:id="@+id/text_sample_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/information_privacy_header" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text_sample_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/text_sample_1" />
+                <include
+                    android:id="@+id/information_privacy_header_details"
+                    layout="@layout/include_information_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:headline="@{@string/information_privacy_headline}"
+                    app:illustration="@{@drawable/ic_information_illustration_privacy}"
+                    app:illustrationDescription="@{@string/information_privacy_illustration_description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/text_sample_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/lorem_ipsum"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/text_sample_2" />
+                <TextView
+                    android:id="@+id/text_sample_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_ipsum"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_privacy_header_details" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/guideline_top" />
+                <TextView
+                    android:id="@+id/text_sample_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_ipsum"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/text_sample_1" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                <TextView
+                    android:id="@+id/text_sample_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_ipsum"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/text_sample_2" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

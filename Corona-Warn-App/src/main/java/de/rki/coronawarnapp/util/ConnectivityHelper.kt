@@ -137,6 +137,19 @@ object ConnectivityHelper {
     }
 
     /**
+     * Get network enabled status.
+     *
+     * @return current network status
+     *
+     */
+    fun isNetworkEnabled(context: Context): Boolean {
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: Network? = manager.activeNetwork
+        val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
+        return caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
+    }
+
+    /**
      * Abstract bluetooth state change callback.
      *
      * @see BroadcastReceiver
