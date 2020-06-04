@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.ui.UiConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.OpenUrlHelper
 
@@ -55,7 +55,7 @@ class InformationFragment : BaseFragment() {
             )
         }
         binding.informationHelp.mainRow.setOnClickListener {
-            OpenUrlHelper.navigate(this, UiConstants.INFORMATION_URI)
+            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
             doNavigate(
