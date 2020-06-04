@@ -19,6 +19,10 @@ import org.junit.Before
 import org.junit.Test
 import java.util.Date
 
+
+/**
+ * CachedKeyFileHolder test.
+ */
 class CachedKeyFileHolderTest {
 
     @MockK

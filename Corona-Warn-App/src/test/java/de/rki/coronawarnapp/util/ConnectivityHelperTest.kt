@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkRequest
 import io.mockk.MockKAnnotations
@@ -22,6 +23,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * ConnectivityHelper test.
+ */
 class ConnectivityHelperTest {
 
     @MockK
@@ -90,6 +94,14 @@ class ConnectivityHelperTest {
             }
         }
 
+        val turnOn = mockk<Intent>()
+        every { turnOn.action } returns BluetoothAdapter.ACTION_STATE_CHANGED
+        every { turnOn.getIntExtra(BluetoothAdapter.EXTRA_STATE, any()) } returns BluetoothAdapter.STATE_ON
+
+        val turnOff = mockk<Intent>()
+        every { turnOff.action } returns BluetoothAdapter.ACTION_STATE_CHANGED
+        every { turnOff.getIntExtra(BluetoothAdapter.EXTRA_STATE, any()) } returns BluetoothAdapter.STATE_OFF
+
         every { BluetoothAdapter.getDefaultAdapter() } returns bAdapter
         every { context.registerReceiver(any(), any()) } answers {
             registered = true
@@ -105,6 +117,14 @@ class ConnectivityHelperTest {
 
         assertNotNull(callback.recevier)
         assertEquals(registered, true)
+        assertEquals(available, true)
+
+        // turned off
+        callback.recevier?.onReceive(context, turnOff)
+        assertEquals(available, false)
+
+        // turned on
+        callback.recevier?.onReceive(context, turnOn)
         assertEquals(available, true)
 
         // unregister
