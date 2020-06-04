@@ -29,7 +29,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     private var submissionRequested = false
     private var submissionFailed = false
     private lateinit var internalExposureNotificationPermissionHelper:
-        InternalExposureNotificationPermissionHelper
+            InternalExposureNotificationPermissionHelper
 
     override fun onResume() {
         super.onResume()
