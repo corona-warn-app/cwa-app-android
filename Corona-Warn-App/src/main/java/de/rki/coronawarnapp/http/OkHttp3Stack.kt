@@ -82,7 +82,9 @@ class OkHttp3Stack(context: Context, interceptors: List<Interceptor>) : BaseHttp
             request: Request<*>
         ) {
             when (request.method) {
-                Request.Method.DEPRECATED_GET_OR_POST -> { throw IllegalArgumentException("deprecated.") }
+                Request.Method.DEPRECATED_GET_OR_POST -> {
+                    throw IllegalArgumentException("deprecated.")
+                }
                 Request.Method.GET -> builder.get()
                 Request.Method.DELETE -> builder.delete(createRequestBody(request))
                 Request.Method.POST -> builder.post(createRequestBody(request)!!)

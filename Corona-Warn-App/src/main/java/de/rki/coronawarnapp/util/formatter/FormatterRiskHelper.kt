@@ -113,15 +113,19 @@ fun formatRiskSavedRisk(riskLevelScore: Int?, savedRiskLevelScore: Int?): String
  */
 fun formatRiskContact(riskLevelScore: Int?, matchedKeysCount: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    val keysArg = matchedKeysCount?.toString()
+    val resources = appContext.resources
+    val contacts = matchedKeysCount ?: 0
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK,
         RiskLevelConstants.LOW_LEVEL_RISK -> {
-            if (matchedKeysCount != null && matchedKeysCount != 0) {
-                appContext.getString(R.string.risk_card_body_contact_value)
-                    .format(keysArg)
-            } else {
+            if (matchedKeysCount == 0) {
                 appContext.getString(R.string.risk_card_body_contact)
+            } else {
+                resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value,
+                    contacts,
+                    contacts
+                )
             }
         }
         else -> ""
@@ -139,16 +143,14 @@ fun formatRiskContact(riskLevelScore: Int?, matchedKeysCount: Int?): String {
  */
 fun formatRiskContactLast(riskLevelScore: Int?, daysSinceLastExposure: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    val daysArg = daysSinceLastExposure.toString()
-
+    val resources = appContext.resources
+    val days = daysSinceLastExposure ?: 0
     return if (riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
-        if (daysSinceLastExposure != null && daysArg != "") {
-            appContext.getString(R.string.risk_card_increased_risk_body_contact_last)
-                .format(daysArg)
-        } else {
-            appContext.getString(R.string.risk_card_increased_risk_body_contact_last)
-                .format("0")
-        }
+        resources.getQuantityString(
+            R.plurals.risk_card_increased_risk_body_contact_last,
+            days,
+            days
+        )
     } else {
         ""
     }
@@ -297,13 +299,15 @@ fun formatRiskDetailsRiskLevelSubtitle(riskLevelScore: Int?): String {
  */
 fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    val daysArg = daysSinceLastExposure.toString()
-
+    val resources = appContext.resources
+    val days = daysSinceLastExposure ?: 0
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> {
-            appContext.getString(R.string.risk_details_information_body_increased_risk)
-                .format(daysArg)
-        }
+        RiskLevelConstants.INCREASED_RISK ->
+            resources.getQuantityString(
+                R.plurals.risk_details_information_body_increased_risk,
+                days,
+                days
+            )
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ->
             appContext.getString(R.string.risk_details_information_body_outdated_risk)
         RiskLevelConstants.LOW_LEVEL_RISK ->
