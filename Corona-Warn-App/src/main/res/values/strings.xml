@@ -627,6 +627,12 @@
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
+    <!-- YTXT: text after submission: contact -->
+    <string name="submission_done_contact">Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden.</string>
+    <!-- XHED: Title for further info -->
+    <string name="submission_done_further_info_title">Weitere Infos:</string>
+    <!-- YTXT: Content for further info -->
+    <string name="submission_done_further_info_enum"><li>Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln.</li>\n\n<li>Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten.</li>\n\n<li>Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone oder die App haben.</li>\n\n<li>Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein.</li></string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">Fertig</string>
 
