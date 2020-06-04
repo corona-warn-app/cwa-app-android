@@ -5,7 +5,6 @@
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
@@ -40,12 +39,12 @@
                 android:text="Preview (no interaction possible)" />
 
             <include
-                android:id="@+id/main_risk"
+                android:id="@+id/test_risk_card"
                 layout="@layout/include_risk_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
                 app:settingsViewModel="@{settingsViewModel}"
                 app:showDetails="@{false}"
                 app:tracingViewModel="@{tracingViewModel}" />

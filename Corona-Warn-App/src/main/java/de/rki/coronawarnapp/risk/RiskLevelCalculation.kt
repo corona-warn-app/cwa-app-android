@@ -8,7 +8,7 @@ import kotlin.math.round
 object RiskLevelCalculation {
     private var TAG = RiskLevelCalculation::class.simpleName
 
-    private const val DECIMAL_MULTIPLIER = 1000
+    private const val DECIMAL_MULTIPLIER = 100
 
     fun calculateRiskScore(
         attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,

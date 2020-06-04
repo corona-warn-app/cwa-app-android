@@ -359,13 +359,17 @@ object RiskLevelTransaction : Transaction() {
                     ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
 
             // if the calculated risk score is above the defined level threshold we return the high level risk score
-            if (riskScore >= highRiskScoreClass.min) return@executeState INCREASED_RISK
-                .also {
-                    Log.v(
-                        TAG, "$riskScore is above the defined " +
-                                "min value ${highRiskScoreClass.min}"
-                    )
-                }
+            if (riskScore >= highRiskScoreClass.min && riskScore <= highRiskScoreClass.max) {
+                Log.v(
+                    TAG, "$riskScore is above the defined " +
+                            "min value ${highRiskScoreClass.min}"
+                )
+                return@executeState INCREASED_RISK
+            } else if (riskScore > highRiskScoreClass.max) {
+                throw RiskLevelCalculationException(
+                    IllegalStateException("risk score is above the max threshold for score class")
+                )
+            }
 
             Log.v(TAG, "$transactionId - INCREASED_RISK not applicable")
             return@executeState UNDETERMINED
