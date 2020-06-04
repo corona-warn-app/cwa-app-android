@@ -32,7 +32,7 @@ class InformationPrivacyFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationPrivacyHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationPrivacyHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

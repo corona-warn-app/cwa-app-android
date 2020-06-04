@@ -37,7 +37,7 @@ class MainOverviewFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.mainOverviewHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

@@ -102,7 +102,7 @@ class SettingsTracingFragment : BaseFragment(),
                 }
             }
         }
-        binding.settingsTracingHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {

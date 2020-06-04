@@ -24,7 +24,7 @@
             app:bodyEmphasized="@{@string/onboarding_tracing_body_emphasized}"
             app:headline="@{@string/onboarding_tracing_headline}"
             app:illustration="@{@drawable/ic_onboarding_illustration_tracing}"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/onboarding_button_back"
@@ -35,21 +35,21 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/onboarding_button_next"
+            app:layout_constraintBottom_toTopOf="@id/onboarding_button_disable"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/guideline_bottom" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <Button
             android:id="@+id/onboarding_button_disable"
             style="@style/buttonLight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/onboarding_button_disable"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/onboarding_button_next" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action_large" />
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
