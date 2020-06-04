@@ -127,7 +127,7 @@ object ConnectivityHelper {
      *
      * @see [BluetoothAdapter]
      */
-    private fun isBluetoothEnabled(): Boolean {
+    fun isBluetoothEnabled(): Boolean {
         val bAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bAdapter == null) {
             Log.d(TAG, "Device does not have bluetooth hardware")
