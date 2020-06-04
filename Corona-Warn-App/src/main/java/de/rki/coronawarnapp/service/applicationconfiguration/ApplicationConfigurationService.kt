@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 object ApplicationConfigurationService {
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration {
         return WebRequestBuilder
-            .asyncGetApplicationConfigurationFromServer(DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL)
+            .asyncGetApplicationConfigurationFromServer()
     }
 
     suspend fun asyncRetrieveExposureConfiguration(): ExposureConfiguration =
