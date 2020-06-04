@@ -570,6 +570,14 @@
 
     <string name="submission_result_button_dialog_close">OK</string>
 
+    <!-- ####################################
+               Generic Error Messages
+        ###################################### -->
+    <string name="errors_generic_headline">Etwas ist schief gelaufen</string>
+    <string name="errors_generic_details_headline">Ursache</string>
+    <string name="errors_generic_button_positive">Okay</string>
+    <string name="errors_generic_button_negative">Details</string>
+    <string name="errors_generic_text_unknown_error_cause">Ein unbekanntes Problem ist aufgetreten</string>
 
     <!-- ####################################
            Just for Development
@@ -617,4 +625,5 @@
     <string name="test_api_body_other_keys">Other key </string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">Calculate Risk Level</string>
+
 </resources>

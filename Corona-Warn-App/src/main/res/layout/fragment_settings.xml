@@ -17,128 +17,120 @@
 
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context=".ui.settings.SettingsFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!-- todo font adjustments needed through final styles -->
+        <include
+            android:id="@+id/settings_header"
+            layout="@layout/include_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_close}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/settings_title}" />
 
-            <include
-                android:id="@+id/settings_header"
-                layout="@layout/include_information_details_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:icon="@{@drawable/ic_close}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/settings_title}" />
-
-            <include
-                android:id="@+id/settings_tracing"
-                layout="@layout/include_setting_row"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:body="@{@string/settings_tracing_body_description}"
-                app:icon="@{@drawable/ic_settings_tracing_active}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_header"
-                app:showDivider="@{true}"
-                app:color="@{FormatterSettingsHelper.formatIconColor(tracingViewModel.isTracingEnabled())}"
-                app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                app:subtitle="@{@string/settings_tracing_title}"
-                app:tracingViewModel="@{tracingViewModel}" />
-
-            <include
-                android:id="@+id/settings_notifications"
-                layout="@layout/include_setting_row"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:body="@{@string/settings_notifications_body_description}"
-                app:icon="@{@drawable/ic_settings_notification}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_tracing"
-                app:showDivider="@{true}"
-                app:color="@{FormatterSettingsHelper.formatIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                app:statusText="@{FormatterSettingsHelper.formatNotificationsStatusText(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                app:subtitle="@{@string/settings_notifications_title}"
-                app:tracingViewModel="@{tracingViewModel}" />
+        <ScrollView
+            style="@style/fadingScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/settings_reset"
-                style="@style/row"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings_notifications">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <include
+                    android:id="@+id/settings_tracing"
+                    layout="@layout/include_setting_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_body_title"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:body="@{@string/settings_tracing_body_description}"
+                    app:color="@{FormatterSettingsHelper.formatIconColor(tracingViewModel.isTracingEnabled())}"
+                    app:icon="@{@drawable/ic_settings_tracing_active}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:showDivider="@{true}"
+                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:subtitle="@{@string/settings_tracing_title}"
+                    app:tracingViewModel="@{tracingViewModel}" />
 
-                    <TextView
-                        android:id="@+id/settings_reset_subtitle"
-                        style="@style/textDanger"
+                <include
+                    android:id="@+id/settings_notifications"
+                    layout="@layout/include_setting_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_notifications_body_description}"
+                    app:color="@{FormatterSettingsHelper.formatIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:icon="@{@drawable/ic_settings_notification}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_tracing"
+                    app:showDivider="@{true}"
+                    app:statusText="@{FormatterSettingsHelper.formatNotificationsStatusText(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:subtitle="@{@string/settings_notifications_title}"
+                    app:tracingViewModel="@{tracingViewModel}" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/settings_reset"
+                    style="@style/row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_notifications">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_reset_button_positive"
+                        android:layout_marginStart="@dimen/guideline_body_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/settings_reset_body"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_reset_body_description"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settings_reset_subtitle" />
+                        <TextView
+                            android:id="@+id/settings_reset_subtitle"
+                            style="@style/textDanger"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_reset_button_positive"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/settings_reset_body"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_reset_body_description"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/settings_reset_subtitle" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+        </ScrollView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/guideline_top" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 </layout>
