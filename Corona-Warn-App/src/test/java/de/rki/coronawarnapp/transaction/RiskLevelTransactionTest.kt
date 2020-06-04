@@ -353,6 +353,8 @@ class RiskLevelTransactionTest {
     private fun buildAttenuationDuration(): ApplicationConfigurationOuterClass.AttenuationDuration {
         return ApplicationConfigurationOuterClass.AttenuationDuration
             .newBuilder()
+            .setRiskScoreNormalizationDivisor(25)
+            .setDefaultBucketOffset(0)
             .setThresholds(
                 ApplicationConfigurationOuterClass.Thresholds
                     .newBuilder()

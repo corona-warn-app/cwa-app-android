@@ -97,6 +97,8 @@ message RiskScoreClass {
 message AttenuationDuration {
     Thresholds thresholds = 1;
     Weights weights = 2;
+    int32 defaultBucketOffset = 3;
+    int32 riskScoreNormalizationDivisor = 4;
 }
 
 message Thresholds {

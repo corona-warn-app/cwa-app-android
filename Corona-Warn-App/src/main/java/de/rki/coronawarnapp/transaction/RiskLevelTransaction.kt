@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.transaction
 
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.TestRiskLevelCalculation
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -154,6 +156,18 @@ object RiskLevelTransaction : Transaction() {
         CLOSE
     }
 
+    /** TESTING ONLY
+     *
+     * TODO remove asap, only used to display the used values for risk level calculation
+     */
+
+    val tempExposedTransactionValuesForTestingOnly =
+        MutableLiveData<TestRiskLevelCalculation.TransactionValues>()
+
+    var recordedTransactionValuesForTestingOnly =
+        TestRiskLevelCalculation.TransactionValues()
+
+
     /** atomic reference for the rollback value for the last calculated risk level score */
     private val lastCalculatedRiskLevelScoreForRollback = AtomicReference<RiskLevel>()
 
@@ -291,7 +305,11 @@ object RiskLevelTransaction : Transaction() {
             ApplicationConfigurationOuterClass.ApplicationConfiguration =
         executeState(RETRIEVE_APPLICATION_CONFIG) {
             return@executeState getApplicationConfiguration()
-                .also { Log.v(TAG, "configuration from backend: $it") }
+                .also {
+                    // todo remove after testing sessions
+                    recordedTransactionValuesForTestingOnly.appConfig = it
+                    Log.v(TAG, "$transactionId - retrieved configuration from backend")
+                }
         }
 
     /**
@@ -301,6 +319,8 @@ object RiskLevelTransaction : Transaction() {
         val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
 
         return@executeState lastExposureSummary.also {
+            // todo remove after testing sessions
+            recordedTransactionValuesForTestingOnly.exposureSummary = it
             Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
         }
     }
@@ -324,6 +344,8 @@ object RiskLevelTransaction : Transaction() {
                 attenuationParameters,
                 exposureSummary
             ).also {
+                // todo remove after testing sessions
+                recordedTransactionValuesForTestingOnly.riskScore = it
                 Log.v(TAG, "calculated risk with the given config: $it")
             }
 
@@ -372,6 +394,13 @@ object RiskLevelTransaction : Transaction() {
         executeState(UPDATE_RISK_LEVEL) {
             Log.v(TAG, "$transactionId - update the risk level with $riskLevel")
             updateRiskLevelScore(riskLevel)
+                .also {
+                    // todo remove after testing sessions
+                    recordedTransactionValuesForTestingOnly.riskLevel = riskLevel
+                    tempExposedTransactionValuesForTestingOnly.postValue(
+                        recordedTransactionValuesForTestingOnly
+                    )
+                }
         }
 
     /**
@@ -505,15 +534,14 @@ object RiskLevelTransaction : Transaction() {
             attenuationParameters.weights.high.capped() * exposureSummary.attenuationDurationsInMinutes[2]
 
         val maximumRiskScore = exposureSummary.maximumRiskScore
-
-        // todo retrieve from backend
-        val w4 = 0
-        val attenuationNorm = 25
+        
+        val defaultBucketOffset = attenuationParameters.defaultBucketOffset
+        val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor
 
         val weightedAttenuationDuration =
-            weightedAttenuationLow + weightedAttenuationMid + weightedAttenuationHigh + w4
+            weightedAttenuationLow + weightedAttenuationMid + weightedAttenuationHigh + defaultBucketOffset
 
-        return (maximumRiskScore * weightedAttenuationDuration) / attenuationNorm
+        return (maximumRiskScore / normalizationDivisor) * weightedAttenuationDuration
     }
 
     private fun Double.capped(): Double {

@@ -143,6 +143,11 @@ class MainFragment : BaseFragment() {
                     true
                 }
                 // todo remove only for testing
+                R.id.menu_test_risk_level -> {
+                    doNavigate(MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation())
+                    true
+                }
+                // todo remove only for testing
                 R.id.menu_notification_test -> {
                     Log.i(TAG, "calling notification")
                     Log.i(
