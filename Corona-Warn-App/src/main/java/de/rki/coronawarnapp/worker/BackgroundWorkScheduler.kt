@@ -109,6 +109,8 @@ object BackgroundWorkScheduler {
         LocalData.getSharedPreferenceInstance().registerOnSharedPreferenceChangeListener(
             sharedPrefListener
         )
+        // TODO: Reimplement after clarifications
+        WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
     }
 
     /**

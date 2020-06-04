@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import de.rki.coronawarnapp.risk.TimeVariables
 import java.text.DateFormat
 import java.util.Date
 
@@ -24,7 +23,11 @@ import java.util.Date
  * @return
  */
 private fun isTracingOffRiskLevel(riskLevelScore: Int?): Boolean {
-    return (riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF)
+    return when (riskLevelScore) {
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> true
+        else -> false
+    }
 }
 
 /**
@@ -84,10 +87,14 @@ fun formatRiskBody(riskLevelScore: Int?): String {
  */
 fun formatRiskSavedRisk(riskLevelScore: Int?, savedRiskLevelScore: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    return if (riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF) {
+    return if (
+        riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+    ) {
         when (savedRiskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
-            RiskLevelConstants.INCREASED_RISK ->
+            RiskLevelConstants.INCREASED_RISK,
+            RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 appContext.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                     .format(formatRiskLevelHeadline(savedRiskLevelScore, false))
             else -> ""
@@ -210,10 +217,12 @@ fun formatTimeFetched(
                 appContext.getString(R.string.risk_card_body_not_yet_fetched)
             }
         }
-        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> {
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> {
             when (savedRiskLevelScore) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
-                RiskLevelConstants.INCREASED_RISK -> {
+                RiskLevelConstants.INCREASED_RISK,
+                RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
                     if (lastTimeDiagnosisKeysFetched != null) {
                         appContext.getString(
                             R.string.risk_card_body_time_fetched,
@@ -287,7 +296,6 @@ fun formatRiskDetailsRiskLevelSubtitle(riskLevelScore: Int?): String {
  * @return
  */
 fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: Int?): String {
-    // TODO replace lorem ipsum by text from rki
     val appContext = CoronaWarnApplication.getAppContext()
     val daysArg = daysSinceLastExposure.toString()
 
@@ -403,36 +411,6 @@ fun formatRiskContactIcon(riskLevelScore: Int?): Drawable? =
         R.drawable.ic_risk_card_contact_increased,
         R.drawable.ic_risk_card_contact
     )
-
-/**
- * Formats the risk card icon display of tracing active duration in days
- *
- * @param activeTracingDaysInRetentionPeriod
- * @return
- */
-// TODO needs to be replaced by a custom view
-fun formatRiskActiveTracingDaysInRetentionPeriodIcon(activeTracingDaysInRetentionPeriod: Long): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-
-    return if (
-        activeTracingDaysInRetentionPeriod in
-        0..TimeVariables.getDefaultRetentionPeriodInDays()
-    ) {
-        val iconResString = "ic_risk_card_saved_days_"
-        val icon = iconResString +
-                activeTracingDaysInRetentionPeriod.toString()
-
-        appContext.getDrawable(
-            appContext.resources.getIdentifier(
-                icon,
-                "drawable",
-                appContext.applicationContext.packageName
-            )
-        )
-    } else {
-        appContext.getDrawable(R.drawable.ic_risk_card_saved_days_0)
-    }
-}
 
 /**
  * Formats the risk card button display for enable tracing depending on risk level and current view
