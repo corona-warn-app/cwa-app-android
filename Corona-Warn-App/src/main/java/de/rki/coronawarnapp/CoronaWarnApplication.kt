@@ -90,6 +90,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityStopped(activity: Activity) {
+        // does not override function. Empty on intention
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
