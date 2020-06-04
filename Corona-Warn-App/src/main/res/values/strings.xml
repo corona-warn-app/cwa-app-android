@@ -554,10 +554,10 @@
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
-    <!-- YTXT: submission introduction text part 1 -->
-    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.</string>
-    <!-- YTXT: submission introduction text part 2 -->
-    <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string>
+    <!-- YTXT: submission introduction text -->
+    <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
+    <!-- YTXT: submission introduction enumeration -->
+    <string name="submission_intro_enum"><li>Wenn Sie positiv getestet wurden, können Sie andere warnen.</li>\n\n<li>Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde , können Sie diese für die Registrierung des Tests nutzen.</li>\n\n<li>Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen.</li></string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
 
