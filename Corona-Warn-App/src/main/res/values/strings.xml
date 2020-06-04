@@ -557,8 +557,11 @@
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
-    <string name="errors_storage_headline">Etwas ist schief gelaufen</string>
-    <string name="errors_storage_button_positive">Weiter</string>
+    <string name="errors_generic_headline">Etwas ist schief gelaufen</string>
+    <string name="errors_generic_details_headline">Ursache</string>
+    <string name="errors_generic_button_positive">Okay</string>
+    <string name="errors_generic_button_negative">Details</string>
+    <string name="errors_generic_text_unknown_error_cause">Ein unbekanntes Problem ist aufgetreten</string>
 
     <!-- ####################################
            Just for Development
