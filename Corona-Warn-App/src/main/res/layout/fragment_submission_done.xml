@@ -23,6 +23,7 @@
                 layout="@layout/include_submission_done"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                app:illustrationDescription="@{@string/submission_done_illustration_description}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toTopOf="@+id/guideline_top" />
