@@ -28,12 +28,13 @@
 
         <ScrollView
             style="@style/fadingScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/main_share_button"
-            app:layout_constraintTop_toBottomOf="@+id/main_share_header"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_share_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
