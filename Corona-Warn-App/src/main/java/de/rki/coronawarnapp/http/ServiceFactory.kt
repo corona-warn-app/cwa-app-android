@@ -22,7 +22,7 @@ class ServiceFactory {
         /**
          * 10 MiB
          */
-        private const val HTTP_CACHE_SIZE = 50L * 1024L * 1024L
+        private const val HTTP_CACHE_SIZE = 10L * 1024L * 1024L
 
         /**
          * Cache file name
