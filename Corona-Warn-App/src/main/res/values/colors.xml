@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Brand Colors -->
+    <color name="colorBrandPrimary">#BD1200</color>
+    <color name="colorBrandSecondary">#80CDEC</color>
+    <color name="colorBrandTertiary">#59112B</color>
+
+    <!-- Backgrounds and Separators -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface1">#FFFFFF</color>
+    <color name="colorSurface2">#F5F5F5</color>
+    <color name="colorHairline">#3317191A</color>
+
+    <!-- Text -->
+    <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorTextPrimary2">#9917191A</color>
+    <color name="colorTextPrimary3">#4D17191A</color>
+    <color name="colorTextEmphasizedButton">#FFFFFF</color>
+    <color name="colorTextSemanticRed">#C00F2D</color>
+    <color name="colorTextSemanticGreen">#2E854B</color>
+    <color name="colorTextSemanticNeutral">#5D6E80</color>
+    <color name="colorTextTint">#007FAD</color>
+
+    <!-- Accent -->
+    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccentTintIcon">#007FAD</color>
+
+    <!-- Semantic -->
+    <color name="colorSemanticHighRisk">#C00F2D</color>
+    <color name="colorSemanticLowRisk">#2E854B</color>
+    <color name="colorSemanticNeutralRisk">#5D6E80</color>
+
     <!-- TODO: Add variables when colors are final to reduce maintenance -->
 
     <!--    TODO: green, blue, etc. should be exchanged by meaningful colors when they are final -->
