@@ -73,14 +73,14 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- todo include proper icons for risk card when final -->
             <include
                 android:id="@+id/main_overview_risk_increased_risk"
                 layout="@layout/include_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:iconStart="@{@drawable/ic_main_overview_1}"
+                app:iconStart="@{@drawable/ic_main_overview_circle}"
+                app:iconTint="@{@color/colorRiskCardIncreasedRisk}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_subtitle"
@@ -91,7 +91,8 @@
                 layout="@layout/include_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:iconStart="@{@drawable/ic_main_overview_1}"
+                app:iconStart="@{@drawable/ic_main_overview_circle}"
+                app:iconTint="@{@color/colorRiskCardLowRisk}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_increased_risk"
@@ -102,7 +103,8 @@
                 layout="@layout/include_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:iconStart="@{@drawable/ic_main_overview_1}"
+                app:iconStart="@{@drawable/ic_main_overview_circle}"
+                app:iconTint="@{@color/colorRiskCardUnknownRisk}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_low_risk"

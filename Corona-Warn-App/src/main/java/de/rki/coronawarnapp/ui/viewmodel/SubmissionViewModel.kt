@@ -64,7 +64,10 @@ class SubmissionViewModel : ViewModel() {
         LocalData.inititalTestResultReceivedTimestamp(0L)
     }
 
-    private fun executeRequestWithState(apiRequest: suspend () -> Unit, state: MutableLiveData<ApiRequestState>) {
+    private fun executeRequestWithState(
+        apiRequest: suspend () -> Unit,
+        state: MutableLiveData<ApiRequestState>
+    ) {
         state.value = ApiRequestState.STARTED
         viewModelScope.launch {
             try {
