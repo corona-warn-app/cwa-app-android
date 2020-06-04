@@ -48,6 +48,8 @@ class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
      * Restarts the app by sending an Intent to start LauncherActivitiy and
      * terminating the JVM
      *
+     * @see de.rki.coronawarnapp.ui.LauncherActivity
+     *
      * @param context application context
      * @param stackTrace exception that caused the crash
      */

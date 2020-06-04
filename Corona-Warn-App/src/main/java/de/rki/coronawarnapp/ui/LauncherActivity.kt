@@ -20,7 +20,7 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retrieveMessageIfPreviouslyCrashed()
+        showDialogWithStacktraceIfPreviouslyCrashed()
         retrieveCustomURLsFromSchema(intent.data)
 
         if (LocalData.isOnboarded()) {
@@ -30,7 +30,13 @@ class LauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun retrieveMessageIfPreviouslyCrashed() {
+    /**
+     * If the app crashed in the last instance and was restarted, the stacktrace is retrieved
+     * from the intent and displayed in a dialog report
+     *
+     * @see de.rki.coronawarnapp.exception.handler.GlobalExceptionHandler
+     */
+    private fun showDialogWithStacktraceIfPreviouslyCrashed() {
         val appCrashedAndWasRestarted =
             intent.getBooleanExtra(GlobalExceptionHandlerConstants.APP_CRASHED, false)
         if (appCrashedAndWasRestarted) {
