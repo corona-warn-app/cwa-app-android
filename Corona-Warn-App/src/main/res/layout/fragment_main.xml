@@ -126,10 +126,10 @@
             <include
                 android:id="@+id/main_risk"
                 layout="@layout/include_risk_card"
-                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.testResult)}"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider"
@@ -142,12 +142,31 @@
                 layout="@layout/include_submission_status_card_positive"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusPositiveCard(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusPositiveCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_risk"
+                app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider"
                 app:registerDate="@{submissionViewModel.testResultReceivedDate}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_test_done"
+                style="@style/card"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionDoneCard(submissionViewModel.deviceUiState)}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider">
+
+                <include
+                    layout="@layout/include_submission_done"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
                 android:id="@+id/main_test"
@@ -155,11 +174,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusCard(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_test_positive"
+                app:layout_constraintTop_toBottomOf="@+id/main_risk"
                 app:submissionViewModel="@{submissionViewModel}" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/main_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="main_test, main_test_done, main_test_positive, main_risk"
+                 />
 
             <include
                 android:id="@+id/main_about"
@@ -175,7 +202,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_test"
+                app:layout_constraintTop_toBottomOf="@+id/main_barrier"
                 app:tracingViewModel="@{tracingViewModel}" />
 
             <androidx.constraintlayout.widget.Guideline

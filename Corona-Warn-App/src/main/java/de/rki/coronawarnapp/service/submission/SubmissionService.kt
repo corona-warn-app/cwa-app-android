@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionConstants.TAN_REQUEST_U
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_TYPE
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.formatter.TestResult
 
 object SubmissionService {
     suspend fun asyncRegisterDevice() {
@@ -56,6 +57,17 @@ object SubmissionService {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         SubmitDiagnosisKeysTransaction.start(registrationToken)
+    }
+
+    suspend fun asyncRequestTestResult(): TestResult {
+        val registrationToken =
+            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+        return TestResult.fromInt(
+            WebRequestBuilder.asyncGetTestResult(
+                SubmissionConstants.TEST_RESULT_URL,
+                registrationToken
+            )
+        )
     }
 
     /**

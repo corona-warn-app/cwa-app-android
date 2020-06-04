@@ -90,7 +90,7 @@ class SettingsResetFragment : BaseFragment() {
         activity?.finish()
     }
 
-    private suspend fun deleteLocalAppContent() {
+    private fun deleteLocalAppContent() {
         DataRetentionHelper.clearAllLocalData(requireContext())
     }
 }

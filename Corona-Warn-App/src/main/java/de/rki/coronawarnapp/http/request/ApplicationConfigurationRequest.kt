@@ -24,7 +24,8 @@ class ApplicationConfigurationRequest(
     companion object {
         private val TAG: String? = ApplicationConfigurationRequest::class.simpleName
 
-        private const val SOFT_TTL = 5 * 60 * 1000 // in 5 minutes cache will be hit, but also refreshed on background
+        private const val SOFT_TTL =
+            5 * 60 * 1000 // in 5 minutes cache will be hit, but also refreshed on background
         private const val TTL = 1 * 60 * 60 * 1000 // in 1 hours this cache entry expires completely
     }
 
