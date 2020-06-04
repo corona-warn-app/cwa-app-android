@@ -77,23 +77,11 @@ class ServiceFactory {
 
         clientBuilder.connectionSpecs(listOf(spec))
 
-        /**
-         * TODO add certificate pinning
-         *
-         * Intermediates will be encoded like this:
-         * openssl x509 -in CERTNAME -pubkey -noout | \
-         * openssl pkey -pubin -outform der | \
-         * openssl dgst -sha256 -binary | \
-         * openssl enc -base64
-         */
-
-//        val certificatePinner = CertificatePinner.Builder()
-//            .add(
-//                "x.de",
-//                "sha256/base64"
-//            )
-//            .build()
-//        clientBuilder.certificatePinner(certificatePinner)
+        CertificatePinnerFactory().getCertificatePinner().run {
+            if (this.pins.isNotEmpty()) {
+                clientBuilder.certificatePinner(this)
+            }
+        }
 
         mInterceptors.forEach { clientBuilder.addInterceptor(it) }
 
