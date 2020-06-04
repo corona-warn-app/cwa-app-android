@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
 import kotlinx.coroutines.launch
-import java.util.Date
+import java.util.*
 
 class SubmissionViewModel : ViewModel() {
     private val _scanStatus = MutableLiveData(ScanStatus.STARTED)
@@ -43,8 +43,8 @@ class SubmissionViewModel : ViewModel() {
         executeRequestWithState(SubmissionRepository::refreshUIState, _uiStateState)
 
     fun validateAndStoreTestGUID(scanResult: String) {
-        val guid = SubmissionService.extractGUID(scanResult)
-        if (guid != null) {
+        if (SubmissionService.containsValidGUID(scanResult)) {
+            val guid = SubmissionService.extractGUID(scanResult)
             SubmissionService.storeTestGUID(guid)
             _scanStatus.value = ScanStatus.SUCCESS
         } else {

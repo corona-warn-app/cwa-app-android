@@ -35,9 +35,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.ArrayList
-import java.util.Date
-import java.util.UUID
+import java.util.*
 
 /**
  * Singleton used for accessing key files via combining cached entries from existing files and new requests.
@@ -193,27 +191,11 @@ object CachedKeyFileHolder {
      * Get all dates from server based as formatted dates
      */
     private suspend fun getDatesFromServer() =
-        WebRequestBuilder.asyncGetArrayListFromGenericRequest(
-            DiagnosisKeyConstants.AVAILABLE_DATES_URL
-        ) {
-            val result = ArrayList<String>()
-            for (i in 0 until it.length()) {
-                result.add(it.get(i).toString())
-            }
-            result
-        }
+        WebRequestBuilder.asyncGetDateIndex()
 
     /**
      * Get all hours from server based as formatted dates
      */
     private suspend fun getHoursFromServer(day: Date) =
-        WebRequestBuilder.asyncGetArrayListFromGenericRequest(
-            "${DiagnosisKeyConstants.AVAILABLE_DATES_URL}/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
-        ) {
-            val result = ArrayList<String>()
-            for (i in 0 until it.length()) {
-                result.add(it.get(i).toString())
-            }
-            result
-        }
+        WebRequestBuilder.asyncGetHourIndex(day)
 }

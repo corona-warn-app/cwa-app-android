@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.exception.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandler
 import de.rki.coronawarnapp.notification.NotificationHelper
+import org.conscrypt.Conscrypt
+import java.security.Security
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
@@ -44,6 +46,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         GlobalExceptionHandler(this)
         instance = this
         NotificationHelper.createNotificationChannel()
+        // Enable Conscrypt for TLS1.3 Support below API Level 29
+        Security.insertProviderAt(Conscrypt.newProvider(), 1)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         registerActivityLifecycleCallbacks(this)
     }

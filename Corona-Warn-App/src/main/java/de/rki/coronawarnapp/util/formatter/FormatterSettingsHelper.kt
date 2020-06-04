@@ -105,19 +105,54 @@ fun formatNotificationsDescription(notifications: Boolean): String = formatText(
 /**
  * Formats the tracing body depending on the tracing status and the days since last exposure.
  *
- * @param tracing
  * @param activeTracingDaysInRetentionPeriod
  * @return String
  */
-fun formatTracingStatusBody(tracing: Boolean, activeTracingDaysInRetentionPeriod: Long): String {
+// TODO add generic plural formatter helper
+fun formatTracingStatusBody(activeTracingDaysInRetentionPeriod: Long): String {
     val appContext = CoronaWarnApplication.getAppContext()
     val resources = appContext.resources
     val days = activeTracingDaysInRetentionPeriod.toInt()
-    return if (tracing) {
-        resources.getQuantityString(R.plurals.settings_tracing_status_body_active, days, days)
-    } else {
-        appContext.getString(R.string.settings_tracing_status_body_inactive)
-            .format(days)
+    return resources.getQuantityString(R.plurals.settings_tracing_status_body_active, days, days)
+}
+
+/**
+ * Formats the settings notifications details illustration description depending on notifications status
+ *
+ * @param notifications
+ * @return
+ */
+fun formatNotificationIllustrationText(notifications: Boolean): String =
+    formatText(
+        notifications,
+        R.string.settings_notifications_illustration_description_active,
+        R.string.settings_notifications_illustration_description_inactive
+    )
+
+/**
+ * Format the settings tracing content description for the header illustration
+ *
+ * @param tracing
+ * @param bluetooth
+ * @param connection
+ * @return String
+ */
+fun formatTracingIllustrationText(
+    tracing: Boolean,
+    bluetooth: Boolean,
+    connection: Boolean
+): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (tracingStatusHelper(tracing, bluetooth, connection)) {
+        TracingStatusHelper.CONNECTION ->
+            appContext.getString(R.string.settings_tracing_connection_illustration_description_inactive)
+        TracingStatusHelper.BLUETOOTH ->
+            appContext.getString(R.string.settings_tracing_bluetooth_illustration_description_inactive)
+        TracingStatusHelper.TRACING_ACTIVE ->
+            appContext.getString(R.string.settings_tracing_illustration_description_active)
+        TracingStatusHelper.TRACING_INACTIVE ->
+            appContext.getString(R.string.settings_tracing_illustration_description_inactive)
+        else -> ""
     }
 }
 

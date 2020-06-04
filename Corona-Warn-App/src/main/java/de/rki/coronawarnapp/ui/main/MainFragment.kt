@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentMainBinding
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.ui.UiConstants
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -108,7 +107,7 @@ class MainFragment : BaseFragment() {
             doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainAbout.mainCard.setOnClickListener {
-            OpenUrlHelper.navigate(this, UiConstants.INFORMATION_URI)
+            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
         }
         binding.mainHeaderShare.buttonIcon.setOnClickListener {
             doNavigate(MainFragmentDirections.actionMainFragmentToMainSharingFragment())
@@ -138,6 +137,11 @@ class MainFragment : BaseFragment() {
                 // todo remove only for testing
                 R.id.menu_test_api -> {
                     doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
+                    true
+                }
+                // todo remove only for testing
+                R.id.menu_test_risk_level -> {
+                    doNavigate(MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation())
                     true
                 }
                 // todo remove only for testing
