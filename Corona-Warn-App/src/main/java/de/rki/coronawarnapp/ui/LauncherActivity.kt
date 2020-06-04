@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandlerConstants
 import de.rki.coronawarnapp.http.DynamicURLs
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -29,10 +30,11 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun retrieveMessageIfPreviouslyCrashed() {
-        val appCrashedAndWasRestarted = intent.getBooleanExtra("appCrashed", false)
+        val appCrashedAndWasRestarted =
+            intent.getBooleanExtra(GlobalExceptionHandlerConstants.APP_CRASHED, false)
         if (appCrashedAndWasRestarted) {
             Log.i(TAG, "has previous crash")
-            val crashInfo = intent.getStringExtra("stackTrace")
+            val crashInfo = intent.getStringExtra(GlobalExceptionHandlerConstants.STACK_TRACE)
             if (!crashInfo.isNullOrEmpty()) {
                 Log.i(TAG, "crash info:" + crashInfo)
             }

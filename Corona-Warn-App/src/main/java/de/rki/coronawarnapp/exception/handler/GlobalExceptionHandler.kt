@@ -58,8 +58,8 @@ class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
                     or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     or Intent.FLAG_ACTIVITY_NEW_TASK
         )
-        intent.putExtra("stackTrace", stackTrace)
-        intent.putExtra("appCrashed", true)
+        intent.putExtra(GlobalExceptionHandlerConstants.APP_CRASHED, true)
+        intent.putExtra(GlobalExceptionHandlerConstants.STACK_TRACE, stackTrace)
         context.startActivity(intent)
         Runtime.getRuntime().exit(0)
     }
