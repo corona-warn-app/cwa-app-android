@@ -108,20 +108,21 @@ object BackgroundWorkScheduler {
      */
     private fun isWorkActive(tag: String): Boolean {
         val workStatus = workManager.getWorkInfosByTag(tag)
+        var result = true
         try {
             val workInfoList = workStatus.get()
-            if (workInfoList.size == 0) return false
+            if (workInfoList.size == 0) result = false
             for (info in workInfoList) {
                 if (info.state == WorkInfo.State.CANCELLED || info.state == WorkInfo.State.FAILED) {
-                    return false
+                    result = false
                 }
             }
         } catch (e: ExecutionException) {
-            return false
+            result = false
         } catch (e: InterruptedException) {
-            return false
+            result = false
         }
-        return true
+        return result
     }
 
     /**
@@ -164,15 +165,6 @@ object BackgroundWorkScheduler {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK -> enqueueDiagnosisKeyBackgroundPeriodicWork()
         WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK -> enqueueDiagnosisKeyBackgroundOneTimeWork()
     }
-
-    /**
-     * Stop work by unique name
-     *
-     * @return Operation
-     *
-     * @see WorkType
-     */
-    private fun WorkType.stop(): Operation = workManager.cancelUniqueWork(this.uniqueName)
 
     /**
      * Enqueue diagnosis key periodic work and log it

@@ -27,10 +27,11 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      *
      * @see RetrieveDiagnosisKeysTransaction
      */
+    @Suppress("ReturnCount")
     override suspend fun doWork(): Result {
         if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
 
-        if (runAttemptCount > 3) {
+        if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
             return Result.failure()
         }

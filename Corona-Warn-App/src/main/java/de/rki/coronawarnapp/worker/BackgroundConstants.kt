@@ -84,4 +84,9 @@ object BackgroundConstants {
      * @see TimeUnit.MINUTES
      */
     const val TIME_RANGE_MAX = 1439
+
+    /**
+     * Retries before work would set as FAILED
+     */
+    const val WORKER_RETRY_COUNT_THRESHOLD = 3
 }
