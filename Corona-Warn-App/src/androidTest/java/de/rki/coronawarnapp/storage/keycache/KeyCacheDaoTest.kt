@@ -12,6 +12,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * KeyCacheDao test.
+ */
 @RunWith(AndroidJUnit4::class)
 class KeyCacheDaoTest {
     private lateinit var keyCacheDao: KeyCacheDao
@@ -25,6 +28,9 @@ class KeyCacheDaoTest {
         keyCacheDao = db.dateDao()
     }
 
+    /**
+     * Test Create / Read / Delete DB operations.
+     */
     @Test
     fun testCRDOperations() {
         runBlocking {

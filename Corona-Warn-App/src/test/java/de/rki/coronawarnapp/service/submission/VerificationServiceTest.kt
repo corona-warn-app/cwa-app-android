@@ -1,25 +1,33 @@
 package de.rki.coronawarnapp.service.submission
 
 import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class VerificationServiceTest {
 
     @Test
-    fun extractGUID() {
+    fun containsValidGUID() {
         // valid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
         assertThat(
-            SubmissionService.extractGUID("https://bs-sd.de/covid-19/?$guid"),
-            equalTo(guid)
+            SubmissionService.containsValidGUID("https://bs-sd.de/covid-19/?$guid"),
+            equalTo(true)
         )
 
         // invalid
         assertThat(
-            SubmissionService.extractGUID("https://no-guid-here"),
-            nullValue()
+            SubmissionService.containsValidGUID("https://no-guid-here"),
+            equalTo(false)
+        )
+    }
+    
+    @Test
+    fun extractGUID() {
+        val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
+        assertThat(
+            SubmissionService.extractGUID("https://bs-sd.de/covid-19/?$guid"),
+            equalTo(guid)
         )
     }
 }

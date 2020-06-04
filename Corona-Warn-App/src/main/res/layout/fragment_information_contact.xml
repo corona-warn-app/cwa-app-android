@@ -37,11 +37,22 @@
                     layout="@layout/include_information_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:body="@{@string/information_contact_body}"
                     app:headline="@{@string/information_contact_headline}"
                     app:illustration="@{@drawable/ic_information_illustration_contact}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/divider"
+                    layout="@layout/include_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_contact_header_details" />
 
                 <TextView
                     android:id="@+id/information_contact_subtitle_phone"
@@ -52,7 +63,7 @@
                     android:text="@string/information_contact_subtitle_phone"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_contact_header_details" />
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
 
                 <include
                     android:id="@+id/information_contact_navigation_row_phone"
