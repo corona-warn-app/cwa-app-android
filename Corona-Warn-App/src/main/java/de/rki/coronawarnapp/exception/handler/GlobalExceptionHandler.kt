@@ -39,7 +39,6 @@ class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
             }
             val stackTrace = stringWriter.toString()
             triggerRestart(CoronaWarnApplication.getAppContext(), stackTrace)
-
         } catch (e: Exception) {
             Log.e(TAG, "GlobalExceptionHandler failing" + e)
         }
