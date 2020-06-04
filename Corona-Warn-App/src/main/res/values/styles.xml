@@ -152,10 +152,14 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="textHeadline">
-        <item name="android:textSize">@dimen/font_largest</item>
+    <style name="textTitleLarger">
+        <item name="android:textSize">@dimen/font_larger</item>
         <item name="android:textColor">@color/colorTextPrimary1</item>
         <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="textHeadline" parent="textTitleLarger">
+        <item name="android:textSize">@dimen/font_largest</item>
     </style>
 
     <style name="textSubTitle" parent="textTitle" />
