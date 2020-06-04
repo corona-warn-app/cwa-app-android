@@ -48,6 +48,7 @@
                     app:body="@{@string/main_share_body}"
                     app:headline="@{@string/main_share_headline}"
                     app:illustration="@{@drawable/ic_main_illustration_share}"
+                    app:illustrationDescription="@{@string/main_share_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

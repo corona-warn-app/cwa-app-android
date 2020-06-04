@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     app:headline="@{@string/information_contact_headline}"
                     app:illustration="@{@drawable/ic_information_illustration_contact}"
+                    app:illustrationDescription="@{@string/information_contact_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -17,6 +17,7 @@
             app:bodyEmphasized="@{@string/onboarding_body_emphasized}"
             app:headline="@{@string/onboarding_headline}"
             app:illustration="@{@drawable/ic_onboarding_illustration_together}"
+            app:illustrationDescription="@{@string/onboarding_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
