@@ -64,7 +64,7 @@
 
             <TextView
                 android:id="@+id/main_row_item_headline"
-                style="@style/textLargeEmphasized"
+                style="@style/textMultiline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{title}"

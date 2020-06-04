@@ -45,13 +45,13 @@ class SubmissionTestResultFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        submissionViewModel.refreshTestResult()
+        submissionViewModel.refreshDeviceUIState()
         tracingViewModel.refreshIsTracingEnabled()
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
-            submissionViewModel.refreshTestResult()
+            submissionViewModel.refreshDeviceUIState()
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
