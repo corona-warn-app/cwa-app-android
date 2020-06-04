@@ -69,9 +69,7 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         settingsViewModel.refreshBackgroundJobEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
-        if (submissionViewModel.deviceRegistered) {
-            submissionViewModel.refreshTestResult()
-        }
+        submissionViewModel.refreshDeviceUIState()
     }
 
     private fun setButtonOnClickListener() {
