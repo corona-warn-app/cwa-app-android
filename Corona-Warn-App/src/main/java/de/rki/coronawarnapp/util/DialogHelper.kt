@@ -11,7 +11,7 @@ object DialogHelper {
         val message: String?,
         val positiveButton: String,
         val negativeButton: String? = null,
-        val cancelable: Boolean = true,
+        val cancelable: Boolean? = true,
         val positiveButtonFunction: () -> Unit? = {},
         val negativeButtonFunction: () -> Unit? = {}
     ) {
@@ -21,7 +21,7 @@ object DialogHelper {
             message: Int,
             positiveButton: Int,
             negativeButton: Int? = null,
-            cancelable: Boolean,
+            cancelable: Boolean? = true,
             positiveButtonFunction: () -> Unit? = {},
             negativeButtonFunction: () -> Unit? = {}
         ) : this(
@@ -44,7 +44,7 @@ object DialogHelper {
             builder.apply {
                 setTitle(dialogInstance.title)
                 setMessage(dialogInstance.message)
-                setCancelable(dialogInstance.cancelable)
+                setCancelable(dialogInstance.cancelable ?: true)
                 setPositiveButton(
                     dialogInstance.positiveButton
                 ) { _, _ ->

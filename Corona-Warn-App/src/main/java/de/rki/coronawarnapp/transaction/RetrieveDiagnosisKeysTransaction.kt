@@ -133,8 +133,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
          ****************************************************/
         val exposureConfiguration = executeRetrieveRiskScoreParams()
 
-        delay(5000L)
-        throw IllegalArgumentException("OOPS")
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
