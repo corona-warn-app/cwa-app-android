@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.util.IndexHelper.convertToIndex
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -14,6 +13,9 @@ import org.junit.Test
  */
 class CallHelperTest {
 
+    /**
+     * Test activity called.
+     */
     @Test
     fun testCall() {
         val fragment = mockk<BaseFragment>()

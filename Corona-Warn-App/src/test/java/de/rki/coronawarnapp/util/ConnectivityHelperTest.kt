@@ -9,7 +9,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkClass
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
@@ -40,6 +39,9 @@ class ConnectivityHelperTest {
         mockkStatic(BluetoothAdapter::class)
     }
 
+    /**
+     * Test network callback behavior.
+     */
     @Test
     fun testNetworkCallback() {
         var registered: Boolean? = null
@@ -54,8 +56,8 @@ class ConnectivityHelperTest {
         }
         mockkConstructor(NetworkRequest.Builder::class)
         mockkObject(NetworkRequest.Builder())
-        val request = mockkClass(NetworkRequest::class)
-        val manager = mockkClass(ConnectivityManager::class)
+        val request = mockk<NetworkRequest>()
+        val manager = mockk<ConnectivityManager>()
         every { anyConstructed<NetworkRequest.Builder>().addCapability(any()).addCapability(any()).build() } returns request
         every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns manager
         every { manager.registerNetworkCallback(any(), callback) } answers { registered = true }
@@ -80,6 +82,9 @@ class ConnectivityHelperTest {
         assertEquals(registered, false)
     }
 
+    /**
+     * Test bluetooth callback behaviour.
+     */
     @Test
     fun testBluetoothCallback() {
         var registered: Boolean? = null
@@ -134,6 +139,9 @@ class ConnectivityHelperTest {
         assertEquals(registered, false)
     }
 
+    /**
+     * Test bluetooth state.
+     */
     @Test
     fun testBluetoothState() {
         // no bluetooth hardware

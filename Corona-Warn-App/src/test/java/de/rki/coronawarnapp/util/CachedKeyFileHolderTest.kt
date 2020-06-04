@@ -19,7 +19,6 @@ import org.junit.Before
 import org.junit.Test
 import java.util.Date
 
-
 /**
  * CachedKeyFileHolder test.
  */
@@ -42,6 +41,9 @@ class CachedKeyFileHolderTest {
         coEvery { keyCacheRepository.deleteOutdatedEntries() } just Runs
     }
 
+    /**
+     * Test call order is correct.
+     */
     @Test
     fun testAsyncFetchFiles() {
         val date = Date()
