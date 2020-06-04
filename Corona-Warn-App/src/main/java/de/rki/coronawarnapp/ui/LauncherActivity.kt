@@ -32,7 +32,7 @@ class LauncherActivity : AppCompatActivity() {
         val appCrashedAndWasRestarted = intent.getBooleanExtra("appCrashed", false)
         if (appCrashedAndWasRestarted) {
             Log.i(TAG, "has previous crash")
-            val crashInfo = intent.getStringExtra("crashInfo")
+            val crashInfo = intent.getStringExtra("stackTrace")
             if (!crashInfo.isNullOrEmpty()) {
                 Log.i(TAG, "crash info:" + crashInfo)
             }

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.ui.LauncherActivity
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.lang.reflect.InvocationTargetException
 
 class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
@@ -22,20 +24,22 @@ class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
         try {
             Log.i(TAG, "cause caught: " + throwable)
             val cause = throwable.cause
-            val exceptionMessage: String
 
+            val stringWriter = StringWriter()
             // Throwables from main thread are wrapped in an InvocationTargetException,
             // unwrap the InvocationTargetException to get the original cause
             if (cause is InvocationTargetException) {
-                exceptionMessage = cause.targetException.toString()
+                cause.targetException.printStackTrace(PrintWriter(stringWriter))
                 Log.i(TAG, "InvocationTargetException caught: " + cause.targetException)
             }
             // for errors thrown by coroutines, these are not wrapped in InvocationTargetException
             else {
                 Log.i(TAG, "InvocationTargetException caught: " + throwable)
-                exceptionMessage = throwable.toString()
+                throwable.printStackTrace(PrintWriter(stringWriter))
             }
-            triggerRestart(CoronaWarnApplication.getAppContext(), exceptionMessage)
+            val stackTrace = stringWriter.toString()
+            triggerRestart(CoronaWarnApplication.getAppContext(), stackTrace)
+
         } catch (e: Exception) {
             Log.e(TAG, "GlobalExceptionHandler failing" + e)
         }
@@ -46,16 +50,16 @@ class GlobalExceptionHandler(private val application: CoronaWarnApplication) :
      * terminating the JVM
      *
      * @param context application context
-     * @param exceptionMessage exception that caused the crash
+     * @param stackTrace exception that caused the crash
      */
-    private fun triggerRestart(context: Context, exceptionMessage: String) {
+    private fun triggerRestart(context: Context, stackTrace: String) {
         val intent = Intent(context, LauncherActivity::class.java)
         intent.addFlags(
             Intent.FLAG_ACTIVITY_CLEAR_TOP
                     or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     or Intent.FLAG_ACTIVITY_NEW_TASK
         )
-        intent.putExtra("crashInfo", exceptionMessage)
+        intent.putExtra("stackTrace", stackTrace)
         intent.putExtra("appCrashed", true)
         context.startActivity(intent)
         Runtime.getRuntime().exit(0)
