@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.android.volley.TimeoutError
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
@@ -17,6 +16,7 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import java.net.SocketTimeoutException
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     InternalExposureNotificationPermissionHelper.Callback {
@@ -65,7 +65,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
-            is TimeoutError -> DialogHelper.DialogInstance(
+            is SocketTimeoutException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_timeout_title,
                 R.string.submission_error_dialog_web_generic_timeout_body,

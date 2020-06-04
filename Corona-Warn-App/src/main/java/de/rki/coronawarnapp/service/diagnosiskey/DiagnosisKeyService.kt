@@ -21,12 +21,11 @@ package de.rki.coronawarnapp.service.diagnosiskey
 
 import KeyExportFormat
 import android.util.Log
-import com.android.volley.VolleyError
 import de.rki.coronawarnapp.exception.DiagnosisKeyRetrievalException
 import de.rki.coronawarnapp.exception.DiagnosisKeySubmissionException
 import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
-import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
+import retrofit2.HttpException
 
 /**
  * The Diagnosis Key Service is used to interact with the Server to submit and retrieve keys through
@@ -57,19 +56,14 @@ object DiagnosisKeyService {
                 false,
                 keysToReport
             )
-        } catch (e: Exception) {
-            var cause = e.cause
-
-            if (cause is VolleyError) {
-                if (cause.networkResponse?.statusCode == 403) {
-                    cause = SubmissionTanInvalidException(
-                        "the tan used for submission is invalid",
-                        cause
-                    )
-                }
+        } catch (e: HttpException) {
+            if (e.code() == 403) {
+                throw SubmissionTanInvalidException(
+                    "the test paring to the device is invalid",
+                    e
+                )
             }
-
-            throw cause ?: e
+            throw e
         }
     }
 }

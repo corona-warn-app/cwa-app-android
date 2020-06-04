@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.android.volley.TimeoutError
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import java.net.SocketTimeoutException
 
 /**
  * A simple [BaseFragment] subclass.
@@ -45,7 +45,7 @@ class SubmissionTestResultFragment : BaseFragment() {
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
-            is TimeoutError -> DialogHelper.DialogInstance(
+            is SocketTimeoutException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_timeout_title,
                 R.string.submission_error_dialog_web_generic_timeout_body,

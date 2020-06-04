@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.service.submission
 
-import com.android.volley.VolleyError
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.TestAlreadyPairedException
@@ -11,6 +10,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
+import retrofit2.HttpException
 
 object SubmissionService {
     suspend fun asyncRegisterDevice() {
@@ -24,19 +24,14 @@ object SubmissionService {
                 else -> throw NoGUIDOrTANSetException()
             }
             LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
-        } catch (err: Exception) {
-            var cause = err.cause
-
-            if (cause is VolleyError) {
-                if (cause.networkResponse?.statusCode == 400) {
-                    cause = TestAlreadyPairedException(
-                        "the test was already paired to a different device",
-                        cause
-                    )
-                }
+        } catch (err: HttpException) {
+            if (err.code() == 400) {
+                throw TestAlreadyPairedException(
+                    "the test was already paired to a different device",
+                    err
+                )
             }
-
-            throw cause ?: err
+            throw err
         }
     }
 
@@ -64,20 +59,15 @@ object SubmissionService {
 
     suspend fun asyncRequestAuthCode(registrationToken: String): String {
         try {
-            return WebRequestBuilder.asyncGetTan(TAN_REQUEST_URL, registrationToken)
-        } catch (err: Exception) {
-            var cause = err.cause
-
-            if (cause is VolleyError) {
-                if (cause.networkResponse?.statusCode == 400) {
-                    cause = TestPairingInvalidException(
-                        "the test paring to the device is invalid",
-                        cause
-                    )
-                }
+            return WebRequestBuilder.asyncGetTan(registrationToken)
+        } catch (err: HttpException) {
+            if (err.code() == 400) {
+                throw TestPairingInvalidException(
+                    "the test paring to the device is invalid",
+                    err
+                )
             }
-
-            throw cause ?: err
+            throw err
         }
     }
 
