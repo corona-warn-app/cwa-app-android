@@ -109,16 +109,12 @@ fun formatNotificationsDescription(notifications: Boolean): String = formatText(
  * @param activeTracingDaysInRetentionPeriod
  * @return String
  */
-fun formatTracingStatusBody(tracing: Boolean, activeTracingDaysInRetentionPeriod: Long): String {
+// TODO add generic plural formatter helper
+fun formatTracingStatusBody(activeTracingDaysInRetentionPeriod: Long): String {
     val appContext = CoronaWarnApplication.getAppContext()
     val resources = appContext.resources
     val days = activeTracingDaysInRetentionPeriod.toInt()
-    return if (tracing) {
-        resources.getQuantityString(R.plurals.settings_tracing_status_body_active, days, days)
-    } else {
-        appContext.getString(R.string.settings_tracing_status_body_inactive)
-            .format(days)
-    }
+    return resources.getQuantityString(R.plurals.settings_tracing_status_body_active, days, days)
 }
 
 /*Styler*/
