@@ -575,7 +575,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">TAN Eingabe</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
+    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">Weiter</string>
 
