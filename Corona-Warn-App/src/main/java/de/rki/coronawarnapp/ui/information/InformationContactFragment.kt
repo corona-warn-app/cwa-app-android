@@ -34,7 +34,7 @@ class InformationContactFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationContactHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {

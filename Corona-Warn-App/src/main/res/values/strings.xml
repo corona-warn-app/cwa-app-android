@@ -4,6 +4,7 @@
                Preference Keys
     ######################################
     TODO: Check what is needed -->
+
     <!-- NOTR -->
     <string name="preference_name">
         <xliff:g id="preference">shared_preferences_cwa</xliff:g>
@@ -111,6 +112,7 @@
     <!-- ####################################
                      Menu
     ###################################### -->
+
     <!-- Todo pluralize strings when necessary -->
     <!-- Todo include date formats when necessary -->
     <!-- XMIT: application overview -->
@@ -142,7 +144,10 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">Bisher keine Risiko-Begegnungen</string>
-    <string name="risk_card_body_contact_value">%1$s Risikobegegnungen</string>
+    <plurals name="risk_card_body_contact_value">
+        <item quantity="one">%1$s Risikobegegnung</item>
+        <item quantity="other">%1$s Risikobegegnungen</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">%1$s von 14 Tagen aktiv</string>
     <string name="risk_card_body_not_yet_fetched">Kontakte wurden noch nicht überprüft.</string>
@@ -159,7 +164,10 @@
     <string name="risk_card_low_risk_headline">Niedriges Risiko</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">Erhöhtes Risiko</string>
-    <string name="risk_card_increased_risk_body_contact_last">%1$s Tage seit der letzten Begegnung</string>
+    <plurals name="risk_card_increased_risk_body_contact_last">
+        <item quantity="one">%1$s Tag seit der letzten Begegnung</item>
+        <item quantity="other">%1$s Tage seit der letzten Begegnung</item>
+    </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">Unbekanntes Risiko</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
@@ -204,6 +212,7 @@
     <!-- ####################################
                 Main - Overview
     ###################################### -->
+
     <string name="main_overview_title">Überblick</string>
     <string name="main_overview_subtitle_tracing">Risiko-Ermittlung</string>
     <string name="main_overview_body_tracing">Die Risiko-Ermittung ist eine der drei zentralen Funktionen der App. Ist sie aktiv, werden Begegnungen aufgezeichnet. Sie brauchen sich um ncihts mehr zu kümmern.</string>
@@ -263,15 +272,19 @@
     <string name="risk_details_information_body_unknown_risk">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string>
-    <string name="risk_details_information_body_low_risk">Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Coronapositiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat.</string>
-    <string name="risk_details_information_body_increased_risk">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</string>
-    <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string>
+    <string name="risk_details_information_body_low_risk">Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Coronapositiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat.</string> <!-- final -->
+    <plurals name="risk_details_information_body_increased_risk">
+        <item quantity="one">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</item>
+        <item quantity="other">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</item>
+    </plurals>
+    <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string> <!-- final -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
 
     <!-- ####################################
               Onboarding
     ###################################### -->
+
     <string name="onboarding_image_description">IS MISSING</string>
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <!-- XBUT: onboarding - next -->
@@ -348,7 +361,10 @@
     <string name="settings_tracing_status_connection_headline">Internetverbindung aktivieren</string>
     <string name="settings_tracing_status_connection_body">Die Risiko-Ermittlung benötigt eine Internetverbindung um Risikobegegnungen berechnen zu können. Bitte aktivieren Sie WLAN oder Mobile Daten in Ihren Einstellungen.</string>
     <string name="settings_tracing_status_connection_button">Einstellungen öffnen</string>
-    <string name="settings_tracing_status_body_active">Risiko-Ermittlung ist seit %1$s Tagen aktiv.</string>
+    <plurals name="settings_tracing_status_body_active">
+        <item quantity="one">Risiko-Ermittlung ist seit %1$s Tag aktiv.</item>
+        <item quantity="other">Risiko-Ermittlung ist seit %1$s Tagen aktiv.</item>
+    </plurals>
     <string name="settings_tracing_status_body_inactive">Die Risiko-Ermittlung umfasst %1$s von 14 Tagen.</string>
     <!-- Notifications -->
     <string name="settings_notifications_title">Mitteilungen</string>
@@ -661,6 +677,14 @@
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
 
+    <!-- ####################################
+               Generic Error Messages
+        ###################################### -->
+    <string name="errors_generic_headline">Etwas ist schief gelaufen</string>
+    <string name="errors_generic_details_headline">Ursache</string>
+    <string name="errors_generic_button_positive">Okay</string>
+    <string name="errors_generic_button_negative">Details</string>
+    <string name="errors_generic_text_unknown_error_cause">Ein unbekanntes Problem ist aufgetreten</string>
 
     <!-- ####################################
            Just for Development
@@ -708,4 +732,5 @@
     <string name="test_api_body_other_keys">Other key </string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">Calculate Risk Level</string>
+
 </resources>

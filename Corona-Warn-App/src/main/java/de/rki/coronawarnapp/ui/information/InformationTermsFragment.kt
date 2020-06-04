@@ -32,7 +32,7 @@ class InformationTermsFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationTermsHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationTermsHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }
