@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     init {
-        scheduleWork()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
+        scheduleWork()
     }
 
     /**

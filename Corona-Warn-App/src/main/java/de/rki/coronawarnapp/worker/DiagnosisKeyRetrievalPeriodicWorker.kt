@@ -5,8 +5,6 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
 
 /**
  * Periodic diagnosis key retrieval work
@@ -27,15 +25,21 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
      *
      * @return Result
      *
+     * @see BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
      */
     override suspend fun doWork(): Result {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Background job started...")
+        if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
+
+        if (runAttemptCount > 3) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
+            BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            return Result.failure()
+        }
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
-            e.report(ExceptionCategory.JOB)
-            return Result.failure()
+            return Result.retry()
         }
         return Result.success()
     }
