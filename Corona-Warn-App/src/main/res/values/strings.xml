@@ -632,6 +632,8 @@
     <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
+    <!-- XACT: Submission intro - illustration description, explanation image -->
+    <string name="submission_intro_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
 
     <!-- Notification -->
     <!-- XHED: Dialog headline for result dialog  -->

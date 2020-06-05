@@ -19,6 +19,7 @@
                 app:body="@{@string/submission_intro_text_a}"
                 app:headline="@{@string/submission_intro_headline}"
                 app:illustration="@{@drawable/ic_submission_illustration_intro_a}"
+                app:illustrationDescription="@{@string/submission_intro_illustration_description}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
