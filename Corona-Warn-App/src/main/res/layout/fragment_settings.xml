@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -99,7 +98,8 @@
 
                         <TextView
                             android:id="@+id/settings_reset_subtitle"
-                            style="@style/textDanger"
+                            style="@style/subtitle"
+                            android:textColor="@color/colorTextSemanticRed"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_reset_button_positive"
@@ -109,6 +109,7 @@
 
                         <TextView
                             android:id="@+id/settings_reset_body"
+                            style="@style/body2Medium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_reset_body_description"
