@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.fragment.app.Fragment
@@ -63,6 +64,7 @@ import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_sum
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_googlePlayServices_version
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_my_keys
+import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_my_keys
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
@@ -154,6 +156,14 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             tracingViewModel.viewModelScope.launch {
                 ExposureSharingService.shareKeysAsBitmap(300, 300, updateQRImageView)
             }
+        }
+
+        val last3HoursSwitch = test_api_switch_last_three_hours_from_server as Switch
+        last3HoursSwitch.isChecked = LocalData.last3HoursMode()
+        last3HoursSwitch.setOnClickListener {
+            val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
+            showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
+            LocalData.last3HoursMode(isLast3HoursModeEnabled)
         }
 
         button_api_get_check_exposure.setOnClickListener {
