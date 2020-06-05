@@ -60,7 +60,7 @@
     <color name="colorGreyLight">#F5F5F5</color>
     <color name="colorGreyDisabled">#9917191A</color>
 
-    <!-- Text Colors -->
+    <!-- OLD Text Colors -->
     <color name="textColorPrimary">#000000</color>
     <color name="textColorSecondary">#333333</color>
     <color name="textColorLight">#ffffff</color>
@@ -76,8 +76,6 @@
     <color name="stableHighlightColor">#C3C3C3</color>
     <color name="stableTextColor">#000000</color>
     <color name="stableIconColor">#ffffff</color>
-    <color name="stableButtonColorGrey">#C3C3C3</color>
-    <color name="stableButtonColorGreyHighlight">#AEAEAE</color>
     <color name="stableLightTransparent">#33FFFFFF</color>
 
     <!-- Tracing Icon -->

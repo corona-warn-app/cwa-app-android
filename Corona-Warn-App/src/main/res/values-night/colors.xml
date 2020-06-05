@@ -73,8 +73,6 @@
     <color name="stableHighlightColor">#C3C3C3</color>
     <color name="stableTextColor">#000000</color>
     <color name="stableIconColor">#ffffff</color>
-    <color name="stableButtonColorGrey">#C3C3C3</color>
-    <color name="stableButtonColorGreyHighlight">#AEAEAE</color>
 
     <!-- Tracing Icon -->
     <color name="tracingIconActive">#80CDEC</color>

@@ -14,6 +14,10 @@
         <xliff:g id="preference">preference_onboarding_completed</xliff:g>
     </string>
     <!-- NOTR -->
+    <string name="preference_onboarding_completed_timestamp">
+        <xliff:g id="preference">preference_onboarding_completed_timestamp</xliff:g>
+    </string>
+    <!-- NOTR -->
     <string name="preference_reset_app">
         <xliff:g id="preference">preference_reset_app</xliff:g>
     </string>
@@ -77,6 +81,10 @@
         <xliff:g id="preference">preference_risk_level_score</xliff:g>
     </string>
     <!-- NOTR -->
+    <string name="preference_risk_level_score_successful">
+        <xliff:g id="preference">preference_risk_level_score_successful</xliff:g>
+    </string>
+    <!-- NOTR -->
     <string name="preference_test_guid">
         <xliff:g id="preference">preference_test_guid</xliff:g>
     </string>
@@ -107,6 +115,10 @@
     <!-- NOTR -->
     <string name="preference_teletan">
         <xliff:g id="preference">preference_teletan</xliff:g>
+    </string>
+    <!-- NOTR -->
+    <string name="preference_last_three_hours_from_server">
+        <xliff:g id="preference">preference_last_three_hours_from_server</xliff:g>
     </string>
 
     <!-- ####################################
@@ -647,7 +659,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">TAN Eingabe</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
+    <string name="submission_tan_body">Die TAN ist 10-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">Weiter</string>
 
@@ -859,6 +871,8 @@
     <string name="test_api_button_submit_keys">Submit keys to Server</string>
     <!-- NOTR -->
     <string name="test_api_button_scan_qr_code">Scan Exposure Key</string>
+    <!-- NOTR -->
+    <string name="test_api_switch_last_three_hours_from_server">Last 3 Hours Mode</string>
     <!-- NOTR -->
     <string name="test_api_button_check_exposure">Check Exposure Summary</string>
     <!-- NOTR -->
