@@ -72,36 +72,10 @@
             android:id="@+id/tan_input_textview_7"
             style="@style/tanInputDigit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_8"
             app:layout_constraintStart_toEndOf="@+id/tan_input_textview_6"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="X" />
 
-        <TextView
-            android:id="@+id/tan_input_textview_8"
-            style="@style/tanInputDigit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_9"
-            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_7"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="X" />
-
-        <TextView
-            android:id="@+id/tan_input_textview_9"
-            style="@style/tanInputDigit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_10"
-            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_8"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="X" />
-
-        <TextView
-            android:id="@+id/tan_input_textview_10"
-            style="@style/tanInputDigit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_9"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="X" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
