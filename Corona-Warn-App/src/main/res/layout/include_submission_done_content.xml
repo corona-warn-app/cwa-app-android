@@ -3,52 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="de.rki.coronawarnapp.risk.RiskLevelConstants" />
-
-        <variable
-            name="illustrationDescription"
-            type="String" />
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/submission_done_header"
-            layout="@layout/include_information_details_header"
+        <TextView
+            android:id="@+id/submission_done_text"
+            style="@style/textMultiline"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            app:title="@{@string/submission_done_title}"
-            app:body="@{@string/submission_done_body}"
-            app:illustration="@{@drawable/ic_submission_illustration_thanks}"
-            app:illustrationDescription="@{illustrationDescription}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/submission_done_body"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/submission_done_subtitle"
-            style="@style/textSubTitle"
+            style="@style/textTitleLarger"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_done_subtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_header" />
+            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_text" />
 
         <include
-            android:id="@+id/submission_done_contagious"
+            android:id="@+id/submission_done_contact"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:body="@{@string/submission_done_contagious}"
-            app:icon="@{@drawable/ic_risk_card_contact_increased}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:body="@{@string/submission_done_contact}"
+            app:icon="@{@drawable/ic_risk_details_contact}"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle"
             app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
 
@@ -60,10 +53,21 @@
             android:layout_marginTop="@dimen/spacing_normal"
             app:body="@{@string/submission_done_isolate}"
             app:icon="@{@drawable/ic_risk_details_home}"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_contact"
+            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+
+        <include
+            layout="@layout/include_further_info"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_contagious"
-            app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_isolate" />
+
+        <include layout="@layout/merge_guidelines_side" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

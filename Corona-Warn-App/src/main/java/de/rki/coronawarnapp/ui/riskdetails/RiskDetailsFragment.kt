@@ -26,21 +26,28 @@ class RiskDetailsFragment : BaseFragment() {
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private lateinit var binding: FragmentRiskDetailsBinding
+    private var _binding: FragmentRiskDetailsBinding? = null
+    private val binding: FragmentRiskDetailsBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRiskDetailsBinding.inflate(inflater)
+        _binding = FragmentRiskDetailsBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListeners()
     }
 
