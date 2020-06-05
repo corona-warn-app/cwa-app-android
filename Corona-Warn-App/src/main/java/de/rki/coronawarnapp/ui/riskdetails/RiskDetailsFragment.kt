@@ -57,7 +57,6 @@ class RiskDetailsFragment : BaseFragment() {
         tracingViewModel.refreshRiskLevel()
         tracingViewModel.refreshExposureSummary()
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
-        settingsViewModel.refreshBackgroundJobEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
     }
 

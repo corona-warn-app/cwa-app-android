@@ -55,10 +55,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    init {
-        scheduleWork()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -66,12 +62,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Register network and bluetooth callback.
+     * Register network, bluetooth and data saver callback.
      */
     override fun onResume() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
+        settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
+        scheduleWork()
         showDialogWithStacktraceIfPreviouslyCrashed()
     }
 

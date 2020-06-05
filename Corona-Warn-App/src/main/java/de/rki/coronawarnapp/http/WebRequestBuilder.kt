@@ -21,6 +21,9 @@ package de.rki.coronawarnapp.http
 
 import KeyExportFormat
 import android.util.Log
+import com.google.protobuf.InvalidProtocolBufferException
+import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
 import de.rki.coronawarnapp.http.requests.ReqistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
@@ -39,6 +42,9 @@ import java.util.UUID
 
 object WebRequestBuilder {
     private val TAG: String? = WebRequestBuilder::class.simpleName
+
+    private const val EXPORT_BINARY_FILE_NAME = "export.bin"
+    private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
 
     private val serviceFactory = ServiceFactory()
 
@@ -81,25 +87,28 @@ object WebRequestBuilder {
 
     suspend fun asyncGetApplicationConfigurationFromServer(): ApplicationConfiguration =
         withContext(Dispatchers.IO) {
-            var applicationConfiguration: ApplicationConfiguration? = null
+            var exportBinary: ByteArray? = null
+            var exportSignature: ByteArray? = null
+
             distributionService.getApplicationConfiguration(
                 DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL
             ).byteStream().unzip { entry, entryContent ->
-                if (entry.name == "export.bin") {
-                    val appConfig = ApplicationConfiguration.parseFrom(entryContent)
-                    applicationConfiguration = appConfig
-                }
-                if (entry.name == "export.sig") {
-                    val signatures = KeyExportFormat.TEKSignatureList.parseFrom(entryContent)
-                    signatures.signaturesList.forEach {
-                        Log.d(TAG, it.signatureInfo.toString())
-                    }
-                }
+                if (entry.name == EXPORT_BINARY_FILE_NAME) exportBinary = entryContent.copyOf()
+                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature = entryContent.copyOf()
             }
-            if (applicationConfiguration == null) {
-                throw IllegalArgumentException("no file was found in the downloaded zip")
+            if (exportBinary == null || exportSignature == null) {
+                throw ApplicationConfigurationInvalidException()
             }
-            return@withContext applicationConfiguration!!
+
+            if (!SecurityHelper.exportFileIsValid(exportBinary, exportSignature)) {
+                throw ApplicationConfigurationCorruptException()
+            }
+
+            try {
+                return@withContext ApplicationConfiguration.parseFrom(exportBinary)
+            } catch (e: InvalidProtocolBufferException) {
+                throw ApplicationConfigurationInvalidException()
+            }
         }
 
     suspend fun asyncGetRegistrationToken(
