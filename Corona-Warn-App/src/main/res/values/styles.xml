@@ -134,7 +134,50 @@
 
 
     <!-- ####################################
-                    Text
+                   Text
+    ###################################### -->
+
+    <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="headline5" parent="@style/TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="subtitleMedium" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
+    </style>
+
+    <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="body2Medium" parent="@style/TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
+    </style>
+
+    <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+
+    <!-- ####################################
+                    OLD Text
+                    TODO: DELETE
     ###################################### -->
     <style name="textTitle" parent="@style/TextAppearance.AppCompat.Headline">
         <item name="android:textSize">@dimen/font_title</item>

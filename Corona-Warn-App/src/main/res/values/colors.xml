@@ -60,7 +60,7 @@
     <color name="colorGreyLight">#F5F5F5</color>
     <color name="colorGreyDisabled">#9917191A</color>
 
-    <!-- Text Colors -->
+    <!-- OLD Text Colors -->
     <color name="textColorPrimary">#000000</color>
     <color name="textColorSecondary">#333333</color>
     <color name="textColorLight">#ffffff</color>
