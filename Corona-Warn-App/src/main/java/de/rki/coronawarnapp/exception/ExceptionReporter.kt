@@ -26,7 +26,7 @@ fun Throwable.report(
     LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
 }
 
-fun Throwable.reportGeneric(
+fun reportGeneric(
     stackString: String
 ) {
     val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)

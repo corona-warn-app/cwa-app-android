@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -25,6 +24,14 @@
                 android:id="@+id/label_googlePlayServices_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <Switch
+                android:id="@+id/test_api_switch_last_three_hours_from_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/switchBase"
+                style="@style/body1"
+                android:text="@string/test_api_switch_last_three_hours_from_server" />
 
             <TextView
                 android:id="@+id/label_exposure_summary"
@@ -103,11 +110,10 @@
                 android:lines="5"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/image_qr_code"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/qr_code_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/button" />
+                android:layout_height="200dp" />
 
             <TextView
                 android:id="@+id/label_other_keys"
@@ -200,6 +206,60 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginBottom="@dimen/spacing_normal"
                 android:text="Get Active Tracing Duration in Retention Period" />
+
+            <TextView
+                style="@style/headline4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="headline4" />
+
+            <TextView
+                style="@style/headline5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="headline5" />
+
+            <TextView
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="headline6" />
+
+            <TextView
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="subtitle" />
+
+            <TextView
+                style="@style/subtitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="subtitleMedium" />
+
+            <TextView
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="body1" />
+
+            <TextView
+                style="@style/body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="body2" />
+
+            <TextView
+                style="@style/body2Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="body2medium" />
+
+            <TextView
+                style="@style/bodyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="button" />
         </LinearLayout>
     </ScrollView>
 </layout>

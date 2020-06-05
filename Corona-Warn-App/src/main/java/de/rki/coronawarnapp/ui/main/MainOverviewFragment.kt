@@ -20,15 +20,21 @@ class MainOverviewFragment : BaseFragment() {
         private val TAG: String? = MainOverviewFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentMainOverviewBinding
+    private var _binding: FragmentMainOverviewBinding? = null
+    private val binding: FragmentMainOverviewBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainOverviewBinding.inflate(inflater)
+        _binding = FragmentMainOverviewBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

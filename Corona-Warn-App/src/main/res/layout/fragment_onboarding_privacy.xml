@@ -25,6 +25,7 @@
             app:bodyEmphasized="@{@string/onboarding_privacy_body_emphasized}"
             app:headline="@{@string/onboarding_privacy_headline}"
             app:illustration="@{@drawable/ic_onboarding_illustration_privacy}"
+            app:illustrationDescription="@{@string/onboarding_privacy_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

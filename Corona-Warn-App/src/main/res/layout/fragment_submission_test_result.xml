@@ -185,7 +185,7 @@
 
             <Button
                 android:id="@+id/submission_test_result_button_negative_remove_test"
-                style="@style/buttonPrimary"
+                style="@style/buttonLight"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
