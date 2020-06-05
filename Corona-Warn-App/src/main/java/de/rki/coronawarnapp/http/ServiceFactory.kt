@@ -39,7 +39,8 @@ class ServiceFactory {
             if (BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
         },
         OfflineCacheInterceptor(CoronaWarnApplication.getAppContext()),
-        RetryInterceptor()
+        RetryInterceptor(),
+        HttpErrorParser()
     )
 
     /**
