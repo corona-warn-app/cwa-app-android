@@ -634,7 +634,7 @@
     <!-- XHED: Page title for menu at the start of the submission process  -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
+    <string name="submission_intro_headline">So funktionert das\nCorona-Warn-System</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
     <!-- YTXT: submission introduction enumeration -->
@@ -681,7 +681,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">Helfen Sie mit!</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\n Da nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
+    <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\nDa nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">Datenschutz</string>
     <!-- YTXT: Body text for the privacy card-->
