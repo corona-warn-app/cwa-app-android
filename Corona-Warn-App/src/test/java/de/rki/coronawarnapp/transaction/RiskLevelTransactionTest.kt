@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -42,6 +43,8 @@ class RiskLevelTransactionTest {
 
         mockkObject(InternalExposureNotificationClient)
         mockkObject(ApplicationConfigurationService)
+        mockkObject(LocalData)
+        every { LocalData.lastSuccessfullyCalculatedRiskLevel() } returns UNDETERMINED
         mockkObject(RiskLevelRepository)
         mockkObject(RiskLevelTransaction)
         mockkObject(TimeVariables)
