@@ -42,9 +42,7 @@
     <color name="colorTransparent">#00FFFFFF</color>
 
     <!-- Risk Card Colors -->
-    <color name="colorRiskCardIncreasedRisk">#C4314A</color>
     <color name="colorRiskCardIncreasedRiskPressed">#A30C26</color>
-    <color name="colorRiskCardLowRisk">#2E854B</color>
     <color name="colorRiskCardLowRiskPressed">#27713F</color>
     <color name="colorRiskCardNoCalculationPossible">@color/colorLight</color>
     <color name="colorRiskCardNoCalculationPossiblePressed">@color/colorGreyLight</color>
@@ -63,7 +61,6 @@
     <color name="textColorPrimary">#ffffff</color>
     <color name="textColorSecondary">#DFD8D8</color>
     <color name="textColorLight">#ffffff</color>
-    <color name="textColorRed">#C4314A</color>
     <color name="textColorBlue">#2C79A9</color>
     <color name="textColorGrey">#D3D3D3</color>
 
