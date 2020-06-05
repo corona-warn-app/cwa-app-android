@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import java.net.SocketTimeoutException
+import retrofit2.HttpException
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     InternalExposureNotificationPermissionHelper.Callback {
@@ -65,16 +65,6 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
-            is SocketTimeoutException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_timeout_title,
-                R.string.submission_error_dialog_web_generic_timeout_body,
-                R.string.submission_error_dialog_web_generic_timeout_button_positive,
-                R.string.submission_error_dialog_web_generic_timeout_button_negative,
-                true,
-                submissionViewModel::submitDiagnosisKeys,
-                ::navigateToSubmissionResultFragment
-            )
             is TestPairingInvalidException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_paring_invalid_title,
@@ -89,6 +79,18 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 R.string.submission_error_dialog_web_tan_invalid_title,
                 R.string.submission_error_dialog_web_tan_invalid_body,
                 R.string.submission_error_dialog_web_tan_invalid_button_positive,
+                null,
+                true,
+                ::navigateToSubmissionResultFragment
+            )
+            is HttpException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.code()
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
                 ::navigateToSubmissionResultFragment

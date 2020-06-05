@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import java.net.SocketTimeoutException
+import retrofit2.HttpException
 
 /**
  * A simple [BaseFragment] subclass.
@@ -45,14 +45,16 @@ class SubmissionTestResultFragment : BaseFragment() {
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
-            is SocketTimeoutException -> DialogHelper.DialogInstance(
+            is HttpException -> DialogHelper.DialogInstance(
                 requireActivity(),
-                R.string.submission_error_dialog_web_generic_timeout_title,
-                R.string.submission_error_dialog_web_generic_timeout_body,
-                R.string.submission_error_dialog_web_generic_timeout_button_positive,
-                R.string.submission_error_dialog_web_generic_timeout_button_negative,
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.code()
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
                 true,
-                submissionViewModel::refreshDeviceUIState,
                 ::navigateToMainScreen
             )
             else -> DialogHelper.DialogInstance(
@@ -71,7 +73,7 @@ class SubmissionTestResultFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.testResultError.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.uiStateError.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 DialogHelper.showDialog(buildErrorDialog(it))
             }

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.exception.TestAlreadyPairedException
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import java.net.SocketTimeoutException
+import retrofit2.HttpException
 
 class SubmissionRegisterDeviceFragment : BaseFragment() {
     private val viewModel: SubmissionViewModel by activityViewModels()
@@ -35,21 +35,23 @@ class SubmissionRegisterDeviceFragment : BaseFragment() {
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
-            is SocketTimeoutException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_timeout_title,
-                R.string.submission_error_dialog_web_generic_timeout_body,
-                R.string.submission_error_dialog_web_generic_timeout_button_positive,
-                R.string.submission_error_dialog_web_generic_timeout_button_negative,
-                true,
-                viewModel::doDeviceRegistration,
-                ::navigateToDispatchScreen
-            )
             is TestAlreadyPairedException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_test_paired_title,
                 R.string.submission_error_dialog_web_test_paired_body,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            is HttpException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.code()
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
                 ::navigateToDispatchScreen

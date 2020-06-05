@@ -21,10 +21,8 @@ class SubmissionViewModel : ViewModel() {
     private val _registrationState = MutableLiveData(ApiRequestState.IDLE)
     private val _registrationError = MutableLiveData<Exception?>(null)
 
-    private val _testResultState = MutableLiveData(ApiRequestState.IDLE)
-    private val _testResultError = MutableLiveData<Exception?>(null)
-
     private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
+    private val _uiStateError = MutableLiveData<Exception?>(null)
 
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Exception?>(null)
@@ -34,10 +32,8 @@ class SubmissionViewModel : ViewModel() {
     val registrationState: LiveData<ApiRequestState> = _registrationState
     val registrationError: LiveData<Exception?> = _registrationError
 
-    val testResultState: LiveData<ApiRequestState> = _testResultState
-    val testResultError: LiveData<Exception?> = _testResultError
-
     val uiStateState: LiveData<ApiRequestState> = _uiStateState
+    val uiStateError: LiveData<Exception?> = _uiStateError
 
     val submissionState: LiveData<ApiRequestState> = _submissionState
     val submissionError: LiveData<Exception?> = _submissionError
@@ -64,7 +60,11 @@ class SubmissionViewModel : ViewModel() {
         )
 
     fun refreshDeviceUIState() =
-        executeRequestWithState(SubmissionRepository::refreshUIState, _uiStateState)
+        executeRequestWithState(
+            SubmissionRepository::refreshUIState,
+            _uiStateState,
+            _uiStateError
+        )
 
     fun validateAndStoreTestGUID(scanResult: String) {
         if (SubmissionService.containsValidGUID(scanResult)) {
