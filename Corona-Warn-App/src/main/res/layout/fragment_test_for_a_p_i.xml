@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -111,11 +110,10 @@
                 android:lines="5"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/image_qr_code"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/qr_code_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/button" />
+                android:layout_height="200dp" />
 
             <TextView
                 android:id="@+id/label_other_keys"

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.worker
 
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.util.Log
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
@@ -9,14 +9,14 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.Operation
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.TracingRepository
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -79,38 +79,50 @@ object BackgroundWorkScheduler {
             .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
     /**
-     * Shared preferences listener
-     */
-    private var sharedPrefListener: OnSharedPreferenceChangeListener? = null
-
-    /**
      * Work manager instance
      */
     private val workManager by lazy { WorkManager.getInstance(CoronaWarnApplication.getAppContext()) }
 
     /**
      * Start work scheduler
-     * Subscribe shared preferences listener for changes. If any changes regarding background work
-     * occurred, then reschedule periodic work or stop it (depends on changes occurred).
-     * Two keys are monitored:
-     * - preference_background_jonboarding_allowed
-     * - preference_mobile_data_allowed
-     * @see LocalData.getBackgroundWorkRelatedPreferences()
+     * Checks if periodic worker was already scheduled. If not - reschedule it again.
+     *
+     * @see isWorkActive
      */
     fun startWorkScheduler() {
-        sharedPrefListener = OnSharedPreferenceChangeListener { _, key ->
-            if (LocalData.getBackgroundWorkRelatedPreferences().contains(key)) {
-                logSharedPreferencesChange(key)
-                checkStart()
-            } else if (key == LocalData.getLastFetchDatePreference()) {
-                TracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
+        val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
+        logWorkActiveStatus(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag, isPeriodicWorkActive)
+        if (!isPeriodicWorkActive) WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
+    }
+
+    /**
+     * Checks if defined work is active
+     * Non-active means worker was Cancelled, Failed or have not been enqueued at all
+     *
+     * @param tag String tag of the worker
+     *
+     * @return Boolean
+     *
+     * @see WorkInfo.State.CANCELLED
+     * @see WorkInfo.State.FAILED
+     */
+    private fun isWorkActive(tag: String): Boolean {
+        val workStatus = workManager.getWorkInfosByTag(tag)
+        var result = true
+        try {
+            val workInfoList = workStatus.get()
+            if (workInfoList.size == 0) result = false
+            for (info in workInfoList) {
+                if (info.state == WorkInfo.State.CANCELLED || info.state == WorkInfo.State.FAILED) {
+                    result = false
+                }
             }
+        } catch (e: ExecutionException) {
+            result = false
+        } catch (e: InterruptedException) {
+            result = false
         }
-        LocalData.getSharedPreferenceInstance().registerOnSharedPreferenceChangeListener(
-            sharedPrefListener
-        )
-        // TODO: Reimplement after clarifications
-        WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
+        return result
     }
 
     /**
@@ -125,31 +137,21 @@ object BackgroundWorkScheduler {
     }
 
     /**
-     * Check start periodic work
-     * If background work is enabled, than reschedule it. else - stop it.
+     * Schedule diagnosis key one time work
      *
-     * @see LocalData.isBackgroundJobEnabled()
-     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
+     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
      */
-    fun checkStart() {
-        if (LocalData.isBackgroundJobEnabled()) {
-            WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.stop()
-            WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
-        } else {
-            stopWorkScheduler()
-        }
+    fun scheduleDiagnosisKeyPeriodicWork() {
+        WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
     }
 
     /**
      * Schedule diagnosis key one time work
      *
-     * @see LocalData.isBackgroundJobEnabled()
      * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
      */
     fun scheduleDiagnosisKeyOneTimeWork() {
-        if (LocalData.isBackgroundJobEnabled()) {
-            WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.start()
-        }
+        WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.start()
     }
 
     /**
@@ -163,15 +165,6 @@ object BackgroundWorkScheduler {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK -> enqueueDiagnosisKeyBackgroundPeriodicWork()
         WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK -> enqueueDiagnosisKeyBackgroundOneTimeWork()
     }
-
-    /**
-     * Stop work by unique name
-     *
-     * @return Operation
-     *
-     * @see WorkType
-     */
-    private fun WorkType.stop(): Operation = workManager.cancelUniqueWork(this.uniqueName)
 
     /**
      * Enqueue diagnosis key periodic work and log it
@@ -204,11 +197,13 @@ object BackgroundWorkScheduler {
     /**
      * Build diagnosis key periodic work request
      * Set "kind delay" for accessibility reason.
+     * Backoff criteria set to Linear type.
      *
      * @return PeriodicWorkRequest
      *
      * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER
      * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY
+     * @see BackoffPolicy.LINEAR
      */
     private fun buildDiagnosisKeyRetrievalPeriodicWork() =
         PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(
@@ -220,16 +215,24 @@ object BackgroundWorkScheduler {
                 BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
                 TimeUnit.MINUTES
             )
+            .setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                TimeUnit.MINUTES
+            )
             .build()
 
     /**
      * Build diagnosis key one time work request
      * Set random initial delay for security reason.
+     * Backoff criteria set to Linear type.
      *
      * @return OneTimeWorkRequest
      *
      * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER
      * @see buildDiagnosisKeyRetrievalOneTimeWork
+     * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY
+     * @see BackoffPolicy.LINEAR
      */
     private fun buildDiagnosisKeyRetrievalOneTimeWork() =
         OneTimeWorkRequestBuilder<DiagnosisKeyRetrievalOneTimeWorker>()
@@ -242,6 +245,11 @@ object BackgroundWorkScheduler {
                         DateTimeZone.getDefault()
                     )
                 ), TimeUnit.MINUTES
+            )
+            .setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                TimeUnit.MINUTES
             )
             .build()
 
@@ -256,29 +264,19 @@ object BackgroundWorkScheduler {
 
     /**
      * Constraints for diagnosis key one time work
-     * Depends on current application settings.
+     * Requires battery not low and any network connection
+     * Mobile data usage is handled on OS level in application settings
      *
      * @return Constraints
      *
-     * @see LocalData.isMobileDataEnabled()
+     * @see NetworkType.CONNECTED
      */
-    private fun getConstraintsForDiagnosisKeyOneTimeBackgroundWork(): Constraints {
-        val builder = Constraints.Builder()
-        if (LocalData.isMobileDataEnabled()) {
-            if (BuildConfig.DEBUG) Log.d(
-                TAG, "${WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK}:" +
-                        "$BackgroundConstants.NETWORK_ROAMING_ALLOWED"
-            )
-            builder.setRequiredNetworkType(NetworkType.CONNECTED)
-        } else {
-            if (BuildConfig.DEBUG) Log.d(
-                TAG, "${WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK}:" +
-                        "$BackgroundConstants.NETWORK_ROAMING_FORBIDDEN"
-            )
-            builder.setRequiredNetworkType(NetworkType.NOT_ROAMING)
-        }
-        return builder.build()
-    }
+    private fun getConstraintsForDiagnosisKeyOneTimeBackgroundWork() =
+        Constraints
+            .Builder()
+            .setRequiresBatteryNotLow(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
 
     /**
      * Log operation schedule
@@ -296,9 +294,9 @@ object BackgroundWorkScheduler {
         .also { if (BuildConfig.DEBUG) Log.d(TAG, "Canceling all work with tag ${workTag.tag}") }
 
     /**
-     * Log shared preferences change
+     * Log work active status
      */
-    private fun logSharedPreferencesChange(key: String) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Shared preferences was changed in key: $key")
+    private fun logWorkActiveStatus(tag: String, active: Boolean) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Work type $tag is active: $active")
     }
 }
