@@ -585,13 +585,4 @@ object LocalData {
      ****************************************************/
 
     fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
-
-    fun getBackgroundWorkRelatedPreferences() = listOf(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_job_allowed),
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed)
-    )
-
-    fun getLastFetchDatePreference() =
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_timestamp_diagnosis_keys_fetch)
 }

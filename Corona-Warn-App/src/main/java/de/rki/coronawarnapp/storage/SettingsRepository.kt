@@ -24,7 +24,6 @@ object SettingsRepository {
     val isManualKeyRetrievalEnabled = MutableLiveData(true)
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
-    val isMobileDataEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
 
     // TODO should go to a formatter
@@ -97,40 +96,11 @@ object SettingsRepository {
     }
 
     /**
-     * Toggle mobile data in shared preferences and refresh it afterwards.
+     * Refresh global bluetooth state to point out that tracing isn't working
      *
-     * @see LocalData
+     * @see ConnectivityHelper
      */
-    fun toggleMobileDataEnabled() {
-        LocalData.toggleMobileDataEnabled()
-        refreshMobileDataEnabled()
-    }
-
-    /**
-     * Refresh mobile data with the current shared preferences state.
-     *
-     * @see LocalData
-     */
-    fun refreshMobileDataEnabled() {
-        isMobileDataEnabled.value = LocalData.isMobileDataEnabled()
-    }
-
-    /**
-     * Toggle background job in shared preferences and refresh it afterwards.
-     *
-     * @see LocalData
-     */
-    fun toggleBackgroundJobEnabled() {
-        LocalData.toggleBackgroundJobEnabled()
-        refreshBackgroundJobEnabled()
-    }
-
-    /**
-     * Refresh background job with the current shared preferences state.
-     *
-     * @see LocalData
-     */
-    fun refreshBackgroundJobEnabled() {
-        isBackgroundJobEnabled.value = LocalData.isBackgroundJobEnabled()
+    fun updateBackgroundJobEnabled(value: Boolean) {
+        isBackgroundJobEnabled.postValue(value)
     }
 }
