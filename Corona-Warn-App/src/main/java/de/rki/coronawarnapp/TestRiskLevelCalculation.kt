@@ -123,6 +123,7 @@ class TestRiskLevelCalculation : Fragment() {
     private suspend fun retrieveDiagnosisKeys() {
         try {
             RetrieveDiagnosisKeysTransaction.start()
+            calculateRiskLevel()
         } catch (e: TransactionException) {
             e.report(ExceptionCategory.INTERNAL)
         }
@@ -210,7 +211,10 @@ class TestRiskLevelCalculation : Fragment() {
             Observer {
                 tracingViewModel.viewModelScope.launch {
                     val riskAsString = "Level: ${it.riskLevel}\n" +
-                            "Calc. Score: ${it.riskScore}\n" +
+                            "Last successful Level: " +
+                            "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
+                            "Calculated Score: ${it.riskScore}\n" +
+                            "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
                             "Tracing Duration: " +
                             "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
                             "Tracing Duration in last 14 days: " +

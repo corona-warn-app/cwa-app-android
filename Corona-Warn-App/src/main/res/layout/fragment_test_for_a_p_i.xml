@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/switchBase"
+                style="@style/body1"
                 android:text="@string/test_api_switch_last_three_hours_from_server" />
 
             <TextView
