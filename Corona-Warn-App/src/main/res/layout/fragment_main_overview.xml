@@ -80,7 +80,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk">
 
                     <TextView
-                        style="@style/textLargeEmphasized"
+                        style="@style/headline6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/guideline_body_title"
@@ -96,7 +96,7 @@
                     layout="@layout/include_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
                     app:iconStart="@{@drawable/ic_main_overview_circle}"
                     app:iconTint="@{@color/colorRiskCardIncreasedRisk}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +162,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_divider">
 
                     <TextView
-                        style="@style/textLargeEmphasized"
+                        style="@style/headline5"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/guideline_body_title"

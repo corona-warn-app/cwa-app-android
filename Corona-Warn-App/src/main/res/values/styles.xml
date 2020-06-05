@@ -145,6 +145,10 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="headline5Tint" parent="@style/headline5">
+        <item name="android:textColor">@color/colorTextTint</item>
+    </style>
+
     <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">@color/colorTextPrimary1</item>
         <item name="android:textStyle">bold</item>
