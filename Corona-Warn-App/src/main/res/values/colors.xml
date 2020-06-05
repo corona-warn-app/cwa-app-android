@@ -61,6 +61,15 @@
     <color name="colorGreyDisabled">#9917191A</color>
 
     <!-- Text Colors -->
+    <color name="textColorPrimary1">#17191A</color>
+    <color name="textColorPrimary2">#9917191A</color>
+    <color name="textColorPrimary3">#4D17191A</color>
+    <color name="textColorSemanticRed">#C00F2D</color>
+    <color name="textColorSemanticGreen">#2E854B</color>
+    <color name="textColorSemanticNeutral">#5D6E80</color>
+    <color name="textColorTint">#007FAD</color>
+
+    <!-- OLD Text Colors -->
     <color name="textColorPrimary">#000000</color>
     <color name="textColorSecondary">#333333</color>
     <color name="textColorLight">#ffffff</color>
