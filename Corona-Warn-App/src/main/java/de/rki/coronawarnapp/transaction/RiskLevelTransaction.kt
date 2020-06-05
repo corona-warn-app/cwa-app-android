@@ -33,7 +33,6 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_APPLICATION_CONFIG
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -284,7 +283,7 @@ object RiskLevelTransaction : Transaction() {
 
             /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
             defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
-            if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToDays() >
+            if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
                 return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
