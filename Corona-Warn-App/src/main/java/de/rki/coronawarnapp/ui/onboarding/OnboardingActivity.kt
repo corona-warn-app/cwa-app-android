@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleObserver
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.showDialogWithStacktraceIfPreviouslyCrashed
 
 /**
  * This activity holds all the onboarding fragments and isn't used after a successful onboarding flow.
@@ -40,8 +41,14 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        showDialogWithStacktraceIfPreviouslyCrashed()
+    }
+
     fun completeOnboarding() {
         LocalData.isOnboarded(true)
+        LocalData.onboardingCompletedTimestamp(System.currentTimeMillis())
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

@@ -34,6 +34,26 @@ object DialogHelper {
             positiveButtonFunction,
             negativeButtonFunction
         )
+
+        constructor(
+            activity: Activity,
+            title: Int,
+            message: String,
+            positiveButton: Int,
+            negativeButton: Int? = null,
+            cancelable: Boolean? = true,
+            positiveButtonFunction: () -> Unit? = {},
+            negativeButtonFunction: () -> Unit? = {}
+        ) : this(
+            activity,
+            activity.resources.getString(title),
+            message,
+            activity.resources.getString(positiveButton),
+            negativeButton?.let { activity.resources.getString(it) },
+            cancelable,
+            positiveButtonFunction,
+            negativeButtonFunction
+        )
     }
 
     fun showDialog(

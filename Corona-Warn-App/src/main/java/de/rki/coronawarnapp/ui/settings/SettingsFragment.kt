@@ -25,18 +25,24 @@ class SettingsFragment : BaseFragment() {
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private lateinit var binding: FragmentSettingsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding: FragmentSettingsBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsBinding.inflate(inflater)
+        _binding = FragmentSettingsBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +57,6 @@ class SettingsFragment : BaseFragment() {
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
-        settingsViewModel.refreshMobileDataEnabled()
-        settingsViewModel.refreshBackgroundJobEnabled()
     }
 
     private fun setButtonOnClickListener() {
