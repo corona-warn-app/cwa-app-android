@@ -56,8 +56,10 @@ fun formatTestResult(uiState: DeviceUIState?): Spannable {
 fun formatTestResultCardContent(uiState: DeviceUIState?): Spannable {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
-        DeviceUIState.PAIRED_NO_RESULT -> SpannableString(appContext.getString(R.string.test_result_card_status_pending))
-        DeviceUIState.PAIRED_ERROR -> SpannableString(appContext.getString(R.string.test_result_card_status_invalid))
+        DeviceUIState.PAIRED_NO_RESULT ->
+            SpannableString(appContext.getString(R.string.test_result_card_status_pending))
+        DeviceUIState.PAIRED_ERROR ->
+            SpannableString(appContext.getString(R.string.test_result_card_status_invalid))
 
         DeviceUIState.PAIRED_POSITIVE,
         DeviceUIState.PAIRED_POSITIVE_TELETAN,
