@@ -17,14 +17,26 @@ import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
     private val _scanStatus = MutableLiveData(ScanStatus.STARTED)
+
     private val _registrationState = MutableLiveData(ApiRequestState.IDLE)
+    private val _registrationError = MutableLiveData<Exception?>(null)
+
     private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
+    private val _uiStateError = MutableLiveData<Exception?>(null)
+
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
+    private val _submissionError = MutableLiveData<Exception?>(null)
 
     val scanStatus: LiveData<ScanStatus> = _scanStatus
+
     val registrationState: LiveData<ApiRequestState> = _registrationState
+    val registrationError: LiveData<Exception?> = _registrationError
+
     val uiStateState: LiveData<ApiRequestState> = _uiStateState
+    val uiStateError: LiveData<Exception?> = _uiStateError
+
     val submissionState: LiveData<ApiRequestState> = _submissionState
+    val submissionError: LiveData<Exception?> = _submissionError
 
     val deviceRegistered get() = LocalData.registrationToken() != null
 
@@ -34,13 +46,25 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     fun submitDiagnosisKeys() =
-        executeRequestWithState(SubmissionService::asyncSubmitExposureKeys, _submissionState)
+        executeRequestWithState(
+            SubmissionService::asyncSubmitExposureKeys,
+            _submissionState,
+            _submissionError
+        )
 
     fun doDeviceRegistration() =
-        executeRequestWithState(SubmissionService::asyncRegisterDevice, _registrationState)
+        executeRequestWithState(
+            SubmissionService::asyncRegisterDevice,
+            _registrationState,
+            _registrationError
+        )
 
     fun refreshDeviceUIState() =
-        executeRequestWithState(SubmissionRepository::refreshUIState, _uiStateState)
+        executeRequestWithState(
+            SubmissionRepository::refreshUIState,
+            _uiStateState,
+            _uiStateError
+        )
 
     fun validateAndStoreTestGUID(scanResult: String) {
         if (SubmissionService.containsValidGUID(scanResult)) {
@@ -65,7 +89,8 @@ class SubmissionViewModel : ViewModel() {
 
     private fun executeRequestWithState(
         apiRequest: suspend () -> Unit,
-        state: MutableLiveData<ApiRequestState>
+        state: MutableLiveData<ApiRequestState>,
+        exceptionLiveData: MutableLiveData<Exception?>? = null
     ) {
         state.value = ApiRequestState.STARTED
         viewModelScope.launch {
@@ -73,6 +98,7 @@ class SubmissionViewModel : ViewModel() {
                 apiRequest()
                 state.value = ApiRequestState.SUCCESS
             } catch (err: Exception) {
+                exceptionLiveData?.value = err
                 state.value = ApiRequestState.FAILED
                 err.report(ExceptionCategory.INTERNAL)
             }
