@@ -22,10 +22,6 @@ class SettingsViewModel : ViewModel() {
     val isBluetoothEnabled: LiveData<Boolean> =
         SettingsRepository.isBluetoothEnabled
 
-    // Todo bind to os settings, change to general network availability, cannot be set within the app
-    // Will impact UI if no network connection is found, persistent storing is not necessary
-    val isMobileDataEnabled: LiveData<Boolean> = SettingsRepository.isMobileDataEnabled
-
     // Todo bind to os settings, care API 23 / API 24 onwards
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
@@ -102,24 +98,11 @@ class SettingsViewModel : ViewModel() {
     }
 
     /**
-     * Refresh & toggle mobile data enabled
+     * Update background job enabled
+     *
+     * @param value
      */
-    fun refreshMobileDataEnabled() {
-        SettingsRepository.refreshMobileDataEnabled()
-    }
-
-    fun toggleMobileDataEnabled() {
-        SettingsRepository.toggleMobileDataEnabled()
-    }
-
-    /**
-     * Refresh & toggle background job enabled
-     */
-    fun refreshBackgroundJobEnabled() {
-        SettingsRepository.refreshBackgroundJobEnabled()
-    }
-
-    fun toggleBackgroundJobEnabled() {
-        SettingsRepository.toggleBackgroundJobEnabled()
+    fun updateBackgroundJobEnabled(value: Boolean) {
+        SettingsRepository.updateBackgroundJobEnabled(value)
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,6 +27,8 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
+import de.rki.coronawarnapp.storage.AppDatabase
+import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
@@ -33,7 +36,10 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.transmission_number
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -54,19 +60,25 @@ class TestRiskLevelCalculation : Fragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private lateinit var binding: FragmentTestRiskLevelCalculationBinding
+    private var _binding: FragmentTestRiskLevelCalculationBinding? = null
+    private val binding: FragmentTestRiskLevelCalculationBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
+        _binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,6 +97,33 @@ class TestRiskLevelCalculation : Fragment() {
         binding.buttonCalculateRiskLevel.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 calculateRiskLevel()
+            }
+        }
+
+        binding.buttonResetRiskLevel.setOnClickListener {
+            tracingViewModel.viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    try {
+                        // Database Reset
+                        AppDatabase.getInstance(requireContext()).clearAllTables()
+                        // Delete Database Instance
+                        AppDatabase.resetInstance(requireContext())
+                        // Export File Reset
+                        FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
+
+                        LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
+                        LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
+                        LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
+                        LocalData.googleApiToken(null)
+                    } catch (e: java.lang.Exception) {
+                        e.report(ExceptionCategory.INTERNAL)
+                    }
+                }
+                RiskLevelTransaction.start()
+                Toast.makeText(
+                    requireContext(), "Resetted, please fetch diagnosis keys from server again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -117,6 +156,7 @@ class TestRiskLevelCalculation : Fragment() {
     private suspend fun retrieveDiagnosisKeys() {
         try {
             RetrieveDiagnosisKeysTransaction.start()
+            calculateRiskLevel()
         } catch (e: TransactionException) {
             e.report(ExceptionCategory.INTERNAL)
         }
@@ -144,12 +184,18 @@ class TestRiskLevelCalculation : Fragment() {
 
             val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
+            val text = (transmission_number as EditText).text.toString()
+            var number = 5
+            if (!text.isBlank()) {
+                number = Integer.valueOf(text)
+            }
+
             appleKeyList.add(
                 AppleLegacyKeyExchange.Key.newBuilder()
                     .setKeyData(key.keyData)
                     .setRollingPeriod(144)
                     .setRollingStartNumber(key.rollingStartNumber)
-                    .setTransmissionRiskLevel(1)
+                    .setTransmissionRiskLevel(number)
                     .build()
             )
 
@@ -204,7 +250,10 @@ class TestRiskLevelCalculation : Fragment() {
             Observer {
                 tracingViewModel.viewModelScope.launch {
                     val riskAsString = "Level: ${it.riskLevel}\n" +
-                            "Calc. Score: ${it.riskScore}\n" +
+                            "Last successful Level: " +
+                            "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
+                            "Calculated Score: ${it.riskScore}\n" +
+                            "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
                             "Tracing Duration: " +
                             "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
                             "Tracing Duration in last 14 days: " +

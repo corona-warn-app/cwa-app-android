@@ -21,7 +21,7 @@ class VerificationServiceTest {
             equalTo(false)
         )
     }
-    
+
     @Test
     fun extractGUID() {
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
