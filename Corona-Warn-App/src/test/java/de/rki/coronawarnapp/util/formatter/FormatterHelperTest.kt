@@ -5,17 +5,16 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import io.mockk.MockKAnnotations
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Test
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import org.junit.After
-import org.junit.Before
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
 
 class FormatterHelperTest {
@@ -71,7 +70,7 @@ class FormatterHelperTest {
         every { context.getDrawable(2) } returns drawable
 
         val result = formatDrawable(value = bValue, drawableTrue = 1, drawableFalse = 2)
-        assertThat(result, `is`((equalTo(drawable))));
+        assertThat(result, `is`((equalTo(drawable))))
     }
 
     private fun formatColorBase(bValue: Boolean, iColor: Int)  {
@@ -136,20 +135,20 @@ class FormatterHelperTest {
 
     @Test
     fun formatDrawable1()  {
-        //check formatDrawable when value true
+        // Check formatDrawable when value true
         formatDrawableBase(true)
 
-        //check formatDrawable when value false
+        // Check formatDrawable when value false
         formatDrawableBase(false)
     }
 
     @Test
-    fun formatColorFalse()  {
-        //check formatColor when value true
-        formatColorBase(true,1);
+    fun formatColorFalse() {
+        // Check formatColor when value true
+        formatColorBase(true, 1)
 
-        //check formatColor when value false
-        formatColorBase(false,2);
+        // Check formatColor when value false
+        formatColorBase(false, 2)
     }
 
     @After
