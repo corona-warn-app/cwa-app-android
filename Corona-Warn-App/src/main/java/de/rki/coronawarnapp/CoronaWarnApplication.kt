@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import de.rki.coronawarnapp.exception.ErrorReportReceiver
+import de.rki.coronawarnapp.exception.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
+import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandler
 import de.rki.coronawarnapp.notification.NotificationHelper
 import org.conscrypt.Conscrypt
 import java.security.Security
@@ -34,12 +39,15 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             instance.applicationContext
     }
 
+    private lateinit var errorReceiver: ErrorReportReceiver
+
     override fun onCreate() {
+        super.onCreate()
+        GlobalExceptionHandler(this)
         instance = this
         NotificationHelper.createNotificationChannel()
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
-        super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         registerActivityLifecycleCallbacks(this)
     }
@@ -63,7 +71,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityPaused(activity: Activity) {
-        // does not override function. Empty on intention
+        // unregisters error receiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(errorReceiver)
     }
 
     override fun onActivityStarted(activity: Activity) {
@@ -94,6 +103,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityResumed(activity: Activity) {
-        // does not override function. Empty on intention
+        errorReceiver = ErrorReportReceiver(activity)
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
 }

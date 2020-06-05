@@ -293,6 +293,11 @@
             android:id="@+id/action_submissionRegisterDeviceFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
             app:popUpTo="@id/mainFragment" />
+        <action
+            android:id="@+id/action_submissionRegisterDeviceFragment_to_submissionDispatcherFragment"
+            app:destination="@id/submissionDispatcherFragment"
+            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/submissionDoneFragment"

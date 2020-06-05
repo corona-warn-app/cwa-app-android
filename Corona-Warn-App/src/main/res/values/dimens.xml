@@ -2,15 +2,21 @@
     <!-- spacing, used as reference for everything else -->
     <dimen name="spacing_large">48dp</dimen>
     <dimen name="spacing_normal">24dp</dimen>
-    <dimen name="spacing_small">12dp</dimen>
+    <dimen name="spacing_small">16dp</dimen>
     <dimen name="spacing_tiny">6dp</dimen>
     <dimen name="spacing_mega_tiny">3dp</dimen>
 
     <!-- font sizes -->
+    <dimen name="font_largest">34sp</dimen>
     <dimen name="font_larger">24sp</dimen>
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_normal">16sp</dimen>
     <dimen name="font_small">12sp</dimen>
+
+    <dimen name="font_button">14sp</dimen>
+    <dimen name="font_title">20sp</dimen>
+
+    <dimen name="font_line_spacing_extra">4sp</dimen>
 
     <!-- header height -->
     <dimen name="header">50dp</dimen>
@@ -20,11 +26,12 @@
     <dimen name="elevation_weak">4dp</dimen>
 
     <!-- default spacing for guidelines -->
+    <dimen name="guideline_card">12dp</dimen>
     <dimen name="guideline_start">@dimen/spacing_normal</dimen>
     <dimen name="guideline_end">@dimen/spacing_normal</dimen>
     <dimen name="guideline_top">@dimen/spacing_normal</dimen>
     <dimen name="guideline_bottom">@dimen/spacing_normal</dimen>
-    <dimen name="guideline_action">90dp</dimen>
+    <dimen name="guideline_action">72dp</dimen>
     <dimen name="guideline_action_large">150dp</dimen>
     <dimen name="guideline_body_title">45dp</dimen>
     <dimen name="guideline_back">14dp</dimen> <!-- guideline_start - button_icon_padding -->
@@ -45,7 +52,7 @@
 
     <!-- general -->
     <dimen name="radius_button">@dimen/spacing_tiny</dimen>
-    <dimen name="radius_card">@dimen/spacing_tiny</dimen>
+    <dimen name="radius_card">4dp</dimen>
     <dimen name="icon_size">20dp</dimen>
     <dimen name="icon_size_risk_card">35dp</dimen>
     <dimen name="icon_size_main_card">35dp</dimen>
@@ -73,7 +80,7 @@
     <!-- Submission Tan Input -->
     <dimen name="submission_tan_input_edittext_size">1dp</dimen>
     <dimen name="submission_tan_input_digit_radius">2dp</dimen>
-    <dimen name="submission_tan_input_digit_width">36dp</dimen>
+    <dimen name="submission_tan_input_digit_width">26dp</dimen>
     <dimen name="submission_tan_input_digit_height">50dp</dimen>
 
     <!-- Submission QR Code Scan -->

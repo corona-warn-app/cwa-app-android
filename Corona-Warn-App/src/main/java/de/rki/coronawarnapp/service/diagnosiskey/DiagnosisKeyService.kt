@@ -23,7 +23,10 @@ import KeyExportFormat
 import android.util.Log
 import de.rki.coronawarnapp.exception.DiagnosisKeyRetrievalException
 import de.rki.coronawarnapp.exception.DiagnosisKeySubmissionException
+import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants.SERVER_ERROR_CODE_403
+import retrofit2.HttpException
 
 /**
  * The Diagnosis Key Service is used to interact with the Server to submit and retrieve keys through
@@ -54,8 +57,14 @@ object DiagnosisKeyService {
                 false,
                 keysToReport
             )
-        } catch (e: Exception) {
-            throw DiagnosisKeySubmissionException(e)
+        } catch (e: HttpException) {
+            if (e.code() == SERVER_ERROR_CODE_403) {
+                throw SubmissionTanInvalidException(
+                    "the test paring to the device is invalid",
+                    e
+                )
+            }
+            throw e
         }
     }
 }
