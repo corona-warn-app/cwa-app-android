@@ -74,12 +74,38 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            println "SECRET INPUT"
+            Properties properties = new Properties()
+            def secretFile = project.rootProject.file('secrets.properties')
+            if (secretFile.exists())
+                properties.load(secretFile.newDataInputStream())
+
+            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
+            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW) {
+                println "TRUSTED_CERTS_EXPORT_KEYSTORE_PW:$TRUSTED_CERTS_EXPORT_KEYSTORE_PW"
+                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
+            }
+            println "SECRET END"
         }
         releaseForTest {
             applicationIdSuffix '.dev'
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            println "SECRET INPUT"
+            Properties properties = new Properties()
+            def secretFile = project.rootProject.file('secrets.properties')
+            if (secretFile.exists())
+                properties.load(secretFile.newDataInputStream())
+
+            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
+            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW) {
+                println "TRUSTED_CERTS_EXPORT_KEYSTORE_PW:$TRUSTED_CERTS_EXPORT_KEYSTORE_PW"
+                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
+            }
+            println "SECRET END"
         }
     }
 
