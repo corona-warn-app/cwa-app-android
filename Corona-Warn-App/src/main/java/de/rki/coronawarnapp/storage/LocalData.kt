@@ -45,6 +45,33 @@ object LocalData {
         )
     }
 
+    /**
+     * Gets the time when the user has completed the onboarding
+     * from the EncryptedSharedPrefs
+     *
+     * @return
+     */
+    fun onboardingCompletedTimestamp(): Long? {
+        val timestamp = getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_onboarding_completed_timestamp), 0L
+        )
+
+        if (timestamp == 0L) return null
+        return timestamp
+    }
+
+    /**
+     * Sets the time when the user has completed the onboarding
+     * from the EncryptedSharedPrefs
+     * @param value
+     */
+    fun onboardingCompletedTimestamp(value: Long) = getSharedPreferenceInstance().edit(true) {
+        putLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_onboarding_completed_timestamp), value
+        )
+    }
     /****************************************************
      * TRACING DATA
      ****************************************************/
