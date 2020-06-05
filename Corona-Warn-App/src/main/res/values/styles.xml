@@ -158,6 +158,10 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="subtitleSemanticRed" parent="@style/subtitle">
+        <item name="android:textColor">@color/colorTextSemanticRed</item>
+    </style>
+
     <style name="subtitleMedium" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/colorTextPrimary2</item>
     </style>

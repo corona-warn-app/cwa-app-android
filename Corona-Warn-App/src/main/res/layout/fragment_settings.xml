@@ -99,7 +99,7 @@
 
                         <TextView
                             android:id="@+id/settings_reset_subtitle"
-                            style="@style/textDanger"
+                            style="@style/subtitleSemanticRed"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_reset_button_positive"
@@ -109,6 +109,7 @@
 
                         <TextView
                             android:id="@+id/settings_reset_body"
+                            style="@style/body2Medium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_reset_body_description"

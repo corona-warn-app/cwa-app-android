@@ -61,7 +61,7 @@
 
                 <TextView
                     android:id="@+id/settings_switch_row_header_subtitle"
-                    style="@style/textLargeEmphasized"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{subtitle}"
@@ -71,6 +71,7 @@
 
                 <TextView
                     android:id="@+id/settings_switch_row_header_body"
+                    style="@style/body2Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_mega_tiny"
@@ -115,6 +116,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider">
 
             <TextView
+                style="@style/body2Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
