@@ -101,7 +101,6 @@ class SubmissionViewModel : ViewModel() {
             } catch (err: Exception) {
                 exceptionLiveData?.value = Event(err)
                 state.value = ApiRequestState.FAILED
-                err.report(ExceptionCategory.INTERNAL)
             }
         }
     }
