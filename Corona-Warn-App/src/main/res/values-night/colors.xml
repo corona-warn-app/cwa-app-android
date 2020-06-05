@@ -33,11 +33,6 @@
 
     <!-- TODO: Add variables when colors are final to reduce maintenance -->
 
-    <!--    TODO: green, blue, etc. should be exchanged by meaningful colors when they are final -->
-    <!-- Status Colors -->
-    <color name="colorGreen">#2E854B</color>
-    <color name="colorRed">#C4314A</color>
-
     <!-- App Color -->
     <color name="appTheme">#000000</color>
 

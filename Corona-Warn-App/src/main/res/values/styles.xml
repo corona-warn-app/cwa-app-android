@@ -99,7 +99,7 @@
     </style>
 
     <style name="rowDanger" parent="row">
-        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textColor">@color/colorTextSemanticRed</item>
         <item name="android:background">@drawable/row</item>
         <item name="android:backgroundTint">@color/button_light</item>
     </style>
@@ -191,7 +191,7 @@
 
     <style name="textDanger">
         <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>
 
     <style name="textLink" parent="@style/textMultilineEmphasized">
