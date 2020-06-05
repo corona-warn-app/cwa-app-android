@@ -108,6 +108,10 @@
     <string name="preference_teletan">
         <xliff:g id="preference">preference_teletan</xliff:g>
     </string>
+    <!-- NOTR -->
+    <string name="preference_last_three_hours_from_server">
+        <xliff:g id="preference">preference_last_three_hours_from_server</xliff:g>
+    </string>
 
     <!-- ####################################
                      Menu
@@ -829,6 +833,8 @@
     <string name="test_api_button_submit_keys">Submit keys to Server</string>
     <!-- NOTR -->
     <string name="test_api_button_scan_qr_code">Scan Exposure Key</string>
+    <!-- NOTR -->
+    <string name="test_api_switch_last_three_hours_from_server">Last 3 Hours Mode</string>
     <!-- NOTR -->
     <string name="test_api_button_check_exposure">Check Exposure Summary</string>
     <!-- NOTR -->
