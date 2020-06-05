@@ -269,7 +269,7 @@
 
     <style name="fadingScrollView">
         <item name="android:requiresFadingEdge">vertical</item>
-        <item name="android:fadingEdgeLength">150dp</item>
+        <item name="android:fadingEdgeLength">50dp</item>
     </style>
 
 
