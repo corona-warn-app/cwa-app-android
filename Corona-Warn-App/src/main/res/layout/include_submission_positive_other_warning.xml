@@ -12,49 +12,50 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/submission_intro_hero_illustration"
+                android:id="@+id/submission_positive_other_warning_hero_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/submission_positive_other_illustration_description"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_submission_illustration_intro_a"
+                android:src="@drawable/ic_submission_illustration_other_warning"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/submission_intro_headline"
-                style="@style/textHeadline"
+                android:id="@+id/submission_positive_other_warning_headline"
+                style="@style/textTitleLarger"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:text="@string/submission_intro_headline"
+                android:text="@string/submission_positive_other_warning_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_hero_illustration" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_hero_illustration" />
 
             <TextView
-                android:id="@+id/submission_intro_text"
+                android:id="@+id/submission_positive_other_warning_text"
                 style="@style/textMultiline"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/submission_intro_text"
+                android:text="@string/submission_positive_other_warning_body"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_headline" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
 
-            <TextView
-                android:id="@+id/submission_intro_text_enum"
-                style="@style/textMultiline"
+            <include
+                android:id="@+id/submission_positive_other_privacy"
+                layout="@layout/include_privacy_card"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:paddingBottom="@dimen/spacing_normal"
-                android:text="@string/submission_intro_enum"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_text" />
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text" />
 
             <include layout="@layout/merge_guidelines_side" />
+
+            <include layout="@layout/merge_guidelines_card" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
