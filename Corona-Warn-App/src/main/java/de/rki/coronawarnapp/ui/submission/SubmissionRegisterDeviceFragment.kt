@@ -12,16 +12,22 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
 class SubmissionRegisterDeviceFragment : BaseFragment() {
     private val viewModel: SubmissionViewModel by activityViewModels()
-    private lateinit var binding: FragmentSubmissionRegisterDeviceBinding
+    private var _binding: FragmentSubmissionRegisterDeviceBinding? = null
+    private val binding: FragmentSubmissionRegisterDeviceBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSubmissionRegisterDeviceBinding.inflate(inflater)
+        _binding = FragmentSubmissionRegisterDeviceBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

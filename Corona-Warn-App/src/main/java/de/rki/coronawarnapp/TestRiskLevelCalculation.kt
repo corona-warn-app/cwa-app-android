@@ -54,19 +54,25 @@ class TestRiskLevelCalculation : Fragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private lateinit var binding: FragmentTestRiskLevelCalculationBinding
+    private var _binding: FragmentTestRiskLevelCalculationBinding? = null
+    private val binding: FragmentTestRiskLevelCalculationBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
+        _binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
