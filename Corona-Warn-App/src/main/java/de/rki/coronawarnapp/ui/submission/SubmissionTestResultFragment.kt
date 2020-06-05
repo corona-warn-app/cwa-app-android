@@ -23,7 +23,8 @@ class SubmissionTestResultFragment : BaseFragment() {
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private lateinit var binding: FragmentSubmissionTestResultBinding
+    private var _binding: FragmentSubmissionTestResultBinding? = null
+    private val binding: FragmentSubmissionTestResultBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,11 +32,16 @@ class SubmissionTestResultFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionTestResultBinding.inflate(inflater)
+        _binding = FragmentSubmissionTestResultBinding.inflate(inflater)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

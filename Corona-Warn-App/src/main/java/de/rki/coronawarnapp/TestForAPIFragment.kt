@@ -102,7 +102,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
     // Data and View binding
-    private lateinit var binding: FragmentTestForAPIBinding
+    private var _binding: FragmentTestForAPIBinding? = null
+    private val binding: FragmentTestForAPIBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,7 +112,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     ): View? {
 
         // get the binding reference by inflating it with the current layout
-        binding = FragmentTestForAPIBinding.inflate(inflater)
+        _binding = FragmentTestForAPIBinding.inflate(inflater)
 
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
@@ -121,6 +122,11 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -14,7 +14,8 @@ import de.rki.coronawarnapp.ui.BaseFragment
 class SubmissionTanFragment : BaseFragment() {
 
     private val viewModel: SubmissionTanViewModel by activityViewModels()
-    private lateinit var binding: FragmentSubmissionTanBinding
+    private var _binding: FragmentSubmissionTanBinding? = null
+    private val binding: FragmentSubmissionTanBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,10 +23,15 @@ class SubmissionTanFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionTanBinding.inflate(inflater)
+        _binding = FragmentSubmissionTanBinding.inflate(inflater)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

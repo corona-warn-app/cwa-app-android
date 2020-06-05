@@ -18,7 +18,8 @@ class SubmissionSuccessDialogFragment : DialogFragment() {
         private val TAG: String? = SubmissionSuccessDialogFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentSubmissionDialogBinding
+    private var _binding: FragmentSubmissionDialogBinding? = null
+    private val binding: FragmentSubmissionDialogBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,10 +27,15 @@ class SubmissionSuccessDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionDialogBinding.inflate(inflater)
+        _binding = FragmentSubmissionDialogBinding.inflate(inflater)
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

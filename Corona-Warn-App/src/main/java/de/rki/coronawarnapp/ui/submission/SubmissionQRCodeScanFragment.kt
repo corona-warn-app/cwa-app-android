@@ -29,14 +29,15 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
     }
 
     private val viewModel: SubmissionViewModel by viewModels()
-    private lateinit var binding: FragmentSubmissionQrCodeScanBinding
+    private var _binding: FragmentSubmissionQrCodeScanBinding? = null
+    private val binding: FragmentSubmissionQrCodeScanBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
+        _binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -47,6 +48,11 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle { decodeCallback(it) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
