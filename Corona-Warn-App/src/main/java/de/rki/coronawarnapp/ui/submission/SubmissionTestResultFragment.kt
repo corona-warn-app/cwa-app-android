@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.observeEvent
 import retrofit2.HttpException
 
 /**
@@ -79,10 +79,8 @@ class SubmissionTestResultFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.uiStateError.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                DialogHelper.showDialog(buildErrorDialog(it))
-            }
+        submissionViewModel.uiStateError.observeEvent(viewLifecycleOwner, {
+            DialogHelper.showDialog(buildErrorDialog(it))
         })
     }
 
