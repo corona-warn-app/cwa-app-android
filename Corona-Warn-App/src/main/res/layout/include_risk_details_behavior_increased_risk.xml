@@ -68,7 +68,7 @@
 
             <TextView
                 android:id="@+id/risk_details_behavior_bullet_point_1"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/risk_details_behavior_increased_body_1"
@@ -78,7 +78,7 @@
 
             <TextView
                 android:id="@+id/risk_details_behavior_bullet_point_2"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/risk_details_behavior_bullet_point_3"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"

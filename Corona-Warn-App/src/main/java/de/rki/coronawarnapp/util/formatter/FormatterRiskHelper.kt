@@ -276,21 +276,6 @@ fun formatNextUpdate(
 }
 
 /**
- * Formats the risk details subtitle text display depending on risk level
- *
- * @param riskLevelScore
- * @return
- */
-fun formatRiskDetailsRiskLevelSubtitle(riskLevelScore: Int?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (riskLevelScore) {
-        RiskLevelConstants.LOW_LEVEL_RISK,
-        RiskLevelConstants.INCREASED_RISK -> appContext.getString(R.string.risk_details_subtitle_infection_risk_past)
-        else -> appContext.getString(R.string.risk_details_subtitle_infection_risk)
-    }
-}
-
-/**
  * Formats the risk details text display for each risk level
  *
  * @param riskLevelScore
