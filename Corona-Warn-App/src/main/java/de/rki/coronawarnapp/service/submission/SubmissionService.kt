@@ -111,6 +111,10 @@ object SubmissionService {
         LocalData.devicePairingSuccessfulTimestamp(0L)
     }
 
+    fun submissionSuccessful() {
+        LocalData.numberOfSuccessfulSubmissions(1)
+    }
+
     private fun deleteTeleTAN() {
         LocalData.teletan(null)
     }
