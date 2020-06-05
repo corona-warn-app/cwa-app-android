@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/risk_card_header_headline"
-            style="@style/headline4"
+            style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_normal"
