@@ -21,16 +21,23 @@ package de.rki.coronawarnapp.util.security
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.CoronaWarnApplication
 import java.security.KeyStore
 import java.security.MessageDigest
+import java.security.SecureRandom
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
 
 /**
  * Key Store and Password Access
  */
 object SecurityHelper {
+    private const val CWA_APP_SQLITE_DB_PW = "CWA_APP_SQLITE_DB_PW"
+    private const val AES_KEY_SIZE = 256
     private const val SHARED_PREF_NAME = "shared_preferences_cwa"
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
@@ -61,10 +68,30 @@ object SecurityHelper {
     /**
      * Retrieves the Master Key from the Android KeyStore to use in SQLCipher
      */
-    fun getDBPassword() = keyStore
-        .getKey(masterKeyAlias, null)
+    fun getDBPassword() = getOrGenerateDBSecretKey()
         .toString()
         .toCharArray()
+
+    private fun getOrGenerateDBSecretKey(): SecretKey =
+        keyStore.getKey(CWA_APP_SQLITE_DB_PW, null).run {
+            return if (this == null) {
+                val kg: KeyGenerator = KeyGenerator.getInstance(
+                    KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore
+                )
+                val spec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
+                    CWA_APP_SQLITE_DB_PW,
+                    KeyProperties.PURPOSE_ENCRYPT and KeyProperties.PURPOSE_DECRYPT
+                )
+                    .setKeySize(AES_KEY_SIZE)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                    .setRandomizedEncryptionRequired(true)
+                    .setUserAuthenticationRequired(false)
+                    .build()
+                kg.init(spec, SecureRandom())
+                kg.generateKey()
+            } else this as SecretKey
+        }
 
     fun hash256(input: String): String = MessageDigest
         .getInstance("SHA-256")
