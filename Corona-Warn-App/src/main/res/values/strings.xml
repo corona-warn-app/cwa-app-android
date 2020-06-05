@@ -540,9 +540,13 @@
     ###################################### -->
 
     <!-- Permission Rationale Dialog -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Zugriff benötigt</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_body">Für die Erfassung des QR-Codes wird der Zugriff auf die Kamera benötigt.</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
 
     <!-- QR Code Scan Successful Dialog -->
@@ -552,9 +556,13 @@
     <string name="submission_qr_code_scan_successful_dialog_button_negative">Abbrechen</string>
 
     <!-- QR Code Scan Invalid Dialog -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">Falscher QR Code</string>
-    <string name="submission_qr_code_scan_invalid_dialog_body">Es scheint, dass der falsche QR-Code gescannt wurde</string>
+    <!-- XHED: Dialog headline for invalid QR code  -->
+    <string name="submission_qr_code_scan_invalid_dialog_headline">QR-Code nicht korrekt</string>
+    <!-- YTXT: Dialog Body text for invalid QR code -->
+    <string name="submission_qr_code_scan_invalid_dialog_body">Der QR-Code ist nicht korrekt. Bitte versuchen Sie es erneut.</string>
+    <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">Erneut versuchen</string>
+    <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">Abbrechen</string>
 
     <!-- QR Code Scan Screen -->
@@ -562,7 +570,8 @@
     <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
 
     <!-- Register Device Screen -->
-    <string name="submission_register_device_headline">Gerät Registrieren</string>
+    <!-- XHED: Text headline for test registration loading  -->
+    <string name="submission_register_device_headline">Test registrieren</string>
     <string name="submission_register_device_body">@string/lorem_ipsum</string>
 
     <!-- Submission Test Result -->
