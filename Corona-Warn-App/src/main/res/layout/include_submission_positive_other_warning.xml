@@ -15,6 +15,7 @@
                 android:id="@+id/submission_positive_other_warning_hero_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/submission_positive_other_illustration_description"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_submission_illustration_other_warning"
                 app:layout_constraintEnd_toEndOf="parent"

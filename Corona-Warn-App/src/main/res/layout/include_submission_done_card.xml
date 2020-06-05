@@ -35,6 +35,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_tiny"
+            android:contentDescription="@string/submission_done_illustration_description"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_submission_illustration_thanks"
             app:layout_constraintEnd_toEndOf="parent"
