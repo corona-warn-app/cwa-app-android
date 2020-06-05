@@ -14,6 +14,10 @@
         <xliff:g id="preference">preference_onboarding_completed</xliff:g>
     </string>
     <!-- NOTR -->
+    <string name="preference_onboarding_completed_timestamp">
+        <xliff:g id="preference">preference_onboarding_completed_timestamp</xliff:g>
+    </string>
+    <!-- NOTR -->
     <string name="preference_reset_app">
         <xliff:g id="preference">preference_reset_app</xliff:g>
     </string>
@@ -75,6 +79,10 @@
     <!-- NOTR -->
     <string name="preference_risk_level_score">
         <xliff:g id="preference">preference_risk_level_score</xliff:g>
+    </string>
+    <!-- NOTR -->
+    <string name="preference_risk_level_score_successful">
+        <xliff:g id="preference">preference_risk_level_score_successful</xliff:g>
     </string>
     <!-- NOTR -->
     <string name="preference_test_guid">

@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Retrieve Local QR Code" />
+                android:text="Scan Local QR Code" />
 
             <Button
                 android:id="@+id/button_calculate_risk_level"
