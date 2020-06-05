@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
-        showDialogWithStacktraceIfPreviouslyCrashed()
         scheduleWork()
+        showDialogWithStacktraceIfPreviouslyCrashed()
     }
 
     /**
