@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -55,10 +56,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    init {
-        scheduleWork()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -66,12 +63,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Register network and bluetooth callback.
+     * Register network, bluetooth and data saver callback.
      */
     override fun onResume() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
+        Log.d(TAG, "Background work is available: ${!ConnectivityHelper.isDataSaverEnabled(this)}")
+        settingsViewModel.updateBackgroundJobEnabled(!ConnectivityHelper.isDataSaverEnabled(this))
+        scheduleWork()
         showDialogWithStacktraceIfPreviouslyCrashed()
     }
 

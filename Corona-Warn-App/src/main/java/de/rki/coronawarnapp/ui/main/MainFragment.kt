@@ -72,7 +72,6 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
         tracingViewModel.refreshIsTracingEnabled()
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
-        settingsViewModel.refreshBackgroundJobEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
     }

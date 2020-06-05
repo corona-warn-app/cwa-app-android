@@ -164,7 +164,7 @@
     <string name="risk_card_body_saved_days">%1$s von 14 Tagen aktiv</string>
     <string name="risk_card_body_not_yet_fetched">Kontakte wurden noch nicht überprüft.</string>
     <string name="risk_card_body_time_fetched">Aktualisiert: %1$s</string>
-    <string name="risk_card_body_next_update">Nächste Aktualisierung in: %1$s</string>
+    <string name="risk_card_body_next_update">Tägliche Aktualisierung</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">Aktualisieren</string>
     <string name="risk_card_button_cooldown">Aktualisierung in %1$s</string>
