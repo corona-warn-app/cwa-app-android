@@ -24,12 +24,12 @@
             layout="@layout/include_submission_status_card_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentVisible(submissionViewModel.deviceRegistered, submissionViewModel.testResultState)}"
+            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentVisible(submissionViewModel.deviceRegistered, submissionViewModel.uiStateState)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:testResult="@{submissionViewModel.testResult}" />
+            app:deviceUIState="@{submissionViewModel.deviceUiState}" />
 
         <include
             android:id="@+id/submission_status_card_unregistered"
@@ -47,7 +47,7 @@
             layout="@layout/include_submission_status_card_fetching"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardFetchingVisible(submissionViewModel.deviceRegistered, submissionViewModel.testResultState)}"
+            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardFetchingVisible(submissionViewModel.deviceRegistered, submissionViewModel.uiStateState)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

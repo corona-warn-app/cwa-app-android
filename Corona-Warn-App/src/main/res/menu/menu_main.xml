@@ -13,6 +13,9 @@
         android:id="@+id/menu_test_api"
         android:title="@string/menu_test_api" />
     <item
+        android:id="@+id/menu_test_risk_level"
+        android:title="@string/menu_test_risk_level" />
+    <item
         android:id="@+id/menu_notification_test"
         android:title="@string/menu_test_notification" />
 </menu>

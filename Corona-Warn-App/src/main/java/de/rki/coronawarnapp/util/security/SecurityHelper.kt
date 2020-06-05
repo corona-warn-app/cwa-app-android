@@ -25,6 +25,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.CoronaWarnApplication
 import java.security.KeyStore
+import java.security.MessageDigest
 
 /**
  * Key Store and Password Access
@@ -64,4 +65,9 @@ object SecurityHelper {
         .getKey(masterKeyAlias, null)
         .toString()
         .toCharArray()
+
+    fun hash256(input: String): String = MessageDigest
+        .getInstance("SHA-256")
+        .digest(input.toByteArray())
+        .fold("", { str, it -> str + "%02x".format(it) })
 }

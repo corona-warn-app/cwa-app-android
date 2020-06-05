@@ -46,7 +46,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/onboarding_placeholder" />
+                tools:src="@drawable/ic_onboarding_illustration_together" />
 
             <TextView
                 android:id="@+id/onboarding_headline"
@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/onboarding_subtitle"
-                style="@style/textMultilineEmphasized"
+                style="@style/textMultiline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
