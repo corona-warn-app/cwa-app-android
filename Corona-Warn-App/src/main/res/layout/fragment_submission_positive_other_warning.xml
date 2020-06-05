@@ -28,6 +28,7 @@
                     app:headline="@{@string/submission_positive_other_warning_headline}"
                     app:icon="@{@drawable/ic_back}"
                     app:illustration="@{@drawable/ic_submission_illustration_other_warning}"
+                    app:illustrationDescription="@{@string/submission_positive_other_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

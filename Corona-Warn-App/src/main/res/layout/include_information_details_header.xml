@@ -25,6 +25,10 @@
         <variable
             name="body"
             type="String" />
+
+        <variable
+            name="illustrationDescription"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,6 +54,7 @@
             app:body="@{body}"
             app:headline="@{headline}"
             app:illustration="@{illustration}"
+            app:illustrationDescription="@{illustrationDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/information_header" />
