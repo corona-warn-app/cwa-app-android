@@ -237,7 +237,7 @@
 
             <Button
                 android:id="@+id/risk_card_button_enable_tracing"
-                style="@style/buttonGrey"
+                style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -249,7 +249,7 @@
 
             <Button
                 android:id="@+id/risk_card_button_update"
-                style="@style/buttonStable"
+                style="@style/buttonLight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

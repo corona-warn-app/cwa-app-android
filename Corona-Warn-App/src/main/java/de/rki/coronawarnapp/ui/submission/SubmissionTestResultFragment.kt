@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import retrofit2.HttpException
 
 /**
  * A simple [BaseFragment] subclass.
@@ -39,6 +41,35 @@ class SubmissionTestResultFragment : BaseFragment() {
         return binding.root
     }
 
+    private fun navigateToMainScreen() =
+        doNavigate(SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment())
+
+    private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
+        return when (exception) {
+            is HttpException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.code()
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -47,6 +78,12 @@ class SubmissionTestResultFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        submissionViewModel.uiStateError.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                DialogHelper.showDialog(buildErrorDialog(it))
+            }
+        })
     }
 
     override fun onResume() {
