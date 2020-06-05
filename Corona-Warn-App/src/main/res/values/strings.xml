@@ -682,6 +682,9 @@
     <string name="submission_positive_dialog_confirmation_positive">Erlauben</string>
     <!-- XBUT: submission(positive other warning) - negative button (left) -->
     <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string>
+    <!-- XACT: other warning - illustration description, explanation image -->
+    <string name="submission_positive_other_illustration_description">Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System.</string>
+
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -698,6 +701,8 @@
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">Fertig</string>
+    <!-- XACT: submission finished - illustration description, explanation image -->
+    <string name="submission_done_illustration_description">Eine vielfältige Gruppe begrüßt durch Jubel, dass jemand sein Testergebnis mit anderen geteilt hat.</string>
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
