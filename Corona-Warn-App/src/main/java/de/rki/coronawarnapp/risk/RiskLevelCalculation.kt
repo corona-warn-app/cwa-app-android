@@ -28,12 +28,6 @@ object RiskLevelCalculation {
 
         val maximumRiskScore = exposureSummary.maximumRiskScore.toDouble()
 
-        val x1 = 0
-        val x2 = 0
-        val x3 = 0
-        val x4 = 0
-        val x5 = 0
-
         val defaultBucketOffset = attenuationParameters.defaultBucketOffset.toDouble()
         val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor.toDouble()
 
