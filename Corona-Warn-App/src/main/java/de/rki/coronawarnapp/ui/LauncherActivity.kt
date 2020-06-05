@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import de.rki.coronawarnapp.exception.handler.GlobalExceptionHandlerConstants
 import de.rki.coronawarnapp.http.DynamicURLs
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -57,32 +56,13 @@ class LauncherActivity : AppCompatActivity() {
 
     private fun startOnboardingActivity() {
         val onboardingActivity = Intent(this, OnboardingActivity::class.java)
-        mapIntentExtras(onboardingActivity)
         startActivity(onboardingActivity)
         finish()
     }
 
     private fun startMainActivity() {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
-        mapIntentExtras(mainActivityIntent)
         startActivity(mainActivityIntent)
         finish()
-    }
-
-    /**
-     * Maps the intentExtras for global exception handling to the next activity that is
-     * started
-     *
-     * @param intentForNextActivity
-     */
-    private fun mapIntentExtras(intentForNextActivity: Intent) {
-        intentForNextActivity.putExtra(
-            GlobalExceptionHandlerConstants.APP_CRASHED,
-            intent.getBooleanExtra(GlobalExceptionHandlerConstants.APP_CRASHED, false)
-        )
-        intentForNextActivity.putExtra(
-            GlobalExceptionHandlerConstants.STACK_TRACE,
-            intent.getStringExtra(GlobalExceptionHandlerConstants.STACK_TRACE)
-        )
     }
 }
