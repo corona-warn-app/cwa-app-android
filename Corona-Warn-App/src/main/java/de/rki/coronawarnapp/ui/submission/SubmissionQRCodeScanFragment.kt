@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -120,7 +119,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             }
         })
 
-        viewModel.registrationState.observe(viewLifecycleOwner, Observer {
+        viewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {
                 doNavigate(
                     SubmissionQRCodeScanFragmentDirections

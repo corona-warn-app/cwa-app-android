@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
@@ -122,7 +121,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
             DialogHelper.showDialog(buildErrorDialog(it))
         })
 
-        submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.submissionState.observeEvent(viewLifecycleOwner, {
             if (it == ApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections

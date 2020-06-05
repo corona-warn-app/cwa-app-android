@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.TestAlreadyPairedException
@@ -84,7 +83,7 @@ class SubmissionTanFragment : BaseFragment() {
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
 
-        submissionViewModel.registrationState.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {
                 doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()

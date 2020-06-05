@@ -17,24 +17,24 @@ import java.util.Date
 class SubmissionViewModel : ViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
-    private val _registrationState = MutableLiveData(ApiRequestState.IDLE)
+    private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))
     private val _registrationError = MutableLiveData<Event<Exception>>(null)
 
     private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
     private val _uiStateError = MutableLiveData<Event<Exception>>(null)
 
-    private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
+    private val _submissionState = MutableLiveData(Event(ApiRequestState.IDLE))
     private val _submissionError = MutableLiveData<Event<Exception>>(null)
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
-    val registrationState: LiveData<ApiRequestState> = _registrationState
+    val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<Exception>> = _registrationError
 
     val uiStateState: LiveData<ApiRequestState> = _uiStateState
     val uiStateError: LiveData<Event<Exception>> = _uiStateError
 
-    val submissionState: LiveData<ApiRequestState> = _submissionState
+    val submissionState: LiveData<Event<ApiRequestState>> = _submissionState
     val submissionError: LiveData<Event<Exception>> = _submissionError
 
     val deviceRegistered get() = LocalData.registrationToken() != null
@@ -45,14 +45,14 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     fun submitDiagnosisKeys() =
-        executeRequestWithState(
+        executeRequestWithStateForEvent(
             SubmissionService::asyncSubmitExposureKeys,
             _submissionState,
             _submissionError
         )
 
     fun doDeviceRegistration() =
-        executeRequestWithState(
+        executeRequestWithStateForEvent(
             SubmissionService::asyncRegisterDevice,
             _registrationState,
             _registrationError
@@ -99,6 +99,23 @@ class SubmissionViewModel : ViewModel() {
             } catch (err: Exception) {
                 exceptionLiveData?.value = Event(err)
                 state.value = ApiRequestState.FAILED
+            }
+        }
+    }
+
+    private fun executeRequestWithStateForEvent(
+        apiRequest: suspend () -> Unit,
+        state: MutableLiveData<Event<ApiRequestState>>,
+        exceptionLiveData: MutableLiveData<Event<Exception>>? = null
+    ) {
+        state.value = Event(ApiRequestState.STARTED)
+        viewModelScope.launch {
+            try {
+                apiRequest()
+                state.value = Event(ApiRequestState.SUCCESS)
+            } catch (err: Exception) {
+                exceptionLiveData?.value = Event(err)
+                state.value = Event(ApiRequestState.FAILED)
             }
         }
     }
