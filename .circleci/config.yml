@@ -40,6 +40,7 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+      - scan-sonar
 workflows:
   version: 2
   workflow:
