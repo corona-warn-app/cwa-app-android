@@ -3,11 +3,16 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.graphics.drawable.Drawable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 
 fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
@@ -15,24 +20,6 @@ fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
 
 fun formatTestResultVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState == ApiRequestState.SUCCESS)
-
-fun formatTestResultVirusNameTextVisible(uiState: DeviceUIState?): Int {
-    return when (uiState) {
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_NEGATIVE -> View.VISIBLE
-        else -> View.GONE
-    }
-}
-
-fun formatTestResultStatusTextVisible(uiState: DeviceUIState?): Int {
-    return when (uiState) {
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_NEGATIVE -> View.VISIBLE
-        else -> View.GONE
-    }
-}
 
 fun formatTestResultStatusText(uiState: DeviceUIState?): String {
     val appContext = CoronaWarnApplication.getAppContext()
@@ -54,9 +41,33 @@ fun formatTestResultStatusColor(uiState: DeviceUIState?): Int {
     }
 }
 
+fun formatTestResult(uiState: DeviceUIState?): Spannable {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return SpannableStringBuilder()
+        .append(appContext.getString(R.string.test_result_card_virus_name_text))
+        .append(" ")
+        .append(
+            formatTestResultStatusText(uiState),
+            ForegroundColorSpan(formatTestResultStatusColor(uiState)),
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+}
+
+fun formatTestResultCardContent(uiState: DeviceUIState?): Spannable {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (uiState) {
+        DeviceUIState.PAIRED_NO_RESULT -> SpannableString(appContext.getString(R.string.test_result_card_status_pending))
+        DeviceUIState.PAIRED_ERROR -> SpannableString(appContext.getString(R.string.test_result_card_status_invalid))
+
+        DeviceUIState.PAIRED_POSITIVE,
+        DeviceUIState.PAIRED_POSITIVE_TELETAN,
+        DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+        else -> SpannableString("")
+    }
+}
+
 fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
-    // TODO Replace with real drawables when design is finished
     return when (uiState) {
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
         DeviceUIState.PAIRED_POSITIVE_TELETAN,
@@ -67,15 +78,10 @@ fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
     }
 }
 
-fun formatTestResultInvalidStatusTextVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_ERROR)
-
-fun formatTestResultPendingStatusTextVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_NO_RESULT)
-
 fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    return appContext.getString(R.string.test_result_card_registered_at_text).format(registeredAt)
+    return appContext.getString(R.string.test_result_card_registered_at_text)
+        .format(registeredAt?.toUIFormat(appContext))
 }
 
 fun formatTestResultPendingStepsVisible(uiState: DeviceUIState?): Int =
