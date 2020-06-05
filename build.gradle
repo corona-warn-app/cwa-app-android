@@ -51,6 +51,10 @@ subprojects {
         ignoreFailures = false
         coloredOutput = false
     }
+
+    junitJacoco {
+        jacocoVersion = '0.8.5'
+    }
 }
 
 allprojects {
