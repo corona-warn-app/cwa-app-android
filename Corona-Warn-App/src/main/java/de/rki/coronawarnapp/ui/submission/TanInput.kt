@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission
 
 import android.content.Context
 import android.os.Handler
+import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
@@ -22,12 +23,23 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         private const val KEYBOARD_TRIGGER_DELAY = 100L
     }
 
+    private val whitespaceFilter =
+        InputFilter { source, _, _, _, _, _ -> source.filter { !it.isWhitespace() } }
+    private val alphaNumericFilter = InputFilter { source, _, _, _, _, _ ->
+        source.filter {
+            TanConstants.ALPHA_NUMERIC_CHARS.contains(it)
+        }
+    }
+    private val lengthFilter = InputFilter.LengthFilter(TanConstants.MAX_LENGTH)
+
     var listener: ((String?) -> Unit)? = null
 
     private var tan: String? = null
 
     init {
         inflate(context, R.layout.view_tan_input, this)
+
+        tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
 
         // register listener
         tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text) }

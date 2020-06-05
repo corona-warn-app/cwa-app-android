@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+        <variable
+            name="settingsViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/spacing_normal"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Preview (no interaction possible)" />
+
+            <include
+                android:id="@+id/test_risk_card"
+                layout="@layout/include_risk_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
+                app:settingsViewModel="@{settingsViewModel}"
+                app:showDetails="@{false}"
+                app:tracingViewModel="@{tracingViewModel}" />
+
+            <Button
+                android:id="@+id/button_retrieve_diagnosis_keys"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Retrieve Diagnosis Keys" />
+
+            <Button
+                android:id="@+id/button_provide_key_via_qr"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Retrieve Local QR Code" />
+
+            <Button
+                android:id="@+id/button_calculate_risk_level"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Calculate Risk Level" />
+
+            <TextView
+                android:id="@+id/label_exposure_summary_title"
+                style="@style/textSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Exposure Summary" />
+
+            <TextView
+                android:id="@+id/label_exposure_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/label_risk_score_title"
+                style="@style/textSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Risk Score" />
+
+            <TextView
+                android:id="@+id/label_risk_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/label_backend_parameters_title"
+                style="@style/textSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Backend Parameters" />
+
+            <TextView
+                android:id="@+id/label_backend_parameters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/label_formula_title"
+                style="@style/textSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Used Formula" />
+
+            <TextView
+                android:id="@+id/label_formula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/label_full_config_title"
+                style="@style/textSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Full Backend Configuration" />
+
+            <TextView
+                android:id="@+id/label_full_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:text="-" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

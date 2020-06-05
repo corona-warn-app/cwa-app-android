@@ -115,6 +115,19 @@ object TimeVariables {
      */
     fun getManualKeyRetrievalDelay() = MANUAL_KEY_RETRIEVAL_DELAY
 
+    /**
+     * This is the maximum attenuation duration value for the risk level calculation
+     * in minutes
+     */
+    private const val MAX_ATTENUATION_DURATION = 30.0
+
+    /**
+     * Getter function for [MAX_ATTENUATION_DURATION]
+     *
+     * @return max attenuation duration in minutes
+     */
+    fun getMaxAttenuationDuration() = MAX_ATTENUATION_DURATION
+
     /****************************************************
      * STORED DATA
      ****************************************************/
