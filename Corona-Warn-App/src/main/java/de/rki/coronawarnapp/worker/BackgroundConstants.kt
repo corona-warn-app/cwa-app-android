@@ -38,7 +38,7 @@ object BackgroundConstants {
      * Total tries count for diagnosis key retrieval per day
      * Internal requirement
      */
-    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 12
+    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 1
 
     /**
      * Maximum tries count for diagnosis key retrieval per day

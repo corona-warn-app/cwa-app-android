@@ -209,7 +209,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled(), tracingViewModel.nextUpdate))}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled()))}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_time_fetched">
@@ -227,7 +227,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled(), tracingViewModel.nextUpdate)}"
+                    android:text="@{FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled())}"
                     android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

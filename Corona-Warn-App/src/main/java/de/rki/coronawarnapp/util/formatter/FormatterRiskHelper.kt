@@ -255,8 +255,7 @@ fun formatTimeFetched(
  */
 fun formatNextUpdate(
     riskLevelScore: Int?,
-    isBackgroundJobEnabled: Boolean?,
-    nextUpdate: Date
+    isBackgroundJobEnabled: Boolean?
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (isBackgroundJobEnabled != true) {
@@ -266,9 +265,7 @@ fun formatNextUpdate(
             RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> appContext.getString(
-                R.string.risk_card_body_next_update,
-                DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
-                    .format(nextUpdate)
+                R.string.risk_card_body_next_update
             )
             else -> ""
         }
