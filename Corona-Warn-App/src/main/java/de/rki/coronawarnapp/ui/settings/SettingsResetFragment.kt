@@ -30,15 +30,21 @@ class SettingsResetFragment : BaseFragment() {
         private val TAG: String? = SettingsResetFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentSettingsResetBinding
+    private var _binding: FragmentSettingsResetBinding? = null
+    private val binding: FragmentSettingsResetBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsResetBinding.inflate(inflater)
+        _binding = FragmentSettingsResetBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

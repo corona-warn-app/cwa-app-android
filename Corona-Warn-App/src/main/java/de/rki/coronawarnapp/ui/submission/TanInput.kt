@@ -16,6 +16,9 @@ import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_4
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_5
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_6
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_7
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_8
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_9
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_10
 
 class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -71,7 +74,10 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         tan_input_textview_4,
         tan_input_textview_5,
         tan_input_textview_6,
-        tan_input_textview_7
+        tan_input_textview_7,
+        tan_input_textview_8,
+        tan_input_textview_9,
+        tan_input_textview_10
     ).forEachIndexed { i, tanDigit ->
         tanDigit.text = digitAtIndex(i)
     }

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="@dimen/radius_button" />
-            <solid android:color="@color/colorLight" />
-        </shape>
-    </item>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:tint="?attr/backgroundTint">
+    <corners android:radius="@dimen/radius_button" />
+    <solid android:color="@color/colorSurface1" />
+</shape>
