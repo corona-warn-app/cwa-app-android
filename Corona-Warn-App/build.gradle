@@ -136,7 +136,7 @@ android {
 
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDeviceReleaseUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDeviceReleaseUnitTest', 'createDeviceReleaseCoverageReport']) {
     reports {
         xml.enabled = true
         html.enabled = true
