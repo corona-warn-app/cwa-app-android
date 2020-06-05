@@ -162,6 +162,7 @@
                     layout="@layout/include_submission_done"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:illustrationDescription="@{@string/submission_done_illustration_description}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
