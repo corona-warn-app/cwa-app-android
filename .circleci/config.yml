@@ -26,7 +26,7 @@ jobs:
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - run:
           name: JaCoCo report
-          command: ./gradlew :Corona-Warn-App:jacocoTestReport
+          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
