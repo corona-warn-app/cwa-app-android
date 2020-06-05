@@ -75,16 +75,15 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionPositiveOtherWarningButton.setOnClickListener {
+        binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
             initiateWarningOthers()
         }
-        binding.submissionPositiveOtherWarningHeader
-            .informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
-                )
-            }
+        binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            doNavigate(
+                SubmissionResultPositiveOtherWarningFragmentDirections
+                    .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
+            )
+        }
     }
 
     private fun initiateWarningOthers() {

@@ -47,10 +47,10 @@ fun formatTestResultStatusText(uiState: DeviceUIState?): String {
 fun formatTestResultStatusColor(uiState: DeviceUIState?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorGreen)
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorTextSemanticGreen)
         DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorRed)
-        else -> appContext.getColor(R.color.colorRed)
+        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorTextSemanticRed)
+        else -> appContext.getColor(R.color.colorTextSemanticRed)
     }
 }
 
