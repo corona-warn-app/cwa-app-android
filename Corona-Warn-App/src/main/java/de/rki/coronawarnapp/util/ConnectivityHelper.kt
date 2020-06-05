@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.os.Build
 import android.util.Log
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.report
@@ -118,6 +119,23 @@ object ConnectivityHelper {
                 null
             )
         }
+    }
+
+    /**
+     * For API level 24+ check if data saver is enabled
+     * Else always return false
+     *
+     * @param context the context
+     *
+     * @return Boolean
+     *
+     * @see ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
+     */
+    fun isDataSaverEnabled(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager.restrictBackgroundStatus != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
+        } else false
     }
 
     /**

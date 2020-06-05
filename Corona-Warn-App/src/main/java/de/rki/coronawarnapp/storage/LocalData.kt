@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import java.util.Date
 
@@ -45,6 +46,33 @@ object LocalData {
         )
     }
 
+    /**
+     * Gets the time when the user has completed the onboarding
+     * from the EncryptedSharedPrefs
+     *
+     * @return
+     */
+    fun onboardingCompletedTimestamp(): Long? {
+        val timestamp = getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_onboarding_completed_timestamp), 0L
+        )
+
+        if (timestamp == 0L) return null
+        return timestamp
+    }
+
+    /**
+     * Sets the time when the user has completed the onboarding
+     * from the EncryptedSharedPrefs
+     * @param value
+     */
+    fun onboardingCompletedTimestamp(value: Long) = getSharedPreferenceInstance().edit(true) {
+        putLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_onboarding_completed_timestamp), value
+        )
+    }
     /****************************************************
      * TRACING DATA
      ****************************************************/
@@ -145,6 +173,78 @@ object LocalData {
             )
         }
     }
+
+    /****************************************************
+     * RISK LEVEL
+     ****************************************************/
+
+    /**
+     * Gets the last calculated risk level
+     * from the EncryptedSharedPrefs
+     *
+     * @see RiskLevelRepository
+     *
+     * @return
+     */
+    fun lastCalculatedRiskLevel(): RiskLevel {
+        val rawRiskLevel = getSharedPreferenceInstance().getInt(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_risk_level_score),
+            RiskLevel.UNDETERMINED.raw
+        )
+        return RiskLevel.forValue(rawRiskLevel)
+    }
+
+    /**
+     * Sets the last calculated risk level
+     * from the EncryptedSharedPrefs
+     *
+     * @see RiskLevelRepository
+     *
+     * @param rawRiskLevel
+     */
+    fun lastCalculatedRiskLevel(rawRiskLevel: Int) =
+        getSharedPreferenceInstance().edit(true) {
+            putInt(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_risk_level_score),
+                rawRiskLevel
+            )
+        }
+
+    /**
+     * Gets the last successfully calculated risk level
+     * from the EncryptedSharedPrefs
+     *
+     * @see RiskLevelRepository
+     *
+     * @return
+     */
+    fun lastSuccessfullyCalculatedRiskLevel(): RiskLevel {
+        val rawRiskLevel = getSharedPreferenceInstance().getInt(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_risk_level_score_successful),
+            RiskLevel.UNDETERMINED.raw
+        )
+        return RiskLevel.forValue(rawRiskLevel)
+    }
+
+    /**
+     * Sets the last calculated risk level
+     * from the EncryptedSharedPrefs
+     *
+     * @see RiskLevelRepository
+     *
+     * @param rawRiskLevel
+     */
+    fun lastSuccessfullyCalculatedRiskLevel(rawRiskLevel: Int) =
+        getSharedPreferenceInstance().edit(true) {
+            putInt(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_risk_level_score_successful),
+                rawRiskLevel
+            )
+        }
 
     /****************************************************
      * SERVER FETCH DATA
@@ -469,18 +569,20 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
+    fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext().getString(R.string.preference_last_three_hours_from_server),
+            value
+        )
+    }
+
+    fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext().getString(R.string.preference_last_three_hours_from_server), false
+    )
+
     /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
     fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
-
-    fun getBackgroundWorkRelatedPreferences() = listOf(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_job_allowed),
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed)
-    )
-
-    fun getLastFetchDatePreference() =
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_timestamp_diagnosis_keys_fetch)
 }

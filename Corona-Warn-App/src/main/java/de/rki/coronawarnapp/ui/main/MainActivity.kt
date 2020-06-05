@@ -1,15 +1,14 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.exception.ErrorReportReceiver
+import de.rki.coronawarnapp.ui.showDialogWithStacktraceIfPreviouslyCrashed
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -31,8 +30,6 @@ class MainActivity : AppCompatActivity() {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     private lateinit var settingsViewModel: SettingsViewModel
-
-    private val errorReceiver = ErrorReportReceiver(this)
 
     /**
      * Register connection callback.
@@ -59,10 +56,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    init {
-        scheduleWork()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -70,13 +63,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Register network and bluetooth callback.
+     * Register network, bluetooth and data saver callback.
      */
     override fun onResume() {
         super.onResume()
-        LocalBroadcastManager.getInstance(this).registerReceiver(errorReceiver, IntentFilter("error-report"))
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
+        Log.d(TAG, "Background work is available: ${!ConnectivityHelper.isDataSaverEnabled(this)}")
+        settingsViewModel.updateBackgroundJobEnabled(!ConnectivityHelper.isDataSaverEnabled(this))
+        scheduleWork()
+        showDialogWithStacktraceIfPreviouslyCrashed()
     }
 
     /**
@@ -86,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         ConnectivityHelper.unregisterNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.unregisterBluetoothStatusCallback(this, callbackBluetooth)
-        // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(errorReceiver)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

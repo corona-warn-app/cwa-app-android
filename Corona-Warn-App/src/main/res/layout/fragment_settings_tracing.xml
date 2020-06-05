@@ -55,6 +55,7 @@
                     android:layout_height="wrap_content"
                     app:headline="@{@string/settings_tracing_headline}"
                     app:illustration="@{FormatterSettingsHelper.formatTracingStatusImage(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:illustrationDescription="@{FormatterSettingsHelper.formatTracingIllustrationText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

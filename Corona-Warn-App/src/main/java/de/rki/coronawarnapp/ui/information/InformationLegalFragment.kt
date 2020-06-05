@@ -16,18 +16,25 @@ class InformationLegalFragment : BaseFragment() {
         private val TAG: String? = InformationLegalFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentInformationLegalBinding
+    private var _binding: FragmentInformationLegalBinding? = null
+    private val binding: FragmentInformationLegalBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInformationLegalBinding.inflate(inflater)
+        _binding = FragmentInformationLegalBinding.inflate(inflater)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 
