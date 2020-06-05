@@ -110,7 +110,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.scanStatus.observeEvent(viewLifecycleOwner, {
             if (ScanStatus.SUCCESS == it) {
                 showSuccessfulScanDialog()
             }

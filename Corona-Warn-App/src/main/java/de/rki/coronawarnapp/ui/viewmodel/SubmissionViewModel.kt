@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
-    private val _scanStatus = MutableLiveData(ScanStatus.STARTED)
+    private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
     private val _registrationState = MutableLiveData(ApiRequestState.IDLE)
     private val _registrationError = MutableLiveData<Event<Exception>>(null)
@@ -28,7 +28,7 @@ class SubmissionViewModel : ViewModel() {
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<Exception>>(null)
 
-    val scanStatus: LiveData<ScanStatus> = _scanStatus
+    val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
     val registrationState: LiveData<ApiRequestState> = _registrationState
     val registrationError: LiveData<Event<Exception>> = _registrationError
@@ -71,9 +71,9 @@ class SubmissionViewModel : ViewModel() {
         if (SubmissionService.containsValidGUID(scanResult)) {
             val guid = SubmissionService.extractGUID(scanResult)
             SubmissionService.storeTestGUID(guid)
-            _scanStatus.value = ScanStatus.SUCCESS
+            _scanStatus.value = Event(ScanStatus.SUCCESS)
         } else {
-            _scanStatus.value = ScanStatus.INVALID
+            _scanStatus.value = Event(ScanStatus.INVALID)
         }
     }
 
