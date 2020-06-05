@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.fragment.app.Fragment
@@ -32,6 +33,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -62,6 +64,7 @@ import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_sum
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_googlePlayServices_version
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_my_keys
+import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_my_keys
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
@@ -101,7 +104,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
     // Data and View binding
-    private lateinit var binding: FragmentTestForAPIBinding
+    private var _binding: FragmentTestForAPIBinding? = null
+    private val binding: FragmentTestForAPIBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,7 +114,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     ): View? {
 
         // get the binding reference by inflating it with the current layout
-        binding = FragmentTestForAPIBinding.inflate(inflater)
+        _binding = FragmentTestForAPIBinding.inflate(inflater)
 
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
@@ -120,6 +124,11 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -147,6 +156,14 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             tracingViewModel.viewModelScope.launch {
                 ExposureSharingService.shareKeysAsBitmap(300, 300, updateQRImageView)
             }
+        }
+
+        val last3HoursSwitch = test_api_switch_last_three_hours_from_server as Switch
+        last3HoursSwitch.isChecked = LocalData.last3HoursMode()
+        last3HoursSwitch.setOnClickListener {
+            val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
+            showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
+            LocalData.last3HoursMode(isLast3HoursModeEnabled)
         }
 
         button_api_get_check_exposure.setOnClickListener {
@@ -348,7 +365,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                         googleFileList,
-                        getCustomConfig(),
+                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")

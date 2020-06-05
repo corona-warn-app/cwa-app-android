@@ -11,8 +11,8 @@ jobs:
     steps:
       - checkout
       - install-ndk:
-          ndk-sha: "50250fcba479de477b45801e2699cca47f7e1267"
-          ndk-version: "android-ndk-r21b"
+          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
+          ndk-version: "android-ndk-r21c"
       - restore-build-cache
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}

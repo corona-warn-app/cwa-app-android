@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO: Add variables when colors are final to reduce maintenance -->
+    <!-- Brand Colors -->
+    <color name="colorBrandPrimary">#BD1200</color>
+    <color name="colorBrandSecondary">#80CDEC</color>
+    <color name="colorBrandTertiary">#59112B</color>
 
-    <!--    TODO: green, blue, etc. should be exchanged by meaningful colors when they are final -->
-    <!-- Status Colors -->
-    <color name="colorGreen">#2E854B</color>
-    <color name="colorRed">#C00F2D</color>
+    <!-- Backgrounds and Separators -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface1">#FFFFFF</color>
+    <color name="colorSurface2">#F5F5F5</color>
+    <color name="colorHairline">#3317191A</color>
+
+    <!-- Text -->
+    <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorTextPrimary2">#9917191A</color>
+    <color name="colorTextPrimary3">#4D17191A</color>
+    <color name="colorTextEmphasizedButton">#FFFFFF</color>
+    <color name="colorTextSemanticRed">#C00F2D</color>
+    <color name="colorTextSemanticGreen">#2E854B</color>
+    <color name="colorTextSemanticNeutral">#5D6E80</color>
+    <color name="colorTextTint">#007FAD</color>
+
+    <!-- Accent -->
+    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccentTintIcon">#007FAD</color>
+
+    <!-- Semantic -->
+    <color name="colorSemanticHighRisk">#C00F2D</color>
+    <color name="colorSemanticLowRisk">#2E854B</color>
+    <color name="colorSemanticNeutralRisk">#5D6E80</color>
+
+    <!-- TODO: Add variables when colors are final to reduce maintenance -->
 
     <!-- App Color -->
     <color name="appTheme">#ffffff</color>
@@ -17,9 +42,9 @@
     <color name="colorTransparent">#00FFFFFF</color>
 
     <!-- Risk Card Colors -->
-    <color name="colorRiskCardIncreasedRisk">#C00F2D</color>
+    <color name="colorRiskCardIncreasedRisk">@color/colorSemanticHighRisk</color>
     <color name="colorRiskCardIncreasedRiskPressed">#A30C26</color>
-    <color name="colorRiskCardLowRisk">#2E854B</color>
+    <color name="colorRiskCardLowRisk">@color/colorSemanticLowRisk</color>
     <color name="colorRiskCardLowRiskPressed">#27713F</color>
     <color name="colorRiskCardNoCalculationPossible">@color/colorLight</color>
     <color name="colorRiskCardNoCalculationPossiblePressed">@color/colorGreyLight</color>
@@ -48,7 +73,6 @@
     <color name="textColorPrimary">#000000</color>
     <color name="textColorSecondary">#333333</color>
     <color name="textColorLight">#ffffff</color>
-    <color name="textColorRed">#C00F2D</color>
     <color name="textColorBlue">#2C79A9</color>
     <color name="textColorGrey">#747576</color>
 
@@ -61,8 +85,6 @@
     <color name="stableHighlightColor">#C3C3C3</color>
     <color name="stableTextColor">#000000</color>
     <color name="stableIconColor">#ffffff</color>
-    <color name="stableButtonColorGrey">#C3C3C3</color>
-    <color name="stableButtonColorGreyHighlight">#AEAEAE</color>
     <color name="stableLightTransparent">#33FFFFFF</color>
 
     <!-- Tracing Icon -->

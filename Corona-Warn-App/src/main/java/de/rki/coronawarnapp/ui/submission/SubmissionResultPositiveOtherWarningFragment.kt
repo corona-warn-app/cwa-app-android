@@ -25,7 +25,8 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private lateinit var binding: FragmentSubmissionPositiveOtherWarningBinding
+    private var _binding: FragmentSubmissionPositiveOtherWarningBinding? = null
+    private val binding: FragmentSubmissionPositiveOtherWarningBinding get() = _binding!!
     private var submissionRequested = false
     private var submissionFailed = false
     private lateinit var internalExposureNotificationPermissionHelper:
@@ -55,9 +56,14 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     ): View? {
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
+        _binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,16 +81,15 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionPositiveOtherWarningButton.setOnClickListener {
+        binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
             initiateWarningOthers()
         }
-        binding.submissionPositiveOtherWarningHeader
-            .informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
-                )
-            }
+        binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            doNavigate(
+                SubmissionResultPositiveOtherWarningFragmentDirections
+                    .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
+            )
+        }
     }
 
     private fun initiateWarningOthers() {

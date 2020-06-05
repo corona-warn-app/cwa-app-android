@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/submission_status_card_content_title"
-            style="@style/textTitle"
+            style="@style/textTitleLarger"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentTitleText(deviceUIState)}"

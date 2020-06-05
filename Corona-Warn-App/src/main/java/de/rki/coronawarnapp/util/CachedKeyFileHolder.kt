@@ -23,10 +23,10 @@ import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.DAY
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.HOUR
 import de.rki.coronawarnapp.util.CachedKeyFileHolder.asyncFetchFiles
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import kotlinx.coroutines.Deferred
@@ -35,7 +35,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.ArrayList
+import java.lang.IllegalStateException
 import java.util.Date
 import java.util.UUID
 
@@ -66,40 +66,48 @@ object CachedKeyFileHolder {
      * @return list of all files from both the cache and the diff query
      */
     suspend fun asyncFetchFiles(currentDate: Date): List<File> = withContext(Dispatchers.IO) {
-        keyCache.deleteOutdatedEntries()
-        // queries will be executed after the "query plan" was set
-        val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
         val serverDates = getDatesFromServer()
-        val missingDays = getMissingDaysFromDiff(serverDates)
-        if (missingDays.isNotEmpty()) {
-            // we have a date difference
-            deferredQueries.addAll(
-                missingDays
-                    .map { getURLForDay(it) }
-                    .map { url -> async { url.createDayEntryForUrl() } }
-            )
-            // if we have a date difference we need to refetch the current hours
-            keyCache.clearHours()
-        }
-        val currentDateServerFormat = currentDate.toServerFormat()
-        // just fetch the hours if the date is available
-        if (serverDates.contains(currentDateServerFormat)) {
-            // we have an hour difference
-            deferredQueries.addAll(
-                getMissingHoursFromDiff(currentDate)
+        // TODO remove last3HourFetch before Release
+        if (isLast3HourFetchEnabled()) {
+            Log.v(TAG, "Last 3 Hours will be Fetched. Only use for Debugging!")
+            val currentDateServerFormat = currentDate.toServerFormat()
+            // just fetch the hours if the date is available
+            if (serverDates.contains(currentDateServerFormat)) {
+                return@withContext getLast3Hours(currentDate)
                     .map { getURLForHour(currentDate.toServerFormat(), it) }
-                    .map { url -> async { url.createHourEntryForUrl() } }
-            )
+                    .map { url -> async {
+                        return@async WebRequestBuilder.asyncGetKeyFilesFromServer(url)
+                    } }.awaitAll()
+            } else {
+                throw IllegalStateException(
+                    "you cannot use the last 3 hour mode if the date index " +
+                            "does not contain any data for today"
+                )
+            }
+        } else {
+            // queries will be executed after the "query plan" was set
+            val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
+            keyCache.deleteOutdatedEntries()
+            val missingDays = getMissingDaysFromDiff(serverDates)
+            if (missingDays.isNotEmpty()) {
+                // we have a date difference
+                deferredQueries.addAll(
+                    missingDays
+                        .map { getURLForDay(it) }
+                        .map { url -> async { url.createDayEntryForUrl() } }
+                )
+            }
+            // execute the query plan
+            try {
+                deferredQueries.awaitAll()
+            } catch (e: Exception) {
+                // For an error we clear the cache to try again
+                keyCache.clear()
+                throw e
+            }
+            keyCache.getFilesFromEntries()
+                .also { it.forEach { file -> Log.v(TAG, "cached file:${file.path}") } }
         }
-        // execute the query plan
-        try {
-            deferredQueries.awaitAll()
-        } catch (e: Exception) {
-            // For an error we clear the cache to try again
-            keyCache.clear()
-        }
-        keyCache.getFilesFromEntries()
-            .also { it.forEach { file -> Log.v(TAG, "cached file:${file.path}") } }
     }
 
     /**
@@ -115,16 +123,18 @@ object CachedKeyFileHolder {
     }
 
     /**
-     * Calculates the missing hours based on current missing entries in the cache
+     * TODO remove before Release
      */
-    private suspend fun getMissingHoursFromDiff(day: Date): List<String> {
-        val cacheEntries = keyCache.getHours()
-        return getHoursFromServer(day)
-            .also { Log.v(TAG, "${it.size} hours from server") }
-            .filter { it.hourEntryCacheMiss(cacheEntries, day) }
-            .toList()
-            .also { Log.d(TAG, "${it.size} missing hours") }
-    }
+    private const val LATEST_HOURS_NEEDED = 3
+    /**
+     * Calculates the last 3 hours
+     * TODO remove before Release
+     */
+    private suspend fun getLast3Hours(day: Date): List<String> = getHoursFromServer(day)
+        .also { Log.v(TAG, "${it.size} hours from server, but only latest 3 hours needed") }
+        .filter { TimeAndDateExtensions.getCurrentHourUTC() - LATEST_HOURS_NEEDED <= it.toInt() }
+        .toList()
+        .also { Log.d(TAG, "${it.size} missing hours") }
 
     /**
      * Determines whether a given String has an existing date cache entry under a unique name
@@ -137,16 +147,6 @@ object CachedKeyFileHolder {
         .contains(getURLForDay(this).generateCacheKeyFromString())
 
     /**
-     * Determines whether a given String has an existing hour cache entry under a unique name
-     * given from the URL that is based on this String
-     *
-     * @param cache the given cache entries
-     */
-    private fun String.hourEntryCacheMiss(cache: List<KeyCacheEntity>, day: Date) = !cache
-        .map { hour -> hour.id }
-        .contains(getURLForHour(day.toServerFormat(), this).generateCacheKeyFromString())
-
-    /**
      * Creates a date entry in the Key Cache for a given String with a unique Key Name derived from the URL
      * and the URI of the downloaded File for that given key
      */
@@ -154,16 +154,6 @@ object CachedKeyFileHolder {
         this.generateCacheKeyFromString(),
         WebRequestBuilder.asyncGetKeyFilesFromServer(this).toURI(),
         DAY
-    )
-
-    /**
-     * Creates an hour entry in the Key Cache for a given String with a unique Key Name derived from the URL
-     * and the URI of the downloaded File for that given key
-     */
-    private suspend fun String.createHourEntryForUrl() = keyCache.createEntry(
-        this.generateCacheKeyFromString(),
-        WebRequestBuilder.asyncGetKeyFilesFromServer(this).toURI(),
-        HOUR
     )
 
     /**
@@ -193,27 +183,16 @@ object CachedKeyFileHolder {
      * Get all dates from server based as formatted dates
      */
     private suspend fun getDatesFromServer() =
-        WebRequestBuilder.asyncGetArrayListFromGenericRequest(
-            DiagnosisKeyConstants.AVAILABLE_DATES_URL
-        ) {
-            val result = ArrayList<String>()
-            for (i in 0 until it.length()) {
-                result.add(it.get(i).toString())
-            }
-            result
-        }
+        WebRequestBuilder.asyncGetDateIndex()
 
     /**
      * Get all hours from server based as formatted dates
      */
     private suspend fun getHoursFromServer(day: Date) =
-        WebRequestBuilder.asyncGetArrayListFromGenericRequest(
-            "${DiagnosisKeyConstants.AVAILABLE_DATES_URL}/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
-        ) {
-            val result = ArrayList<String>()
-            for (i in 0 until it.length()) {
-                result.add(it.get(i).toString())
-            }
-            result
-        }
+        WebRequestBuilder.asyncGetHourIndex(day)
+
+    /**
+     * TODO remove before release
+     */
+    private fun isLast3HourFetchEnabled(): Boolean = LocalData.last3HoursMode()
 }

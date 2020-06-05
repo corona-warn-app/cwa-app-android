@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission
 
 import android.content.Context
 import android.os.Handler
+import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
@@ -15,6 +16,9 @@ import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_4
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_5
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_6
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_7
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_8
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_9
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_10
 
 class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -22,12 +26,23 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         private const val KEYBOARD_TRIGGER_DELAY = 100L
     }
 
+    private val whitespaceFilter =
+        InputFilter { source, _, _, _, _, _ -> source.filter { !it.isWhitespace() } }
+    private val alphaNumericFilter = InputFilter { source, _, _, _, _, _ ->
+        source.filter {
+            TanConstants.ALPHA_NUMERIC_CHARS.contains(it)
+        }
+    }
+    private val lengthFilter = InputFilter.LengthFilter(TanConstants.MAX_LENGTH)
+
     var listener: ((String?) -> Unit)? = null
 
     private var tan: String? = null
 
     init {
         inflate(context, R.layout.view_tan_input, this)
+
+        tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
 
         // register listener
         tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text) }
@@ -59,7 +74,10 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         tan_input_textview_4,
         tan_input_textview_5,
         tan_input_textview_6,
-        tan_input_textview_7
+        tan_input_textview_7,
+        tan_input_textview_8,
+        tan_input_textview_9,
+        tan_input_textview_10
     ).forEachIndexed { i, tanDigit ->
         tanDigit.text = digitAtIndex(i)
     }

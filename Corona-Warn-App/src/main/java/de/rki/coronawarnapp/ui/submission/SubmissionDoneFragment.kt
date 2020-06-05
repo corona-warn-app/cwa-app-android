@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.ui.BaseFragment
  */
 class SubmissionDoneFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentSubmissionDoneBinding
+    private var _binding: FragmentSubmissionDoneBinding? = null
+    private val binding: FragmentSubmissionDoneBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,8 +21,13 @@ class SubmissionDoneFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionDoneBinding.inflate(inflater)
+        _binding = FragmentSubmissionDoneBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,12 +36,7 @@ class SubmissionDoneFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding
-            .submissionDoneInclude
-            .submissionDoneHeader
-            .informationHeader
-            .headerButtonBack.buttonIcon
-            .setOnClickListener {
+        binding.submissionDoneHeader.headerButtonBack.buttonIcon.setOnClickListener {
             doNavigate(
                 SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
             )

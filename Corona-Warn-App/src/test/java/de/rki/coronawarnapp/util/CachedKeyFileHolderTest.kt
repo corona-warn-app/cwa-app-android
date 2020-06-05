@@ -50,6 +50,7 @@ class CachedKeyFileHolderTest {
 
         coEvery { keyCacheRepository.getDates() } returns listOf()
         coEvery { keyCacheRepository.getFilesFromEntries() } returns listOf()
+        every { CachedKeyFileHolder["isLast3HourFetchEnabled"]() } returns false
         every { CachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
 
         runBlocking {
@@ -58,8 +59,8 @@ class CachedKeyFileHolderTest {
 
             coVerifyOrder {
                 CachedKeyFileHolder.asyncFetchFiles(date)
-                keyCacheRepository.deleteOutdatedEntries()
                 CachedKeyFileHolder["getDatesFromServer"]()
+                keyCacheRepository.deleteOutdatedEntries()
                 CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
                 keyCacheRepository.getDates()
                 keyCacheRepository.getFilesFromEntries()

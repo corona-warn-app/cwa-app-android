@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.ui.BaseFragment
  */
 class SubmissionIntroFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentSubmissionIntroBinding
+    private var _binding: FragmentSubmissionIntroBinding? = null
+    private val binding: FragmentSubmissionIntroBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,8 +21,13 @@ class SubmissionIntroFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionIntroBinding.inflate(inflater)
+        _binding = FragmentSubmissionIntroBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

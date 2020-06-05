@@ -47,10 +47,10 @@ fun formatTestResultStatusText(uiState: DeviceUIState?): String {
 fun formatTestResultStatusColor(uiState: DeviceUIState?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorGreen)
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorTextSemanticGreen)
         DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorRed)
-        else -> appContext.getColor(R.color.colorRed)
+        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorTextSemanticRed)
+        else -> appContext.getColor(R.color.colorTextSemanticRed)
     }
 }
 
@@ -161,18 +161,6 @@ fun formatSubmissionStatusCardContentVisible(
     deviceRegistered: Boolean?,
     uiStateState: ApiRequestState?
 ): Int = formatVisibility(deviceRegistered == true && uiStateState == ApiRequestState.SUCCESS)
-
-fun formatSubmissionTanButtonTint(isValidTanFormat: Boolean) = formatColor(
-    isValidTanFormat,
-    R.color.button_primary,
-    R.color.colorGreyLight
-)
-
-fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
-    isValidTanFormat,
-    R.color.textColorLight,
-    R.color.colorGreyDisabled
-)
 
 fun formatShowSubmissionStatusCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(

@@ -26,6 +26,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <Switch
+                android:id="@+id/test_api_switch_last_three_hours_from_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/switchBase"
+                android:text="@string/test_api_switch_last_three_hours_from_server" />
+
             <TextView
                 android:id="@+id/label_exposure_summary"
                 style="@style/textTitle"

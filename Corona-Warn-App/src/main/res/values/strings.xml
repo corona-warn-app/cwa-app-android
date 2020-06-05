@@ -108,6 +108,10 @@
     <string name="preference_teletan">
         <xliff:g id="preference">preference_teletan</xliff:g>
     </string>
+    <!-- NOTR -->
+    <string name="preference_last_three_hours_from_server">
+        <xliff:g id="preference">preference_last_three_hours_from_server</xliff:g>
+    </string>
 
     <!-- ####################################
                      Menu
@@ -209,7 +213,8 @@
     <string name="main_share_button">Download-Link versenden</string>
     <!-- YMSG: Message when sharing is executed -->
     <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.coronawarn.app/</xliff:g><xliff:g id="line_break">\n</xliff:g></string>
-
+    <!-- XACT: main (share) - illustraction description, explanation image -->
+    <string name="main_share_illustration_description">Ein Mann teilt die Corona-Warn-App mit vier anderen Personen.</string>
 
     <!-- ####################################
                 Main - Overview
@@ -259,6 +264,8 @@
    <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
     <!-- YTXT: App overview body for glossary keys -->
    <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image -->
+    <string name="main_overview_illustration_description">Ein Smartphone zeigt unterschiedliche Inhalte, die von eins bis drei nummeriert sind.</string>
 
    <!-- ####################################
               Risk Details
@@ -325,10 +332,14 @@
     <string name="onboarding_body">Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen infizierte Personen in ihrer Nähe waren.</string>
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string>
+    <!-- XACT: onboarding(together) - illustraction description, header image -->
+    <string name="onboarding_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <string name="onboarding_privacy_headline">Datenschutz</string>
     <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
+    <!-- XACT: onboarding(privacy) - illustraction description, header image -->
+    <string name="onboarding_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">Wie Sie die Risiko-Ermittlung ermöglichen</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
@@ -345,18 +356,24 @@
     <string name="onboarding_tracing_dialog_button_positive">Nicht aktivieren</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
     <string name="onboarding_tracing_dialog_button_negative">Zurück</string>
+    <!-- XACT: onboarding(tracing) - illustraction description, header image -->
+    <string name="onboarding_tracing_illustration_description">Drei Personen haben die Risiko-Erkennung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet.</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">Falls Sie positiv getestet werden …</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller.</string>
     <!-- YTXT: onboarding(test) - explain test -->
     <string name="onboarding_test_body">Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen.</string>
+    <!-- XACT: onboarding(test) - illustraction description, header image -->
+    <string name="onboarding_test_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">Warnungen erhalten, Risiken erkennen</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
     <string name="onboarding_notifications_subtitle">Die App kann Sie automatisch über Ihren Risikostatus informieren und bei Neuinfektionen von Menschen, denen Sie begegnet sind, warnen. Erlauben Sie der App jetzt, Sie zu benachrichtigen.</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
     <string name="onboarding_notifications_body">Auf diese Weise können Sie sich zum Schutz Ihrer Mitmenschen in Isolation begeben und nach entsprechender Abklärung testen lassen.</string>
+    <!-- XACT: onboarding(notifications) - illustraction description, header image -->
+    <string name="onboarding_notifications_illustration_description">Eine Frau erhält eine Benachrichtigung von ihrer Corona-Warn-App.</string>
 
     <!-- ####################################
                   Settings
@@ -407,6 +424,15 @@
         <item quantity="one">Die Risiko-Ermittlung ist seit insgesamt einem Tag aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen.</item>
         <item quantity="other">Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen.</item>
     </plurals>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_illustration_description_active">Drei Personen haben die Risiko-Erkennung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet.</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_illustration_description_inactive">Eine Person hat die Risiko-Erkennung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet. </string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_bluetooth_illustration_description_inactive">Eine Person hat Bluetooth auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet.</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_connection_illustration_description_inactive">Eine Person hat die Internetverbindung ihres Smartphones ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet.</string>
+
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">Benachrichtigungen</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
@@ -426,6 +452,10 @@
     <string name="settings_notifications_subtitle_update_test">Status Ihres COVID-19-Tests</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">Geräte-Einstellungen öffnen</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
+    <string name="settings_notifications_illustration_description_active">Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App.</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
+    <string name="settings_notifications_illustration_description_inactive">Eine Frau hat die Mitteilungen ihrer Corona-Warn-App ausgeschaltet.</string>
     <!-- XBUT: settings - go to reset application -->
     <string name="settings_reset_title">Anwendung zurücksetzen</string>
     <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
@@ -442,6 +472,9 @@
     <string name="settings_reset_button_positive">Anwendung zurücksetzen</string>
     <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
     <string name="settings_reset_button_negative">Abbrechen</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image -->
+    <string name="settings_reset_illustration_description">Eine Hand hält ein Smartphone, auf dem das Zurücksetzen der Anwendung symbolisiert wird.</string>
+
 
     <!-- ####################################
                App Information
@@ -459,12 +492,18 @@
     <string name="information_about_body_emphasized">Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationalesPublic-Health-Institut veröffentlicht die Corona-Warn-App für die gesamte Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske.</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">Wer sie nutzt, hilft, Infektionsketten schnell nachzuverfolgen und zu durchbrechen. Die App speichert dezentral – auf Ihrem Smartphone –  Begegnungen mit anderen.Sie werden informiert, wenn Sie Kontakt mit nachweislich infizierten Personen hatten.Ihre Privatsphärebleibt dabeibestens geschützt.</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_about_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">Datenschutzinformation</string>
     <string name="information_privacy_headline">@string/lorem_ipsum</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
     <string name="information_terms_title">Nutzungsbedingungen</string>
     <string name="information_terms_headline">@string/lorem_ipsum</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_terms_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Haken als Symbol für akzeptierte Nutzungsbedingungen.</string>
     <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
     <string name="information_contact_title">Technische Hotline</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
@@ -483,15 +522,22 @@
     <string name="information_contact_body_open">Unsere Öffnungszeiten:<xliff:g id="line_break">\n</xliff:g>Mo – Fr: 08:00 – 22:00 Uhr<xliff:g id="line_break">\n</xliff:g>Sa – So: 10:00 – 22:00 Uhr<xliff:g id="line_break">\n</xliff:g>Es gelten die Preise Ihres Telefonanbieters.</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">Für gesundheitliche Fragen, wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117.</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_contact_illustration_description">Ein Mann nutzt ein Headset zum Telefonieren.</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">Häufige Fragen</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">Rechtliche Hinweise</string>
     <string name="information_technical_headline">FTP/SFTP/FTPS client uses libs</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_technical_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist eine Balkenwaage als Symbol für rechtliche Hinweise.</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">Impressum</string>
     <string name="information_legal_headline">Herausgeber</string>
     <string name="information_legal_body">SAP Deutschland SE &amp; Co. KG \n \nHauptsitz: \nSAP Deutschland SE &amp; Co. KG \nHasso-Plattner-Ring 7 \n69190 Walldorf </string>
+    <!-- XACT: describes illustration -->
+    <string name="information_legal_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Paragraphenzeichen als Symbol für das Impressum.</string>
+
 
     <!-- ####################################
              Submission
@@ -561,7 +607,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">Ihr Test-Ergebnis</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten.\n\nBitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -575,7 +621,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">TAN Eingabe</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.</string>
+    <string name="submission_tan_body">Die TAN ist 10-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">Weiter</string>
 
@@ -584,10 +630,10 @@
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
-    <!-- YTXT: submission introduction text part 1 -->
-    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.</string>
-    <!-- YTXT: submission introduction text part 2 -->
-    <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string>
+    <!-- YTXT: submission introduction text -->
+    <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
+    <!-- YTXT: submission introduction enumeration -->
+    <string name="submission_intro_enum"><li>Wenn Sie positiv getestet wurden, können Sie andere warnen.</li>\n\n<li>Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde , können Sie diese für die Registrierung des Tests nutzen.</li>\n\n<li>Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen.</li></string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
 
@@ -616,7 +662,7 @@
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manueller TAN Eingabe</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -629,7 +675,10 @@
     <string name="submission_positive_other_warning_headline">Helfen Sie mit!</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\n Da nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
-    <string name="submission_positive_other_warning_data_security_body">+Data-Security Text</string>
+    <!-- XHED: Title for the privacy card-->
+    <string name="submission_positive_other_warning_privacy_title">Datenschutz</string>
+    <!-- YTXT: Body text for the privacy card-->
+    <string name="submission_positive_other_warning_privacy_body">Ich willige hiermit ein, dass mein positiver Corona-Befund an das Tracing Backend übermittelt und dazu genutzt wird, andere App Nutzer auf ein mögliches Infektionsrisiko hinzuweisen. Dabei werden die auf meinem Gerät gespeicherten Temporary Exposure Keys an das Tracing Backend übermittelt und dort anderen Nutzern der App zur Verfügung gestellt. Ich kann meine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Ein Widerruf lässt die Rechtmäßigkeit der Verarbeitung bis zum Widerruf unberührt.\n\nWeitere Informationen finden Sie in unserer Datenschutzhinweisen.</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">Weiter</string>
     <!-- XHED: Dialog title for positive other warning dialog  -->
@@ -640,6 +689,9 @@
     <string name="submission_positive_dialog_confirmation_positive">Erlauben</string>
     <!-- XBUT: submission(positive other warning) - negative button (left) -->
     <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string>
+    <!-- XACT: other warning - illustration description, explanation image -->
+    <string name="submission_positive_other_illustration_description">Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System.</string>
+
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -654,8 +706,16 @@
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
+    <!-- YTXT: text after submission: contact -->
+    <string name="submission_done_contact">Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden.</string>
+    <!-- XHED: Title for further info -->
+    <string name="submission_done_further_info_title">Weitere Infos:</string>
+    <!-- YTXT: Content for further info -->
+    <string name="submission_done_further_info_enum"><li>Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln.</li>\n\n<li>Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten.</li>\n\n<li>Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone oder die App haben.</li>\n\n<li>Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein.</li></string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">Fertig</string>
+    <!-- XACT: submission finished - illustration description, explanation image -->
+    <string name="submission_done_illustration_description">Eine vielfältige Gruppe begrüßt durch Jubel, dass jemand sein Testergebnis mit anderen geteilt hat.</string>
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -671,9 +731,12 @@
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number">0800 7540002</string>
+    <string name="submission_contact_number">+49 (0) 800 7540002</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
+    <!-- YTXT: Body text for operating hours in contact page-->
+    <string name="submission_contact_operating_hours_body">Unsere Öffnungszeiten:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nEs gelten die Preise Ihres\nTelefonanbieters.</string>
+
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -751,6 +814,8 @@
     <!-- NOTR -->
     <string name="menu_test_api">Test API</string>
     <!-- NOTR -->
+    <string name="menu_test_risk_level">Test Risk Level</string>
+    <!-- NOTR -->
     <string name="menu_test_notification">Test Notification</string>
     <!-- NOTR -->
     <string name="test_api_button_api_launch">Android API Test(Manual Test)</string>
@@ -768,6 +833,8 @@
     <string name="test_api_button_submit_keys">Submit keys to Server</string>
     <!-- NOTR -->
     <string name="test_api_button_scan_qr_code">Scan Exposure Key</string>
+    <!-- NOTR -->
+    <string name="test_api_switch_last_three_hours_from_server">Last 3 Hours Mode</string>
     <!-- NOTR -->
     <string name="test_api_button_check_exposure">Check Exposure Summary</string>
     <!-- NOTR -->

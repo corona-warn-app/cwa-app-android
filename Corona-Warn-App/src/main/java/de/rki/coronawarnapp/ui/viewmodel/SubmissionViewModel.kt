@@ -43,8 +43,8 @@ class SubmissionViewModel : ViewModel() {
         executeRequestWithState(SubmissionRepository::refreshUIState, _uiStateState)
 
     fun validateAndStoreTestGUID(scanResult: String) {
-        val guid = SubmissionService.extractGUID(scanResult)
-        if (guid != null) {
+        if (SubmissionService.containsValidGUID(scanResult)) {
+            val guid = SubmissionService.extractGUID(scanResult)
             SubmissionService.storeTestGUID(guid)
             _scanStatus.value = ScanStatus.SUCCESS
         } else {
