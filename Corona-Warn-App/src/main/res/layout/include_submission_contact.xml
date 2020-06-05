@@ -68,6 +68,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
                     <TextView
                         android:id="@+id/submission_contact_step_1_number"
                         style="@style/textTitle"
@@ -79,6 +80,16 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_body" />
+
+                    <TextView
+                        android:id="@+id/submission_contact_operating_hours_body"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@string/submission_contact_operating_hours_body"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_number" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

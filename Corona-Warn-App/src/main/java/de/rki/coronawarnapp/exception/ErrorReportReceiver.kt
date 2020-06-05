@@ -13,6 +13,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
     companion object {
         private val TAG: String = ErrorReportReceiver::class.java.simpleName
     }
+
     override fun onReceive(context: Context, intent: Intent) {
         val category = ExceptionCategory
             .valueOf(intent.getStringExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA) ?: "")
@@ -25,25 +26,28 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         val confirm = context.resources.getString(R.string.errors_generic_button_positive)
         val details = context.resources.getString(R.string.errors_generic_button_negative)
         val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
+
         if (CoronaWarnApplication.isAppInForeground) {
-            DialogHelper.showDialog(DialogHelper.DialogInstance(
-                activity,
-                title,
-                message,
-                confirm,
-                details,
-                null,
-                {},
-                {
-                    DialogHelper.showDialog(
-                        DialogHelper.DialogInstance(
-                            activity,
-                            title,
-                            "$detailsTitle:\n$stack",
-                            confirm
-                        )).run {}
-                }
-            ))
+            DialogHelper.showDialog(
+                DialogHelper.DialogInstance(
+                    activity,
+                    title,
+                    message,
+                    confirm,
+                    details,
+                    null,
+                    {},
+                    {
+                        DialogHelper.showDialog(
+                            DialogHelper.DialogInstance(
+                                activity,
+                                title,
+                                "$detailsTitle:\n$stack",
+                                confirm
+                            )
+                        ).run {}
+                    }
+                ))
         }
         Log.e(
             TAG,

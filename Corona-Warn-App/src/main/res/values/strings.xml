@@ -612,7 +612,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">Ihr Test-Ergebnis</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten. Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Gesundheitsamt um Information zum weiteren Vorgehen zu erhalten.\n\nBitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können.</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">Test entfernen</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -635,10 +635,10 @@
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
-    <!-- YTXT: submission introduction text part 1 -->
-    <string name="submission_intro_text_a">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.</string>
-    <!-- YTXT: submission introduction text part 2 -->
-    <string name="submission_intro_text_b">Da nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string>
+    <!-- YTXT: submission introduction text -->
+    <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
+    <!-- YTXT: submission introduction enumeration -->
+    <string name="submission_intro_enum"><li>Wenn Sie positiv getestet wurden, können Sie andere warnen.</li>\n\n<li>Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde , können Sie diese für die Registrierung des Tests nutzen.</li>\n\n<li>Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen.</li></string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
@@ -669,7 +669,7 @@
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">TAN-Code</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manuekker TAN Eingabe</string>
+    <string name="submission_dispatcher_tan_code_card_text">Registrieren Sie Ihren Test per manueller TAN Eingabe</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -682,7 +682,10 @@
     <string name="submission_positive_other_warning_headline">Helfen Sie mit!</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\n Da nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
-    <string name="submission_positive_other_warning_data_security_body">+Data-Security Text</string>
+    <!-- XHED: Title for the privacy card-->
+    <string name="submission_positive_other_warning_privacy_title">Datenschutz</string>
+    <!-- YTXT: Body text for the privacy card-->
+    <string name="submission_positive_other_warning_privacy_body">Ich willige hiermit ein, dass mein positiver Corona-Befund an das Tracing Backend übermittelt und dazu genutzt wird, andere App Nutzer auf ein mögliches Infektionsrisiko hinzuweisen. Dabei werden die auf meinem Gerät gespeicherten Temporary Exposure Keys an das Tracing Backend übermittelt und dort anderen Nutzern der App zur Verfügung gestellt. Ich kann meine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Ein Widerruf lässt die Rechtmäßigkeit der Verarbeitung bis zum Widerruf unberührt.\n\nWeitere Informationen finden Sie in unserer Datenschutzhinweisen.</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">Weiter</string>
     <!-- XHED: Dialog title for positive other warning dialog  -->
@@ -710,6 +713,12 @@
     <string name="submission_done_contagious">Sie sind ansteckend.</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">Bitte isolieren Sie sich von anderen Personen.</string>
+    <!-- YTXT: text after submission: contact -->
+    <string name="submission_done_contact">Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden.</string>
+    <!-- XHED: Title for further info -->
+    <string name="submission_done_further_info_title">Weitere Infos:</string>
+    <!-- YTXT: Content for further info -->
+    <string name="submission_done_further_info_enum"><li>Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln.</li>\n\n<li>Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten.</li>\n\n<li>Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone oder die App haben.</li>\n\n<li>Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein.</li></string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">Fertig</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
@@ -729,9 +738,12 @@
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number">0800 7540002</string>
+    <string name="submission_contact_number">+49 (0) 800 7540002</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
+    <!-- YTXT: Body text for operating hours in contact page-->
+    <string name="submission_contact_operating_hours_body">Unsere Öffnungszeiten:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nEs gelten die Preise Ihres\nTelefonanbieters.</string>
+
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->

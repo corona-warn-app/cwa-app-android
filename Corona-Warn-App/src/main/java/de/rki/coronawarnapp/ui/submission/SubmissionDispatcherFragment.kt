@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionDispatcherFragment : BaseFragment() {
@@ -33,6 +34,9 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
+        binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            (activity as MainActivity).goBack()
+        }
         binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
             checkForDataPrivacyPermission()
         }
