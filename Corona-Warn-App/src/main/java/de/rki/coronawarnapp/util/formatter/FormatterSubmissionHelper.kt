@@ -162,18 +162,6 @@ fun formatSubmissionStatusCardContentVisible(
     uiStateState: ApiRequestState?
 ): Int = formatVisibility(deviceRegistered == true && uiStateState == ApiRequestState.SUCCESS)
 
-fun formatSubmissionTanButtonTint(isValidTanFormat: Boolean) = formatColor(
-    isValidTanFormat,
-    R.color.button_primary,
-    R.color.colorGreyLight
-)
-
-fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
-    isValidTanFormat,
-    R.color.textColorLight,
-    R.color.colorGreyDisabled
-)
-
 fun formatShowSubmissionStatusCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(
         deviceUiState != DeviceUIState.PAIRED_POSITIVE &&

@@ -184,7 +184,7 @@
 
         <Button
             android:id="@+id/risk_details_button_enable_tracing"
-            style="@style/buttonGrey"
+            style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/risk_card_button_enable_tracing"
