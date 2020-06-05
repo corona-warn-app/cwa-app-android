@@ -16,16 +16,22 @@ class SubmissionDispatcherFragment : BaseFragment() {
         private val TAG: String? = SubmissionDispatcherFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentSubmissionDispatcherBinding
+    private var _binding: FragmentSubmissionDispatcherBinding? = null
+    private val binding: FragmentSubmissionDispatcherBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSubmissionDispatcherBinding.inflate(inflater)
+        _binding = FragmentSubmissionDispatcherBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

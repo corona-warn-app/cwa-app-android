@@ -118,14 +118,15 @@ class RiskLevelTransactionTest {
 
         val testRiskLevel = UNKNOWN_RISK_OUTDATED_RESULTS
 
-        val twoDaysAboveMaxStale = TimeUnit.DAYS.toMillis(TimeVariables.getMaxStaleExposureRiskRange().plus(2).toLong())
+        val twoHoursAboveMaxStale =
+            TimeUnit.HOURS.toMillis(TimeVariables.getMaxStaleExposureRiskRange().plus(2).toLong())
 
         // tracing is activated
         coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
 
         // the last time we fetched keys from the server is above the threshold
         every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
-            .minus(twoDaysAboveMaxStale)
+            .minus(twoHoursAboveMaxStale)
 
         // active tracing time is 1h above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(

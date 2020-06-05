@@ -54,19 +54,25 @@ class TestRiskLevelCalculation : Fragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private lateinit var binding: FragmentTestRiskLevelCalculationBinding
+    private var _binding: FragmentTestRiskLevelCalculationBinding? = null
+    private val binding: FragmentTestRiskLevelCalculationBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
+        _binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,6 +123,7 @@ class TestRiskLevelCalculation : Fragment() {
     private suspend fun retrieveDiagnosisKeys() {
         try {
             RetrieveDiagnosisKeysTransaction.start()
+            calculateRiskLevel()
         } catch (e: TransactionException) {
             e.report(ExceptionCategory.INTERNAL)
         }
@@ -204,7 +211,10 @@ class TestRiskLevelCalculation : Fragment() {
             Observer {
                 tracingViewModel.viewModelScope.launch {
                     val riskAsString = "Level: ${it.riskLevel}\n" +
-                            "Calc. Score: ${it.riskScore}\n" +
+                            "Last successful Level: " +
+                            "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
+                            "Calculated Score: ${it.riskScore}\n" +
+                            "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
                             "Tracing Duration: " +
                             "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
                             "Tracing Duration in last 14 days: " +

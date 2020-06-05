@@ -20,4 +20,6 @@ object SubmissionConstants {
     const val MAX_QR_CODE_LENGTH = 150
     const val MAX_GUID_LENGTH = 80
     const val GUID_SEPARATOR = '?'
+
+    const val SERVER_ERROR_CODE_400 = 400
 }
