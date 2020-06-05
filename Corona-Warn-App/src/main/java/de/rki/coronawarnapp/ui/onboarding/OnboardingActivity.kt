@@ -42,6 +42,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
 
     fun completeOnboarding() {
         LocalData.isOnboarded(true)
+        LocalData.onboardingCompletedTimestamp(System.currentTimeMillis())
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

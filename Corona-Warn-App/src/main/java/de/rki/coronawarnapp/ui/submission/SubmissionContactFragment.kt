@@ -15,7 +15,8 @@ import de.rki.coronawarnapp.util.CallHelper
  */
 class SubmissionContactFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentSubmissionContactBinding
+    private var _binding: FragmentSubmissionContactBinding? = null
+    private val binding: FragmentSubmissionContactBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,8 +24,13 @@ class SubmissionContactFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionContactBinding.inflate(inflater)
+        _binding = FragmentSubmissionContactBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

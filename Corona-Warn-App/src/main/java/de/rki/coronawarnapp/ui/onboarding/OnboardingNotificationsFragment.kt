@@ -20,15 +20,21 @@ class OnboardingNotificationsFragment : BaseFragment() {
         private val TAG: String? = OnboardingNotificationsFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentOnboardingNotificationsBinding
+    private var _binding: FragmentOnboardingNotificationsBinding? = null
+    private val binding: FragmentOnboardingNotificationsBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOnboardingNotificationsBinding.inflate(inflater)
+        _binding = FragmentOnboardingNotificationsBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
