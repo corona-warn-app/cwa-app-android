@@ -41,16 +41,16 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/submission_dispatcher_card_qr" />
 
-        <include
+        <ImageView
             android:id="@+id/dispatcher_card_icon"
-            layout="@layout/include_button_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
-            app:icon="@{@drawable/ic_icon_drilldowncard_dark}"
+            android:src="@drawable/ic_icon_drilldowncard_dark"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_icon_drilldowncard_dark" />
 
         <TextView
             android:id="@+id/submission_dispatcher_card_text"
@@ -72,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_icon_margin"
-            android:contentDescription="@string/lorem_ipsum"
             android:src="@{illustration}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

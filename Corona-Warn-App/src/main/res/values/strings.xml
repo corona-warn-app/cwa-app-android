@@ -1839,7 +1839,7 @@ as modifying the License.
     <!-- XHED: Page title for menu at the start of the submission process  -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
+    <string name="submission_intro_headline">So funktioniert das Corona-Warn-System</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
     <!-- YTXT: submission introduction enumeration -->
@@ -2016,7 +2016,7 @@ as modifying the License.
               Heading Fragments
         ###################################### -->
     <string name="heading_submission_contact">TAN Anfrage per Telefonanruf</string>
-    <string name="heading_submission_dispatcher">Auswahl der Registrierungsformen</string>
+    <string name="heading_submission_dispatcher">Welche Informationen liegen ihnen vor?</string>
     <string name="heading_submission_intro">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
     <string name="heading_submission_tan">TAN Eingabe</string>
     <string name="heading_main">Hauptseite der Corona-Warn-App</string>

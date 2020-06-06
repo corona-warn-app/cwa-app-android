@@ -7,14 +7,13 @@
         android:id="@+id/submission_dispatcher_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/heading_submission_dispatcher"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionDispatcherFragment">
+        tools:context=".ui.submission.SubmissionDispatcherFragment"
+        android:contentDescription="@string/heading_submission_dispatcher">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="yes">
+            android:layout_height="wrap_content">
 
             <include
                 android:id="@+id/submission_dispatcher_header"
@@ -49,9 +48,9 @@
                 app:body="@{@string/submission_dispatcher_qr_card_text}"
                 app:headline="@{@string/submission_dispatcher_card_qr}"
                 app:illustration="@{@drawable/ic_submission_illustration_qr_code_card}"
-                app:layout_constraintEnd_toStartOf="@+id/submission_guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/submission_guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_subtitle" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_text" />
 
             <include
                 android:id="@+id/submission_dispatcher_tan_code"
