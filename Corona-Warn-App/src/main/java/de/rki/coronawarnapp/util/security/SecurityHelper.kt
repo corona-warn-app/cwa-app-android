@@ -22,20 +22,16 @@ package de.rki.coronawarnapp.util.security
 import KeyExportFormat.TEKSignatureList
 import android.content.Context
 import android.content.SharedPreferences
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
+import android.os.Build
+import android.util.Base64
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.CwaSecurityException
-import java.lang.Exception
-import java.lang.NullPointerException
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.security.SecureRandom
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 import java.security.Signature
 import java.security.cert.Certificate
 
@@ -44,7 +40,8 @@ import java.security.cert.Certificate
  */
 object SecurityHelper {
     private const val CWA_APP_SQLITE_DB_PW = "CWA_APP_SQLITE_DB_PW"
-    private const val AES_KEY_SIZE = 256
+    private const val DB_PASSWORD_MIN_LENGTH = 32
+    private const val DB_PASSWORD_MAX_LENGTH = 48
     private const val SHARED_PREF_NAME = "shared_preferences_cwa"
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
@@ -53,13 +50,6 @@ object SecurityHelper {
     private const val CWA_EXPORT_CERTIFICATE_NAME_NON_PROD = "cwa non-prod certificate"
 
     private const val CWA_EXPORT_CERTIFICATE_KEY_STORE = "trusted-certs-cwa.bks"
-    private const val ANDROID_KEY_STORE = "AndroidKeyStore"
-
-    private val androidKeyStore: KeyStore by lazy {
-        KeyStore.getInstance(ANDROID_KEY_STORE).also {
-            it.load(null)
-        }
-    }
 
     val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
         withSecurityCatch {
@@ -79,33 +69,48 @@ object SecurityHelper {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
 
-    /**
-     * Retrieves the Master Key from the Android KeyStore to use in SQLCipher
-     */
-    fun getDBPassword() = getOrGenerateDBSecretKey()
-        .toString()
-        .toCharArray()
+    private val String.toPreservedByteArray: ByteArray
+        get() = Base64.decode(this, Base64.NO_WRAP)
 
-    private fun getOrGenerateDBSecretKey(): SecretKey =
-        androidKeyStore.getKey(CWA_APP_SQLITE_DB_PW, null).run {
-            return if (this == null) {
-                val kg: KeyGenerator = KeyGenerator.getInstance(
-                    KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE
-                )
-                val spec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
-                    CWA_APP_SQLITE_DB_PW,
-                    KeyProperties.PURPOSE_ENCRYPT and KeyProperties.PURPOSE_DECRYPT
-                )
-                    .setKeySize(AES_KEY_SIZE)
-                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                    .setRandomizedEncryptionRequired(true)
-                    .setUserAuthenticationRequired(false)
-                    .build()
-                kg.init(spec, SecureRandom())
-                kg.generateKey()
-            } else this as SecretKey
+    private val ByteArray.toPreservedString: String
+        get() = Base64.encodeToString(this, Base64.NO_WRAP)
+
+    /**
+     * Retrieves the db password from encrypted shared preferences. The password is automatically
+     * encrypted when storing the password and decrypted when retrieving the password.
+     *
+     * If no password exists yet, a new password is generated and stored into
+     * encrypted shared preferences. The length of the password will be in the interval
+     * of [[DB_PASSWORD_MIN_LENGTH], [DB_PASSWORD_MAX_LENGTH]]
+     */
+    fun getDBPassword(): ByteArray =
+        getStoredDbPassword() ?: storeDbPassword(generateDBPassword())
+
+    private fun getStoredDbPassword(): ByteArray? =
+        globalEncryptedSharedPreferencesInstance
+            .getString(CWA_APP_SQLITE_DB_PW, null)?.toPreservedByteArray
+
+    private fun storeDbPassword(keyBytes: ByteArray): ByteArray {
+        globalEncryptedSharedPreferencesInstance
+            .edit()
+            .putString(CWA_APP_SQLITE_DB_PW, keyBytes.toPreservedString)
+            .apply()
+        return keyBytes
+    }
+
+    private fun generateDBPassword(): ByteArray {
+        val secureRandom = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            SecureRandom.getInstanceStrong()
+        } else {
+            SecureRandom()
         }
+        val max = DB_PASSWORD_MAX_LENGTH
+        val min = DB_PASSWORD_MIN_LENGTH
+        val passwordLength = secureRandom.nextInt(max - min + 1) + min
+        val password = ByteArray(passwordLength)
+        secureRandom.nextBytes(password)
+        return password
+    }
 
     fun hash256(input: String): String = MessageDigest
         .getInstance("SHA-256")
@@ -116,12 +121,13 @@ object SecurityHelper {
         Signature.getInstance(EXPORT_SIGNATURE_ALGORITHM).run {
             initVerify(trustedCertForSignature)
             update(export)
-            verify(TEKSignatureList
-                .parseFrom(sig)
-                .signaturesList
-                .first()
-                .signature
-                .toByteArray()
+            verify(
+                TEKSignatureList
+                    .parseFrom(sig)
+                    .signaturesList
+                    .first()
+                    .signature
+                    .toByteArray()
             )
         }
     }
