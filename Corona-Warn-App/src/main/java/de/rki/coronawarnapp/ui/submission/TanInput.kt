@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
+import java.util.Locale
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_edittext
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_1
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_2
@@ -19,6 +20,8 @@ import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_7
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_8
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_9
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_10
+import kotlinx.android.synthetic.main.view_tan_input.view.dash_view_1
+import kotlinx.android.synthetic.main.view_tan_input.view.dash_view_2
 
 class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -43,6 +46,9 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         inflate(context, R.layout.view_tan_input, this)
 
         tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
+
+        dash_view_1.text = "-"
+        dash_view_2.text = "-"
 
         // register listener
         tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text) }
@@ -79,7 +85,7 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         tan_input_textview_9,
         tan_input_textview_10
     ).forEachIndexed { i, tanDigit ->
-        tanDigit.text = digitAtIndex(i)
+        tanDigit.text = digitAtIndex(i).toUpperCase(Locale.getDefault())
     }
 
     private fun digitAtIndex(index: Int): String = tan?.getOrNull(index)?.toString() ?: ""

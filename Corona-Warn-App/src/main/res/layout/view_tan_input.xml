@@ -36,17 +36,26 @@
             android:id="@+id/tan_input_textview_3"
             style="@style/tanInputDigit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_4"
+            app:layout_constraintEnd_toStartOf="@+id/dash_view_1"
             app:layout_constraintStart_toEndOf="@+id/tan_input_textview_2"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="X" />
+
+        <TextView
+            android:id="@+id/dash_view_1"
+            style="@style/tanInputDash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_4"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_3"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-" />
 
         <TextView
             android:id="@+id/tan_input_textview_4"
             style="@style/tanInputDigit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_5"
-            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_3"
+            app:layout_constraintStart_toEndOf="@+id/dash_view_1"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="X" />
 
@@ -63,17 +72,26 @@
             android:id="@+id/tan_input_textview_6"
             style="@style/tanInputDigit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_7"
+            app:layout_constraintEnd_toStartOf="@+id/dash_view_2"
             app:layout_constraintStart_toEndOf="@+id/tan_input_textview_5"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="X" />
+
+        <TextView
+            android:id="@+id/dash_view_2"
+            style="@style/tanInputDash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_7"
+            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_6"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-" />
 
         <TextView
             android:id="@+id/tan_input_textview_7"
             style="@style/tanInputDigit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tan_input_textview_8"
-            app:layout_constraintStart_toEndOf="@+id/tan_input_textview_6"
+            app:layout_constraintStart_toEndOf="@+id/dash_view_2"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="X" />
 
