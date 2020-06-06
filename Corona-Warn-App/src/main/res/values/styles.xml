@@ -249,11 +249,11 @@
               Icons
     ###################################### -->
     <style name="icon">
-        <item name="android:tint">@color/colorTextPrimary3</item>
+        <item name="android:tint">@color/colorTextPrimary1</item>
     </style>
 
     <style name="iconStable">
-        <item name="android:tint">@color/stableIconColor</item>
+        <item name="android:tint">@color/colorStableLight</item>
     </style>
 
     <style name="iconTracingStatus">

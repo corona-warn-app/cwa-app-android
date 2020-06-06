@@ -355,7 +355,7 @@ fun formatRiskShape(showDetails: Boolean): Drawable? =
 fun formatStableIconColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
-        R.color.stableIconColor,
+        R.color.colorStableLight,
         R.color.colorTextPrimary1
     )
 
@@ -387,7 +387,7 @@ fun formatStableBackButtonColor(riskLevelScore: Int?): ColorStateList? {
 fun formatStableTextColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
-        R.color.stableBackgroundColor,
+        R.color.colorStableLight,
         R.color.colorTextPrimary1
     )
 
@@ -507,7 +507,7 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
     return when (riskLevelScore) {
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorAccentTintIcon)
-        else -> appContext.getColor(R.color.stableIconColor)
+        else -> appContext.getColor(R.color.colorStableLight)
     }
 }
 

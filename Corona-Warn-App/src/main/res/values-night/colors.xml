@@ -9,6 +9,7 @@
     <!-- Backgrounds and Separators -->
     <color name="colorBackground">#000000</color>
     <color name="colorSurface1">#232324</color>
+    <color name="colorSurface1Pressed">#39393A</color>
     <color name="colorSurface2">#434445</color>
     <color name="colorHairline">#4DFFFFFF</color>
 
@@ -22,32 +23,22 @@
     <color name="colorTextSemanticNeutral">#B8C8D9</color>
     <color name="colorTextTint">#83D2F2</color>
 
-    <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
-    <color name="colorAccentTintIcon">#83D2F2</color>
-
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C4314A</color>
+    <color name="colorSemanticHighRiskPressed">#CA465C</color>
     <color name="colorSemanticLowRisk">#378250</color>
+    <color name="colorSemanticLowRiskPressed">#378250</color>
     <color name="colorSemanticNeutralRisk">#5D6E80</color>
-    <color name="colorSemanticUnknownRisk">#80CDEC</color>
+    <color name="colorSemanticNeutralRiskPressed">#556675</color>
+    <color name="colorSemanticUnknownRisk">#232324</color>
+    <color name="colorSemanticUnknownRiskPressed">#39393A</color>
 
-    <!-- TODO: Add variables when colors are final to reduce maintenance -->
-
-    <!-- Primary Colors -->
+    <!-- Accent -->
+    <color name="colorAccentTintButton">#007FAD</color>
     <color name="colorAccentTintButtonPressed">#1B4865</color>
+    <color name="colorAccentTintIcon">#83D2F2</color>
+
+    <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
-
-    <!-- Risk Card Colors -->
-    <color name="colorSemanticHighRiskPressed">#A30C26</color>
-    <color name="colorSemanticLowRiskPressed">#27713F</color>
-    <color name="colorSemanticUnknownRiskPressed">#000000</color>
-    <color name="colorSemanticNeutralRiskPressed">#556673</color>
-
-    <!-- Stable Colors TODO: can be removed after testing -->
-    <color name="stableBackgroundColor">#ffffff</color>
-    <color name="stableHighlightColor">#C3C3C3</color>
-    <color name="stableTextColor">#000000</color>
-    <color name="stableIconColor">#ffffff</color>
 
 </resources>

@@ -24,11 +24,6 @@
     <color name="colorTextTint">#007FAD</color>
     <color name="colorTextLight">#FFFFFF</color>
 
-    <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
-    <color name="colorAccentTintButtonPressed">#02759E</color>
-    <color name="colorAccentTintIcon">#007FAD</color>
-
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
     <color name="colorSemanticHighRiskPressed">#AE102B</color>
@@ -39,6 +34,11 @@
     <color name="colorSemanticUnknownRisk">#FFFFFF</color>
     <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
 
+    <!-- Accent -->
+    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccentTintButtonPressed">#02759E</color>
+    <color name="colorAccentTintIcon">#007FAD</color>
+
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
 
@@ -46,12 +46,8 @@
     <color name="tanInputBackground">#1A17191A</color>
 
     <!-- Stable Colors -->
-    <!-- TODO need rework -->
-    <color name="stableBackgroundColor">#ffffff</color>
-    <color name="stableHighlightColor">#C3C3C3</color>
-    <color name="stableTextColor">#000000</color>
-    <color name="stableIconColor">#ffffff</color>
-    <color name="stableLightTransparent">#33FFFFFF</color>
-
+    <color name="colorStableDark">#000000</color>
+    <color name="colorStableMedium">#4D17191A</color>
+    <color name="colorStableLight">#FFFFFF</color>
 
 </resources>
