@@ -16,23 +16,30 @@ class InformationTermsFragment : BaseFragment() {
         private val TAG: String? = InformationTermsFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentInformationTermsBinding
+    private var _binding: FragmentInformationTermsBinding? = null
+    private val binding: FragmentInformationTermsBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInformationTermsBinding.inflate(inflater)
+        _binding = FragmentInformationTermsBinding.inflate(inflater)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationTermsHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationTermsHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

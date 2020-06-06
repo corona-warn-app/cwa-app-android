@@ -26,7 +26,8 @@ class OnboardingTracingFragment : BaseFragment(),
     }
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
-    private lateinit var binding: FragmentOnboardingTracingBinding
+    private var _binding: FragmentOnboardingTracingBinding? = null
+    private val binding: FragmentOnboardingTracingBinding get() = _binding!!
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         internalExposureNotificationPermissionHelper.onResolutionComplete(
@@ -46,8 +47,13 @@ class OnboardingTracingFragment : BaseFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOnboardingTracingBinding.inflate(inflater)
+        _binding = FragmentOnboardingTracingBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,6 +88,7 @@ class OnboardingTracingFragment : BaseFragment(),
             R.string.onboarding_tracing_dialog_body,
             R.string.onboarding_tracing_dialog_button_positive,
             R.string.onboarding_tracing_dialog_button_negative,
+            true,
             {
                 navigate()
             })

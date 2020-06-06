@@ -31,21 +31,22 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultSpinnerVisible(submissionViewModel.testResultState)}"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultSpinnerVisible(submissionViewModel.uiStateState)}"
             app:layout_constraintBottom_toBottomOf="@+id/submission_test_result_button_container"
             app:layout_constraintEnd_toStartOf="@+id/submission_test_result_guideline_end"
             app:layout_constraintStart_toStartOf="@+id/submission_test_result_guideline_start"
             app:layout_constraintTop_toTopOf="@+id/submission_test_result_guideline_top" />
 
         <ScrollView
+            style="@style/fadingScrollView"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:fillViewport="true"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.testResultState)}"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.uiStateState)}"
             app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_container"
-            app:layout_constraintEnd_toStartOf="@+id/submission_test_result_guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/submission_test_result_guideline_start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/submission_test_result_guideline_body">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,11 +58,11 @@
                     layout="@layout/include_test_result_card"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toTopOf="parent"
                     app:registerDate="@{submissionViewModel.testResultReceivedDate}"
-                    app:testResult="@{submissionViewModel.testResult}" />
+                    app:deviceUIState="@{submissionViewModel.deviceUiState}" />
 
                 <TextView
                     android:id="@+id/submission_test_result_subtitle"
@@ -70,8 +71,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_subtitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_card" />
 
                 <include
@@ -80,9 +81,9 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
 
                 <include
@@ -91,9 +92,9 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.testResult)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.deviceUiState)}"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
 
                 <include
@@ -102,9 +103,9 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.testResult)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.deviceUiState)}"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
 
                 <include
@@ -113,10 +114,12 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.testResult)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.deviceUiState)}"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_subtitle" />
+
+                <include layout="@layout/merge_guidelines_common" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -125,7 +128,7 @@
             android:id="@+id/submission_test_result_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.testResultState)}"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.uiStateState)}"
             app:layout_constraintBottom_toBottomOf="@id/submission_test_result_guideline_bottom">
 
             <Button
@@ -136,7 +139,7 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
                 android:text="@string/submission_test_result_pending_refresh_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
                 app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_pending_remove_test"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -149,7 +152,7 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
                 android:text="@string/submission_test_result_pending_remove_test_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -162,7 +165,7 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
                 android:text="@string/submission_test_result_invalid_remove_test_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.deviceUiState)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -175,20 +178,20 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
                 android:text="@string/submission_test_result_positive_continue_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.deviceUiState)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/submission_test_result_button_negative_remove_test"
-                style="@style/buttonPrimary"
+                style="@style/buttonLight"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
                 android:text="@string/submission_test_result_negative_remove_test_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.testResult)}"
+                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.deviceUiState)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

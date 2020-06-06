@@ -19,8 +19,6 @@
 
 package de.rki.coronawarnapp.service.diagnosiskey
 
-import de.rki.coronawarnapp.http.DynamicURLs
-
 /**
  * The Diagnosis Key constants are used inside the DiagnosisKeyService
  *
@@ -53,10 +51,10 @@ object DiagnosisKeyConstants {
     private var CURRENT_COUNTRY = "DE"
 
     /** Distribution URL built from CDN URL's and REST resources */
-    private var VERSIONED_DISTRIBUTION_CDN_URL = DynamicURLs.DOWNLOAD_CDN_URL + "/$VERSION/$CURRENT_VERSION"
+    private var VERSIONED_DISTRIBUTION_CDN_URL = "/$VERSION/$CURRENT_VERSION"
 
     /** Submission URL built from CDN URL's and REST resources */
-    private var VERSIONED_SUBMISSION_CDN_URL = DynamicURLs.SUBMISSION_CDN_URL + "/$VERSION/$CURRENT_VERSION"
+    private var VERSIONED_SUBMISSION_CDN_URL = "/$VERSION/$CURRENT_VERSION"
 
     /** Parameter Download URL built from CDN URL's and REST resources */
     private val PARAMETERS_DOWNLOAD_URL = "$VERSIONED_DISTRIBUTION_CDN_URL/$PARAMETERS"
@@ -79,4 +77,6 @@ object DiagnosisKeyConstants {
 
     /** Available Dates URL built from CDN URL's and REST resources */
     val AVAILABLE_DATES_URL = "$DIAGNOSIS_KEYS_DOWNLOAD_URL/$COUNTRY/$CURRENT_COUNTRY/$DATE"
+
+    const val SERVER_ERROR_CODE_403 = 403
 }

@@ -4,10 +4,6 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="android.view.View" />
-
         <variable
             name="headline"
             type="String" />
@@ -24,70 +20,60 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dispatcher_card"
+        style="@style/cardGrey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/dispatcher_card_header"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/dispatcher_card_title"
+            style="@style/textTitle"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:background="#f5f5f5"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:text="@{headline}"
+            app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/dispatcher_card_header_title"
-                style="@style/textTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:text="@{headline}"
-                app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_header_icon_drilldown"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/dispatcher_card_icon"
+            layout="@layout/include_button_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            app:icon="@{@drawable/ic_icon_drilldowncard_dark}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/dispatcher_card_header_icon_drilldown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:contentDescription="@string/lorem_ipsum"
-                android:src="@drawable/ic_icon_drilldowncard_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/submission_dispatcher_card_text"
+            style="@style/textMultiline"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:text="@{body}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_title" />
 
-            <TextView
-                android:id="@+id/submission_dispatcher_card_text"
-                style="@style/textMultiline"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                android:text="@{body}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_header_title" />
+        <ImageView
+            android:id="@+id/dispatcher_card_illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/button_icon_margin"
+            android:contentDescription="@string/lorem_ipsum"
+            android:src="@{illustration}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_icon" />
 
-            <ImageView
-                android:id="@+id/dispatcher_card_illustration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:contentDescription="@string/lorem_ipsum"
-                android:src="@{illustration}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_header_icon_drilldown" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

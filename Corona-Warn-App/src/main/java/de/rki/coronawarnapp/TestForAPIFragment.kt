@@ -2,17 +2,23 @@ package de.rki.coronawarnapp
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Switch
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
@@ -20,8 +26,11 @@ import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.protobuf.ByteString
+import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
@@ -32,6 +41,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -54,7 +64,6 @@ import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_insert_expo
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_retrieve_exposure_summary
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_tracing_duration_in_retention_period
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_tracing_intervals
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.image_qr_code
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_attenuation
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_daysSinceLastExposure
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_matchedKeyCount
@@ -62,6 +71,8 @@ import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_sum
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_googlePlayServices_version
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_my_keys
+import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.qr_code_viewpager
+import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_my_keys
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
@@ -90,6 +101,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     private var myExposureKeysJSON: String? = null
+    private var myExposureKeys: List<TemporaryExposureKey>? = mutableListOf()
     private var otherExposureKey: AppleLegacyKeyExchange.Key? = null
     private var otherExposureKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
@@ -100,8 +112,12 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     // ViewModel for MainActivity
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
+    private lateinit var qrPager: ViewPager2
+    private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
+
     // Data and View binding
-    private lateinit var binding: FragmentTestForAPIBinding
+    private var _binding: FragmentTestForAPIBinding? = null
+    private val binding: FragmentTestForAPIBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,7 +126,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     ): View? {
 
         // get the binding reference by inflating it with the current layout
-        binding = FragmentTestForAPIBinding.inflate(inflater)
+        _binding = FragmentTestForAPIBinding.inflate(inflater)
 
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
@@ -120,6 +136,11 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -138,15 +159,24 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
 
+        qrPager = qr_code_viewpager
+        qrPagerAdapter = QRPagerAdapter()
+        qrPager.adapter = qrPagerAdapter
+
         button_api_test_start.setOnClickListener {
             start()
         }
 
         button_api_get_exposure_keys.setOnClickListener {
             getExposureKeys()
-            tracingViewModel.viewModelScope.launch {
-                ExposureSharingService.shareKeysAsBitmap(300, 300, updateQRImageView)
-            }
+        }
+
+        val last3HoursSwitch = test_api_switch_last_three_hours_from_server as Switch
+        last3HoursSwitch.isChecked = LocalData.last3HoursMode()
+        last3HoursSwitch.setOnClickListener {
+            val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
+            showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
+            LocalData.last3HoursMode(isLast3HoursModeEnabled)
         }
 
         button_api_get_check_exposure.setOnClickListener {
@@ -238,13 +268,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         updateExposureSummaryDisplay(null)
         getExposureKeys()
-    }
-
-    private val updateQRImageView = { bitmap: Bitmap? ->
-        bitmap?.let {
-            image_qr_code.setImageBitmap(bitmap)
-            image_qr_code.visibility = View.VISIBLE
-        }
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -348,7 +371,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                         googleFileList,
-                        getCustomConfig(),
+                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")
@@ -422,10 +445,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         )
         label_my_keys.text = myKeysLabelAndCount
         text_my_keys.text = myExposureKeysJSON
-
-        tracingViewModel.viewModelScope.launch {
-            ExposureSharingService.shareKeysAsBitmap(300, 300, updateQRImageView)
-        }
     }
 
     private fun showToast(message: String) {
@@ -444,6 +463,9 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         myExposureKeysJSON =
             keysToJson(keys)
+        myExposureKeys = keys
+        qrPagerAdapter.notifyDataSetChanged()
+
         updateKeysDisplay()
     }
 
@@ -490,4 +512,46 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             CONFIG_SCORE
         )
         .build()
+
+    private inner class QRPagerAdapter :
+        RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>() {
+
+        inner class QRViewHolder(val qrCode: ImageView) : RecyclerView.ViewHolder(qrCode)
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QRViewHolder {
+            val imageView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.test_qr_code_view, parent, false) as ImageView
+            return QRViewHolder(imageView)
+        }
+
+        override fun getItemCount(): Int = myExposureKeys?.size ?: 0
+
+        override fun onBindViewHolder(holder: QRViewHolder, position: Int) {
+            myExposureKeys?.get(position)?.let {
+                holder.qrCode.setImageBitmap(bitmapForImage(it))
+            }
+        }
+
+        private fun bitmapForImage(key: TemporaryExposureKey): Bitmap {
+            val key = AppleLegacyKeyExchange.Key.newBuilder()
+                .setKeyData(ByteString.copyFrom(key.keyData))
+                .setRollingPeriod(key.rollingPeriod)
+                .setRollingStartNumber(key.rollingStartIntervalNumber)
+                .build().toByteArray()
+            val bMatrix = QRCodeWriter().encode(
+                Base64.encodeToString(key, Base64.DEFAULT),
+                BarcodeFormat.QR_CODE,
+                300,
+                300
+            )
+            val bmp =
+                Bitmap.createBitmap(bMatrix.width, bMatrix.height, Bitmap.Config.RGB_565)
+            for (x in 0 until bMatrix.width) {
+                for (y in 0 until bMatrix.height) {
+                    bmp.setPixel(x, y, if (bMatrix.get(x, y)) Color.BLACK else Color.WHITE)
+                }
+            }
+            return bmp
+        }
+    }
 }

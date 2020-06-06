@@ -76,14 +76,14 @@ object TimeVariables {
 
     /**
      * The timeRange until the calculated exposure figures are rated as stale.
-     * In days.
+     * In hours.
      */
-    private const val MAX_STALE_EXPOSURE_RISK_RANGE = 1
+    private const val MAX_STALE_EXPOSURE_RISK_RANGE = 48
 
     /**
      * Getter function for [MAX_STALE_EXPOSURE_RISK_RANGE]
      *
-     * @return stale threshold in days
+     * @return stale threshold in hours
      */
     fun getMaxStaleExposureRiskRange(): Int = MAX_STALE_EXPOSURE_RISK_RANGE
 
@@ -106,6 +106,7 @@ object TimeVariables {
      * Internal requirements: 2 hours = 7200000 milliseconds
      * Test value: 1 minute
      */
+    // todo exchange with real value (currently 120 min)
     private const val MANUAL_KEY_RETRIEVAL_DELAY = 60000L
 
     /**
@@ -114,6 +115,19 @@ object TimeVariables {
      * @return delay of key retrieval in milliseconds
      */
     fun getManualKeyRetrievalDelay() = MANUAL_KEY_RETRIEVAL_DELAY
+
+    /**
+     * This is the maximum attenuation duration value for the risk level calculation
+     * in minutes
+     */
+    private const val MAX_ATTENUATION_DURATION = 30.0
+
+    /**
+     * Getter function for [MAX_ATTENUATION_DURATION]
+     *
+     * @return max attenuation duration in minutes
+     */
+    fun getMaxAttenuationDuration() = MAX_ATTENUATION_DURATION
 
     /****************************************************
      * STORED DATA

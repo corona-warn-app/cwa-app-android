@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
@@ -16,7 +15,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DataRetentionHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +23,6 @@ import kotlinx.coroutines.withContext
 /**
  * The user is informed what a reset means and he can perform it.
  *
- * @see TracingViewModel
  */
 class SettingsResetFragment : BaseFragment() {
 
@@ -33,18 +30,21 @@ class SettingsResetFragment : BaseFragment() {
         private val TAG: String? = SettingsResetFragment::class.simpleName
     }
 
-    private val tracingViewModel: TracingViewModel by activityViewModels()
-    private lateinit var binding: FragmentSettingsResetBinding
+    private var _binding: FragmentSettingsResetBinding? = null
+    private val binding: FragmentSettingsResetBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsResetBinding.inflate(inflater)
-        binding.tracingViewModel = tracingViewModel
-        binding.lifecycleOwner = this
+        _binding = FragmentSettingsResetBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +55,7 @@ class SettingsResetFragment : BaseFragment() {
         binding.settingsResetButtonCancel.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.settingsDetailsHeaderReset.settingsDetailsHeaderButtonBack.buttonIcon.setOnClickListener {
+        binding.settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }
@@ -90,7 +90,7 @@ class SettingsResetFragment : BaseFragment() {
         activity?.finish()
     }
 
-    private suspend fun deleteLocalAppContent() {
+    private fun deleteLocalAppContent() {
         DataRetentionHelper.clearAllLocalData(requireContext())
     }
 }

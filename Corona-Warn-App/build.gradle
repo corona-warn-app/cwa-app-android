@@ -33,19 +33,23 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 7
-        versionName "0.8.0"
+        versionCode 10
+        versionName "0.8.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
         buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+        buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
 
         //override URLs with local variables
         Properties properties = new Properties()
         def propertiesFile = project.rootProject.file('local.properties')
         if (propertiesFile.exists()) {
             properties.load(propertiesFile.newDataInputStream())
+            def secretFile = project.rootProject.file('secrets.properties')
+            if (secretFile.exists())
+                properties.load(secretFile.newDataInputStream())
 
             def DOWNLOAD_CDN_URL = properties.getProperty('DOWNLOAD_CDN_URL')
             if (DOWNLOAD_CDN_URL)
@@ -58,6 +62,10 @@ android {
             def VERIFICATION_CDN_URL = properties.getProperty('VERIFICATION_CDN_URL')
             if (VERIFICATION_CDN_URL)
                 buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+
+            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
+            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW)
+                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
         }
     }
 
@@ -66,12 +74,38 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            println "SECRET INPUT"
+            Properties properties = new Properties()
+            def secretFile = project.rootProject.file('secrets.properties')
+            if (secretFile.exists())
+                properties.load(secretFile.newDataInputStream())
+
+            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
+            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW) {
+                println "TRUSTED_CERTS_EXPORT_KEYSTORE_PW:$TRUSTED_CERTS_EXPORT_KEYSTORE_PW"
+                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
+            }
+            println "SECRET END"
         }
         releaseForTest {
             applicationIdSuffix '.dev'
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            println "SECRET INPUT"
+            Properties properties = new Properties()
+            def secretFile = project.rootProject.file('secrets.properties')
+            if (secretFile.exists())
+                properties.load(secretFile.newDataInputStream())
+
+            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
+            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW) {
+                println "TRUSTED_CERTS_EXPORT_KEYSTORE_PW:$TRUSTED_CERTS_EXPORT_KEYSTORE_PW"
+                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
+            }
+            println "SECRET END"
         }
     }
 
@@ -142,12 +176,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDeviceReleaseUnitTest
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.2-eap.aar'])
-    implementation project(":Server-Protocol-Buffer")
-
-
+    // KOTLIN
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // ANDROID STANDARD
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.3.0'
     implementation 'com.google.android.material:material:1.1.0'
@@ -158,14 +191,13 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.work:work-runtime-ktx:2.3.4'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-    implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.google.android.play:core:1.7.3'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.guava:guava:29.0-android'
+
+    // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
     implementation 'com.google.zxing:core:3.3.0'
-    // implementation 'com.google.android.gms:play-services-nearby:18.0.2-eap'
+
+    // TESTING
     testImplementation 'junit:junit:4.13'
     testImplementation "org.mockito:mockito-core:3.3.3"
     testImplementation('org.robolectric:robolectric:4.3.1') {
@@ -180,23 +212,41 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
-    implementation 'joda-time:joda-time:2.10.6'
 
+    // Play Services
+    implementation 'com.google.android.play:core:1.7.3'
     implementation 'com.google.android.gms:play-services-base:17.2.1'
     implementation 'com.google.android.gms:play-services-basement:17.2.1'
     implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
     implementation 'com.google.android.gms:play-services-tasks:17.0.2'
+    api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.2-eap.aar'])
 
+    // HTTP
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation ('com.squareup.retrofit2:converter-protobuf:2.9.0') {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
+    implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
+    // PERSISTENCE
     def room_version = "2.2.5"
-
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-guava:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
-    implementation "androidx.security:security-crypto:1.0.0-rc02"
-
-    implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
     implementation "androidx.sqlite:sqlite:2.0.1"
+
+    // UTILS
+    implementation project(":Server-Protocol-Buffer")
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.guava:guava:29.0-android'
+    implementation 'joda-time:joda-time:2.10.6'
+
+    // SECURITY
+    implementation "androidx.security:security-crypto:1.0.0-rc02"
+    implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
+    implementation 'org.conscrypt:conscrypt-android:2.4.0'
 
 }

@@ -36,31 +36,23 @@
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
         <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
         <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/font_button</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="buttonPrimary" parent="@style/button">
-        <item name="android:textColor">@color/textColorLight</item>
+    <style name="buttonPrimary" parent="button">
         <item name="android:backgroundTint">@color/button_primary</item>
+        <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
     <style name="buttonReset" parent="@style/button">
-        <item name="android:textColor">@color/textColorLight</item>
         <item name="android:backgroundTint">@color/button_red</item>
+        <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
     <style name="buttonLight" parent="@style/button">
-        <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:backgroundTint">@color/button_light</item>
-    </style>
-
-    <style name="buttonGrey" parent="@style/button">
-        <item name="android:textColor">@color/textColorBlue</item>
-        <item name="android:backgroundTint">@color/button_stable_grey</item>
-    </style>
-
-    <style name="buttonStable" parent="@style/button">
-        <item name="android:textColor">@color/stableTextColor</item>
-        <item name="android:backgroundTint">@color/button_stable</item>
     </style>
 
     <style name="buttonIcon">
@@ -97,7 +89,7 @@
     </style>
 
     <style name="rowDanger" parent="row">
-        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textColor">@color/colorTextSemanticRed</item>
         <item name="android:background">@drawable/row</item>
         <item name="android:backgroundTint">@color/button_light</item>
     </style>
@@ -118,11 +110,6 @@
         <item name="android:backgroundTint">@color/colorGreyLight</item>
     </style>
     <!-- todo unify padding with main card - tbr -->
-    <style name="cardSubmission">
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/card_light</item>
-        <item name="android:elevation">@dimen/elevation_strong</item>
-    </style>
 
     <style name="cardHeadline" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textSize">@dimen/font_larger</item>
@@ -140,14 +127,72 @@
         <item name="android:textColor">@color/textColorSecondary</item>
     </style>
 
+    <style name="cardGrey">
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
+
 
     <!-- ####################################
-                    Text
+                   Text
+    ###################################### -->
+
+    <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="headline5" parent="@style/TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="subtitleMedium" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
+    </style>
+
+    <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="body2Medium" parent="@style/TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
+    </style>
+
+    <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+
+    <!-- ####################################
+                    OLD Text
+                    TODO: DELETE
     ###################################### -->
     <style name="textTitle" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="textTitleLarger">
         <item name="android:textSize">@dimen/font_larger</item>
-        <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="textHeadline" parent="textTitleLarger">
+        <item name="android:textSize">@dimen/font_largest</item>
     </style>
 
     <style name="textSubTitle" parent="textTitle" />
@@ -157,7 +202,10 @@
     </style>
 
     <style name="textMultiline" parent="@style/TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/textColorSecondary</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">@dimen/font_line_spacing_extra</item>
     </style>
 
     <style name="textLargeEmphasized" parent="@style/TextAppearance.AppCompat.Headline">
@@ -176,7 +224,7 @@
 
     <style name="textDanger">
         <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>
 
     <style name="textLink" parent="@style/textMultilineEmphasized">
@@ -238,7 +286,6 @@
         <item name="android:alpha">0</item>
         <item name="android:background">@null</item>
         <item name="android:inputType">textPassword</item>
-        <item name="android:maxLength">@integer/submission_tan_length</item>
         <item name="android:singleLine">true</item>
     </style>
 

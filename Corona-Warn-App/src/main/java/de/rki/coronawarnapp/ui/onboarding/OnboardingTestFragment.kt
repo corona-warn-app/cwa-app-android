@@ -15,15 +15,21 @@ class OnboardingTestFragment : BaseFragment() {
         private val TAG: String? = OnboardingTestFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentOnboardingTestBinding
+    private var _binding: FragmentOnboardingTestBinding? = null
+    private val binding: FragmentOnboardingTestBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOnboardingTestBinding.inflate(inflater)
+        _binding = FragmentOnboardingTestBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

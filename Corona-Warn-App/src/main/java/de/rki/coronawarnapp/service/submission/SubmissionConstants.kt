@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.service.submission
 
-import de.rki.coronawarnapp.http.DynamicURLs
-
 object SubmissionConstants {
     private const val VERSION = "version"
     private const val REGISTRATION_TOKEN = "registrationToken"
@@ -10,8 +8,7 @@ object SubmissionConstants {
 
     private var CURRENT_VERSION = "v1"
 
-    private var VERIFICATION_CDN_URL = DynamicURLs.VERIFICATION_CDN_URL
-    private val VERSIONED_VERIFICATION_CDN_URL = "$VERIFICATION_CDN_URL/$VERSION/$CURRENT_VERSION"
+    private val VERSIONED_VERIFICATION_CDN_URL = "$VERSION/$CURRENT_VERSION"
 
     const val QR_CODE_KEY_TYPE = "GUID"
     const val TELE_TAN_KEY_TYPE = "TELETAN"
@@ -19,4 +16,10 @@ object SubmissionConstants {
     val REGISTRATION_TOKEN_URL = "$VERSIONED_VERIFICATION_CDN_URL/$REGISTRATION_TOKEN"
     val TEST_RESULT_URL = "$VERSIONED_VERIFICATION_CDN_URL/$TEST_RESULT"
     val TAN_REQUEST_URL = "$VERSIONED_VERIFICATION_CDN_URL/$TAN"
+
+    const val MAX_QR_CODE_LENGTH = 150
+    const val MAX_GUID_LENGTH = 80
+    const val GUID_SEPARATOR = '?'
+
+    const val SERVER_ERROR_CODE_400 = 400
 }

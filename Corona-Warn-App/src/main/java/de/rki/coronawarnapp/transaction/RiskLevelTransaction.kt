@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.transaction
 
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.TestRiskLevelCalculation
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -15,9 +17,10 @@ import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
-import de.rki.coronawarnapp.service.riskscoreclassification.RiskScoreClassificationService
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -27,10 +30,9 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_OUTDATED
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CLOSE
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_APPLICATION_CONFIG
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_RISK_THRESHOLD
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -101,7 +103,7 @@ import java.util.concurrent.atomic.AtomicReference
  * 1. [CHECK_TRACING]
  * 2. [CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS]
  * 3. [CHECK_UNKNOWN_RISK_OUTDATED]
- * 4. [RETRIEVE_RISK_THRESHOLD]
+ * 4. [RETRIEVE_APPLICATION_CONFIG]
  * 5. [RETRIEVE_EXPOSURE_SUMMARY]
  * 6. [CHECK_INCREASED_RISK]
  * 7. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
@@ -133,8 +135,9 @@ object RiskLevelTransaction : Transaction() {
         /** Check the conditions for the [UNKNOWN_RISK_OUTDATED_RESULTS] score */
         CHECK_UNKNOWN_RISK_OUTDATED,
 
-        /** Retrieve the RiskThreshold values to define the thresholds for [INCREASED_RISK] and [LOW_LEVEL_RISK] */
-        RETRIEVE_RISK_THRESHOLD,
+        /** Retrieve the Application Configuration values to calculate the Risk Score
+         * and determine the [INCREASED_RISK] and [LOW_LEVEL_RISK] */
+        RETRIEVE_APPLICATION_CONFIG,
 
         /** Retrieve the last persisted [ExposureSummary] (if available) from the Google Exposure Notification API for
          * further calculation of the Risk Level Score */
@@ -152,6 +155,17 @@ object RiskLevelTransaction : Transaction() {
         /** Transaction Closure */
         CLOSE
     }
+
+    /** TESTING ONLY
+     *
+     * TODO remove asap, only used to display the used values for risk level calculation
+     */
+
+    val tempExposedTransactionValuesForTestingOnly =
+        MutableLiveData<TestRiskLevelCalculation.TransactionValues>()
+
+    var recordedTransactionValuesForTestingOnly =
+        TestRiskLevelCalculation.TransactionValues()
 
     /** atomic reference for the rollback value for the last calculated risk level score */
     private val lastCalculatedRiskLevelScoreForRollback = AtomicReference<RiskLevel>()
@@ -178,9 +192,9 @@ object RiskLevelTransaction : Transaction() {
         if (isValidResult(result)) return@lockAndExecute
 
         /****************************************************
-         * RETRIEVE RISK THRESHOLD
+         * RETRIEVE APPLICATION CONFIGURATION
          ****************************************************/
-        val riskScoreClassification = executeRetrieveRiskThreshold()
+        val appConfiguration = executeRetrieveApplicationConfiguration()
 
         /****************************************************
          * RETRIEVE EXPOSURE SUMMARY
@@ -190,7 +204,7 @@ object RiskLevelTransaction : Transaction() {
         /****************************************************
          * CHECK [INCREASED_RISK] CONDITIONS
          ****************************************************/
-        result = executeCheckIncreasedRisk(riskScoreClassification, lastExposureSummary)
+        result = executeCheckIncreasedRisk(appConfiguration, lastExposureSummary)
         if (isValidResult(result)) return@lockAndExecute
 
         /****************************************************
@@ -204,7 +218,7 @@ object RiskLevelTransaction : Transaction() {
          * SET [LOW_LEVEL_RISK] LEVEL IF NONE ABOVE APPLIED
          ****************************************************/
         if (result == UNDETERMINED) {
-            lastCalculatedRiskLevelScoreForRollback.set(getLastCalculatedRiskLevelScore())
+            lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(LOW_LEVEL_RISK)
             executeClose()
             return@lockAndExecute
@@ -269,7 +283,7 @@ object RiskLevelTransaction : Transaction() {
 
             /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
             defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
-            if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToDays() >
+            if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
                 return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
@@ -282,14 +296,19 @@ object RiskLevelTransaction : Transaction() {
         }
 
     /**
-     * Executes the [RETRIEVE_RISK_THRESHOLD] Transaction State
+     * Executes the [RETRIEVE_APPLICATION_CONFIG] Transaction State
+     *
+     * @return the values of the application configuration
      */
-    private suspend fun executeRetrieveRiskThreshold(): RiskScoreClassification =
-        executeState(RETRIEVE_RISK_THRESHOLD) {
-            // these are the threshold values defined by RKI
-            return@executeState getRiskThreshold().also {
-                Log.v(TAG, "$transactionId - retrieved risk threshold")
-            }
+    private suspend fun executeRetrieveApplicationConfiguration():
+            ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        executeState(RETRIEVE_APPLICATION_CONFIG) {
+            return@executeState getApplicationConfiguration()
+                .also {
+                    // todo remove after testing sessions
+                    recordedTransactionValuesForTestingOnly.appConfig = it
+                    Log.v(TAG, "$transactionId - retrieved configuration from backend")
+                }
         }
 
     /**
@@ -299,6 +318,8 @@ object RiskLevelTransaction : Transaction() {
         val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
 
         return@executeState lastExposureSummary.also {
+            // todo remove after testing sessions
+            recordedTransactionValuesForTestingOnly.exposureSummary = it
             Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
         }
     }
@@ -307,23 +328,47 @@ object RiskLevelTransaction : Transaction() {
      * Executes the [CHECK_INCREASED_RISK] Transaction State
      */
     private suspend fun executeCheckIncreasedRisk(
-        riskScoreClassification: RiskScoreClassification,
+        appConfig: ApplicationConfigurationOuterClass.ApplicationConfiguration,
         exposureSummary: ExposureSummary
     ): RiskLevel =
         executeState(CHECK_INCREASED_RISK) {
 
-            val highRiskScoreClass = riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
-                ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
+            // custom attenuation parameters to weight the attenuation
+            // values provided by the Google API
+            val attenuationParameters = appConfig.attenuationDuration
 
-            // if the risk score is above the defined level threshold we always return the high level risk score
-            if (exposureSummary.maximumRiskScore >= highRiskScoreClass.min) return@executeState INCREASED_RISK
-                .also {
-                    Log.v(
-                        TAG,
-                        "${exposureSummary.maximumRiskScore} is above the defined " +
-                                "min value ${highRiskScoreClass.min}"
-                    )
-                }
+            // calculate the risk score based on the values collected by the Google EN API and
+            // the backend configuration
+            val riskScore = RiskLevelCalculation.calculateRiskScore(
+                attenuationParameters,
+                exposureSummary
+            ).also {
+                // todo remove after testing sessions
+                recordedTransactionValuesForTestingOnly.riskScore = it
+                Log.v(TAG, "calculated risk with the given config: $it")
+            }
+
+            // these are the defined risk classes. They will divide the calculated
+            // risk score into the low and increased risk
+            val riskScoreClassification = appConfig.riskScoreClasses
+
+            // get the high risk score class
+            val highRiskScoreClass =
+                riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
+                    ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
+
+            // if the calculated risk score is above the defined level threshold we return the high level risk score
+            if (riskScore >= highRiskScoreClass.min && riskScore <= highRiskScoreClass.max) {
+                Log.v(
+                    TAG, "$riskScore is above the defined " +
+                            "min value ${highRiskScoreClass.min}"
+                )
+                return@executeState INCREASED_RISK
+            } else if (riskScore > highRiskScoreClass.max) {
+                throw RiskLevelCalculationException(
+                    IllegalStateException("risk score is above the max threshold for score class")
+                )
+            }
 
             Log.v(TAG, "$transactionId - INCREASED_RISK not applicable")
             return@executeState UNDETERMINED
@@ -352,6 +397,13 @@ object RiskLevelTransaction : Transaction() {
         executeState(UPDATE_RISK_LEVEL) {
             Log.v(TAG, "$transactionId - update the risk level with $riskLevel")
             updateRiskLevelScore(riskLevel)
+                .also {
+                    // todo remove after testing sessions
+                    recordedTransactionValuesForTestingOnly.riskLevel = riskLevel
+                    tempExposedTransactionValuesForTestingOnly.postValue(
+                        recordedTransactionValuesForTestingOnly
+                    )
+                }
         }
 
     /**
@@ -381,7 +433,7 @@ object RiskLevelTransaction : Transaction() {
                 "$transactionId - $riskLevel was determined by the transaction. " +
                         "UPDATE and CLOSE will be called"
             )
-            lastCalculatedRiskLevelScoreForRollback.set(getLastCalculatedRiskLevelScore())
+            lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(riskLevel)
             executeClose()
             return true
@@ -404,14 +456,15 @@ object RiskLevelTransaction : Transaction() {
     }
 
     /**
-     * Make a call to the backend to retrieve the current risk threshold values from the RKI
+     * Make a call to the backend to retrieve the current application configuration values
      *
-     * @return the [RiskScoreClassification] from the backend
+     * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
      */
-    private suspend fun getRiskThreshold(): RiskScoreClassification = withContext(Dispatchers.Default) {
-        return@withContext RiskScoreClassificationService.asyncRetrieveRiskScoreClassification()
-            .also { Log.v(TAG, "risk score classes from backend: $it") }
-    }
+    private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        withContext(Dispatchers.Default) {
+            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                .also { Log.v(TAG, "configuration from backend: $it") }
+        }
 
     /**
      * Returns a Boolean if the duration of the activated tracing time is above the
@@ -431,15 +484,6 @@ object RiskLevelTransaction : Transaction() {
                         "($durationTracingIsActiveThreshold h): $it"
             )
         }
-    }
-
-    /**
-     * Retrieves the last calculated Risk Level Score from the persisted storage
-     *
-     * @return
-     */
-    private fun getLastCalculatedRiskLevelScore(): RiskLevel {
-        return RiskLevelRepository.getLastCalculatedScore()
     }
 
     /**
@@ -468,7 +512,8 @@ object RiskLevelTransaction : Transaction() {
         val googleToken = LocalData.googleApiToken()
             ?: throw RiskLevelCalculationException(IllegalStateException("exposure summary is not persisted"))
 
-        val exposureSummary = InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
+        val exposureSummary =
+            InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
         ExposureSummaryRepository.getExposureSummaryRepository()
             .insertExposureSummaryEntity(exposureSummary)

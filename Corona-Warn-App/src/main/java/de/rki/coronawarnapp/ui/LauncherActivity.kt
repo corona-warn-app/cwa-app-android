@@ -17,7 +17,6 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         retrieveCustomURLsFromSchema(intent.data)
 
         if (LocalData.isOnboarded()) {
@@ -56,12 +55,14 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun startOnboardingActivity() {
-        startActivity(Intent(this, OnboardingActivity::class.java))
+        val onboardingActivity = Intent(this, OnboardingActivity::class.java)
+        startActivity(onboardingActivity)
         finish()
     }
 
     private fun startMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        val mainActivityIntent = Intent(this, MainActivity::class.java)
+        startActivity(mainActivityIntent)
         finish()
     }
 }

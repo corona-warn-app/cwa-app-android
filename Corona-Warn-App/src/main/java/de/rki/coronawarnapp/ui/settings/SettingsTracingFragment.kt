@@ -39,7 +39,8 @@ class SettingsTracingFragment : BaseFragment(),
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private lateinit var binding: FragmentSettingsTracingBinding
+    private var _binding: FragmentSettingsTracingBinding? = null
+    private val binding: FragmentSettingsTracingBinding get() = _binding!!
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
@@ -48,14 +49,20 @@ class SettingsTracingFragment : BaseFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsTracingBinding.inflate(inflater)
+        _binding = FragmentSettingsTracingBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 
@@ -74,8 +81,7 @@ class SettingsTracingFragment : BaseFragment(),
 
     override fun onStartPermissionGranted() {
         tracingViewModel.refreshIsTracingEnabled()
-        // TODO
-        BackgroundWorkScheduler.checkStart()
+        BackgroundWorkScheduler.startWorkScheduler()
         Toast.makeText(requireContext(), "Tracing started successfully", Toast.LENGTH_SHORT).show()
     }
 
@@ -102,7 +108,7 @@ class SettingsTracingFragment : BaseFragment(),
                 }
             }
         }
-        binding.settingsTracingHeader.settingsDetailsHeaderButtonBack.buttonIcon.setOnClickListener {
+        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {

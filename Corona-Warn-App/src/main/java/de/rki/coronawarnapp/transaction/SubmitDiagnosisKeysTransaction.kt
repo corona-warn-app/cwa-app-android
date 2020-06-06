@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.SUBMIT_KEYS
+import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
 
@@ -43,6 +44,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         RETRIEVE_TAN,
         RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY,
         SUBMIT_KEYS,
+        STORE_SUCCESS,
         CLOSE
     }
 
@@ -52,7 +54,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * RETRIEVE TAN
          ****************************************************/
         val authCode = executeState(RETRIEVE_TAN) {
-            SubmissionService.asyncRequestAuthCode()
+            SubmissionService.asyncRequestAuthCode(registrationToken)
         }
         /****************************************************
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
@@ -67,6 +69,12 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          ****************************************************/
         executeState(SUBMIT_KEYS) {
             DiagnosisKeyService.asyncSubmitKeys(authCode, temporaryExposureKeyList)
+        }
+        /****************************************************
+         * STORE SUCCESS
+         ****************************************************/
+        executeState(STORE_SUCCESS) {
+            SubmissionService.submissionSuccessful()
         }
         /****************************************************
          * CLOSE TRANSACTION

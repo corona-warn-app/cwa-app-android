@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentMainBinding
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.ui.UiConstants
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -39,19 +38,25 @@ class MainFragment : BaseFragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private lateinit var binding: FragmentMainBinding
+    private var _binding: FragmentMainBinding? = null
+    private val binding: FragmentMainBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainBinding.inflate(inflater)
+        _binding = FragmentMainBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,11 +72,8 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
         tracingViewModel.refreshIsTracingEnabled()
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
-        settingsViewModel.refreshBackgroundJobEnabled()
         TimerHelper.checkManualKeyRetrievalTimer()
-        if (submissionViewModel.deviceRegistered) {
-            submissionViewModel.refreshTestResult()
-        }
+        submissionViewModel.refreshDeviceUIState()
     }
 
     private fun setButtonOnClickListener() {
@@ -110,7 +112,7 @@ class MainFragment : BaseFragment() {
             doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainAbout.mainCard.setOnClickListener {
-            OpenUrlHelper.navigate(this, UiConstants.INFORMATION_URI)
+            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
         }
         binding.mainHeaderShare.buttonIcon.setOnClickListener {
             doNavigate(MainFragmentDirections.actionMainFragmentToMainSharingFragment())
@@ -140,6 +142,11 @@ class MainFragment : BaseFragment() {
                 // todo remove only for testing
                 R.id.menu_test_api -> {
                     doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
+                    true
+                }
+                // todo remove only for testing
+                R.id.menu_test_risk_level -> {
+                    doNavigate(MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation())
                     true
                 }
                 // todo remove only for testing

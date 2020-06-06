@@ -23,7 +23,7 @@ import android.util.Log
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.service.riskscoreparameter.RiskScoreParameterService
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
@@ -215,7 +215,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      */
     private suspend fun executeRetrieveRiskScoreParams() =
         executeState(RETRIEVE_RISK_SCORE_PARAMS) {
-            RiskScoreParameterService.asyncRetrieveRiskScoreParameters()
+            ApplicationConfigurationService.asyncRetrieveExposureConfiguration()
         }
 
     /**
@@ -230,17 +230,23 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     /**
      * Executes the API_SUBMISSION Transaction State
+     *
+     * We currently use Batch Size 1 and thus submit multiple times to the API.
+     * This means that instead of directly submitting all files at once, we have to split up
+     * our file list as this equals a different batch for Google every time.
      */
     private suspend fun executeAPISubmission(
         token: String,
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-            exportFiles,
-            exposureConfiguration,
-            token
-        )
+        exportFiles.forEach { batch ->
+            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                listOf(batch),
+                exposureConfiguration,
+                token
+            )
+        }
         Log.d(TAG, "Diagnosis Keys provided successfully, Token: $token")
     }
 

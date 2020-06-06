@@ -26,17 +26,23 @@ class SettingsNotificationFragment : Fragment() {
     }
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private lateinit var binding: FragmentSettingsNotificationsBinding
+    private var _binding: FragmentSettingsNotificationsBinding? = null
+    private val binding: FragmentSettingsNotificationsBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsNotificationsBinding.inflate(inflater)
+        _binding = FragmentSettingsNotificationsBinding.inflate(inflater)
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +68,7 @@ class SettingsNotificationFragment : Fragment() {
         // Settings
         val settingsRow = binding.settingsNavigationRowSystem.navigationRow
         val goBack =
-            binding.settingsDetailsHeaderNotifications.settingsDetailsHeaderButtonBack.buttonIcon
+            binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
         updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch

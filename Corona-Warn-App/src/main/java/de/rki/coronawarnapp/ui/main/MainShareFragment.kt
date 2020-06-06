@@ -23,17 +23,23 @@ class MainShareFragment : BaseFragment() {
     }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
-    private lateinit var binding: FragmentMainShareBinding
+    private var _binding: FragmentMainShareBinding? = null
+    private val binding: FragmentMainShareBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainShareBinding.inflate(inflater)
+        _binding = FragmentMainShareBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +51,7 @@ class MainShareFragment : BaseFragment() {
         binding.mainShareButton.setOnClickListener {
             ShareHelper.shareText(this, getString(R.string.main_share_message), null)
         }
-        binding.mainShareHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.mainShareHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

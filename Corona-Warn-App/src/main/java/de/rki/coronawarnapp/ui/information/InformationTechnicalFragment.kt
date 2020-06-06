@@ -16,23 +16,30 @@ class InformationTechnicalFragment : BaseFragment() {
         private val TAG: String? = InformationTechnicalFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentInformationTechnicalBinding
+    private var _binding: FragmentInformationTechnicalBinding? = null
+    private val binding: FragmentInformationTechnicalBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInformationTechnicalBinding.inflate(inflater)
+        _binding = FragmentInformationTechnicalBinding.inflate(inflater)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationTechnicalHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationTechnicalHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }
