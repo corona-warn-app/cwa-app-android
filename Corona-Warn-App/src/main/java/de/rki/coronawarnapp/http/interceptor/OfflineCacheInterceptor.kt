@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.http
+package de.rki.coronawarnapp.http.interceptor
 
 import android.content.Context
 import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
