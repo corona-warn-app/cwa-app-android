@@ -36,8 +36,6 @@ class FormatterSettingsHelperTest {
         every { context.getString(R.string.settings_notifications_headline_inactive) } returns "settings_notifications_headline_inactive"
         every { context.getString(R.string.settings_notifications_body_active) } returns "settings_notifications_body_active"
         every { context.getString(R.string.settings_notifications_body_inactive) } returns "settings_notifications_body_inactive"
-        every { context.getString(R.string.settings_tracing_status_body_active) } returns "settings_tracing_status_body_active"
-        every { context.getString(R.string.settings_tracing_status_body_inactive) } returns "settings_tracing_status_body_inactive"
         every { context.getColor(R.color.settingsIconActive) } returns R.color.settingsIconActive
         every { context.getColor(R.color.settingsIconInactive) } returns R.color.settingsIconInactive
 
@@ -116,21 +114,6 @@ class FormatterSettingsHelperTest {
                     R.string.settings_notifications_body_active,
                     R.string.settings_notifications_body_inactive
                 ))
-            )
-        )
-    }
-
-    private fun formatTracingStatusBodyBase(
-        bTracing: Boolean,
-        sResult: Int
-    ) {
-        val result = formatTracingStatusBody(
-            tracing = bTracing,
-            activeTracingDaysInRetentionPeriod = 10
-        )
-        assertThat(
-            result, `is`(
-                (context.getString(sResult).format("10"))
             )
         )
     }
@@ -487,15 +470,6 @@ class FormatterSettingsHelperTest {
 
         // When status false
         formatNotificationsDescriptionBase(bValue = false)
-    }
-
-    @Test
-    fun formatTracingStatusBody() {
-        // When tracing true, days period 10
-        formatTracingStatusBodyBase(bTracing = true, sResult = R.string.settings_tracing_status_body_active)
-
-        // When tracing false, days period 10
-        formatTracingStatusBodyBase(bTracing = false, sResult = R.string.settings_tracing_status_body_inactive)
     }
 
     @Test
