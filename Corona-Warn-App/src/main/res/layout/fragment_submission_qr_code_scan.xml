@@ -57,7 +57,7 @@
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
-            android:backgroundTint="@color/iconColor"
+            android:backgroundTint="@color/colorTextPrimary3"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
