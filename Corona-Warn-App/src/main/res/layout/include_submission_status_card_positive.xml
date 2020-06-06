@@ -33,7 +33,7 @@
                 style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:text="@string/submission_status_card_positive_result_title"
+                android:text="@string/submission_status_card_title_positive"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -70,29 +70,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <include
-                android:id="@+id/submission_status_card_positive_result_contagious"
+                android:id="@+id/submission_status_card_positive_result_contact"
                 layout="@layout/include_risk_details_behavior_row"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:body="@{@string/submission_status_card_positive_result_contagious}"
-                app:icon="@{@drawable/ic_risk_card_contact_increased}"
+                app:body="@{@string/submission_status_card_positive_result_contact}"
+                app:icon="@{@drawable/ic_risk_details_contact}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_subtitle"
                 app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
 
             <include
-                android:id="@+id/submission_status_card_positive_result_isolate"
+                android:id="@+id/submission_status_card_positive_result_contagious"
                 layout="@layout/include_risk_details_behavior_row"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:body="@{@string/submission_status_card_positive_result_isolate}"
+                app:body="@{@string/submission_status_card_positive_result_contagious}"
                 app:icon="@{@drawable/ic_risk_details_home}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contagious"
+                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contact"
                 app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
 
             <include
@@ -105,7 +105,7 @@
                 app:icon="@{@drawable/ic_risk_details_share}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_isolate"
+                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_contagious"
                 app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
 
             <Button
@@ -114,7 +114,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/submission_status_card_positive_result_show_button"
+                android:text="@string/submission_test_result_positive_continue_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_share" />
