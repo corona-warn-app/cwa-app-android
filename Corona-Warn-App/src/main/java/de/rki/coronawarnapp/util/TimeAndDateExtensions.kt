@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util
 
+import android.content.Context
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
@@ -20,6 +21,9 @@ object TimeAndDateExtensions {
         DateTimeFormat.forPattern("yyyy-MM-dd").withChronology(GJChronology.getInstance())
             .withZoneUTC()
             .print(this.time)
+
+    fun Date.toUIFormat(context: Context): String =
+        android.text.format.DateFormat.getDateFormat(context).format(this)
 
     fun Date.logUTCFormat(): String = DateTime(this, DateTimeZone.UTC).toString()
 

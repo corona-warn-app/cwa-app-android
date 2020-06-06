@@ -59,7 +59,8 @@
     <dimen name="icon_size_main_card_end">35dp</dimen>
     <dimen name="icon_size_button">40dp</dimen>
     <dimen name="icon_size_settings">40dp</dimen>
-    <dimen name="icon_size_risk_details_behavior">35dp</dimen>
+    <dimen name="icon_size_risk_details_behavior">25dp</dimen>
+    <dimen name="icon_margin_risk_details_behavior">8dp</dimen>
     <dimen name="match_constraint">0dp</dimen>
 
     <!-- todo illustration sizes -->
