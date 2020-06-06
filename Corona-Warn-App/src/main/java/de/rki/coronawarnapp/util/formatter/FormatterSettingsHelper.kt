@@ -206,7 +206,7 @@ fun formatNotificationIcon(
 fun formatNotificationImage(notifications: Boolean): Drawable? =
     formatDrawable(
         notifications,
-        R.drawable.ic_settings_illustration_notification_on,
+        R.drawable.ic_illustration_notification_on,
         R.drawable.ic_settings_illustration_notification_off
     )
 
@@ -342,7 +342,7 @@ fun formatTracingStatusImage(tracing: Boolean, bluetooth: Boolean, connection: B
         TracingStatusHelper.CONNECTION ->
             appContext.getDrawable(R.drawable.ic_settings_illustration_connection_off)
         TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_illustration_tracing_on)
+            appContext.getDrawable(R.drawable.ic_illustration_tracing_on)
         else ->
             appContext.getDrawable(R.drawable.ic_settings_illustration_tracing_off)
     }
