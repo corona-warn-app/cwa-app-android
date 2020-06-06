@@ -195,64 +195,6 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
-
-    <!-- ####################################
-                    OLD Text
-                    TODO: DELETE
-    ###################################### -->
-    <style name="textTitle" parent="@style/TextAppearance.AppCompat.Headline">
-        <item name="android:textSize">@dimen/font_title</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <style name="textTitleLarger">
-        <item name="android:textSize">@dimen/font_larger</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="textHeadline" parent="textTitleLarger">
-        <item name="android:textSize">@dimen/font_largest</item>
-    </style>
-
-    <style name="textSubTitle" parent="textTitle" />
-
-    <style name="textTitleCentered" parent="textTitle">
-        <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="textMultiline" parent="@style/TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:lineSpacingExtra">@dimen/font_line_spacing_extra</item>
-    </style>
-
-    <style name="textLargeEmphasized" parent="@style/TextAppearance.AppCompat.Headline">
-        <item name="android:textSize">@dimen/font_large</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="textMultilineEmphasized" parent="@style/textMultiline">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="textMultilineCentered" parent="@style/textMultiline">
-        <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="textDanger">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/colorTextSemanticRed</item>
-    </style>
-
-    <style name="textLink" parent="@style/textMultilineEmphasized">
-        <item name="android:textColor">@color/colorTextTint</item>
-        <item name="android:textSize">@dimen/font_large</item>
-    </style>
-
     <!-- ####################################
               Icons
     ###################################### -->

@@ -98,7 +98,6 @@ fun formatTestResultPositiveStepsVisible(uiState: DeviceUIState?): Int =
 fun formatTestResultInvalidStepsVisible(uiState: DeviceUIState?): Int =
     formatVisibility(uiState == DeviceUIState.PAIRED_ERROR)
 
-
 fun formatSubmissionStatusCardSubtitleColor(uiState: DeviceUIState?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
