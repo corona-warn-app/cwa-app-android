@@ -207,6 +207,7 @@
     <!-- NOTR todo insert english link in translation file http://www.bundesregierung.de/corona-warn-app-faq-englisch -->
     <string name="main_about_link">http://www.bundesregierung.de/corona-warn-app-faq</string>
 
+    <string name="hint_external_webpage">Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Aufruf externer Infos im Web.</string>
     <!-- ####################################
                Main - Share
     ###################################### -->
@@ -777,6 +778,9 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">Unsere Öffnungszeiten:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nEs gelten die Preise Ihres\nTelefonanbieters.</string>
 
+    <!-- YTXT: Content Description for Accessibility-->
+    <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer 0800 7540002</string>
+    <string name="submission_contact_step_2_content">Im Zweiten Schritt Test per TAN-Eingabe in der App registrieren</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -842,9 +846,14 @@
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
     <!-- ####################################
-              Button Tooltips
+              Heading Fragments
         ###################################### -->
-    <string name="heading_submission_dispatcher">Auswahl möglicher Registrierungsformen</string>
+    <string name="heading_submission_contact">TAN Anfrage per Telefonanruf</string>
+    <string name="heading_submission_dispatcher">Auswahl der Registrierungsformen</string>
+    <string name="heading_submission_intro">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
+    <string name="heading_submission_tan">TAN Eingabe</string>
+    <string name="heading_main">Hauptseite der Corona-Warn-App</string>
+
     <!-- ####################################
           Button Tooltips
     ###################################### -->

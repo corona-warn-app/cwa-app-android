@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.OpenUrlHelper
+import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -62,6 +64,7 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setContentDescription()
     }
 
     override fun onResume() {
@@ -74,6 +77,17 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
+        main_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        main_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    private fun setContentDescription() {
+        main_header_share.setContentDescription("Teilen")
+        main_header_options_menu.setContentDescription("Menü")
     }
 
     private fun setButtonOnClickListener() {

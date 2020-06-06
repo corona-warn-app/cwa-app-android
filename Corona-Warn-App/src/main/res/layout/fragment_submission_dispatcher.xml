@@ -7,8 +7,8 @@
         android:id="@+id/submission_dispatcher_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/heading_submission_dispatcher"
         android:fillViewport="true"
-        android:contentDescription="Auswahl möglicher Registrierungsformen"
         tools:context=".ui.submission.SubmissionDispatcherFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout

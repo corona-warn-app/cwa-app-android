@@ -22,6 +22,8 @@
     </data>
 
     <ScrollView
+        android:id="@+id/main_scrollview"
+        android:contentDescription="@string/heading_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -45,6 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/guideline_start"
+                    android:contentDescription="Corona-Warn-App Logo"
                     android:importantForAccessibility="no"
                     android:paddingTop="@dimen/spacing_tiny"
                     android:paddingBottom="@dimen/spacing_tiny"
@@ -58,6 +61,7 @@
                 <include
                     android:id="@+id/main_header_share"
                     layout="@layout/include_button_icon"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_small"

@@ -5,7 +5,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_status_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
 
         <TextView
@@ -17,12 +18,14 @@
             android:text="@string/submission_status_card_title_unregistered"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusable="false"/>
 
 
         <TextView
             android:id="@+id/submission_status_card_unregistered_body"
             style="@style/subtitle"
+            android:focusable="false"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
