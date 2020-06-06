@@ -7,9 +7,10 @@ import de.rki.coronawarnapp.risk.RiskLevelConstants
 object RiskLevelRepository {
 
     /**
-     * LiveData variable that can be consumed in a ViewModel to observe RiskLevel changes
+     * LiveData variables that can be consumed in a ViewModel to observe RiskLevel changes
      */
     val riskLevelScore = MutableLiveData(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
+    val riskLevelScoreLastSuccessfulCalculated = MutableLiveData(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
 
     /**
      * Set the new calculated [RiskLevel]
@@ -61,6 +62,7 @@ object RiskLevelRepository {
     private fun setLastSuccessfullyCalculatedScore(riskLevel: RiskLevel) {
         if (!RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(riskLevel)) {
             LocalData.lastSuccessfullyCalculatedRiskLevel(riskLevel.raw)
+            riskLevelScoreLastSuccessfulCalculated.postValue(riskLevel.raw)
         }
     }
 }

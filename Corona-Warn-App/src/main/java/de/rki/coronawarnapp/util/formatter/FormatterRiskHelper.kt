@@ -82,21 +82,21 @@ fun formatRiskBody(riskLevelScore: Int?): String {
  * the persisted risk level is of importance
  *
  * @param riskLevelScore
- * @param savedRiskLevelScore
+ * @param riskLevelScoreLastSuccessfulCalculated
  * @return
  */
-fun formatRiskSavedRisk(riskLevelScore: Int?, savedRiskLevelScore: Int?): String {
+fun formatRiskSavedRisk(riskLevelScore: Int?, riskLevelScoreLastSuccessfulCalculated: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (
         riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
         riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
     ) {
-        when (savedRiskLevelScore) {
+        when (riskLevelScoreLastSuccessfulCalculated) {
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK,
             RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 appContext.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                    .format(formatRiskLevelHeadline(savedRiskLevelScore, false))
+                    .format(formatRiskLevelHeadline(riskLevelScoreLastSuccessfulCalculated, false))
             else -> ""
         }
     } else {
@@ -195,13 +195,13 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
  * successfully fetched from the server
  *
  * @param riskLevelScore
- * @param savedRiskLevelScore
+ * @param riskLevelScoreLastSuccessfulCalculated
  * @param lastTimeDiagnosisKeysFetched
  * @return
  */
 fun formatTimeFetched(
     riskLevelScore: Int?,
-    savedRiskLevelScore: Int?,
+    riskLevelScoreLastSuccessfulCalculated: Int?,
     lastTimeDiagnosisKeysFetched: Date?
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
@@ -221,7 +221,7 @@ fun formatTimeFetched(
         }
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> {
-            when (savedRiskLevelScore) {
+            when (riskLevelScoreLastSuccessfulCalculated) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
                 RiskLevelConstants.INCREASED_RISK,
                 RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
@@ -269,21 +269,6 @@ fun formatNextUpdate(
             )
             else -> ""
         }
-    }
-}
-
-/**
- * Formats the risk details subtitle text display depending on risk level
- *
- * @param riskLevelScore
- * @return
- */
-fun formatRiskDetailsRiskLevelSubtitle(riskLevelScore: Int?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (riskLevelScore) {
-        RiskLevelConstants.LOW_LEVEL_RISK,
-        RiskLevelConstants.INCREASED_RISK -> appContext.getString(R.string.risk_details_subtitle_infection_risk_past)
-        else -> appContext.getString(R.string.risk_details_subtitle_infection_risk)
     }
 }
 

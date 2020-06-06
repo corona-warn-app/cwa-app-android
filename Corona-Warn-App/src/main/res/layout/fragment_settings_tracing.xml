@@ -124,7 +124,7 @@
 
                         <TextView
                             android:id="@+id/settings_tracing_status_tracing_body"
-                            style="@style/textMultiline"
+                            style="@style/body2Medium"
                             android:layout_width="@dimen/match_constraint"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/spacing_small"
@@ -161,7 +161,7 @@
 
                     <TextView
                         android:id="@+id/settings_tracing_body"
-                        style="@style/textMultiline"
+                        style="@style/body1"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_tracing_body_text"

@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/main_overview_glossary_subtitle"
-                style="@style/textLargeEmphasized"
+                style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{subtitle}"
@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/main_overview_glossary_body"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"

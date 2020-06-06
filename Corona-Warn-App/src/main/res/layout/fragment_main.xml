@@ -92,7 +92,7 @@
 
                 <TextView
                     android:id="@+id/main_tracing_headline"
-                    style="@style/textLargeEmphasized"
+                    style="@style/bodyButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{FormatterSettingsHelper.formatTracingDescription(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
