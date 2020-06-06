@@ -20,6 +20,7 @@
 package de.rki.coronawarnapp.util.security
 
 import KeyExportFormat.TEKSignatureList
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -85,6 +86,13 @@ object SecurityHelper {
      */
     fun getDBPassword(): ByteArray =
         getStoredDbPassword() ?: storeDbPassword(generateDBPassword())
+
+    @SuppressLint("ApplySharedPref")
+    fun resetSharedPrefs() {
+        val dbPW = getDBPassword()
+        globalEncryptedSharedPreferencesInstance.edit().clear().commit()
+        storeDbPassword(dbPW)
+    }
 
     private fun getStoredDbPassword(): ByteArray? =
         globalEncryptedSharedPreferencesInstance
