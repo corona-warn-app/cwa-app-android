@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_close}"
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
-            app:layout_constraintEnd_toStartOf="@+id/submission_qr_code_scan_guideline_start"
-            app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_guideline_start"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_start"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="@+id/submission_qr_code_scan_guideline_top" />
 
         <ToggleButton
@@ -57,21 +57,13 @@
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
-            android:backgroundTint="@color/iconColor"
+            android:backgroundTint="@color/colorTextPrimary3"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
-            app:layout_constraintEnd_toStartOf="@+id/submission_qr_code_scan_guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_guideline_end"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_end"
             app:layout_constraintTop_toTopOf="@+id/submission_qr_code_scan_guideline_top" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/submission_qr_code_scan_guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/submission_qr_code_scan_guideline_top"
@@ -80,11 +72,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="@dimen/spacing_normal" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/submission_qr_code_scan_guideline_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
+        <include layout="@layout/merge_guidelines_side" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

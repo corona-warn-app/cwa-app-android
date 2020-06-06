@@ -23,7 +23,7 @@
             android:layout_marginBottom="@dimen/spacing_normal"
             app:body="@{@string/onboarding_notifications_body}"
             app:headline="@{@string/onboarding_notifications_headline}"
-            app:illustration="@{@drawable/ic_onboarding_illustration_notification}"
+            app:illustration="@{@drawable/ic_illustration_notification_on}"
             app:illustrationDescription="@{@string/onboarding_notifications_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
