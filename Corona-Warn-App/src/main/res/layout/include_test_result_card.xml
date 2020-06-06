@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
@@ -16,88 +17,53 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorGreyLight">
+        android:background="@color/colorGreyLight"
+        android:padding="@dimen/card_padding">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/test_result_card_body_height"
-            android:layout_margin="@dimen/card_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/test_result_card_headline"
+            style="@style/textMultiline"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:text="@string/test_result_card_headline"
+            app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/test_result_card_status_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(deviceUIState)}"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/test_result_card_content"
+            style="@style/textTitleLarger"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:text="@{FormatterSubmissionHelper.formatTestResultCardContent(deviceUIState)}"
+            app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/test_result_card_headline"
+            tools:text="SARS-CoV-2 Negativ" />
 
-            <TextView
-                android:id="@+id/test_result_card_headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/test_result_card_headline"
-                style="@style/textMultiline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/test_result_card_status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(deviceUIState)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_main_illustration_negative" />
 
-            <TextView
-                android:id="@+id/test_result_card_virus_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/testResultCardLargeText"
-                android:text="@string/test_result_card_virus_name_text"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultVirusNameTextVisible(deviceUIState)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
-
-            <TextView
-                android:id="@+id/test_result_card_invalid_status_text"
-                style="@style/testResultCardLargeText"
-                android:layout_height="wrap_content"
-                android:layout_width="@dimen/match_constraint"
-                android:text="@string/test_result_card_status_invalid"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStatusTextVisible(deviceUIState)}"
-                app:layout_constraintEnd_toStartOf="@+id/test_result_card_status_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
-
-            <TextView
-                android:id="@+id/test_result_card_pending_status_text"
-                style="@style/testResultCardLargeText"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:text="@string/test_result_card_status_pending"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStatusTextVisible(deviceUIState)}"
-                app:layout_constraintEnd_toStartOf="@+id/test_result_card_status_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/test_result_card_headline" />
-
-            <TextView
-                android:id="@+id/test_result_card_status_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/testResultCardLargeText"
-                android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(deviceUIState)}"
-                android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(deviceUIState)}"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultStatusTextVisible(deviceUIState)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/test_result_card_virus_name" />
-
-            <TextView
-                android:id="@+id/test_result_card_registered_at_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{FormatterSubmissionHelper.formatTestResultRegisteredAtText(registerDate)}"
-                style="@style/textMultiline"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/test_result_card_registered_at_text"
+            style="@style/textMultiline"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:text="@{FormatterSubmissionHelper.formatTestResultRegisteredAtText(registerDate)}"
+            app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/test_result_card_content"
+            tools:text="@string/test_result_card_registered_at_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
