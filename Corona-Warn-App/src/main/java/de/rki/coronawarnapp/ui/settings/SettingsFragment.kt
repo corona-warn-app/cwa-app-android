@@ -57,8 +57,6 @@ class SettingsFragment : BaseFragment() {
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
-        settingsViewModel.refreshMobileDataEnabled()
-        settingsViewModel.refreshBackgroundJobEnabled()
     }
 
     private fun setButtonOnClickListener() {

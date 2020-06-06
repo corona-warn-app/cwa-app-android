@@ -4,6 +4,8 @@ package de.rki.coronawarnapp.util.formatter
 
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.annotation.StringRes
+import androidx.core.text.HtmlCompat
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 
@@ -113,5 +115,10 @@ fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int): String {
  */
 fun formatColorIcon(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColor(R.color.colorLight)
+    return color ?: appContext.getColor(R.color.colorAccentTintIcon)
 }
+
+fun formatStringAsHTML(@StringRes stringRes: Int) = HtmlCompat.fromHtml(
+    CoronaWarnApplication.getAppContext().getString(stringRes),
+    HtmlCompat.FROM_HTML_MODE_LEGACY
+)

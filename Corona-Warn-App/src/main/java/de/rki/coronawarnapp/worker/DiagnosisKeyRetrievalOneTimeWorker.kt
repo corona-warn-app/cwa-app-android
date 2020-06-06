@@ -5,8 +5,6 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 
 /**
@@ -30,13 +28,18 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Background job started...")
+        if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
+
+        if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+            if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
+            return Result.failure()
+        }
+        var result = Result.success()
         try {
             RetrieveDiagnosisKeysTransaction.start()
         } catch (e: Exception) {
-            e.report(ExceptionCategory.JOB)
-            return Result.failure()
+            result = Result.retry()
         }
-        return Result.success()
+        return result
     }
 }

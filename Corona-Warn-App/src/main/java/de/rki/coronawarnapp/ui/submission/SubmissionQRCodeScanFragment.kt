@@ -5,18 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
+import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.observeEvent
 
 /**
  * A simple [BaseFragment] subclass.
@@ -28,7 +32,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
         private val TAG: String? = SubmissionQRCodeScanFragment::class.simpleName
     }
 
-    private val viewModel: SubmissionViewModel by viewModels()
+    private val viewModel: SubmissionViewModel by activityViewModels()
     private var _binding: FragmentSubmissionQrCodeScanBinding? = null
     private val binding: FragmentSubmissionQrCodeScanBinding get() = _binding!!
 
@@ -55,6 +59,53 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
         _binding = null
     }
 
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
+        return when (exception) {
+            is BadRequestException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_test_paired_title,
+                R.string.submission_error_dialog_web_test_paired_body,
+                R.string.submission_error_dialog_web_test_paired_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            is CwaServerError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            is CwaClientError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,14 +123,27 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.scanStatus.observeEvent(viewLifecycleOwner, {
             if (ScanStatus.SUCCESS == it) {
-                showSuccessfulScanDialog()
+                viewModel.doDeviceRegistration()
             }
 
             if (ScanStatus.INVALID == it) {
                 showInvalidScanDialog()
             }
+        })
+
+        viewModel.registrationState.observeEvent(viewLifecycleOwner, {
+            if (ApiRequestState.SUCCESS == it) {
+                doNavigate(
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
+                )
+            }
+        })
+
+        viewModel.registrationError.observeEvent(viewLifecycleOwner, {
+            DialogHelper.showDialog(buildErrorDialog(it))
         })
     }
 
@@ -88,29 +152,6 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             SubmissionQRCodeScanFragmentDirections
                 .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )
-
-    private fun showSuccessfulScanDialog() {
-        val successfulScanDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_successful_dialog_headline,
-            R.string.submission_qr_code_scan_successful_dialog_body,
-            R.string.submission_qr_code_scan_successful_dialog_button_positive,
-            R.string.submission_qr_code_scan_successful_dialog_button_negative,
-            true,
-            {
-                doNavigate(
-                    SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionQRCodeScanFragmentToSubmissionRegisterDeviceFragment()
-                )
-            },
-            {
-                viewModel.deleteTestGUID()
-                navigateToDispatchScreen()
-            }
-        )
-
-        DialogHelper.showDialog(successfulScanDialogInstance)
-    }
 
     private fun showInvalidScanDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(

@@ -8,7 +8,6 @@
             name="icon"
             type="android.graphics.drawable.Drawable" />
 
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

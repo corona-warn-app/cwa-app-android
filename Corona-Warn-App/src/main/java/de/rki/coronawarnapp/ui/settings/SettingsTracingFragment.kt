@@ -81,8 +81,7 @@ class SettingsTracingFragment : BaseFragment(),
 
     override fun onStartPermissionGranted() {
         tracingViewModel.refreshIsTracingEnabled()
-        // TODO
-        BackgroundWorkScheduler.checkStart()
+        BackgroundWorkScheduler.startWorkScheduler()
         Toast.makeText(requireContext(), "Tracing started successfully", Toast.LENGTH_SHORT).show()
     }
 

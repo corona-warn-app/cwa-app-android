@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -12,31 +13,32 @@ import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
 import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
-    private val _scanStatus = MutableLiveData(ScanStatus.STARTED)
+    private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
-    private val _registrationState = MutableLiveData(ApiRequestState.IDLE)
-    private val _registrationError = MutableLiveData<Exception?>(null)
+    private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))
+    private val _registrationError = MutableLiveData<Event<CwaWebException>>(null)
 
     private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
-    private val _uiStateError = MutableLiveData<Exception?>(null)
+    private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
 
-    private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
-    private val _submissionError = MutableLiveData<Exception?>(null)
+    private val _submissionState = MutableLiveData(Event(ApiRequestState.IDLE))
+    private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
 
-    val scanStatus: LiveData<ScanStatus> = _scanStatus
+    val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
-    val registrationState: LiveData<ApiRequestState> = _registrationState
-    val registrationError: LiveData<Exception?> = _registrationError
+    val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
+    val registrationError: LiveData<Event<CwaWebException>> = _registrationError
 
     val uiStateState: LiveData<ApiRequestState> = _uiStateState
-    val uiStateError: LiveData<Exception?> = _uiStateError
+    val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
 
-    val submissionState: LiveData<ApiRequestState> = _submissionState
-    val submissionError: LiveData<Exception?> = _submissionError
+    val submissionState: LiveData<Event<ApiRequestState>> = _submissionState
+    val submissionError: LiveData<Event<CwaWebException>> = _submissionError
 
     val deviceRegistered get() = LocalData.registrationToken() != null
 
@@ -46,14 +48,14 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     fun submitDiagnosisKeys() =
-        executeRequestWithState(
+        executeRequestWithStateForEvent(
             SubmissionService::asyncSubmitExposureKeys,
             _submissionState,
             _submissionError
         )
 
     fun doDeviceRegistration() =
-        executeRequestWithState(
+        executeRequestWithStateForEvent(
             SubmissionService::asyncRegisterDevice,
             _registrationState,
             _registrationError
@@ -70,9 +72,9 @@ class SubmissionViewModel : ViewModel() {
         if (SubmissionService.containsValidGUID(scanResult)) {
             val guid = SubmissionService.extractGUID(scanResult)
             SubmissionService.storeTestGUID(guid)
-            _scanStatus.value = ScanStatus.SUCCESS
+            _scanStatus.value = Event(ScanStatus.SUCCESS)
         } else {
-            _scanStatus.value = ScanStatus.INVALID
+            _scanStatus.value = Event(ScanStatus.INVALID)
         }
     }
 
@@ -90,16 +92,36 @@ class SubmissionViewModel : ViewModel() {
     private fun executeRequestWithState(
         apiRequest: suspend () -> Unit,
         state: MutableLiveData<ApiRequestState>,
-        exceptionLiveData: MutableLiveData<Exception?>? = null
+        exceptionLiveData: MutableLiveData<Event<CwaWebException>>? = null
     ) {
         state.value = ApiRequestState.STARTED
         viewModelScope.launch {
             try {
                 apiRequest()
                 state.value = ApiRequestState.SUCCESS
-            } catch (err: Exception) {
-                exceptionLiveData?.value = err
+            } catch (err: CwaWebException) {
+                exceptionLiveData?.value = Event(err)
                 state.value = ApiRequestState.FAILED
+            } catch (err: Exception) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+        }
+    }
+
+    private fun executeRequestWithStateForEvent(
+        apiRequest: suspend () -> Unit,
+        state: MutableLiveData<Event<ApiRequestState>>,
+        exceptionLiveData: MutableLiveData<Event<CwaWebException>>? = null
+    ) {
+        state.value = Event(ApiRequestState.STARTED)
+        viewModelScope.launch {
+            try {
+                apiRequest()
+                state.value = Event(ApiRequestState.SUCCESS)
+            } catch (err: CwaWebException) {
+                exceptionLiveData?.value = Event(err)
+                state.value = Event(ApiRequestState.FAILED)
+            } catch (err: Exception) {
                 err.report(ExceptionCategory.INTERNAL)
             }
         }

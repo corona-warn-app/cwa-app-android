@@ -5,8 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
+import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.observeEvent
 
 /**
  * Fragment for TAN entry
@@ -14,6 +22,7 @@ import de.rki.coronawarnapp.ui.BaseFragment
 class SubmissionTanFragment : BaseFragment() {
 
     private val viewModel: SubmissionTanViewModel by activityViewModels()
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private var _binding: FragmentSubmissionTanBinding? = null
     private val binding: FragmentSubmissionTanBinding get() = _binding!!
 
@@ -34,17 +43,75 @@ class SubmissionTanFragment : BaseFragment() {
         _binding = null
     }
 
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
+        return when (exception) {
+            is BadRequestException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_test_paired_title,
+                R.string.submission_error_dialog_web_test_paired_body,
+                R.string.submission_error_dialog_web_test_paired_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            is CwaServerError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            is CwaClientError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
-        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { close() }
+        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
+
+        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
+            if (ApiRequestState.SUCCESS == it) {
+                doNavigate(
+                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
+                )
+            }
+        })
+
+        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner, {
+            DialogHelper.showDialog(buildErrorDialog(it))
+        })
     }
 
-    private fun close() {
-        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToMainFragment())
-    }
+    private fun navigateToDispatchScreen() =
+        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDispatcherFragment())
 
     private fun storeTanAndContinue() {
         // verify input format
@@ -54,6 +121,6 @@ class SubmissionTanFragment : BaseFragment() {
         // store locally
         viewModel.storeTeletan()
 
-        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionRegisterDeviceFragment())
+        submissionViewModel.doDeviceRegistration()
     }
 }

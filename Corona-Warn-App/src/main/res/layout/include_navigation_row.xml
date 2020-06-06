@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/navigation_row_subtitle"
-                style="@style/textLink"
+                style="@style/headline5Tint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{subtitle}"
