@@ -124,7 +124,7 @@
 
                         <TextView
                             android:id="@+id/settings_tracing_status_tracing_body"
-                            style="@style/textMultiline"
+                            style="@style/body2Medium"
                             android:layout_width="@dimen/match_constraint"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/spacing_small"
@@ -150,12 +150,10 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    style="@style/greyBodyBackground"
                     android:id="@+id/risk_details_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:background="@color/colorGreyLight"
-                    android:padding="@dimen/spacing_normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +161,7 @@
 
                     <TextView
                         android:id="@+id/settings_tracing_body"
-                        style="@style/textMultiline"
+                        style="@style/body1"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_tracing_body_text"

@@ -80,18 +80,19 @@ class CircleProgress @JvmOverloads constructor(
         setWillNotDraw(false)
         binding = ViewCircleProgressBinding.inflate(LayoutInflater.from(context), this)
         val styleAttrs = context.obtainStyledAttributes(attrs, R.styleable.CircleProgress)
-        // attribute circleColor; default = colorGreyLight
         val circleColor = styleAttrs.getColor(
             R.styleable.CircleProgress_circleColor,
-            ContextCompat.getColor(context, R.color.colorGreyLight)
+            ContextCompat.getColor(context, R.color.colorSurface2)
         )
-        // attribute progressColor; default = colorPrimary
-        val progressColor = styleAttrs.getColor(R.styleable.CircleProgress_progressColor,
-            ContextCompat.getColor(context, R.color.colorPrimary))
-        // attribute textColor; default = colorGrey
+        // attribute progressColor; default = colorAccentTintIcon
+        val progressColor = styleAttrs.getColor(
+            R.styleable.CircleProgress_progressColor,
+            ContextCompat.getColor(context, R.color.colorAccentTintIcon)
+        )
+        // attribute textColor; default = colorTextPrimary2
         val textColor = styleAttrs.getColor(
             R.styleable.CircleProgress_textColor,
-            ContextCompat.getColor(context, R.color.textColorGrey)
+            ContextCompat.getColor(context, R.color.colorTextPrimary2)
         )
         // attribute disableText; default = true
         disableText = styleAttrs.getBoolean(R.styleable.CircleProgress_disableText, false)

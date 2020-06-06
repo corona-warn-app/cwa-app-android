@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 
 /*Texter*/
+
 /**
  * Formats the text display of settings item status depending on flag provided
  *
@@ -33,6 +34,43 @@ fun formatNotificationsStatusText(
     notificationsTest: Boolean
 ): String =
     formatStatus((notifications && (notificationsRisk || notificationsTest)))
+
+/**
+ * Formats the settings notifications title display depending on notifications status
+ *
+ * @param notifications
+ * @return
+ */
+fun formatNotificationsTitle(notifications: Boolean): String = formatText(
+    notifications,
+    R.string.settings_notifications_headline_active,
+    R.string.settings_notifications_headline_inactive
+)
+
+/**
+ * Formats the settings notifications description text display depending on notifications status
+ *
+ * @param notifications
+ * @return
+ */
+fun formatNotificationsDescription(notifications: Boolean): String = formatText(
+    notifications,
+    R.string.settings_notifications_body_active,
+    R.string.settings_notifications_body_inactive
+)
+
+/**
+ * Formats the settings notifications details illustration description depending on notifications status
+ *
+ * @param notifications
+ * @return
+ */
+fun formatNotificationIllustrationText(notifications: Boolean): String =
+    formatText(
+        notifications,
+        R.string.settings_notifications_illustration_description_active,
+        R.string.settings_notifications_illustration_description_inactive
+    )
 
 /**
  * Change the tracing text in the row based on the tracing status.
@@ -79,30 +117,6 @@ fun formatTracingDescription(tracing: Boolean, bluetooth: Boolean, connection: B
 }
 
 /**
- * Formats the settings notifications title display depending on notifications status
- *
- * @param notifications
- * @return
- */
-fun formatNotificationsTitle(notifications: Boolean): String = formatText(
-    notifications,
-    R.string.settings_notifications_headline_active,
-    R.string.settings_notifications_headline_inactive
-)
-
-/**
- * Formats the settings notifications description text display depending on notifications status
- *
- * @param notifications
- * @return
- */
-fun formatNotificationsDescription(notifications: Boolean): String = formatText(
-    notifications,
-    R.string.settings_notifications_body_active,
-    R.string.settings_notifications_body_inactive
-)
-
-/**
  * Formats the tracing body depending on the tracing status and the days since last exposure.
  *
  * @param activeTracingDaysInRetentionPeriod
@@ -115,19 +129,6 @@ fun formatTracingStatusBody(activeTracingDaysInRetentionPeriod: Long): String {
     val days = activeTracingDaysInRetentionPeriod.toInt()
     return resources.getQuantityString(R.plurals.settings_tracing_status_body_active, days, days)
 }
-
-/**
- * Formats the settings notifications details illustration description depending on notifications status
- *
- * @param notifications
- * @return
- */
-fun formatNotificationIllustrationText(notifications: Boolean): String =
-    formatText(
-        notifications,
-        R.string.settings_notifications_illustration_description_active,
-        R.string.settings_notifications_illustration_description_inactive
-    )
 
 /**
  * Format the settings tracing content description for the header illustration
@@ -164,7 +165,7 @@ fun formatTracingIllustrationText(
  * @return Int
  */
 fun formatIconColor(active: Boolean): Int =
-    formatColor(active, R.color.settingsIconActive, R.color.settingsIconInactive)
+    formatColor(active, R.color.colorAccentTintIcon, R.color.colorTextPrimary3)
 
 /**
  * Formats the settings icon color for notifications depending on notification values
@@ -174,12 +175,94 @@ fun formatIconColor(active: Boolean): Int =
  * @param notificationsTest
  * @return Int
  */
-fun formatIconColor(
+fun formatNotificationIconColor(
     notifications: Boolean,
     notificationsRisk: Boolean,
     notificationsTest: Boolean
 ): Int =
-    formatIconColor((notifications && (notificationsRisk || notificationsTest)))
+    formatColor(
+        (notifications && (notificationsRisk || notificationsTest)),
+        R.color.colorAccentTintIcon,
+        R.color.colorTextSemanticRed
+    )
+
+/**
+ * Formats settings icon color for notifications depending on notification values
+ *
+ * @param notifications
+ * @param notificationsRisk
+ * @param notificationsTest
+ * @return
+ */
+fun formatNotificationIcon(
+    notifications: Boolean,
+    notificationsRisk: Boolean,
+    notificationsTest: Boolean
+): Drawable? =
+    formatDrawable(
+        (notifications && (notificationsRisk || notificationsTest)),
+        R.drawable.ic_settings_notification_active,
+        R.drawable.ic_settings_notification_inactive
+    )
+
+/**
+ * Formats the settings notifications details illustration depending on notifications status
+ *
+ * @param notifications
+ * @return
+ */
+fun formatNotificationImage(notifications: Boolean): Drawable? =
+    formatDrawable(
+        notifications,
+        R.drawable.ic_illustration_notification_on,
+        R.drawable.ic_settings_illustration_notification_off
+    )
+
+/**
+ * Formats the settings icon color for tracing depending on tracing values
+ *
+ * @param tracing
+ * @param bluetooth
+ * @param connection
+ * @return
+ */
+fun formatSettingsTracingIconColor(tracing: Boolean, bluetooth: Boolean, connection: Boolean): Int {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (tracingStatusHelper(tracing, bluetooth, connection)) {
+        TracingStatusHelper.CONNECTION, TracingStatusHelper.BLUETOOTH ->
+            appContext.getColor(R.color.colorTextSemanticRed)
+        TracingStatusHelper.TRACING_ACTIVE ->
+            appContext.getColor(R.color.colorAccentTintIcon)
+        TracingStatusHelper.TRACING_INACTIVE ->
+            appContext.getColor(R.color.colorTextSemanticRed)
+        else -> appContext.getColor(R.color.colorTextSemanticRed)
+    }
+}
+
+/**
+ * Formats the settings icon for tracing depending on tracing values
+ *
+ * @param tracing
+ * @param bluetooth
+ * @param connection
+ * @return
+ */
+fun formatSettingsTracingIcon(
+    tracing: Boolean,
+    bluetooth: Boolean,
+    connection: Boolean
+): Drawable? {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (tracingStatusHelper(tracing, bluetooth, connection)) {
+        TracingStatusHelper.CONNECTION,
+        TracingStatusHelper.BLUETOOTH,
+        TracingStatusHelper.TRACING_ACTIVE ->
+            appContext.getDrawable(R.drawable.ic_settings_tracing_active)
+        TracingStatusHelper.TRACING_INACTIVE ->
+            appContext.getDrawable(R.drawable.ic_settings_tracing_inactive)
+        else -> appContext.getDrawable(R.drawable.ic_settings_tracing_inactive)
+    }
+}
 
 /**
  * Formats the tracing switch status based on the tracing status
@@ -245,9 +328,9 @@ fun formatTracingIconColor(tracing: Boolean, bluetooth: Boolean, connection: Boo
     val appContext = CoronaWarnApplication.getAppContext()
     return when (tracingStatusHelper(tracing, bluetooth, connection)) {
         TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getColor(R.color.tracingIconActive)
+            appContext.getColor(R.color.colorAccentTintIcon)
         else ->
-            appContext.getColor(R.color.tracingIconInactive)
+            appContext.getColor(R.color.colorTextSemanticRed)
     }
 }
 
@@ -267,7 +350,7 @@ fun formatTracingStatusImage(tracing: Boolean, bluetooth: Boolean, connection: B
         TracingStatusHelper.CONNECTION ->
             appContext.getDrawable(R.drawable.ic_settings_illustration_connection_off)
         TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_illustration_tracing_on)
+            appContext.getDrawable(R.drawable.ic_illustration_tracing_on)
         else ->
             appContext.getDrawable(R.drawable.ic_settings_illustration_tracing_off)
     }
@@ -330,16 +413,3 @@ fun formatTracingStatusVisibilityTracing(
                 tracingStatus == TracingStatusHelper.TRACING_INACTIVE
     )
 }
-
-/**
- * Formats the settings notifications details illustration depending on notifications status
- *
- * @param notifications
- * @return
- */
-fun formatNotificationImage(notifications: Boolean): Drawable? =
-    formatDrawable(
-        notifications,
-        R.drawable.ic_settings_illustration_notification_on,
-        R.drawable.ic_settings_illustration_notification_off
-    )
