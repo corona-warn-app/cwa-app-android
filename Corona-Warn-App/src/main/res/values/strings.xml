@@ -841,7 +841,15 @@
 
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
-
+    <!-- ####################################
+              Button Tooltips
+        ###################################### -->
+    <string name="heading_submission_dispatcher">Auswahl möglicher Registrierungsformen</string>
+    <!-- ####################################
+          Button Tooltips
+    ###################################### -->
+    <string name="back_button">Zurück zur vorherigen Seite</string>
+    <string name="proceed_button">Fortfahren Button</string>
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
