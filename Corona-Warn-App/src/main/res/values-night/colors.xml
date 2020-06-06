@@ -30,56 +30,24 @@
     <color name="colorSemanticHighRisk">#C4314A</color>
     <color name="colorSemanticLowRisk">#378250</color>
     <color name="colorSemanticNeutralRisk">#5D6E80</color>
+    <color name="colorSemanticUnknownRisk">#80CDEC</color>
 
     <!-- TODO: Add variables when colors are final to reduce maintenance -->
 
-    <!-- App Color -->
-    <color name="appTheme">#000000</color>
-
     <!-- Primary Colors -->
-    <color name="colorPrimary">#2C79A9</color>
-    <color name="colorPrimaryDark">#1B4865</color>
+    <color name="colorAccentTintButtonPressed">#1B4865</color>
     <color name="colorTransparent">#00FFFFFF</color>
 
     <!-- Risk Card Colors -->
-    <color name="colorRiskCardIncreasedRiskPressed">#A30C26</color>
-    <color name="colorRiskCardLowRiskPressed">#27713F</color>
-    <color name="colorRiskCardNoCalculationPossible">@color/colorLight</color>
-    <color name="colorRiskCardNoCalculationPossiblePressed">@color/colorGreyLight</color>
-    <color name="colorRiskCardOutdatedRisk">#657888</color>
-    <color name="colorRiskCardOutdatedRiskPressed">#556673</color>
-    <color name="colorRiskCardUnknownRisk">#657888</color>
-    <color name="colorRiskCardUnknownRiskPressed">#556673</color>
-    <color name="riskCardGrey">#F5F5F5</color>
-
-    <!-- Light Colors -->
-    <color name="colorLight">#212121</color>
-    <color name="colorGrey">#434343</color>
-    <color name="colorGreyLight">#565656</color>
-
-    <!-- Text Colors -->
-    <color name="textColorPrimary">#ffffff</color>
-    <color name="textColorSecondary">#DFD8D8</color>
-    <color name="textColorLight">#ffffff</color>
-    <color name="textColorBlue">#2C79A9</color>
-    <color name="textColorGrey">#D3D3D3</color>
-
-    <!-- Visual Elements-->
-    <color name="dividerColor">#0D000000</color>
-    <color name="iconColor">#ffffff</color>
+    <color name="colorSemanticHighRiskPressed">#A30C26</color>
+    <color name="colorSemanticLowRiskPressed">#27713F</color>
+    <color name="colorSemanticUnknownRiskPressed">#000000</color>
+    <color name="colorSemanticNeutralRiskPressed">#556673</color>
 
     <!-- Stable Colors TODO: can be removed after testing -->
     <color name="stableBackgroundColor">#ffffff</color>
     <color name="stableHighlightColor">#C3C3C3</color>
     <color name="stableTextColor">#000000</color>
     <color name="stableIconColor">#ffffff</color>
-
-    <!-- Tracing Icon -->
-    <color name="tracingIconActive">#80CDEC</color>
-    <color name="tracingIconInactive">#DE4355</color>
-
-    <!-- Settings Icon -->
-    <color name="settingsIconActive">#2C79A9</color>
-    <color name="settingsIconInactive">#C3C3C3</color>
 
 </resources>

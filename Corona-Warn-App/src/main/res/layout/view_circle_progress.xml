@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="Sie haben alle tage erfasst"
                 android:src="@drawable/ic_risk_card_saved_days"
-                android:tint="@color/colorPrimary"
+                android:tint="@color/colorAccentTintIcon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

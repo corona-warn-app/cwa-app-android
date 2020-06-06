@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:text="@string/submission_contact_number"
-                        android:textColor="@color/textColorBlue"
+                        android:textColor="@color/colorTextTint"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_body" />
