@@ -151,6 +151,14 @@
     <string name="notification_body">Es gibt Neuigkeiten von Ihrer Corona-Warn-App</string>
 
     <!-- ####################################
+              App Auto Update
+    ###################################### -->
+
+    <string name="update_dialog_title">Update verfügbar</string>
+    <string name="update_dialog_message">Bitte die app updaten</string>
+    <string name="update_dialog_button">Update</string>
+
+    <!-- ####################################
                   Risk Card
     ###################################### -->
 
