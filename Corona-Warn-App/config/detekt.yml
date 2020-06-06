@@ -66,7 +66,7 @@ complexity:
     active: true
     threshold: 15
     ignoreSingleWhenExpression: false
-    ignoreSimpleWhenEntries: false
+    ignoreSimpleWhenEntries: true
     ignoreNestingFunctions: false
     nestingFunctions: [run, let, apply, with, also, use, forEach, isNotNull, ifNull]
   LabeledExpression:
@@ -514,7 +514,15 @@ style:
     maxJumpCount: 1
   MagicNumber:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt']
+    excludes: [
+      '**/test/**',
+      '**/androidTest/**',
+      '**/*.Test.kt',
+      '**/*.Spec.kt',
+      '**/*.Spek.kt',
+      '**/CwaWebException.kt',
+      '**/HttpErrorParser.kt'
+    ]
     ignoreNumbers: ['-1', '0', '1', '2']
     ignoreHashCodeFunction: true
     ignorePropertyDeclaration: false
@@ -523,7 +531,7 @@ style:
     ignoreCompanionObjectPropertyDeclaration: true
     ignoreAnnotation: false
     ignoreNamedArgument: true
-    ignoreEnums: false
+    ignoreEnums: true
     ignoreRanges: false
   MandatoryBracesIfStatements:
     active: false
