@@ -46,75 +46,68 @@ class UpdateChecker(private val activity: LauncherActivity) {
      */
     private suspend fun checkForUpdate() {
 
-
-        var updateNeededFromServer = false
-        try {
-            updateNeededFromServer = checkIfUpdatesNeededFromServer()
+        // check if an update is needed based on server config
+        val updateNeededFromServer: Boolean = try {
+            checkIfUpdatesNeededFromServer()
         }
         // TODO replace with signature exception
         catch (exception: Exception) {
-            updateNeededFromServer = true
+            true
         }
 
-
+        // get AppUpdateManager
         val baseContext = activity.baseContext
-
-        var appUpdateManager: AppUpdateManager
+        val appUpdateManager: AppUpdateManager
 
         if (BuildConfig.DEBUG) {
             appUpdateManager = FakeAppUpdateManager(baseContext)
-
             appUpdateManager.setUpdateAvailable(1)
             //appUpdateManager.setUpdateNotAvailable()
         } else {
             appUpdateManager = AppUpdateManagerFactory.create(baseContext)
         }
 
-        var updateAvailableFromGooglePlay: Boolean
-        try {
-            val appUpdateInfoTask = checkForGooglePlayUpdate(appUpdateManager)
+        var appUpdateInfo: AppUpdateInfo? = null
+        val updateAvailableFromGooglePlay = try {
+            appUpdateInfo = checkForGooglePlayUpdate(appUpdateManager)
 
-            val availability = appUpdateInfoTask.updateAvailability()
+            val availability = appUpdateInfo.updateAvailability()
             val immediateUpdateAllowed =
-                appUpdateInfoTask.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
 
-            updateAvailableFromGooglePlay =
-                availability == UpdateAvailability.UPDATE_AVAILABLE && immediateUpdateAllowed
+            availability == UpdateAvailability.UPDATE_AVAILABLE && immediateUpdateAllowed
         } catch (exception: Exception) {
-             updateAvailableFromGooglePlay = false
+            false
         }
 
-
-
-
-        Log.i(TAG, "addOnSuccessListener")
-
-
-
-
-
-
-        if (updateNeededFromServer) {
-            showUpdateAvailableDialog()
-
+        if (updateNeededFromServer && updateAvailableFromGooglePlay && appUpdateInfo != null) {
+            showUpdateAvailableDialog(appUpdateManager, appUpdateInfo)
         } else {
             activity.navigateToActivities()
         }
-
     }
 
-
-    private fun showUpdateAvailableDialog() {
-
+    private fun showUpdateAvailableDialog(
+        appUpdateManager: AppUpdateManager,
+        appUpdateInfo: AppUpdateInfo
+    ) {
         AlertDialog.Builder(activity)
             .setTitle("Update verfügbar ")
             .setMessage("Update muss sein. sonst geht nix")
             .setPositiveButton("update") { _, _ ->
-
+                startGooglePlayUpdateFlow(appUpdateManager, appUpdateInfo)
             }
             .create().show()
+    }
 
-
+    private fun startGooglePlayUpdateFlow(
+        appUpdateManager: AppUpdateManager,
+        appUpdateInfo: AppUpdateInfo
+    ) {
+        appUpdateManager.startUpdateFlowForResult(
+            appUpdateInfo,
+            AppUpdateType.IMMEDIATE, activity, REQUEST_CODE
+        )
     }
 
     private suspend fun checkIfUpdatesNeededFromServer(): Boolean {
