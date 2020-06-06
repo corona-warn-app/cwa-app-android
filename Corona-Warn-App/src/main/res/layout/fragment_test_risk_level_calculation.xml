@@ -33,7 +33,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Preview (no interaction possible)" />
@@ -103,7 +103,7 @@
 
             <TextView
                 android:id="@+id/label_exposure_summary_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -117,7 +117,7 @@
 
             <TextView
                 android:id="@+id/label_risk_score_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Risk Score" />
@@ -130,7 +130,7 @@
 
             <TextView
                 android:id="@+id/label_backend_parameters_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Backend Parameters" />
@@ -143,7 +143,7 @@
 
             <TextView
                 android:id="@+id/label_formula_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Used Formula" />
@@ -156,7 +156,7 @@
 
             <TextView
                 android:id="@+id/label_full_config_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Full Backend Configuration" />

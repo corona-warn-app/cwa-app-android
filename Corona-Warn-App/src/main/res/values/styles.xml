@@ -89,12 +89,6 @@
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="rowDanger" parent="row">
-        <item name="android:textColor">@color/colorTextSemanticRed</item>
-        <item name="android:background">@drawable/row</item>
-        <item name="android:backgroundTint">@color/button_light</item>
-    </style>
-
     <!-- ####################################
                     Card
     ###################################### -->
@@ -109,23 +103,6 @@
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
         <item name="android:backgroundTint">@color/colorGreyLight</item>
-    </style>
-    <!-- todo unify padding with main card - tbr -->
-
-    <style name="cardHeadline" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:textSize">@dimen/font_larger</item>
-        <item name="android:textColor">@color/textColorLight</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="cardText" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/textColorLight</item>
-    </style>
-
-    <style name="cardTextDispatcher" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/textColorSecondary</item>
     </style>
 
     <style name="cardGrey">
@@ -229,28 +206,8 @@
         <item name="android:lineSpacingExtra">@dimen/font_line_spacing_extra</item>
     </style>
 
-    <style name="textLargeEmphasized" parent="@style/TextAppearance.AppCompat.Headline">
-        <item name="android:textSize">@dimen/font_large</item>
-        <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="textMultilineEmphasized" parent="@style/textMultiline">
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="textMultilineCentered" parent="@style/textMultiline">
         <item name="android:textAlignment">center</item>
-    </style>
-
-    <style name="textDanger">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/colorTextSemanticRed</item>
-    </style>
-
-    <style name="textLink" parent="@style/textMultilineEmphasized">
-        <item name="android:textColor">@color/textColorBlue</item>
-        <item name="android:textSize">@dimen/font_large</item>
     </style>
 
     <!-- ####################################
