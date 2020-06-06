@@ -111,7 +111,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
 
         viewModel.scanStatus.observeEvent(viewLifecycleOwner, {
             if (ScanStatus.SUCCESS == it) {
-                showSuccessfulScanDialog()
+                viewModel.doDeviceRegistration()
             }
 
             if (ScanStatus.INVALID == it) {
@@ -138,26 +138,6 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
             SubmissionQRCodeScanFragmentDirections
                 .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )
-
-    private fun showSuccessfulScanDialog() {
-        val successfulScanDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_successful_dialog_headline,
-            R.string.submission_qr_code_scan_successful_dialog_body,
-            R.string.submission_qr_code_scan_successful_dialog_button_positive,
-            R.string.submission_qr_code_scan_successful_dialog_button_negative,
-            true,
-            {
-                viewModel.doDeviceRegistration()
-            },
-            {
-                viewModel.deleteTestGUID()
-                navigateToDispatchScreen()
-            }
-        )
-
-        DialogHelper.showDialog(successfulScanDialogInstance)
-    }
 
     private fun showInvalidScanDialog() {
         val invalidScanDialogInstance = DialogHelper.DialogInstance(
