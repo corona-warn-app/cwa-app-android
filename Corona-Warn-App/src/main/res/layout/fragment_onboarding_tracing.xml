@@ -24,7 +24,7 @@
             app:body="@{@string/onboarding_tracing_body}"
             app:bodyEmphasized="@{@string/onboarding_tracing_body_emphasized}"
             app:headline="@{@string/onboarding_tracing_headline}"
-            app:illustration="@{@drawable/ic_onboarding_illustration_tracing}"
+            app:illustration="@{@drawable/ic_illustration_tracing_on}"
             app:illustrationDescription="@{@string/onboarding_tracing_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"

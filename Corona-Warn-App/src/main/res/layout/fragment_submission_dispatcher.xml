@@ -26,7 +26,7 @@
 
             <TextView
                 android:id="@+id/submission_dispatcher_text"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

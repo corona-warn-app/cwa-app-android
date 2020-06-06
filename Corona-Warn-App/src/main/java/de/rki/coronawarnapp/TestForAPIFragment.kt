@@ -533,13 +533,13 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         }
 
         private fun bitmapForImage(key: TemporaryExposureKey): Bitmap {
-            val key = AppleLegacyKeyExchange.Key.newBuilder()
+            val legacyKey = AppleLegacyKeyExchange.Key.newBuilder()
                 .setKeyData(ByteString.copyFrom(key.keyData))
                 .setRollingPeriod(key.rollingPeriod)
                 .setRollingStartNumber(key.rollingStartIntervalNumber)
                 .build().toByteArray()
             val bMatrix = QRCodeWriter().encode(
-                Base64.encodeToString(key, Base64.DEFAULT),
+                Base64.encodeToString(legacyKey, Base64.DEFAULT),
                 BarcodeFormat.QR_CODE,
                 300,
                 300
