@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
 import de.rki.coronawarnapp.util.Converters
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 
 @Database(
@@ -36,11 +35,11 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        fun resetInstance(context: Context) = { instance = null }.also { getInstance(context) }
+        fun resetInstance(context: Context) = run { instance = null }.also { getInstance(context) }
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .openHelperFactory(SupportFactory(SQLiteDatabase.getBytes(SecurityHelper.getDBPassword())))
+                .openHelperFactory(SupportFactory(SecurityHelper.getDBPassword()))
                 .build()
         }
     }
