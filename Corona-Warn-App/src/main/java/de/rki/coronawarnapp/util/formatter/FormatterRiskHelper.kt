@@ -340,8 +340,8 @@ fun formatRiskShape(showDetails: Boolean): Drawable? =
 fun formatStableIconColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
-        R.color.stableIconColor,
-        R.color.iconColor
+        R.color.colorStableLight,
+        R.color.colorTextPrimary1
     )
 
 /**
@@ -372,8 +372,8 @@ fun formatStableBackButtonColor(riskLevelScore: Int?): ColorStateList? {
 fun formatStableTextColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
-        R.color.stableBackgroundColor,
-        R.color.textColorPrimary
+        R.color.colorStableLight,
+        R.color.colorTextPrimary1
     )
 
 /**
@@ -491,8 +491,8 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorTextSemanticNeutral)
-        else -> appContext.getColor(R.color.stableIconColor)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorAccentTintIcon)
+        else -> appContext.getColor(R.color.colorStableLight)
     }
 }
 
@@ -505,10 +505,10 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
 fun formatBehaviorIconBackground(riskLevelScore: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorRiskCardIncreasedRisk)
-        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorRiskCardLowRisk)
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getColor(R.color.colorRiskCardUnknownRisk)
-        else -> appContext.getColor(R.color.riskCardGrey)
+        RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorSemanticHighRisk)
+        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorSemanticLowRisk)
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getColor(R.color.colorSemanticNeutralRisk)
+        else -> appContext.getColor(R.color.colorSurface2)
     }
 }
 

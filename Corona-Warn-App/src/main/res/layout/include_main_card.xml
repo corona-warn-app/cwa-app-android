@@ -86,10 +86,10 @@
                 android:importantForAccessibility="no"
                 android:src="@{iconEnd}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(iconEnd)}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/main_card_header_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/main_card_header_headline"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/main_card_header_headline" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
