@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.R" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,8 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_normal"
-            app:body="@{@string/onboarding_privacy_body}"
-            app:bodyEmphasized="@{@string/onboarding_privacy_body_emphasized}"
+            app:body="@{FormatterHelper.formatStringAsHTML(R.string.onboarding_privacy_body)}"
             app:headline="@{@string/onboarding_privacy_headline}"
             app:illustration="@{@drawable/ic_illustration_privacy}"
             app:illustrationDescription="@{@string/onboarding_privacy_illustration_description}"
