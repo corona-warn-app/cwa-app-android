@@ -251,10 +251,6 @@
         <item name="android:tint">@color/stableIconColor</item>
     </style>
 
-    <style name="iconTracingStatus">
-        <item name="android:tint">@color/colorPrimary</item>
-    </style>
-
     <!-- ####################################
           Progress Bar
     ###################################### -->

@@ -59,7 +59,6 @@
 
             <ImageView
                 android:id="@+id/tracing_status_card_header_icon"
-                style="@style/iconTracingStatus"
                 android:layout_width="@dimen/icon_size_main_card_end"
                 android:layout_height="@dimen/icon_size_main_card_end"
                 android:importantForAccessibility="no"
