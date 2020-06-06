@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/label_exposure_summary"
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_api_exposure_summary_headline" />
@@ -96,7 +96,7 @@
 
             <TextView
                 android:id="@+id/label_my_keys"
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -117,7 +117,7 @@
 
             <TextView
                 android:id="@+id/label_other_keys"
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_api_body_other_keys" />

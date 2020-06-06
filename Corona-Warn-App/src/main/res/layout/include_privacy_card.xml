@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/privacy_card_title"
-            style="@style/textTitle"
+            style="@style/headline6"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@string/submission_positive_other_warning_privacy_title"
@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/privacy_card_text"
-            style="@style/textMultiline"
+            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"

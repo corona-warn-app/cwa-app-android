@@ -160,17 +160,6 @@
         tools:layout="@layout/fragment_information_technical" />
 
     <!-- Submission -->
-    <dialog
-        android:id="@+id/submissionSuccessDialogFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSuccessDialogFragment"
-        android:label="SubmissionSuccessDialogFragment">
-        <action
-            android:id="@+id/action_submissionSuccessDialogFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true" />
-    </dialog>
-
     <fragment
         android:id="@+id/testForAPIFragment"
         android:name="de.rki.coronawarnapp.TestForAPIFragment"
@@ -223,9 +212,6 @@
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionTestResultFragment"
         android:label="fragment_submission_result"
         tools:layout="@layout/fragment_submission_test_result">
-        <action
-            android:id="@+id/action_submissionResultFragment_to_submissionSuccessDialogFragment"
-            app:destination="@id/submissionSuccessDialogFragment" />
         <action
             android:id="@+id/action_submissionResultFragment_to_mainFragment"
             app:destination="@id/mainFragment"
