@@ -37,7 +37,9 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        fun resetInstance() = synchronized(this) { instance = null}
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
 
         fun reset(context: Context) {
             val path: String = context.getDatabasePath(DATABASE_NAME).path
