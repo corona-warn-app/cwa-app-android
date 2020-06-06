@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             app:body="@{@string/risk_details_behavior_body_contact_doctor}"
-            app:icon="@{@drawable/ic_risk_details_stethoscope}"
+            app:icon="@{@drawable/ic_risk_details_contact}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_away"

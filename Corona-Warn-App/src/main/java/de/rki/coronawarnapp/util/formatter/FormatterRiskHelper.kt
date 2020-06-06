@@ -491,7 +491,7 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorPrimary)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorTextSemanticNeutral)
         else -> appContext.getColor(R.color.stableIconColor)
     }
 }

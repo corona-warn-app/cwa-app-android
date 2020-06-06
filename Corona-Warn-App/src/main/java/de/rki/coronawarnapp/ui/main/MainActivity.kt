@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.showDialogWithStacktraceIfPreviouslyCrashed
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -70,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
         settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
         scheduleWork()
-        showDialogWithStacktraceIfPreviouslyCrashed()
     }
 
     /**
