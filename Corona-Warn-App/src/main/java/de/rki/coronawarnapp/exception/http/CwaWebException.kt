@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.exception.http
 
-open class CwaWebException(statusCode: Int) : Exception(
+import java.io.IOException
+
+open class CwaWebException(statusCode: Int) : IOException(
     "error during web request, http status $statusCode"
 )
 
