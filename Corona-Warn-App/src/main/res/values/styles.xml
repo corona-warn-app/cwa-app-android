@@ -53,6 +53,7 @@
 
     <style name="buttonLight" parent="@style/button">
         <item name="android:backgroundTint">@color/button_light</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="buttonIcon">
@@ -134,6 +135,18 @@
 
 
     <!-- ####################################
+            Grey Body Background
+    ###################################### -->
+    <style name="greyBodyBackground">
+        <item name="android:layout_marginTop">@dimen/spacing_large</item>
+        <item name="android:background">@color/colorSurface2</item>
+        <item name="android:paddingStart">@dimen/guideline_start</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:paddingEnd">@dimen/guideline_end</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+    </style>
+
+    <!-- ####################################
                    Text
     ###################################### -->
 
@@ -145,6 +158,10 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="headline5Tint" parent="@style/headline5">
+        <item name="android:textColor">@color/colorTextTint</item>
+    </style>
+
     <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">@color/colorTextPrimary1</item>
         <item name="android:textStyle">bold</item>
@@ -152,6 +169,10 @@
 
     <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="subtitleSemanticRed" parent="@style/subtitle">
+        <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>
 
     <style name="subtitleMedium" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
@@ -243,10 +264,6 @@
         <item name="android:tint">@color/stableIconColor</item>
     </style>
 
-    <style name="iconTracingStatus">
-        <item name="android:tint">@color/colorPrimary</item>
-    </style>
-
     <!-- ####################################
           Progress Bar
     ###################################### -->
@@ -265,7 +282,7 @@
 
     <style name="fadingScrollView">
         <item name="android:requiresFadingEdge">vertical</item>
-        <item name="android:fadingEdgeLength">150dp</item>
+        <item name="android:fadingEdgeLength">50dp</item>
     </style>
 
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -54,8 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:body="@{@string/settings_tracing_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatIconColor(tracingViewModel.isTracingEnabled())}"
-                    app:icon="@{@drawable/ic_settings_tracing_active}"
+                    app:color="@{FormatterSettingsHelper.formatSettingsTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:icon="@{FormatterSettingsHelper.formatSettingsTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -70,8 +69,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:body="@{@string/settings_notifications_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                    app:icon="@{@drawable/ic_settings_notification}"
+                    app:color="@{FormatterSettingsHelper.formatNotificationIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:icon="@{FormatterSettingsHelper.formatNotificationIcon(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing"
@@ -99,7 +98,7 @@
 
                         <TextView
                             android:id="@+id/settings_reset_subtitle"
-                            style="@style/textDanger"
+                            style="@style/subtitleSemanticRed"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_reset_button_positive"
@@ -109,6 +108,7 @@
 
                         <TextView
                             android:id="@+id/settings_reset_body"
+                            style="@style/body2Medium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_reset_body_description"

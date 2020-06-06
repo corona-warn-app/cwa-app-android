@@ -63,6 +63,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
@@ -85,6 +86,7 @@
 
             <TextView
                 android:id="@+id/risk_card_body"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -102,8 +104,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.savedRiskLevel))}"
-                app:body="@{FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.savedRiskLevel)}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated))}"
+                app:body="@{FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated)}"
                 app:icon="@{@drawable/ic_risk_card_saved_risk}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +178,7 @@
 
                 <TextView
                     android:id="@+id/risk_card_row_saved_days_body"
-                    style="@style/cardText"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_small"
@@ -195,8 +197,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.savedRiskLevel, tracingViewModel.lastTimeDiagnosisKeysFetched))}"
-                app:body="@{FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.savedRiskLevel, tracingViewModel.lastTimeDiagnosisKeysFetched)}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated, tracingViewModel.lastTimeDiagnosisKeysFetched))}"
+                app:body="@{FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated, tracingViewModel.lastTimeDiagnosisKeysFetched)}"
                 app:icon="@{@drawable/ic_risk_card_time_fetched}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -224,6 +226,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"

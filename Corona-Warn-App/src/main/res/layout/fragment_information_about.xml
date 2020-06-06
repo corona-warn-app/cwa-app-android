@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/information_about_body_emphasized"
-                    style="@style/textMultiline"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -57,7 +57,7 @@
 
                 <TextView
                     android:id="@+id/information_about_body"
-                    style="@style/textMultiline"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
