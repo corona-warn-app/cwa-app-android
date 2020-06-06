@@ -316,8 +316,8 @@ class TestRiskLevelCalculation : Fragment() {
                             infoString += "Attenuation duration in min.: " +
                                     "[${it.attenuationDurationsInMinutes?.get(0)}, " +
                                     "${it.attenuationDurationsInMinutes?.get(1)}," +
-                                    "${it.attenuationDurationsInMinutes?.get(2)}]\n"
-                            "Attenuation value: ${it.attenuationValue}\n" +
+                                    "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
+                                    "Attenuation value: ${it.attenuationValue}\n" +
                                     "Duration in min.: ${it.durationMinutes}\n" +
                                     "Risk Score: ${it.totalRiskScore}\n" +
                                     "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
