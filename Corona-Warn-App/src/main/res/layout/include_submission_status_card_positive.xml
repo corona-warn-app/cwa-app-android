@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/submission_status_card_positive_title"
-                style="@style/textTitleLarger"
+                style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:text="@string/submission_status_card_positive_result_title"
@@ -40,26 +40,34 @@
 
             <include
                 android:id="@+id/submission_status_card_positive_result_card"
-                layout="@layout/include_test_result_card"
+                layout="@layout/include_test_result_card_positive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_title"
-                app:registerDate="@{registerDate}"
-                app:deviceUIState="@{DeviceUIState.PAIRED_POSITIVE}" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_title" />
+
+            <include
+                android:id="@+id/divider"
+                layout="@layout/include_divider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_card" />
 
             <TextView
                 android:id="@+id/submission_status_card_positive_result_subtitle"
-                style="@style/textSubTitle"
+                style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/submission_status_card_positive_result_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_result_card" />
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <include
                 android:id="@+id/submission_status_card_positive_result_contagious"

@@ -654,6 +654,10 @@
     <string name="submission_test_result_dialog_tracing_required_message">Bitte aktivieren Sie die Risiko-Ermittlung um andere zu warnen.</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">OK</string>
+    <!-- XHED: Title for test result card positive -->
+    <string name="submission_test_result_card_positive_title">SARS-CoV-2 Positiv</string>
+    <!-- YTXT: Body text for test result card positive -->
+    <string name="submission_test_result_card_positive_body">Das Virus SARS-CoV-2 wurde bei Ihnen nachgewiesen.</string>
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->

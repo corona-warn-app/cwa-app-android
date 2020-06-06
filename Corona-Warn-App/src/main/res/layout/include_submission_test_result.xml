@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/submission_test_result_subtitle"
-                style="@style/textSubTitle"
+                style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

@@ -294,7 +294,7 @@
               Submission
     ###################################### -->
 
-    <style name="tanInputDigit" parent="textTitle">
+    <style name="tanInputDigit" parent="headline6">
         <item name="android:layout_width">@dimen/submission_tan_input_digit_width</item>
         <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
         <item name="android:background">@drawable/tan_input_digit</item>

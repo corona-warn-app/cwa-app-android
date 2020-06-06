@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/submission_done_text"
-            style="@style/textMultiline"
+            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@string/submission_done_body"
@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/submission_done_subtitle"
-            style="@style/textTitleLarger"
+            style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
