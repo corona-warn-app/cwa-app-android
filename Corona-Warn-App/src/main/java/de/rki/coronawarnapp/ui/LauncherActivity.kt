@@ -11,6 +11,11 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.update.UpdateChecker
 
+
+
+
+
+
 class LauncherActivity : AppCompatActivity() {
     companion object {
         private val TAG: String? = LauncherActivity::class.simpleName
@@ -22,7 +27,7 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         retrieveCustomURLsFromSchema(intent.data)
         updateChecker = UpdateChecker(this)
-        updateChecker.checkForUpdates()
+        updateChecker.doUpdate()
     }
 
 
