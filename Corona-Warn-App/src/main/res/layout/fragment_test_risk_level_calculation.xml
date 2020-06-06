@@ -155,6 +155,19 @@
                 android:text="-" />
 
             <TextView
+                android:id="@+id/label_exposure_info_title"
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exposure Information" />
+
+            <TextView
+                android:id="@+id/label_exposure_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
                 android:id="@+id/label_full_config_title"
                 style="@style/headline6"
                 android:layout_width="match_parent"
