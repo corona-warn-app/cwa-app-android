@@ -86,6 +86,8 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         tan_input_textview_10
     ).forEachIndexed { i, tanDigit ->
         tanDigit.text = digitAtIndex(i)
+        tanDigit.background = if (digitAtIndex(i) == "") resources.getDrawable(R.drawable.tan_input_digit, null)
+            else resources.getDrawable(R.drawable.tan_input_digit_entered, null)
     }
 
     private fun digitAtIndex(index: Int): String = tan?.getOrNull(index)?.toString() ?: ""
