@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/submission_done_headline"
-                style="@style/textHeadline"
+                style="@style/headline4"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

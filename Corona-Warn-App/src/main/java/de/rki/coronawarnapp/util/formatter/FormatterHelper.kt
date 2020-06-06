@@ -113,5 +113,5 @@ fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int): String {
  */
 fun formatColorIcon(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColor(R.color.colorLight)
+    return color ?: appContext.getColor(R.color.colorAccentTintIcon)
 }
