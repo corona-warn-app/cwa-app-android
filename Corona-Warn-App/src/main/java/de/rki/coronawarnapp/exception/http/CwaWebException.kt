@@ -6,14 +6,14 @@ open class CwaWebException(statusCode: Int) : Exception(
 
 open class CwaServerError(val statusCode: Int) : CwaWebException(statusCode) {
     init {
-        if (statusCode in 500..599)
+        if (statusCode !in 500..599)
             throw IllegalArgumentException("a server error has to have code 5xx")
     }
 }
 
 open class CwaClientError(val statusCode: Int) : CwaWebException(statusCode) {
     init {
-        if (statusCode in 400..499)
+        if (statusCode !in 400..499)
             throw IllegalArgumentException("a client error has to have code 4xx")
     }
 }
