@@ -89,9 +89,7 @@ object SecurityHelper {
 
     @SuppressLint("ApplySharedPref")
     fun resetSharedPrefs() {
-        val dbPW = getDBPassword()
         globalEncryptedSharedPreferencesInstance.edit().clear().commit()
-        storeDbPassword(dbPW)
     }
 
     private fun getStoredDbPassword(): ByteArray? =

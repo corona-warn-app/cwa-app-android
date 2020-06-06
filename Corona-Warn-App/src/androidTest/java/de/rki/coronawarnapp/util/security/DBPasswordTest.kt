@@ -51,7 +51,7 @@ class DBPasswordTest {
     @Before
     fun setUp() {
         clearSharedPreferences()
-        deleteDatabaseFile()
+        AppDatabase.reset(appContext)
     }
 
     @Test
@@ -89,7 +89,7 @@ class DBPasswordTest {
     @Test
     fun testDbInstanceIsActuallyResetWhenCalled() {
         val before = this.db
-        AppDatabase.resetInstance(appContext)
+        AppDatabase.reset(appContext)
         val after = this.db
 
         assertTrue(before != after)
@@ -104,7 +104,7 @@ class DBPasswordTest {
             insertFakeEntity(id, path, type)
 
             clearSharedPreferences()
-            AppDatabase.resetInstance(appContext)
+            AppDatabase.resetInstance()
 
             val keyCacheEntity = loadFakeEntity()
             assertThat(keyCacheEntity.id, equalTo(id))
@@ -129,13 +129,4 @@ class DBPasswordTest {
 
     private fun clearSharedPreferences() =
         SecurityHelper.globalEncryptedSharedPreferencesInstance.edit().clear().commit()
-
-    private fun deleteDatabaseFile() {
-        val path: String = appContext.getDatabasePath(DATABASE_NAME).path
-        val dbFile = File(path)
-        if (dbFile.exists()) {
-            SQLiteDatabase.deleteDatabase(dbFile)
-            AppDatabase.resetInstance(appContext)
-        }
-    }
 }

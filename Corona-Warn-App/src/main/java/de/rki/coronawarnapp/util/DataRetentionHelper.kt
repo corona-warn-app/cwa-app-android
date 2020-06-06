@@ -40,7 +40,7 @@ object DataRetentionHelper {
     fun clearAllLocalData(context: Context) {
         Log.w(TAG, "CWA LOCAL DATA DELETION INITIATED.")
         // Database Reset
-        AppDatabase.getInstance(context).clearAllTables()
+        AppDatabase.reset(context)
         // Shared Preferences Reset
         SecurityHelper.resetSharedPrefs()
         // Export File Reset
