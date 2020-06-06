@@ -8,11 +8,19 @@
         <pin-set expiration="2024-02-12" tools:ignore="MissingBackupPin">
             <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
         </pin-set>
+        <trust-anchors>
+            <certificates src="system" overridePins="false">
+            </certificates>
+        </trust-anchors>
     </domain-config>
 
     <domain-config cleartextTrafficPermitted="false">
         <!-- TODO Add Production Domain and add Backup Pin if applicable-->
         <domain includeSubdomains="true">prodDistribute.com</domain>
+        <trust-anchors>
+            <certificates src="system" overridePins="false">
+            </certificates>
+        </trust-anchors>
     </domain-config>
 
 </network-security-config>
