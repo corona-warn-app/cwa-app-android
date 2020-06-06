@@ -109,11 +109,9 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"
+                    style="@style/greyBodyBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:background="@color/colorGreyLight"
-                    android:padding="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wrapper">
