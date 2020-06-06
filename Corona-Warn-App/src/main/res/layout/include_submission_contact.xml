@@ -112,7 +112,7 @@
 
             </de.rki.coronawarnapp.ui.view.StepEntry>
 
-            <include layout="@layout/merge_guidelines_common" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
