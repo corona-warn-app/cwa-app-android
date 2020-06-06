@@ -59,7 +59,8 @@ class KeyCacheRepository(private val keyCacheDao: KeyCacheDao) {
     )
 
     suspend fun deleteOutdatedEntries() = keyCacheDao.getAllEntries().forEach {
-        if (File(it.path).isOutdated()) {
+        val file = File(it.path)
+        if (file.isOutdated() || !file.exists()) {
             deleteFileForEntry(it)
             keyCacheDao.deleteEntry(it)
         }
