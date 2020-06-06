@@ -5,15 +5,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.http.DynamicURLs
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.update.UpdateChecker
-
-
-
-
+import kotlinx.coroutines.launch
 
 
 class LauncherActivity : AppCompatActivity() {
@@ -27,7 +25,10 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         retrieveCustomURLsFromSchema(intent.data)
         updateChecker = UpdateChecker(this)
-        updateChecker.doUpdate()
+
+        lifecycleScope.launch {
+            updateChecker.checkForUpdate()
+        }
     }
 
 
@@ -57,6 +58,13 @@ class LauncherActivity : AppCompatActivity() {
             val toast = Toast.makeText(this, "You now using custom server URLs", Toast.LENGTH_LONG)
             toast.show()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        updateChecker.onActivityResult(requestCode, resultCode)
+
     }
 
 
