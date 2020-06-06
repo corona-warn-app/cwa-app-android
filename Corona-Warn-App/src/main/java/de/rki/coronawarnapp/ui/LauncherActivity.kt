@@ -9,22 +9,22 @@ import de.rki.coronawarnapp.http.DynamicURLs
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
+import de.rki.coronawarnapp.update.UpdateChecker
 
 class LauncherActivity : AppCompatActivity() {
     companion object {
         private val TAG: String? = LauncherActivity::class.simpleName
     }
 
+    private lateinit var updateChecker: UpdateChecker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retrieveCustomURLsFromSchema(intent.data)
-
-        if (LocalData.isOnboarded()) {
-            startMainActivity()
-        } else {
-            startOnboardingActivity()
-        }
+        updateChecker = UpdateChecker(this)
+        updateChecker.checkForUpdates()
     }
+
 
     /**
      * Retrieves the custom server URLs for testing purposes.
@@ -54,15 +54,26 @@ class LauncherActivity : AppCompatActivity() {
         }
     }
 
+
+    fun navigateToActivities() {
+        if (LocalData.isOnboarded()) {
+            startMainActivity()
+        } else {
+            startOnboardingActivity()
+        }
+    }
+
     private fun startOnboardingActivity() {
         val onboardingActivity = Intent(this, OnboardingActivity::class.java)
         startActivity(onboardingActivity)
+        this.overridePendingTransition(0, 0)
         finish()
     }
 
     private fun startMainActivity() {
         val mainActivityIntent = Intent(this, MainActivity::class.java)
         startActivity(mainActivityIntent)
+        this.overridePendingTransition(0, 0)
         finish()
     }
 }
