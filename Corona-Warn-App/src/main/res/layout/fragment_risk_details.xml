@@ -25,7 +25,6 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            style="@style/fadingScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_normal"
