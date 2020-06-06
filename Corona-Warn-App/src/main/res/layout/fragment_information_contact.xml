@@ -57,7 +57,7 @@
 
                 <TextView
                     android:id="@+id/information_contact_subtitle_phone"
-                    style="@style/textLargeEmphasized"
+                    style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -78,6 +78,7 @@
 
                 <TextView
                     android:id="@+id/information_contact_body_phone"
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/information_contact_body_phone"
@@ -87,6 +88,7 @@
 
                 <TextView
                     android:id="@+id/information_contact_body_open"
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -97,6 +99,7 @@
 
                 <TextView
                     android:id="@+id/information_contact_body_other"
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"

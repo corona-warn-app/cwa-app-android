@@ -68,7 +68,7 @@
 
             <TextView
                 android:id="@+id/main_card_header_headline"
-                style="@style/textLargeEmphasized"
+                style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_small"
@@ -103,6 +103,7 @@
 
             <TextView
                 android:id="@+id/main_card_content_body"
+                style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"

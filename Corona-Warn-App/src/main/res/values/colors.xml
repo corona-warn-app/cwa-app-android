@@ -81,9 +81,6 @@
     <!-- Tracing Icon -->
     <color name="tracingIconActive">#007FAD</color>
     <color name="tracingIconInactive">#C00F2D</color>
-
-    <!-- Settings Icon -->
-    <color name="settingsIconActive">#2C79A9</color>
     <color name="settingsIconInactive">#C3C3C3</color>
 
     <!-- Tan Input -->
