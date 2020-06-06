@@ -16,16 +16,17 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_submission_illustration_intro_a"
+                android:src="@drawable/ic_illustration_test"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/submission_intro_headline"
-                style="@style/textHeadline"
+                style="@style/headline4"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/submission_intro_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -33,7 +34,7 @@
 
             <TextView
                 android:id="@+id/submission_intro_text"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -44,7 +45,7 @@
 
             <TextView
                 android:id="@+id/submission_intro_text_enum"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"

@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/risk_card_row_body"
-            style="@style/cardText"
+            style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"

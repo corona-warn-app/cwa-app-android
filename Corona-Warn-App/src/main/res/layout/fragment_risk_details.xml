@@ -53,7 +53,7 @@
 
                 <TextView
                     android:id="@+id/risk_details_behavior_headline"
-                    style="@style/textLargeEmphasized"
+                    style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -64,7 +64,7 @@
 
                 <TextView
                     android:id="@+id/risk_details_behavior_subtitle"
-                    style="@style/textMultiline"
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
@@ -109,18 +109,16 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"
+                    style="@style/greyBodyBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:background="@color/colorGreyLight"
-                    android:padding="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wrapper">
 
                     <TextView
                         android:id="@+id/risk_details_information_headline"
-                        style="@style/textLargeEmphasized"
+                        style="@style/headline5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/risk_details_headline_infection_risk"
@@ -130,18 +128,18 @@
 
                     <TextView
                         android:id="@+id/risk_details_information_subtitle"
-                        style="@style/textMultiline"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_tiny"
-                        android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelSubtitle(tracingViewModel.riskLevel)}"
+                        android:text="@string/risk_details_subtitle_infection_risk"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_headline" />
 
                     <TextView
                         android:id="@+id/risk_details_information_body"
-                        style="@style/textMultiline"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
@@ -153,7 +151,7 @@
 
                     <TextView
                         android:id="@+id/risk_details_information_body_notice"
-                        style="@style/textMultiline"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
