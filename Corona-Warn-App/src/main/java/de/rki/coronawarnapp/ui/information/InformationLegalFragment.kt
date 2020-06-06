@@ -39,7 +39,7 @@ class InformationLegalFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationLegalHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationLegalHeader.toolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

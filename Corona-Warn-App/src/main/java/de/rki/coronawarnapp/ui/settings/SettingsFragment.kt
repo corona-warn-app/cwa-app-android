@@ -63,7 +63,7 @@ class SettingsFragment : BaseFragment() {
         val tracingRow = binding.settingsTracing.settingsRow
         val notificationRow = binding.settingsNotifications.settingsRow
         val resetRow = binding.settingsReset
-        val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
+        val goBack = binding.settingsHeader.toolbar
         resetRow.setOnClickListener {
             doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsResetFragment()

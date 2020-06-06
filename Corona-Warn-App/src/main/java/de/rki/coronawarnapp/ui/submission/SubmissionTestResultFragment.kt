@@ -120,7 +120,7 @@ class SubmissionTestResultFragment : BaseFragment() {
             )
         }
 
-        binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.submissionTestResultHeader.toolbar.setNavigationOnClickListener {
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
