@@ -36,7 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        fun resetInstance(context: Context) = { instance = null }.also { getInstance(context) }
+        fun resetInstance(context: Context) = run { instance = null }.also { getInstance(context) }
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
