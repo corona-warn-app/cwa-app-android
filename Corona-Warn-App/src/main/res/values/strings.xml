@@ -821,7 +821,7 @@
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">SARS-CoV-2</string>
     <!-- YTXT: registered at text -->
-    <string name="test_result_card_registered_at_text">Registriert am %tF</string>
+    <string name="test_result_card_registered_at_text">Registriert am %s</string>
     <!-- YTXT: negative status text -->
     <string name="test_result_card_status_negative">Negativ</string>
     <!-- YTXT: positive status text -->
