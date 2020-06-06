@@ -19,14 +19,10 @@
 
 package de.rki.coronawarnapp.util.security
 
-import KeyExportFormat.TEKSignatureList
 import android.content.Context
 import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import android.util.Base64.DEFAULT
-import android.util.Base64.decode
-import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -35,19 +31,11 @@ import de.rki.coronawarnapp.util.security.SecurityConstants.AES_KEY_SIZE
 import de.rki.coronawarnapp.util.security.SecurityConstants.ANDROID_KEY_STORE
 import de.rki.coronawarnapp.util.security.SecurityConstants.DIGEST_ALGORITHM
 import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
-import de.rki.coronawarnapp.util.security.SecurityConstants.EXPORT_FILE_SIGNATURE_VERIFICATION_ALGORITHM
-import de.rki.coronawarnapp.util.security.SecurityConstants.EXPORT_FILE_SIGNATURE_VERIFICATION_PUBLIC_KEY_FILES
-import java.lang.Exception
-import java.security.KeyFactory
 import java.security.KeyStore
 import java.security.MessageDigest
-import java.security.PublicKey
 import java.security.SecureRandom
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
-import java.security.Signature
-import java.security.spec.X509EncodedKeySpec
-import java.util.Scanner
 
 /**
  * Key Store and Password Access
@@ -59,6 +47,8 @@ object SecurityHelper {
 
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
+
+    private val verificationKeys = VerificationKeys()
 
     private val androidKeyStore: KeyStore by lazy {
         KeyStore.getInstance(ANDROID_KEY_STORE).also {
@@ -117,37 +107,7 @@ object SecurityHelper {
         .digest(input.toByteArray())
         .fold("", { str, it -> str + "%02x".format(it) })
 
-    fun exportFileIsValid(export: ByteArray?, signatureListBinary: ByteArray?) = withSecurityCatch {
-        Signature.getInstance(EXPORT_FILE_SIGNATURE_VERIFICATION_ALGORITHM).run {
-            val validSignatures = publicKeysForVerification
-                .onEach { key -> Log.v(TAG, "verify with $key") }
-                .flatMap { key ->
-                    initVerify(key)
-                    update(export)
-                    TEKSignatureList.parseFrom(signatureListBinary).signaturesList
-                        .onEach { Log.v(TAG, "verify $it") }
-                        .mapNotNull { it.signature }
-                        .map { it.toByteArray() }
-                        .filter { signatureBinary -> verify(signatureBinary) }
-                }
-            Log.v(TAG, "${validSignatures.size} valid signatures")
-            return@run validSignatures.isNotEmpty()
-        }
-    }
-
-    private val publicKeysForVerification: List<PublicKey> by lazy {
-        val keyFactory = KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC)
-        val pubKeyBinary = CoronaWarnApplication.getAppContext()
-            .assets.open(EXPORT_FILE_SIGNATURE_VERIFICATION_PUBLIC_KEY_FILES)
-        val scanner = Scanner(pubKeyBinary)
-        val keys = mutableListOf<PublicKey>()
-        while (scanner.hasNextLine()) {
-            keys.add(keyFactory.generatePublic(X509EncodedKeySpec(decode(scanner.nextLine(), DEFAULT))))
-        }
-        keys
-    }
-
-    private fun <T> withSecurityCatch(doInCatch: () -> T) = try {
+    fun <T> withSecurityCatch(doInCatch: () -> T) = try {
         doInCatch.invoke()
     } catch (e: Exception) {
         throw CwaSecurityException(e)

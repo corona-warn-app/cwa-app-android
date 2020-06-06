@@ -40,6 +40,7 @@ android {
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
         buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+        buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
 
         //override URLs with local variables
         Properties properties = new Properties()
@@ -61,6 +62,7 @@ android {
             def VERIFICATION_CDN_URL = properties.getProperty('VERIFICATION_CDN_URL')
             if (VERIFICATION_CDN_URL)
                 buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+
         }
     }
 
@@ -69,12 +71,14 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp\""
         }
         releaseForTest {
             applicationIdSuffix '.dev'
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
         }
     }
 
