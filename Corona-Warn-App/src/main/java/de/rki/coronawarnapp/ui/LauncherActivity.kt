@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.update.UpdateChecker
 import kotlinx.coroutines.launch
 
-
 class LauncherActivity : AppCompatActivity() {
     companion object {
         private val TAG: String? = LauncherActivity::class.simpleName
@@ -30,7 +29,6 @@ class LauncherActivity : AppCompatActivity() {
             updateChecker.checkForUpdate()
         }
     }
-
 
     /**
      * Retrieves the custom server URLs for testing purposes.
@@ -64,9 +62,7 @@ class LauncherActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         updateChecker.onActivityResult(requestCode, resultCode)
-
     }
-
 
     fun navigateToActivities() {
         if (LocalData.isOnboarded()) {

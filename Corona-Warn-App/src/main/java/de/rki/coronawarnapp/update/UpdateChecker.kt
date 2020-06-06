@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.IntentSender.SendIntentException
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -22,10 +23,9 @@ import kotlin.coroutines.suspendCoroutine
 
 class UpdateChecker(private val activity: LauncherActivity) {
 
-    private val requestCode = 100
-
     companion object {
         val TAG: String? = UpdateChecker::class.simpleName
+        private const val REQUEST_CODE = 100
     }
 
     suspend fun checkForUpdate() {
@@ -87,7 +87,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
                 appUpdateInfo,
                 AppUpdateType.IMMEDIATE,
                 activity,
-                requestCode
+                REQUEST_CODE
             )
         } catch (exception: SendIntentException) {
             Log.i(TAG, exception.toString())
@@ -95,18 +95,22 @@ class UpdateChecker(private val activity: LauncherActivity) {
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
-        if (this.requestCode == requestCode) {
+        if (REQUEST_CODE == requestCode) {
 
             // TODO react to these
             when (resultCode) {
                 RESULT_OK -> {
                     Log.i(TAG, "startFlowResult RESULT_OK")
+                    activity.navigateToActivities()
                 }
                 RESULT_CANCELED -> {
                     Log.i(TAG, "startFlowResult RESULT_CANCELED")
                 }
                 RESULT_IN_APP_UPDATE_FAILED -> {
                     Log.i(TAG, "startFlowResult RESULT_IN_APP_UPDATE_FAILED")
+                    val toast = Toast.makeText(activity, "In app update failed", Toast.LENGTH_LONG)
+                    toast.show()
+                    activity.navigateToActivities()
                 }
             }
         }
