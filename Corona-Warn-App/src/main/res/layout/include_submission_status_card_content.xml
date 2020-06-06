@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,56 +20,69 @@
 
         <TextView
             android:id="@+id/submission_status_card_content_title"
-            style="@style/textTitle"
+            style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_tiny"
             android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentTitleText(deviceUIState)}"
-            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
+            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/submission_status_card_title_available" />
 
         <TextView
             android:id="@+id/submission_status_card_content_subtitle"
-            style="@style/textSubTitle"
+            style="@style/subtitleMedium"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_tiny"
-            android:text="@{FormatterSubmissionHelper.formatTestResultStatusText(deviceUIState)}"
-            android:textColor="@{FormatterSubmissionHelper.formatTestResultStatusColor(deviceUIState)}"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardSubtitleText(deviceUIState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatSubmissionStatusCardSubtitleColor(deviceUIState)}"
             android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentStatusTextVisible(deviceUIState)}"
-            app:layout_constraintBottom_toTopOf="@+id/submission_status_card_content_body"
-            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
-            app:layout_constraintStart_toStartOf="@+id/submission_status_card_content_title"
-            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_content_title" />
+            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_content_title"
+            tools:text="@string/test_result_card_status_positive" />
 
         <TextView
             android:id="@+id/submission_status_card_content_body"
-            style="@style/textMultiline"
+            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
-            android:layout_marginBottom="@dimen/spacing_normal"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_tiny"
             android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentBodyText(deviceUIState)}"
-            app:layout_constraintBottom_toTopOf="@+id/submission_status_card_content_button"
-            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
-            app:layout_constraintStart_toStartOf="@+id/submission_status_card_content_title" />
+            app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submission_status_card_content_subtitle"
+            tools:text="@string/submission_status_card_body_negative" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/submission_status_card_content_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="submission_status_card_content_body,submission_status_card_content_icon" />
 
         <Button
             android:id="@+id/submission_status_card_content_button"
+            style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            style="@style/buttonPrimary"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentButtonText(deviceUIState)}"
+            android:text="@string/submission_status_card_button_show_results"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_content_barrier" />
 
         <ImageView
-            android:id="@+id/submission_status_card_unregistered_icon"
+            android:id="@+id/submission_status_card_content_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             android:background="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentIcon(deviceUIState)}"
-            app:layout_constraintTop_toTopOf="@+id/submission_status_card_content_title" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_main_illustration_negative" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

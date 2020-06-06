@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.showDialogWithStacktraceIfPreviouslyCrashed
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -55,10 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    init {
-        scheduleWork()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -66,13 +61,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Register network and bluetooth callback.
+     * Register network, bluetooth and data saver callback.
      */
     override fun onResume() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
-        showDialogWithStacktraceIfPreviouslyCrashed()
+        settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
+        scheduleWork()
     }
 
     /**

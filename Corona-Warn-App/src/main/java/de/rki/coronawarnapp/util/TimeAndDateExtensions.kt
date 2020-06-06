@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util
 
+import android.content.Context
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
@@ -16,23 +17,18 @@ object TimeAndDateExtensions {
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
-    fun Date.getHourFromUTCDate(): Int = DateTime(this, DateTimeZone.UTC).hourOfDay().get()
-
-    fun String.toMillis(): Long? = DateTime.parse(this).millis
-
     fun Date.toServerFormat(): String =
         DateTimeFormat.forPattern("yyyy-MM-dd").withChronology(GJChronology.getInstance())
             .withZoneUTC()
             .print(this.time)
 
+    fun Date.toUIFormat(context: Context): String =
+        android.text.format.DateFormat.getDateFormat(context).format(this)
+
     fun Date.logUTCFormat(): String = DateTime(this, DateTimeZone.UTC).toString()
 
     fun Long.millisecondsToSeconds(): Long {
         return this.div(MS_TO_SECONDS)
-    }
-
-    fun Long.millisecondsToDays(): Long {
-        return this.div(MS_TO_DAYS)
     }
 
     fun Long.millisecondsToHours(): Long {

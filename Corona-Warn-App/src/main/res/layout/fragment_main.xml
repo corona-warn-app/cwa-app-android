@@ -92,7 +92,7 @@
 
                 <TextView
                     android:id="@+id/main_tracing_headline"
-                    style="@style/textLargeEmphasized"
+                    style="@style/bodyButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{FormatterSettingsHelper.formatTracingDescription(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
@@ -119,8 +119,8 @@
                 layout="@layout/include_divider"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/card_divider"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing" />
 
             <include
@@ -151,6 +151,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_test_done"
                 style="@style/card"
+                android:padding="0dp"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionDoneCard(submissionViewModel.deviceUiState)}"
@@ -159,8 +160,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider">
 
                 <include
-                    layout="@layout/include_submission_done"
-                    android:layout_width="0dp"
+                    layout="@layout/include_submission_done_card"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

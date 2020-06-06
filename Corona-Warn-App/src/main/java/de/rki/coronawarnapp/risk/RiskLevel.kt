@@ -42,6 +42,12 @@ enum class RiskLevel(val raw: Int) {
         }
 
         // risk level categories
+        val UNSUCCESSFUL_RISK_LEVELS =
+            arrayOf(
+                UNDETERMINED,
+                NO_CALCULATION_POSSIBLE_TRACING_OFF,
+                UNKNOWN_RISK_OUTDATED_RESULTS
+            )
         private val HIGH_RISK_LEVELS = arrayOf(INCREASED_RISK)
         private val LOW_RISK_LEVELS = arrayOf(
             UNKNOWN_RISK_INITIAL,

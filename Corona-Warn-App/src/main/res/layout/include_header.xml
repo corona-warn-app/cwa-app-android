@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/header_title"
-            style="@style/textTitle"
+            style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/guideline_body_title"

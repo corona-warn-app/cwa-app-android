@@ -16,18 +16,25 @@ class InformationAboutFragment : BaseFragment() {
         private val TAG: String? = InformationAboutFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentInformationAboutBinding
+    private var _binding: FragmentInformationAboutBinding? = null
+    private val binding: FragmentInformationAboutBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInformationAboutBinding.inflate(inflater)
+        _binding = FragmentInformationAboutBinding.inflate(inflater)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 

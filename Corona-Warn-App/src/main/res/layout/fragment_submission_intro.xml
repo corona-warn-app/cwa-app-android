@@ -16,7 +16,7 @@
             <include
                 android:id="@+id/submission_intro_header"
                 layout="@layout/include_header"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 app:icon="@{@drawable/ic_close}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -26,8 +26,8 @@
 
             <include
                 layout="@layout/include_submission_intro"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="@dimen/match_constraint"
                 app:layout_constraintBottom_toTopOf="@+id/guideline_action"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             <Button
                 android:id="@+id/submission_intro_button_next"
                 style="@style/buttonPrimary"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:text="@string/submission_intro_button_next"
                 android:textAllCaps="true"
@@ -46,39 +46,13 @@
                 app:layout_constraintTop_toBottomOf="@id/guideline_action" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/guideline_top" />
-
-            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_end="@dimen/guideline_action" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_back" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

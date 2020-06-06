@@ -26,7 +26,7 @@
             <include
                 android:id="@+id/submission_tan_header"
                 layout="@layout/include_header"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 app:icon="@{@drawable/ic_close}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/submission_tan_body"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -59,11 +59,10 @@
                 style="@style/buttonPrimary"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@{FormatterSubmissionHelper.formatSubmissionTanButtonTint(viewmodel.isValidTanFormat())}"
                 android:enabled="@{viewmodel.isValidTanFormat}"
                 android:text="@string/submission_tan_button_text"
                 android:textAllCaps="true"
-                android:textColor="@{FormatterSubmissionHelper.formatSubmissionTanButtonTextColor(viewmodel.isValidTanFormat())}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/guideline_action" />
@@ -75,7 +74,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_end="@dimen/guideline_action" />
 
-            <include layout="@layout/merge_guidelines_common" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

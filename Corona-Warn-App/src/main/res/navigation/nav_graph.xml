@@ -160,17 +160,6 @@
         tools:layout="@layout/fragment_information_technical" />
 
     <!-- Submission -->
-    <dialog
-        android:id="@+id/submissionSuccessDialogFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSuccessDialogFragment"
-        android:label="SubmissionSuccessDialogFragment">
-        <action
-            android:id="@+id/action_submissionSuccessDialogFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true" />
-    </dialog>
-
     <fragment
         android:id="@+id/testForAPIFragment"
         android:name="de.rki.coronawarnapp.TestForAPIFragment"
@@ -224,9 +213,6 @@
         android:label="fragment_submission_result"
         tools:layout="@layout/fragment_submission_test_result">
         <action
-            android:id="@+id/action_submissionResultFragment_to_submissionSuccessDialogFragment"
-            app:destination="@id/submissionSuccessDialogFragment" />
-        <action
             android:id="@+id/action_submissionResultFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
@@ -242,13 +228,15 @@
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
-            android:id="@+id/action_submissionTanFragment_to_mainFragment"
+            android:id="@+id/action_submissionTanFragment_to_submissionDispatcherFragment"
             app:destination="@id/submissionDispatcherFragment"
             app:popUpTo="@id/submissionDispatcherFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionTanFragment_to_submissionRegisterDeviceFragment"
-            app:destination="@id/submissionRegisterDeviceFragment" />
+            android:id="@+id/action_submissionTanFragment_to_submissionResultFragment"
+            app:destination="@id/submissionResultFragment"
+            app:popUpTo="@id/submissionResultFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -282,17 +270,9 @@
             app:popUpTo="@id/submissionDispatcherFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionRegisterDeviceFragment"
-            app:destination="@id/submissionRegisterDeviceFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/submissionRegisterDeviceFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionRegisterDeviceFragment"
-        android:label="SubmissionRegisterDeviceFragment">
-        <action
-            android:id="@+id/action_submissionRegisterDeviceFragment_to_submissionResultFragment"
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
-            app:popUpTo="@id/mainFragment" />
+            app:popUpTo="@id/submissionResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionDoneFragment"

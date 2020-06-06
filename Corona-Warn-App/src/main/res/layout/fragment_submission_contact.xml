@@ -47,7 +47,7 @@
 
             <Button
                 android:id="@+id/submission_contact_button_enter"
-                style="@style/buttonGrey"
+                style="@style/buttonLight"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:text="@string/submission_contact_button_enter"
@@ -64,7 +64,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_end="@dimen/guideline_action_large" />
 
-            <include layout="@layout/merge_guidelines_common" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

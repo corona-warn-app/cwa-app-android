@@ -10,9 +10,10 @@
 
         <TextView
             android:id="@+id/submission_status_card_unregistered_title"
-            style="@style/textTitle"
+            style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/submission_status_card_title_unregistered"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,25 +22,26 @@
 
         <TextView
             android:id="@+id/submission_status_card_unregistered_body"
-            style="@style/textMultiline"
+            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
-            android:layout_marginBottom="@dimen/spacing_normal"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/submission_status_card_body_unregistered"
-            app:layout_constraintBottom_toTopOf="@+id/submission_status_card_unregistered_button"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
-            app:layout_constraintStart_toStartOf="@+id/submission_status_card_unregistered_title" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_title" />
 
         <Button
             android:id="@+id/submission_status_card_unregistered_button"
+            style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            style="@style/buttonPrimary"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_status_card_button_unregistered"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_barrier" />
 
         <ImageView
             android:id="@+id/submission_status_card_unregistered_icon"
@@ -48,5 +50,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/submission_status_card_unregistered_title"
             app:srcCompat="@drawable/ic_main_illustration_untested" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/submission_status_card_unregistered_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="submission_status_card_unregistered_icon,submission_status_card_unregistered_body" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

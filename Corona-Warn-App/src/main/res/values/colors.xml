@@ -1,71 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO: Add variables when colors are final to reduce maintenance -->
+    <!-- Brand Colors -->
+    <color name="colorBrandPrimary">#BD1200</color>
+    <color name="colorBrandSecondary">#80CDEC</color>
+    <color name="colorBrandTertiary">#59112B</color>
 
-    <!--    TODO: green, blue, etc. should be exchanged by meaningful colors when they are final -->
-    <!-- Status Colors -->
-    <color name="colorGreen">#2E854B</color>
-    <color name="colorRed">#C00F2D</color>
+    <!-- Backgrounds and Separators -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface1">#FFFFFF</color>
+    <color name="colorSurface1Pressed">#E7E8E8</color>
+    <color name="colorSurface2">#F5F5F5</color>
+    <color name="colorHairline">#3317191A</color>
 
-    <!-- App Color -->
-    <color name="appTheme">#ffffff</color>
+    <!-- Text -->
+    <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorTextPrimary2">#9917191A</color>
+    <color name="colorTextPrimary3">#4D17191A</color>
+    <color name="colorTextEmphasizedButton">#FFFFFF</color>
+    <color name="colorTextSemanticRed">#C00F2D</color>
+    <color name="colorTextSemanticGreen">#2E854B</color>
+    <color name="colorTextSemanticNeutral">#5D6E80</color>
+    <color name="colorTextTint">#007FAD</color>
+    <color name="colorTextLight">#FFFFFF</color>
 
-    <!-- Primary Colors -->
-    <color name="colorPrimary">#2C79A9</color>
-    <color name="colorPrimaryDark">#1B4865</color>
+    <!-- Semantic -->
+    <color name="colorSemanticHighRisk">#C00F2D</color>
+    <color name="colorSemanticHighRiskPressed">#AE102B</color>
+    <color name="colorSemanticLowRisk">#2E854B</color>
+    <color name="colorSemanticLowRiskPressed">#2B7A46</color>
+    <color name="colorSemanticNeutralRisk">#5D6E80</color>
+    <color name="colorSemanticNeutralRiskPressed">#556675</color>
+    <color name="colorSemanticUnknownRisk">#FFFFFF</color>
+    <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
+
+    <!-- Accent -->
+    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccentTintButtonPressed">#02759E</color>
+    <color name="colorAccentTintIcon">#007FAD</color>
+
+    <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
-
-    <!-- Risk Card Colors -->
-    <color name="colorRiskCardIncreasedRisk">#C00F2D</color>
-    <color name="colorRiskCardIncreasedRiskPressed">#A30C26</color>
-    <color name="colorRiskCardLowRisk">#2E854B</color>
-    <color name="colorRiskCardLowRiskPressed">#27713F</color>
-    <color name="colorRiskCardNoCalculationPossible">@color/colorLight</color>
-    <color name="colorRiskCardNoCalculationPossiblePressed">@color/colorGreyLight</color>
-    <color name="colorRiskCardOutdatedRisk">#657888</color>
-    <color name="colorRiskCardOutdatedRiskPressed">#556673</color>
-    <color name="colorRiskCardUnknownRisk">#657888</color>
-    <color name="colorRiskCardUnknownRiskPressed">#556673</color>
-    <color name="riskCardGrey">#F5F5F5</color>
-
-    <!-- Light/Grey Colors -->
-    <color name="colorLight">#ffffff</color>
-    <color name="colorGrey">#747576</color>
-    <color name="colorGreyLight">#F5F5F5</color>
-    <color name="colorGreyDisabled">#9917191A</color>
-
-    <!-- Text Colors -->
-    <color name="textColorPrimary">#000000</color>
-    <color name="textColorSecondary">#333333</color>
-    <color name="textColorLight">#ffffff</color>
-    <color name="textColorRed">#C00F2D</color>
-    <color name="textColorBlue">#2C79A9</color>
-    <color name="textColorGrey">#747576</color>
-
-    <!-- Visual Elements -->
-    <color name="dividerColor">#0D000000</color>
-    <color name="iconColor">@color/colorGrey</color>
-
-    <!-- Stable Colors -->
-    <color name="stableBackgroundColor">#ffffff</color>
-    <color name="stableHighlightColor">#C3C3C3</color>
-    <color name="stableTextColor">#000000</color>
-    <color name="stableIconColor">#ffffff</color>
-    <color name="stableButtonColorGrey">#C3C3C3</color>
-    <color name="stableButtonColorGreyHighlight">#AEAEAE</color>
-    <color name="stableLightTransparent">#33FFFFFF</color>
-
-    <!-- Tracing Icon -->
-    <color name="tracingIconActive">#007FAD</color>
-    <color name="tracingIconInactive">#C00F2D</color>
-
-    <!-- Settings Icon -->
-    <color name="settingsIconActive">#2C79A9</color>
-    <color name="settingsIconInactive">#C3C3C3</color>
 
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
 
+    <!-- Stable Colors -->
+    <color name="colorStableDark">#000000</color>
+    <color name="colorStableMedium">#4D17191A</color>
+    <color name="colorStableLight">#FFFFFF</color>
 
 </resources>

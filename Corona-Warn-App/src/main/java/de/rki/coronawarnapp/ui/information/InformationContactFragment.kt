@@ -18,18 +18,25 @@ class InformationContactFragment : BaseFragment() {
         private val TAG: String? = InformationContactFragment::class.simpleName
     }
 
-    private lateinit var binding: FragmentInformationContactBinding
+    private var _binding: FragmentInformationContactBinding? = null
+    private val binding: FragmentInformationContactBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInformationContactBinding.inflate(inflater)
+        _binding = FragmentInformationContactBinding.inflate(inflater)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 

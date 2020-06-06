@@ -1,33 +1,68 @@
 package de.rki.coronawarnapp.storage
 
 import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
-import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 
 object RiskLevelRepository {
 
+    /**
+     * LiveData variables that can be consumed in a ViewModel to observe RiskLevel changes
+     */
     val riskLevelScore = MutableLiveData(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
+    val riskLevelScoreLastSuccessfulCalculated = MutableLiveData(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
 
-    fun setRiskLevelScore(score: RiskLevel) {
-        val rawRiskLevel = score.raw
+    /**
+     * Set the new calculated [RiskLevel]
+     * Calculation happens in the [de.rki.coronawarnapp.transaction.RiskLevelTransaction]
+     *
+     * @see de.rki.coronawarnapp.transaction.RiskLevelTransaction
+     * @see de.rki.coronawarnapp.risk.RiskLevelCalculation
+     *
+     * @param riskLevel
+     */
+    fun setRiskLevelScore(riskLevel: RiskLevel) {
+        val rawRiskLevel = riskLevel.raw
         riskLevelScore.postValue(rawRiskLevel)
-        LocalData.getSharedPreferenceInstance()
-            .edit()
-            .putInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_risk_level_score),
-                rawRiskLevel
-            ).apply()
+
+        setLastCalculatedScore(rawRiskLevel)
+        setLastSuccessfullyCalculatedScore(riskLevel)
     }
 
-    fun getLastCalculatedScore(): RiskLevel {
-        val riskLevelScoreRaw = LocalData.getSharedPreferenceInstance().getInt(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_risk_level_score), UNDETERMINED.raw
-        )
-        return RiskLevel.forValue(riskLevelScoreRaw)
+    /**
+     * Get the last calculated RiskLevel
+     *
+     * @return
+     */
+    fun getLastCalculatedScore(): RiskLevel = LocalData.lastCalculatedRiskLevel()
+
+    /**
+     * Set the last calculated RiskLevel
+     *
+     * @param rawRiskLevel
+     */
+    private fun setLastCalculatedScore(rawRiskLevel: Int) =
+        LocalData.lastCalculatedRiskLevel(rawRiskLevel)
+
+    /**
+     * Get the last successfully calculated [RiskLevel]
+     *
+     * @see RiskLevel
+     *
+     * @return
+     */
+    fun getLastSuccessfullyCalculatedScore(): RiskLevel =
+        LocalData.lastSuccessfullyCalculatedRiskLevel()
+
+    /**
+     * Set the last successfully calculated [RiskLevel]
+     *
+     * @param riskLevel
+     */
+    private fun setLastSuccessfullyCalculatedScore(riskLevel: RiskLevel) {
+        if (!RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(riskLevel)) {
+            LocalData.lastSuccessfullyCalculatedRiskLevel(riskLevel.raw)
+            riskLevelScoreLastSuccessfulCalculated.postValue(riskLevel.raw)
+        }
     }
 }

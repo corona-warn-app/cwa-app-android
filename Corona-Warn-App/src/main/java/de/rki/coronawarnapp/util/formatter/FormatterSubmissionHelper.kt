@@ -3,11 +3,16 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.graphics.drawable.Drawable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 
 fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
@@ -15,24 +20,6 @@ fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
 
 fun formatTestResultVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState == ApiRequestState.SUCCESS)
-
-fun formatTestResultVirusNameTextVisible(uiState: DeviceUIState?): Int {
-    return when (uiState) {
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_NEGATIVE -> View.VISIBLE
-        else -> View.GONE
-    }
-}
-
-fun formatTestResultStatusTextVisible(uiState: DeviceUIState?): Int {
-    return when (uiState) {
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_NEGATIVE -> View.VISIBLE
-        else -> View.GONE
-    }
-}
 
 fun formatTestResultStatusText(uiState: DeviceUIState?): String {
     val appContext = CoronaWarnApplication.getAppContext()
@@ -47,16 +34,42 @@ fun formatTestResultStatusText(uiState: DeviceUIState?): String {
 fun formatTestResultStatusColor(uiState: DeviceUIState?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorGreen)
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorTextSemanticGreen)
         DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorRed)
-        else -> appContext.getColor(R.color.colorRed)
+        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getColor(R.color.colorTextSemanticRed)
+        else -> appContext.getColor(R.color.colorTextSemanticRed)
+    }
+}
+
+fun formatTestResult(uiState: DeviceUIState?): Spannable {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return SpannableStringBuilder()
+        .append(appContext.getString(R.string.test_result_card_virus_name_text))
+        .append(" ")
+        .append(
+            formatTestResultStatusText(uiState),
+            ForegroundColorSpan(formatTestResultStatusColor(uiState)),
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+}
+
+fun formatTestResultCardContent(uiState: DeviceUIState?): Spannable {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (uiState) {
+        DeviceUIState.PAIRED_NO_RESULT ->
+            SpannableString(appContext.getString(R.string.test_result_card_status_pending))
+        DeviceUIState.PAIRED_ERROR ->
+            SpannableString(appContext.getString(R.string.test_result_card_status_invalid))
+
+        DeviceUIState.PAIRED_POSITIVE,
+        DeviceUIState.PAIRED_POSITIVE_TELETAN,
+        DeviceUIState.PAIRED_NEGATIVE -> formatTestResult(uiState)
+        else -> SpannableString("")
     }
 }
 
 fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
-    // TODO Replace with real drawables when design is finished
     return when (uiState) {
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
         DeviceUIState.PAIRED_POSITIVE_TELETAN,
@@ -67,15 +80,10 @@ fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
     }
 }
 
-fun formatTestResultInvalidStatusTextVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_ERROR)
-
-fun formatTestResultPendingStatusTextVisible(uiState: DeviceUIState?): Int =
-    formatVisibility(uiState == DeviceUIState.PAIRED_NO_RESULT)
-
 fun formatTestResultRegisteredAtText(registeredAt: Date?): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    return appContext.getString(R.string.test_result_card_registered_at_text).format(registeredAt)
+    return appContext.getString(R.string.test_result_card_registered_at_text)
+        .format(registeredAt?.toUIFormat(appContext))
 }
 
 fun formatTestResultPendingStepsVisible(uiState: DeviceUIState?): Int =
@@ -90,13 +98,29 @@ fun formatTestResultPositiveStepsVisible(uiState: DeviceUIState?): Int =
 fun formatTestResultInvalidStepsVisible(uiState: DeviceUIState?): Int =
     formatVisibility(uiState == DeviceUIState.PAIRED_ERROR)
 
+fun formatSubmissionStatusCardSubtitleColor(uiState: DeviceUIState?): Int {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (uiState) {
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorTextSemanticGreen)
+        DeviceUIState.PAIRED_ERROR -> appContext.getColor(R.color.colorTextSemanticNeutral)
+        else -> appContext.getColor(R.color.colorTextPrimary1)
+    }
+}
+
+fun formatSubmissionStatusCardSubtitleText(uiState: DeviceUIState?): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (uiState) {
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.submission_status_card_subtitle_negative)
+        DeviceUIState.PAIRED_ERROR -> appContext.getString(R.string.submission_status_card_subtitle_invalid)
+        else -> ""
+    }
+}
+
 fun formatSubmissionStatusCardContentTitleText(uiState: DeviceUIState?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
         DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_NEGATIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_POSITIVE -> appContext.getString(R.string.submission_status_card_title_available)
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.submission_status_card_title_available)
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getString(R.string.submission_status_card_title_pending)
         else -> appContext.getString(R.string.submission_status_card_title_pending)
     }
@@ -107,28 +131,13 @@ fun formatSubmissionStatusCardContentBodyText(uiState: DeviceUIState?): String {
     return when (uiState) {
         DeviceUIState.PAIRED_ERROR -> appContext.getString(R.string.submission_status_card_body_invalid)
         DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.submission_status_card_body_negative)
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getString(R.string.submission_status_card_body_positive)
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getString(R.string.submission_status_card_body_pending)
         else -> appContext.getString(R.string.submission_status_card_body_pending)
     }
 }
 
-fun formatSubmissionStatusCardContentButtonText(uiState: DeviceUIState?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_NEGATIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
-        DeviceUIState.PAIRED_POSITIVE -> appContext.getString(R.string.submission_status_card_button_show_results)
-        else -> appContext.getString(R.string.submission_status_card_button_show_details)
-    }
-}
-
 fun formatSubmissionStatusCardContentStatusTextVisible(uiState: DeviceUIState?): Int {
     return when (uiState) {
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN,
         DeviceUIState.PAIRED_NEGATIVE,
         DeviceUIState.PAIRED_ERROR -> View.VISIBLE
         else -> View.GONE
@@ -161,18 +170,6 @@ fun formatSubmissionStatusCardContentVisible(
     deviceRegistered: Boolean?,
     uiStateState: ApiRequestState?
 ): Int = formatVisibility(deviceRegistered == true && uiStateState == ApiRequestState.SUCCESS)
-
-fun formatSubmissionTanButtonTint(isValidTanFormat: Boolean) = formatColor(
-    isValidTanFormat,
-    R.color.button_primary,
-    R.color.colorGreyLight
-)
-
-fun formatSubmissionTanButtonTextColor(isValidTanFormat: Boolean) = formatColor(
-    isValidTanFormat,
-    R.color.textColorLight,
-    R.color.colorGreyDisabled
-)
 
 fun formatShowSubmissionStatusCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(

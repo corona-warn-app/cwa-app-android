@@ -11,55 +11,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/submission_intro_information_details"
-                layout="@layout/include_information_details"
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/submission_intro_hero_illustration"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                app:body="@{@string/submission_intro_text_a}"
-                app:headline="@{@string/submission_intro_headline}"
-                app:illustration="@{@drawable/ic_submission_illustration_intro_a}"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_illustration_test"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/submission_intro_imageview_illustration_b"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/submission_intro_headline"
+                style="@style/headline4"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:src="@drawable/ic_submission_illustration_intro_b"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_information_details" />
+                android:text="@string/submission_intro_headline"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_intro_hero_illustration" />
 
             <TextView
-                android:id="@+id/submission_intro_textview_text_b"
-                style="@style/textMultiline"
-                android:layout_width="0dp"
+                android:id="@+id/submission_intro_text"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/submission_intro_text"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_intro_headline" />
+
+            <TextView
+                android:id="@+id/submission_intro_text_enum"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
                 android:paddingBottom="@dimen/spacing_normal"
-                android:text="@string/submission_intro_text_b"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/submission_intro_imageview_illustration_b" />
+                android:text="@string/submission_intro_enum"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_intro_text" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 </layout>
