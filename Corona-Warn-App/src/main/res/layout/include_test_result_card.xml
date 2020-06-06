@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/test_result_card_headline"
-            style="@style/textMultiline"
+            style="@style/body2"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_tiny"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/test_result_card_content"
-            style="@style/textTitleLarger"
+            style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_tiny"
@@ -54,7 +54,7 @@
 
         <TextView
             android:id="@+id/test_result_card_registered_at_text"
-            style="@style/textMultiline"
+            style="@style/body2"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"

@@ -22,7 +22,7 @@
 
             <TextView
                 android:id="@+id/submission_contact_body"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/submission_contact_headline"
-                style="@style/textTitle"
+                style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -60,6 +60,7 @@
 
                     <TextView
                         android:id="@+id/submission_contact_step_1_body"
+                        style="@style/subtitle"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/button_icon_margin"
@@ -71,7 +72,7 @@
 
                     <TextView
                         android:id="@+id/submission_contact_step_1_number"
-                        style="@style/textTitle"
+                        style="@style/headline5"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
@@ -83,6 +84,7 @@
 
                     <TextView
                         android:id="@+id/submission_contact_operating_hours_body"
+                        style="@style/body2"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
@@ -106,13 +108,14 @@
                 app:step_entry_icon="@drawable/ic_step_2">
 
                 <TextView
+                    style="@style/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/submission_contact_step_2_body" />
 
             </de.rki.coronawarnapp.ui.view.StepEntry>
 
-            <include layout="@layout/merge_guidelines_common" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
