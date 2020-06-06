@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_settings_illustration_tracing_on" />
+            tools:src="@drawable/ic_illustration_tracing_on" />
 
         <TextView
             android:id="@+id/information_details_header_headline"

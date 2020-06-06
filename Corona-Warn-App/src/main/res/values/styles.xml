@@ -89,12 +89,6 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
-    <style name="rowDanger" parent="row">
-        <item name="android:textColor">@color/colorTextSemanticRed</item>
-        <item name="android:background">@drawable/row</item>
-        <item name="android:backgroundTint">@color/button_light</item>
-    </style>
-
     <!-- ####################################
                     Card
     ###################################### -->
@@ -109,23 +103,6 @@
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
         <item name="android:backgroundTint">@color/colorSurface2</item>
-    </style>
-    <!-- todo unify padding with main card - tbr -->
-
-    <style name="cardHeadline" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:textSize">@dimen/font_larger</item>
-        <item name="android:textColor">@color/colorTextLight</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="cardText" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/colorTextLight</item>
-    </style>
-
-    <style name="cardTextDispatcher" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:textColor">@color/colorTextPrimary2</item>
     </style>
 
     <style name="cardGrey">

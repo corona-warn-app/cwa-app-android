@@ -38,7 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:headline="@{@string/information_privacy_headline}"
-                    app:illustration="@{@drawable/ic_information_illustration_privacy}"
+                    app:illustration="@{@drawable/ic_illustration_privacy}"
                     app:illustrationDescription="@{@string/information_privacy_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
