@@ -66,7 +66,7 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     }
 
     private fun updateTan(text: CharSequence?) {
-        this.tan = text?.toString()
+        this.tan = text?.toString()?.toUpperCase(Locale.getDefault())
         updateDigits()
         notifyListener()
     }
@@ -85,7 +85,7 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         tan_input_textview_9,
         tan_input_textview_10
     ).forEachIndexed { i, tanDigit ->
-        tanDigit.text = digitAtIndex(i).toUpperCase(Locale.getDefault())
+        tanDigit.text = digitAtIndex(i)
     }
 
     private fun digitAtIndex(index: Int): String = tan?.getOrNull(index)?.toString() ?: ""
