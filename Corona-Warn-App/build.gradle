@@ -62,7 +62,12 @@ android {
             def VERIFICATION_CDN_URL = properties.getProperty('VERIFICATION_CDN_URL')
             if (VERIFICATION_CDN_URL)
                 buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+        }
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
         }
     }
 
@@ -209,7 +214,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-guava:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.sqlite:sqlite:2.0.1"
+    implementation "androidx.sqlite:sqlite:2.1.0"
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
