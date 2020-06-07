@@ -102,7 +102,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_subtitle"
-                    app:title="@{@string/main_overview_subtitle_increased_risk}" />
+                    app:subtitle="@{@string/main_overview_subtitle_increased_risk}" />
 
                 <include
                     android:id="@+id/main_overview_risk_low_risk"
@@ -114,7 +114,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_increased_risk"
-                    app:title="@{@string/main_overview_subtitle_low_risk}" />
+                    app:subtitle="@{@string/main_overview_subtitle_low_risk}" />
 
                 <include
                     android:id="@+id/main_overview_risk_unknown_risk"
@@ -126,7 +126,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_low_risk"
-                    app:title="@{@string/main_overview_subtitle_unknown_risk}" />
+                    app:subtitle="@{@string/main_overview_subtitle_unknown_risk}" />
 
                 <include
                     android:id="@+id/main_overview_test"
