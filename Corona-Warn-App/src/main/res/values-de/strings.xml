@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
                Preference Keys
@@ -280,10 +281,7 @@
     <string name="onboarding_body_emphasized">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
-    <string name="onboarding_privacy_headline">"Datenschutz"</string>
-    <string name="onboarding_privacy_subtitle">"Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO:\n \nRobert Koch-Institut\nNordufer 20\n13353 Berlin"</string>
     <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
-    <string name="onboarding_privacy_body_emphasized">@string/lorem_ipsum</string>
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">"Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
@@ -442,7 +440,6 @@
     <string name="information_about_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">"Datenschutzinformation"</string>
-    <string name="information_privacy_headline">@string/lorem_ipsum</string>
     <!-- XACT: describes illustration -->
     <string name="information_privacy_illustration_description">"Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
@@ -474,13 +471,10 @@
     <string name="information_help_title">"Häufige Fragen"</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Rechtliche Hinweise"</string>
-    <string name="information_technical_headline">"FTP/SFTP/FTPS client uses libs"</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">"Eine Hand hält ein Smartphone mit viel Text, daneben ist eine Balkenwaage als Symbol für rechtliche Hinweise."</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">"Impressum"</string>
-    <string name="information_legal_headline">"Herausgeber"</string>
-    <string name="information_legal_body">"SAP Deutschland SE &amp; Co. KG\n \nHauptsitz:\nSAP Deutschland SE &amp; Co. KG\nHasso-Plattner-Ring 7\n69190 Walldorf"</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Paragraphenzeichen als Symbol für das Impressum."</string>
 
@@ -682,8 +676,6 @@
     <string name="submission_done_contagious">"Sie sind ansteckend."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Bitte isolieren Sie sich von anderen Personen."</string>
-    <!-- YTXT: text after submission: contact -->
-    <string name="submission_done_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: Content for further info -->
@@ -749,8 +741,6 @@
     <string name="submission_status_card_positive_result_show_button">"Testergebnis anzeigen"</string>
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">@string/submission_done_contagious</string>
-    <!-- YTXT: text for isolate card -->
-    <string name="submission_status_card_positive_result_isolate">@string/submission_done_isolate</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufallskennungen, damit andere gewarnt werden können."</string>
 
