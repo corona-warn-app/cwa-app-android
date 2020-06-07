@@ -1,4 +1,5 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
                Preference Keys
@@ -83,6 +84,10 @@
     <!-- NOTR -->
     <string name="preference_risk_level_score_successful">
         <xliff:g id="preference">preference_risk_level_score_successful</xliff:g>
+    </string>
+    <!-- NOTR -->
+    <string name="preference_timestamp_risk_level_calculation">
+        <xliff:g id="preference">preference_timestamp_risk_level_calculation</xliff:g>
     </string>
     <!-- NOTR -->
     <string name="preference_test_guid">
