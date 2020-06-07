@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
