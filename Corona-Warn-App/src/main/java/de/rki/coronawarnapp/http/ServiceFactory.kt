@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.http
 import android.webkit.URLUtil
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.exception.http.ServiceFactoryException
 import de.rki.coronawarnapp.http.config.DynamicURLs
 import de.rki.coronawarnapp.http.config.HTTPVariables
 import de.rki.coronawarnapp.http.interceptor.OfflineCacheInterceptor
