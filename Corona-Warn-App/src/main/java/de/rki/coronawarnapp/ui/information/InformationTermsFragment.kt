@@ -39,7 +39,7 @@ class InformationTermsFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationTermsHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.informationTermsHeader.headerToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
     }
