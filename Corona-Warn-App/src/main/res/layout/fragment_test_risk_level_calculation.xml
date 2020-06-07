@@ -33,7 +33,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Preview (no interaction possible)" />
@@ -49,6 +49,34 @@
                 app:showDetails="@{false}"
                 app:tracingViewModel="@{tracingViewModel}" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Transmission Risk Level for scan: " />
+
+                <EditText
+                    android:id="@+id/transmission_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="5" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_provide_key_via_qr"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:text="Scan Local QR Code" />
+
             <Button
                 android:id="@+id/button_retrieve_diagnosis_keys"
                 style="@style/buttonPrimary"
@@ -58,14 +86,6 @@
                 android:text="Retrieve Diagnosis Keys" />
 
             <Button
-                android:id="@+id/button_provide_key_via_qr"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Scan Local QR Code" />
-
-            <Button
                 android:id="@+id/button_calculate_risk_level"
                 style="@style/buttonPrimary"
                 android:layout_width="match_parent"
@@ -73,9 +93,17 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="Calculate Risk Level" />
 
+            <Button
+                android:id="@+id/button_reset_risk_level"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Reset Risk Level" />
+
             <TextView
                 android:id="@+id/label_exposure_summary_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -89,7 +117,7 @@
 
             <TextView
                 android:id="@+id/label_risk_score_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Risk Score" />
@@ -102,7 +130,7 @@
 
             <TextView
                 android:id="@+id/label_backend_parameters_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Backend Parameters" />
@@ -115,7 +143,7 @@
 
             <TextView
                 android:id="@+id/label_formula_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Used Formula" />
@@ -127,8 +155,21 @@
                 android:text="-" />
 
             <TextView
+                android:id="@+id/label_exposure_info_title"
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exposure Information" />
+
+            <TextView
+                android:id="@+id/label_exposure_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+            <TextView
                 android:id="@+id/label_full_config_title"
-                style="@style/textSubTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Full Backend Configuration" />

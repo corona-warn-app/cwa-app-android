@@ -27,12 +27,10 @@ object FileStorageHelper {
      * Get key files export directory used to store all export files for the transaction
      * Uses FileStorageConstants.KEY_EXPORT_DIRECTORY_NAME constant
      *
-     * TODO Change to CacheDir before release
-     *
      * @return File of key export directory
      */
     val keyExportDirectory = File(
-        CoronaWarnApplication.getAppContext().getExternalFilesDir(null),
+        CoronaWarnApplication.getAppContext().cacheDir,
         FileStorageConstants.KEY_EXPORT_DIRECTORY_NAME
     )
 

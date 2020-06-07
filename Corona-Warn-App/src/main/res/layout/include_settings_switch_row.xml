@@ -27,10 +27,6 @@
             type="String" />
 
         <variable
-            name="body"
-            type="String" />
-
-        <variable
             name="showDivider"
             type="Boolean" />
 
@@ -61,7 +57,7 @@
 
                 <TextView
                     android:id="@+id/settings_switch_row_header_subtitle"
-                    style="@style/textLargeEmphasized"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{subtitle}"
@@ -71,6 +67,7 @@
 
                 <TextView
                     android:id="@+id/settings_switch_row_header_body"
+                    style="@style/body2Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_mega_tiny"
@@ -104,26 +101,6 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/settings_switch_row" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_mega_tiny"
-                android:text="@{body}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

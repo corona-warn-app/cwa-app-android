@@ -38,7 +38,7 @@
             android:id="@+id/step_entry_line"
             android:layout_width="@dimen/test_result_step_progress_line_width"
             android:layout_height="@dimen/match_constraint"
-            android:background="@color/colorGreyLight"
+            android:background="@color/colorSurface2"
             app:layout_constraintBottom_toBottomOf="@+id/step_entry_placeholder"
             app:layout_constraintEnd_toEndOf="@id/step_entry_icon"
             app:layout_constraintStart_toStartOf="@id/step_entry_icon"

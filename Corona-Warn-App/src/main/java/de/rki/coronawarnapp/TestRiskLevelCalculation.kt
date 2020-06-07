@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,6 +27,8 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
+import de.rki.coronawarnapp.storage.AppDatabase
+import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
@@ -33,12 +36,15 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.transmission_number
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "LongMethod")
 class TestRiskLevelCalculation : Fragment() {
     companion object {
         val TAG: String? = TestRiskLevelCalculation::class.simpleName
@@ -91,6 +97,33 @@ class TestRiskLevelCalculation : Fragment() {
         binding.buttonCalculateRiskLevel.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 calculateRiskLevel()
+            }
+        }
+
+        binding.buttonResetRiskLevel.setOnClickListener {
+            tracingViewModel.viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    try {
+                        // Database Reset
+                        AppDatabase.getInstance(requireContext()).clearAllTables()
+                        // Delete Database Instance
+                        AppDatabase.resetInstance(requireContext())
+                        // Export File Reset
+                        FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
+
+                        LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
+                        LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
+                        LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
+                        LocalData.googleApiToken(null)
+                    } catch (e: java.lang.Exception) {
+                        e.report(ExceptionCategory.INTERNAL)
+                    }
+                }
+                RiskLevelTransaction.start()
+                Toast.makeText(
+                    requireContext(), "Resetted, please fetch diagnosis keys from server again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -151,12 +184,18 @@ class TestRiskLevelCalculation : Fragment() {
 
             val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
 
+            val text = (transmission_number as EditText).text.toString()
+            var number = 5
+            if (!text.isBlank()) {
+                number = Integer.valueOf(text)
+            }
+
             appleKeyList.add(
                 AppleLegacyKeyExchange.Key.newBuilder()
                     .setKeyData(key.keyData)
                     .setRollingPeriod(144)
                     .setRollingStartNumber(key.rollingStartNumber)
-                    .setTransmissionRiskLevel(1)
+                    .setTransmissionRiskLevel(number)
                     .build()
             )
 
@@ -266,6 +305,27 @@ class TestRiskLevelCalculation : Fragment() {
                     binding.labelFormula.text = formulaString
 
                     binding.labelFullConfig.text = it.appConfig?.toString()
+
+                    val token = LocalData.googleApiToken()
+                    if (token != null) {
+                        val exposureInformation =
+                            InternalExposureNotificationClient.asyncGetExposureInformation(token)
+
+                        var infoString = ""
+                        exposureInformation.forEach {
+                            infoString += "Attenuation duration in min.: " +
+                                    "[${it.attenuationDurationsInMinutes?.get(0)}, " +
+                                    "${it.attenuationDurationsInMinutes?.get(1)}," +
+                                    "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
+                                    "Attenuation value: ${it.attenuationValue}\n" +
+                                    "Duration in min.: ${it.durationMinutes}\n" +
+                                    "Risk Score: ${it.totalRiskScore}\n" +
+                                    "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
+                                    "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
+                        }
+
+                        binding.labelExposureInfo.text = infoString
+                    }
                 }
             })
     }

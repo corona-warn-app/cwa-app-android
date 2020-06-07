@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -36,7 +35,7 @@
 
             <TextView
                 android:id="@+id/label_exposure_summary"
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_api_exposure_summary_headline" />
@@ -97,7 +96,7 @@
 
             <TextView
                 android:id="@+id/label_my_keys"
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -111,15 +110,14 @@
                 android:lines="5"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/image_qr_code"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/qr_code_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/button" />
+                android:layout_height="200dp" />
 
             <TextView
                 android:id="@+id/label_other_keys"
-                style="@style/textTitle"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_api_body_other_keys" />

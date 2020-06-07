@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.nearby
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration.ExposureConfigurationBuilder
+import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -150,6 +151,17 @@ object InternalExposureNotificationClient {
     suspend fun asyncGetExposureSummary(token: String): ExposureSummary =
         suspendCoroutine { cont ->
             exposureNotificationClient.getExposureSummary(token)
+                .addOnSuccessListener {
+                    cont.resume(it)
+                }.addOnFailureListener {
+                    cont.resumeWithException(it)
+                }
+        }
+
+    // todo remove before release - not used in prod setup - only for testing
+    suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
+        suspendCoroutine { cont ->
+            exposureNotificationClient.getExposureInformation(token)
                 .addOnSuccessListener {
                     cont.resume(it)
                 }.addOnFailureListener {

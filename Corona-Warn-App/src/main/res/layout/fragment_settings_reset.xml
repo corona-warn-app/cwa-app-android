@@ -22,6 +22,7 @@
             style="@style/fadingScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
             app:layout_constraintEnd_toEndOf="parent"
