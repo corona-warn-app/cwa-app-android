@@ -25,14 +25,13 @@ class SubmissionTanViewModel : ViewModel() {
 
     val tanChecksumValid =
         Transformations.map(tan) {
-            if (it !== null && it.trim().length == TanConstants.MAX_LENGTH) TanHelper.isChecksumValid(it)
-            else true
+            ((it !== null && it.trim().length == TanConstants.MAX_LENGTH) &&
+                    TanHelper.isChecksumValid(it).not()).not()
         }
 
     val tanCharactersValid =
         Transformations.map(tan) {
-            if (it != null) TanHelper.allCharactersValid(it)
-            else true
+            !((it != null) && TanHelper.allCharactersValid(it).not())
         }
 
     fun storeTeletan() {

@@ -10,11 +10,11 @@ object TanHelper {
             return false
         val subTan = tan.substring(0, MAX_LENGTH - 1).toUpperCase(Locale.getDefault())
         val tanDigest = MessageDigest.getInstance("SHA-256").digest(subTan.toByteArray())
-        var check_char = "%02x".format(tanDigest[0])[0]
-        if (check_char == '0') check_char = 'G'
-        if (check_char == '1') check_char = 'H'
+        var checkChar = "%02x".format(tanDigest[0])[0]
+        if (checkChar == '0') checkChar = 'G'
+        if (checkChar == '1') checkChar = 'H'
 
-        return check_char.toUpperCase() == tan.last().toUpperCase()
+        return checkChar.toUpperCase() == tan.last().toUpperCase()
     }
 
     fun allCharactersValid(tan: String): Boolean {
