@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import java.util.*
+import java.util.Date
 
 /**
  * The Tracing Repository refreshes and triggers all tracing relevant data. Some functions get their

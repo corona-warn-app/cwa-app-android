@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))

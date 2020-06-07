@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 
 /**
  * Provides all the relevant data for tracing relevant topics and settings.
