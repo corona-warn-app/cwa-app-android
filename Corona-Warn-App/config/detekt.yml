@@ -100,7 +100,7 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt', '**/LocalData.kt', '**/formatter/*Helper.kt']
+    excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt', '**/LocalData.kt', '**/formatter/*Helper.kt', '**/worker/BackgroundWorkScheduler.kt']
     thresholdInFiles: 20
     thresholdInClasses: 20
     thresholdInInterfaces: 20

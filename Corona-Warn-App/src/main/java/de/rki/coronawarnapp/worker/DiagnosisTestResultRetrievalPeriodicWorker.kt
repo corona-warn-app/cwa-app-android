@@ -8,12 +8,9 @@ import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
@@ -44,8 +41,20 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      */
     override suspend fun doWork(): Result {
 
-        if (BuildConfig.DEBUG) Log.d(TAG, "Background polling job started...")
+        if (BuildConfig.DEBUG) Log.d(
+            TAG,
+            "Background job started. Run attempt: $runAttemptCount"
+        )
 
+        if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "Background job failed after $runAttemptCount attempts. Rescheduling"
+            )
+            BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
+            return Result.failure()
+        }
+        var result = Result.success()
         try {
             if (TimeAndDateExtensions.calculateDays(
                     LocalData.initialPollingForTestResultTimeStamp(),
@@ -53,28 +62,29 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
                 val testResult = SubmissionService.asyncRequestTestResult()
-                if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE) {
-                    if (!CoronaWarnApplication.isAppInForeground) {
-                        if (!LocalData.initialTestResultNotification()) {
-                            LocalData.initialTestResultNotification(true)
-                            NotificationHelper.sendNotification(
-                                CoronaWarnApplication.getAppContext()
-                                    .getString(R.string.notification_name), CoronaWarnApplication.getAppContext()
-                                    .getString(R.string.notification_body),
-                                NotificationCompat.PRIORITY_HIGH
-                            )
-                        }
-                    }
-                    stopWorker()
-                }
-            } else {
-                stopWorker()
+                initiateNotification(testResult)
             }
         } catch (e: Exception) {
-            e.report(ExceptionCategory.JOB)
-            return Result.failure()
+            result = Result.retry()
         }
-        return Result.success()
+        return result
+    }
+
+    private fun initiateNotification(testResult: TestResult) {
+        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE) {
+            if (!CoronaWarnApplication.isAppInForeground) {
+                LocalData.initialTestResultNotification(true)
+                NotificationHelper.sendNotification(
+                    CoronaWarnApplication.getAppContext()
+                        .getString(R.string.notification_name), CoronaWarnApplication.getAppContext()
+                        .getString(R.string.notification_body),
+                    NotificationCompat.PRIORITY_HIGH
+                )
+            }
+            stopWorker()
+        } else {
+            stopWorker()
+        }
     }
 
     private fun stopWorker() {

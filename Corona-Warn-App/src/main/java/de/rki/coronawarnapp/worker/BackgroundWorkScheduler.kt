@@ -335,6 +335,10 @@ object BackgroundWorkScheduler {
             .setInitialDelay(
                 BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
                 TimeUnit.MINUTES
+            ).setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                TimeUnit.MINUTES
             )
             .build()
 

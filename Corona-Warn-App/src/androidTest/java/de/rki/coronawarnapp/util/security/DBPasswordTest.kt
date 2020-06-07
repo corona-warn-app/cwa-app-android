@@ -20,10 +20,8 @@
 package de.rki.coronawarnapp.util.security
 
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import androidx.test.core.app.ApplicationProvider
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.DATABASE_NAME
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SQLiteException
@@ -35,7 +33,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.io.File
 import java.util.UUID
 import kotlin.random.Random
 
