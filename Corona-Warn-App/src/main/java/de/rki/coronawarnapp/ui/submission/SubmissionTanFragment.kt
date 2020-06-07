@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
-import de.rki.coronawarnapp.exception.TestAlreadyPairedException
+import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
-import retrofit2.HttpException
 
 /**
  * Fragment for TAN entry
@@ -41,9 +43,9 @@ class SubmissionTanFragment : BaseFragment() {
         _binding = null
     }
 
-    private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
-            is TestAlreadyPairedException -> DialogHelper.DialogInstance(
+            is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_test_paired_title,
                 R.string.submission_error_dialog_web_test_paired_body,
@@ -52,12 +54,24 @@ class SubmissionTanFragment : BaseFragment() {
                 true,
                 ::navigateToDispatchScreen
             )
-            is HttpException -> DialogHelper.DialogInstance(
+            is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
                     R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.code()
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            is CwaClientError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
                 ),
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
@@ -81,7 +95,7 @@ class SubmissionTanFragment : BaseFragment() {
 
         binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
-        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
+        binding.submissionTanHeader.headerToolbar.setNavigationOnClickListener { navigateToDispatchScreen() }
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {

@@ -2,15 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.R" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/information_technical_header"
             layout="@layout/include_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -19,9 +26,8 @@
             app:title="@{@string/information_technical_title}" />
 
         <ScrollView
-            style="@style/fadingScrollView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +43,6 @@
                     layout="@layout/include_information_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:headline="@{@string/information_technical_headline}"
                     app:illustration="@{@drawable/ic_information_illustration_technical}"
                     app:illustrationDescription="@{@string/information_technical_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -45,45 +50,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/text_sample_1"
-                    android:layout_width="0dp"
+                    android:id="@+id/information_technical_body"
+                    style="@style/subtitle"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:text="@string/lorem_ipsum"
+                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_technical_body)}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_technical_header_details" />
 
-                <TextView
-                    android:id="@+id/text_sample_2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lorem_ipsum"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/text_sample_1" />
-
-                <TextView
-                    android:id="@+id/text_sample_3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lorem_ipsum"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/text_sample_2" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+                <include layout="@layout/merge_guidelines_side" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

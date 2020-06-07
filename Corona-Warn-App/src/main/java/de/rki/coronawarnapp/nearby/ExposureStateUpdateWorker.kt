@@ -9,7 +9,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.TransactionException
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 
