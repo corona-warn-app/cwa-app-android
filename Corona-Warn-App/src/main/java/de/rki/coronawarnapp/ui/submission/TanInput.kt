@@ -8,6 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.submission.TanConstants.MAX_LENGTH
+import de.rki.coronawarnapp.util.TanHelper
 import java.util.Locale
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_edittext
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_1
@@ -36,7 +38,7 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
             TanConstants.ALPHA_NUMERIC_CHARS.contains(it)
         }
     }
-    private val lengthFilter = InputFilter.LengthFilter(TanConstants.MAX_LENGTH)
+    private var lengthFilter = InputFilter.LengthFilter(MAX_LENGTH)
 
     var listener: ((String?) -> Unit)? = null
 
@@ -65,9 +67,20 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         }
     }
 
+    private fun limitLength(length: Int?) {
+        lengthFilter = InputFilter.LengthFilter(if (length != null) length else MAX_LENGTH)
+        tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
+    }
+
     private fun updateTan(text: CharSequence?) {
         this.tan = text?.toString()?.toUpperCase(Locale.getDefault())
         updateDigits()
+        tan?.let {
+            limitLength(
+                if (TanHelper.allCharactersValid(it)) null
+                else it.length
+            )
+        }
         notifyListener()
     }
 
@@ -87,7 +100,13 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     ).forEachIndexed { i, tanDigit ->
         tanDigit.text = digitAtIndex(i)
         tanDigit.background = if (digitAtIndex(i) == "") resources.getDrawable(R.drawable.tan_input_digit, null)
-            else resources.getDrawable(R.drawable.tan_input_digit_entered, null)
+            else if (TanHelper.isTanCharacterValid(digitAtIndex(i))) resources.getDrawable(R.drawable.tan_input_digit_entered, null)
+            else resources.getDrawable(R.drawable.tan_input_digit_error, null)
+
+        tanDigit.setTextColor(
+            if (TanHelper.isTanCharacterValid(digitAtIndex(i))) resources.getColor(R.color.colorTextSemanticNeutral, null)
+            else resources.getColor(R.color.colorTextSemanticRed, null)
+        )
     }
 
     private fun digitAtIndex(index: Int): String = tan?.getOrNull(index)?.toString() ?: ""

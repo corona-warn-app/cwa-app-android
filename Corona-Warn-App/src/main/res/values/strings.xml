@@ -666,6 +666,10 @@
     <string name="submission_tan_body">Die TAN ist 10-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">Weiter</string>
+    <!-- YTXT: Error text for the tan submission page -->
+    <string name="submission_tan_error">Ungültige TAN, bitte überprüfen Sie Ihre Eingabe.</string>
+    <!-- YTXT: Error text for the tan submission page (wrong characters) -->
+    <string name="submission_tan_character_error">Ungültige Eingabe, bitte überprüfen Sie das Zeichen.</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
