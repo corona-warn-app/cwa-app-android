@@ -103,10 +103,10 @@ object TimeVariables {
 
     /**
      * Delay in milliseconds for manual key retrieval process
-     * Internal requirements: 2 hours = 7200000 milliseconds
+     * Internal requirements: 24 hours = 1000 * 60 * 60 * 24 milliseconds
      * Test value: 1 minute
      */
-    // todo exchange with real value (currently 120 min)
+    // todo exchange with real value (currently 24 hours)
     private const val MANUAL_KEY_RETRIEVAL_DELAY = 60000L
 
     /**
