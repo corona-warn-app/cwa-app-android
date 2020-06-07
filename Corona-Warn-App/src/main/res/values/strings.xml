@@ -1747,9 +1747,13 @@ as modifying the License.
     <string name="submission_error_dialog_web_tan_invalid_button_positive">Zurück</string>
 
     <!-- Permission Rationale Dialog -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Berechtigung benötigt</string>
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">Bitte erlauben Sie die Autorisierung der Kamera für das Scannen von QR-Codes.</string>
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">Kamera Zugriff benötigt</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_body">Für die Erfassung des QR-Codes wird der Zugriff auf die Kamera benötigt.</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
 
     <!-- QR Code Scan Successful Dialog -->
@@ -1759,9 +1763,13 @@ as modifying the License.
     <string name="submission_qr_code_scan_successful_dialog_button_negative">Abbrechen</string>
 
     <!-- QR Code Scan Invalid Dialog -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">Falscher QR Code</string>
-    <string name="submission_qr_code_scan_invalid_dialog_body">Es scheint, dass der falsche QR-Code gescannt wurde</string>
+    <!-- XHED: Dialog headline for invalid QR code  -->
+    <string name="submission_qr_code_scan_invalid_dialog_headline">QR-Code nicht korrekt</string>
+    <!-- YTXT: Dialog Body text for invalid QR code -->
+    <string name="submission_qr_code_scan_invalid_dialog_body">Der QR-Code ist nicht korrekt. Bitte versuchen Sie es erneut.</string>
+    <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">Erneut versuchen</string>
+    <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">Abbrechen</string>
 
     <!-- QR Code Scan Screen -->
@@ -1769,7 +1777,8 @@ as modifying the License.
     <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
 
     <!-- Register Device Screen -->
-    <string name="submission_register_device_headline">Gerät Registrieren</string>
+    <!-- XHED: Text headline for test registration loading  -->
+    <string name="submission_register_device_headline">Test registrieren</string>
     <string name="submission_register_device_body">@string/lorem_ipsum</string>
 
     <!-- Submission Test Result -->
@@ -1836,13 +1845,15 @@ as modifying the License.
     <!-- XHED: Page title for menu at the start of the submission process  -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
-    <string name="submission_intro_headline">So funktionert das Corona-Warn-System</string>
+    <string name="submission_intro_headline">So funktionert das\nCorona-Warn-System</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
     <!-- YTXT: submission introduction enumeration -->
     <string name="submission_intro_enum"><li>Wenn Sie positiv getestet wurden, können Sie andere warnen.</li>\n\n<li>Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde , können Sie diese für die Registrierung des Tests nutzen.</li>\n\n<li>Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen.</li></string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
+    <!-- XACT: Submission intro - illustration description, explanation image -->
+    <string name="submission_intro_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
 
     <!-- Notification -->
     <!-- XHED: Dialog headline for result dialog  -->
@@ -1881,7 +1892,7 @@ as modifying the License.
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">Helfen Sie mit!</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\n Da nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
+    <string name="submission_positive_other_warning_body">Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen. \n\nDa nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt.</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">Datenschutz</string>
     <!-- YTXT: Body text for the privacy card-->
