@@ -51,7 +51,7 @@ class SubmissionContactFragment : BaseFragment() {
     }
 
     private fun dial() = context?.let {
-        val number = getString(R.string.submission_contact_number)
+        val number = getString(R.string.submission_contact_number_dial)
         CallHelper.call(this, "tel:$number")
     }
 }
