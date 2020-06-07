@@ -3,9 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="de.rki.coronawarnapp.risk.RiskLevelConstants" />
+
+        <variable
+            name="illustrationDescription"
+            type="String" />
     </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
