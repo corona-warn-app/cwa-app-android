@@ -352,12 +352,12 @@ fun formatStableIconColor(riskLevelScore: Int?): Int =
  * @param riskLevelScore
  * @return
  */
-fun formatStableBackButtonColor(riskLevelScore: Int?): ColorStateList? {
+fun formatStableBackButtonIcon(riskLevelScore: Int?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
-    return if (!isTracingOffRiskLevel(riskLevelScore)) {
-        appContext.getColorStateList(R.color.button_back)
+    return if (isTracingOffRiskLevel(riskLevelScore)) {
+        appContext.getDrawable(R.drawable.ic_close_dark)
     } else {
-        appContext.getColorStateList(R.color.button_back_stable)
+        appContext.getDrawable(R.drawable.ic_close_light)
     }
 }
 

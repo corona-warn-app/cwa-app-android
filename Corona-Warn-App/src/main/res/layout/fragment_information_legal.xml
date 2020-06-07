@@ -26,7 +26,6 @@
             app:title="@{@string/information_legal_title}" />
 
         <ScrollView
-            style="@style/fadingScrollView"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:fillViewport="true"
@@ -39,24 +38,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/information_legal_illustration"
-                    android:layout_width="@dimen/match_constraint"
+                <include
+                    android:id="@+id/information_legal_header_details"
+                    layout="@layout/include_information_details"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/information_legal_illustration_description"
-                    android:src="@drawable/ic_information_illustration_legal"
+                    app:body="@{@string/information_legal_subtitle_publisher}"
+                    app:headline="@{@string/information_legal_headline_publisher}"
+                    app:illustration="@{@drawable/ic_information_illustration_legal}"
+                    app:illustrationDescription="@{@string/information_legal_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/information_legal_body"
-                    android:layout_width="@dimen/match_constraint"
+                    android:id="@+id/information_legal_body_publisher"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_legal_body)}"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/information_legal_body_publisher"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_legal_illustration" />
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_header_details" />
+
+                <TextView
+                    android:id="@+id/information_legal_headline_contact"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/information_legal_headline_contact"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_body_publisher" />
+
+                <TextView
+                    android:id="@+id/information_legal_subtitle_contact"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/information_legal_subtitle_contact"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_contact" />
+
+                <TextView
+                    android:id="@+id/information_legal_headline_taxid"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/information_legal_headline_taxid"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_subtitle_contact" />
+
+                <TextView
+                    android:id="@+id/information_legal_subtitle_taxid"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/information_legal_subtitle_taxid"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_taxid" />
 
                 <include layout="@layout/merge_guidelines_side" />
 
