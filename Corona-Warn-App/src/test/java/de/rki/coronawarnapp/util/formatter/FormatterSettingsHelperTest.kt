@@ -36,8 +36,8 @@ class FormatterSettingsHelperTest {
         every { context.getString(R.string.settings_notifications_headline_inactive) } returns "settings_notifications_headline_inactive"
         every { context.getString(R.string.settings_notifications_body_active) } returns "settings_notifications_body_active"
         every { context.getString(R.string.settings_notifications_body_inactive) } returns "settings_notifications_body_inactive"
-        every { context.getColor(R.color.settingsIconActive) } returns R.color.settingsIconActive
-        every { context.getColor(R.color.settingsIconInactive) } returns R.color.settingsIconInactive
+        every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
+        every { context.getColor(R.color.colorTextPrimary3) } returns R.color.colorTextPrimary3
 
     }
 
@@ -122,25 +122,7 @@ class FormatterSettingsHelperTest {
         val result = formatIconColor(active = bActive)
         assertThat(
             result, `is`(
-                (formatColor(bActive, R.color.settingsIconActive, R.color.settingsIconInactive))
-            )
-        )
-    }
-
-    private fun formatIconColorBase(
-        bNotifications: Boolean,
-        bNotificationsRisk: Boolean,
-        bNotificationsTest: Boolean,
-        bActive: Boolean
-    ) {
-        val result = formatIconColor(
-            notifications = bNotifications,
-            notificationsRisk = bNotificationsRisk,
-            notificationsTest = bNotificationsTest
-        )
-        assertThat(
-            result, `is`(
-                (formatColor(bActive, R.color.settingsIconActive, R.color.settingsIconInactive))
+                (formatColor(bActive, R.color.colorAccentTintIcon, R.color.colorTextPrimary3))
             )
         )
     }
@@ -177,8 +159,8 @@ class FormatterSettingsHelperTest {
     }
 
     private fun formatTracingIconColorBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean, iColor: Int) {
-        every { context.getColor(R.color.tracingIconActive) } returns R.color.tracingIconActive
-        every { context.getColor(R.color.tracingIconInactive) } returns R.color.tracingIconInactive
+        every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
+        every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
 
         val result = formatTracingIconColor(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
         assertThat(
@@ -189,7 +171,7 @@ class FormatterSettingsHelperTest {
     private fun formatTracingStatusImageBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean) {
         every { context.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_connection_off) } returns drawable
-        every { context.getDrawable(R.drawable.ic_settings_illustration_tracing_on) } returns drawable
+        every { context.getDrawable(R.drawable.ic_illustration_tracing_on) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_tracing_off) } returns drawable
 
         val result = formatTracingStatusImage(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
@@ -228,12 +210,12 @@ class FormatterSettingsHelperTest {
     }
 
     private fun formatNotificationImageBase(bNotifications: Boolean) {
-        every { context.getDrawable(R.drawable.ic_settings_illustration_notification_on) } returns drawable
+        every { context.getDrawable(R.drawable.ic_illustration_notification_on) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_notification_off) } returns drawable
 
         val result = formatDrawable(
             bNotifications,
-            R.drawable.ic_settings_illustration_notification_on,
+            R.drawable.ic_illustration_notification_on,
             R.drawable.ic_settings_illustration_notification_off
         )
         assertThat(
@@ -479,65 +461,6 @@ class FormatterSettingsHelperTest {
 
         // When status false
         formatIconColorBase(bActive = false)
-
-        // When notification true, notificationRisk true, notificationTest true
-        formatIconColorBase(bNotifications = true, bNotificationsRisk = true, bNotificationsTest = true, bActive = true)
-
-        // When notification false, notificationRisk false, notificationTest false
-        formatIconColorBase(
-            bNotifications = false,
-            bNotificationsRisk = false,
-            bNotificationsTest = false,
-            bActive = false
-        )
-
-        // When notification false, notificationRisk false, notificationTest true
-        formatIconColorBase(
-            bNotifications = false,
-            bNotificationsRisk = false,
-            bNotificationsTest = true,
-            bActive = false
-        )
-
-        // When notification false, notificationRisk true, notificationTest false
-        formatIconColorBase(
-            bNotifications = false,
-            bNotificationsRisk = true,
-            bNotificationsTest = false,
-            bActive = false
-        )
-
-        // When notification false, notificationRisk true, notificationTest true
-        formatIconColorBase(
-            bNotifications = false,
-            bNotificationsRisk = true,
-            bNotificationsTest = true,
-            bActive = false
-        )
-
-        // When notification true, notificationRisk false, notificationTest false
-        formatIconColorBase(
-            bNotifications = true,
-            bNotificationsRisk = false,
-            bNotificationsTest = false,
-            bActive = false
-        )
-
-        // When notification false, notificationRisk false, notificationTest true
-        formatIconColorBase(
-            bNotifications = true,
-            bNotificationsRisk = false,
-            bNotificationsTest = true,
-            bActive = true
-        )
-
-        // When notification true, notificationRisk true, notificationTest false
-        formatIconColorBase(
-            bNotifications = true,
-            bNotificationsRisk = true,
-            bNotificationsTest = false,
-            bActive = true
-        )
     }
 
     @Test
@@ -605,56 +528,56 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
-            iColor = R.color.tracingIconActive
+            iColor = R.color.colorAccentTintIcon
         )
 
         formatTracingIconColorBase(
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
 
         formatTracingIconColorBase(
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
 
         formatTracingIconColorBase(
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
 
         formatTracingIconColorBase(
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
 
         formatTracingIconColorBase(
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
 
         formatTracingIconColorBase(
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
 
         formatTracingIconColorBase(
             bTracing = true,
             bBluetooth = true,
             bConnection = false,
-            iColor = R.color.tracingIconInactive
+            iColor = R.color.colorTextSemanticRed
         )
     }
 
