@@ -49,9 +49,9 @@ object WebRequestBuilder {
 
     private val serviceFactory = ServiceFactory()
 
-    private val distributionService = serviceFactory.distributionService()
-    private val verificationService = serviceFactory.verificationService()
-    private val submissionService = serviceFactory.submissionService()
+    private val distributionService by lazy { serviceFactory.distributionService() }
+    private val verificationService by lazy { serviceFactory.verificationService() }
+    private val submissionService by lazy { serviceFactory.submissionService() }
 
     private val verificationKeys = VerificationKeys()
 

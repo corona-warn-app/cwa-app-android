@@ -31,12 +31,13 @@ class UpdateChecker(private val activity: LauncherActivity) {
     suspend fun checkForUpdate() {
 
         // check if an update is needed based on server config
+        // TODO replace with signature exception
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
-        }
-        // TODO replace with signature exception
-        catch (exception: Exception) {
-            true
+        } catch (exception: Exception) {
+            Log.e(TAG, exception.localizedMessage ?: "unknown error")
+            exception.printStackTrace()
+            false
         }
 
         // get AppUpdateManager
