@@ -74,6 +74,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="false"
                 android:text="@{subtitle}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(subtitle)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
