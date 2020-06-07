@@ -57,7 +57,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
             false
         }
 
-        if (updateNeededFromServer && true && appUpdateInfo != null) {
+        if (updateNeededFromServer && updateAvailableFromGooglePlay && appUpdateInfo != null) {
             Log.i(TAG, "show update dialog")
             showUpdateAvailableDialog(appUpdateManager, appUpdateInfo)
         } else {
