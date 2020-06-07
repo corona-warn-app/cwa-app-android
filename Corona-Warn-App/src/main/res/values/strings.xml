@@ -154,8 +154,11 @@
               App Auto Update
     ###################################### -->
 
+    <!-- XHED: App Auto Update dialog title -->
     <string name="update_dialog_title">Update verfügbar</string>
-    <string name="update_dialog_message">Bitte die app updaten</string>
+    <!-- XTXT: App Auto Update dialog message -->
+    <string name="update_dialog_message">Bitte beachten Sie: Sie können die Corona-Warn-App erst wieder benutzen, wenn Sie das neueste Update installiert haben.</string>
+    <!-- XBUT: App Auto Update button -->
     <string name="update_dialog_button">Update</string>
 
     <!-- ####################################
