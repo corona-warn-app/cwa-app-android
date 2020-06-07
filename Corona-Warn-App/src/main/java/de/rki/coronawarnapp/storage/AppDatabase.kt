@@ -18,7 +18,7 @@ import java.io.File
 @Database(
     entities = [ExposureSummaryEntity::class, KeyCacheEntity::class, TracingIntervalEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -52,6 +52,11 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                /**
+                 * The fallback behavior is to reset the app as we only store exposure summaries
+                 * and cached references that are non-critical to app operation.
+                 */
+                .fallbackToDestructiveMigrationFrom()
                 .openHelperFactory(SupportFactory(SecurityHelper.getDBPassword()))
                 .build()
         }
