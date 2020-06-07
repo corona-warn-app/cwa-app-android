@@ -32,6 +32,7 @@ class TracingViewModel : ViewModel() {
     // TODO: comments for variables
     // Values from RiskLevelRepository
     val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
+    val riskLevelScoreLastSuccessfulCalculated = RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
 
     // Values from ExposureSummaryRepository
     val daysSinceLastExposure: LiveData<Int?> = ExposureSummaryRepository.daysSinceLastExposure
@@ -43,9 +44,6 @@ class TracingViewModel : ViewModel() {
     val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
     val activeTracingDaysInRetentionPeriod = TracingRepository.activeTracingDaysInRetentionPeriod
     var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
-
-    // Todo exchange and get real stored risk level
-    val savedRiskLevel = 2
 
     // Todo exchange and get the real next update date
     val nextUpdate = Date()
