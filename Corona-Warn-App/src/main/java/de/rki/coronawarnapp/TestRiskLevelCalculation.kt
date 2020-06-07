@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.transmission_number
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "LongMethod")
 class TestRiskLevelCalculation : Fragment() {
     companion object {
         val TAG: String? = TestRiskLevelCalculation::class.simpleName
@@ -107,7 +108,7 @@ class TestRiskLevelCalculation : Fragment() {
                         // Database Reset
                         AppDatabase.getInstance(requireContext()).clearAllTables()
                         // Delete Database Instance
-                        AppDatabase.resetInstance(requireContext())
+                        SecurityHelper.resetSharedPrefs()
                         // Export File Reset
                         FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
 
@@ -305,6 +306,27 @@ class TestRiskLevelCalculation : Fragment() {
                     binding.labelFormula.text = formulaString
 
                     binding.labelFullConfig.text = it.appConfig?.toString()
+
+                    val token = LocalData.googleApiToken()
+                    if (token != null) {
+                        val exposureInformation =
+                            InternalExposureNotificationClient.asyncGetExposureInformation(token)
+
+                        var infoString = ""
+                        exposureInformation.forEach {
+                            infoString += "Attenuation duration in min.: " +
+                                    "[${it.attenuationDurationsInMinutes?.get(0)}, " +
+                                    "${it.attenuationDurationsInMinutes?.get(1)}," +
+                                    "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
+                                    "Attenuation value: ${it.attenuationValue}\n" +
+                                    "Duration in min.: ${it.durationMinutes}\n" +
+                                    "Risk Score: ${it.totalRiskScore}\n" +
+                                    "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
+                                    "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
+                        }
+
+                        binding.labelExposureInfo.text = infoString
+                    }
                 }
             })
     }
