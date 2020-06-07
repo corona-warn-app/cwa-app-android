@@ -79,7 +79,6 @@
                 android:id="@+id/main_tracing"
                 style="@style/buttonTracing"
                 android:layout_width="@dimen/match_constraint"
-                android:backgroundTint="#0000ff"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -100,7 +99,6 @@
                     android:id="@+id/main_tracing_icon"
                     android:layout_width="@dimen/icon_size_main_card"
                     android:layout_height="@dimen/icon_size_main_card"
-                    android:background="@color/colorSemanticHighRisk"
                     android:importantForAccessibility="no"
                     android:src="@{FormatterSettingsHelper.formatTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                     android:tint="@{FormatterSettingsHelper.formatTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
@@ -114,7 +112,7 @@
                 android:id="@+id/main_tracing_divider"
                 layout="@layout/include_divider"
                 android:layout_width="@dimen/match_constraint"
-                android:layout_height="@dimen/card_divider"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing" />
@@ -170,7 +168,7 @@
                 layout="@layout/include_submission_status_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -189,7 +187,7 @@
                 layout="@layout/include_main_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:body="@{@string/main_about_body}"
                 app:headline="@{@string/main_about_headline}"
                 app:icon="@{@drawable/ic_main_about}"
@@ -213,14 +211,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/spacing_small" />
+                app:layout_constraintGuide_end="@dimen/spacing_small" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/spacing_small" />
+                app:layout_constraintGuide_end="@dimen/spacing_small" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_top"
