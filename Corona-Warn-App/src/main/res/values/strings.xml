@@ -294,6 +294,8 @@
                Risk Details
     ###################################### -->
 
+    <!-- XHED: risk details - page title, in toolbar -->
+    <string name="risk_details_title">Ihr Risikostatus</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">Verhalten</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->

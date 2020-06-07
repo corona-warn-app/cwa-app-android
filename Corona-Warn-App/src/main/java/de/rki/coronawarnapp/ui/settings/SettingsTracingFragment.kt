@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
@@ -111,7 +111,7 @@ class SettingsTracingFragment : BaseFragment(),
                 }
             }
         }
-        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.settingsTracingHeader.headerToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {

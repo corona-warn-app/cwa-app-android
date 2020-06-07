@@ -1,10 +1,12 @@
 version: 2.1
 orbs:
   android: circleci/android@0.2.1
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 commands:
   install-ndk: android/install-ndk
   restore-build-cache: android/restore-build-cache
   save-build-cache: android/save-build-cache
+  scan-sonar: sonarcloud/scan
 jobs:
   quickBuildReleaseWithTestsAndChecks:
     executor: android/android
@@ -22,6 +24,13 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run:
+          name: JaCoCo report
+          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - scan-sonar
       - save-build-cache
       - save_cache:
           paths:
@@ -36,4 +45,5 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - quickBuildReleaseWithTestsAndChecks
+      - quickBuildReleaseWithTestsAndChecks:
+          context: SonarCloud

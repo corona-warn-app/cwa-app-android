@@ -27,7 +27,6 @@
             app:title="@{@string/information_terms_title}" />
 
         <ScrollView
-            style="@style/fadingScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
