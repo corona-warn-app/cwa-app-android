@@ -37,7 +37,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.*
+import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.transmission_number
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
