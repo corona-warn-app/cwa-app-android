@@ -19,7 +19,6 @@
 
 package de.rki.coronawarnapp.util.security
 
-import KeyExportFormat.TEKSignatureList
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -27,34 +26,26 @@ import android.os.Build
 import android.util.Base64
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.CwaSecurityException
-import java.security.KeyStore
+import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
+import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
+import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
+import de.rki.coronawarnapp.util.security.SecurityConstants.DIGEST_ALGORITHM
+import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
 import java.security.MessageDigest
 import java.security.SecureRandom
-import java.security.Signature
-import java.security.cert.Certificate
 
 /**
  * Key Store and Password Access
  */
 object SecurityHelper {
-    private const val CWA_APP_SQLITE_DB_PW = "CWA_APP_SQLITE_DB_PW"
-    private const val DB_PASSWORD_MIN_LENGTH = 32
-    private const val DB_PASSWORD_MAX_LENGTH = 48
-    private const val SHARED_PREF_NAME = "shared_preferences_cwa"
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
 
-    private const val EXPORT_SIGNATURE_ALGORITHM = "SHA256withECDSA"
-    private const val CWA_EXPORT_CERTIFICATE_NAME_NON_PROD = "cwa non-prod certificate"
-
-    private const val CWA_EXPORT_CERTIFICATE_KEY_STORE = "trusted-certs-cwa.bks"
-
     val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
         withSecurityCatch {
-            CoronaWarnApplication.getAppContext().getEncryptedSharedPrefs(SHARED_PREF_NAME)
+            CoronaWarnApplication.getAppContext().getEncryptedSharedPrefs(ENCRYPTED_SHARED_PREFERENCES_FILE)
         }
     }
 
@@ -119,43 +110,11 @@ object SecurityHelper {
     }
 
     fun hash256(input: String): String = MessageDigest
-        .getInstance("SHA-256")
+        .getInstance(DIGEST_ALGORITHM)
         .digest(input.toByteArray())
         .fold("", { str, it -> str + "%02x".format(it) })
 
-    fun exportFileIsValid(export: ByteArray?, sig: ByteArray?) = withSecurityCatch {
-        Signature.getInstance(EXPORT_SIGNATURE_ALGORITHM).run {
-            initVerify(trustedCertForSignature)
-            update(export)
-            verify(
-                TEKSignatureList
-                    .parseFrom(sig)
-                    .signaturesList
-                    .first()
-                    .signature
-                    .toByteArray()
-            )
-        }
-    }
-
-    private val cwaKeyStore: KeyStore by lazy {
-        val keystoreFile = CoronaWarnApplication.getAppContext()
-            .assets.open(CWA_EXPORT_CERTIFICATE_KEY_STORE)
-        val keystore = KeyStore.getInstance(KeyStore.getDefaultType())
-        val keyStorePw = BuildConfig.TRUSTED_CERTS_EXPORT_KEYSTORE_PW
-        val password = keyStorePw.toCharArray()
-        if (password.isEmpty())
-            throw NullPointerException("TRUSTED_CERTS_EXPORT_KEYSTORE_PW is null")
-        keystore.load(keystoreFile, password)
-        keystore
-    }
-
-    private val trustedCertForSignature: Certificate by lazy {
-        val alias = CWA_EXPORT_CERTIFICATE_NAME_NON_PROD
-        cwaKeyStore.getCertificate(alias)
-    }
-
-    private fun <T> withSecurityCatch(doInCatch: () -> T) = try {
+    fun <T> withSecurityCatch(doInCatch: () -> T) = try {
         doInCatch.invoke()
     } catch (e: Exception) {
         throw CwaSecurityException(e)

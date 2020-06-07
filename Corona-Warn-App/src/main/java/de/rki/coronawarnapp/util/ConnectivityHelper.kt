@@ -13,7 +13,7 @@ import android.net.NetworkRequest
 import android.os.Build
 import android.util.Log
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 
 /**
  * Helper for connectivity statuses.

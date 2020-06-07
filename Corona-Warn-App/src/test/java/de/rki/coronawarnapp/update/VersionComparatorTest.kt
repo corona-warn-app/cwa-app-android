@@ -47,5 +47,4 @@ class VerificationServiceTest {
         val result = VersionComparator.isVersionOlder("1.0.1", "1.0.1")
         assertThat(result, `is`(false))
     }
-
 }

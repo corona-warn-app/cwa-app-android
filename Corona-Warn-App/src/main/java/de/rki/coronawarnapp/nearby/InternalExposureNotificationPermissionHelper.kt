@@ -9,7 +9,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationSt
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.ENPermissionException
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import kotlinx.coroutines.launch
 
 /**

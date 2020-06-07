@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -51,6 +52,8 @@ object WebRequestBuilder {
     private val distributionService by lazy { serviceFactory.distributionService() }
     private val verificationService by lazy { serviceFactory.verificationService() }
     private val submissionService by lazy { serviceFactory.submissionService() }
+
+    private val verificationKeys = VerificationKeys()
 
     suspend fun asyncGetDateIndex(): List<String> = withContext(Dispatchers.IO) {
         return@withContext distributionService
@@ -100,7 +103,7 @@ object WebRequestBuilder {
                 throw ApplicationConfigurationInvalidException()
             }
 
-            if (!SecurityHelper.exportFileIsValid(exportBinary, exportSignature)) {
+            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
                 throw ApplicationConfigurationCorruptException()
             }
 
