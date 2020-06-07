@@ -11,7 +11,7 @@
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
 
         <variable
-            name="title"
+            name="subtitle"
             type="String" />
 
         <variable
@@ -26,13 +26,8 @@
             name="iconStart"
             type="android.graphics.drawable.Drawable" />
 
-        <variable
-            name="subtitle"
-            type="String" />
-
     </data>
 
-    <!-- todo element naming, rename title + subtitle accordingly to convention -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,22 +62,10 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{title}"
+                android:text="@{subtitle}"
                 app:layout_constraintEnd_toStartOf="@+id/main_row_item_icon"
                 app:layout_constraintStart_toEndOf="@+id/guideline_body"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/main_row_item_subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/spacing_mega_tiny"
-                android:text="@{subtitle}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(subtitle)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/main_row_item_icon"
-                app:layout_constraintStart_toEndOf="@+id/guideline_body"
-                app:layout_constraintTop_toBottomOf="@+id/main_row_item_headline" />
 
             <ImageView
                 android:id="@+id/main_row_item_icon"
