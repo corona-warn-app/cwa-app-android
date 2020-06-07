@@ -2647,6 +2647,14 @@ as modifying the License.
     <string name="submission_test_result_dialog_tracing_required_message">Bitte aktivieren Sie die Risiko-Ermittlung um andere zu warnen.</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">OK</string>
+    <!-- XHED: Dialog title for test removal  -->
+    <string name="submission_test_result_dialog_remove_test_title">Test entfernen?</string>
+    <!-- YTXT: Dialog text for test removal -->
+    <string name="submission_test_result_dialog_remove_test_message">Der Test wird endgültig aus der Corona-Warn-App entfernt und kann nicht wieder hinzugefügt werden. Dieser Vorgang kann nicht widerrufen werden.</string>
+    <!-- XBUT: Positive button for test removal -->
+    <string name="submission_test_result_dialog_remove_test_button_positive">Entfernen</string>
+    <!-- XBUT: Negative button for test removal -->
+    <string name="submission_test_result_dialog_remove_test_button_negative">Abbrechen</string>
     <!-- XHED: Title for test result card positive -->
     <string name="submission_test_result_card_positive_title">SARS-CoV-2 Positiv</string>
     <!-- YTXT: Body text for test result card positive -->
