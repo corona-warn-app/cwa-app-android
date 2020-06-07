@@ -1849,11 +1849,7 @@ as modifying the License.
     <!-- XHED: Page title for menu at the start of the submission process  -->
     <string name="submission_intro_title">Wurden Sie getestet?</string>
     <!-- XHED: Page headline for menu the at start of the submission process  -->
-<<<<<<< HEAD
-    <string name="submission_intro_headline">So funktioniert das Corona-Warn-System</string>
-=======
     <string name="submission_intro_headline">So funktionert das\nCorona-Warn-System</string>
->>>>>>> dev
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
     <!-- YTXT: submission introduction enumeration -->
