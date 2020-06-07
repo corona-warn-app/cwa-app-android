@@ -2037,6 +2037,7 @@ as modifying the License.
     <string name="heading_onboarding_tracing">Einführung Seite 3 von 5. Wie Sie die Risiko Ermittlung ermöglichen</string>
     <string name="heading_onboarding_test">Einführung Seite 4 von 5. Falls Sie positiv getestet wurden</string>
     <string name="heading_onboarding_notifications">Einführung Seite 5 von 5. Warnungen erhalten und Risiken erkennen</string>
+    <string name="heading_risk_details">Risiko Ermittlung</string>
 
     <!-- ####################################
           Button Tooltips

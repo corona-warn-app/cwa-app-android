@@ -13,12 +13,14 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:focusable="true"
         android:id="@+id/submission_status_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <TextView
+            android:focusable="false"
             android:id="@+id/submission_status_card_content_title"
             style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
@@ -31,6 +33,7 @@
             tools:text="@string/submission_status_card_title_available" />
 
         <TextView
+            android:focusable="false"
             android:id="@+id/submission_status_card_content_subtitle"
             style="@style/subtitleMedium"
             android:layout_width="@dimen/match_constraint"
@@ -46,6 +49,7 @@
             tools:text="@string/test_result_card_status_positive" />
 
         <TextView
+            android:focusable="false"
             android:id="@+id/submission_status_card_content_body"
             style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
