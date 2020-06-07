@@ -33,7 +33,7 @@
         <include
             android:id="@+id/risk_card_header"
             layout="@layout/include_risk_card_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
 
         <!-- Loading State -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:visibility="@{FormatterHelper.formatVisibility(tracingViewModel.isRefreshing)}"
@@ -65,7 +65,7 @@
 
             <TextView
                 style="@style/subtitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:text="@string/risk_card_loading_body"
@@ -88,7 +88,7 @@
             <TextView
                 android:id="@+id/risk_card_body"
                 style="@style/subtitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{FormatterRiskHelper.formatRiskBody(tracingViewModel.riskLevel)}"
@@ -102,7 +102,7 @@
             <include
                 android:id="@+id/risk_card_row_saved_risk"
                 layout="@layout/include_risk_card_row"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated))}"
@@ -117,7 +117,7 @@
             <include
                 android:id="@+id/risk_card_row_contact"
                 layout="@layout/include_risk_card_row"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskContact(tracingViewModel.riskLevel, tracingViewModel.matchedKeyCount))}"
@@ -131,7 +131,7 @@
             <include
                 android:id="@+id/risk_card_row_contact_last"
                 layout="@layout/include_risk_card_row"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskContactLast(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure))}"
@@ -180,7 +180,7 @@
                 <TextView
                     android:id="@+id/risk_card_row_saved_days_body"
                     style="@style/subtitle"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_small"
                     android:text="@{FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod)}"
@@ -195,7 +195,7 @@
             <include
                 android:id="@+id/risk_card_row_time_fetched"
                 layout="@layout/include_risk_card_row"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated, tracingViewModel.lastTimeDiagnosisKeysFetched))}"
@@ -209,7 +209,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/risk_card_next_update"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled()))}"
@@ -220,7 +220,7 @@
                 <include
                     android:id="@+id/risk_card_next_update_divider"
                     layout="@layout/include_divider"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -228,7 +228,7 @@
 
                 <TextView
                     style="@style/body2"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:text="@{FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled())}"
@@ -242,7 +242,7 @@
             <Button
                 android:id="@+id/risk_card_button_enable_tracing"
                 style="@style/buttonPrimary"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/risk_details_button_enable_tracing"
@@ -254,7 +254,7 @@
             <Button
                 android:id="@+id/risk_card_button_update"
                 style="@style/buttonLight"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:enabled="@{FormatterRiskHelper.formatButtonUpdateEnabled(settingsViewModel.isManualKeyRetrievalEnabled())}"

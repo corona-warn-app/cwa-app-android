@@ -80,7 +80,7 @@ class RiskDetailsFragment : BaseFragment() {
                 RiskDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
         }
-        binding.riskDetailsRiskCard.riskCardHeader.riskCardHeaderButtonBack.setOnClickListener {
+        binding.riskDetailsToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

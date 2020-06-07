@@ -65,10 +65,10 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
         <item name="android:background">@drawable/rectangle</item>
         <item name="android:backgroundTint">@color/button_main_tracing</item>
-        <item name="android:paddingStart">@dimen/button_padding_start_end</item>
-        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
-        <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
-        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
+        <item name="android:paddingStart">@dimen/spacing_small</item>
+        <item name="android:paddingTop">@dimen/spacing_tiny</item>
+        <item name="android:paddingEnd">@dimen/spacing_small</item>
+        <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
 
     <style name="switchBase" parent="@style/Widget.AppCompat.CompoundButton.Switch">
@@ -213,6 +213,13 @@
         <item name="android:layout_width">@dimen/submission_tan_input_digit_width</item>
         <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
         <item name="android:background">@drawable/tan_input_digit</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="tanInputDash" parent="headline6">
+        <item name="android:layout_width">@dimen/submission_tan_input_dash_width</item>
+        <item name="android:layout_height">@dimen/submission_tan_input_dash_height</item>
+        <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
     </style>
 

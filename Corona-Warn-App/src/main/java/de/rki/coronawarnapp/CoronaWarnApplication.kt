@@ -14,8 +14,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import de.rki.coronawarnapp.exception.ErrorReportReceiver
-import de.rki.coronawarnapp.exception.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
+import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
 import org.conscrypt.Conscrypt
 import java.security.Security
@@ -101,7 +101,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     }
 
     override fun onActivityResumed(activity: Activity) {
-        errorReceiver = ErrorReportReceiver(activity)
+        errorReceiver =
+            ErrorReportReceiver(activity)
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }

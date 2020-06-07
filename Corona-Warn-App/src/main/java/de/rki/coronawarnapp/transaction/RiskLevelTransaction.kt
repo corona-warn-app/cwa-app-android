@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_APPLICATION_CONFIG
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RISK_CALCULATION_DATE_UPDATE
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
@@ -108,7 +109,8 @@ import java.util.concurrent.atomic.AtomicReference
  * 6. [CHECK_INCREASED_RISK]
  * 7. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
  * 8. [UPDATE_RISK_LEVEL]
- * 9. [CLOSE]
+ * 9. [RISK_CALCULATION_DATE_UPDATE]
+ * 10. [CLOSE]
  *
  * This transaction will queue up any start calls and executes them in the given order (unlike the other defined
  * transactions (e.g. [RetrieveDiagnosisKeysTransaction]). This is necessary in order to respond to various trigger
@@ -152,6 +154,9 @@ object RiskLevelTransaction : Transaction() {
         /** Update and persist the Risk Level Score with the calculated score */
         UPDATE_RISK_LEVEL,
 
+        /** Update of the Date to reflect a complete Transaction State */
+        RISK_CALCULATION_DATE_UPDATE,
+
         /** Transaction Closure */
         CLOSE
     }
@@ -169,6 +174,9 @@ object RiskLevelTransaction : Transaction() {
 
     /** atomic reference for the rollback value for the last calculated risk level score */
     private val lastCalculatedRiskLevelScoreForRollback = AtomicReference<RiskLevel>()
+
+    /** atomic reference for the rollback value for date of last risk level calculation */
+    private val lastCalculatedRiskLevelDate = AtomicReference<Long>()
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start() = lockAndExecute {
@@ -220,6 +228,7 @@ object RiskLevelTransaction : Transaction() {
         if (result == UNDETERMINED) {
             lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(LOW_LEVEL_RISK)
+            executeRiskLevelCalculationDateUpdate()
             executeClose()
             return@lockAndExecute
         } else {
@@ -232,6 +241,9 @@ object RiskLevelTransaction : Transaction() {
         try {
             if (UPDATE_RISK_LEVEL.isInStateStack()) {
                 updateRiskLevelScore(lastCalculatedRiskLevelScoreForRollback.get())
+            }
+            if (RISK_CALCULATION_DATE_UPDATE.isInStateStack()) {
+                LocalData.lastTimeRiskLevelCalculation(lastCalculatedRiskLevelDate.get())
             }
         } catch (e: Exception) {
             // We handle every exception through a RollbackException to make sure that a single EntryPoint
@@ -261,7 +273,10 @@ object RiskLevelTransaction : Transaction() {
         // if there was no key retrieval before, we return no calculation state
         TimeVariables.getLastTimeDiagnosisKeysFromServerFetch()
             ?: return@executeState UNKNOWN_RISK_INITIAL.also {
-                Log.v(TAG, "$transactionId - no last time diagnosis keys from server fetch timestamp was found")
+                Log.v(
+                    TAG,
+                    "$transactionId - no last time diagnosis keys from server fetch timestamp was found"
+                )
             }
 
         Log.v(TAG, "$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
@@ -314,15 +329,16 @@ object RiskLevelTransaction : Transaction() {
     /**
      * Executes the [RETRIEVE_EXPOSURE_SUMMARY] Transaction State
      */
-    private suspend fun executeRetrieveExposureSummary(): ExposureSummary = executeState(RETRIEVE_EXPOSURE_SUMMARY) {
-        val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
+    private suspend fun executeRetrieveExposureSummary(): ExposureSummary =
+        executeState(RETRIEVE_EXPOSURE_SUMMARY) {
+            val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
 
-        return@executeState lastExposureSummary.also {
-            // todo remove after testing sessions
-            recordedTransactionValuesForTestingOnly.exposureSummary = it
-            Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
+            return@executeState lastExposureSummary.also {
+                // todo remove after testing sessions
+                recordedTransactionValuesForTestingOnly.exposureSummary = it
+                Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
+            }
         }
-    }
 
     /**
      * Executes the [CHECK_INCREASED_RISK] Transaction State
@@ -412,6 +428,7 @@ object RiskLevelTransaction : Transaction() {
     private suspend fun executeClose() = executeState(CLOSE) {
         Log.v(TAG, "$transactionId - transaction will close")
         lastCalculatedRiskLevelScoreForRollback.set(null)
+        lastCalculatedRiskLevelDate.set(null)
     }
 
     /****************************************************
@@ -435,6 +452,8 @@ object RiskLevelTransaction : Transaction() {
             )
             lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(riskLevel)
+            lastCalculatedRiskLevelDate.set(LocalData.lastTimeRiskLevelCalculation())
+            executeRiskLevelCalculationDateUpdate()
             executeClose()
             return true
         }
@@ -520,6 +539,16 @@ object RiskLevelTransaction : Transaction() {
 
         return exposureSummary.also {
             Log.v(TAG, "$transactionId - generated new exposure summary with $googleToken")
+        }
+    }
+
+    /**
+     * Executes the CALCULATION_DATE_UPDATE Transaction State
+     */
+    private suspend fun executeRiskLevelCalculationDateUpdate() {
+        val currentDate = System.currentTimeMillis()
+        executeState(RISK_CALCULATION_DATE_UPDATE) {
+            LocalData.lastTimeRiskLevelCalculation(currentDate)
         }
     }
 }
