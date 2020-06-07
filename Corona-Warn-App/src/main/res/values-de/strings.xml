@@ -698,8 +698,6 @@
     <string name="submission_contact_button_enter">"TAN eingeben"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Hotline anrufen &amp; TAN erfragen:"</string>
-    <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number">"+49 (0)800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
     <!-- YTXT: Body text for operating hours in contact page-->

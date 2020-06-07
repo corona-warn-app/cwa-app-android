@@ -2647,6 +2647,14 @@ as modifying the License.
     <string name="submission_test_result_dialog_tracing_required_message">Bitte aktivieren Sie die Risiko-Ermittlung um andere zu warnen.</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">OK</string>
+    <!-- XHED: Dialog title for test removal  -->
+    <string name="submission_test_result_dialog_remove_test_title">Test entfernen?</string>
+    <!-- YTXT: Dialog text for test removal -->
+    <string name="submission_test_result_dialog_remove_test_message">Der Test wird endgültig aus der Corona-Warn-App entfernt und kann nicht wieder hinzugefügt werden. Dieser Vorgang kann nicht widerrufen werden.</string>
+    <!-- XBUT: Positive button for test removal -->
+    <string name="submission_test_result_dialog_remove_test_button_positive">Entfernen</string>
+    <!-- XBUT: Negative button for test removal -->
+    <string name="submission_test_result_dialog_remove_test_button_negative">Abbrechen</string>
     <!-- XHED: Title for test result card positive -->
     <string name="submission_test_result_card_positive_title">SARS-CoV-2 Positiv</string>
     <!-- YTXT: Body text for test result card positive -->
@@ -2656,9 +2664,13 @@ as modifying the License.
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">TAN Eingabe</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
+    <string name="submission_tan_body">Geben Sie bitte die 10 Stellen der TAN ein, die Ihnen mitgeteilt wurde.</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">Weiter</string>
+    <!-- YTXT: Error text for the tan submission page -->
+    <string name="submission_tan_error">Ungültige TAN, bitte überprüfen Sie Ihre Eingabe.</string>
+    <!-- YTXT: Error text for the tan submission page (wrong characters) -->
+    <string name="submission_tan_character_error">Ungültige Eingabe, bitte überprüfen Sie das Zeichen.</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -2766,7 +2778,9 @@ as modifying the License.
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number">+49 (0) 800 7540002</string>
+    <string name="submission_contact_number_display">+49 (0) 800 7540002</string>
+    <!-- NOTR -->
+    <string name="submission_contact_number_dial">+49 800 7540002</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
     <!-- YTXT: Body text for operating hours in contact page-->
