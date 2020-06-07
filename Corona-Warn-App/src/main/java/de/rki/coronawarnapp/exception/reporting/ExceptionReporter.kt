@@ -1,8 +1,9 @@
-package de.rki.coronawarnapp.exception
+package de.rki.coronawarnapp.exception.reporting
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.exception.ExceptionCategory
 import java.io.PrintWriter
 import java.io.StringWriter
 
