@@ -145,10 +145,14 @@
     <string name="notification_id">
         <xliff:g id="notification_id">1</xliff:g>
     </string>
-    <string name="notification_name">Corona Warn App</string>
-    <string name="notification_description">Benachrichtigungen aus der Corona Warn App.</string>
-    <string name="notification_headline">Corona-Warn App</string>
-    <string name="notification_body">Es gibt Neuigkeiten von Ihrer Corona-Warn-App</string>
+    <!-- XTXT: Notification channel name for os settings -->
+    <string name="notification_name">Corona-Warn-App</string>
+    <!-- XTXT: Notification channel description for os settings -->
+    <string name="notification_description">Benachrichtigungen aus der Corona-Warn-App.</string>
+    <!-- XHED: Notification title -->
+    <string name="notification_headline">Corona-Warn-App</string>
+    <!-- XTXT: Notification body -->
+    <string name="notification_body">Es gibt Neuigkeiten von ihrer Corona-Warn-App</string>
 
     <!-- ####################################
               App Auto Update
