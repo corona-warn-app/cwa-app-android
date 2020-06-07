@@ -32,11 +32,13 @@ class UpdateChecker(private val activity: LauncherActivity) {
     suspend fun checkForUpdate() {
 
         // check if an update is needed based on server config
-        // TODO replace with signature exception
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
         } catch (exception: CwaSecurityException) {
             Log.e(TAG, "CwaSecurityException caught:" + exception.localizedMessage)
+            true
+        } catch (exception: Exception) {
+            Log.e(TAG, "Exception caught:" + exception.localizedMessage)
             false
         }
 
