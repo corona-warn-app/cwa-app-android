@@ -85,6 +85,10 @@
         <xliff:g id="preference">preference_risk_level_score_successful</xliff:g>
     </string>
     <!-- NOTR -->
+    <string name="preference_timestamp_risk_level_calculation">
+        <xliff:g id="preference">preference_timestamp_risk_level_calculation</xliff:g>
+    </string>
+    <!-- NOTR -->
     <string name="preference_test_guid">
         <xliff:g id="preference">preference_test_guid</xliff:g>
     </string>
