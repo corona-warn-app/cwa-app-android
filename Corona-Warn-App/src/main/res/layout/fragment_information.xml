@@ -46,7 +46,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:title="@{@string/information_about_title}" />
+                    app:subtitle="@{@string/information_about_title}" />
 
                 <include
                     android:id="@+id/information_help"
@@ -56,7 +56,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_about"
-                    app:title="@{@string/information_help_title}" />
+                    app:subtitle="@{@string/information_help_title}" />
 
                 <include
                     android:id="@+id/information_terms"
@@ -66,7 +66,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_help"
-                    app:title="@{@string/information_terms_title}" />
+                    app:subtitle="@{@string/information_terms_title}" />
 
                 <include
                     android:id="@+id/information_privacy"
@@ -76,7 +76,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_terms"
-                    app:title="@{@string/information_privacy_title}" />
+                    app:subtitle="@{@string/information_privacy_title}" />
 
                 <include
                     android:id="@+id/information_technical"
@@ -86,7 +86,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_privacy"
-                    app:title="@{@string/information_technical_title}" />
+                    app:subtitle="@{@string/information_technical_title}" />
 
                 <include
                     android:id="@+id/information_contact"
@@ -96,7 +96,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_technical"
-                    app:title="@{@string/information_contact_title}" />
+                    app:subtitle="@{@string/information_contact_title}" />
 
                 <include
                     android:id="@+id/information_legal"
@@ -106,7 +106,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact"
-                    app:title="@{@string/information_legal_title}" />
+                    app:subtitle="@{@string/information_legal_title}" />
 
                 <TextView
                     android:id="@+id/information_version"
