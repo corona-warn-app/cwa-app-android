@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentRiskDetailsBinding
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 
@@ -70,8 +71,8 @@ class RiskDetailsFragment : BaseFragment() {
                 RiskDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
         }
-/*        binding.riskDetailsRiskCard.riskCardHeader.riskCardHeaderButtonBack.setOnClickListener {
+        binding.riskDetailsToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
-        }*/
+        }
     }
 }
