@@ -19,6 +19,7 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.9.1"
+        classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -28,6 +29,7 @@ buildscript {
 subprojects {
     apply plugin: "io.gitlab.arturbosch.detekt"
     apply plugin: "org.jlleitschuh.gradle.ktlint"
+    apply plugin: "com.vanniktech.android.junit.jacoco"
 
     detekt {
         debug = true
@@ -49,6 +51,10 @@ subprojects {
         ignoreFailures = false
         coloredOutput = false
     }
+
+    junitJacoco {
+        jacocoVersion = '0.8.5'
+    }
 }
 
 allprojects {
@@ -56,7 +62,7 @@ allprojects {
         google()
         jcenter()
 //        mavenLocal()
-        
+
     }
 }
 
@@ -85,5 +91,3 @@ task quickBuildWithFixes {
     dependsOn ':Corona-Warn-App:ktlintDeviceReleaseCheck'
     dependsOn ':Corona-Warn-App:detekt'
 }
-
-
