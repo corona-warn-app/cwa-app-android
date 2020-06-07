@@ -340,7 +340,12 @@
     ###################################### -->
 
     <string name="onboarding_image_description">IS MISSING</string>
+    <!-- XBUT: onboarding - forward and deny -->
     <string name="onboarding_button_disable">Nicht aktivieren</string>
+    <!-- XBUT: onboarding - forward and allow -->
+    <string name="onboarding_button_enable">Aktivieren</string>
+    <!-- XBUT: onboarding - back and cancel -->
+    <string name="onboarding_button_cancel">Abbrechen</string>
     <!-- XBUT: onboarding - next -->
     <string name="onboarding_button_next">Weiter</string>
     <!-- XBUT: onboarding - start -->
