@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.exception
+package de.rki.coronawarnapp.exception.reporting
 
 object ReportingConstants {
     const val ERROR_REPORT_LOCAL_BROADCAST_CHANNEL = "error-report"
