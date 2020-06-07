@@ -714,9 +714,7 @@ ist das Robert Koch-Institut, Nordufer 20, 13353 Berlin (im Folgenden „<strong
 <p>
     Weitere Informationen zu der Kontaktaufzeichnungs-Funktion von
     Android-Smartphones finden Sie unter:
-    <a href="https://support.google.com/android/answer/9888358?hl=de">
         https://support.google.com/android/answer/9888358?hl=de
-    </a>
     .
 </p>
 <p>
@@ -1271,10 +1269,7 @@ ist das Robert Koch-Institut, Nordufer 20, 13353 Berlin (im Folgenden „<strong
     </li>
     <li>
         das Recht, den behördlichen
-        <a href="https://www.rki.de/DE/Content/Institut/OrgEinheiten/Datenschutz/Datenschutz_node.html"
-        title="Datenschutzbeauftragter">
             Datenschutzbeauftragten des RKI
-        </a>
         zu kontaktieren und Ihr Anliegen vorzubringen (Artikel 38 Abs. 4 DSGVO)
         und
     </li>
@@ -1481,9 +1476,7 @@ sich die App über die CWA-Dienste eine Liste der Zufallscodes (<em>t</em>    <e
     Systeme sind unter folgendem Link detailliert beschrieben:
 </p>
 <p>
-    <a href="https://github.com/corona-warn-app">
         https://github.com/Corona-Warn-App
-    </a>
 </p>
 <p>
     Diese technische Beschreibung dient lediglich der Erläuterung und ist nicht
@@ -1499,9 +1492,7 @@ Weiterführende Informationen zur App finden Sie unter folgendem Link:    <stron
 <p>
     Weiterführende Informationen zur SARS-CoV-2-Pandemie finden Sie unter
     folgendem Link:
-    <a href="https://www.zusammengegencorona.de/">
         https://www.zusammengegencorona.de/
-    </a>
 </p>
 <p>
     Diese weiterführenden Informationen dienen lediglich der Erläuterung und
@@ -1624,15 +1615,13 @@ basierend auf der gemessenen Dämpfung des Bluetooth-Signals (<em>signal attenua
     Sie unter anderem auf:
 </p>
 <p>
-    <a href="http://www.infektionsschutz.de/coronavirus">
         www.infektionsschutz.de/coronavirus
-    </a>
 </p>
 <p>
-    <a href="http://www.zusammengegencorona.de/">www.zusammengegencorona.de</a>
+    www.zusammengegencorona.de
 </p>
 <p>
-    <a href="http://www.rki.de/covid-19">www.rki.de/covid-19</a>
+    www.rki.de/covid-19
 </p>
 <p>
     Diese weiterführenden Informationen dienen lediglich Ihrer Information und
@@ -1867,14 +1856,10 @@ Eine dieser Grenzen ist, dass die App zwar laufend eigene Zufallscodes (    <em>
 <p>
     Der Quellcode der App ist unter den Lizenzbedingungen der "Apache 2.0
     License" veröffentlicht und kann unter "
-    <a href="https://github.com/corona-warn-app">
         https://github.com/corona-warn-app
-    </a>
     " heruntergeladen werden. Die Lizenzbedingungen der "Apache 2.0 License"
     sind unter "
-    <a href="https://www.apache.org/licenses/LICENSE-2.0">
         https://www.apache.org/licenses/LICENSE-2.0
-    </a>
     " abrufbar.
 </p>
 <p>
@@ -2169,75 +2154,75 @@ Das RKI behält sich ferner vor, die im Rahmen der Risikobewertung (    <em>risk
 <h2>Components:</h2>
 <p>Component: JUnit 4
     Licensor: The JUnit Team
-    Website: <a href="https://junit.org/junit4/">https://junit.org/junit4/</a>
+    Website: https://junit.org/junit4/
     License: Eclipse Public License 1.0</p>
 <p>Component: Java Hamcrest
     Licensor: www.hamcrest.org
-    Website: <a href="https://github.com/hamcrest/JavaHamcrest">https://github.com/hamcrest/JavaHamcrest</a>
+    Website: https://github.com/hamcrest/JavaHamcrest
     License: BSD-style license</p>
 <p>Component: android-database-sqlcipher
     Licensor: Zetetic LLC
-    Website: <a href="https://www.zetetic.net/sqlcipher/">https://www.zetetic.net/sqlcipher/</a>
+    Website: https://www.zetetic.net/sqlcipher/
     License: BSD-style license</p>
 <p>Component: guava
     Licensor: Google
-    Website: <a href="https://github.com/google/guava">https://github.com/google/guava</a>
+    Website: https://github.com/google/guava
     License: Apache 2.0</p>
 <p>Component: joda-time
     Licensor: Joda.org
-    Website: <a href="https://www.joda.org/joda-time/">https://www.joda.org/joda-time/</a>
+    Website: https://www.joda.org/joda-time/
     License: Apache 2.0</p>
 <p>Component: Mockito
     Licensor: Mockito contributors
-    Website: <a href="https://site.mockito.org/">https://site.mockito.org/</a>
+    Website: https://site.mockito.org/
     License: MIT</p>
 <p>Component: MockK
     Licensor: github.com/mockk
-    Website: <a href="https://github.com/mockk/mockk">https://github.com/mockk/mockk</a>
+    Website: https://github.com/mockk/mockk
     License: Apache 2.0</p>
 <p>Component: Robolectric
     Licensor: Xtreme Labs, Pivotal Labs and Google Inc.
-    Website: <a href="http://robolectric.org/">http://robolectric.org/</a>
+    Website: http://robolectric.org/
     License: MIT</p>
 <p>Component: RootBeer
     Licensor: Scott Alexander-Bown, Mat Rollings
-    Website: <a href="https://github.com/scottyab/rootbeer">https://github.com/scottyab/rootbeer</a>
+    Website: https://github.com/scottyab/rootbeer
     License: Apache 2.0</p>
 <p>Component: Zxing
     Licensor: zxing
-    Website: <a href="https://github.com/zxing/zxing/">https://github.com/zxing/zxing/</a>
+    Website: https://github.com/zxing/zxing/
     License: Apache 2.0</p>
 <p>Component: ZXing Android Embedded
     Licensor: ZXing authors, Journey Mobile
-    Website: <a href="https://github.com/journeyapps/zxing-android-embedded">https://github.com/journeyapps/zxing-android-embedded</a>
+    Website: https://github.com/journeyapps/zxing-android-embedded
     License: Apache 2.0</p>
 <p>Component: Detekt
     Licensor: detekt
-    Website: <a href="https://detekt.github.io/detekt/">https://detekt.github.io/detekt/</a>
+    Website: https://detekt.github.io/detekt/
     License: Apache 2.0</p>
 <p>Component: gson
     Licensor: Google
-    Website: <a href="https://github.com/google/gson">https://github.com/google/gson</a>
+    Website: https://github.com/google/gson
     License: Apache 2.0</p>
 <p>Component: okhttp
     Licensor: square
-    Website: <a href="https://square.github.io/okhttp/">https://square.github.io/okhttp/</a>
+    Website: https://square.github.io/okhttp/
     License: Apache 2.0</p>
 <p>Component: kotlinx.coroutines
     Licensor: Kotlin
-    Website: <a href="https://github.com/Kotlin/kotlinx.coroutines">https://github.com/Kotlin/kotlinx.coroutines</a>
+    Website: https://github.com/Kotlin/kotlinx.coroutines
     License: Apache 2.0</p>
 <p>Component: Ktlint Gradle
     Licensor: Jonathan Leitschuh
-    Website: <a href="https://github.com/JLLeitschuh/ktlint-gradle">https://github.com/JLLeitschuh/ktlint-gradle</a>
+    Website: https://github.com/JLLeitschuh/ktlint-gradle
     License: MIT</p>
 <p>Component: Retrofit
     Licensor: square
-    Website: <a href="https://square.github.io/retrofit/">https://square.github.io/retrofit/</a>
+    Website: https://square.github.io/retrofit/
     License: Apache 2.0</p>
 <p>Component: Protobuf gradle plugin
     Licensor: Google
-    Website: <a href="https://github.com/google/protobuf-gradle-plugin">https://github.com/google/protobuf-gradle-plugin</a>
+    Website: https://github.com/google/protobuf-gradle-plugin
     License: BSD 3-Clause</p>
 <p>Copyright (c) 2008-2020 Zetetic LLC
     All rights reserved.</p>
