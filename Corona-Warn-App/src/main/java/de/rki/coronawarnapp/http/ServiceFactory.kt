@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.http
 
+import android.webkit.URLUtil
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.config.DynamicURLs
@@ -49,7 +50,8 @@ class ServiceFactory {
         OfflineCacheInterceptor(
             CoronaWarnApplication.getAppContext()
         ),
-        RetryInterceptor()
+        RetryInterceptor(),
+        HttpErrorParser()
     )
 
     /**
@@ -156,34 +158,50 @@ class ServiceFactory {
     private fun OkHttpClient.buildClientWithNewSpecs(specs: List<ConnectionSpec>) =
         this.newBuilder().connectionSpecs(specs).build()
 
+    private val downloadCdnUrl
+        get() = getValidUrl(DynamicURLs.DOWNLOAD_CDN_URL)
+
     fun distributionService(): DistributionService = distributionService
     private val distributionService by lazy {
         Retrofit.Builder()
             .client(okHttpClient.buildClientWithNewSpecs(getCDNSpecs()))
-            .baseUrl(DynamicURLs.DOWNLOAD_CDN_URL)
+            .baseUrl(downloadCdnUrl)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(DistributionService::class.java)
     }
 
+    private val verificationCdnUrl
+        get() = getValidUrl(DynamicURLs.VERIFICATION_CDN_URL)
+
     fun verificationService(): VerificationService = verificationService
     private val verificationService by lazy {
         Retrofit.Builder()
             .client(okHttpClient.buildClientWithNewSpecs(getRestrictedSpecs()))
-            .baseUrl(DynamicURLs.VERIFICATION_CDN_URL)
+            .baseUrl(verificationCdnUrl)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(VerificationService::class.java)
     }
 
+    private val submissionCdnUrl
+        get() = getValidUrl(DynamicURLs.SUBMISSION_CDN_URL)
+
     fun submissionService(): SubmissionService = submissionService
     private val submissionService by lazy {
         Retrofit.Builder()
             .client(okHttpClient.buildClientWithNewSpecs(getRestrictedSpecs()))
-            .baseUrl(DynamicURLs.SUBMISSION_CDN_URL)
+            .baseUrl(submissionCdnUrl)
             .addConverterFactory(protoConverterFactory)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(SubmissionService::class.java)
+    }
+
+    private fun getValidUrl(url: String): String {
+        if (!URLUtil.isHttpsUrl(url)) {
+            throw ServiceFactoryException(IllegalArgumentException("the url is invalid"))
+        }
+        return url
     }
 }

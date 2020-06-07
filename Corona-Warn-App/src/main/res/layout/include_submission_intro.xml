@@ -15,6 +15,7 @@
                 android:id="@+id/submission_intro_hero_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                contentDescription="@{@string/submission_intro_illustration_description}"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_illustration_test"
                 app:layout_constraintEnd_toEndOf="parent"

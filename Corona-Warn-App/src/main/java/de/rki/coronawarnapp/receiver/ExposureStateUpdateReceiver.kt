@@ -10,7 +10,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureNotificationCl
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.WrongReceiverException
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
 
 /**
