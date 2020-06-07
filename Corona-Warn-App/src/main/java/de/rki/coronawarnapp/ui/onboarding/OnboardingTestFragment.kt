@@ -4,8 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.BaseFragment
+import kotlinx.coroutines.launch
 
 /**
  * This fragment informs the user about test results.
@@ -44,7 +50,21 @@ class OnboardingTestFragment : BaseFragment() {
             )
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            (activity as OnboardingActivity).goBack()
+            // Deactivate tracing if user navigates back to ensure permission integrity
+            lifecycleScope.launch {
+                if (InternalExposureNotificationClient.asyncIsEnabled()) {
+                    try {
+                        InternalExposureNotificationClient.asyncStop()
+                    } catch (exception: Exception) {
+                        exception.report(
+                            ExceptionCategory.EXPOSURENOTIFICATION,
+                            OnboardingTestFragment.TAG,
+                            null
+                        )
+                    }
+                }
+                (activity as OnboardingActivity).goBack()
+            }
         }
     }
 }
