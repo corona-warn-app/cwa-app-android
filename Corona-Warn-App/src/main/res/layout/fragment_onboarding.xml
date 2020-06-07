@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/onboarding_container"
+        android:contentDescription="@string/heading_onboarding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
@@ -15,6 +16,8 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import kotlinx.android.synthetic.main.fragment_onboarding_notifications.*
+import kotlinx.android.synthetic.main.fragment_submission_tan.*
 
 /**
  * Fragment for TAN entry
@@ -92,6 +95,7 @@ class SubmissionTanFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        submission_tan_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
 
         binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
@@ -108,6 +112,16 @@ class SubmissionTanFragment : BaseFragment() {
         submissionViewModel.registrationError.observeEvent(viewLifecycleOwner, {
             DialogHelper.showDialog(buildErrorDialog(it))
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        submission_tan_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        submission_tan_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun navigateToDispatchScreen() =

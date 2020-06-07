@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.util.DialogHelper
+import kotlinx.android.synthetic.main.fragment_onboarding_tracing.*
 
 /**
  * This fragment ask the user if he wants to enable tracing.
@@ -59,6 +61,17 @@ class OnboardingTracingFragment : BaseFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {

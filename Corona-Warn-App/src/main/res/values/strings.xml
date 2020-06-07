@@ -2031,7 +2031,12 @@ as modifying the License.
     <string name="heading_submission_dispatcher">Welche Informationen liegen ihnen vor?</string>
     <string name="heading_submission_intro">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
     <string name="heading_submission_tan">TAN Eingabe</string>
-    <string name="heading_main">Hauptseite der Corona-Warn-App</string>
+    <string name="heading_main">Hauptseite der Corona-Warn App</string>
+    <string name="heading_onboarding_privacy">Einführung Seite 2 von 5. Datenschutz</string>
+    <string name="heading_onboarding">Einführung Seite 1 von 5. Gemeinsam Corona bekämpfen</string>
+    <string name="heading_onboarding_tracing">Einführung Seite 3 von 5. Wie Sie die Risiko Ermittlung ermöglichen</string>
+    <string name="heading_onboarding_test">Einführung Seite 4 von 5. Falls Sie positiv getestet wurden</string>
+    <string name="heading_onboarding_notifications">Einführung Seite 5 von 5. Warnungen erhalten und Risiken erkennen</string>
 
     <!-- ####################################
           Button Tooltips
