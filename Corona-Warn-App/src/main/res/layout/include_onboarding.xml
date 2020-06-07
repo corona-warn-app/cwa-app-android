@@ -25,7 +25,7 @@
 
         <variable
             name="body"
-            type="String" />
+            type="CharSequence" />
 
         <variable
             name="bodyEmphasized"
@@ -50,11 +50,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_onboarding_illustration_together" />
+                tools:src="@drawable/ic_illustration_together" />
 
             <TextView
                 android:id="@+id/onboarding_headline"
-                style="@style/textTitle"
+                style="@style/headline4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -66,11 +66,12 @@
 
             <TextView
                 android:id="@+id/onboarding_subtitle"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@{subtitle}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(subtitle)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
@@ -78,7 +79,7 @@
 
             <TextView
                 android:id="@+id/onboarding_body"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -90,7 +91,7 @@
 
             <TextView
                 android:id="@+id/onboarding_body_emphasized"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

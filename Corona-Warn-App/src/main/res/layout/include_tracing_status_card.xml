@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/tracing_status_card_header_headline"
-                style="@style/textLargeEmphasized"
+                style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_small"
@@ -59,7 +59,6 @@
 
             <ImageView
                 android:id="@+id/tracing_status_card_header_icon"
-                style="@style/iconTracingStatus"
                 android:layout_width="@dimen/icon_size_main_card_end"
                 android:layout_height="@dimen/icon_size_main_card_end"
                 android:importantForAccessibility="no"
@@ -73,6 +72,7 @@
 
         <TextView
             android:id="@+id/tracing_status_card_body"
+            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_tiny"
