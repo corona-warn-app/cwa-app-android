@@ -51,7 +51,7 @@ class MainShareFragment : BaseFragment() {
         binding.mainShareButton.setOnClickListener {
             ShareHelper.shareText(this, getString(R.string.main_share_message), null)
         }
-        binding.mainShareHeader.toolbar.setNavigationOnClickListener {
+        binding.mainShareHeader.headerToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

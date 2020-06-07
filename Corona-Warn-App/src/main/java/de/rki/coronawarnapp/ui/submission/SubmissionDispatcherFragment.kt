@@ -40,7 +40,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionDispatcherHeader.toolbar.setNavigationOnClickListener {
+        binding.submissionDispatcherHeader.headerToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {

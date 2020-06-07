@@ -43,7 +43,7 @@ class MainOverviewFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.mainOverviewHeader.toolbar.setNavigationOnClickListener {
+        binding.mainOverviewHeader.headerToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

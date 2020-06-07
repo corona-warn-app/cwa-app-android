@@ -68,7 +68,7 @@ class SettingsNotificationFragment : Fragment() {
         // Settings
         val settingsRow = binding.settingsNavigationRowSystem.navigationRow
         val goBack =
-            binding.settingsNotificationsHeader.toolbar
+            binding.settingsNotificationsHeader.headerToolbar
         // Update Risk
         updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch

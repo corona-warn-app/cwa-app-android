@@ -39,7 +39,7 @@ class SubmissionContactFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionContactHeader.toolbar.setNavigationOnClickListener {
+        binding.submissionContactHeader.headerToolbar.setNavigationOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.submissionContactButtonCall.setOnClickListener {

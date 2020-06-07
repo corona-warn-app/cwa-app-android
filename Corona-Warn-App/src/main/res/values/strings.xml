@@ -269,16 +269,18 @@
     <!-- YTXT: App overview body for glossary notifications -->
    <string name="main_overview_body_glossary_notification">Die Anzeige von Risiko-Begegnungen in der Corona-Warn-App.</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-   <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
+    <string name="main_overview_subtitle_glossary_keys">Zufallscode</string>
     <!-- YTXT: App overview body for glossary keys -->
-   <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
+    <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">Ein Smartphone zeigt unterschiedliche Inhalte, die von eins bis drei nummeriert sind.</string>
 
-   <!-- ####################################
-              Risk Details
-   ###################################### -->
+    <!-- ####################################
+               Risk Details
+    ###################################### -->
 
+    <!-- XHED: risk details - page title, in toolbar -->
+    <string name="risk_details_title">Ihr Risikostatus</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">Verhalten</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->

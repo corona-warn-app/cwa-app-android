@@ -135,7 +135,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
             initiateWarningOthers()
         }
-        binding.submissionPositiveOtherWarningHeader.toolbar.setNavigationOnClickListener {
+        binding.submissionPositiveOtherWarningHeader.headerToolbar.setNavigationOnClickListener {
             navigateToSubmissionResultFragment()
         }
     }

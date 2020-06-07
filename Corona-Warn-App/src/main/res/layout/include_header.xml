@@ -21,13 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay"
+            android:background="@color/colorSemanticHighRisk"
             app:layout_constraintEnd_toEndOf="parent"
             app:elevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <androidx.appcompat.widget.headerToolbar
+                android:id="@+id/header_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorBackground"
@@ -35,6 +36,7 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:title="@{title}"
                 app:titleTextColor="@color/colorTextPrimary1" />
+
 
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

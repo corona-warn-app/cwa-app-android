@@ -34,7 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
+            <androidx.appcompat.widget.headerToolbar
                 android:id="@+id/risk_details_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -42,7 +42,7 @@
                 android:backgroundTint="@{FormatterRiskHelper.formatRiskColor(tracingViewModel.riskLevel)}"
                 app:navigationIcon="@{FormatterRiskHelper.formatStableBackButtonIcon(tracingViewModel.riskLevel)}"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="Risikostatus"
+                app:title="@string/risk_details_title"
                 app:titleTextColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}" />
 
         </com.google.android.material.appbar.AppBarLayout>
