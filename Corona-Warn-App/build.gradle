@@ -114,6 +114,8 @@ android {
 
     lintOptions {
         checkAllWarnings = true
+        // TODO remove for production
+        disable 'MissingTranslation'
     }
 
     testOptions {
