@@ -28,9 +28,11 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.CwaSecurityException
+import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
+import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
+import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.DIGEST_ALGORITHM
 import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
-import java.security.KeyStore
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -38,9 +40,6 @@ import java.security.SecureRandom
  * Key Store and Password Access
  */
 object SecurityHelper {
-    private const val CWA_APP_SQLITE_DB_PW = "CWA_APP_SQLITE_DB_PW"
-    private const val DB_PASSWORD_MIN_LENGTH = 32
-    private const val DB_PASSWORD_MAX_LENGTH = 48
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
 
