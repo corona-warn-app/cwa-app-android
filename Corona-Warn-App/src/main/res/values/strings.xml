@@ -121,6 +121,14 @@
         <xliff:g id="preference">preference_last_three_hours_from_server</xliff:g>
     </string>
 
+    <string name="preference_polling_test_result_started">
+        <xliff:g id="preference">preference_polling_test_result_started</xliff:g>
+    </string>
+
+    <string name="preference_test_result_notification">
+        <xliff:g id="preference">preference_test_result_notification</xliff:g>
+    </string>
+
     <!-- ####################################
                      Menu
     ###################################### -->

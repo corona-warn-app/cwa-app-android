@@ -13,6 +13,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.storage.LocalData
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
@@ -39,7 +40,8 @@ object BackgroundWorkScheduler {
      */
     enum class WorkTag(val tag: String) {
         DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER(BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG),
-        DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORKER_TAG)
+        DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORKER_TAG),
+        DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG)
     }
 
     /**
@@ -52,7 +54,8 @@ object BackgroundWorkScheduler {
      */
     enum class WorkType(val uniqueName: String) {
         DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK(BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORK_NAME),
-        DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORK_NAME)
+        DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORK_NAME),
+        DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME)
     }
 
     /**
@@ -67,6 +70,17 @@ object BackgroundWorkScheduler {
         (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisKeyRetrievalMaximumCalls()).toLong()
 
     /**
+     * Calculate the time for diagnosis key retrieval periodic work
+     *
+     * @return Long
+     *
+     * @see BackgroundConstants.MINUTES_IN_DAY
+     * @see getDiagnosisTestResultRetrievalMaximumCalls
+     */
+    private fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(): Long =
+        (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisTestResultRetrievalMaximumCalls()).toLong()
+
+    /**
      * Get maximum calls count to Google API
      *
      * @return Long
@@ -79,6 +93,17 @@ object BackgroundWorkScheduler {
             .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
     /**
+     * Get maximum calls count in a Day
+     *
+     * @return Long
+     *
+     * @see BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+     * @see BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY
+     */
+    private fun getDiagnosisTestResultRetrievalMaximumCalls() =
+        BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+
+    /**
      * Work manager instance
      */
     private val workManager by lazy { WorkManager.getInstance(CoronaWarnApplication.getAppContext()) }
@@ -86,14 +111,36 @@ object BackgroundWorkScheduler {
     /**
      * Start work scheduler
      * Checks if periodic worker was already scheduled. If not - reschedule it again.
+     *Checks if User is Registered
      *
+     * @see LocalData.registrationToken
      * @see isWorkActive
      */
     fun startWorkScheduler() {
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-        logWorkActiveStatus(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag, isPeriodicWorkActive)
+        logWorkActiveStatus(
+            WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
+            isPeriodicWorkActive
+        )
         if (!isPeriodicWorkActive) WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
+        if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)) {
+            if (LocalData.registrationToken() != null) {
+                if (!LocalData.initialTestResultNotification()) {
+                    WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
+                    LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
+                }
+            }
+        }
     }
+
+    /**
+    * Stop work by unique name
+    *
+    * @return Operation
+    *
+    * @see WorkType
+    */
+     fun WorkType.stop(): Operation = workManager.cancelUniqueWork(this.uniqueName)
 
     /**
      * Checks if defined work is active
@@ -164,6 +211,7 @@ object BackgroundWorkScheduler {
     private fun WorkType.start(): Operation = when (this) {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK -> enqueueDiagnosisKeyBackgroundPeriodicWork()
         WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK -> enqueueDiagnosisKeyBackgroundOneTimeWork()
+        WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER -> enqueueDiagnosisTestResultBackgroundPeriodicWork()
     }
 
     /**
@@ -193,6 +241,22 @@ object BackgroundWorkScheduler {
         ExistingWorkPolicy.REPLACE,
         buildDiagnosisKeyRetrievalOneTimeWork()
     ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK) }
+
+    /**
+     * Enqueue diagnosis Test Result periodic
+     * Show a Notification when new Test Results are in.
+     * Replace with new if older work exists.
+     *
+     * @return Operation
+     *
+     * @see WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER
+     */
+    private fun enqueueDiagnosisTestResultBackgroundPeriodicWork() =
+        workManager.enqueueUniquePeriodicWork(
+            WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.uniqueName,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            buildDiagnosisTestResultRetrievalPeriodicWork()
+        ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER) }
 
     /**
      * Build diagnosis key periodic work request
@@ -248,6 +312,27 @@ object BackgroundWorkScheduler {
             )
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
+                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                TimeUnit.MINUTES
+            )
+            .build()
+
+    /**
+     * Build diagnosis Test Result periodic work request
+     * Set "kind delay" for accessibility reason.
+     *
+     * @return PeriodicWorkRequest
+     *
+     * @see WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER
+     * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY
+     */
+    private fun buildDiagnosisTestResultRetrievalPeriodicWork() =
+        PeriodicWorkRequestBuilder<DiagnosisTestResultRetrievalPeriodicWorker>(
+            getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
+        )
+            .addTag(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)
+            .setConstraints(getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
+            .setInitialDelay(
                 BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
                 TimeUnit.MINUTES
             )

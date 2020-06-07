@@ -20,6 +20,11 @@ object BackgroundConstants {
     const val DIAGNOSIS_KEY_PERIODIC_WORKER_TAG = "DIAGNOSIS_KEY_PERIODIC_WORKER"
 
     /**
+     * Tag for background polling tp check test result periodic work
+     */
+    const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG = "DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER"
+
+    /**
      * Unique name for diagnosis key retrieval one time work
      */
     const val DIAGNOSIS_KEY_ONE_TIME_WORK_NAME = "DiagnosisKeyBackgroundOneTimeWork"
@@ -28,6 +33,11 @@ object BackgroundConstants {
      * Unique name for diagnosis key retrieval periodic work
      */
     const val DIAGNOSIS_KEY_PERIODIC_WORK_NAME = "DiagnosisKeyBackgroundPeriodicWork"
+
+    /**
+     * Unique name for diagnosis test result retrieval periodic work
+     */
+    const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME = "DiagnosisTestResultBackgroundPeriodicWork"
 
     /**
      * Total minutes in one day
@@ -45,6 +55,12 @@ object BackgroundConstants {
      * Google API limit
      */
     const val GOOGLE_API_MAX_CALLS_PER_DAY = 20
+
+    /**
+     * Total tries count for diagnosis key retrieval per day
+     * Internal requirement
+     */
+    const val DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY = 12
 
     /**
      * Kind initial delay in minutes for periodic work for accessibility reason
@@ -76,6 +92,14 @@ object BackgroundConstants {
      * @see TimeUnit.MINUTES
      */
     const val TIME_RANGE_MIN = 420
+
+    /**
+     * Time schedule start in minutes of day
+     * 07:00 = 420 minutes passed midnight
+     *
+     * @see TimeUnit.MINUTES
+     */
+    const val POLLING_VALIDITY_MAX_DAYS = 21
 
     /**
      * Time schedule stop in minutes of day
