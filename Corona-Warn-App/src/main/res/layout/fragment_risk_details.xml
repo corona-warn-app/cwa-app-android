@@ -24,6 +24,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/risk_details_app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/risk_details_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@{FormatterRiskHelper.formatRiskShape(true)}"
+                android:backgroundTint="@{FormatterRiskHelper.formatRiskColor(tracingViewModel.riskLevel)}"
+                app:navigationIcon="@{FormatterRiskHelper.formatStableBackButtonIcon(tracingViewModel.riskLevel)}"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="Risikostatus"
+                app:titleTextColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -32,7 +55,7 @@
             app:layout_constraintBottom_toTopOf="@+id/risk_details_button_enable_tracing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/risk_details_app_bar_layout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
