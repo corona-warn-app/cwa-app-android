@@ -22,7 +22,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: 'jacoco'
 
 android {
     ndkVersion "21.2.6472646"
@@ -33,14 +32,14 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 11
-        versionName "0.8.4"
+        versionCode 12
+        versionName "0.8.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
         buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
-        buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
+        buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
 
         //override URLs with local variables
         Properties properties = new Properties()
@@ -63,9 +62,6 @@ android {
             if (VERIFICATION_CDN_URL)
                 buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
 
-            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
-            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW)
-                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
         }
     }
 
@@ -74,38 +70,15 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            println "SECRET INPUT"
-            Properties properties = new Properties()
-            def secretFile = project.rootProject.file('secrets.properties')
-            if (secretFile.exists())
-                properties.load(secretFile.newDataInputStream())
-
-            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
-            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW) {
-                println "TRUSTED_CERTS_EXPORT_KEYSTORE_PW:$TRUSTED_CERTS_EXPORT_KEYSTORE_PW"
-                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
-            }
-            println "SECRET END"
+            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp\""
         }
         releaseForTest {
             applicationIdSuffix '.dev'
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            println "SECRET INPUT"
-            Properties properties = new Properties()
-            def secretFile = project.rootProject.file('secrets.properties')
-            if (secretFile.exists())
-                properties.load(secretFile.newDataInputStream())
-
-            def TRUSTED_CERTS_EXPORT_KEYSTORE_PW = properties.getProperty('TRUSTED_CERTS_EXPORT_KEYSTORE_PW')
-            if (TRUSTED_CERTS_EXPORT_KEYSTORE_PW) {
-                println "TRUSTED_CERTS_EXPORT_KEYSTORE_PW:$TRUSTED_CERTS_EXPORT_KEYSTORE_PW"
-                buildConfigField "String", "TRUSTED_CERTS_EXPORT_KEYSTORE_PW", "\"$TRUSTED_CERTS_EXPORT_KEYSTORE_PW\""
-            }
-            println "SECRET END"
+            testCoverageEnabled true
+            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
         }
     }
 
@@ -168,13 +141,6 @@ android {
 
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDeviceReleaseUnitTest']) {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
 dependencies {
     // KOTLIN
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
@@ -215,10 +181,10 @@ dependencies {
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'
-    implementation 'com.google.android.gms:play-services-base:17.2.1'
-    implementation 'com.google.android.gms:play-services-basement:17.2.1'
+    implementation 'com.google.android.gms:play-services-base:17.3.0'
+    implementation 'com.google.android.gms:play-services-basement:17.3.0'
     implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
-    implementation 'com.google.android.gms:play-services-tasks:17.0.2'
+    implementation 'com.google.android.gms:play-services-tasks:17.1.0'
     api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.2-eap.aar'])
 
     // HTTP

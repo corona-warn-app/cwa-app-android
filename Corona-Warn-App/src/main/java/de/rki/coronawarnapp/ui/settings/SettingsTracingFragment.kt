@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
