@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@string/onboarding_button_next"
+            android:text="@string/onboarding_tracing_button_next"
             app:layout_constraintBottom_toTopOf="@id/onboarding_button_disable"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />
