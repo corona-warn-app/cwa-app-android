@@ -5,6 +5,8 @@ import java.security.MessageDigest
 import java.util.Locale
 
 object TanHelper {
+    private const val VALID_CHARACTERS = "23456789ABCDEFGHJKMNPQRSTUVWXYZ"
+
     fun isChecksumValid(tan: String): Boolean {
         if (tan.trim().length != MAX_LENGTH)
             return false
@@ -26,6 +28,6 @@ object TanHelper {
     }
 
     fun isTanCharacterValid(character: String): Boolean {
-        return "01OIL".contains(character).not()
+        return VALID_CHARACTERS.contains(character)
     }
 }
