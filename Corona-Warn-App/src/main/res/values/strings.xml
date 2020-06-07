@@ -1684,30 +1684,20 @@ as modifying the License.
     <string name="information_technical_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist eine Balkenwaage als Symbol für rechtliche Hinweise.</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">Impressum</string>
-    <!-- YTXT: Body text for legal information page -->
-    <string name="information_legal_body"><![CDATA[
-<p>
-    <strong>Herausgeber</strong>
-    <br />(verantwortlich nach § 5 Abs. 1 TMG, § 55 Abs. 1 RStV, DS-GVO, BDSG)
-</p>
-<p>
-    <strong>Robert Koch-Institut</strong>
-    <br />Nordufer 20
-    <br />13353 Berlin
-</p>
-<p>
-    vertreten durch den Präsidenten
-</p>
-<p>
-    <strong>Kontakt</strong>
-    <br />E-Mail: CoronaWarnApp@rki.de
-    <br />Telefon: 030 18754 – 5100
-</p>
-<p>
-    Umsatzsteueridentifikationsnummer
-    <br />DE 165 893 430
-</p>
-]]></string>
+    <!-- XHED: Headline for legal information page, publisher section -->
+    <string name="information_legal_headline_publisher">Herausgeber</string>
+    <!-- YTXT: subtitle for legal information page, publisher section -->
+    <string name="information_legal_subtitle_publisher">(verantwortlich nach § 5 Abs. 1 TMG, § 55 Abs. 1 RStV, DS-GVO, BDSG)</string>
+    <!-- YTXT: body for legal information page, publisher section -->
+    <string name="information_legal_body_publisher">Robert Koch-Institut<xliff:g id="line_break">\n</xliff:g>Nordufer 20<xliff:g id="line_break">\n</xliff:g>13353 Berlin<xliff:g id="line_break">\n</xliff:g><xliff:g id="line_break">\n</xliff:g>vertreten durch den Präsidenten</string>
+    <!-- XHED: Headline for legal information page, contact section -->
+    <string name="information_legal_headline_contact">Kontakt</string>
+    <!-- YTXT: subtitle for legal information page, contact section -->
+    <string name="information_legal_subtitle_contact">E-Mail: CoronaWarnApp@rki.de<xliff:g id="line_break">\n</xliff:g>Telefon: 030 18754 – 5100</string>
+    <!-- XHED: Headline for legal information page, tax section -->
+    <string name="information_legal_headline_taxid">Umsatzsteueridentifikationsnummer</string>
+    <!-- YTXT: subtitle for legal information page, tax section -->
+    <string name="information_legal_subtitle_taxid">DE 165 893 430</string>
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Paragraphenzeichen als Symbol für das Impressum.</string>
 
