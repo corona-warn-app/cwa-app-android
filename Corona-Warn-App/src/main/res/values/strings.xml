@@ -212,8 +212,8 @@
     <string name="main_about_headline">Häufige Fragen</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App.</string>
-    <!-- NOTR todo insert english link in translation file http://www.bundesregierung.de/corona-warn-app-faq-englisch -->
-    <string name="main_about_link">http://www.bundesregierung.de/corona-warn-app-faq</string>
+    <!-- NOTR todo insert english link in translation file https://www.bundesregierung.de/corona-warn-app-faq-englisch -->
+    <string name="main_about_link">https://www.bundesregierung.de/corona-warn-app-faq</string>
 
     <!-- ####################################
                Main - Share
