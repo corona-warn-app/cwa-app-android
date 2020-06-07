@@ -51,12 +51,15 @@ class RiskLevelTransactionTest {
         mockkObject(ExposureSummaryRepository.Companion)
         mockkObject(RiskLevel.Companion)
 
+
         every { ExposureSummaryRepository.getExposureSummaryRepository() } returns esRepositoryMock
 
         every { RiskLevelRepository.getLastCalculatedScore() } returns UNDETERMINED
 
         every { RiskLevelRepository.setRiskLevelScore(any()) } just Runs
         every { RiskLevel.riskLevelChangedBetweenLowAndHigh(any(), any()) } returns false
+        every { LocalData.lastTimeRiskLevelCalculation() } returns System.currentTimeMillis()
+        every { LocalData.lastTimeRiskLevelCalculation(any()) } just Runs
     }
 
     /** Test case for [NO_CALCULATION_POSSIBLE_TRACING_OFF] */
@@ -79,6 +82,7 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
                 RiskLevelTransaction["executeClose"]()
             }
         }
@@ -110,6 +114,7 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
                 RiskLevelTransaction["executeClose"]()
             }
         }
@@ -153,6 +158,7 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
                 RiskLevelTransaction["executeClose"]()
             }
         }
@@ -209,6 +215,7 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
                 RiskLevelTransaction["executeClose"]()
             }
         }
@@ -271,6 +278,7 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
                 RiskLevelTransaction["executeClose"]()
             }
         }
@@ -332,6 +340,7 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
                 RiskLevelTransaction["executeClose"]()
             }
         }
