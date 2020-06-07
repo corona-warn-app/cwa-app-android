@@ -14,6 +14,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
@@ -34,9 +35,8 @@ class UpdateChecker(private val activity: LauncherActivity) {
         // TODO replace with signature exception
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
-        } catch (exception: Exception) {
-            Log.e(TAG, exception.localizedMessage ?: "unknown error")
-            exception.printStackTrace()
+        } catch (exception: CwaSecurityException) {
+            Log.e(TAG, "CwaSecurityException caught:" + exception.localizedMessage)
             false
         }
 
