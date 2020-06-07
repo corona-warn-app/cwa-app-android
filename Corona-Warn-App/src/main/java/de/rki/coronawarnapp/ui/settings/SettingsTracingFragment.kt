@@ -8,16 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.SettingsNavigationHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -142,8 +145,32 @@ class SettingsTracingFragment : BaseFragment(),
                     tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()
             } else {
-                internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                // tracing was already activated
+                if (LocalData.initialTracingActivationTimestamp() != null) {
+                    internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                } else {
+                    // tracing was never activated
+                    // ask for consent via dialog for initial tracing activation when tracing was not
+                    // activated during onboarding
+                    showConsentDialog()
+                }
             }
         }
+    }
+
+    private fun showConsentDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_tracing_headline_consent,
+            R.string.onboarding_tracing_body_consent,
+            R.string.onboarding_button_enable,
+            R.string.onboarding_button_cancel,
+            true,
+            {
+                internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+            }, {
+                tracingViewModel.refreshIsTracingEnabled()
+            })
+        DialogHelper.showDialog(dialog)
     }
 }

@@ -38,24 +38,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/information_privacy_illustration"
-                    android:layout_width="@dimen/match_constraint"
+                <include
+                    android:id="@+id/information_privacy_header_details"
+                    layout="@layout/include_information_details"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/information_privacy_illustration_description"
-                    android:src="@drawable/ic_illustration_privacy"
+                    app:illustration="@{@drawable/ic_illustration_privacy}"
+                    app:illustrationDescription="@{@string/information_privacy_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/information_privacy_body"
+                    style="@style/subtitle"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_privacy_body)}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_privacy_illustration" />
+                    app:layout_constraintTop_toBottomOf="@+id/information_privacy_header_details" />
 
                 <include layout="@layout/merge_guidelines_side" />
 
