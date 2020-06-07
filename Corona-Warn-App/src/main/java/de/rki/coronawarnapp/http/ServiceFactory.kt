@@ -132,7 +132,6 @@ class ServiceFactory {
             .create(SubmissionService::class.java)
     }
 
-
     private fun getValidUrl(url: String): String {
         if (!URLUtil.isHttpsUrl(url)) {
             throw ServiceFactoryException(IllegalArgumentException("the url is invalid"))
