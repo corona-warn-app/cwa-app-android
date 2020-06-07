@@ -35,7 +35,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
@@ -51,36 +51,13 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_enter_other_keys
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_get_check_exposure
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_get_exposure_keys
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_scan_qr_code
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_share_my_keys
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_submit_keys
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_test_start
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_calculate_risk_level
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_clear_db
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_insert_exposure_summary
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_retrieve_exposure_summary
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_tracing_duration_in_retention_period
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_tracing_intervals
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_attenuation
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_daysSinceLastExposure
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_matchedKeyCount
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_maximumRiskScore
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_googlePlayServices_version
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.label_my_keys
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.qr_code_viewpager
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_my_keys
-import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_scanned_key
+import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.reflect.Type
-import java.util.UUID
+import java.util.*
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {

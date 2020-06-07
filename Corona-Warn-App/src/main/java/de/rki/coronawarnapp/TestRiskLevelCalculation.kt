@@ -19,7 +19,7 @@ import com.google.zxing.integration.android.IntentResult
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -37,12 +37,12 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.transmission_number
+import kotlinx.android.synthetic.main.fragment_test_risk_level_calculation.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 @Suppress("MagicNumber", "LongMethod")
