@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.BaseFragment
 import kotlinx.coroutines.launch
 
@@ -55,6 +56,8 @@ class OnboardingTestFragment : BaseFragment() {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     try {
                         InternalExposureNotificationClient.asyncStop()
+                        // Reset initial activation timestamp
+                        LocalData.initialTracingActivationTimestamp(0L)
                     } catch (exception: Exception) {
                         exception.report(
                             ExceptionCategory.EXPOSURENOTIFICATION,
