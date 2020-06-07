@@ -355,8 +355,6 @@
     <string name="onboarding_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
-    <!-- XHED: onboarding(privacy) - subtitle -->
-    <string name="onboarding_privacy_subtitle">Verantwortliche Stelle im Sinne des Art. 4 Abs. 7 DSGVO: \n \n Robert Koch-Institut\nNordufer 20\n13353 Berlin</string>
     <!-- YTXT: onboarding(privacy) - body -->
     <string name="onboarding_privacy_body">@string/information_privacy_body</string>
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
