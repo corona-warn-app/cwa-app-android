@@ -99,12 +99,16 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         tan_input_textview_10
     ).forEachIndexed { i, tanDigit ->
         tanDigit.text = digitAtIndex(i)
-        tanDigit.background = if (digitAtIndex(i) == "") resources.getDrawable(R.drawable.tan_input_digit, null)
-            else if (TanHelper.isTanCharacterValid(digitAtIndex(i))) resources.getDrawable(R.drawable.tan_input_digit_entered, null)
+        tanDigit.background =
+            if (digitAtIndex(i) == "")
+                resources.getDrawable(R.drawable.tan_input_digit, null)
+            else if (TanHelper.isTanCharacterValid(digitAtIndex(i)))
+                resources.getDrawable(R.drawable.tan_input_digit_entered, null)
             else resources.getDrawable(R.drawable.tan_input_digit_error, null)
 
         tanDigit.setTextColor(
-            if (TanHelper.isTanCharacterValid(digitAtIndex(i))) resources.getColor(R.color.colorTextSemanticNeutral, null)
+            if (TanHelper.isTanCharacterValid(digitAtIndex(i)))
+                resources.getColor(R.color.colorTextSemanticNeutral, null)
             else resources.getColor(R.color.colorTextSemanticRed, null)
         )
     }

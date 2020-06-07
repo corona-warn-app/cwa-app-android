@@ -21,7 +21,6 @@ object TanHelper {
         for (character in tan) {
             if (!isTanCharacterValid(character.toString()))
                 return false
-
         }
     return true
     }
