@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -48,6 +49,7 @@ class SettingsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setContentDescription()
     }
 
     override fun onResume() {
@@ -57,6 +59,11 @@ class SettingsFragment : BaseFragment() {
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
+    }
+
+    private fun setContentDescription() {
+        val backButtonString: String = getString(R.string.button_back)
+        binding.settingsHeader.headerToolbar.setNavigationContentDescription(backButtonString)
     }
 
     private fun setButtonOnClickListener() {
