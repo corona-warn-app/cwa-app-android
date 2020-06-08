@@ -164,7 +164,7 @@
                     <de.rki.coronawarnapp.ui.view.CircleProgress
                         android:layout_width="@dimen/circle_small"
                         android:layout_height="@dimen/circle_small"
-                        app:circleColor="@color/colorStableMedium"
+                        app:circleColor="@color/colorStableHairlineLight"
                         app:disableText="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
