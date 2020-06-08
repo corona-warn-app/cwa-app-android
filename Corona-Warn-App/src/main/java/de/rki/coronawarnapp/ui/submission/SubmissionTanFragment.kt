@@ -95,7 +95,7 @@ class SubmissionTanFragment : BaseFragment() {
 
         binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
-        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
+        binding.submissionTanHeader.headerToolbar.setNavigationOnClickListener { navigateToDispatchScreen() }
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {

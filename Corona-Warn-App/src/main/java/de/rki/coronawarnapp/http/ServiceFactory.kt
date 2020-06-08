@@ -4,15 +4,22 @@ import android.webkit.URLUtil
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.http.ServiceFactoryException
+import de.rki.coronawarnapp.http.config.DynamicURLs
+import de.rki.coronawarnapp.http.config.HTTPVariables
+import de.rki.coronawarnapp.http.interceptor.OfflineCacheInterceptor
+import de.rki.coronawarnapp.http.interceptor.WebSecurityVerificationInterceptor
+import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
 import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.risk.TimeVariables
 import okhttp3.Cache
+import okhttp3.CipherSuite
 import okhttp3.ConnectionPool
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.TlsVersion
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,10 +44,13 @@ class ServiceFactory {
      * List of interceptors, e.g. logging
      */
     private val mInterceptors: List<Interceptor> = listOf(
+        WebSecurityVerificationInterceptor(),
         HttpLoggingInterceptor().also {
             if (BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
         },
-        OfflineCacheInterceptor(CoronaWarnApplication.getAppContext()),
+        OfflineCacheInterceptor(
+            CoronaWarnApplication.getAppContext()
+        ),
         RetryInterceptor(),
         HttpErrorParser()
     )
@@ -64,33 +74,90 @@ class ServiceFactory {
     private val okHttpClient by lazy {
         val clientBuilder = OkHttpClient.Builder()
 
-        val timeoutMs = TimeVariables.getTransactionTimeout()
-        clientBuilder.connectTimeout(timeoutMs, TimeUnit.MILLISECONDS)
-        clientBuilder.readTimeout(timeoutMs, TimeUnit.MILLISECONDS)
-        clientBuilder.writeTimeout(timeoutMs, TimeUnit.MILLISECONDS)
-        clientBuilder.callTimeout(timeoutMs, TimeUnit.MILLISECONDS)
+        clientBuilder.connectTimeout(
+            HTTPVariables.getHTTPConnectionTimeout(),
+            TimeUnit.MILLISECONDS
+        )
+        clientBuilder.readTimeout(
+            HTTPVariables.getHTTPReadTimeout(),
+            TimeUnit.MILLISECONDS
+        )
+        clientBuilder.writeTimeout(
+            HTTPVariables.getHTTPWriteTimeout(),
+            TimeUnit.MILLISECONDS
+        )
+        clientBuilder.callTimeout(
+            TimeVariables.getTransactionTimeout(),
+            TimeUnit.MILLISECONDS
+        )
 
         clientBuilder.connectionPool(conPool)
 
         cache.evictAll()
         clientBuilder.cache(cache)
 
-        val spec: ConnectionSpec = ConnectionSpec.Builder(ConnectionSpec.RESTRICTED_TLS)
-            .allEnabledCipherSuites() // TODO clarify more concrete Ciphers
-            .build()
-
-        clientBuilder.connectionSpecs(listOf(spec))
-
-        CertificatePinnerFactory().getCertificatePinner().run {
-            if (this.pins.isNotEmpty()) {
-                clientBuilder.certificatePinner(this)
-            }
-        }
-
         mInterceptors.forEach { clientBuilder.addInterceptor(it) }
 
         clientBuilder.build()
     }
+
+    /**
+     * For the CDN we want to ensure maximum Compatibility.
+     */
+    private fun getCDNSpecs(): List<ConnectionSpec> = listOf(
+        ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
+            .tlsVersions(
+                TlsVersion.TLS_1_0,
+                TlsVersion.TLS_1_1,
+                TlsVersion.TLS_1_2,
+                TlsVersion.TLS_1_3
+            )
+            .allEnabledCipherSuites()
+            .build()
+    )
+
+    /**
+     * For Submission and Verification we want to limit our specifications for TLS.
+     */
+    private fun getRestrictedSpecs(): List<ConnectionSpec> = listOf(
+        ConnectionSpec.Builder(ConnectionSpec.RESTRICTED_TLS)
+            .tlsVersions(
+                TlsVersion.TLS_1_2,
+                TlsVersion.TLS_1_3
+            )
+            .cipherSuites(
+                // TLS 1.2 with Perfect Forward Secrecy (BSI TR-02102-2)
+                CipherSuite.TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+                CipherSuite.TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+                CipherSuite.TLS_DHE_DSS_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_DHE_DSS_WITH_AES_256_GCM_SHA384,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+                // TLS 1.3 (BSI TR-02102-2)
+                CipherSuite.TLS_AES_128_GCM_SHA256,
+                CipherSuite.TLS_AES_256_GCM_SHA384,
+                CipherSuite.TLS_AES_128_CCM_SHA256
+            )
+            .build()
+    )
+
+    /**
+     * Helper function to create a new client from an existent Client with New Specs.
+     *
+     * @param specs
+     */
+    private fun OkHttpClient.buildClientWithNewSpecs(specs: List<ConnectionSpec>) =
+        this.newBuilder().connectionSpecs(specs).build()
 
     private val downloadCdnUrl
         get() = getValidUrl(DynamicURLs.DOWNLOAD_CDN_URL)
@@ -98,7 +165,7 @@ class ServiceFactory {
     fun distributionService(): DistributionService = distributionService
     private val distributionService by lazy {
         Retrofit.Builder()
-            .client(okHttpClient)
+            .client(okHttpClient.buildClientWithNewSpecs(getCDNSpecs()))
             .baseUrl(downloadCdnUrl)
             .addConverterFactory(gsonConverterFactory)
             .build()
@@ -111,7 +178,7 @@ class ServiceFactory {
     fun verificationService(): VerificationService = verificationService
     private val verificationService by lazy {
         Retrofit.Builder()
-            .client(okHttpClient)
+            .client(okHttpClient.buildClientWithNewSpecs(getRestrictedSpecs()))
             .baseUrl(verificationCdnUrl)
             .addConverterFactory(gsonConverterFactory)
             .build()
@@ -124,7 +191,7 @@ class ServiceFactory {
     fun submissionService(): SubmissionService = submissionService
     private val submissionService by lazy {
         Retrofit.Builder()
-            .client(okHttpClient)
+            .client(okHttpClient.buildClientWithNewSpecs(getRestrictedSpecs()))
             .baseUrl(submissionCdnUrl)
             .addConverterFactory(protoConverterFactory)
             .addConverterFactory(gsonConverterFactory)

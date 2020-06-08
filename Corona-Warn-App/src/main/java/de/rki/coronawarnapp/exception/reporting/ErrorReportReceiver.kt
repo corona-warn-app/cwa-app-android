@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.exception
+package de.rki.coronawarnapp.exception.reporting
 
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -7,6 +7,7 @@ import android.content.Intent
 import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.util.DialogHelper
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {

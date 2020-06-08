@@ -336,12 +336,42 @@ object LocalData {
      * @param value timestamp as Date
      */
     fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) {
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
                 value?.time ?: 0L
+            )
+        }
+    }
+
+    /**
+     * Gets the last time of successful risk level calculation as long
+     * from the EncryptedSharedPrefs
+     *
+     * @return Long
+     */
+    fun lastTimeRiskLevelCalculation(): Long? {
+        val time = getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_timestamp_risk_level_calculation),
+            0L
+        )
+        return Date(time).time
+    }
+
+    /**
+     * Sets the last time of successful risk level calculation as long
+     * from the EncryptedSharedPrefs
+     *
+     * @param value timestamp as Long
+     */
+    fun lastTimeRiskLevelCalculation(value: Long?) {
+        getSharedPreferenceInstance().edit(true) {
+            putLong(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_timestamp_risk_level_calculation),
+                value ?: 0L
             )
         }
     }

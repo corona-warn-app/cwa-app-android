@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.http
+package de.rki.coronawarnapp.http.interceptor
 
 import android.util.Log
 import okhttp3.Interceptor
