@@ -110,8 +110,7 @@
     </style>
 
     <style name="cardGrey">
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSurface2</item>
+        <item name="android:background">@drawable/card_dark</item>
     </style>
 
 
