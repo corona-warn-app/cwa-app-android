@@ -88,4 +88,5 @@
 
     <!-- Submission QR Code Scan -->
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
+    <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
 </resources>
