@@ -54,7 +54,7 @@ class InformationFragment : BaseFragment() {
 
     private fun setContentDescription() {
         val backButtonString: String = getString(R.string.button_back)
-        binding.informationHeader.headerToolbar.setNavigationContentDescription(backButtonString)
+        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {
@@ -91,7 +91,7 @@ class InformationFragment : BaseFragment() {
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
             )
         }
-        binding.informationHeader.headerToolbar.setNavigationOnClickListener {
+        binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

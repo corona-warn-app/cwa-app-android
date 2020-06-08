@@ -122,3 +122,14 @@ fun formatStringAsHTML(@StringRes stringRes: Int) = HtmlCompat.fromHtml(
     CoronaWarnApplication.getAppContext().getString(stringRes),
     HtmlCompat.FROM_HTML_MODE_LEGACY
 )
+
+/**
+ * TODO
+ *
+ * @param color
+ * @return
+ */
+fun formatColorDivider(color: Int?): Int {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return color ?: appContext.getColor(R.color.colorHairline)
+}

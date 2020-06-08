@@ -50,5 +50,7 @@
     <color name="colorStableDark">#000000</color>
     <color name="colorStableMedium">#4D17191A</color>
     <color name="colorStableLight">#FFFFFF</color>
+    <color name="colorStableHairlineLight">#4DFFFFFF</color>
+    <color name="colorStableHairlineDark">#3317191A</color>
 
 </resources>

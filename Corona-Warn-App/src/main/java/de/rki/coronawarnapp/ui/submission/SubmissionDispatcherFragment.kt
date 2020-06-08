@@ -51,7 +51,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionDispatcherHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {

@@ -46,7 +46,7 @@ class SubmissionIntroFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionIntroHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionIntroHeader.headerButtonBack.buttonIcon.setOnClickListener {
             doNavigate(SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment())
         }
         binding.submissionIntroButtonNext.setOnClickListener {
