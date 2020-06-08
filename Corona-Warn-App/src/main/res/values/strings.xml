@@ -2883,6 +2883,11 @@ as modifying the License.
     <!-- YTXT: pending status text -->
     <string name="test_result_card_status_pending">Ergebnis liegt noch nicht vor</string>
 
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_title">Weitere Infos:</string>
+    <!-- YTXT: Content for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_enum"><li>Sie haben trotzdem gesundheitlicheBeschwerden? Wenn Sie sich sehr krankfühlen und/oder Ihre Beschwerden sichverschlechtert haben, wenden Sie sich bittean Ihre/-n Hausärztin/Hausarzt.</li>\n\n<li>Bleiben Sie bis zu Ihrer Genesungtrotzdemzu Hause. Falls Sie sich durch eineandereInfektion geschwächt mit demCoronavirus(SARS-CoV-2) infizieren, kanndies zuschwereren Krankheitsverläufenführen.</li>\n\n<li>Gehen Sie nicht krank zur Arbeit, umanderePersonen nicht zu gefährden.Falls sich Ihre Symptome verschlechtern,kann die Notwendigkeit eines weiteresSARS-CoV-2-Tests bestehen.</li></string>
+
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
 
