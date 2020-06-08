@@ -73,7 +73,7 @@ class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     }
 
     private fun updateTan(text: CharSequence?) {
-        this.tan = text?.toString()?.toUpperCase(Locale.getDefault())
+        this.tan = text?.toString()?.toUpperCase(Locale.ROOT)
         updateDigits()
         tan?.let {
             limitLength(
