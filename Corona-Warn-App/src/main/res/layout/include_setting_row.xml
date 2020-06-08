@@ -52,7 +52,6 @@
 
             <ImageView
                 android:id="@+id/settings_row_icon"
-                style="@style/icon"
                 android:layout_width="@dimen/icon_size_settings"
                 android:layout_height="@dimen/icon_size_settings"
                 android:importantForAccessibility="no"
