@@ -21,10 +21,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/risk_details_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/risk_details_accessibility_title">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/risk_details_app_bar_layout"
@@ -60,12 +58,10 @@
             app:layout_constraintTop_toBottomOf="@+id/risk_details_app_bar_layout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <include
-                    android:focusable="false"
                     android:id="@+id/risk_details_risk_card"
                     layout="@layout/include_risk_card"
                     android:layout_width="0dp"
@@ -78,7 +74,6 @@
                     app:tracingViewModel="@{tracingViewModel}" />
 
                 <TextView
-                    android:focusable="false"
                     android:id="@+id/risk_details_behavior_headline"
                     style="@style/headline5"
                     android:layout_width="0dp"
@@ -90,7 +85,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/risk_details_risk_card" />
 
                 <TextView
-                    android:focusable="false"
                     android:id="@+id/risk_details_behavior_subtitle"
                     style="@style/body2"
                     android:layout_width="0dp"
@@ -105,7 +99,6 @@
                     android:id="@+id/risk_details_behavior_wrapper"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_subtitle">
@@ -116,7 +109,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="false"
                         android:visibility="@{FormatterRiskHelper.formatVisibilityBehavior(tracingViewModel.riskLevel)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +121,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="false"
                         android:visibility="@{FormatterRiskHelper.formatVisibilityBehaviorIncreasedRisk(tracingViewModel.riskLevel)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +130,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:focusable="true"
                     android:id="@+id/risk_details_body"
                     style="@style/greyBodyBackground"
                     android:layout_width="match_parent"
@@ -149,7 +139,6 @@
                     app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wrapper">
 
                     <TextView
-                        android:focusable="false"
                         android:id="@+id/risk_details_information_headline"
                         style="@style/headline5"
                         android:layout_width="match_parent"
@@ -160,7 +149,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:focusable="false"
                         android:id="@+id/risk_details_information_subtitle"
                         style="@style/body2"
                         android:layout_width="match_parent"
@@ -172,7 +160,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_headline" />
 
                     <TextView
-                        android:focusable="false"
                         android:id="@+id/risk_details_information_body"
                         style="@style/body2"
                         android:layout_width="match_parent"
@@ -185,7 +172,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_subtitle" />
 
                     <TextView
-                        android:focusable="false"
                         android:id="@+id/risk_details_information_body_notice"
                         style="@style/body2"
                         android:layout_width="match_parent"

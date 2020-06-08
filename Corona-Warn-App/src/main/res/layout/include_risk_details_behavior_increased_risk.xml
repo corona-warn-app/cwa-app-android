@@ -15,12 +15,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
-            android:focusable="false"
             android:id="@+id/risk_details_behavior_stay_home"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="0dp"
@@ -33,7 +31,6 @@
             app:riskLevel="@{tracingViewModel.riskLevel}" />
 
         <include
-            android:focusable="false"
             android:id="@+id/risk_details_behavior_stay_away"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="0dp"
@@ -47,7 +44,6 @@
             app:riskLevel="@{tracingViewModel.riskLevel}" />
 
         <include
-            android:focusable="false"
             android:id="@+id/risk_details_behavior_cough_sneeze"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="0dp"
@@ -62,7 +58,6 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
@@ -72,7 +67,6 @@
             app:layout_constraintTop_toBottomOf="@+id/risk_details_behavior_cough_sneeze">
 
             <TextView
-                android:focusable="false"
                 android:id="@+id/risk_details_behavior_bullet_point_1"
                 style="@style/subtitle"
                 android:layout_width="0dp"
@@ -83,7 +77,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:focusable="false"
                 android:id="@+id/risk_details_behavior_bullet_point_2"
                 style="@style/subtitle"
                 android:layout_width="0dp"
@@ -95,7 +88,6 @@
                 app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1" />
 
             <TextView
-                android:focusable="false"
                 android:id="@+id/risk_details_behavior_bullet_point_3"
                 style="@style/subtitle"
                 android:layout_width="0dp"

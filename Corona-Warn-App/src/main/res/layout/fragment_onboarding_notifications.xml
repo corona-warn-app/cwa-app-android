@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/onboarding_notifications_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:contentDescription="@string/onboarding_notifications_accessibility_title">
+        android:fillViewport="true">
 
         <include
             android:id="@+id/onboarding_button_back"
