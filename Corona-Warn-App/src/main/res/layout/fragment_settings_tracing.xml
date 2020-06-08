@@ -135,10 +135,9 @@
 
                         <de.rki.coronawarnapp.ui.view.CircleProgress
                             android:id="@+id/settings_tracing_status_tracing_circle_progress"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:circleWidth="10"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_width="@dimen/spacing_huge"
+                            android:layout_height="@dimen/spacing_huge"
+                            app:circleWidth="@dimen/circle_large_width"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
