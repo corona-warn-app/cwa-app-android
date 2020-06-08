@@ -47,13 +47,14 @@ object WebRequestBuilder {
     private const val EXPORT_BINARY_FILE_NAME = "export.bin"
     private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
 
-    private val serviceFactory = ServiceFactory()
+    private fun serviceFactory() = serviceFactory
+    private val serviceFactory by lazy { ServiceFactory() }
+    private val distributionService by lazy { serviceFactory().distributionService() }
+    private val verificationService by lazy { serviceFactory().verificationService() }
+    private val submissionService by lazy { serviceFactory().submissionService() }
 
-    private val distributionService by lazy { serviceFactory.distributionService() }
-    private val verificationService by lazy { serviceFactory.verificationService() }
-    private val submissionService by lazy { serviceFactory.submissionService() }
-
-    private val verificationKeys = VerificationKeys()
+    private fun verificationKeys() = verificationKeys
+    private val verificationKeys by lazy { VerificationKeys() }
 
     suspend fun asyncGetDateIndex(): List<String> = withContext(Dispatchers.IO) {
         return@withContext distributionService
@@ -103,7 +104,7 @@ object WebRequestBuilder {
                 throw ApplicationConfigurationInvalidException()
             }
 
-            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
+            if (verificationKeys().hasInvalidSignature(exportBinary, exportSignature)) {
                 throw ApplicationConfigurationCorruptException()
             }
 
