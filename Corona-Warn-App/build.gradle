@@ -181,7 +181,8 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-
+    androidTestImplementation "io.mockk:mockk-android:1.10.0"
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'
