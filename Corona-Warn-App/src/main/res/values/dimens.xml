@@ -13,14 +13,14 @@
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_normal">16sp</dimen>
     <dimen name="font_small">12sp</dimen>
-
     <dimen name="font_button">14sp</dimen>
     <dimen name="font_title">20sp</dimen>
 
     <dimen name="font_line_spacing_extra">4sp</dimen>
 
     <!-- header height -->
-    <dimen name="header">40dp</dimen>
+    <dimen name="header">56dp</dimen>
+    <dimen name="header_main">40dp</dimen>
 
     <!-- elevation -->
     <dimen name="elevation_strong">10dp</dimen>

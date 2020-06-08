@@ -27,7 +27,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/risk_details_header"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/header"
             android:background="@{FormatterRiskHelper.formatRiskShape(true)}"
             android:backgroundTint="@{FormatterRiskHelper.formatRiskColorStateList(tracingViewModel.riskLevel)}"
             app:layout_constraintEnd_toEndOf="parent"
