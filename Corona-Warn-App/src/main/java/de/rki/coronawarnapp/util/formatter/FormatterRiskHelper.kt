@@ -439,7 +439,8 @@ fun formatRiskDetailsButtonEnableTracingVisibility(
  * @return
  */
 fun formatRiskDetailsButtonVisibility(
-    riskLevelScore: Int?, isBackgroundJobEnabled: Boolean?
+    riskLevelScore: Int?,
+    isBackgroundJobEnabled: Boolean?
 ): Int = formatVisibility(
     formatRiskDetailsButtonEnableTracingVisibility(riskLevelScore) == View.VISIBLE ||
             formatDetailsButtonUpdateVisibility(

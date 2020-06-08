@@ -133,4 +133,3 @@ fun formatColorDivider(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return color ?: appContext.getColor(R.color.colorHairline)
 }
-

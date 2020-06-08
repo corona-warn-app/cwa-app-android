@@ -53,7 +53,7 @@ class InformationLegalFragment : BaseFragment() {
 
     private fun setContentDescription() {
         val backButtonString: String = getString(R.string.button_back)
-        binding.informationLegalHeader.headerToolbar.setNavigationContentDescription(backButtonString)
+        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {
