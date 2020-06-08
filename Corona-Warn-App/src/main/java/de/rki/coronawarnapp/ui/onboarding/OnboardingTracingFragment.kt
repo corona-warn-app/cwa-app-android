@@ -122,18 +122,18 @@ class OnboardingTracingFragment : BaseFragment(),
     private fun resetTracing() {
         // Reset tracing state in onboarding
         lifecycleScope.launch {
-            if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                try {
+            try {
+                if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     InternalExposureNotificationClient.asyncStop()
                     // Reset initial activation timestamp
                     LocalData.initialTracingActivationTimestamp(0L)
-                } catch (exception: Exception) {
-                    exception.report(
-                        ExceptionCategory.EXPOSURENOTIFICATION,
-                        OnboardingTracingFragment.TAG,
-                        null
-                    )
                 }
+            } catch (exception: Exception) {
+                exception.report(
+                    ExceptionCategory.EXPOSURENOTIFICATION,
+                    OnboardingTracingFragment.TAG,
+                    null
+                )
             }
         }
     }

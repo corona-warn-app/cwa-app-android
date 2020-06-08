@@ -144,7 +144,6 @@
 
     <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">@color/colorTextPrimary1</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">

@@ -2,9 +2,7 @@
 <network-security-config xmlns:tools="http://schemas.android.com/tools">
 
     <domain-config cleartextTrafficPermitted="false">
-        <!-- TODO Add Production Domain for Verification Service-->
-        <domain includeSubdomains="true">submission.coronawarn.app</domain>
-        <domain includeSubdomains="true">verification.coronawarn.app</domain>
+        <domain includeSubdomains="true">coronawarn.app</domain>
         <pin-set expiration="2024-02-12" tools:ignore="MissingBackupPin">
             <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
         </pin-set>
@@ -16,7 +14,7 @@
     </domain-config>
 
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">svc90.main.px.t-online.de</domain>
+        <domain includeSubdomains="true">main.px.t-online.de</domain>
         <trust-anchors>
             <certificates
                 src="system"
