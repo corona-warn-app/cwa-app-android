@@ -143,8 +143,8 @@
     <string name="main_about_headline">"FAQ"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App."</string>
-    <!-- NOTR todo insert english link in translation file http://www.bundesregierung.de/corona-warn-app-faq-englisch -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <!-- NOTR -->
+    <string name="main_about_link">"http://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
 
     <!-- ####################################
                Main - Share
@@ -459,8 +459,8 @@
     <string name="information_contact_subtitle_phone">"Technical hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"+49 (0)800 7540001"</string>
-    <!-- MOTR todo phone number to be called replace in english file-->
-    <string name="information_contact_phone_call_number">"Phone: +49 800 7540001"</string>
+    <!-- MOTR DO NOT TOUCH THE "tel:" DURING TRANSLATION, ONLY UPDATE THE NUMBER todo phone number to be called replace in english file -->
+    <string name="information_contact_phone_call_number">"tel:+49 800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is here to help."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -593,7 +593,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN entry"</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">"The TAN has 7 characters and is case-insensitive.\n\nPlease enter the TAN you were given:"</string>
+    <string name="submission_tan_body">"Please enter the 10 characters of the TAN you were given:"</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Next"</string>
 
