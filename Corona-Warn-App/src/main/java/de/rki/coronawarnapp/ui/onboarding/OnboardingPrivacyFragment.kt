@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.util.AssetConstants
+import kotlinx.android.synthetic.main.fragment_onboarding_privacy.onboarding_privacy_webview
 
 /**
  * This fragment informs the user regarding privacy.
@@ -35,6 +38,7 @@ class OnboardingPrivacyFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        loadInformationPrivacyWebView()
     }
 
     private fun setButtonOnClickListener() {
@@ -46,5 +50,10 @@ class OnboardingPrivacyFragment : BaseFragment() {
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
         }
+    }
+
+    private fun loadInformationPrivacyWebView() {
+        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_body)
+        onboarding_privacy_webview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }
