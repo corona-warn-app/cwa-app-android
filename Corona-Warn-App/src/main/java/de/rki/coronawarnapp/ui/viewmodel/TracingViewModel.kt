@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +11,7 @@ import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 
 /**
@@ -32,7 +32,8 @@ class TracingViewModel : ViewModel() {
     // TODO: comments for variables
     // Values from RiskLevelRepository
     val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
-    val riskLevelScoreLastSuccessfulCalculated = RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
+    val riskLevelScoreLastSuccessfulCalculated =
+        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
 
     // Values from ExposureSummaryRepository
     val daysSinceLastExposure: LiveData<Int?> = ExposureSummaryRepository.daysSinceLastExposure
@@ -108,7 +109,7 @@ class TracingViewModel : ViewModel() {
             try {
                 ExposureSummaryRepository.getExposureSummaryRepository()
                     .getLatestExposureSummary()
-                Log.v(TAG, "retrieved latest exposure summary from db")
+                Timber.v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(
                     de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION,

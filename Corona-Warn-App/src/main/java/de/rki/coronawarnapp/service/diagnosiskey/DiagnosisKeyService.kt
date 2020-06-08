@@ -20,10 +20,10 @@
 package de.rki.coronawarnapp.service.diagnosiskey
 
 import KeyExportFormat
-import android.util.Log
 import de.rki.coronawarnapp.exception.DiagnosisKeyRetrievalException
 import de.rki.coronawarnapp.exception.DiagnosisKeySubmissionException
 import de.rki.coronawarnapp.http.WebRequestBuilder
+import timber.log.Timber
 
 /**
  * The Diagnosis Key Service is used to interact with the Server to submit and retrieve keys through
@@ -46,8 +46,11 @@ object DiagnosisKeyService {
      * @param authCode - TAN Authorization Code used to validate the request
      * @param keysToReport - KeyList in the Server Format to submit to the Server
      */
-    suspend fun asyncSubmitKeys(authCode: String, keysToReport: List<KeyExportFormat.TemporaryExposureKey>) {
-        Log.d(TAG, "Diagnosis Keys will be submitted.")
+    suspend fun asyncSubmitKeys(
+        authCode: String,
+        keysToReport: List<KeyExportFormat.TemporaryExposureKey>
+    ) {
+        Timber.d("Diagnosis Keys will be submitted.")
         WebRequestBuilder.asyncSubmitKeysToServer(
             authCode,
             false,

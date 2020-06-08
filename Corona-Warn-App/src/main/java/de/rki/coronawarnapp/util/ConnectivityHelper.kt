@@ -11,9 +11,9 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import android.util.Log
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import timber.log.Timber
 
 /**
  * Helper for connectivity statuses.
@@ -47,7 +47,10 @@ object ConnectivityHelper {
             }
         }
         callback.recevier = receiver
-        context.registerReceiver(callback.recevier, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
+        context.registerReceiver(
+            callback.recevier,
+            IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        )
         // bluetooth state doesn't change when you register
         if (isBluetoothEnabled())
             callback.onBluetoothAvailable()
@@ -148,7 +151,8 @@ object ConnectivityHelper {
      */
     private fun isDataSaverEnabled(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             connectivityManager.restrictBackgroundStatus != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
         } else false
     }
@@ -180,7 +184,7 @@ object ConnectivityHelper {
     fun isBluetoothEnabled(): Boolean {
         val bAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bAdapter == null) {
-            Log.d(TAG, "Device does not have bluetooth hardware")
+            Timber.d("Device does not have bluetooth hardware")
             return false
         }
         return bAdapter.isEnabled

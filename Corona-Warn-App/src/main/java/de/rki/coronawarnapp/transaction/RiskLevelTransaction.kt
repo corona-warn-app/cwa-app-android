@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -260,7 +261,7 @@ object RiskLevelTransaction : Transaction() {
         val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
         if (!isTracingEnabled) return@executeState NO_CALCULATION_POSSIBLE_TRACING_OFF
 
-        Log.v(TAG, "$transactionId - TRACING_NOT_ACTIVE_RISK not applicable")
+        Timber.v("$transactionId - TRACING_NOT_ACTIVE_RISK not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -279,7 +280,7 @@ object RiskLevelTransaction : Transaction() {
                 )
             }
 
-        Log.v(TAG, "$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
+        Timber.v("$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -302,11 +303,11 @@ object RiskLevelTransaction : Transaction() {
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
                 return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
-                    Log.v(TAG, "diagnosis keys outdated and active tracing time is above threshold")
+                    Timber.v("diagnosis keys outdated and active tracing time is above threshold")
                 }
             }
 
-            Log.v(TAG, "$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
+            Timber.v("$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
             return@executeState UNDETERMINED
         }
 
@@ -322,7 +323,7 @@ object RiskLevelTransaction : Transaction() {
                 .also {
                     // todo remove after testing sessions
                     recordedTransactionValuesForTestingOnly.appConfig = it
-                    Log.v(TAG, "$transactionId - retrieved configuration from backend")
+                    Timber.v("$transactionId - retrieved configuration from backend")
                 }
         }
 
@@ -336,7 +337,7 @@ object RiskLevelTransaction : Transaction() {
             return@executeState lastExposureSummary.also {
                 // todo remove after testing sessions
                 recordedTransactionValuesForTestingOnly.exposureSummary = it
-                Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
+                Timber.v("$transactionId - get the exposure summary for further calculation")
             }
         }
 
@@ -361,7 +362,7 @@ object RiskLevelTransaction : Transaction() {
             ).also {
                 // todo remove after testing sessions
                 recordedTransactionValuesForTestingOnly.riskScore = it
-                Log.v(TAG, "calculated risk with the given config: $it")
+                Timber.v("calculated risk with the given config: $it")
             }
 
             // these are the defined risk classes. They will divide the calculated
@@ -386,7 +387,7 @@ object RiskLevelTransaction : Transaction() {
                 )
             }
 
-            Log.v(TAG, "$transactionId - INCREASED_RISK not applicable")
+            Timber.v("$transactionId - INCREASED_RISK not applicable")
             return@executeState UNDETERMINED
         }
 
@@ -398,11 +399,11 @@ object RiskLevelTransaction : Transaction() {
     ) {
         // if the active tracing duration is not above the defined threshold we return no calculation state
         if (!isActiveTracingTimeAboveThreshold()) {
-            Log.v(TAG, "$transactionId - active tracing time is not enough")
+            Timber.v("$transactionId - active tracing time is not enough")
             return@executeState UNKNOWN_RISK_INITIAL
         }
 
-        Log.v(TAG, "$transactionId - UNKNOWN_RISK_INITIAL not applicable")
+        Timber.v("$transactionId - UNKNOWN_RISK_INITIAL not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -411,7 +412,7 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun executeUpdateRiskLevelScore(riskLevel: RiskLevel) =
         executeState(UPDATE_RISK_LEVEL) {
-            Log.v(TAG, "$transactionId - update the risk level with $riskLevel")
+            Timber.v("$transactionId - update the risk level with $riskLevel")
             updateRiskLevelScore(riskLevel)
                 .also {
                     // todo remove after testing sessions
@@ -426,7 +427,7 @@ object RiskLevelTransaction : Transaction() {
      * Executes the [CLOSE] Transaction State
      */
     private suspend fun executeClose() = executeState(CLOSE) {
-        Log.v(TAG, "$transactionId - transaction will close")
+        Timber.v("$transactionId - transaction will close")
         lastCalculatedRiskLevelScoreForRollback.set(null)
         lastCalculatedRiskLevelDate.set(null)
     }
@@ -470,7 +471,7 @@ object RiskLevelTransaction : Transaction() {
     private suspend fun getLastExposureSummary(): ExposureSummary? {
         return ExposureSummaryRepository.getExposureSummaryRepository()
             .getLatestExposureSummary().also {
-                Log.v(TAG, "used exposure summary for the risk level calculation: $it")
+                Timber.v("used exposure summary for the risk level calculation: $it")
             }
     }
 
@@ -482,7 +483,7 @@ object RiskLevelTransaction : Transaction() {
     private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
         withContext(Dispatchers.Default) {
             return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                .also { Log.v(TAG, "configuration from backend: $it") }
+                .also { Timber.v("configuration from backend: $it") }
         }
 
     /**
@@ -538,7 +539,7 @@ object RiskLevelTransaction : Transaction() {
             .insertExposureSummaryEntity(exposureSummary)
 
         return exposureSummary.also {
-            Log.v(TAG, "$transactionId - generated new exposure summary with $googleToken")
+            Timber.v("$transactionId - generated new exposure summary with $googleToken")
         }
     }
 

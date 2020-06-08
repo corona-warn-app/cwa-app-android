@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
             name="registerDate"
             type="java.util.Date" />
+
         <variable
             name="deviceUIState"
             type="de.rki.coronawarnapp.util.DeviceUIState" />

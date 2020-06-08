@@ -26,7 +26,8 @@ object TimeVariables {
      *
      * @return number of seconds
      */
-    fun getDeactivationTracingMeasureThresholdTimeRange(): Long = DEACTIVATION_TRACING_MEASURE_THRESHOLD_TIMERANGE
+    fun getDeactivationTracingMeasureThresholdTimeRange(): Long =
+        DEACTIVATION_TRACING_MEASURE_THRESHOLD_TIMERANGE
 
     /**
      * The maximal runtime of a transaction
@@ -59,7 +60,8 @@ object TimeVariables {
      *
      * @return max calculation range in ms
      */
-    fun getDefaultRetentionPeriodInMS() = getDefaultRetentionPeriodInDays().toLong().daysToMilliseconds()
+    fun getDefaultRetentionPeriodInMS() =
+        getDefaultRetentionPeriodInDays().toLong().daysToMilliseconds()
 
     /**
      * The time that the tracing has to be active to show the low risk level

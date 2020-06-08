@@ -25,11 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentVisible(submissionViewModel.deviceRegistered, submissionViewModel.uiStateState)}"
+            app:deviceUIState="@{submissionViewModel.deviceUiState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:deviceUIState="@{submissionViewModel.deviceUiState}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/submission_status_card_unregistered"

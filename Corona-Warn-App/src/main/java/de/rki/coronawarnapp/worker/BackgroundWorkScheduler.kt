@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.worker
 
-import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -16,6 +15,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import timber.log.Timber
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
@@ -91,7 +91,10 @@ object BackgroundWorkScheduler {
      */
     fun startWorkScheduler() {
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-        logWorkActiveStatus(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag, isPeriodicWorkActive)
+        logWorkActiveStatus(
+            WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
+            isPeriodicWorkActive
+        )
         if (!isPeriodicWorkActive) WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
     }
 
@@ -282,21 +285,21 @@ object BackgroundWorkScheduler {
      * Log operation schedule
      */
     private fun Operation.logOperationSchedule(workType: WorkType) = this.result.addListener({
-        if (BuildConfig.DEBUG) Log.d(TAG, "${workType.uniqueName} completed.")
-    }, { it.run() }).also { if (BuildConfig.DEBUG) Log.d(TAG, "${workType.uniqueName} scheduled.") }
+        if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} completed.")
+    }, { it.run() }).also { if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} scheduled.") }
 
     /**
      * Log operation cancellation
      */
     private fun Operation.logOperationCancelByTag(workTag: WorkTag) = this.result.addListener({
-        if (BuildConfig.DEBUG) Log.d(TAG, "All work with tag ${workTag.tag} canceled.")
+        if (BuildConfig.DEBUG) Timber.d("All work with tag ${workTag.tag} canceled.")
     }, { it.run() })
-        .also { if (BuildConfig.DEBUG) Log.d(TAG, "Canceling all work with tag ${workTag.tag}") }
+        .also { if (BuildConfig.DEBUG) Timber.d("Canceling all work with tag ${workTag.tag}") }
 
     /**
      * Log work active status
      */
     private fun logWorkActiveStatus(tag: String, active: Boolean) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Work type $tag is active: $active")
+        if (BuildConfig.DEBUG) Timber.d("Work type $tag is active: $active")
     }
 }

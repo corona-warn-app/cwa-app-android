@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.http.service
 
+import KeyExportFormat
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.Header

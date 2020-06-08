@@ -6,6 +6,7 @@
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
@@ -145,9 +146,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_test_done"
                 style="@style/card"
-                android:padding="0dp"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:padding="0dp"
                 android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionDoneCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"

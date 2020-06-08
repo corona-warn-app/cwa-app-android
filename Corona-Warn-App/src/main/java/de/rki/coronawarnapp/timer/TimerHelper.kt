@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.timer
 
-import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
@@ -8,6 +7,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
+import timber.log.Timber
 import java.util.Date
 import java.util.Timer
 import java.util.concurrent.atomic.AtomicBoolean
@@ -89,7 +89,12 @@ object TimerHelper {
             try {
                 isManualKeyRetrievalOnTimer.set(true)
                 manualKeyRetrievalTimer =
-                    fixedRateTimer(MANUAL_KEY_RETRIEVAL_TIMER_NAME, true, INITIAL_TIMER_DELAY, TIMER_TICK) {
+                    fixedRateTimer(
+                        MANUAL_KEY_RETRIEVAL_TIMER_NAME,
+                        true,
+                        INITIAL_TIMER_DELAY,
+                        TIMER_TICK
+                    ) {
                         onManualKeyRetrievalTimerTick()
                     }.also { it.logTimerStart() }
             } catch (e: Exception) {
@@ -120,7 +125,8 @@ object TimerHelper {
             )
         } else {
             val hmsCooldownTime = timeDifference.millisecondsToHMS()
-            val cooldownText = context.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+            val cooldownText =
+                context.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
             SettingsRepository.manualKeyRetrievalText.postValue(cooldownText)
         }
     }
@@ -141,20 +147,20 @@ object TimerHelper {
      * Log timer start
      */
     private fun Timer.logTimerStart() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Timer started: $this")
+        if (BuildConfig.DEBUG) Timber.d("Timer started: $this")
     }
 
     /**
      * Log timer stop
      */
     private fun logTimerStop(timerName: String) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Timer stopped: $timerName")
+        if (BuildConfig.DEBUG) Timber.d("Timer stopped: $timerName")
     }
 
     /**
      * Log timer exception
      */
     private fun logTimerException(exception: java.lang.Exception) {
-        Log.e(TAG, "Timer exception: $exception")
+        Timber.e("Timer exception: $exception")
     }
 }

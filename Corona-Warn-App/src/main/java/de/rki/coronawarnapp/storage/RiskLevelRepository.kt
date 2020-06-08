@@ -10,7 +10,8 @@ object RiskLevelRepository {
      * LiveData variables that can be consumed in a ViewModel to observe RiskLevel changes
      */
     val riskLevelScore = MutableLiveData(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
-    val riskLevelScoreLastSuccessfulCalculated = MutableLiveData(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
+    val riskLevelScoreLastSuccessfulCalculated =
+        MutableLiveData(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
 
     /**
      * Set the new calculated [RiskLevel]

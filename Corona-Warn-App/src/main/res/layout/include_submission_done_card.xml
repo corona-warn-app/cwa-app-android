@@ -48,8 +48,8 @@
             layout="@layout/include_submission_done_content"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            app:illustrationDescription="@{@string/submission_done_illustration_description}"
             android:layout_marginTop="@dimen/spacing_normal"
+            app:illustrationDescription="@{@string/submission_done_illustration_description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/submission_done_card_illustration" />

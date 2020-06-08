@@ -144,9 +144,9 @@
             <!-- todo exchange variable-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/risk_card_row_saved_days"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod))}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -165,12 +165,12 @@
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         app:circleColor="@color/colorStableMedium"
+                        app:circleWidth="5"
                         app:disableText="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:circleWidth="5"
                         app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}"
                         app:progressColor="@color/colorStableLight" />
 

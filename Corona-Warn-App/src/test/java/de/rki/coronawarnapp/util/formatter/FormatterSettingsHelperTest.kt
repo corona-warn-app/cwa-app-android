@@ -68,12 +68,21 @@ class FormatterSettingsHelperTest {
         assertThat(result, `is`((formatStatus(bValue))))
     }
 
-    private fun formatTracingStatusBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean, iValue: Int) {
+    private fun formatTracingStatusBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean,
+        iValue: Int
+    ) {
         every { context.getString(R.string.settings_tracing_status_restricted) } returns R.string.settings_tracing_status_restricted.toString()
         every { context.getString(R.string.settings_tracing_status_active) } returns R.string.settings_tracing_status_active.toString()
         every { context.getString(R.string.settings_tracing_status_inactive) } returns R.string.settings_tracing_status_inactive.toString()
 
-        val result = formatTracingStatusText(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result = formatTracingStatusText(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(result, `is`((context.getString(iValue))))
     }
 
@@ -88,7 +97,11 @@ class FormatterSettingsHelperTest {
         every { context.getString(R.string.settings_tracing_body_active) } returns R.string.settings_tracing_body_active.toString()
         every { context.getString(R.string.settings_tracing_body_inactive) } returns R.string.settings_tracing_body_inactive.toString()
 
-        val result = formatTracingDescription(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result = formatTracingDescription(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(result, `is`((context.getString(iValue))))
     }
 
@@ -127,8 +140,17 @@ class FormatterSettingsHelperTest {
         )
     }
 
-    private fun formatTracingSwitchBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean, bValue: Boolean) {
-        val result = formatTracingSwitch(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+    private fun formatTracingSwitchBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean,
+        bValue: Boolean
+    ) {
+        val result = formatTracingSwitch(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(
             result, `is`(bValue)
         )
@@ -140,41 +162,67 @@ class FormatterSettingsHelperTest {
         bConnection: Boolean,
         bValue: Boolean
     ) {
-        val result = formatTracingSwitchEnabled(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result = formatTracingSwitchEnabled(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(
             result, `is`(bValue)
         )
     }
 
-    private fun formatTracingIconBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean) {
+    private fun formatTracingIconBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean
+    ) {
         every { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_connection_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_active) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_inactive) } returns drawable
 
-        val result = formatTracingIcon(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result =
+            formatTracingIcon(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
         assertThat(
             result, `is`(CoreMatchers.equalTo(drawable))
         )
     }
 
-    private fun formatTracingIconColorBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean, iColor: Int) {
+    private fun formatTracingIconColorBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean,
+        iColor: Int
+    ) {
         every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
         every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
 
-        val result = formatTracingIconColor(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result = formatTracingIconColor(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(
             result, `is`(context.getColor(iColor))
         )
     }
 
-    private fun formatTracingStatusImageBase(bTracing: Boolean, bBluetooth: Boolean, bConnection: Boolean) {
+    private fun formatTracingStatusImageBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean
+    ) {
         every { context.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_connection_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_illustration_tracing_on) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_tracing_off) } returns drawable
 
-        val result = formatTracingStatusImage(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result = formatTracingStatusImage(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(
             result, `is`(CoreMatchers.equalTo(drawable))
         )
@@ -185,7 +233,11 @@ class FormatterSettingsHelperTest {
         bBluetooth: Boolean,
         bConnection: Boolean
     ) {
-        val result = formatTracingStatusConnection(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+        val result = formatTracingStatusConnection(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
         assertThat(true, `is`(result > -1))
     }
 
@@ -195,7 +247,11 @@ class FormatterSettingsHelperTest {
         bConnection: Boolean
     ) {
         val result =
-            formatTracingStatusVisibilityTracing(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+            formatTracingStatusVisibilityTracing(
+                tracing = bTracing,
+                bluetooth = bBluetooth,
+                connection = bConnection
+            )
         assertThat(true, `is`(result > -1))
     }
 
@@ -205,7 +261,11 @@ class FormatterSettingsHelperTest {
         bConnection: Boolean
     ) {
         val result =
-            formatTracingStatusVisibilityBluetooth(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+            formatTracingStatusVisibilityBluetooth(
+                tracing = bTracing,
+                bluetooth = bBluetooth,
+                connection = bConnection
+            )
         assertThat(true, `is`(result > -1))
     }
 
@@ -465,41 +525,121 @@ class FormatterSettingsHelperTest {
 
     @Test
     fun formatTracingSwitch() {
-        formatTracingSwitchBase(bTracing = true, bBluetooth = true, bConnection = true, bValue = true)
+        formatTracingSwitchBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bValue = true
+        )
 
-        formatTracingSwitchBase(bTracing = false, bBluetooth = false, bConnection = false, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false,
+            bValue = false
+        )
 
-        formatTracingSwitchBase(bTracing = false, bBluetooth = false, bConnection = true, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true,
+            bValue = false
+        )
 
-        formatTracingSwitchBase(bTracing = false, bBluetooth = true, bConnection = false, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false,
+            bValue = false
+        )
 
-        formatTracingSwitchBase(bTracing = false, bBluetooth = true, bConnection = true, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bValue = false
+        )
 
-        formatTracingSwitchBase(bTracing = true, bBluetooth = false, bConnection = false, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false,
+            bValue = false
+        )
 
-        formatTracingSwitchBase(bTracing = true, bBluetooth = false, bConnection = true, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = true,
+            bValue = false
+        )
 
-        formatTracingSwitchBase(bTracing = true, bBluetooth = true, bConnection = false, bValue = false)
+        formatTracingSwitchBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false,
+            bValue = false
+        )
     }
 
     @Test
     fun formatTracingSwitchEnabled() {
 
-        formatTracingSwitchEnabledBase(bTracing = true, bBluetooth = true, bConnection = true, bValue = true)
+        formatTracingSwitchEnabledBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bValue = true
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = false, bBluetooth = false, bConnection = false, bValue = true)
+        formatTracingSwitchEnabledBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false,
+            bValue = true
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = false, bBluetooth = false, bConnection = true, bValue = true)
+        formatTracingSwitchEnabledBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true,
+            bValue = true
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = false, bBluetooth = true, bConnection = false, bValue = true)
+        formatTracingSwitchEnabledBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false,
+            bValue = true
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = false, bBluetooth = true, bConnection = true, bValue = true)
+        formatTracingSwitchEnabledBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bValue = true
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = true, bBluetooth = false, bConnection = false, bValue = false)
+        formatTracingSwitchEnabledBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false,
+            bValue = false
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = true, bBluetooth = false, bConnection = true, bValue = false)
+        formatTracingSwitchEnabledBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = true,
+            bValue = false
+        )
 
-        formatTracingSwitchEnabledBase(bTracing = true, bBluetooth = true, bConnection = false, bValue = false)
+        formatTracingSwitchEnabledBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false,
+            bValue = false
+        )
     }
 
     @Test
@@ -621,17 +761,41 @@ class FormatterSettingsHelperTest {
 
     @Test
     fun formatTracingStatusVisibilityBluetooth() {
-        formatTracingStatusVisibilityBluetoothBase(bTracing = true, bBluetooth = true, bConnection = true)
+        formatTracingStatusVisibilityBluetoothBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityBluetoothBase(bTracing = false, bBluetooth = false, bConnection = false)
+        formatTracingStatusVisibilityBluetoothBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false
+        )
 
-        formatTracingStatusVisibilityBluetoothBase(bTracing = false, bBluetooth = false, bConnection = true)
+        formatTracingStatusVisibilityBluetoothBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityBluetoothBase(bTracing = false, bBluetooth = true, bConnection = false)
+        formatTracingStatusVisibilityBluetoothBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false
+        )
 
-        formatTracingStatusVisibilityBluetoothBase(bTracing = false, bBluetooth = true, bConnection = true)
+        formatTracingStatusVisibilityBluetoothBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityBluetoothBase(bTracing = true, bBluetooth = false, bConnection = false)
+        formatTracingStatusVisibilityBluetoothBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false
+        )
 
         formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = true)
 
@@ -640,21 +804,53 @@ class FormatterSettingsHelperTest {
 
     @Test
     fun formatTracingStatusVisibilityTracing() {
-        formatTracingStatusVisibilityTracingBase(bTracing = true, bBluetooth = true, bConnection = true)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = false, bBluetooth = false, bConnection = false)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = false, bBluetooth = false, bConnection = true)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = false, bBluetooth = true, bConnection = false)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = false, bBluetooth = true, bConnection = true)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = true, bBluetooth = false, bConnection = false)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = true, bBluetooth = false, bConnection = true)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = true
+        )
 
-        formatTracingStatusVisibilityTracingBase(bTracing = true, bBluetooth = true, bConnection = false)
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false
+        )
     }
 
     @Test

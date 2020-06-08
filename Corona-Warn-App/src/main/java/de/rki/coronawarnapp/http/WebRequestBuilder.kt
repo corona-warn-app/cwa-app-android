@@ -20,7 +20,6 @@
 package de.rki.coronawarnapp.http
 
 import KeyExportFormat
-import android.util.Log
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
@@ -37,6 +36,7 @@ import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
@@ -64,7 +64,7 @@ object WebRequestBuilder {
         return@withContext distributionService
             .getHourIndex(
                 DiagnosisKeyConstants.AVAILABLE_DATES_URL +
-                    "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
+                        "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
             )
             .toList()
     }
@@ -77,13 +77,12 @@ object WebRequestBuilder {
     suspend fun asyncGetKeyFilesFromServer(
         url: String
     ): File = withContext(Dispatchers.IO) {
-        val requestID = UUID.randomUUID()
         val fileName = "${UUID.nameUUIDFromBytes(url.toByteArray())}.zip"
         val file = File(FileStorageHelper.keyExportDirectory, fileName)
         file.outputStream().use {
-            Log.v(requestID.toString(), "Added $url to queue.")
+            Timber.v("Added $url to queue.")
             distributionService.getKeyFiles(url).byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
-            Log.v(requestID.toString(), "key file request successful.")
+            Timber.v("key file request successful.")
         }
         return@withContext file
     }
@@ -97,7 +96,8 @@ object WebRequestBuilder {
                 DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL
             ).byteStream().unzip { entry, entryContent ->
                 if (entry.name == EXPORT_BINARY_FILE_NAME) exportBinary = entryContent.copyOf()
-                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature = entryContent.copyOf()
+                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature =
+                    entryContent.copyOf()
             }
             if (exportBinary == null || exportSignature == null) {
                 throw ApplicationConfigurationInvalidException()
@@ -142,7 +142,8 @@ object WebRequestBuilder {
     suspend fun asyncGetTan(
         registrationToken: String
     ): String = withContext(Dispatchers.IO) {
-        verificationService.getTAN(SubmissionConstants.TAN_REQUEST_URL, "0",
+        verificationService.getTAN(
+            SubmissionConstants.TAN_REQUEST_URL, "0",
             TanRequestBody(
                 registrationToken
             )
@@ -154,7 +155,7 @@ object WebRequestBuilder {
         faked: Boolean,
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Writing ${keyList.size} Keys to the Submission Payload.")
+        Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .build()

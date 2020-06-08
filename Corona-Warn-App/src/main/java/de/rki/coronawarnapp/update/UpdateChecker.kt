@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
+import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -35,10 +36,10 @@ class UpdateChecker(private val activity: LauncherActivity) {
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
         } catch (exception: CwaSecurityException) {
-            Log.e(TAG, "CwaSecurityException caught:" + exception.localizedMessage)
+            Timber.e("CwaSecurityException caught:" + exception.localizedMessage)
             true
         } catch (exception: Exception) {
-            Log.e(TAG, "Exception caught:" + exception.localizedMessage)
+            Timber.e("Exception caught:" + exception.localizedMessage)
             false
         }
 

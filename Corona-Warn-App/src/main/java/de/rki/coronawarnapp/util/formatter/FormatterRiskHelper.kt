@@ -86,7 +86,10 @@ fun formatRiskBody(riskLevelScore: Int?): String {
  * @param riskLevelScoreLastSuccessfulCalculated
  * @return
  */
-fun formatRiskSavedRisk(riskLevelScore: Int?, riskLevelScoreLastSuccessfulCalculated: Int?): String {
+fun formatRiskSavedRisk(
+    riskLevelScore: Int?,
+    riskLevelScoreLastSuccessfulCalculated: Int?
+): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (
         riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||

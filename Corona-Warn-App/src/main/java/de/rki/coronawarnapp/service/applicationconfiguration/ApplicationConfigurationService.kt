@@ -15,8 +15,7 @@ object ApplicationConfigurationService {
             .mapRiskScoreToExposureConfiguration()
 
     // todo double check that the weighted params are not used
-    private fun ApplicationConfigurationOuterClass.ApplicationConfiguration
-            .mapRiskScoreToExposureConfiguration(): ExposureConfiguration =
+    private fun ApplicationConfigurationOuterClass.ApplicationConfiguration.mapRiskScoreToExposureConfiguration(): ExposureConfiguration =
         ExposureConfiguration
             .ExposureConfigurationBuilder()
             .setTransmissionRiskScores(

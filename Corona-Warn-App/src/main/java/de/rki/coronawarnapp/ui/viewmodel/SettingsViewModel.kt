@@ -32,7 +32,8 @@ class SettingsViewModel : ViewModel() {
      *
      * @see SettingsRepository.isManualKeyRetrievalEnabled
      */
-    val isManualKeyRetrievalEnabled: LiveData<Boolean> = SettingsRepository.isManualKeyRetrievalEnabled
+    val isManualKeyRetrievalEnabled: LiveData<Boolean> =
+        SettingsRepository.isManualKeyRetrievalEnabled
 
     /**
      * Update button on the Risk Card and in the Risk Details live text

@@ -53,7 +53,7 @@
         android:id="@+id/mainOverviewFragment"
         android:name="de.rki.coronawarnapp.ui.main.MainOverviewFragment"
         android:label="@layout/fragment_main_overview"
-        tools:layout="@layout/fragment_main_overview"/>
+        tools:layout="@layout/fragment_main_overview" />
 
     <!-- Settings -->
     <fragment

@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import timber.log.Timber
 
 class SubmissionTanViewModel : ViewModel() {
 
@@ -21,7 +21,7 @@ class SubmissionTanViewModel : ViewModel() {
 
     fun storeTeletan() {
         val teletan = tan.value!!
-        Log.d(TAG, "Storing teletan $teletan")
+        Timber.d("Storing teletan $teletan")
         SubmissionRepository.setTeletan(teletan)
     }
 }

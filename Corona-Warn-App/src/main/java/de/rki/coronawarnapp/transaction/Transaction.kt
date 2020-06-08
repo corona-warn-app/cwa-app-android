@@ -31,6 +31,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
+import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.coroutines.CoroutineContext
@@ -75,7 +76,8 @@ abstract class Transaction {
      * @see currentTransactionState
      * @see isInStateStack
      */
-    private val executedStatesStack: AtomicReference<MutableList<TransactionState>> = AtomicReference(ArrayList())
+    private val executedStatesStack: AtomicReference<MutableList<TransactionState>> =
+        AtomicReference(ArrayList())
 
     /**
      * Finalizes a state by adding the state to the executedStatesStack
@@ -90,7 +92,7 @@ abstract class Transaction {
     private fun setState(state: TransactionState) =
         currentTransactionState.set(state)
             .also {
-                Log.d(TAG, "$transactionId - STATE CHANGE: ${currentTransactionState.get()}")
+                Timber.d("$transactionId - STATE CHANGE: ${currentTransactionState.get()}")
             }
 
     /**
@@ -166,7 +168,10 @@ abstract class Transaction {
      * @param block Any function containing the actual Execution Code for that state
      * @return The return value of the state, useful for piping to a wrapper or a lock without a message bus or actor
      */
-    protected suspend fun <T> executeState(state: TransactionState, block: suspend CoroutineScope.() -> T): T =
+    protected suspend fun <T> executeState(
+        state: TransactionState,
+        block: suspend CoroutineScope.() -> T
+    ): T =
         executeState(Dispatchers.Default, state, block)
 
     /**
@@ -274,7 +279,7 @@ abstract class Transaction {
      * @throws RollbackException throws a rollback exception when handleRollbackError() is called
      */
     protected open suspend fun rollback() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Initiate Rollback")
+        if (BuildConfig.DEBUG) Timber.d("Initiate Rollback")
     }
 
     /**

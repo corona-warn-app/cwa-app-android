@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.BuildConfig
+import timber.log.Timber
 
 /**
  * Periodic diagnosis key retrieval work
@@ -29,10 +29,10 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
      */
     override suspend fun doWork(): Result {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
+        if (BuildConfig.DEBUG) Timber.d("Background job started. Run attempt: $runAttemptCount")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
+            if (BuildConfig.DEBUG) Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             return Result.failure()
         }
