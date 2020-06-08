@@ -42,7 +42,7 @@
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
-
+    <!-- Todo move to night colors? -->
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
 

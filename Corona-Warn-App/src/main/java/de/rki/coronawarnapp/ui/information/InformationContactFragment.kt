@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.ui.BaseFragment
@@ -38,6 +39,22 @@ class InformationContactFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setContentDescription()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.informationContactContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.informationContactContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    private fun setContentDescription() {
+        val backButtonString: String = getString(R.string.button_back)
+        binding.informationContactHeader.headerToolbar.setNavigationContentDescription(backButtonString)
     }
 
     private fun setButtonOnClickListener() {
@@ -45,12 +62,8 @@ class InformationContactFragment : BaseFragment() {
             (activity as MainActivity).goBack()
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
-            CallHelper.call(
-                this,
-                requireContext().getString(
-                    R.string.information_contact_phone_call_number
-                )
-            )
+            val number = getString(R.string.information_contact_phone_call_number)
+            CallHelper.call(this, "tel:$number")
         }
     }
 }
