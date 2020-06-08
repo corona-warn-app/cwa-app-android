@@ -1,6 +1,7 @@
 <resources>
     <!-- spacing, used as reference for everything else -->
     <dimen name="spacing_large">48dp</dimen>
+    <dimen name="spacing_medium">32dp</dimen>
     <dimen name="spacing_normal">24dp</dimen>
     <dimen name="spacing_small">16dp</dimen>
     <dimen name="spacing_tiny">8dp</dimen>

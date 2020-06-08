@@ -74,7 +74,7 @@ fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
         DeviceUIState.PAIRED_POSITIVE_TELETAN,
         DeviceUIState.PAIRED_POSITIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_positive)
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getDrawable(R.drawable.ic_main_illustration_negative)
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_negative)
         DeviceUIState.PAIRED_ERROR -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
         else -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
     }
