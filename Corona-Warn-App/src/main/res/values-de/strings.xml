@@ -591,7 +591,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN-Eingabe"</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">"Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:"</string>
+    <string name="submission_tan_body">"Geben Sie bitte die 10 Stellen der TAN ein, die Ihnen mitgeteilt wurde."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Weiter"</string>
 
@@ -729,8 +729,6 @@
     <string name="submission_status_card_button_unregistered">"Informieren &amp; mitmachen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Ergebnis anzeigen"</string>
-    <!-- XBUT: submission status card show details button -->
-    <string name="submission_status_card_button_show_details">"Details anzeigen"</string>
     <!-- XHED: submission status card positive result title -->
     <string name="submission_status_card_positive_result_title">"Positives Ergebnis"</string>
     <!-- XHED: submission status card positive result subtitle -->

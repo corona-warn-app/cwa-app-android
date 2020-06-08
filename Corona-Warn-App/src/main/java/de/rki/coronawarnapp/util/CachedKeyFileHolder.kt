@@ -76,7 +76,7 @@ object CachedKeyFileHolder {
                 return@withContext getLast3Hours(currentDate)
                     .map { getURLForHour(currentDate.toServerFormat(), it) }
                     .map { url -> async {
-                        return@async WebRequestBuilder.asyncGetKeyFilesFromServer(url)
+                        return@async WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(url)
                     } }.awaitAll()
             } else {
                 throw IllegalStateException(
@@ -152,7 +152,7 @@ object CachedKeyFileHolder {
      */
     private suspend fun String.createDayEntryForUrl() = keyCache.createEntry(
         this.generateCacheKeyFromString(),
-        WebRequestBuilder.asyncGetKeyFilesFromServer(this).toURI(),
+        WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
         DAY
     )
 
@@ -183,13 +183,13 @@ object CachedKeyFileHolder {
      * Get all dates from server based as formatted dates
      */
     private suspend fun getDatesFromServer() =
-        WebRequestBuilder.asyncGetDateIndex()
+        WebRequestBuilder.getInstance().asyncGetDateIndex()
 
     /**
      * Get all hours from server based as formatted dates
      */
     private suspend fun getHoursFromServer(day: Date) =
-        WebRequestBuilder.asyncGetHourIndex(day)
+        WebRequestBuilder.getInstance().asyncGetHourIndex(day)
 
     /**
      * TODO remove before release

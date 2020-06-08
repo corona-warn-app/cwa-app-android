@@ -92,7 +92,7 @@ object NotificationHelper {
     private fun buildNotification(title: String, content: String, visibility: Int): Notification? {
         val builder = NotificationCompat.Builder(CoronaWarnApplication.getAppContext(), channelId)
             .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
             .setVisibility(visibility)
             .setContentIntent(createPendingIntentToMainActivity())
             .setAutoCancel(true)
