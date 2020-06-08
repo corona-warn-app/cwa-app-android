@@ -383,6 +383,21 @@ fun formatStableTextColor(riskLevelScore: Int?): Int =
     )
 
 /**
+ * Formats the risk card divider color depending on risk level
+ * This special handling is required due to light / dark mode differences and switches
+ * between colored / light / dark background
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatStableDividerColor(riskLevelScore: Int?): Int =
+    formatColor(
+        !isTracingOffRiskLevel(riskLevelScore),
+        R.color.colorStableHairlineLight,
+        R.color.colorStableHairlineDark
+    )
+
+/**
  * Formats the risk card icon display of infected contacts recognized
  *
  * @param riskLevelScore
