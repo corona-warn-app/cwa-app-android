@@ -2,7 +2,9 @@ package de.rki.coronawarnapp.util.formatter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
@@ -11,6 +13,8 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
@@ -28,12 +32,12 @@ class FormatterSubmissionHelperTest {
     @MockK
     private lateinit var drawable: Drawable
 
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication.Companion)
         mockkStatic(SpannableStringBuilder::class)
+        mockkStatic(Spannable::class)
 
 
         every { CoronaWarnApplication.getAppContext() } returns context
@@ -70,6 +74,9 @@ class FormatterSubmissionHelperTest {
         every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
         every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
 
+//        every { spannableStringBuilder.append(R.string.test_result_card_virus_name_text.toString()) } returns mockk<SpannableStringBuilder>("1")
+
+//        coEvery { SpannableStringBuilder().append(String()) } returns mockk()
     }
 
     private fun formatTestResultSpinnerVisibleBase(oUiStateState: ApiRequestState?, iResult: Int) {
@@ -180,6 +187,30 @@ class FormatterSubmissionHelperTest {
     private fun formatShowRiskStatusCardBase(oDeviceUIState: DeviceUIState?, iResult: Int) {
         val result = formatShowRiskStatusCard(deviceUiState = oDeviceUIState)
         assertThat(result, `is`(iResult))
+    }
+
+    private fun formatTestResultBase(oUiState: DeviceUIState?) {
+        mockkConstructor(SpannableStringBuilder::class)
+
+        val spannableStringBuilder1 =
+            mockk<SpannableStringBuilder>(R.string.test_result_card_virus_name_text.toString())
+        val spannableStringBuilder2 =
+            mockk<SpannableStringBuilder>(R.string.test_result_card_virus_name_text.toString() + " ")
+        val spannableStringBuilder3 = mockk<SpannableStringBuilder>("result")
+
+        every { SpannableStringBuilder().append(any<String>()) } returns spannableStringBuilder1
+        every { spannableStringBuilder1.append(" ") } returns spannableStringBuilder2
+        every { context.getString(R.string.test_result_card_virus_name_text) } returns R.string.test_result_card_virus_name_text.toString()
+        every {
+            spannableStringBuilder2.append(
+                any<String>(),
+                any<ForegroundColorSpan>(),
+                Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+            )
+        } returns spannableStringBuilder3
+
+        val result = formatTestResult(uiState = oUiState)
+        assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
     }
 
 
@@ -710,6 +741,19 @@ class FormatterSubmissionHelperTest {
         formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
         formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.VISIBLE)
         formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.UNPAIRED, iResult = View.VISIBLE)
+    }
+
+    @Test
+    fun formatTestResult() {
+        formatTestResultBase(oUiState = null)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_NEGATIVE)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_ERROR)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_NO_RESULT)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_POSITIVE)
+        formatTestResultBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN)
+        formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_FINAL)
+        formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_INITIAL)
+        formatTestResultBase(oUiState = DeviceUIState.UNPAIRED)
     }
 
 
