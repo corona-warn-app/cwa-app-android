@@ -66,17 +66,14 @@ class FormatterSubmissionHelperTest {
         every { context.getString(R.string.submission_status_card_body_pending) } returns R.string.submission_status_card_body_pending.toString()
 
         every { context.getString(R.string.submission_status_card_button_show_results) } returns R.string.submission_status_card_button_show_results.toString()
-        every { context.getString(R.string.submission_status_card_button_show_details) } returns R.string.submission_status_card_button_show_details.toString()
-        every { context.getString(R.string.test_result_card_virus_name_text) } returns R.string.test_result_card_virus_name_text.toString()
 
         every { context.getDrawable(R.drawable.ic_main_illustration_pending) } returns drawable
         every { context.getDrawable(R.drawable.ic_main_illustration_negative) } returns drawable
         every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
         every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
 
-//        every { spannableStringBuilder.append(R.string.test_result_card_virus_name_text.toString()) } returns mockk<SpannableStringBuilder>("1")
+        every { context.getDrawable(R.drawable.ic_test_result_illustration_negative) } returns drawable
 
-//        coEvery { SpannableStringBuilder().append(String()) } returns mockk()
     }
 
     private fun formatTestResultSpinnerVisibleBase(oUiStateState: ApiRequestState?, iResult: Int) {
@@ -134,10 +131,6 @@ class FormatterSubmissionHelperTest {
         assertThat(result, `is`(iResult))
     }
 
-    private fun formatSubmissionStatusCardContentButtonTextBase(oUiState: DeviceUIState?, iResult: String) {
-        val result = formatSubmissionStatusCardContentButtonText(uiState = oUiState)
-        assertThat(result, `is`(iResult))
-    }
 
     private fun formatSubmissionStatusCardContentStatusTextVisibleBase(oUiState: DeviceUIState?, iResult: Int) {
         val result = formatSubmissionStatusCardContentStatusTextVisible(uiState = oUiState)
@@ -161,16 +154,11 @@ class FormatterSubmissionHelperTest {
     }
 
     private fun formatSubmissionStatusCardContentVisibleBase(
-        bDeviceRegistered: Boolean?,
-        bUiStateState: ApiRequestState?, iResult: Int
+        oDeviceUiState: DeviceUIState?,
+        iResult: Int
     ) {
         val result =
-            formatSubmissionStatusCardContentVisible(deviceRegistered = bDeviceRegistered, uiStateState = bUiStateState)
-        assertThat(result, `is`(iResult))
-    }
-
-    private fun formatShowSubmissionStatusCardBase(oDeviceUIState: DeviceUIState?, iResult: Int) {
-        val result = formatShowSubmissionStatusCard(deviceUiState = oDeviceUIState)
+            formatSubmissionStatusCardContentVisible(deviceUiState = oDeviceUiState)
         assertThat(result, `is`(iResult))
     }
 
@@ -397,11 +385,11 @@ class FormatterSubmissionHelperTest {
         )
         formatSubmissionStatusCardContentTitleTextBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE,
-            iResult = context.getString(R.string.submission_status_card_title_available)
+            iResult = context.getString(R.string.submission_status_card_title_pending)
         )
         formatSubmissionStatusCardContentTitleTextBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            iResult = context.getString(R.string.submission_status_card_title_available)
+            iResult = context.getString(R.string.submission_status_card_title_pending)
         )
         formatSubmissionStatusCardContentTitleTextBase(
             oUiState = DeviceUIState.SUBMITTED_FINAL,
@@ -437,11 +425,11 @@ class FormatterSubmissionHelperTest {
         )
         formatSubmissionStatusCardContentBodyTextBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE,
-            iResult = context.getString(R.string.submission_status_card_body_positive)
+            iResult = context.getString(R.string.submission_status_card_body_pending)
         )
         formatSubmissionStatusCardContentBodyTextBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            iResult = context.getString(R.string.submission_status_card_body_positive)
+            iResult = context.getString(R.string.submission_status_card_body_pending)
         )
         formatSubmissionStatusCardContentBodyTextBase(
             oUiState = DeviceUIState.SUBMITTED_FINAL,
@@ -454,46 +442,6 @@ class FormatterSubmissionHelperTest {
         formatSubmissionStatusCardContentBodyTextBase(
             oUiState = DeviceUIState.UNPAIRED,
             iResult = context.getString(R.string.submission_status_card_body_pending)
-        )
-    }
-
-    @Test
-    fun formatSubmissionStatusCardContentButtonText() {
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = null,
-            iResult = context.getString(R.string.submission_status_card_button_show_details)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.PAIRED_NEGATIVE,
-            iResult = context.getString(R.string.submission_status_card_button_show_results)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.PAIRED_ERROR,
-            iResult = context.getString(R.string.submission_status_card_button_show_results)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.PAIRED_NO_RESULT,
-            iResult = context.getString(R.string.submission_status_card_button_show_details)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.PAIRED_POSITIVE,
-            iResult = context.getString(R.string.submission_status_card_button_show_results)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            iResult = context.getString(R.string.submission_status_card_button_show_results)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.SUBMITTED_FINAL,
-            iResult = context.getString(R.string.submission_status_card_button_show_details)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.SUBMITTED_INITIAL,
-            iResult = context.getString(R.string.submission_status_card_button_show_details)
-        )
-        formatSubmissionStatusCardContentButtonTextBase(
-            oUiState = DeviceUIState.UNPAIRED,
-            iResult = context.getString(R.string.submission_status_card_button_show_details)
         )
     }
 
@@ -514,11 +462,11 @@ class FormatterSubmissionHelperTest {
         )
         formatSubmissionStatusCardContentStatusTextVisibleBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE,
-            iResult = View.VISIBLE
+            iResult = View.GONE
         )
         formatSubmissionStatusCardContentStatusTextVisibleBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-            iResult = View.VISIBLE
+            iResult = View.GONE
         )
         formatSubmissionStatusCardContentStatusTextVisibleBase(
             oUiState = DeviceUIState.SUBMITTED_FINAL,
@@ -615,84 +563,37 @@ class FormatterSubmissionHelperTest {
 
     @Test
     fun formatSubmissionStatusCardContentVisible() {
+        formatSubmissionStatusCardContentVisibleBase(oDeviceUiState = null, iResult = View.GONE)
         formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = null,
-            bUiStateState = null,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = null,
-            bUiStateState = ApiRequestState.SUCCESS,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = null,
-            bUiStateState = ApiRequestState.STARTED,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = null,
-            bUiStateState = ApiRequestState.IDLE,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = null,
-            bUiStateState = ApiRequestState.FAILED,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = false,
-            bUiStateState = ApiRequestState.SUCCESS,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = false,
-            bUiStateState = ApiRequestState.STARTED,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = false,
-            bUiStateState = ApiRequestState.IDLE,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = false,
-            bUiStateState = ApiRequestState.FAILED,
-            iResult = View.GONE
-        )
-        formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = true,
-            bUiStateState = ApiRequestState.SUCCESS,
+            oDeviceUiState = DeviceUIState.PAIRED_NEGATIVE,
             iResult = View.VISIBLE
         )
         formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = true,
-            bUiStateState = ApiRequestState.STARTED,
+            oDeviceUiState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.VISIBLE
+        )
+        formatSubmissionStatusCardContentVisibleBase(
+            oDeviceUiState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.VISIBLE
+        )
+        formatSubmissionStatusCardContentVisibleBase(
+            oDeviceUiState = DeviceUIState.PAIRED_POSITIVE,
             iResult = View.GONE
         )
         formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = true,
-            bUiStateState = ApiRequestState.IDLE,
+            oDeviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
             iResult = View.GONE
         )
         formatSubmissionStatusCardContentVisibleBase(
-            bDeviceRegistered = true,
-            bUiStateState = ApiRequestState.FAILED,
+            oDeviceUiState = DeviceUIState.SUBMITTED_FINAL,
             iResult = View.GONE
         )
-    }
+        formatSubmissionStatusCardContentVisibleBase(
+            oDeviceUiState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.GONE
+        )
+        formatSubmissionStatusCardContentVisibleBase(oDeviceUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
 
-    @Test
-    fun formatShowSubmissionStatusCard() {
-        formatShowSubmissionStatusCardBase(oDeviceUIState = null, iResult = View.VISIBLE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.VISIBLE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_ERROR, iResult = View.VISIBLE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.VISIBLE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_POSITIVE, iResult = View.GONE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN, iResult = View.GONE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.VISIBLE)
-        formatShowSubmissionStatusCardBase(oDeviceUIState = DeviceUIState.UNPAIRED, iResult = View.VISIBLE)
     }
 
     @Test
