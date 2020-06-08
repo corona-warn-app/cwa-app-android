@@ -63,14 +63,14 @@ class SettingsFragment : BaseFragment() {
 
     private fun setContentDescription() {
         val backButtonString: String = getString(R.string.button_back)
-        binding.settingsHeader.headerToolbar.setNavigationContentDescription(backButtonString)
+        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {
         val tracingRow = binding.settingsTracing.settingsRow
         val notificationRow = binding.settingsNotifications.settingsRow
         val resetRow = binding.settingsReset
-        val goBack = binding.settingsHeader.headerToolbar
+        val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
             doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsResetFragment()

@@ -67,6 +67,9 @@ class RiskDetailsFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListeners() {
+        binding.riskDetailsHeaderButtonBack.setOnClickListener {
+            (activity as MainActivity).goBack()
+        }
         binding.riskDetailsButtonUpdate.setOnClickListener {
             tracingViewModel.refreshDiagnosisKeys()
             settingsViewModel.updateManualKeyRetrievalEnabled(false)
@@ -75,9 +78,6 @@ class RiskDetailsFragment : BaseFragment() {
             doNavigate(
                 RiskDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
-        }
-        binding.riskDetailsToolbar.setNavigationOnClickListener {
-            (activity as MainActivity).goBack()
         }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
+import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
@@ -313,7 +314,7 @@ fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: 
  * @param riskLevelScore
  * @return
  */
-fun formatRiskColor(riskLevelScore: Int?): ColorStateList? {
+fun formatRiskColorStateList(riskLevelScore: Int?): ColorStateList? {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> appContext.getColorStateList(R.color.card_increased)
@@ -322,6 +323,23 @@ fun formatRiskColor(riskLevelScore: Int?): ColorStateList? {
             appContext.getColorStateList(R.color.card_no_calculation)
         RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColorStateList(R.color.card_low)
         else -> appContext.getColorStateList(R.color.card_unknown)
+    }
+}
+
+/**
+ * Formats the risk card colors for default and pressed states depending on risk level
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatRiskColor(riskLevelScore: Int?): Int? {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorSemanticHighRisk)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> appContext.getColor(R.color.colorSemanticUnknownRisk)
+        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorSemanticLowRisk)
+        else -> appContext.getColor(R.color.colorSemanticNeutralRisk)
     }
 }
 
@@ -346,25 +364,8 @@ fun formatStableIconColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
         R.color.colorStableLight,
-        R.color.colorTextPrimary1
+        R.color.colorSemanticNeutralRisk
     )
-
-/**
- * Formats the risk card back button color for default and pressed states depending on risk level
- * This special handling is required due to light / dark mode differences and switches
- * between colored / light / dark background
- *
- * @param riskLevelScore
- * @return
- */
-fun formatStableBackButtonIcon(riskLevelScore: Int?): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (isTracingOffRiskLevel(riskLevelScore)) {
-        appContext.getDrawable(R.drawable.ic_close_dark)
-    } else {
-        appContext.getDrawable(R.drawable.ic_close_light)
-    }
-}
 
 /**
  * Formats the risk card text color depending on risk level
@@ -382,13 +383,19 @@ fun formatStableTextColor(riskLevelScore: Int?): Int =
     )
 
 /**
- * Formats the risk card back button depending on current view
+ * Formats the risk card divider color depending on risk level
+ * This special handling is required due to light / dark mode differences and switches
+ * between colored / light / dark background
  *
- * @param showDetails
+ * @param riskLevelScore
  * @return
  */
-fun formatRiskButtonBackVisibility(showDetails: Boolean): Int =
-    formatVisibility(showDetails)
+fun formatStableDividerColor(riskLevelScore: Int?): Int =
+    formatColor(
+        !isTracingOffRiskLevel(riskLevelScore),
+        R.color.colorStableHairlineLight,
+        R.color.colorStableHairlineDark
+    )
 
 /**
  * Formats the risk card icon display of infected contacts recognized
@@ -424,6 +431,23 @@ fun formatButtonEnableTracingVisibility(
 fun formatRiskDetailsButtonEnableTracingVisibility(
     riskLevelScore: Int?
 ): Int = formatVisibility(isTracingOffRiskLevel(riskLevelScore))
+
+/**
+ * Formats the risk details button display for enable tracing depending on risk level
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatRiskDetailsButtonVisibility(
+    riskLevelScore: Int?,
+    isBackgroundJobEnabled: Boolean?
+): Int = formatVisibility(
+    formatRiskDetailsButtonEnableTracingVisibility(riskLevelScore) == View.VISIBLE ||
+            formatDetailsButtonUpdateVisibility(
+                isBackgroundJobEnabled,
+                riskLevelScore
+            ) == View.VISIBLE
+)
 
 /**
  * Formats the risk card button display for manual updates depending on risk level,

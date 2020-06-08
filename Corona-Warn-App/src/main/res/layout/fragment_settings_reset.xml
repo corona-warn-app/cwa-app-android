@@ -54,8 +54,8 @@
                     app:buttonText="@{@string/settings_tracing_status_connection_button}"
                     app:headline="@{@string/settings_reset_headline_keys}"
                     app:icon="@{@drawable/ic_settings_reset_circle}"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/settings_reset_header_details" />
 
                 <androidx.constraintlayout.widget.Guideline
@@ -71,6 +71,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+                <include layout="@layout/merge_guidelines_card" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -56,7 +56,7 @@ class SettingsResetFragment : BaseFragment() {
         binding.settingsResetButtonCancel.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.settingsResetHeader.headerToolbar.setNavigationOnClickListener {
+        binding.settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.settingsResetKeys.tracingStatusCardButton.setOnClickListener {

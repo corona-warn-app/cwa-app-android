@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@{FormatterRiskHelper.formatRiskShape(showDetails)}"
-        android:backgroundTint="@{FormatterRiskHelper.formatRiskColor(tracingViewModel.riskLevel)}"
+        android:backgroundTint="@{FormatterRiskHelper.formatRiskColorStateList(tracingViewModel.riskLevel)}"
         android:focusable="true">
 
         <include
@@ -159,15 +159,15 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <de.rki.coronawarnapp.ui.view.CircleProgress
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        app:circleColor="@color/colorStableMedium"
-                        app:circleWidth="5"
+                        android:layout_width="@dimen/circle_small"
+                        android:layout_height="@dimen/circle_small"
+                        app:circleColor="@color/colorStableHairlineLight"
                         app:disableText="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:circleWidth="@dimen/circle_small_width"
                         app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}"
                         app:progressColor="@color/colorStableLight" />
 
@@ -217,6 +217,7 @@
                     layout="@layout/include_divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
+                    app:dividerColor="@{FormatterRiskHelper.formatStableDividerColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
