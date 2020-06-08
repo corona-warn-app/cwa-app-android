@@ -1,6 +1,7 @@
 <resources>
     <!-- spacing, used as reference for everything else -->
     <dimen name="spacing_large">48dp</dimen>
+    <dimen name="spacing_medium">32dp</dimen>
     <dimen name="spacing_normal">24dp</dimen>
     <dimen name="spacing_small">16dp</dimen>
     <dimen name="spacing_tiny">8dp</dimen>
@@ -87,4 +88,6 @@
     <!-- Submission QR Code Scan -->
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
     <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
+
+    <dimen name="no_padding">0dp</dimen>
 </resources>

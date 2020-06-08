@@ -38,7 +38,7 @@
                 style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/submission_contact_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_headline"
                 app:step_entry_final="false"
-                app:step_entry_icon="@drawable/ic_step_1"
+                app:step_entry_icon="@drawable/ic_main_overview_1"
                 android:contentDescription="@string/submission_contact_step_1_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,7 +109,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_step_1"
                 app:step_entry_final="true"
-                app:step_entry_icon="@drawable/ic_step_2"
+                app:step_entry_icon="@drawable/ic_main_overview_2">
                 android:contentDescription="@string/submission_contact_step_2_content">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
