@@ -8,8 +8,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/submission_intro_hero_illustration"
@@ -24,7 +23,6 @@
 
             <TextView
                 android:id="@+id/submission_intro_headline"
-                android:focusable="false"
                 style="@style/headline4"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -36,7 +34,6 @@
 
             <TextView
                 android:id="@+id/submission_intro_text"
-                android:focusable="false"
                 style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -49,7 +46,6 @@
             <TextView
                 android:id="@+id/submission_intro_text_enum"
                 style="@style/subtitle"
-                android:focusable="false"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"

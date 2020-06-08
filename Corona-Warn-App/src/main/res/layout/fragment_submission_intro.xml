@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
-        android:id="@+id/submission_intro_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:contentDescription="@string/submission_intro_accessibility_title"
         tools:context=".ui.submission.SubmissionIntroFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,8 +22,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_intro_title}"
-               />
+                app:title="@{@string/submission_intro_title}" />
 
             <include
                 layout="@layout/include_submission_intro"
@@ -34,8 +31,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/guideline_action"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_header"
-              />
+                app:layout_constraintTop_toBottomOf="@+id/submission_intro_header" />
 
             <Button
                 android:id="@+id/submission_intro_button_next"
