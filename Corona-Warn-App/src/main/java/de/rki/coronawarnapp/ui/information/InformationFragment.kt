@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.BaseFragment
@@ -38,6 +39,22 @@ class InformationFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setContentDescription()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    private fun setContentDescription() {
+        val backButtonString: String = getString(R.string.button_back)
+        binding.informationHeader.headerToolbar.setNavigationContentDescription(backButtonString)
     }
 
     private fun setButtonOnClickListener() {

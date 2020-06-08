@@ -15,14 +15,17 @@
 
 
     <ScrollView
+        android:id="@+id/submission_tan_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:contentDescription="@string/submission_tan_accessibility_title"
         tools:context=".ui.submission.SubmissionTanFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true">
 
             <include
                 android:id="@+id/submission_tan_header"
@@ -33,7 +36,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_tan_title}" />
+                app:title="@{@string/submission_tan_title}"
+                android:focusable="false"/>
 
             <TextView
                 android:id="@+id/submission_tan_body"
@@ -44,7 +48,8 @@
                 android:text="@string/submission_tan_body"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/submission_tan_header" />
+                app:layout_constraintTop_toBottomOf="@id/submission_tan_header"
+                android:focusable="false"/>
 
             <de.rki.coronawarnapp.ui.submission.TanInput
                 android:id="@+id/submission_tan_input"
@@ -53,7 +58,7 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_tan_body" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_tan_body"/>
 
             <TextView
                 android:id="@+id/submission_tan_character_error"

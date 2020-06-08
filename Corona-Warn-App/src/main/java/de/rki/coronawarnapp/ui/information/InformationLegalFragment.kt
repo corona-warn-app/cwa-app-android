@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationLegalBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -36,6 +38,22 @@ class InformationLegalFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setContentDescription()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.informationLegalContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.informationLegalContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    private fun setContentDescription() {
+        val backButtonString: String = getString(R.string.button_back)
+        binding.informationLegalHeader.headerToolbar.setNavigationContentDescription(backButtonString)
     }
 
     private fun setButtonOnClickListener() {
