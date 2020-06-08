@@ -251,6 +251,8 @@
 
     <!-- XHED: App overview page title -->
     <string name="main_overview_title">Überblick</string>
+    <!-- XACT: main overview page title -->
+    <string name="main_overview_accessibility_title">Überblick</string>
     <!-- XHED: App overview subtitle for tracing explanation-->
     <string name="main_overview_subtitle_tracing">Risiko-Ermittlung</string>
     <!-- YTXT: App overview body text about tracing -->
