@@ -45,7 +45,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_body"
                 android:focusable="false"/>
 
-
             <de.rki.coronawarnapp.ui.view.StepEntry
                 android:id="@+id/submission_contact_step_1"
                 android:layout_width="@dimen/match_constraint"
@@ -72,7 +71,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
 
                     <TextView
                         android:id="@+id/submission_contact_step_1_number"
