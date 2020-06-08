@@ -127,6 +127,13 @@
     </string>
 
     <!-- ####################################
+                     Generics
+    ###################################### -->
+
+    <!-- XACT: back description for screen readers -->
+    <string name="accessibility_back">Zurück</string>
+
+    <!-- ####################################
                      Menu
     ###################################### -->
 

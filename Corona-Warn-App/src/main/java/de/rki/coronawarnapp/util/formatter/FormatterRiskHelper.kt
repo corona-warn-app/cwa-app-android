@@ -313,7 +313,7 @@ fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: 
  * @param riskLevelScore
  * @return
  */
-fun formatRiskColor(riskLevelScore: Int?): ColorStateList? {
+fun formatRiskColorStateList(riskLevelScore: Int?): ColorStateList? {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> appContext.getColorStateList(R.color.card_increased)
@@ -322,6 +322,23 @@ fun formatRiskColor(riskLevelScore: Int?): ColorStateList? {
             appContext.getColorStateList(R.color.card_no_calculation)
         RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColorStateList(R.color.card_low)
         else -> appContext.getColorStateList(R.color.card_unknown)
+    }
+}
+
+/**
+ * Formats the risk card colors for default and pressed states depending on risk level
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatRiskColor(riskLevelScore: Int?): Int? {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorSemanticHighRisk)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> appContext.getColor(R.color.colorSemanticUnknownRisk)
+        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorSemanticLowRisk)
+        else -> appContext.getColor(R.color.colorSemanticNeutralRisk)
     }
 }
 
@@ -348,23 +365,6 @@ fun formatStableIconColor(riskLevelScore: Int?): Int =
         R.color.colorStableLight,
         R.color.colorTextPrimary1
     )
-
-/**
- * Formats the risk card back button color for default and pressed states depending on risk level
- * This special handling is required due to light / dark mode differences and switches
- * between colored / light / dark background
- *
- * @param riskLevelScore
- * @return
- */
-fun formatStableBackButtonIcon(riskLevelScore: Int?): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (isTracingOffRiskLevel(riskLevelScore)) {
-        appContext.getDrawable(R.drawable.ic_close_dark)
-    } else {
-        appContext.getDrawable(R.drawable.ic_close_light)
-    }
-}
 
 /**
  * Formats the risk card text color depending on risk level

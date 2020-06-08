@@ -74,7 +74,7 @@ class InformationFragment : BaseFragment() {
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
             )
         }
-        binding.informationHeader.headerToolbar.setNavigationOnClickListener {
+        binding.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

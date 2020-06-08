@@ -39,7 +39,7 @@ class InformationPrivacyFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationPrivacyHeader.headerToolbar.setNavigationOnClickListener {
+        binding.informationPrivacyHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

@@ -39,7 +39,7 @@ class InformationAboutFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationAboutHeader.headerToolbar.setNavigationOnClickListener {
+        binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }
