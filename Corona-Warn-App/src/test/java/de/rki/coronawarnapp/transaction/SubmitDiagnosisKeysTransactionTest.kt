@@ -4,9 +4,11 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.storage.LocalData
 import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.coVerifyOrder
+import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.slot
@@ -23,10 +25,11 @@ class SubmitDiagnosisKeysTransactionTest {
 
     @Before
     fun setUp() {
+        mockkObject(LocalData)
         mockkObject(SubmissionService)
         mockkObject(InternalExposureNotificationClient)
         mockkObject(DiagnosisKeyService)
-
+        every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
         coEvery { SubmissionService.asyncRequestAuthCode(any()) } returns authString
     }
 
@@ -38,8 +41,9 @@ class SubmitDiagnosisKeysTransactionTest {
         runBlocking {
             SubmitDiagnosisKeysTransaction.start("123")
 
-            coVerify {
+            coVerifyOrder {
                 DiagnosisKeyService.asyncSubmitKeys(authString, listOf())
+                SubmissionService.submissionSuccessful()
             }
         }
     }
@@ -59,8 +63,9 @@ class SubmitDiagnosisKeysTransactionTest {
         runBlocking {
             SubmitDiagnosisKeysTransaction.start("123")
 
-            coVerify {
+            coVerifyOrder {
                 DiagnosisKeyService.asyncSubmitKeys(authString, any())
+                SubmissionService.submissionSuccessful()
             }
             assertThat(testList.isCaptured, `is`(true))
             assertThat(testList.captured.size, `is`(1))
