@@ -38,94 +38,102 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/include"
             layout="@layout/include_submission_test_result"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
+            android:layout_marginBottom="@dimen/button_padding_top_bottom"
             android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.uiStateState)}"
-            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_container"
+            app:layout_constraintBottom_toTopOf="@+id/include_submission_test_result_buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_test_result_header"
             app:submissionViewModel="@{submissionViewModel}" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/submission_test_result_button_container"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/include_submission_test_result_buttons"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterSubmissionHelper.formatTestResultVisible(submissionViewModel.uiStateState)}"
+
+            app:barrierAllowsGoneWidgets="false"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="submission_test_result_button_pending_refresh,submission_test_result_button_invalid_remove_test,submission_test_result_button_positive_continue,submission_test_result_button_negative_remove_test" />
+
+        <Button
+            android:id="@+id/submission_test_result_button_pending_refresh"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_pending_refresh_button"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
+            app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_pending_remove_test"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_action_large" />
+
+        <Button
+            android:id="@+id/submission_test_result_button_pending_remove_test"
+            style="@style/buttonLight"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_pending_remove_test_button"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_button_pending_refresh" />
 
-            <Button
-                android:id="@+id/submission_test_result_button_pending_refresh"
-                style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:text="@string/submission_test_result_pending_refresh_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
-                app:layout_constraintBottom_toTopOf="@+id/submission_test_result_button_pending_remove_test"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/submission_test_result_button_invalid_remove_test"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_invalid_remove_test_button"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.deviceUiState)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="@id/guideline_action" />
 
-            <Button
-                android:id="@+id/submission_test_result_button_pending_remove_test"
-                style="@style/buttonLight"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:text="@string/submission_test_result_pending_remove_test_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPendingStepsVisible(submissionViewModel.deviceUiState)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/submission_test_result_button_positive_continue"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_positive_continue_button"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.deviceUiState)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="@id/guideline_action" />
 
-            <Button
-                android:id="@+id/submission_test_result_button_invalid_remove_test"
-                style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:text="@string/submission_test_result_invalid_remove_test_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultInvalidStepsVisible(submissionViewModel.deviceUiState)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/submission_test_result_button_positive_continue"
-                style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:text="@string/submission_test_result_positive_continue_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultPositiveStepsVisible(submissionViewModel.deviceUiState)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/submission_test_result_button_negative_remove_test"
-                style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:text="@string/submission_test_result_negative_remove_test_button"
-                android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.deviceUiState)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/submission_test_result_button_negative_remove_test"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_negative_remove_test_button"
+            android:visibility="@{FormatterSubmissionHelper.formatTestResultNegativeStepsVisible(submissionViewModel.deviceUiState)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="@id/guideline_action" />
 
         <include layout="@layout/merge_guidelines_side" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_action_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action_large" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
