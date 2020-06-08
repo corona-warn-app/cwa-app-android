@@ -11,6 +11,7 @@
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>
     <color name="colorSurface2">#434445</color>
+    <color name="colorSurface2Pressed">#565757</color>
     <color name="colorHairline">#4DFFFFFF</color>
 
     <!-- Text -->

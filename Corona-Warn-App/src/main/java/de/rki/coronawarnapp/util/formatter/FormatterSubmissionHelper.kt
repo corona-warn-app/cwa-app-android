@@ -74,7 +74,7 @@ fun formatTestStatusIcon(uiState: DeviceUIState?): Drawable? {
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_test_result_illustration_pending)
         DeviceUIState.PAIRED_POSITIVE_TELETAN,
         DeviceUIState.PAIRED_POSITIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_positive)
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getDrawable(R.drawable.ic_main_illustration_negative)
+        DeviceUIState.PAIRED_NEGATIVE -> appContext.getDrawable(R.drawable.ic_test_result_illustration_negative)
         DeviceUIState.PAIRED_ERROR -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
         else -> appContext.getDrawable(R.drawable.ic_test_result_illustration_invalid)
     }
@@ -166,17 +166,17 @@ fun formatSubmissionStatusCardFetchingVisible(
                     uiStateState == ApiRequestState.FAILED)
 )
 
-fun formatSubmissionStatusCardContentVisible(
-    deviceRegistered: Boolean?,
-    uiStateState: ApiRequestState?
-): Int = formatVisibility(deviceRegistered == true && uiStateState == ApiRequestState.SUCCESS)
+fun formatSubmissionStatusCardUnregisteredVisible(
+    deviceRegistered: Boolean?
+): Int = formatVisibility(deviceRegistered == false)
 
-fun formatShowSubmissionStatusCard(deviceUiState: DeviceUIState?): Int =
-    formatVisibility(
-        deviceUiState != DeviceUIState.PAIRED_POSITIVE &&
-                deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
-                deviceUiState != DeviceUIState.SUBMITTED_FINAL
-    )
+fun formatSubmissionStatusCardContentVisible(
+    deviceUiState: DeviceUIState?
+): Int = formatVisibility(
+    deviceUiState == DeviceUIState.PAIRED_ERROR ||
+            deviceUiState == DeviceUIState.PAIRED_NEGATIVE ||
+            deviceUiState == DeviceUIState.PAIRED_NO_RESULT
+)
 
 fun formatShowSubmissionStatusPositiveCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(

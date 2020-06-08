@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.http
+package de.rki.coronawarnapp.http.config
 
 import de.rki.coronawarnapp.BuildConfig
 

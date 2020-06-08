@@ -20,6 +20,14 @@
             type="String" />
 
         <variable
+            name="headlineCard"
+            type="String" />
+
+        <variable
+            name="bodyCard"
+            type="String" />
+
+        <variable
             name="subtitle"
             type="String" />
 
@@ -30,10 +38,10 @@
         <variable
             name="bodyEmphasized"
             type="String" />
+
     </data>
 
     <ScrollView
-        style="@style/fadingScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -101,6 +109,19 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body"
                 tools:text="@string/onboarding_body_emphasized" />
+
+            <include
+                android:id="@+id/onboarding_card"
+                layout="@layout/include_tracing_status_card"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterHelper.formatVisibilityText(headlineCard)}"
+                app:body="@{bodyCard}"
+                app:headline="@{headlineCard}"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_body_emphasized" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"

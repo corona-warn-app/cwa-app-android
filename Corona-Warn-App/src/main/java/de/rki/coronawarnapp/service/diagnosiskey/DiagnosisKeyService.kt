@@ -48,7 +48,7 @@ object DiagnosisKeyService {
      */
     suspend fun asyncSubmitKeys(authCode: String, keysToReport: List<KeyExportFormat.TemporaryExposureKey>) {
         Log.d(TAG, "Diagnosis Keys will be submitted.")
-        WebRequestBuilder.asyncSubmitKeysToServer(
+        WebRequestBuilder.getInstance().asyncSubmitKeysToServer(
             authCode,
             false,
             keysToReport

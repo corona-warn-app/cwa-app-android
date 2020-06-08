@@ -258,7 +258,9 @@ class TestRiskLevelCalculation : Fragment() {
                             "Tracing Duration: " +
                             "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
                             "Tracing Duration in last 14 days: " +
-                            "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days"
+                            "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days \n" +
+                            "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
+
                     binding.labelRiskScore.text = riskAsString
 
                     val lowClass =
