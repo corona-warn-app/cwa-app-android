@@ -77,13 +77,12 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
-        main_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onStart() {
         super.onStart()
-        main_scrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
+        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)    }
 
     private fun setContentDescription() {
         main_header_share.setContentDescription("Teilen")

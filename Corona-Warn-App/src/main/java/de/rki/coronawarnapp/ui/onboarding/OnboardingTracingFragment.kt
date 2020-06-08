@@ -67,8 +67,6 @@ class OnboardingTracingFragment : BaseFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-<<<<<<< HEAD
-        onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onStart() {
@@ -79,9 +77,7 @@ class OnboardingTracingFragment : BaseFragment(),
     override fun onResume() {
         super.onResume()
         onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-=======
         resetTracing()
->>>>>>> dev
     }
 
     private fun setButtonOnClickListener() {

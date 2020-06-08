@@ -41,16 +41,15 @@ class OnboardingFragment : BaseFragment() {
                 OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
             )
         }
-        onboarding_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onStart() {
         super.onStart()
-        onboarding_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        onboarding_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 }

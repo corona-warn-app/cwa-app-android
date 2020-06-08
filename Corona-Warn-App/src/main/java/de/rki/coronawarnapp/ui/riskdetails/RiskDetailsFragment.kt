@@ -51,12 +51,11 @@ class RiskDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListeners()
-        risk_details_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onStart() {
         super.onStart()
-        risk_details_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
@@ -66,7 +65,7 @@ class RiskDetailsFragment : BaseFragment() {
         tracingViewModel.refreshExposureSummary()
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
         TimerHelper.checkManualKeyRetrievalTimer()
-        risk_details_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListeners() {
