@@ -11,6 +11,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_legal_container"
+        android:contentDescription="@string/information_legal_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,6 +28,7 @@
             app:title="@{@string/information_legal_title}" />
 
         <ScrollView
+            android:focusable="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:fillViewport="true"

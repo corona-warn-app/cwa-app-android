@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 
@@ -39,5 +40,15 @@ class OnboardingFragment : BaseFragment() {
                 OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
             )
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 }

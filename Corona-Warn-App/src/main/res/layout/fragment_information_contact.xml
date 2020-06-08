@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_contact_container"
+        android:contentDescription="@string/information_contact_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,6 +29,7 @@
             app:layout_constraintTop_toBottomOf="@+id/information_contact_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:focusable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
