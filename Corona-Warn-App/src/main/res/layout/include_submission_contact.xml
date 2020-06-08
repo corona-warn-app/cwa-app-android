@@ -109,7 +109,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_step_1"
                 app:step_entry_final="true"
-                app:step_entry_icon="@drawable/ic_main_overview_2"
+                app:step_entry_icon="@drawable/ic_main_overview_2">
                 android:contentDescription="@string/submission_contact_step_2_content">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
