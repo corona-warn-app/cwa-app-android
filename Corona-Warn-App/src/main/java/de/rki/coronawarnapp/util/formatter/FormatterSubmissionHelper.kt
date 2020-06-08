@@ -166,17 +166,17 @@ fun formatSubmissionStatusCardFetchingVisible(
                     uiStateState == ApiRequestState.FAILED)
 )
 
-fun formatSubmissionStatusCardContentVisible(
-    deviceRegistered: Boolean?,
-    uiStateState: ApiRequestState?
-): Int = formatVisibility(deviceRegistered == true && uiStateState == ApiRequestState.SUCCESS)
+fun formatSubmissionStatusCardUnregisteredVisible(
+    deviceRegistered: Boolean?
+): Int = formatVisibility(deviceRegistered == false)
 
-fun formatShowSubmissionStatusCard(deviceUiState: DeviceUIState?): Int =
-    formatVisibility(
-        deviceUiState != DeviceUIState.PAIRED_POSITIVE &&
-                deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
-                deviceUiState != DeviceUIState.SUBMITTED_FINAL
-    )
+fun formatSubmissionStatusCardContentVisible(
+    deviceUiState: DeviceUIState?
+): Int = formatVisibility(
+    deviceUiState == DeviceUIState.PAIRED_ERROR ||
+            deviceUiState == DeviceUIState.PAIRED_NEGATIVE ||
+            deviceUiState == DeviceUIState.PAIRED_NO_RESULT
+)
 
 fun formatShowSubmissionStatusPositiveCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(

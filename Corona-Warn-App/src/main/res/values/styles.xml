@@ -99,6 +99,10 @@
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
+    <style name="cardNoPadding" parent="card">
+        <item name="android:padding">@dimen/no_padding</item>
+    </style>
+
     <style name="cardTracing">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
