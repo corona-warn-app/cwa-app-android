@@ -6,8 +6,7 @@ import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 
 object ApplicationConfigurationService {
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration {
-        return WebRequestBuilder
-            .asyncGetApplicationConfigurationFromServer()
+        return WebRequestBuilder.getInstance().asyncGetApplicationConfigurationFromServer()
     }
 
     suspend fun asyncRetrieveExposureConfiguration(): ExposureConfiguration =

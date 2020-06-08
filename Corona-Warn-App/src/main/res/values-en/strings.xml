@@ -593,7 +593,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN entry"</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">"The TAN has 7 characters and is case-insensitive.\n\nPlease enter the TAN you were given:"</string>
+    <string name="submission_tan_body">"Please enter the 10 characters of the TAN you were given:"</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Next"</string>
 
