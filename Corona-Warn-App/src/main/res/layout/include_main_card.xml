@@ -106,7 +106,7 @@
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{body}"
                 app:layout_constraintEnd_toStartOf="@+id/main_card_content_illustration"
                 app:layout_constraintStart_toStartOf="parent"

@@ -79,14 +79,14 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_switch_row">
 
                     <include
                         android:id="@+id/settings_tracing_status_bluetooth"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
@@ -100,7 +100,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_connection"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusConnection(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:body="@{@string/settings_tracing_status_connection_body}"
@@ -113,7 +113,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/settings_tracing_status_tracing"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
@@ -145,7 +145,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     style="@style/greyBodyBackground"
@@ -184,6 +183,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+                <include layout="@layout/merge_guidelines_card" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
