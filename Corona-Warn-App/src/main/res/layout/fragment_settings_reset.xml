@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/settings_reset_header"
             layout="@layout/include_header"
@@ -52,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:body="@{@string/settings_reset_body_keys}"
+                    app:buttonText="@{@string/settings_tracing_status_connection_button}"
                     app:headline="@{@string/settings_reset_headline_keys}"
                     app:icon="@{@drawable/ic_settings_reset_circle}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"

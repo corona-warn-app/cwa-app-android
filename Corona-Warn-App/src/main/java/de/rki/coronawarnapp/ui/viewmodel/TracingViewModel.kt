@@ -46,9 +46,6 @@ class TracingViewModel : ViewModel() {
     val activeTracingDaysInRetentionPeriod = TracingRepository.activeTracingDaysInRetentionPeriod
     var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
 
-    // Todo exchange and get the real next update date
-    val nextUpdate = Date()
-
     /**
      * Launches the RiskLevelTransaction in the viewModel scope
      *
@@ -129,5 +126,9 @@ class TracingViewModel : ViewModel() {
         viewModelScope.launch {
             TracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
+    }
+
+    fun refreshLastSuccessfullyCalculatedScore() {
+        RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
     }
 }

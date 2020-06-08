@@ -76,6 +76,7 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
+        tracingViewModel.refreshLastSuccessfullyCalculatedScore()
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
