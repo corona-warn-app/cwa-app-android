@@ -115,7 +115,7 @@ class OnboardingTracingFragment : BaseFragment(),
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     InternalExposureNotificationClient.asyncStop()
                     // Reset initial activation timestamp
-                   LocalData.initialTracingActivationTimestamp(0L)
+                    LocalData.initialTracingActivationTimestamp(0L)
                 }
             } catch (exception: Exception) {
                 exception.report(
