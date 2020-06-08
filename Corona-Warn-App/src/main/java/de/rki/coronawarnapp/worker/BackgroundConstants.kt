@@ -69,7 +69,6 @@ object BackgroundConstants {
      */
     const val DIAGNOSIS_KEY_PERIODIC_KIND_DELAY = 1L
 
-
     /**
      * Kind initial delay in minutes for periodic work for accessibility reason
      *
