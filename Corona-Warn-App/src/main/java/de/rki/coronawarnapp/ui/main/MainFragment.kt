@@ -77,25 +77,28 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.mainTest.submissionStatusCardFetching.submissionStatusCardFetchingButton.setOnClickListener {
+        binding.mainTestUnregistered.submissionStatusCardUnregistered.setOnClickListener {
+            toSubmissionIntro()
+        }
+        binding.mainTestUnregistered.submissionStatusCardUnregisteredButton.setOnClickListener {
+            toSubmissionIntro()
+        }
+        binding.mainTestDone.submissionStatusCardDone.setOnClickListener {
             doNavigate(
-                MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
+                MainFragmentDirections.actionMainFragmentToSubmissionDoneFragment()
             )
         }
-        binding.mainTest.submissionStatusCardContent.submissionStatusCardContentButton.setOnClickListener {
-            doNavigate(
-                MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
-            )
+        binding.mainTestResult.submissionStatusCardContent.setOnClickListener {
+            toSubmissionResult()
         }
-        binding.mainTestPositive.submissionStatusCardPositiveResultShowButton.setOnClickListener {
-            doNavigate(
-                MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
-            )
+        binding.mainTestResult.submissionStatusCardContentButton.setOnClickListener {
+            toSubmissionResult()
         }
-        binding.mainTest.submissionStatusCardUnregistered.submissionStatusCardUnregisteredButton.setOnClickListener {
-            doNavigate(
-                MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-            )
+        binding.mainTestPositive.submissionStatusCardPositive.setOnClickListener {
+            toSubmissionResult()
+        }
+        binding.mainTestPositive.submissionStatusCardPositiveButton.setOnClickListener {
+            toSubmissionResult()
         }
         binding.mainTracing.setOnClickListener {
             doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
@@ -119,6 +122,18 @@ class MainFragment : BaseFragment() {
         binding.mainHeaderOptionsMenu.buttonIcon.setOnClickListener {
             showPopup(it)
         }
+    }
+
+    private fun toSubmissionResult() {
+        doNavigate(
+            MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
+        )
+    }
+
+    private fun toSubmissionIntro() {
+        doNavigate(
+            MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
+        )
     }
 
     private fun showPopup(view: View) {

@@ -143,7 +143,7 @@
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App."</string>
-    <!-- NOTR todo insert english link in translation file http://www.bundesregierung.de/corona-warn-app-faq-englisch -->
+    <!-- NOTR -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
 
     <!-- ####################################
@@ -457,8 +457,8 @@
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"+49 (0)800 7540001"</string>
-    <!-- MOTR todo phone number to be called replace in english file-->
-    <string name="information_contact_phone_call_number">"Tel:+49 800 7540001"</string>
+    <!-- MOTR DO NOT TOUCH THE "tel:" DURING TRANSLATION, ONLY UPDATE THE NUMBER todo phone number to be called replace in english file -->
+    <string name="information_contact_phone_call_number">"tel:+49 800 7540001"</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Unser Kundenservice ist für Sie da."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -591,7 +591,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN-Eingabe"</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">"Die TAN ist 7-stellig und Groß- und Kleinschreibung muss nicht beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:"</string>
+    <string name="submission_tan_body">"Geben Sie bitte die 10 Stellen der TAN ein, die Ihnen mitgeteilt wurde."</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Weiter"</string>
 
@@ -729,8 +729,6 @@
     <string name="submission_status_card_button_unregistered">"Informieren &amp; mitmachen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Ergebnis anzeigen"</string>
-    <!-- XBUT: submission status card show details button -->
-    <string name="submission_status_card_button_show_details">"Details anzeigen"</string>
     <!-- XHED: submission status card positive result title -->
     <string name="submission_status_card_positive_result_title">"Positives Ergebnis"</string>
     <!-- XHED: submission status card positive result subtitle -->

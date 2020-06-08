@@ -2,8 +2,10 @@
 
 package de.rki.coronawarnapp.util.formatter
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.text.format.DateUtils
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
@@ -191,6 +193,15 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     }
 }
 
+fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
+    DateUtils.getRelativeDateTimeString(
+        appContext,
+        date.time,
+        DateUtils.DAY_IN_MILLIS,
+        DateUtils.DAY_IN_MILLIS * 2,
+        0
+    )
+
 /**
  * Formats the risk card text display of the last time diagnosis keys were
  * successfully fetched from the server
@@ -212,9 +223,7 @@ fun formatTimeFetched(
             if (lastTimeDiagnosisKeysFetched != null) {
                 appContext.getString(
                     R.string.risk_card_body_time_fetched,
-                    DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(
-                        lastTimeDiagnosisKeysFetched
-                    )
+                    formatRelativeDateTimeString(appContext, lastTimeDiagnosisKeysFetched)
                 )
             } else {
                 appContext.getString(R.string.risk_card_body_not_yet_fetched)
@@ -229,10 +238,7 @@ fun formatTimeFetched(
                     if (lastTimeDiagnosisKeysFetched != null) {
                         appContext.getString(
                             R.string.risk_card_body_time_fetched,
-                            DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
-                                .format(
-                                    lastTimeDiagnosisKeysFetched
-                                )
+                            formatRelativeDateTimeString(appContext, lastTimeDiagnosisKeysFetched)
                         )
                     } else {
                         appContext.getString(R.string.risk_card_body_not_yet_fetched)

@@ -36,6 +36,9 @@
             android:id="@+id/action_mainFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment" />
         <action
+            android:id="@+id/action_mainFragment_to_submissionDoneFragment"
+            app:destination="@id/submissionDoneFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
