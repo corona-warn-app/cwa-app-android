@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.ui.BaseFragment
-import kotlinx.android.synthetic.main.fragment_onboarding_test.*
 
 /**
  * This fragment informs the user about test results.
@@ -41,12 +40,12 @@ class OnboardingTestFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        onboarding_test_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTestContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        onboarding_test_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTestContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {

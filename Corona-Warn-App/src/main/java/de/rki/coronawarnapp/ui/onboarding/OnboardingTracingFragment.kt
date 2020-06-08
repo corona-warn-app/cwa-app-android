@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.util.DialogHelper
-import kotlinx.android.synthetic.main.fragment_onboarding_tracing.*
 import kotlinx.coroutines.launch
 
 /**
@@ -71,12 +70,12 @@ class OnboardingTracingFragment : BaseFragment(),
 
     override fun onStart() {
         super.onStart()
-        onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        onboarding_tracing_container.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         resetTracing()
     }
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.ui.BaseFragment
-import kotlinx.android.synthetic.main.fragment_onboarding_privacy.*
 
 /**
  * This fragment informs the user regarding privacy.

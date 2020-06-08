@@ -16,9 +16,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
-import kotlinx.android.synthetic.main.fragment_onboarding_notifications.*
-import kotlinx.android.synthetic.main.fragment_submission_tan.*
-
 /**
  * Fragment for TAN entry
  */

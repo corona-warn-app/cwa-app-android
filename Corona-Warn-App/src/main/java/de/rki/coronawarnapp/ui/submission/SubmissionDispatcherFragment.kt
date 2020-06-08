@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
-import kotlinx.android.synthetic.main.fragment_submission_dispatcher.*
-import kotlinx.android.synthetic.main.include_dispatcher_card.*
 
 
 class SubmissionDispatcherFragment : BaseFragment() {
@@ -41,7 +39,6 @@ class SubmissionDispatcherFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
     }
 
     override fun onStart() {
@@ -53,11 +50,6 @@ class SubmissionDispatcherFragment : BaseFragment() {
         super.onResume()
         binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
-
-    private fun setContentDescription() {
-        dispatcher_card_icon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO)
-    }
-
 
     private fun setButtonOnClickListener() {
         binding.submissionDispatcherHeader.headerToolbar.setNavigationOnClickListener {

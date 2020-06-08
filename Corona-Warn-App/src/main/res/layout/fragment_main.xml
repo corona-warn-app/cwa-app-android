@@ -58,7 +58,6 @@
                 <include
                     android:id="@+id/main_header_share"
                     layout="@layout/include_button_icon"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:icon="@{@drawable/ic_main_share}"

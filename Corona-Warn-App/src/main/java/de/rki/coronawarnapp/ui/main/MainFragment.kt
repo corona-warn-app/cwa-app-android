@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.OpenUrlHelper
-import kotlinx.android.synthetic.main.fragment_main.*
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -82,7 +81,8 @@ class MainFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)    }
+        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
 
     private fun setContentDescription() {
         val shareButtonString: String = getString(R.string.button_share)

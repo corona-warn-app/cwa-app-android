@@ -9,8 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
 import de.rki.coronawarnapp.ui.BaseFragment
-import kotlinx.android.synthetic.main.fragment_onboarding_notifications.*
-import kotlinx.android.synthetic.main.fragment_onboarding_test.*
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.

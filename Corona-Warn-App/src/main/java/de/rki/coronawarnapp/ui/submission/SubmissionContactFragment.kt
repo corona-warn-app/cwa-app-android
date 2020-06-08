@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.CallHelper
-import kotlinx.android.synthetic.main.fragment_submission_contact.*
 
 /**
  * The [SubmissionContactFragment] allows requesting a teletan via phone

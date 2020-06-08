@@ -12,8 +12,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import kotlinx.android.synthetic.main.fragment_risk_details.*
-
 /**
  * This is the detail view of the risk card if additional information for the user.
  *
