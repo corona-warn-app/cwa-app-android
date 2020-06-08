@@ -67,7 +67,7 @@ object BackgroundWorkScheduler {
      * @see getDiagnosisKeyRetrievalMaximumCalls
      */
     private fun getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(): Long =
-        (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisKeyRetrievalMaximumCalls()).toLong()
+            (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisKeyRetrievalMaximumCalls()).toLong()
 
     /**
      * Calculate the time for diagnosis key retrieval periodic work
@@ -78,7 +78,7 @@ object BackgroundWorkScheduler {
      * @see getDiagnosisTestResultRetrievalMaximumCalls
      */
     private fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(): Long =
-        (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisTestResultRetrievalMaximumCalls()).toLong()
+            (BackgroundConstants.MINUTES_IN_DAY / getDiagnosisTestResultRetrievalMaximumCalls()).toLong()
 
     /**
      * Get maximum calls count to Google API
@@ -89,8 +89,8 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY
      */
     private fun getDiagnosisKeyRetrievalMaximumCalls() =
-        BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
-            .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
+            BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
+                    .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
     /**
      * Get maximum calls count in a Day
@@ -101,7 +101,7 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY
      */
     private fun getDiagnosisTestResultRetrievalMaximumCalls() =
-        BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
+            BackgroundConstants.DIAGNOSIS_TEST_RESULT_RETRIEVAL_TRIES_PER_DAY
 
     /**
      * Work manager instance
@@ -119,8 +119,8 @@ object BackgroundWorkScheduler {
     fun startWorkScheduler() {
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         logWorkActiveStatus(
-            WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
-            isPeriodicWorkActive
+                WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
+                isPeriodicWorkActive
         )
         if (!isPeriodicWorkActive) WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
         if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)) {
@@ -140,8 +140,8 @@ object BackgroundWorkScheduler {
      *
      * @see WorkType
      */
-       fun WorkType.stop(): Operation =
-        workManager.cancelUniqueWork(this.uniqueName)
+        fun WorkType.stop(): Operation =
+            workManager.cancelUniqueWork(this.uniqueName)
 
     /**
      * Checks if defined work is active
@@ -180,7 +180,7 @@ object BackgroundWorkScheduler {
     fun stopWorkScheduler() {
         WorkTag.values().map { workTag: WorkTag ->
             workManager.cancelAllWorkByTag(workTag.tag)
-                .also { it.logOperationCancelByTag(workTag) }
+                    .also { it.logOperationCancelByTag(workTag) }
         }
     }
 
@@ -224,9 +224,9 @@ object BackgroundWorkScheduler {
      * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
      */
     private fun enqueueDiagnosisKeyBackgroundPeriodicWork() = workManager.enqueueUniquePeriodicWork(
-        WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.uniqueName,
-        ExistingPeriodicWorkPolicy.REPLACE,
-        buildDiagnosisKeyRetrievalPeriodicWork()
+            WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.uniqueName,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            buildDiagnosisKeyRetrievalPeriodicWork()
     ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK) }
 
     /**
@@ -238,9 +238,9 @@ object BackgroundWorkScheduler {
      * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK
      */
     private fun enqueueDiagnosisKeyBackgroundOneTimeWork() = workManager.enqueueUniqueWork(
-        WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.uniqueName,
-        ExistingWorkPolicy.REPLACE,
-        buildDiagnosisKeyRetrievalOneTimeWork()
+            WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.uniqueName,
+            ExistingWorkPolicy.REPLACE,
+            buildDiagnosisKeyRetrievalOneTimeWork()
     ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK) }
 
     /**
@@ -253,11 +253,11 @@ object BackgroundWorkScheduler {
      * @see WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER
      */
     private fun enqueueDiagnosisTestResultBackgroundPeriodicWork() =
-        workManager.enqueueUniquePeriodicWork(
-            WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.uniqueName,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            buildDiagnosisTestResultRetrievalPeriodicWork()
-        ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER) }
+            workManager.enqueueUniquePeriodicWork(
+                    WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.uniqueName,
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    buildDiagnosisTestResultRetrievalPeriodicWork()
+            ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER) }
 
     /**
      * Build diagnosis key periodic work request
@@ -271,21 +271,21 @@ object BackgroundWorkScheduler {
      * @see BackoffPolicy.LINEAR
      */
     private fun buildDiagnosisKeyRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(
-            getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
-        )
-            .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setConstraints(getConstraintsForDiagnosisKeyPeriodicBackgroundWork())
-            .setInitialDelay(
-                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
-                TimeUnit.MINUTES
+            PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(
+                    getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
             )
-            .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
+                    .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
+                    .setConstraints(getConstraintsForDiagnosisKeyPeriodicBackgroundWork())
+                    .setInitialDelay(
+                            BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                            TimeUnit.MINUTES
+                    )
+                    .setBackoffCriteria(
+                            BackoffPolicy.LINEAR,
+                            BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                            TimeUnit.MINUTES
+                    )
+                    .build()
 
     /**
      * Build diagnosis key one time work request
@@ -300,23 +300,23 @@ object BackgroundWorkScheduler {
      * @see BackoffPolicy.LINEAR
      */
     private fun buildDiagnosisKeyRetrievalOneTimeWork() =
-        OneTimeWorkRequestBuilder<DiagnosisKeyRetrievalOneTimeWorker>()
-            .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER.tag)
-            .setConstraints(getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
-            .setInitialDelay(
-                DiagnosisKeyRetrievalTimeCalculator.generateDiagnosisKeyRetrievalOneTimeWorkRandomDuration(
-                    DateTime(
-                        Instant.now(),
-                        DateTimeZone.getDefault()
+            OneTimeWorkRequestBuilder<DiagnosisKeyRetrievalOneTimeWorker>()
+                    .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER.tag)
+                    .setConstraints(getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
+                    .setInitialDelay(
+                            DiagnosisKeyRetrievalTimeCalculator.generateDiagnosisKeyRetrievalOneTimeWorkRandomDuration(
+                                    DateTime(
+                                            Instant.now(),
+                                            DateTimeZone.getDefault()
+                                    )
+                            ), TimeUnit.MINUTES
                     )
-                ), TimeUnit.MINUTES
-            )
-            .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
+                    .setBackoffCriteria(
+                            BackoffPolicy.LINEAR,
+                            BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                            TimeUnit.MINUTES
+                    )
+                    .build()
 
     /**
      * Build diagnosis Test Result periodic work request
@@ -328,20 +328,20 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY
      */
     private fun buildDiagnosisTestResultRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<DiagnosisTestResultRetrievalPeriodicWorker>(
-            getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
-        )
-            .addTag(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setConstraints(getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
-            .setInitialDelay(
-                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
-                TimeUnit.MINUTES
-            ).setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
-                TimeUnit.MINUTES
+            PeriodicWorkRequestBuilder<DiagnosisTestResultRetrievalPeriodicWorker>(
+                    getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
             )
-            .build()
+                    .addTag(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)
+                    .setConstraints(getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
+                    .setInitialDelay(
+                            BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                            TimeUnit.MINUTES
+                    ).setBackoffCriteria(
+                            BackoffPolicy.LINEAR,
+                            BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
+                            TimeUnit.MINUTES
+                    )
+                    .build()
 
     /**
      * Constraints for diagnosis key periodic work
@@ -350,7 +350,7 @@ object BackgroundWorkScheduler {
      * @return Constraints
      */
     private fun getConstraintsForDiagnosisKeyPeriodicBackgroundWork() =
-        Constraints.Builder().setRequiresBatteryNotLow(true).build()
+            Constraints.Builder().setRequiresBatteryNotLow(true).build()
 
     /**
      * Constraints for diagnosis key one time work
@@ -362,26 +362,35 @@ object BackgroundWorkScheduler {
      * @see NetworkType.CONNECTED
      */
     private fun getConstraintsForDiagnosisKeyOneTimeBackgroundWork() =
-        Constraints
-            .Builder()
-            .setRequiresBatteryNotLow(true)
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+            Constraints
+                    .Builder()
+                    .setRequiresBatteryNotLow(true)
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
 
     /**
      * Log operation schedule
      */
-    private fun Operation.logOperationSchedule(workType: WorkType) = this.result.addListener({
-        if (BuildConfig.DEBUG) Log.d(TAG, "${workType.uniqueName} completed.")
-    }, { it.run() }).also { if (BuildConfig.DEBUG) Log.d(TAG, "${workType.uniqueName} scheduled.") }
+    private fun Operation.logOperationSchedule(workType: WorkType) =
+            this.result.addListener({
+                                        if (BuildConfig.DEBUG) Log.d(
+                                                TAG,
+                                                "${workType.uniqueName} completed."
+                                        )
+                                    }, { it.run() })
+                    .also { if (BuildConfig.DEBUG) Log.d(TAG, "${workType.uniqueName} scheduled.") }
 
     /**
      * Log operation cancellation
      */
-    private fun Operation.logOperationCancelByTag(workTag: WorkTag) = this.result.addListener({
-        if (BuildConfig.DEBUG) Log.d(TAG, "All work with tag ${workTag.tag} canceled.")
-    }, { it.run() })
-        .also { if (BuildConfig.DEBUG) Log.d(TAG, "Canceling all work with tag ${workTag.tag}") }
+    private fun Operation.logOperationCancelByTag(workTag: WorkTag) =
+            this.result.addListener({
+                                        if (BuildConfig.DEBUG) Log.d(
+                                                TAG,
+                                                "All work with tag ${workTag.tag} canceled."
+                                        )
+                                    }, { it.run() })
+                    .also { if (BuildConfig.DEBUG) Log.d(TAG, "Canceling all work with tag ${workTag.tag}") }
 
     /**
      * Log work active status
