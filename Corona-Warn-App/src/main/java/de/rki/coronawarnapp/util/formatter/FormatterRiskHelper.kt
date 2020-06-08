@@ -383,15 +383,6 @@ fun formatStableTextColor(riskLevelScore: Int?): Int =
     )
 
 /**
- * Formats the risk card back button depending on current view
- *
- * @param showDetails
- * @return
- */
-fun formatRiskButtonBackVisibility(showDetails: Boolean): Int =
-    formatVisibility(showDetails)
-
-/**
  * Formats the risk card icon display of infected contacts recognized
  *
  * @param riskLevelScore
