@@ -35,7 +35,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      *
      * @return Result
      *
-     * @see LocalData.initialTestResultNotification
+     * @see LocalData.isTestResultNotificationSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      */
     override suspend fun doWork(): Result {
@@ -72,7 +72,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
     private fun initiateNotification(testResult: TestResult) {
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE) {
             if (!CoronaWarnApplication.isAppInForeground) {
-                LocalData.initialTestResultNotification(true)
+                LocalData.isTestResultNotificationSent(true)
                 NotificationHelper.sendNotification(
                     CoronaWarnApplication.getAppContext()
                         .getString(R.string.notification_name), CoronaWarnApplication.getAppContext()

@@ -124,11 +124,9 @@ object BackgroundWorkScheduler {
         )
         if (!isPeriodicWorkActive) WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
         if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)) {
-            if (LocalData.registrationToken() != null) {
-                if (!LocalData.initialTestResultNotification()) {
+            if (LocalData.registrationToken() != null && !LocalData.isTestResultNotificationSent()) {
                     WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
                     LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
-                }
             }
         }
     }
