@@ -38,7 +38,6 @@ class FormatterSettingsHelperTest {
         every { context.getString(R.string.settings_notifications_body_inactive) } returns "settings_notifications_body_inactive"
         every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
         every { context.getColor(R.color.colorTextPrimary3) } returns R.color.colorTextPrimary3
-
     }
 
     private fun formatStatusBase(bValue: Boolean) {
@@ -223,7 +222,6 @@ class FormatterSettingsHelperTest {
         )
     }
 
-
     @Test
     fun formatStatus() {
         // When status true
@@ -297,7 +295,6 @@ class FormatterSettingsHelperTest {
             bNotificationsTest = true,
             bValue = false
         )
-
     }
 
     @Test
@@ -365,7 +362,6 @@ class FormatterSettingsHelperTest {
             bConnection = true,
             iValue = R.string.settings_tracing_status_inactive
         )
-
     }
 
     @Test
@@ -433,7 +429,6 @@ class FormatterSettingsHelperTest {
             bConnection = true,
             iValue = R.string.settings_tracing_body_inactive
         )
-
     }
 
     @Test
