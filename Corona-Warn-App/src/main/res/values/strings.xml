@@ -224,7 +224,7 @@
     <string name="main_about_headline">Häufige Fragen</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App.</string>
-    <!-- NOTR todo insert english link in translation file https://www.bundesregierung.de/corona-warn-app-faq-englisch -->
+    <!-- NOTR -->
     <string name="main_about_link">https://www.bundesregierung.de/corona-warn-app-faq</string>
 
     <!-- ####################################
@@ -2144,7 +2144,7 @@ Das RKI behält sich ferner vor, die im Rahmen der Risikobewertung (    <em>risk
     <string name="information_contact_subtitle_phone">Technische Hotline:</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">+49 (0)800 7540001</string>
-    <!-- MOTR todo phone number to be called replace in english file-->
+    <!-- MOTR DO NOT TOUCH THE "tel:" DURING TRANSLATION, ONLY UPDATE THE NUMBER todo phone number to be called replace in english file -->
     <string name="information_contact_phone_call_number">tel:+49 800 7540001</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">Unser Kundenservice ist für Sie da.</string>
