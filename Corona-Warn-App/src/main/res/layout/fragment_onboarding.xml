@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/onboarding_container"
-        android:contentDescription="@string/heading_onboarding"
+        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"

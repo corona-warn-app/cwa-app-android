@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".ui.submission.SubmissionDispatcherFragment"
-        android:contentDescription="@string/heading_submission_dispatcher">
+        android:contentDescription="@string/submission_dispatcher_accessibility_title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -24,7 +24,7 @@
         android:id="@+id/risk_details_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/heading_risk_details">
+        android:contentDescription="@string/risk_details_accessibility_title">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/risk_details_app_bar_layout"

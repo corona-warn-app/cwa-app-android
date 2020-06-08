@@ -22,7 +22,7 @@
             style="@style/icon"
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
-            android:contentDescription="@string/back_button"
+            android:contentDescription="@string/button_back"
             android:src="@{icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

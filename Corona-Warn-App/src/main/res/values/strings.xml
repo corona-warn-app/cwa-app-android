@@ -226,7 +226,7 @@
     <string name="main_about_body">Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App.</string>
     <!-- NOTR todo insert english link in translation file https://www.bundesregierung.de/corona-warn-app-faq-englisch -->
     <string name="main_about_link">https://www.bundesregierung.de/corona-warn-app-faq</string>
-
+    <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Aufruf externer Infos im Web.</string>
     <!-- ####################################
                Main - Share
@@ -295,6 +295,8 @@
     <string name="main_overview_body_glossary_keys">Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallskennungen lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen.</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">Ein Smartphone zeigt unterschiedliche Inhalte, die von eins bis drei nummeriert sind.</string>
+    <!-- XACT: App main page title -->
+    <string name="main_title">Hauptseite der Corona-Warn App</string>
 
     <!-- ####################################
                Risk Details
@@ -342,6 +344,8 @@
     <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string> <!-- final -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
+    <!-- XACT: risk details page title -->
+    <string name="risk_details_accessibility_title">Ihr Risikostatus</string>
 
     <!-- ####################################
               Onboarding
@@ -360,6 +364,8 @@
     <string name="onboarding_button_start">Los geht\'s</string>
     <!-- XTXT: onboarding - back description for screen reader -->
     <string name="onboarding_button_back_description">Zurück</string>
+    <!-- XACT: Onboarding (together) page title -->
+    <string name="onboarding_onboarding_accessibility_title">Einführung Seite 1 von 5. Gemeinsam Corona bekämpfen</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">Gemeinsam Corona bekämpfen</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
@@ -370,12 +376,16 @@
     <string name="onboarding_body_emphasized">Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen.</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
+    <!-- XACT: Onboarding (privacy) page title -->
+    <string name="onboarding_privacy_accessibility_title">Einführung Seite 2 von 5. Datenschutz</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
     <!-- YTXT: onboarding(privacy) - body -->
     <string name="onboarding_privacy_body">@string/information_privacy_body</string>
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
+    <!-- XACT: Onboarding (tracing) page title -->
+    <string name="onboarding_tracing_accessibility_title">Einführung Seite 3 von 5. Wie Sie die Risiko Ermittlung ermöglichen</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">Wie Sie die Risiko-Ermittlung ermöglichen</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
@@ -400,6 +410,8 @@
     <string name="onboarding_tracing_dialog_button_negative">Zurück</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">Drei Personen haben die Risiko-Erkennung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet.</string>
+    <!-- XACT: Onboarding (test) page title -->
+    <string name="onboarding_test_accessibility_title">Einführung Seite 4 von 5. Falls Sie positiv getestet wurden</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">Falls Sie positiv getestet werden …</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
@@ -408,6 +420,8 @@
     <string name="onboarding_test_body">Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen.</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
+    <!-- XACT: Onboarding (datashare) page title -->
+    <string name="onboarding_notifications_accessibility_title">Einführung Seite 5 von 5. Warnungen erhalten und Risiken erkennen</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">Warnungen erhalten, Risiken erkennen</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
@@ -2663,11 +2677,14 @@ as modifying the License.
 
     <!-- Submission Tan -->
     <!-- XHED: Page title for TAN submission pge -->
-    <string name="submission_tan_title">TAN Eingabe</string>
+        <string name="submission_tan_title">TAN Eingabe</string>
     <!-- YTXT: Body text for the tan submission page -->
     <string name="submission_tan_body">Die TAN ist 7-stellig und Groß- und Kleinschreibung muss beachtet werden.\n\nGeben Sie bitte die Ihnen mitgeteilte TAN ein:</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">Weiter</string>
+    <!-- XACT: Submission Tan page title -->
+    <string name="submission_tan_accessibility_title">TAN Eingabe</string>
+
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -2682,6 +2699,9 @@ as modifying the License.
     <string name="submission_intro_button_next">Weiter</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
     <string name="submission_intro_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
+    <!-- XACT: Submission Intro page title -->
+    <string name="submission_intro_accessibility_title">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
+
 
     <!-- Notification -->
     <!-- XHED: Dialog headline for result dialog  -->
@@ -2713,6 +2733,8 @@ as modifying the License.
     <string name="submission_dispatcher_card_tan_tele">Noch keine TAN?</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">Bitte rufen Sie uns an, falls Sie Positiv getestet wurden</string>
+    <!-- XACT: Dispatcher Tan page title -->
+    <string name="submission_dispatcher_accessibility_title">Welche Informationen liegen ihnen vor?</string>
 
     <!-- Submission Positive Other Warning -->
     <!-- XHED: Page title for the positive result additional warning page-->
@@ -2783,8 +2805,11 @@ as modifying the License.
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">Unsere Öffnungszeiten:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nEs gelten die Preise Ihres\nTelefonanbieters.</string>
 
-    <!-- YTXT: Content Description for Accessibility-->
+    <!-- XACT: Submission contact page title -->
+    <string name="submission_contact_accessibility_title">TAN Anfrage per Telefonanruf</string>
+    <!-- XACT: Content Description for submission contact step 1 -->
     <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer 0800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Es gelten die Preise ihres Telefonanbieters.</string>
+    <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">Im Zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App</string>
 
     <!-- Submission Status Card -->
@@ -2850,26 +2875,20 @@ as modifying the License.
 
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
-    <!-- ####################################
-              Heading Fragments
-        ###################################### -->
-    <string name="heading_submission_contact">TAN Anfrage per Telefonanruf</string>
-    <string name="heading_submission_dispatcher">Welche Informationen liegen ihnen vor?</string>
-    <string name="heading_submission_intro">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
-    <string name="heading_submission_tan">TAN Eingabe</string>
-    <string name="heading_main">Hauptseite der Corona-Warn App</string>
-    <string name="heading_onboarding_privacy">Einführung Seite 2 von 5. Datenschutz</string>
-    <string name="heading_onboarding">Einführung Seite 1 von 5. Gemeinsam Corona bekämpfen</string>
-    <string name="heading_onboarding_tracing">Einführung Seite 3 von 5. Wie Sie die Risiko Ermittlung ermöglichen</string>
-    <string name="heading_onboarding_test">Einführung Seite 4 von 5. Falls Sie positiv getestet wurden</string>
-    <string name="heading_onboarding_notifications">Einführung Seite 5 von 5. Warnungen erhalten und Risiken erkennen</string>
-    <string name="heading_risk_details">Risiko Ermittlung</string>
+
 
     <!-- ####################################
-          Button Tooltips
+          Button Tooltips for Accessibility
     ###################################### -->
-    <string name="back_button">Zurück zur vorherigen Seite</string>
-    <string name="proceed_button">Fortfahren Button</string>
+    <!-- XACT: back button-->
+    <string name="button_back">Zurück zur vorherigen Seite</string>
+    <!-- XACT: proceed button-->
+    <string name="button_proceed">Fortfahren Button</string>
+    <!-- XACT: share button-->
+    <string name="button_share">Teilen</string>
+    <!-- XACT: menu button-->
+    <string name="button_menu">Menü</string>
+
     <!-- ####################################
                Generic Error Messages
         ###################################### -->

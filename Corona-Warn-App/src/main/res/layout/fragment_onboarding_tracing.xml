@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:contentDescription="@string/heading_onboarding_tracing">
+        android:contentDescription="@string/onboarding_tracing_accessibility_title">
 
         <include
             android:id="@+id/onboarding_button_back"

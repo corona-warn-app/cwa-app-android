@@ -23,7 +23,7 @@
 
     <ScrollView
         android:id="@+id/main_scrollview"
-        android:contentDescription="@string/heading_main"
+        android:contentDescription="@string/main_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"

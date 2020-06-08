@@ -14,7 +14,7 @@
         android:id="@+id/onboarding_privacy_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/heading_onboarding_privacy"
+        android:contentDescription="@string/onboarding_privacy_accessibility_title"
         android:fillViewport="true">
 
         <include

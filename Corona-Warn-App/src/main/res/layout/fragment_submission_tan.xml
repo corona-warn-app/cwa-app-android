@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:contentDescription="@string/heading_submission_tan"
+        android:contentDescription="@string/submission_tan_accessibility_title"
         tools:context=".ui.submission.SubmissionTanFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout

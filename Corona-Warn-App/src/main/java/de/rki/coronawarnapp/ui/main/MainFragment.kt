@@ -85,8 +85,13 @@ class MainFragment : BaseFragment() {
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)    }
 
     private fun setContentDescription() {
-        main_header_share.setContentDescription("Teilen")
-        main_header_options_menu.setContentDescription("Menü")
+        val shareButtonString: String = getString(R.string.button_share)
+        val menuButtonString: String = getString(R.string.button_menu)
+        val mainCardString: String =  getString(R.string.hint_external_webpage)
+
+        binding.mainHeaderShare.buttonIcon.setContentDescription(shareButtonString)
+        binding.mainHeaderOptionsMenu.buttonIcon.setContentDescription(menuButtonString)
+        binding.mainAbout.mainCard.setContentDescription(mainCardString)
     }
 
     private fun setButtonOnClickListener() {
