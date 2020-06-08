@@ -364,7 +364,7 @@ fun formatStableIconColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
         R.color.colorStableLight,
-        R.color.colorTextPrimary1
+        R.color.colorSemanticNeutralRisk
     )
 
 /**
