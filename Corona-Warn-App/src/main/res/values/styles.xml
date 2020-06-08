@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorBrandSecondary</item>
         <item name="colorPrimaryDark">@color/colorAccentTintButtonPressed</item>
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="alertDialogTheme">@style/dialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -25,6 +26,20 @@
 
     <style name="actionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:background">@color/colorSurface1</item>
+    </style>
+
+    <!-- Default dialog -->
+    <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextTint</item>
+    </style>
+
+    <style name="dialogNegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
     <!-- ####################################
