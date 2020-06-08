@@ -134,13 +134,14 @@ object BackgroundWorkScheduler {
     }
 
     /**
-    * Stop work by unique name
-    *
-    * @return Operation
-    *
-    * @see WorkType
-    */
-     fun WorkType.stop(): Operation = workManager.cancelUniqueWork(this.uniqueName)
+     * Stop work by unique name
+     *
+     * @return Operation
+     *
+     * @see WorkType
+     */
+       fun WorkType.stop(): Operation =
+        workManager.cancelUniqueWork(this.uniqueName)
 
     /**
      * Checks if defined work is active

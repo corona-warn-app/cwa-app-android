@@ -16,8 +16,7 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 
 /**
- * One time diagnosis key retrieval work
- * Executes the retrieve diagnosis key transaction
+ * Diagnosis Test Result Periodic retrieavl
  *
  * @see BackgroundWorkScheduler
  */
