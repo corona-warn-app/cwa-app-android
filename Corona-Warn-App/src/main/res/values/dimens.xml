@@ -3,7 +3,7 @@
     <dimen name="spacing_large">48dp</dimen>
     <dimen name="spacing_normal">24dp</dimen>
     <dimen name="spacing_small">16dp</dimen>
-    <dimen name="spacing_tiny">6dp</dimen>
+    <dimen name="spacing_tiny">8dp</dimen>
     <dimen name="spacing_mega_tiny">3dp</dimen>
 
     <!-- font sizes -->
@@ -19,7 +19,7 @@
     <dimen name="font_line_spacing_extra">4sp</dimen>
 
     <!-- header height -->
-    <dimen name="header">50dp</dimen>
+    <dimen name="header">40dp</dimen>
 
     <!-- elevation -->
     <dimen name="elevation_strong">10dp</dimen>
@@ -54,7 +54,7 @@
     <dimen name="radius_button">@dimen/spacing_tiny</dimen>
     <dimen name="radius_card">4dp</dimen>
     <dimen name="icon_size">20dp</dimen>
-    <dimen name="icon_size_risk_card">35dp</dimen>
+    <dimen name="icon_size_risk_card">40dp</dimen>
     <dimen name="icon_size_main_card">35dp</dimen>
     <dimen name="icon_size_main_card_end">35dp</dimen>
     <dimen name="icon_size_button">40dp</dimen>
@@ -86,4 +86,5 @@
 
     <!-- Submission QR Code Scan -->
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
+    <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
 </resources>

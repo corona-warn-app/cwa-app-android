@@ -30,7 +30,6 @@
             app:title="@{@string/settings_notifications_title}" />
 
         <ScrollView
-            style="@style/fadingScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"

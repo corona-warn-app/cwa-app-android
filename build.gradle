@@ -56,7 +56,7 @@ allprojects {
         google()
         jcenter()
 //        mavenLocal()
-        
+
     }
 }
 
@@ -85,5 +85,3 @@ task quickBuildWithFixes {
     dependsOn ':Corona-Warn-App:ktlintDeviceReleaseCheck'
     dependsOn ':Corona-Warn-App:detekt'
 }
-
-
