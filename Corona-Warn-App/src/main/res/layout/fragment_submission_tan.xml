@@ -5,7 +5,6 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
@@ -54,33 +53,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_tan_body" />
-
-            <TextView
-                android:id="@+id/submission_tan_character_error"
-                style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatShowTanCharacterError(viewmodel.tanCharactersValid, viewmodel.tanChecksumValid)}"
-                android:text="@string/submission_tan_character_error"
-                android:textColor="@color/colorTextSemanticRed"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/submission_tan_input" />
-
-            <TextView
-                android:id="@+id/submission_tan_error"
-                style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterHelper.formatVisibility(!viewmodel.tanChecksumValid)}"
-                android:text="@string/submission_tan_error"
-                android:textColor="@color/colorTextSemanticRed"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/submission_tan_input" />
-
 
             <Button
                 android:id="@+id/submission_tan_button_enter"
