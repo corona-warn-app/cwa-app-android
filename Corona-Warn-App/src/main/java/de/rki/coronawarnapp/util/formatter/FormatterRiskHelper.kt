@@ -9,7 +9,6 @@ import android.text.format.DateUtils
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import java.text.DateFormat
 import java.util.Date
 
 /*Texter*/
@@ -191,7 +190,6 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
         else -> ""
     }
 }
-
 
 fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
     DateUtils.getRelativeDateTimeString(
