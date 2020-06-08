@@ -32,7 +32,8 @@ class TracingViewModel : ViewModel() {
     // TODO: comments for variables
     // Values from RiskLevelRepository
     val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
-    val riskLevelScoreLastSuccessfulCalculated = RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
+    val riskLevelScoreLastSuccessfulCalculated =
+        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
 
     // Values from ExposureSummaryRepository
     val daysSinceLastExposure: LiveData<Int?> = ExposureSummaryRepository.daysSinceLastExposure
@@ -128,5 +129,9 @@ class TracingViewModel : ViewModel() {
         viewModelScope.launch {
             TracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
+    }
+
+    fun refreshLastSuccessfullyCalculatedScore() {
+        RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
     }
 }
