@@ -6,7 +6,6 @@ import android.os.Build
 import android.provider.Settings
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS
 
-
 /**
  * A helper to navigate to the os settings, used in different places in the application,
  * e.g. settings, notification settings, tracing settings...
@@ -56,6 +55,5 @@ object SettingsNavigationHelper {
         val intent = Intent(ACTION_EXPOSURE_NOTIFICATION_SETTINGS)
         context.startActivity(intent)
     }
-
     // todo navigate storage settings
 }
