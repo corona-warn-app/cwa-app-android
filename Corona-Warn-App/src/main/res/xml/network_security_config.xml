@@ -2,7 +2,6 @@
 <network-security-config xmlns:tools="http://schemas.android.com/tools">
 
     <domain-config cleartextTrafficPermitted="false">
-        <!-- TODO Add Production Domain for Verification Service-->
         <domain includeSubdomains="true">coronawarn.app</domain>
         <pin-set expiration="2024-02-12" tools:ignore="MissingBackupPin">
             <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
