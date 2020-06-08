@@ -24,7 +24,7 @@ object SubmissionService {
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
         val registrationToken =
-            WebRequestBuilder.asyncGetRegistrationToken(
+            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
                 guid,
                 QR_CODE_KEY_TYPE
             )
@@ -35,7 +35,7 @@ object SubmissionService {
 
     private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationToken =
-            WebRequestBuilder.asyncGetRegistrationToken(
+            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
                 tan,
                 TELE_TAN_KEY_TYPE
             )
@@ -45,7 +45,7 @@ object SubmissionService {
     }
 
     suspend fun asyncRequestAuthCode(registrationToken: String): String {
-        return WebRequestBuilder.asyncGetTan(registrationToken)
+        return WebRequestBuilder.getInstance().asyncGetTan(registrationToken)
     }
 
     suspend fun asyncSubmitExposureKeys() {
@@ -58,7 +58,7 @@ object SubmissionService {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         return TestResult.fromInt(
-            WebRequestBuilder.asyncGetTestResult(registrationToken)
+            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
         )
     }
 

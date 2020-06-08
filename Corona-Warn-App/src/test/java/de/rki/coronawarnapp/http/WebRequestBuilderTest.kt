@@ -22,27 +22,26 @@ import org.junit.Test
 import java.util.Date
 
 class WebRequestBuilderTest {
-    @MockK private lateinit var verificationKeys: VerificationKeys
     @MockK private lateinit var verificationService: VerificationService
     @MockK private lateinit var distributionService: DistributionService
     @MockK private lateinit var submissionService: SubmissionService
-    @MockK private lateinit var serviceFactory: ServiceFactory
+    @MockK private lateinit var verificationKeys: VerificationKeys
+
+    private lateinit var webRequestBuilder: WebRequestBuilder
 
     @Before
-    fun setUp() {
+    fun setUp() = run {
         MockKAnnotations.init(this)
-        mockkObject(WebRequestBuilder)
-        every { WebRequestBuilder["verificationKeys"]() } returns verificationKeys
-        every { WebRequestBuilder["serviceFactory"]() } returns serviceFactory
-        every { serviceFactory.distributionService() } returns distributionService
-        every { serviceFactory.verificationService() } returns verificationService
-        every { serviceFactory.submissionService() } returns submissionService
+        webRequestBuilder = WebRequestBuilder(
+            distributionService,
+            verificationService,
+            submissionService,
+            verificationKeys
+        )
     }
 
     @After
-    fun tearDown() {
-        unmockkAll()
-    }
+    fun tearDown() = unmockkAll()
 
     @Test
     fun retrievingDateIndexIsSuccessful() {
@@ -52,7 +51,7 @@ class WebRequestBuilderTest {
 
         runBlocking {
             val expectedResult = listOf("1900-01-01", "2000-01-01")
-            Assert.assertEquals(WebRequestBuilder.asyncGetDateIndex(), expectedResult)
+            Assert.assertEquals(webRequestBuilder.asyncGetDateIndex(), expectedResult)
             coVerify {
                 distributionService.getDateIndex(urlString)
             }
@@ -70,7 +69,7 @@ class WebRequestBuilderTest {
 
         runBlocking {
             val expectedResult = listOf("1", "2")
-            Assert.assertEquals(WebRequestBuilder.asyncGetHourIndex(day), expectedResult)
+            Assert.assertEquals(webRequestBuilder.asyncGetHourIndex(day), expectedResult)
             coVerify {
                 distributionService.getHourIndex(urlString)
             }

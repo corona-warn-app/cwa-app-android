@@ -27,6 +27,9 @@ import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
 import de.rki.coronawarnapp.http.requests.ReqistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
+import de.rki.coronawarnapp.http.service.DistributionService
+import de.rki.coronawarnapp.http.service.SubmissionService
+import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
@@ -41,20 +44,36 @@ import java.io.File
 import java.util.Date
 import java.util.UUID
 
-object WebRequestBuilder {
-    private val TAG: String? = WebRequestBuilder::class.simpleName
+class WebRequestBuilder(
+    private val distributionService: DistributionService,
+    private val verificationService: VerificationService,
+    private val submissionService: SubmissionService,
+    private val verificationKeys: VerificationKeys
+) {
+    companion object {
+        private val TAG: String? = WebRequestBuilder::class.simpleName
+        private const val EXPORT_BINARY_FILE_NAME = "export.bin"
+        private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
 
-    private const val EXPORT_BINARY_FILE_NAME = "export.bin"
-    private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
+        @Volatile
+        private var instance: WebRequestBuilder? = null
 
-    private fun serviceFactory() = serviceFactory
-    private val serviceFactory by lazy { ServiceFactory() }
-    private val distributionService by lazy { serviceFactory().distributionService() }
-    private val verificationService by lazy { serviceFactory().verificationService() }
-    private val submissionService by lazy { serviceFactory().submissionService() }
+        fun getInstance(): WebRequestBuilder {
+            return instance ?: synchronized(this) {
+                instance ?: buildWebRequestBuilder().also { instance = it }
+            }
+        }
 
-    private fun verificationKeys() = verificationKeys
-    private val verificationKeys by lazy { VerificationKeys() }
+        private fun buildWebRequestBuilder(): WebRequestBuilder {
+            val serviceFactory = ServiceFactory()
+            return WebRequestBuilder(
+                serviceFactory.distributionService(),
+                serviceFactory.verificationService(),
+                serviceFactory.submissionService(),
+                VerificationKeys()
+            )
+        }
+    }
 
     suspend fun asyncGetDateIndex(): List<String> = withContext(Dispatchers.IO) {
         return@withContext distributionService
@@ -104,7 +123,7 @@ object WebRequestBuilder {
                 throw ApplicationConfigurationInvalidException()
             }
 
-            if (verificationKeys().hasInvalidSignature(exportBinary, exportSignature)) {
+            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
                 throw ApplicationConfigurationCorruptException()
             }
 
