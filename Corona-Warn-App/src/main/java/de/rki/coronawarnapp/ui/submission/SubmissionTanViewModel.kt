@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.util.TanHelper
 
 class SubmissionTanViewModel : ViewModel() {
 
@@ -17,21 +16,7 @@ class SubmissionTanViewModel : ViewModel() {
 
     val isValidTanFormat =
         Transformations.map(tan) {
-            it != null &&
-            it.length == TanConstants.MAX_LENGTH &&
-            TanHelper.isChecksumValid(it) &&
-            TanHelper.allCharactersValid(it)
-        }
-
-    val tanChecksumValid =
-        Transformations.map(tan) {
-            ((it !== null && it.trim().length == TanConstants.MAX_LENGTH) &&
-                    TanHelper.isChecksumValid(it).not()).not()
-        }
-
-    val tanCharactersValid =
-        Transformations.map(tan) {
-            !((it != null) && TanHelper.allCharactersValid(it).not())
+            it != null && it.length == TanConstants.MAX_LENGTH
         }
 
     fun storeTeletan() {
