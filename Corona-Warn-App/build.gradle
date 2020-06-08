@@ -22,6 +22,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: "jacoco"
 
 android {
     ndkVersion "21.2.6472646"
@@ -144,6 +145,41 @@ android {
         exclude 'CODE_OF_CONDUCT.md'
     }
 
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+}
+
+task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for the DeviceRelease build."
+
+    reports {
+        html.enabled = true
+        xml {
+            enabled = true
+            destination file("$buildDir/deviceRelease/jacoco.xml")
+        }
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*'
+    ]
+
+    def debugTree = fileTree(dir: "$buildDir/intermediates/classes/DeviceRelease", excludes: excludes)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    getSourceDirectories().from(files([mainSrc]))
+    getClassDirectories().from(files([debugTree]))
+    getExecutionData().from(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDeviceReleaseUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ]))
 }
 
 dependencies {
