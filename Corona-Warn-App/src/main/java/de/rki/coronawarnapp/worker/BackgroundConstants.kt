@@ -69,6 +69,14 @@ object BackgroundConstants {
      */
     const val DIAGNOSIS_KEY_PERIODIC_KIND_DELAY = 1L
 
+
+    /**
+     * Kind initial delay in minutes for periodic work for accessibility reason
+     *
+     * @see TimeUnit.SECONDS
+     */
+    const val DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY = 10L
+
     /**
      * Minimum initial delay in minutes for diagnosis key retrieval one time work
      *

@@ -332,8 +332,8 @@ object BackgroundWorkScheduler {
                     .addTag(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)
                     .setConstraints(getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
                     .setInitialDelay(
-                            BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
-                            TimeUnit.MINUTES
+                            BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY,
+                            TimeUnit.SECONDS
                     ).setBackoffCriteria(
                             BackoffPolicy.LINEAR,
                             BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_KIND_DELAY,
