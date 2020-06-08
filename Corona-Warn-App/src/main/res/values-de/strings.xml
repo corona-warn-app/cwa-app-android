@@ -729,8 +729,6 @@
     <string name="submission_status_card_button_unregistered">"Informieren &amp; mitmachen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Ergebnis anzeigen"</string>
-    <!-- XBUT: submission status card show details button -->
-    <string name="submission_status_card_button_show_details">"Details anzeigen"</string>
     <!-- XHED: submission status card positive result title -->
     <string name="submission_status_card_positive_result_title">"Positives Ergebnis"</string>
     <!-- XHED: submission status card positive result subtitle -->
