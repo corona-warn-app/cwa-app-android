@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
@@ -65,6 +66,16 @@ class OnboardingTracingFragment : BaseFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         resetTracing()
     }
 

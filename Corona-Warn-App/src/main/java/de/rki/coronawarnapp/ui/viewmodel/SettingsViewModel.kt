@@ -22,7 +22,6 @@ class SettingsViewModel : ViewModel() {
     val isBluetoothEnabled: LiveData<Boolean> =
         SettingsRepository.isBluetoothEnabled
 
-    // Todo bind to os settings, care API 23 / API 24 onwards
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
 
@@ -42,14 +41,14 @@ class SettingsViewModel : ViewModel() {
     val manualKeyRetrievalTime: LiveData<Long> = SettingsRepository.manualKeyRetrievalTime
 
     /**
-     * Refresher and toggler for settings
+     * Refresher and toggles for settings
      * - Notifications overall
      *  - Risk updates
      *  - Test updates
      *  - News updates
      *  - App updates
-     * - Mobile data // TODO should be removed
-     * - Background jobs // TODO could be removed
+     *  - Connectivity
+     *  - Background activity
      *
      * @see SettingsRepository
      */
