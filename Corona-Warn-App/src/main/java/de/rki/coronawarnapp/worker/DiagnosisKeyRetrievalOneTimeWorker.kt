@@ -41,10 +41,11 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
         var result = Result.success()
         try {
             val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
-            val lastTime = DateTime(LocalData.lastTimeDiagnosisKeysFromServerFetch(), DateTimeZone.getDefault())
-            if (currentDate.withTimeAtStartOfDay() != lastTime.withTimeAtStartOfDay()) {
+            val lastFetch = DateTime(LocalData.lastTimeDiagnosisKeysFromServerFetch(), DateTimeZone.getDefault())
+            if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+            ) {
                 RetrieveDiagnosisKeysTransaction.start()
-                LocalData.lastTimeManualDiagnosisKeysRetrieved(currentDate.millis)
             }
         } catch (e: Exception) {
             result = Result.retry()

@@ -62,9 +62,8 @@ class RiskDetailsFragment : BaseFragment() {
 
     private fun setButtonOnClickListeners() {
         binding.riskDetailsButtonUpdate.setOnClickListener {
-            tracingViewModel.refreshRiskLevel()
             tracingViewModel.refreshDiagnosisKeys()
-            TimerHelper.startManualKeyRetrievalTimer()
+            settingsViewModel.updateManualKeyRetrievalEnabled(false)
         }
         binding.riskDetailsButtonEnableTracing.setOnClickListener {
             doNavigate(

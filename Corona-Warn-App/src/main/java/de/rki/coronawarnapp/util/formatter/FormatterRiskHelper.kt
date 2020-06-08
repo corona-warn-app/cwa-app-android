@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 import java.text.DateFormat
 import java.util.Date
 
@@ -516,7 +517,20 @@ fun formatButtonUpdateEnabled(enabled: Boolean?): Boolean {
     return enabled ?: true
 }
 
-fun formatButtonUpdateText(updateButtonText: String?): String {
+/**
+ * Change the manual update button text according to current timer
+ *
+ * @param time
+ * @return String
+ */
+fun formatButtonUpdateText(
+    time: Long
+): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    return updateButtonText ?: appContext.getString(R.string.risk_card_button_update)
+    if (time <= 0) {
+        return appContext.getString(R.string.risk_card_button_update)
+    } else {
+        val hmsCooldownTime = time.millisecondsToHMS()
+        return appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+    }
 }
