@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
+import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
@@ -424,6 +425,22 @@ fun formatButtonEnableTracingVisibility(
 fun formatRiskDetailsButtonEnableTracingVisibility(
     riskLevelScore: Int?
 ): Int = formatVisibility(isTracingOffRiskLevel(riskLevelScore))
+
+/**
+ * Formats the risk details button display for enable tracing depending on risk level
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatRiskDetailsButtonVisibility(
+    riskLevelScore: Int?, isBackgroundJobEnabled: Boolean?
+): Int = formatVisibility(
+    formatRiskDetailsButtonEnableTracingVisibility(riskLevelScore) == View.VISIBLE ||
+            formatDetailsButtonUpdateVisibility(
+                isBackgroundJobEnabled,
+                riskLevelScore
+            ) == View.VISIBLE
+)
 
 /**
  * Formats the risk card button display for manual updates depending on risk level,

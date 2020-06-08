@@ -89,9 +89,8 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/risk_details_button_enable_tracing"
+            app:layout_constraintBottom_toTopOf="@+id/risk_details_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_details_header">
@@ -241,30 +240,43 @@
 
         </ScrollView>
 
-        <Button
-            android:id="@+id/risk_details_button_enable_tracing"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/risk_details_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/risk_card_button_enable_tracing"
-            android:visibility="@{FormatterRiskHelper.formatRiskDetailsButtonEnableTracingVisibility(tracingViewModel.riskLevel)}"
-            app:layout_constraintBottom_toTopOf="@+id/risk_details_button_update"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start_outer"
-            tools:text="@string/risk_card_button_enable_tracing" />
+            android:background="@color/colorSurface1"
+            android:padding="@dimen/spacing_normal"
+            android:visibility="@{FormatterRiskHelper.formatRiskDetailsButtonVisibility(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled())}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/risk_details_button_update"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:enabled="@{FormatterRiskHelper.formatButtonUpdateEnabled(settingsViewModel.isManualKeyRetrievalEnabled())}"
-            android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalText)}"
-            android:visibility="@{FormatterRiskHelper.formatDetailsButtonUpdateVisibility(settingsViewModel.isBackgroundJobEnabled(), tracingViewModel.riskLevel)}"
-            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start_outer"
-            tools:text="@string/risk_details_button_update" />
+            <Button
+                android:id="@+id/risk_details_button_enable_tracing"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:text="@string/risk_card_button_enable_tracing"
+                android:visibility="@{FormatterRiskHelper.formatRiskDetailsButtonEnableTracingVisibility(tracingViewModel.riskLevel)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/risk_card_button_enable_tracing" />
+
+            <Button
+                android:id="@+id/risk_details_button_update"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:enabled="@{FormatterRiskHelper.formatButtonUpdateEnabled(settingsViewModel.isManualKeyRetrievalEnabled())}"
+                android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalText)}"
+                android:visibility="@{FormatterRiskHelper.formatDetailsButtonUpdateVisibility(settingsViewModel.isBackgroundJobEnabled(), tracingViewModel.riskLevel)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/risk_details_button_update" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start_outer"
