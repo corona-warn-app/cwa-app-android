@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 
-
 class SubmissionDispatcherFragment : BaseFragment() {
 
     companion object {
