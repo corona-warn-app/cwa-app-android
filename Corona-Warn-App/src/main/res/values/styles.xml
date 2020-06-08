@@ -204,8 +204,8 @@
           Progress Bar
     ###################################### -->
 
-    <style name="progressBar" parent="android:Widget.ProgressBar.Inverse">
-        <!-- todo apply styling -->
+    <style name="progressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/colorStableLight</item>
     </style>
 
     <!-- ####################################

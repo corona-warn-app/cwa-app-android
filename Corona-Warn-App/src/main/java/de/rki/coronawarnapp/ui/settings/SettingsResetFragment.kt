@@ -78,7 +78,6 @@ class SettingsResetFragment : BaseFragment() {
                 ).show()
             }
             withContext(Dispatchers.IO) {
-                // todo include link to google settings for resetting BLE data
                 deleteLocalAppContent()
             }
             navigateToOnboarding()
