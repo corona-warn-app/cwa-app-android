@@ -457,8 +457,8 @@
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"+49 (0)800 7540001"</string>
-    <!-- NOTR DO NOT TOUCH THE "tel:" DURING TRANSLATION, ONLY UPDATE THE NUMBER todo phone number to be called replace in english file -->
-    <string name="information_contact_phone_call_number">"tel:+49 800 7540001"</string>
+    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, NO SPECIAL CHARACTERS EXCEPT "+" and "space" todo phone number to be called replace in english file -->
+    <string name="information_contact_phone_call_number">+49 800 7540001</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Unser Kundenservice ist für Sie da."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->

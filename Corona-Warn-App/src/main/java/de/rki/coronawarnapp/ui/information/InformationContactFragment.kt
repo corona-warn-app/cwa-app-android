@@ -45,12 +45,8 @@ class InformationContactFragment : BaseFragment() {
             (activity as MainActivity).goBack()
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
-            CallHelper.call(
-                this,
-                requireContext().getString(
-                    R.string.information_contact_phone_call_number
-                )
-            )
+            val number = getString(R.string.information_contact_phone_call_number)
+            CallHelper.call(this, "tel:$number")
         }
     }
 }
