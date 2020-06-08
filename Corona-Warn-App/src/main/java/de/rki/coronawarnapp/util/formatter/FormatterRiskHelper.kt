@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
-import java.text.DateFormat
 import java.util.Date
 
 /*Texter*/
@@ -257,7 +256,6 @@ fun formatTimeFetched(
  *
  * @param riskLevelScore
  * @param isBackgroundJobEnabled
- * @param nextUpdate
  * @return
  */
 fun formatNextUpdate(
