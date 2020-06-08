@@ -45,7 +45,6 @@
             android:src="@drawable/ic_forward"
             android:tint="@{FormatterRiskHelper.formatStableIconColor(tracingViewModel.riskLevel)}"
             android:visibility="@{FormatterHelper.formatVisibilityInverted(showDetails)}"
-            app:layout_constraintBottom_toBottomOf="@+id/risk_card_header_headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

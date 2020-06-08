@@ -64,7 +64,6 @@
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tracing_status_card_header_headline"
                 app:layout_constraintTop_toTopOf="parent" />
