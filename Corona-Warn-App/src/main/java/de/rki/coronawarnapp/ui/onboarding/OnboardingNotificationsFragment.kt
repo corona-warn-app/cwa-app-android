@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
@@ -41,16 +40,6 @@ class OnboardingNotificationsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.onboardingNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.onboardingNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {

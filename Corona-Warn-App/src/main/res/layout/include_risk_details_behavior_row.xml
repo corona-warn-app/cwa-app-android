@@ -21,7 +21,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -36,7 +35,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:focusable="false"
                 style="@style/icon"
                 android:layout_width="@dimen/icon_size_risk_details_behavior"
                 android:layout_height="@dimen/icon_size_risk_details_behavior"
@@ -51,7 +49,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:focusable="false"
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
