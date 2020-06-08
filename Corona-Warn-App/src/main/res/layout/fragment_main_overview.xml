@@ -140,21 +140,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_unknown_risk"
                     app:subtitle="@{@string/main_overview_headline_test}" />
 
-                <include
-                    android:id="@+id/main_overview_divider"
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/main_overview_test" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:background="@color/colorSurface2"
-                    app:layout_constraintTop_toBottomOf="@+id/main_overview_divider">
+                    app:layout_constraintTop_toBottomOf="@+id/main_overview_test">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/main_overview_glossary_headline"
