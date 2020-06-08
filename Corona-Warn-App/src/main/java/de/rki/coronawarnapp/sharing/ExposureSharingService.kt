@@ -10,7 +10,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
-import de.rki.coronawarnapp.exception.report
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 

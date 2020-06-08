@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
-        style="@style/fadingScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,7 +21,7 @@
 
             <TextView
                 android:id="@+id/submission_contact_body"
-                style="@style/textMultiline"
+                style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -33,10 +32,10 @@
 
             <TextView
                 android:id="@+id/submission_contact_headline"
-                style="@style/textTitle"
+                style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/submission_contact_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -52,7 +51,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_headline"
                 app:step_entry_final="false"
-                app:step_entry_icon="@drawable/ic_step_1">
+                app:step_entry_icon="@drawable/ic_main_overview_1">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -60,6 +59,7 @@
 
                     <TextView
                         android:id="@+id/submission_contact_step_1_body"
+                        style="@style/subtitle"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/button_icon_margin"
@@ -71,18 +71,19 @@
 
                     <TextView
                         android:id="@+id/submission_contact_step_1_number"
-                        style="@style/textTitle"
+                        style="@style/headline5"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
-                        android:text="@string/submission_contact_number"
-                        android:textColor="@color/textColorBlue"
+                        android:text="@string/submission_contact_number_display"
+                        android:textColor="@color/colorTextTint"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_body" />
 
                     <TextView
                         android:id="@+id/submission_contact_operating_hours_body"
+                        style="@style/body2"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
@@ -103,16 +104,17 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_step_1"
                 app:step_entry_final="true"
-                app:step_entry_icon="@drawable/ic_step_2">
+                app:step_entry_icon="@drawable/ic_main_overview_2">
 
                 <TextView
+                    style="@style/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/submission_contact_step_2_body" />
 
             </de.rki.coronawarnapp.ui.view.StepEntry>
 
-            <include layout="@layout/merge_guidelines_common" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

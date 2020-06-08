@@ -17,15 +17,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorGreyLight"
+        android:background="@drawable/card_dark"
         android:padding="@dimen/card_padding">
 
         <TextView
             android:id="@+id/test_result_card_headline"
-            style="@style/textMultiline"
+            style="@style/body2"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/test_result_card_headline"
             app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,10 +33,10 @@
 
         <TextView
             android:id="@+id/test_result_card_content"
-            style="@style/textTitleLarger"
+            style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:text="@{FormatterSubmissionHelper.formatTestResultCardContent(deviceUIState)}"
             app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,15 +50,15 @@
             android:background="@{FormatterSubmissionHelper.formatTestStatusIcon(deviceUIState)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_main_illustration_negative" />
+            tools:src="@drawable/ic_test_result_illustration_negative" />
 
         <TextView
             android:id="@+id/test_result_card_registered_at_text"
-            style="@style/textMultiline"
+            style="@style/body2"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:text="@{FormatterSubmissionHelper.formatTestResultRegisteredAtText(registerDate)}"
             app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
             app:layout_constraintStart_toStartOf="parent"

@@ -2,43 +2,29 @@ package de.rki.coronawarnapp.service.submission
 
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.exception.TestAlreadyPairedException
-import de.rki.coronawarnapp.exception.TestPairingInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_KEY_TYPE
-import de.rki.coronawarnapp.service.submission.SubmissionConstants.SERVER_ERROR_CODE_400
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_TYPE
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
-import retrofit2.HttpException
 
 object SubmissionService {
     suspend fun asyncRegisterDevice() {
-        try {
-            val testGUID = LocalData.testGUID()
-            val testTAN = LocalData.teletan()
+        val testGUID = LocalData.testGUID()
+        val testTAN = LocalData.teletan()
 
-            when {
-                testGUID != null -> asyncRegisterDeviceViaGUID(testGUID)
-                testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
-                else -> throw NoGUIDOrTANSetException()
-            }
-            LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
-        } catch (err: HttpException) {
-            if (err.code() == SERVER_ERROR_CODE_400) {
-                throw TestAlreadyPairedException(
-                    "the test was already paired to a different device",
-                    err
-                )
-            }
-            throw err
+        when {
+            testGUID != null -> asyncRegisterDeviceViaGUID(testGUID)
+            testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
+            else -> throw NoGUIDOrTANSetException()
         }
+        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
         val registrationToken =
-            WebRequestBuilder.asyncGetRegistrationToken(
+            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
                 guid,
                 QR_CODE_KEY_TYPE
             )
@@ -49,7 +35,7 @@ object SubmissionService {
 
     private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val registrationToken =
-            WebRequestBuilder.asyncGetRegistrationToken(
+            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
                 tan,
                 TELE_TAN_KEY_TYPE
             )
@@ -59,17 +45,7 @@ object SubmissionService {
     }
 
     suspend fun asyncRequestAuthCode(registrationToken: String): String {
-        try {
-            return WebRequestBuilder.asyncGetTan(registrationToken)
-        } catch (err: HttpException) {
-            if (err.code() == SERVER_ERROR_CODE_400) {
-                throw TestPairingInvalidException(
-                    "the test paring to the device is invalid",
-                    err
-                )
-            }
-            throw err
-        }
+        return WebRequestBuilder.getInstance().asyncGetTan(registrationToken)
     }
 
     suspend fun asyncSubmitExposureKeys() {
@@ -82,7 +58,7 @@ object SubmissionService {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         return TestResult.fromInt(
-            WebRequestBuilder.asyncGetTestResult(registrationToken)
+            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
         )
     }
 

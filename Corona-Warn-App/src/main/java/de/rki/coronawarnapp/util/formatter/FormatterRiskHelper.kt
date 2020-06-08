@@ -2,12 +2,13 @@
 
 package de.rki.coronawarnapp.util.formatter
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.text.format.DateUtils
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import java.text.DateFormat
 import java.util.Date
 
 /*Texter*/
@@ -190,6 +191,15 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     }
 }
 
+fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
+    DateUtils.getRelativeDateTimeString(
+        appContext,
+        date.time,
+        DateUtils.DAY_IN_MILLIS,
+        DateUtils.DAY_IN_MILLIS * 2,
+        0
+    )
+
 /**
  * Formats the risk card text display of the last time diagnosis keys were
  * successfully fetched from the server
@@ -211,9 +221,7 @@ fun formatTimeFetched(
             if (lastTimeDiagnosisKeysFetched != null) {
                 appContext.getString(
                     R.string.risk_card_body_time_fetched,
-                    DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(
-                        lastTimeDiagnosisKeysFetched
-                    )
+                    formatRelativeDateTimeString(appContext, lastTimeDiagnosisKeysFetched)
                 )
             } else {
                 appContext.getString(R.string.risk_card_body_not_yet_fetched)
@@ -228,10 +236,7 @@ fun formatTimeFetched(
                     if (lastTimeDiagnosisKeysFetched != null) {
                         appContext.getString(
                             R.string.risk_card_body_time_fetched,
-                            DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
-                                .format(
-                                    lastTimeDiagnosisKeysFetched
-                                )
+                            formatRelativeDateTimeString(appContext, lastTimeDiagnosisKeysFetched)
                         )
                     } else {
                         appContext.getString(R.string.risk_card_body_not_yet_fetched)
@@ -340,8 +345,8 @@ fun formatRiskShape(showDetails: Boolean): Drawable? =
 fun formatStableIconColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
-        R.color.stableIconColor,
-        R.color.iconColor
+        R.color.colorStableLight,
+        R.color.colorTextPrimary1
     )
 
 /**
@@ -352,12 +357,12 @@ fun formatStableIconColor(riskLevelScore: Int?): Int =
  * @param riskLevelScore
  * @return
  */
-fun formatStableBackButtonColor(riskLevelScore: Int?): ColorStateList? {
+fun formatStableBackButtonIcon(riskLevelScore: Int?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
-    return if (!isTracingOffRiskLevel(riskLevelScore)) {
-        appContext.getColorStateList(R.color.button_back)
+    return if (isTracingOffRiskLevel(riskLevelScore)) {
+        appContext.getDrawable(R.drawable.ic_close_dark)
     } else {
-        appContext.getColorStateList(R.color.button_back_stable)
+        appContext.getDrawable(R.drawable.ic_close_light)
     }
 }
 
@@ -372,8 +377,8 @@ fun formatStableBackButtonColor(riskLevelScore: Int?): ColorStateList? {
 fun formatStableTextColor(riskLevelScore: Int?): Int =
     formatColor(
         !isTracingOffRiskLevel(riskLevelScore),
-        R.color.stableBackgroundColor,
-        R.color.textColorPrimary
+        R.color.colorStableLight,
+        R.color.colorTextPrimary1
     )
 
 /**
@@ -491,8 +496,8 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorTextSemanticNeutral)
-        else -> appContext.getColor(R.color.stableIconColor)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorAccentTintIcon)
+        else -> appContext.getColor(R.color.colorStableLight)
     }
 }
 
@@ -505,10 +510,10 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
 fun formatBehaviorIconBackground(riskLevelScore: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorRiskCardIncreasedRisk)
-        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorRiskCardLowRisk)
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getColor(R.color.colorRiskCardUnknownRisk)
-        else -> appContext.getColor(R.color.riskCardGrey)
+        RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorSemanticHighRisk)
+        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorSemanticLowRisk)
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getColor(R.color.colorSemanticNeutralRisk)
+        else -> appContext.getColor(R.color.colorSurface2)
     }
 }
 

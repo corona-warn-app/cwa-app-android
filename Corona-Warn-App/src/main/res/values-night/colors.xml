@@ -9,7 +9,9 @@
     <!-- Backgrounds and Separators -->
     <color name="colorBackground">#000000</color>
     <color name="colorSurface1">#232324</color>
+    <color name="colorSurface1Pressed">#39393A</color>
     <color name="colorSurface2">#434445</color>
+    <color name="colorSurface2Pressed">#565757</color>
     <color name="colorHairline">#4DFFFFFF</color>
 
     <!-- Text -->
@@ -22,63 +24,22 @@
     <color name="colorTextSemanticNeutral">#B8C8D9</color>
     <color name="colorTextTint">#83D2F2</color>
 
-    <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
-    <color name="colorAccentTintIcon">#83D2F2</color>
-
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C4314A</color>
+    <color name="colorSemanticHighRiskPressed">#CA465C</color>
     <color name="colorSemanticLowRisk">#378250</color>
+    <color name="colorSemanticLowRiskPressed">#378250</color>
     <color name="colorSemanticNeutralRisk">#5D6E80</color>
+    <color name="colorSemanticNeutralRiskPressed">#556675</color>
+    <color name="colorSemanticUnknownRisk">#232324</color>
+    <color name="colorSemanticUnknownRiskPressed">#39393A</color>
 
-    <!-- TODO: Add variables when colors are final to reduce maintenance -->
+    <!-- Accent -->
+    <color name="colorAccentTintButton">#007FAD</color>
+    <color name="colorAccentTintButtonPressed">#1B4865</color>
+    <color name="colorAccentTintIcon">#83D2F2</color>
 
-    <!-- App Color -->
-    <color name="appTheme">#000000</color>
-
-    <!-- Primary Colors -->
-    <color name="colorPrimary">#2C79A9</color>
-    <color name="colorPrimaryDark">#1B4865</color>
+    <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
-
-    <!-- Risk Card Colors -->
-    <color name="colorRiskCardIncreasedRiskPressed">#A30C26</color>
-    <color name="colorRiskCardLowRiskPressed">#27713F</color>
-    <color name="colorRiskCardNoCalculationPossible">@color/colorLight</color>
-    <color name="colorRiskCardNoCalculationPossiblePressed">@color/colorGreyLight</color>
-    <color name="colorRiskCardOutdatedRisk">#657888</color>
-    <color name="colorRiskCardOutdatedRiskPressed">#556673</color>
-    <color name="colorRiskCardUnknownRisk">#657888</color>
-    <color name="colorRiskCardUnknownRiskPressed">#556673</color>
-    <color name="riskCardGrey">#F5F5F5</color>
-
-    <!-- Light Colors -->
-    <color name="colorLight">#212121</color>
-    <color name="colorGrey">#434343</color>
-    <color name="colorGreyLight">#565656</color>
-
-    <!-- Text Colors -->
-    <color name="textColorPrimary">#ffffff</color>
-    <color name="textColorSecondary">#DFD8D8</color>
-    <color name="textColorLight">#ffffff</color>
-    <color name="textColorBlue">#2C79A9</color>
-    <color name="textColorGrey">#D3D3D3</color>
-
-    <!-- Visual Elements-->
-    <color name="dividerColor">#0D000000</color>
-    <color name="iconColor">#ffffff</color>
-
-    <!-- Stable Colors TODO: can be removed after testing -->
-    <color name="stableBackgroundColor">#ffffff</color>
-    <color name="stableHighlightColor">#C3C3C3</color>
-    <color name="stableTextColor">#000000</color>
-    <color name="stableIconColor">#ffffff</color>
-
-    <!-- Tracing Icon -->
-    <color name="tracingIconActive">#80CDEC</color>
-    <color name="tracingIconInactive">#DE4355</color>
-
-    <!-- Settings Icon -->
-    <color name="settingsIconInactive">#C3C3C3</color>
 
 </resources>

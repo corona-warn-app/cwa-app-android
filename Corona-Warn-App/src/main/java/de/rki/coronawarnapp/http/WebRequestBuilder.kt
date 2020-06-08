@@ -27,6 +27,9 @@ import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
 import de.rki.coronawarnapp.http.requests.ReqistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
+import de.rki.coronawarnapp.http.service.DistributionService
+import de.rki.coronawarnapp.http.service.SubmissionService
+import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
@@ -34,23 +37,43 @@ import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Date
 import java.util.UUID
 
-object WebRequestBuilder {
-    private val TAG: String? = WebRequestBuilder::class.simpleName
+class WebRequestBuilder(
+    private val distributionService: DistributionService,
+    private val verificationService: VerificationService,
+    private val submissionService: SubmissionService,
+    private val verificationKeys: VerificationKeys
+) {
+    companion object {
+        private val TAG: String? = WebRequestBuilder::class.simpleName
+        private const val EXPORT_BINARY_FILE_NAME = "export.bin"
+        private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
 
-    private const val EXPORT_BINARY_FILE_NAME = "export.bin"
-    private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
+        @Volatile
+        private var instance: WebRequestBuilder? = null
 
-    private val serviceFactory = ServiceFactory()
+        fun getInstance(): WebRequestBuilder {
+            return instance ?: synchronized(this) {
+                instance ?: buildWebRequestBuilder().also { instance = it }
+            }
+        }
 
-    private val distributionService = serviceFactory.distributionService()
-    private val verificationService = serviceFactory.verificationService()
-    private val submissionService = serviceFactory.submissionService()
+        private fun buildWebRequestBuilder(): WebRequestBuilder {
+            val serviceFactory = ServiceFactory()
+            return WebRequestBuilder(
+                serviceFactory.distributionService(),
+                serviceFactory.verificationService(),
+                serviceFactory.submissionService(),
+                VerificationKeys()
+            )
+        }
+    }
 
     suspend fun asyncGetDateIndex(): List<String> = withContext(Dispatchers.IO) {
         return@withContext distributionService
@@ -100,7 +123,7 @@ object WebRequestBuilder {
                 throw ApplicationConfigurationInvalidException()
             }
 
-            if (!SecurityHelper.exportFileIsValid(exportBinary, exportSignature)) {
+            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
                 throw ApplicationConfigurationCorruptException()
             }
 

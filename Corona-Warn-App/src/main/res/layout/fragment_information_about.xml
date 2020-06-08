@@ -19,7 +19,6 @@
             app:title="@{@string/information_about_title}" />
 
         <ScrollView
-            style="@style/fadingScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -38,7 +37,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:headline="@{@string/information_about_headline}"
-                    app:illustration="@{@drawable/ic_information_illustration_about}"
+                    app:illustration="@{@drawable/ic_illustration_together}"
                     app:illustrationDescription="@{@string/information_about_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

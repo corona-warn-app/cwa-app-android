@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_status_card"
+        android:id="@+id/submission_status_card_fetching"
+        style="@style/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <TextView
             android:id="@+id/submission_status_card_fetching_title"
-            style="@style/textTitleLarger"
+            style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@string/submission_status_card_title_fetching"
@@ -30,10 +31,10 @@
 
         <TextView
             android:id="@+id/submission_status_card_fetching_body"
-            style="@style/textMultiline"
+            style="@style/subtitle"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_width="@dimen/match_constraint"
             android:text="@string/submission_status_card_body_fetching"
             app:layout_constraintBottom_toBottomOf="@+id/submission_status_card_fetching_spinner"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,11 +43,12 @@
 
         <Button
             android:id="@+id/submission_status_card_fetching_button"
-            style="@style/buttonLight"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_width="@dimen/match_constraint"
-            android:text="@string/submission_status_card_button_show_details"
+            android:enabled="false"
+            android:text="@string/submission_status_card_button_show_results"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_status_card_fetching_spinner" />

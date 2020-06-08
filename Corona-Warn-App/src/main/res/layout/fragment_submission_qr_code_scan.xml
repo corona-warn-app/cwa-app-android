@@ -21,8 +21,8 @@
 
         <com.journeyapps.barcodescanner.ViewfinderView
             android:id="@+id/submission_qr_code_scan_viewfinder_view"
-            android:layout_width="@dimen/submission_scan_qr_code_viewfinder_size"
-            android:layout_height="@dimen/submission_scan_qr_code_viewfinder_size"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,44 +34,35 @@
             style="@style/registrationQRCodeScanBody"
             android:layout_width="@dimen/submission_scan_qr_code_viewfinder_size"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/submission_scan_qr_code_viewfinder_center_offset"
             android:text="@string/submission_qr_code_scan_body"
             app:layout_constraintEnd_toEndOf="@+id/submission_qr_code_scan_preview"
             app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_preview"
-            app:layout_constraintTop_toBottomOf="@+id/submission_qr_code_scan_viewfinder_view" />
-
+            app:layout_constraintTop_toBottomOf="@+id/submission_qr_code_scan_guideline_center" />
 
         <include
             android:id="@+id/submission_qr_code_scan_close"
             layout="@layout/include_button_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
+            app:icon="@{@drawable/ic_submission_qr_code_scan_close}"
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
-            app:layout_constraintEnd_toStartOf="@+id/submission_qr_code_scan_guideline_start"
-            app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_guideline_start"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_start"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="@+id/submission_qr_code_scan_guideline_top" />
 
         <ToggleButton
             android:id="@+id/submission_qr_code_scan_torch"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:layout_width="@dimen/icon_size_button"
+            android:layout_height="@dimen/icon_size_button"
             android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
-            android:backgroundTint="@color/iconColor"
+            android:backgroundTint="@color/colorTextPrimary1"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
-            app:layout_constraintEnd_toStartOf="@+id/submission_qr_code_scan_guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_guideline_end"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_end"
             app:layout_constraintTop_toTopOf="@+id/submission_qr_code_scan_guideline_top" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/submission_qr_code_scan_guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/submission_qr_code_scan_guideline_top"
@@ -81,10 +72,13 @@
             app:layout_constraintGuide_begin="@dimen/spacing_normal" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/submission_qr_code_scan_guideline_end"
+            android:id="@+id/submission_qr_code_scan_guideline_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

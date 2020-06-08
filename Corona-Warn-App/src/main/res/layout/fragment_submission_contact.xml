@@ -64,7 +64,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_end="@dimen/guideline_action_large" />
 
-            <include layout="@layout/merge_guidelines_common" />
+            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

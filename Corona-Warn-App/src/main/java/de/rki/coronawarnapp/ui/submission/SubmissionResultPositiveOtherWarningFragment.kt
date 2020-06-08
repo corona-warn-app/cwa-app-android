@@ -8,15 +8,16 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
-import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
-import de.rki.coronawarnapp.exception.TestPairingInvalidException
+import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
-import retrofit2.HttpException
 
 class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     InternalExposureNotificationPermissionHelper.Callback {
@@ -71,7 +72,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
         return when (exception) {
-            is TestPairingInvalidException -> DialogHelper.DialogInstance(
+            is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_paring_invalid_title,
                 R.string.submission_error_dialog_web_paring_invalid_body,
@@ -80,7 +81,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 true,
                 ::navigateToSubmissionResultFragment
             )
-            is SubmissionTanInvalidException -> DialogHelper.DialogInstance(
+            is ForbiddenException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_tan_invalid_title,
                 R.string.submission_error_dialog_web_tan_invalid_body,
@@ -89,12 +90,24 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
                 true,
                 ::navigateToSubmissionResultFragment
             )
-            is HttpException -> DialogHelper.DialogInstance(
+            is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
                     R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.code()
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToSubmissionResultFragment
+            )
+            is CwaClientError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
                 ),
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
@@ -135,7 +148,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
             initiateWarningOthers()
         }
-        binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.submissionPositiveOtherWarningHeader.headerToolbar.setNavigationOnClickListener {
             navigateToSubmissionResultFragment()
         }
     }

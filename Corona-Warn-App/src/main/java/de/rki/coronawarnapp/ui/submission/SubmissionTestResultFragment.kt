@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
-import retrofit2.HttpException
 
 /**
  * A simple [BaseFragment] subclass.
@@ -44,14 +47,26 @@ class SubmissionTestResultFragment : BaseFragment() {
     private fun navigateToMainScreen() =
         doNavigate(SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment())
 
-    private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
-            is HttpException -> DialogHelper.DialogInstance(
+            is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
                     R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.code()
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToMainScreen
+            )
+            is CwaClientError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
                 ),
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
@@ -96,17 +111,11 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
-            submissionViewModel.deregisterTestFromDevice()
-            doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            removeTestAfterConfirmation()
         }
 
         binding.submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
-            submissionViewModel.deregisterTestFromDevice()
-            doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            removeTestAfterConfirmation()
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
@@ -114,13 +123,10 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
-            submissionViewModel.deregisterTestFromDevice()
-            doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            removeTestAfterConfirmation()
         }
 
-        binding.submissionTestResultHeader.informationHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.submissionTestResultHeader.headerToolbar.setNavigationOnClickListener {
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
@@ -143,5 +149,24 @@ class SubmissionTestResultFragment : BaseFragment() {
             SubmissionTestResultFragmentDirections
                 .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
         )
+    }
+
+    private fun removeTestAfterConfirmation() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                submissionViewModel.deregisterTestFromDevice()
+                doNavigate(
+                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                )
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
     }
 }
