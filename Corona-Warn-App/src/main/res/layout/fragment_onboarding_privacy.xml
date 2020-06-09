@@ -49,7 +49,7 @@
             layout="@layout/include_onboarding"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
-            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
             app:headline="@{@string/onboarding_privacy_headline}"
             app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_privacy_html_path)}"
             app:illustration="@{@drawable/ic_illustration_privacy}"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

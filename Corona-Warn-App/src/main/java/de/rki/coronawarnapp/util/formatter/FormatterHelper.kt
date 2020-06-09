@@ -89,6 +89,14 @@ fun formatVisibilityInverted(value: Boolean): Int = formatVisibility(!value)
  */
 fun formatVisibilityText(text: String?): Int = formatVisibility(text != null && text != "")
 
+/**
+ * Formats visibility of item if valid spannable is provided
+ *
+ * @param text
+ * @return
+ */
+fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null)
+
 /*Text*/
 /**
  * Formats text resource to be displayed depending on flag provided
