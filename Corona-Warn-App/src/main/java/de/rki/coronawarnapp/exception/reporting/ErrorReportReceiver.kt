@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.util.DialogHelper
+import java.util.Locale
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
     companion object {
@@ -27,12 +28,18 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         val confirm = context.resources.getString(R.string.errors_generic_button_positive)
         val details = context.resources.getString(R.string.errors_generic_button_negative)
         val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
+        val errorCode = intent.getIntExtra(
+            ReportingConstants.ERROR_REPORT_CODE_EXTRA,
+            ReportingConstants.ERROR_REPORT_UNKNOWN_ERROR
+        )
+        val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
+            .toUpperCase(Locale.ROOT)
 
         if (CoronaWarnApplication.isAppInForeground) {
             DialogHelper.showDialog(
                 DialogHelper.DialogInstance(
                     activity,
-                    title,
+                    "$errorTitle:$errorCode\n$title",
                     message,
                     confirm,
                     details,
