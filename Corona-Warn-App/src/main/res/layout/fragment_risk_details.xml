@@ -51,7 +51,7 @@
                     android:layout_height="@dimen/icon_size_button"
                     android:contentDescription="@{@string/accessibility_back}"
                     android:src="@{@drawable/ic_close}"
-                    android:tint="@{FormatterRiskHelper.formatStableIconColor(tracingViewModel.riskLevel)}"
+                    android:tint="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
