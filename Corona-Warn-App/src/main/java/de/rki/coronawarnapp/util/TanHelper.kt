@@ -26,7 +26,7 @@ object TanHelper {
             if (!isTanCharacterValid(character.toString()))
                 return false
         }
-    return true
+        return true
     }
 
     fun isTanCharacterValid(character: String): Boolean {

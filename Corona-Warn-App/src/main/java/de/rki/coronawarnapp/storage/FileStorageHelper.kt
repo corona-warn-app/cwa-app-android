@@ -92,5 +92,8 @@ object FileStorageHelper {
         Log.d(TAG, "Available space: $availableSpace")
 
     private fun logInsufficientSpace(availableSpace: Long) =
-        Log.e(TAG, "Not enough free space! Required: ${FileStorageConstants.FREE_SPACE_THRESHOLD} Has: $availableSpace")
+        Log.e(
+            TAG,
+            "Not enough free space! Required: ${FileStorageConstants.FREE_SPACE_THRESHOLD} Has: $availableSpace"
+        )
 }

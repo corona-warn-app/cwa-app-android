@@ -35,13 +35,19 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
         if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "Background job failed after $runAttemptCount attempts. Rescheduling"
+            )
             return Result.failure()
         }
         var result = Result.success()
         try {
             val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
-            val lastFetch = DateTime(LocalData.lastTimeDiagnosisKeysFromServerFetch(), DateTimeZone.getDefault())
+            val lastFetch = DateTime(
+                LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+                DateTimeZone.getDefault()
+            )
             if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
                 currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
             ) {

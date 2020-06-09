@@ -5,9 +5,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/onboarding_container"
-        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
         android:fillViewport="true"
         tools:context="de.rki.coronawarnapp.ui.onboarding.OnboardingFragment">
 
@@ -16,6 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_normal"
+            android:focusable="false"
             app:body="@{@string/onboarding_body}"
             app:bodyEmphasized="@{@string/onboarding_body_emphasized}"
             app:headline="@{@string/onboarding_headline}"
@@ -25,8 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top"
-            app:subtitle="@{@string/onboarding_subtitle}"
-            android:focusable="false"/>
+            app:subtitle="@{@string/onboarding_subtitle}" />
 
         <Button
             android:id="@+id/onboarding_button_next"

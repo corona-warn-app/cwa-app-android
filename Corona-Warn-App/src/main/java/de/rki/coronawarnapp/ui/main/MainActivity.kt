@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         override fun onNetworkAvailable() {
             settingsViewModel.updateConnectionEnabled(true)
         }
+
         override fun onNetworkUnavailable() {
             settingsViewModel.updateConnectionEnabled(false)
         }

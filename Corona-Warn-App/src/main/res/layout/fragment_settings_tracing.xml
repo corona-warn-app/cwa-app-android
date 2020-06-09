@@ -146,8 +146,8 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/greyBodyBackground"
                     android:id="@+id/risk_details_body"
+                    style="@style/greyBodyBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"

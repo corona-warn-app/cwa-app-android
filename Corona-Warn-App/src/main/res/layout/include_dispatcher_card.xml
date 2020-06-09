@@ -24,8 +24,8 @@
         style="@style/cardGrey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:focusable="true">
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/dispatcher_card_title"

@@ -4,1731 +4,1836 @@
 package de.rki.coronawarnapp.server.protocols;
 
 public final class ExposureKeys {
-  private ExposureKeys() {}
-  public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistryLite registry) {
-  }
-  public interface TemporaryExposureKeyBucketOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
-      com.google.protobuf.MessageLiteOrBuilder {
+    static {
+    }
 
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    java.lang.String getShardKey();
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    com.google.protobuf.ByteString
+    private ExposureKeys() {
+    }
+
+    public static void registerAllExtensions(
+            com.google.protobuf.ExtensionRegistryLite registry) {
+    }
+
+    public interface TemporaryExposureKeyBucketOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
+            com.google.protobuf.MessageLiteOrBuilder {
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        java.lang.String getShardKey();
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        com.google.protobuf.ByteString
         getShardKeyBytes();
 
-    /**
-     * <pre>
-     * publishing timestamp of this exposure key package - unix epoch
-     * </pre>
-     *
-     * <code>optional sfixed32 timestamp = 2;</code>
-     */
-    int getTimestamp();
+        /**
+         * <pre>
+         * publishing timestamp of this exposure key package - unix epoch
+         * </pre>
+         *
+         * <code>optional sfixed32 timestamp = 2;</code>
+         */
+        int getTimestamp();
 
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    int getAggregationIntervalValue();
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval getAggregationInterval();
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        int getAggregationIntervalValue();
 
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    java.util.List<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey>
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval getAggregationInterval();
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        java.util.List<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey>
         getExposureKeysList();
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getExposureKeys(int index);
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    int getExposureKeysCount();
-  }
-  /**
-   * Protobuf type {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket}
-   */
-  public  static final class TemporaryExposureKeyBucket extends
-      com.google.protobuf.GeneratedMessageLite<
-          TemporaryExposureKeyBucket, TemporaryExposureKeyBucket.Builder> implements
-      // @@protoc_insertion_point(message_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
-      TemporaryExposureKeyBucketOrBuilder {
-    private TemporaryExposureKeyBucket() {
-      shardKey_ = "";
-      exposureKeys_ = emptyProtobufList();
-    }
-    /**
-     * Protobuf enum {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval}
-     */
-    public enum AggregationInterval
-        implements com.google.protobuf.Internal.EnumLite {
-      /**
-       * <pre>
-       * Aggregation of 1 hour / 60 minutes
-       * </pre>
-       *
-       * <code>HOURLY = 0;</code>
-       */
-      HOURLY(0),
-      /**
-       * <pre>
-       * Aggregation of 24 hours / 1440 minutes
-       * </pre>
-       *
-       * <code>DAILY = 1;</code>
-       */
-      DAILY(1),
-      UNRECOGNIZED(-1),
-      ;
 
-      /**
-       * <pre>
-       * Aggregation of 1 hour / 60 minutes
-       * </pre>
-       *
-       * <code>HOURLY = 0;</code>
-       */
-      public static final int HOURLY_VALUE = 0;
-      /**
-       * <pre>
-       * Aggregation of 24 hours / 1440 minutes
-       * </pre>
-       *
-       * <code>DAILY = 1;</code>
-       */
-      public static final int DAILY_VALUE = 1;
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getExposureKeys(int index);
 
-
-      public final int getNumber() {
-        return value;
-      }
-
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static AggregationInterval valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static AggregationInterval forNumber(int value) {
-        switch (value) {
-          case 0: return HOURLY;
-          case 1: return DAILY;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<AggregationInterval>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          AggregationInterval> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<AggregationInterval>() {
-              public AggregationInterval findValueByNumber(int number) {
-                return AggregationInterval.forNumber(number);
-              }
-            };
-
-      private final int value;
-
-      private AggregationInterval(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval)
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        int getExposureKeysCount();
     }
 
-    private int bitField0_;
-    public static final int SHARDKEY_FIELD_NUMBER = 1;
-    private java.lang.String shardKey_;
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    public java.lang.String getShardKey() {
-      return shardKey_;
-    }
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getShardKeyBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(shardKey_);
-    }
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    private void setShardKey(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      shardKey_ = value;
-    }
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    private void clearShardKey() {
-      
-      shardKey_ = getDefaultInstance().getShardKey();
-    }
-    /**
-     * <pre>
-     * e.g. Country-Code
-     * </pre>
-     *
-     * <code>optional string shardKey = 1;</code>
-     */
-    private void setShardKeyBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      shardKey_ = value.toStringUtf8();
-    }
+    public interface TemporaryExposureKeyOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
+            com.google.protobuf.MessageLiteOrBuilder {
 
-    public static final int TIMESTAMP_FIELD_NUMBER = 2;
-    private int timestamp_;
-    /**
-     * <pre>
-     * publishing timestamp of this exposure key package - unix epoch
-     * </pre>
-     *
-     * <code>optional sfixed32 timestamp = 2;</code>
-     */
-    public int getTimestamp() {
-      return timestamp_;
-    }
-    /**
-     * <pre>
-     * publishing timestamp of this exposure key package - unix epoch
-     * </pre>
-     *
-     * <code>optional sfixed32 timestamp = 2;</code>
-     */
-    private void setTimestamp(int value) {
-      
-      timestamp_ = value;
-    }
-    /**
-     * <pre>
-     * publishing timestamp of this exposure key package - unix epoch
-     * </pre>
-     *
-     * <code>optional sfixed32 timestamp = 2;</code>
-     */
-    private void clearTimestamp() {
-      
-      timestamp_ = 0;
-    }
+        /**
+         * <pre>
+         * 16 bytes long exposure key
+         * </pre>
+         *
+         * <code>optional bytes keyData = 1;</code>
+         */
+        com.google.protobuf.ByteString getKeyData();
 
-    public static final int AGGREGATIONINTERVAL_FIELD_NUMBER = 3;
-    private int aggregationInterval_;
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    public int getAggregationIntervalValue() {
-      return aggregationInterval_;
-    }
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval getAggregationInterval() {
-      de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval result = de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.forNumber(aggregationInterval_);
-      return result == null ? de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    private void setAggregationIntervalValue(int value) {
-        aggregationInterval_ = value;
-    }
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    private void setAggregationInterval(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      aggregationInterval_ = value.getNumber();
-    }
-    /**
-     * <pre>
-     * time interval aggregated in this package
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-     */
-    private void clearAggregationInterval() {
-      
-      aggregationInterval_ = 0;
-    }
+        /**
+         * <pre>
+         * unix epoch timestamp / 600
+         * </pre>
+         *
+         * <code>optional sfixed32 rollingStartNumber = 2;</code>
+         */
+        int getRollingStartNumber();
 
-    public static final int EXPOSUREKEYS_FIELD_NUMBER = 4;
-    private com.google.protobuf.Internal.ProtobufList<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> exposureKeys_;
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    public java.util.List<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> getExposureKeysList() {
-      return exposureKeys_;
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    public java.util.List<? extends de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyOrBuilder>
-        getExposureKeysOrBuilderList() {
-      return exposureKeys_;
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    public int getExposureKeysCount() {
-      return exposureKeys_.size();
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getExposureKeys(int index) {
-      return exposureKeys_.get(index);
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyOrBuilder getExposureKeysOrBuilder(
-        int index) {
-      return exposureKeys_.get(index);
-    }
-    private void ensureExposureKeysIsMutable() {
-      if (!exposureKeys_.isModifiable()) {
-        exposureKeys_ =
-            com.google.protobuf.GeneratedMessageLite.mutableCopy(exposureKeys_);
-       }
-    }
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        int getRiskLevelValue();
 
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void setExposureKeys(
-        int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      ensureExposureKeysIsMutable();
-      exposureKeys_.set(index, value);
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void setExposureKeys(
-        int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
-      ensureExposureKeysIsMutable();
-      exposureKeys_.set(index, builderForValue.build());
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void addExposureKeys(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      ensureExposureKeysIsMutable();
-      exposureKeys_.add(value);
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void addExposureKeys(
-        int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      ensureExposureKeysIsMutable();
-      exposureKeys_.add(index, value);
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void addExposureKeys(
-        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
-      ensureExposureKeysIsMutable();
-      exposureKeys_.add(builderForValue.build());
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void addExposureKeys(
-        int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
-      ensureExposureKeysIsMutable();
-      exposureKeys_.add(index, builderForValue.build());
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void addAllExposureKeys(
-        java.lang.Iterable<? extends de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> values) {
-      ensureExposureKeysIsMutable();
-      com.google.protobuf.AbstractMessageLite.addAll(
-          values, exposureKeys_);
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void clearExposureKeys() {
-      exposureKeys_ = emptyProtobufList();
-    }
-    /**
-     * <pre>
-     * list of temporary exposure keys
-     * </pre>
-     *
-     * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-     */
-    private void removeExposureKeys(int index) {
-      ensureExposureKeysIsMutable();
-      exposureKeys_.remove(index);
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!shardKey_.isEmpty()) {
-        output.writeString(1, getShardKey());
-      }
-      if (timestamp_ != 0) {
-        output.writeSFixed32(2, timestamp_);
-      }
-      if (aggregationInterval_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.HOURLY.getNumber()) {
-        output.writeEnum(3, aggregationInterval_);
-      }
-      for (int i = 0; i < exposureKeys_.size(); i++) {
-        output.writeMessage(4, exposureKeys_.get(i));
-      }
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!shardKey_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeStringSize(1, getShardKey());
-      }
-      if (timestamp_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeSFixed32Size(2, timestamp_);
-      }
-      if (aggregationInterval_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.HOURLY.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, aggregationInterval_);
-      }
-      for (int i = 0; i < exposureKeys_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, exposureKeys_.get(i));
-      }
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel getRiskLevel();
     }
 
     /**
      * Protobuf type {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket}
      */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket, Builder> implements
-        // @@protoc_insertion_point(builder_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
-        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucketOrBuilder {
-      // Construct using de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
+    public static final class TemporaryExposureKeyBucket extends
+            com.google.protobuf.GeneratedMessageLite<
+                    TemporaryExposureKeyBucket, TemporaryExposureKeyBucket.Builder> implements
+            // @@protoc_insertion_point(message_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
+            TemporaryExposureKeyBucketOrBuilder {
+        public static final int SHARDKEY_FIELD_NUMBER = 1;
+        public static final int TIMESTAMP_FIELD_NUMBER = 2;
+        public static final int AGGREGATIONINTERVAL_FIELD_NUMBER = 3;
+        public static final int EXPOSUREKEYS_FIELD_NUMBER = 4;
+        // @@protoc_insertion_point(class_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
+        private static final de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket DEFAULT_INSTANCE;
+        private static volatile com.google.protobuf.Parser<TemporaryExposureKeyBucket> PARSER;
 
-
-      /**
-       * <pre>
-       * e.g. Country-Code
-       * </pre>
-       *
-       * <code>optional string shardKey = 1;</code>
-       */
-      public java.lang.String getShardKey() {
-        return instance.getShardKey();
-      }
-      /**
-       * <pre>
-       * e.g. Country-Code
-       * </pre>
-       *
-       * <code>optional string shardKey = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getShardKeyBytes() {
-        return instance.getShardKeyBytes();
-      }
-      /**
-       * <pre>
-       * e.g. Country-Code
-       * </pre>
-       *
-       * <code>optional string shardKey = 1;</code>
-       */
-      public Builder setShardKey(
-          java.lang.String value) {
-        copyOnWrite();
-        instance.setShardKey(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * e.g. Country-Code
-       * </pre>
-       *
-       * <code>optional string shardKey = 1;</code>
-       */
-      public Builder clearShardKey() {
-        copyOnWrite();
-        instance.clearShardKey();
-        return this;
-      }
-      /**
-       * <pre>
-       * e.g. Country-Code
-       * </pre>
-       *
-       * <code>optional string shardKey = 1;</code>
-       */
-      public Builder setShardKeyBytes(
-          com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setShardKeyBytes(value);
-        return this;
-      }
-
-      /**
-       * <pre>
-       * publishing timestamp of this exposure key package - unix epoch
-       * </pre>
-       *
-       * <code>optional sfixed32 timestamp = 2;</code>
-       */
-      public int getTimestamp() {
-        return instance.getTimestamp();
-      }
-      /**
-       * <pre>
-       * publishing timestamp of this exposure key package - unix epoch
-       * </pre>
-       *
-       * <code>optional sfixed32 timestamp = 2;</code>
-       */
-      public Builder setTimestamp(int value) {
-        copyOnWrite();
-        instance.setTimestamp(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * publishing timestamp of this exposure key package - unix epoch
-       * </pre>
-       *
-       * <code>optional sfixed32 timestamp = 2;</code>
-       */
-      public Builder clearTimestamp() {
-        copyOnWrite();
-        instance.clearTimestamp();
-        return this;
-      }
-
-      /**
-       * <pre>
-       * time interval aggregated in this package
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-       */
-      public int getAggregationIntervalValue() {
-        return instance.getAggregationIntervalValue();
-      }
-      /**
-       * <pre>
-       * time interval aggregated in this package
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-       */
-      public Builder setAggregationIntervalValue(int value) {
-        copyOnWrite();
-        instance.setAggregationIntervalValue(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * time interval aggregated in this package
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-       */
-      public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval getAggregationInterval() {
-        return instance.getAggregationInterval();
-      }
-      /**
-       * <pre>
-       * time interval aggregated in this package
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-       */
-      public Builder setAggregationInterval(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval value) {
-        copyOnWrite();
-        instance.setAggregationInterval(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * time interval aggregated in this package
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
-       */
-      public Builder clearAggregationInterval() {
-        copyOnWrite();
-        instance.clearAggregationInterval();
-        return this;
-      }
-
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public java.util.List<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> getExposureKeysList() {
-        return java.util.Collections.unmodifiableList(
-            instance.getExposureKeysList());
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public int getExposureKeysCount() {
-        return instance.getExposureKeysCount();
-      }/**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getExposureKeys(int index) {
-        return instance.getExposureKeys(index);
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder setExposureKeys(
-          int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
-        copyOnWrite();
-        instance.setExposureKeys(index, value);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder setExposureKeys(
-          int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
-        copyOnWrite();
-        instance.setExposureKeys(index, builderForValue);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder addExposureKeys(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
-        copyOnWrite();
-        instance.addExposureKeys(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder addExposureKeys(
-          int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
-        copyOnWrite();
-        instance.addExposureKeys(index, value);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder addExposureKeys(
-          de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
-        copyOnWrite();
-        instance.addExposureKeys(builderForValue);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder addExposureKeys(
-          int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
-        copyOnWrite();
-        instance.addExposureKeys(index, builderForValue);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder addAllExposureKeys(
-          java.lang.Iterable<? extends de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> values) {
-        copyOnWrite();
-        instance.addAllExposureKeys(values);
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder clearExposureKeys() {
-        copyOnWrite();
-        instance.clearExposureKeys();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of temporary exposure keys
-       * </pre>
-       *
-       * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
-       */
-      public Builder removeExposureKeys(int index) {
-        copyOnWrite();
-        instance.removeExposureKeys(index);
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
-    }
-    protected final Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        Object arg0, Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket();
+        static {
+            DEFAULT_INSTANCE = new TemporaryExposureKeyBucket();
+            DEFAULT_INSTANCE.makeImmutable();
         }
-        case IS_INITIALIZED: {
-          return DEFAULT_INSTANCE;
-        }
-        case MAKE_IMMUTABLE: {
-          exposureKeys_.makeImmutable();
-          return null;
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case VISIT: {
-          Visitor visitor = (Visitor) arg0;
-          de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket other = (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket) arg1;
-          shardKey_ = visitor.visitString(!shardKey_.isEmpty(), shardKey_,
-              !other.shardKey_.isEmpty(), other.shardKey_);
-          timestamp_ = visitor.visitInt(timestamp_ != 0, timestamp_,
-              other.timestamp_ != 0, other.timestamp_);
-          aggregationInterval_ = visitor.visitInt(aggregationInterval_ != 0, aggregationInterval_,    other.aggregationInterval_ != 0, other.aggregationInterval_);
-          exposureKeys_= visitor.visitList(exposureKeys_, other.exposureKeys_);
-          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
-              .INSTANCE) {
-            bitField0_ |= other.bitField0_;
-          }
-          return this;
-        }
-        case MERGE_FROM_STREAM: {
-          com.google.protobuf.CodedInputStream input =
-              (com.google.protobuf.CodedInputStream) arg0;
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry =
-              (com.google.protobuf.ExtensionRegistryLite) arg1;
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                default: {
-                  if (!input.skipField(tag)) {
-                    done = true;
-                  }
-                  break;
-                }
-                case 10: {
-                  String s = input.readStringRequireUtf8();
 
-                  shardKey_ = s;
-                  break;
-                }
-                case 21: {
+        private int bitField0_;
+        private java.lang.String shardKey_;
+        private int timestamp_;
+        private int aggregationInterval_;
+        private com.google.protobuf.Internal.ProtobufList<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> exposureKeys_;
 
-                  timestamp_ = input.readSFixed32();
-                  break;
-                }
-                case 24: {
-                  int rawValue = input.readEnum();
+        private TemporaryExposureKeyBucket() {
+            shardKey_ = "";
+            exposureKeys_ = emptyProtobufList();
+        }
 
-                  aggregationInterval_ = rawValue;
-                  break;
-                }
-                case 34: {
-                  if (!exposureKeys_.isModifiable()) {
-                    exposureKeys_ =
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<TemporaryExposureKeyBucket> parser() {
+            return DEFAULT_INSTANCE.getParserForType();
+        }
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        public java.lang.String getShardKey() {
+            return shardKey_;
+        }
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        private void setShardKey(
+                java.lang.String value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+
+            shardKey_ = value;
+        }
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+        getShardKeyBytes() {
+            return com.google.protobuf.ByteString.copyFromUtf8(shardKey_);
+        }
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        private void setShardKeyBytes(
+                com.google.protobuf.ByteString value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            checkByteStringIsUtf8(value);
+
+            shardKey_ = value.toStringUtf8();
+        }
+
+        /**
+         * <pre>
+         * e.g. Country-Code
+         * </pre>
+         *
+         * <code>optional string shardKey = 1;</code>
+         */
+        private void clearShardKey() {
+
+            shardKey_ = getDefaultInstance().getShardKey();
+        }
+
+        /**
+         * <pre>
+         * publishing timestamp of this exposure key package - unix epoch
+         * </pre>
+         *
+         * <code>optional sfixed32 timestamp = 2;</code>
+         */
+        public int getTimestamp() {
+            return timestamp_;
+        }
+
+        /**
+         * <pre>
+         * publishing timestamp of this exposure key package - unix epoch
+         * </pre>
+         *
+         * <code>optional sfixed32 timestamp = 2;</code>
+         */
+        private void setTimestamp(int value) {
+
+            timestamp_ = value;
+        }
+
+        /**
+         * <pre>
+         * publishing timestamp of this exposure key package - unix epoch
+         * </pre>
+         *
+         * <code>optional sfixed32 timestamp = 2;</code>
+         */
+        private void clearTimestamp() {
+
+            timestamp_ = 0;
+        }
+
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        public int getAggregationIntervalValue() {
+            return aggregationInterval_;
+        }
+
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        private void setAggregationIntervalValue(int value) {
+            aggregationInterval_ = value;
+        }
+
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval getAggregationInterval() {
+            de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval result = de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.forNumber(aggregationInterval_);
+            return result == null ? de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.UNRECOGNIZED : result;
+        }
+
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        private void setAggregationInterval(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+
+            aggregationInterval_ = value.getNumber();
+        }
+
+        /**
+         * <pre>
+         * time interval aggregated in this package
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+         */
+        private void clearAggregationInterval() {
+
+            aggregationInterval_ = 0;
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        public java.util.List<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> getExposureKeysList() {
+            return exposureKeys_;
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        public java.util.List<? extends de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyOrBuilder>
+        getExposureKeysOrBuilderList() {
+            return exposureKeys_;
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        public int getExposureKeysCount() {
+            return exposureKeys_.size();
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getExposureKeys(int index) {
+            return exposureKeys_.get(index);
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyOrBuilder getExposureKeysOrBuilder(
+                int index) {
+            return exposureKeys_.get(index);
+        }
+
+        private void ensureExposureKeysIsMutable() {
+            if (!exposureKeys_.isModifiable()) {
+                exposureKeys_ =
                         com.google.protobuf.GeneratedMessageLite.mutableCopy(exposureKeys_);
-                  }
-                  exposureKeys_.add(
-                      input.readMessage(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.parser(), extensionRegistry));
-                  break;
+            }
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void setExposureKeys(
+                int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            ensureExposureKeysIsMutable();
+            exposureKeys_.set(index, value);
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void setExposureKeys(
+                int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
+            ensureExposureKeysIsMutable();
+            exposureKeys_.set(index, builderForValue.build());
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void addExposureKeys(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            ensureExposureKeysIsMutable();
+            exposureKeys_.add(value);
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void addExposureKeys(
+                int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            ensureExposureKeysIsMutable();
+            exposureKeys_.add(index, value);
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void addExposureKeys(
+                de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
+            ensureExposureKeysIsMutable();
+            exposureKeys_.add(builderForValue.build());
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void addExposureKeys(
+                int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
+            ensureExposureKeysIsMutable();
+            exposureKeys_.add(index, builderForValue.build());
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void addAllExposureKeys(
+                java.lang.Iterable<? extends de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> values) {
+            ensureExposureKeysIsMutable();
+            com.google.protobuf.AbstractMessageLite.addAll(
+                    values, exposureKeys_);
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void clearExposureKeys() {
+            exposureKeys_ = emptyProtobufList();
+        }
+
+        /**
+         * <pre>
+         * list of temporary exposure keys
+         * </pre>
+         *
+         * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+         */
+        private void removeExposureKeys(int index) {
+            ensureExposureKeysIsMutable();
+            exposureKeys_.remove(index);
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (!shardKey_.isEmpty()) {
+                output.writeString(1, getShardKey());
+            }
+            if (timestamp_ != 0) {
+                output.writeSFixed32(2, timestamp_);
+            }
+            if (aggregationInterval_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.HOURLY.getNumber()) {
+                output.writeEnum(3, aggregationInterval_);
+            }
+            for (int i = 0; i < exposureKeys_.size(); i++) {
+                output.writeMessage(4, exposureKeys_.get(i));
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSerializedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (!shardKey_.isEmpty()) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeStringSize(1, getShardKey());
+            }
+            if (timestamp_ != 0) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeSFixed32Size(2, timestamp_);
+            }
+            if (aggregationInterval_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval.HOURLY.getNumber()) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeEnumSize(3, aggregationInterval_);
+            }
+            for (int i = 0; i < exposureKeys_.size(); i++) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeMessageSize(4, exposureKeys_.get(i));
+            }
+            memoizedSerializedSize = size;
+            return size;
+        }
+
+        protected final Object dynamicMethod(
+                com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+                Object arg0, Object arg1) {
+            switch (method) {
+                case NEW_MUTABLE_INSTANCE: {
+                    return new de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket();
                 }
-              }
+                case IS_INITIALIZED: {
+                    return DEFAULT_INSTANCE;
+                }
+                case MAKE_IMMUTABLE: {
+                    exposureKeys_.makeImmutable();
+                    return null;
+                }
+                case NEW_BUILDER: {
+                    return new Builder();
+                }
+                case VISIT: {
+                    Visitor visitor = (Visitor) arg0;
+                    de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket other = (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket) arg1;
+                    shardKey_ = visitor.visitString(!shardKey_.isEmpty(), shardKey_,
+                            !other.shardKey_.isEmpty(), other.shardKey_);
+                    timestamp_ = visitor.visitInt(timestamp_ != 0, timestamp_,
+                            other.timestamp_ != 0, other.timestamp_);
+                    aggregationInterval_ = visitor.visitInt(aggregationInterval_ != 0, aggregationInterval_, other.aggregationInterval_ != 0, other.aggregationInterval_);
+                    exposureKeys_ = visitor.visitList(exposureKeys_, other.exposureKeys_);
+                    if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
+                            .INSTANCE) {
+                        bitField0_ |= other.bitField0_;
+                    }
+                    return this;
+                }
+                case MERGE_FROM_STREAM: {
+                    com.google.protobuf.CodedInputStream input =
+                            (com.google.protobuf.CodedInputStream) arg0;
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+                            (com.google.protobuf.ExtensionRegistryLite) arg1;
+                    try {
+                        boolean done = false;
+                        while (!done) {
+                            int tag = input.readTag();
+                            switch (tag) {
+                                case 0:
+                                    done = true;
+                                    break;
+                                default: {
+                                    if (!input.skipField(tag)) {
+                                        done = true;
+                                    }
+                                    break;
+                                }
+                                case 10: {
+                                    String s = input.readStringRequireUtf8();
+
+                                    shardKey_ = s;
+                                    break;
+                                }
+                                case 21: {
+
+                                    timestamp_ = input.readSFixed32();
+                                    break;
+                                }
+                                case 24: {
+                                    int rawValue = input.readEnum();
+
+                                    aggregationInterval_ = rawValue;
+                                    break;
+                                }
+                                case 34: {
+                                    if (!exposureKeys_.isModifiable()) {
+                                        exposureKeys_ =
+                                                com.google.protobuf.GeneratedMessageLite.mutableCopy(exposureKeys_);
+                                    }
+                                    exposureKeys_.add(
+                                            input.readMessage(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.parser(), extensionRegistry));
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                        throw new RuntimeException(e.setUnfinishedMessage(this));
+                    } catch (java.io.IOException e) {
+                        throw new RuntimeException(
+                                new com.google.protobuf.InvalidProtocolBufferException(
+                                        e.getMessage()).setUnfinishedMessage(this));
+                    } finally {
+                    }
+                }
+                case GET_DEFAULT_INSTANCE: {
+                    return DEFAULT_INSTANCE;
+                }
+                case GET_PARSER: {
+                    if (PARSER == null) {
+                        synchronized (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.class) {
+                            if (PARSER == null) {
+                                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
+                            }
+                        }
+                    }
+                    return PARSER;
+                }
             }
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw new RuntimeException(e.setUnfinishedMessage(this));
-          } catch (java.io.IOException e) {
-            throw new RuntimeException(
-                new com.google.protobuf.InvalidProtocolBufferException(
-                    e.getMessage()).setUnfinishedMessage(this));
-          } finally {
-          }
+            throw new UnsupportedOperationException();
         }
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          if (PARSER == null) {    synchronized (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.class) {
-              if (PARSER == null) {
-                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
-              }
+
+        /**
+         * Protobuf enum {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval}
+         */
+        public enum AggregationInterval
+                implements com.google.protobuf.Internal.EnumLite {
+            /**
+             * <pre>
+             * Aggregation of 1 hour / 60 minutes
+             * </pre>
+             *
+             * <code>HOURLY = 0;</code>
+             */
+            HOURLY(0),
+            /**
+             * <pre>
+             * Aggregation of 24 hours / 1440 minutes
+             * </pre>
+             *
+             * <code>DAILY = 1;</code>
+             */
+            DAILY(1),
+            UNRECOGNIZED(-1),
+            ;
+
+            /**
+             * <pre>
+             * Aggregation of 1 hour / 60 minutes
+             * </pre>
+             *
+             * <code>HOURLY = 0;</code>
+             */
+            public static final int HOURLY_VALUE = 0;
+            /**
+             * <pre>
+             * Aggregation of 24 hours / 1440 minutes
+             * </pre>
+             *
+             * <code>DAILY = 1;</code>
+             */
+            public static final int DAILY_VALUE = 1;
+            private static final com.google.protobuf.Internal.EnumLiteMap<
+                    AggregationInterval> internalValueMap =
+                    new com.google.protobuf.Internal.EnumLiteMap<AggregationInterval>() {
+                        public AggregationInterval findValueByNumber(int number) {
+                            return AggregationInterval.forNumber(number);
+                        }
+                    };
+            private final int value;
+
+            private AggregationInterval(int value) {
+                this.value = value;
             }
-          }
-          return PARSER;
+
+            /**
+             * @deprecated Use {@link #forNumber(int)} instead.
+             */
+            @java.lang.Deprecated
+            public static AggregationInterval valueOf(int value) {
+                return forNumber(value);
+            }
+
+            public static AggregationInterval forNumber(int value) {
+                switch (value) {
+                    case 0:
+                        return HOURLY;
+                    case 1:
+                        return DAILY;
+                    default:
+                        return null;
+                }
+            }
+
+            public static com.google.protobuf.Internal.EnumLiteMap<AggregationInterval>
+            internalGetValueMap() {
+                return internalValueMap;
+            }
+
+            public final int getNumber() {
+                return value;
+            }
+
+            // @@protoc_insertion_point(enum_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval)
         }
-      }
-      throw new UnsupportedOperationException();
-    }
+
+        /**
+         * Protobuf type {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageLite.Builder<
+                        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket, Builder> implements
+                // @@protoc_insertion_point(builder_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
+                de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucketOrBuilder {
+            // Construct using de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.newBuilder()
+            private Builder() {
+                super(DEFAULT_INSTANCE);
+            }
 
 
-    // @@protoc_insertion_point(class_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
-    private static final de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new TemporaryExposureKeyBucket();
-      DEFAULT_INSTANCE.makeImmutable();
-    }
+            /**
+             * <pre>
+             * e.g. Country-Code
+             * </pre>
+             *
+             * <code>optional string shardKey = 1;</code>
+             */
+            public java.lang.String getShardKey() {
+                return instance.getShardKey();
+            }
 
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
+            /**
+             * <pre>
+             * e.g. Country-Code
+             * </pre>
+             *
+             * <code>optional string shardKey = 1;</code>
+             */
+            public Builder setShardKey(
+                    java.lang.String value) {
+                copyOnWrite();
+                instance.setShardKey(value);
+                return this;
+            }
 
-    private static volatile com.google.protobuf.Parser<TemporaryExposureKeyBucket> PARSER;
+            /**
+             * <pre>
+             * e.g. Country-Code
+             * </pre>
+             *
+             * <code>optional string shardKey = 1;</code>
+             */
+            public com.google.protobuf.ByteString
+            getShardKeyBytes() {
+                return instance.getShardKeyBytes();
+            }
 
-    public static com.google.protobuf.Parser<TemporaryExposureKeyBucket> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
+            /**
+             * <pre>
+             * e.g. Country-Code
+             * </pre>
+             *
+             * <code>optional string shardKey = 1;</code>
+             */
+            public Builder setShardKeyBytes(
+                    com.google.protobuf.ByteString value) {
+                copyOnWrite();
+                instance.setShardKeyBytes(value);
+                return this;
+            }
 
-  public interface TemporaryExposureKeyOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
-      com.google.protobuf.MessageLiteOrBuilder {
+            /**
+             * <pre>
+             * e.g. Country-Code
+             * </pre>
+             *
+             * <code>optional string shardKey = 1;</code>
+             */
+            public Builder clearShardKey() {
+                copyOnWrite();
+                instance.clearShardKey();
+                return this;
+            }
 
-    /**
-     * <pre>
-     * 16 bytes long exposure key
-     * </pre>
-     *
-     * <code>optional bytes keyData = 1;</code>
-     */
-    com.google.protobuf.ByteString getKeyData();
+            /**
+             * <pre>
+             * publishing timestamp of this exposure key package - unix epoch
+             * </pre>
+             *
+             * <code>optional sfixed32 timestamp = 2;</code>
+             */
+            public int getTimestamp() {
+                return instance.getTimestamp();
+            }
 
-    /**
-     * <pre>
-     * unix epoch timestamp / 600
-     * </pre>
-     *
-     * <code>optional sfixed32 rollingStartNumber = 2;</code>
-     */
-    int getRollingStartNumber();
+            /**
+             * <pre>
+             * publishing timestamp of this exposure key package - unix epoch
+             * </pre>
+             *
+             * <code>optional sfixed32 timestamp = 2;</code>
+             */
+            public Builder setTimestamp(int value) {
+                copyOnWrite();
+                instance.setTimestamp(value);
+                return this;
+            }
 
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    int getRiskLevelValue();
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel getRiskLevel();
-  }
-  /**
-   * Protobuf type {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKey}
-   */
-  public  static final class TemporaryExposureKey extends
-      com.google.protobuf.GeneratedMessageLite<
-          TemporaryExposureKey, TemporaryExposureKey.Builder> implements
-      // @@protoc_insertion_point(message_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
-      TemporaryExposureKeyOrBuilder {
-    private TemporaryExposureKey() {
-      keyData_ = com.google.protobuf.ByteString.EMPTY;
-    }
-    /**
-     * Protobuf enum {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel}
-     */
-    public enum RiskLevel
-        implements com.google.protobuf.Internal.EnumLite {
-      /**
-       * <code>RISK_LEVEL_INVALID = 0;</code>
-       */
-      RISK_LEVEL_INVALID(0),
-      /**
-       * <code>RISK_LEVEL_LOWEST = 1;</code>
-       */
-      RISK_LEVEL_LOWEST(1),
-      /**
-       * <code>RISK_LEVEL_LOW = 2;</code>
-       */
-      RISK_LEVEL_LOW(2),
-      /**
-       * <code>RISK_LEVEL_LOW_MEDIUM = 3;</code>
-       */
-      RISK_LEVEL_LOW_MEDIUM(3),
-      /**
-       * <code>RISK_LEVEL_MEDIUM = 4;</code>
-       */
-      RISK_LEVEL_MEDIUM(4),
-      /**
-       * <code>RISK_LEVEL_MEDIUM_HIGH = 5;</code>
-       */
-      RISK_LEVEL_MEDIUM_HIGH(5),
-      /**
-       * <code>RISK_LEVEL_HIGH = 6;</code>
-       */
-      RISK_LEVEL_HIGH(6),
-      /**
-       * <code>RISK_LEVEL_VERY_HIGH = 7;</code>
-       */
-      RISK_LEVEL_VERY_HIGH(7),
-      /**
-       * <code>RISK_LEVEL_HIGHEST = 8;</code>
-       */
-      RISK_LEVEL_HIGHEST(8),
-      UNRECOGNIZED(-1),
-      ;
+            /**
+             * <pre>
+             * publishing timestamp of this exposure key package - unix epoch
+             * </pre>
+             *
+             * <code>optional sfixed32 timestamp = 2;</code>
+             */
+            public Builder clearTimestamp() {
+                copyOnWrite();
+                instance.clearTimestamp();
+                return this;
+            }
 
-      /**
-       * <code>RISK_LEVEL_INVALID = 0;</code>
-       */
-      public static final int RISK_LEVEL_INVALID_VALUE = 0;
-      /**
-       * <code>RISK_LEVEL_LOWEST = 1;</code>
-       */
-      public static final int RISK_LEVEL_LOWEST_VALUE = 1;
-      /**
-       * <code>RISK_LEVEL_LOW = 2;</code>
-       */
-      public static final int RISK_LEVEL_LOW_VALUE = 2;
-      /**
-       * <code>RISK_LEVEL_LOW_MEDIUM = 3;</code>
-       */
-      public static final int RISK_LEVEL_LOW_MEDIUM_VALUE = 3;
-      /**
-       * <code>RISK_LEVEL_MEDIUM = 4;</code>
-       */
-      public static final int RISK_LEVEL_MEDIUM_VALUE = 4;
-      /**
-       * <code>RISK_LEVEL_MEDIUM_HIGH = 5;</code>
-       */
-      public static final int RISK_LEVEL_MEDIUM_HIGH_VALUE = 5;
-      /**
-       * <code>RISK_LEVEL_HIGH = 6;</code>
-       */
-      public static final int RISK_LEVEL_HIGH_VALUE = 6;
-      /**
-       * <code>RISK_LEVEL_VERY_HIGH = 7;</code>
-       */
-      public static final int RISK_LEVEL_VERY_HIGH_VALUE = 7;
-      /**
-       * <code>RISK_LEVEL_HIGHEST = 8;</code>
-       */
-      public static final int RISK_LEVEL_HIGHEST_VALUE = 8;
+            /**
+             * <pre>
+             * time interval aggregated in this package
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+             */
+            public int getAggregationIntervalValue() {
+                return instance.getAggregationIntervalValue();
+            }
 
+            /**
+             * <pre>
+             * time interval aggregated in this package
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+             */
+            public Builder setAggregationIntervalValue(int value) {
+                copyOnWrite();
+                instance.setAggregationIntervalValue(value);
+                return this;
+            }
 
-      public final int getNumber() {
-        return value;
-      }
+            /**
+             * <pre>
+             * time interval aggregated in this package
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+             */
+            public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval getAggregationInterval() {
+                return instance.getAggregationInterval();
+            }
 
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static RiskLevel valueOf(int value) {
-        return forNumber(value);
-      }
+            /**
+             * <pre>
+             * time interval aggregated in this package
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+             */
+            public Builder setAggregationInterval(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyBucket.AggregationInterval value) {
+                copyOnWrite();
+                instance.setAggregationInterval(value);
+                return this;
+            }
 
-      public static RiskLevel forNumber(int value) {
-        switch (value) {
-          case 0: return RISK_LEVEL_INVALID;
-          case 1: return RISK_LEVEL_LOWEST;
-          case 2: return RISK_LEVEL_LOW;
-          case 3: return RISK_LEVEL_LOW_MEDIUM;
-          case 4: return RISK_LEVEL_MEDIUM;
-          case 5: return RISK_LEVEL_MEDIUM_HIGH;
-          case 6: return RISK_LEVEL_HIGH;
-          case 7: return RISK_LEVEL_VERY_HIGH;
-          case 8: return RISK_LEVEL_HIGHEST;
-          default: return null;
+            /**
+             * <pre>
+             * time interval aggregated in this package
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket.AggregationInterval aggregationInterval = 3;</code>
+             */
+            public Builder clearAggregationInterval() {
+                copyOnWrite();
+                instance.clearAggregationInterval();
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public java.util.List<de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> getExposureKeysList() {
+                return java.util.Collections.unmodifiableList(
+                        instance.getExposureKeysList());
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public int getExposureKeysCount() {
+                return instance.getExposureKeysCount();
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getExposureKeys(int index) {
+                return instance.getExposureKeys(index);
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder setExposureKeys(
+                    int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
+                copyOnWrite();
+                instance.setExposureKeys(index, value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder setExposureKeys(
+                    int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
+                copyOnWrite();
+                instance.setExposureKeys(index, builderForValue);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder addExposureKeys(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
+                copyOnWrite();
+                instance.addExposureKeys(value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder addExposureKeys(
+                    int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey value) {
+                copyOnWrite();
+                instance.addExposureKeys(index, value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder addExposureKeys(
+                    de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
+                copyOnWrite();
+                instance.addExposureKeys(builderForValue);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder addExposureKeys(
+                    int index, de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.Builder builderForValue) {
+                copyOnWrite();
+                instance.addExposureKeys(index, builderForValue);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder addAllExposureKeys(
+                    java.lang.Iterable<? extends de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey> values) {
+                copyOnWrite();
+                instance.addAllExposureKeys(values);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder clearExposureKeys() {
+                copyOnWrite();
+                instance.clearExposureKeys();
+                return this;
+            }
+
+            /**
+             * <pre>
+             * list of temporary exposure keys
+             * </pre>
+             *
+             * <code>repeated .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey exposureKeys = 4;</code>
+             */
+            public Builder removeExposureKeys(int index) {
+                copyOnWrite();
+                instance.removeExposureKeys(index);
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKeyBucket)
         }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<RiskLevel>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          RiskLevel> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<RiskLevel>() {
-              public RiskLevel findValueByNumber(int number) {
-                return RiskLevel.forNumber(number);
-              }
-            };
-
-      private final int value;
-
-      private RiskLevel(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel)
-    }
-
-    public static final int KEYDATA_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString keyData_;
-    /**
-     * <pre>
-     * 16 bytes long exposure key
-     * </pre>
-     *
-     * <code>optional bytes keyData = 1;</code>
-     */
-    public com.google.protobuf.ByteString getKeyData() {
-      return keyData_;
-    }
-    /**
-     * <pre>
-     * 16 bytes long exposure key
-     * </pre>
-     *
-     * <code>optional bytes keyData = 1;</code>
-     */
-    private void setKeyData(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      keyData_ = value;
-    }
-    /**
-     * <pre>
-     * 16 bytes long exposure key
-     * </pre>
-     *
-     * <code>optional bytes keyData = 1;</code>
-     */
-    private void clearKeyData() {
-      
-      keyData_ = getDefaultInstance().getKeyData();
-    }
-
-    public static final int ROLLINGSTARTNUMBER_FIELD_NUMBER = 2;
-    private int rollingStartNumber_;
-    /**
-     * <pre>
-     * unix epoch timestamp / 600
-     * </pre>
-     *
-     * <code>optional sfixed32 rollingStartNumber = 2;</code>
-     */
-    public int getRollingStartNumber() {
-      return rollingStartNumber_;
-    }
-    /**
-     * <pre>
-     * unix epoch timestamp / 600
-     * </pre>
-     *
-     * <code>optional sfixed32 rollingStartNumber = 2;</code>
-     */
-    private void setRollingStartNumber(int value) {
-      
-      rollingStartNumber_ = value;
-    }
-    /**
-     * <pre>
-     * unix epoch timestamp / 600
-     * </pre>
-     *
-     * <code>optional sfixed32 rollingStartNumber = 2;</code>
-     */
-    private void clearRollingStartNumber() {
-      
-      rollingStartNumber_ = 0;
-    }
-
-    public static final int RISKLEVEL_FIELD_NUMBER = 3;
-    private int riskLevel_;
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    public int getRiskLevelValue() {
-      return riskLevel_;
-    }
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel getRiskLevel() {
-      de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel result = de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.forNumber(riskLevel_);
-      return result == null ? de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    private void setRiskLevelValue(int value) {
-        riskLevel_ = value;
-    }
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    private void setRiskLevel(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
-      
-      riskLevel_ = value.getNumber();
-    }
-    /**
-     * <pre>
-     * risk level from the sending device
-     * </pre>
-     *
-     * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-     */
-    private void clearRiskLevel() {
-      
-      riskLevel_ = 0;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!keyData_.isEmpty()) {
-        output.writeBytes(1, keyData_);
-      }
-      if (rollingStartNumber_ != 0) {
-        output.writeSFixed32(2, rollingStartNumber_);
-      }
-      if (riskLevel_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.RISK_LEVEL_INVALID.getNumber()) {
-        output.writeEnum(3, riskLevel_);
-      }
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!keyData_.isEmpty()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, keyData_);
-      }
-      if (rollingStartNumber_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeSFixed32Size(2, rollingStartNumber_);
-      }
-      if (riskLevel_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.RISK_LEVEL_INVALID.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, riskLevel_);
-      }
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
 
     /**
      * Protobuf type {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKey}
      */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey, Builder> implements
-        // @@protoc_insertion_point(builder_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
-        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyOrBuilder {
-      // Construct using de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
+    public static final class TemporaryExposureKey extends
+            com.google.protobuf.GeneratedMessageLite<
+                    TemporaryExposureKey, TemporaryExposureKey.Builder> implements
+            // @@protoc_insertion_point(message_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
+            TemporaryExposureKeyOrBuilder {
+        public static final int KEYDATA_FIELD_NUMBER = 1;
+        public static final int ROLLINGSTARTNUMBER_FIELD_NUMBER = 2;
+        public static final int RISKLEVEL_FIELD_NUMBER = 3;
+        // @@protoc_insertion_point(class_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
+        private static final de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey DEFAULT_INSTANCE;
+        private static volatile com.google.protobuf.Parser<TemporaryExposureKey> PARSER;
 
-
-      /**
-       * <pre>
-       * 16 bytes long exposure key
-       * </pre>
-       *
-       * <code>optional bytes keyData = 1;</code>
-       */
-      public com.google.protobuf.ByteString getKeyData() {
-        return instance.getKeyData();
-      }
-      /**
-       * <pre>
-       * 16 bytes long exposure key
-       * </pre>
-       *
-       * <code>optional bytes keyData = 1;</code>
-       */
-      public Builder setKeyData(com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setKeyData(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * 16 bytes long exposure key
-       * </pre>
-       *
-       * <code>optional bytes keyData = 1;</code>
-       */
-      public Builder clearKeyData() {
-        copyOnWrite();
-        instance.clearKeyData();
-        return this;
-      }
-
-      /**
-       * <pre>
-       * unix epoch timestamp / 600
-       * </pre>
-       *
-       * <code>optional sfixed32 rollingStartNumber = 2;</code>
-       */
-      public int getRollingStartNumber() {
-        return instance.getRollingStartNumber();
-      }
-      /**
-       * <pre>
-       * unix epoch timestamp / 600
-       * </pre>
-       *
-       * <code>optional sfixed32 rollingStartNumber = 2;</code>
-       */
-      public Builder setRollingStartNumber(int value) {
-        copyOnWrite();
-        instance.setRollingStartNumber(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * unix epoch timestamp / 600
-       * </pre>
-       *
-       * <code>optional sfixed32 rollingStartNumber = 2;</code>
-       */
-      public Builder clearRollingStartNumber() {
-        copyOnWrite();
-        instance.clearRollingStartNumber();
-        return this;
-      }
-
-      /**
-       * <pre>
-       * risk level from the sending device
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-       */
-      public int getRiskLevelValue() {
-        return instance.getRiskLevelValue();
-      }
-      /**
-       * <pre>
-       * risk level from the sending device
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-       */
-      public Builder setRiskLevelValue(int value) {
-        copyOnWrite();
-        instance.setRiskLevelValue(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * risk level from the sending device
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-       */
-      public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel getRiskLevel() {
-        return instance.getRiskLevel();
-      }
-      /**
-       * <pre>
-       * risk level from the sending device
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-       */
-      public Builder setRiskLevel(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel value) {
-        copyOnWrite();
-        instance.setRiskLevel(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * risk level from the sending device
-       * </pre>
-       *
-       * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
-       */
-      public Builder clearRiskLevel() {
-        copyOnWrite();
-        instance.clearRiskLevel();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
-    }
-    protected final Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        Object arg0, Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey();
+        static {
+            DEFAULT_INSTANCE = new TemporaryExposureKey();
+            DEFAULT_INSTANCE.makeImmutable();
         }
-        case IS_INITIALIZED: {
-          return DEFAULT_INSTANCE;
-        }
-        case MAKE_IMMUTABLE: {
-          return null;
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case VISIT: {
-          Visitor visitor = (Visitor) arg0;
-          de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey other = (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey) arg1;
-          keyData_ = visitor.visitByteString(keyData_ != com.google.protobuf.ByteString.EMPTY, keyData_,
-              other.keyData_ != com.google.protobuf.ByteString.EMPTY, other.keyData_);
-          rollingStartNumber_ = visitor.visitInt(rollingStartNumber_ != 0, rollingStartNumber_,
-              other.rollingStartNumber_ != 0, other.rollingStartNumber_);
-          riskLevel_ = visitor.visitInt(riskLevel_ != 0, riskLevel_,    other.riskLevel_ != 0, other.riskLevel_);
-          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
-              .INSTANCE) {
-          }
-          return this;
-        }
-        case MERGE_FROM_STREAM: {
-          com.google.protobuf.CodedInputStream input =
-              (com.google.protobuf.CodedInputStream) arg0;
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry =
-              (com.google.protobuf.ExtensionRegistryLite) arg1;
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                default: {
-                  if (!input.skipField(tag)) {
-                    done = true;
-                  }
-                  break;
-                }
-                case 10: {
 
-                  keyData_ = input.readBytes();
-                  break;
-                }
-                case 21: {
+        private com.google.protobuf.ByteString keyData_;
+        private int rollingStartNumber_;
+        private int riskLevel_;
 
-                  rollingStartNumber_ = input.readSFixed32();
-                  break;
-                }
-                case 24: {
-                  int rawValue = input.readEnum();
+        private TemporaryExposureKey() {
+            keyData_ = com.google.protobuf.ByteString.EMPTY;
+        }
 
-                  riskLevel_ = rawValue;
-                  break;
-                }
-              }
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
+                com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
+                com.google.protobuf.ByteString data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
+                byte[] data,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseDelimitedFrom(
+                java.io.InputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
+                com.google.protobuf.CodedInputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey parseFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(
+                    DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.toBuilder();
+        }
+
+        public static Builder newBuilder(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey prototype) {
+            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+
+        public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static com.google.protobuf.Parser<TemporaryExposureKey> parser() {
+            return DEFAULT_INSTANCE.getParserForType();
+        }
+
+        /**
+         * <pre>
+         * 16 bytes long exposure key
+         * </pre>
+         *
+         * <code>optional bytes keyData = 1;</code>
+         */
+        public com.google.protobuf.ByteString getKeyData() {
+            return keyData_;
+        }
+
+        /**
+         * <pre>
+         * 16 bytes long exposure key
+         * </pre>
+         *
+         * <code>optional bytes keyData = 1;</code>
+         */
+        private void setKeyData(com.google.protobuf.ByteString value) {
+            if (value == null) {
+                throw new NullPointerException();
             }
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw new RuntimeException(e.setUnfinishedMessage(this));
-          } catch (java.io.IOException e) {
-            throw new RuntimeException(
-                new com.google.protobuf.InvalidProtocolBufferException(
-                    e.getMessage()).setUnfinishedMessage(this));
-          } finally {
-          }
+
+            keyData_ = value;
         }
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
+
+        /**
+         * <pre>
+         * 16 bytes long exposure key
+         * </pre>
+         *
+         * <code>optional bytes keyData = 1;</code>
+         */
+        private void clearKeyData() {
+
+            keyData_ = getDefaultInstance().getKeyData();
         }
-        case GET_PARSER: {
-          if (PARSER == null) {    synchronized (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.class) {
-              if (PARSER == null) {
-                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
-              }
+
+        /**
+         * <pre>
+         * unix epoch timestamp / 600
+         * </pre>
+         *
+         * <code>optional sfixed32 rollingStartNumber = 2;</code>
+         */
+        public int getRollingStartNumber() {
+            return rollingStartNumber_;
+        }
+
+        /**
+         * <pre>
+         * unix epoch timestamp / 600
+         * </pre>
+         *
+         * <code>optional sfixed32 rollingStartNumber = 2;</code>
+         */
+        private void setRollingStartNumber(int value) {
+
+            rollingStartNumber_ = value;
+        }
+
+        /**
+         * <pre>
+         * unix epoch timestamp / 600
+         * </pre>
+         *
+         * <code>optional sfixed32 rollingStartNumber = 2;</code>
+         */
+        private void clearRollingStartNumber() {
+
+            rollingStartNumber_ = 0;
+        }
+
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        public int getRiskLevelValue() {
+            return riskLevel_;
+        }
+
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        private void setRiskLevelValue(int value) {
+            riskLevel_ = value;
+        }
+
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel getRiskLevel() {
+            de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel result = de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.forNumber(riskLevel_);
+            return result == null ? de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.UNRECOGNIZED : result;
+        }
+
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        private void setRiskLevel(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel value) {
+            if (value == null) {
+                throw new NullPointerException();
             }
-          }
-          return PARSER;
+
+            riskLevel_ = value.getNumber();
         }
-      }
-      throw new UnsupportedOperationException();
+
+        /**
+         * <pre>
+         * risk level from the sending device
+         * </pre>
+         *
+         * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+         */
+        private void clearRiskLevel() {
+
+            riskLevel_ = 0;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                throws java.io.IOException {
+            if (!keyData_.isEmpty()) {
+                output.writeBytes(1, keyData_);
+            }
+            if (rollingStartNumber_ != 0) {
+                output.writeSFixed32(2, rollingStartNumber_);
+            }
+            if (riskLevel_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.RISK_LEVEL_INVALID.getNumber()) {
+                output.writeEnum(3, riskLevel_);
+            }
+        }
+
+        public int getSerializedSize() {
+            int size = memoizedSerializedSize;
+            if (size != -1) return size;
+
+            size = 0;
+            if (!keyData_.isEmpty()) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeBytesSize(1, keyData_);
+            }
+            if (rollingStartNumber_ != 0) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeSFixed32Size(2, rollingStartNumber_);
+            }
+            if (riskLevel_ != de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel.RISK_LEVEL_INVALID.getNumber()) {
+                size += com.google.protobuf.CodedOutputStream
+                        .computeEnumSize(3, riskLevel_);
+            }
+            memoizedSerializedSize = size;
+            return size;
+        }
+
+        protected final Object dynamicMethod(
+                com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+                Object arg0, Object arg1) {
+            switch (method) {
+                case NEW_MUTABLE_INSTANCE: {
+                    return new de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey();
+                }
+                case IS_INITIALIZED: {
+                    return DEFAULT_INSTANCE;
+                }
+                case MAKE_IMMUTABLE: {
+                    return null;
+                }
+                case NEW_BUILDER: {
+                    return new Builder();
+                }
+                case VISIT: {
+                    Visitor visitor = (Visitor) arg0;
+                    de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey other = (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey) arg1;
+                    keyData_ = visitor.visitByteString(keyData_ != com.google.protobuf.ByteString.EMPTY, keyData_,
+                            other.keyData_ != com.google.protobuf.ByteString.EMPTY, other.keyData_);
+                    rollingStartNumber_ = visitor.visitInt(rollingStartNumber_ != 0, rollingStartNumber_,
+                            other.rollingStartNumber_ != 0, other.rollingStartNumber_);
+                    riskLevel_ = visitor.visitInt(riskLevel_ != 0, riskLevel_, other.riskLevel_ != 0, other.riskLevel_);
+                    if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
+                            .INSTANCE) {
+                    }
+                    return this;
+                }
+                case MERGE_FROM_STREAM: {
+                    com.google.protobuf.CodedInputStream input =
+                            (com.google.protobuf.CodedInputStream) arg0;
+                    com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+                            (com.google.protobuf.ExtensionRegistryLite) arg1;
+                    try {
+                        boolean done = false;
+                        while (!done) {
+                            int tag = input.readTag();
+                            switch (tag) {
+                                case 0:
+                                    done = true;
+                                    break;
+                                default: {
+                                    if (!input.skipField(tag)) {
+                                        done = true;
+                                    }
+                                    break;
+                                }
+                                case 10: {
+
+                                    keyData_ = input.readBytes();
+                                    break;
+                                }
+                                case 21: {
+
+                                    rollingStartNumber_ = input.readSFixed32();
+                                    break;
+                                }
+                                case 24: {
+                                    int rawValue = input.readEnum();
+
+                                    riskLevel_ = rawValue;
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                        throw new RuntimeException(e.setUnfinishedMessage(this));
+                    } catch (java.io.IOException e) {
+                        throw new RuntimeException(
+                                new com.google.protobuf.InvalidProtocolBufferException(
+                                        e.getMessage()).setUnfinishedMessage(this));
+                    } finally {
+                    }
+                }
+                case GET_DEFAULT_INSTANCE: {
+                    return DEFAULT_INSTANCE;
+                }
+                case GET_PARSER: {
+                    if (PARSER == null) {
+                        synchronized (de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.class) {
+                            if (PARSER == null) {
+                                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
+                            }
+                        }
+                    }
+                    return PARSER;
+                }
+            }
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Protobuf enum {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel}
+         */
+        public enum RiskLevel
+                implements com.google.protobuf.Internal.EnumLite {
+            /**
+             * <code>RISK_LEVEL_INVALID = 0;</code>
+             */
+            RISK_LEVEL_INVALID(0),
+            /**
+             * <code>RISK_LEVEL_LOWEST = 1;</code>
+             */
+            RISK_LEVEL_LOWEST(1),
+            /**
+             * <code>RISK_LEVEL_LOW = 2;</code>
+             */
+            RISK_LEVEL_LOW(2),
+            /**
+             * <code>RISK_LEVEL_LOW_MEDIUM = 3;</code>
+             */
+            RISK_LEVEL_LOW_MEDIUM(3),
+            /**
+             * <code>RISK_LEVEL_MEDIUM = 4;</code>
+             */
+            RISK_LEVEL_MEDIUM(4),
+            /**
+             * <code>RISK_LEVEL_MEDIUM_HIGH = 5;</code>
+             */
+            RISK_LEVEL_MEDIUM_HIGH(5),
+            /**
+             * <code>RISK_LEVEL_HIGH = 6;</code>
+             */
+            RISK_LEVEL_HIGH(6),
+            /**
+             * <code>RISK_LEVEL_VERY_HIGH = 7;</code>
+             */
+            RISK_LEVEL_VERY_HIGH(7),
+            /**
+             * <code>RISK_LEVEL_HIGHEST = 8;</code>
+             */
+            RISK_LEVEL_HIGHEST(8),
+            UNRECOGNIZED(-1),
+            ;
+
+            /**
+             * <code>RISK_LEVEL_INVALID = 0;</code>
+             */
+            public static final int RISK_LEVEL_INVALID_VALUE = 0;
+            /**
+             * <code>RISK_LEVEL_LOWEST = 1;</code>
+             */
+            public static final int RISK_LEVEL_LOWEST_VALUE = 1;
+            /**
+             * <code>RISK_LEVEL_LOW = 2;</code>
+             */
+            public static final int RISK_LEVEL_LOW_VALUE = 2;
+            /**
+             * <code>RISK_LEVEL_LOW_MEDIUM = 3;</code>
+             */
+            public static final int RISK_LEVEL_LOW_MEDIUM_VALUE = 3;
+            /**
+             * <code>RISK_LEVEL_MEDIUM = 4;</code>
+             */
+            public static final int RISK_LEVEL_MEDIUM_VALUE = 4;
+            /**
+             * <code>RISK_LEVEL_MEDIUM_HIGH = 5;</code>
+             */
+            public static final int RISK_LEVEL_MEDIUM_HIGH_VALUE = 5;
+            /**
+             * <code>RISK_LEVEL_HIGH = 6;</code>
+             */
+            public static final int RISK_LEVEL_HIGH_VALUE = 6;
+            /**
+             * <code>RISK_LEVEL_VERY_HIGH = 7;</code>
+             */
+            public static final int RISK_LEVEL_VERY_HIGH_VALUE = 7;
+            /**
+             * <code>RISK_LEVEL_HIGHEST = 8;</code>
+             */
+            public static final int RISK_LEVEL_HIGHEST_VALUE = 8;
+            private static final com.google.protobuf.Internal.EnumLiteMap<
+                    RiskLevel> internalValueMap =
+                    new com.google.protobuf.Internal.EnumLiteMap<RiskLevel>() {
+                        public RiskLevel findValueByNumber(int number) {
+                            return RiskLevel.forNumber(number);
+                        }
+                    };
+            private final int value;
+
+            private RiskLevel(int value) {
+                this.value = value;
+            }
+
+            /**
+             * @deprecated Use {@link #forNumber(int)} instead.
+             */
+            @java.lang.Deprecated
+            public static RiskLevel valueOf(int value) {
+                return forNumber(value);
+            }
+
+            public static RiskLevel forNumber(int value) {
+                switch (value) {
+                    case 0:
+                        return RISK_LEVEL_INVALID;
+                    case 1:
+                        return RISK_LEVEL_LOWEST;
+                    case 2:
+                        return RISK_LEVEL_LOW;
+                    case 3:
+                        return RISK_LEVEL_LOW_MEDIUM;
+                    case 4:
+                        return RISK_LEVEL_MEDIUM;
+                    case 5:
+                        return RISK_LEVEL_MEDIUM_HIGH;
+                    case 6:
+                        return RISK_LEVEL_HIGH;
+                    case 7:
+                        return RISK_LEVEL_VERY_HIGH;
+                    case 8:
+                        return RISK_LEVEL_HIGHEST;
+                    default:
+                        return null;
+                }
+            }
+
+            public static com.google.protobuf.Internal.EnumLiteMap<RiskLevel>
+            internalGetValueMap() {
+                return internalValueMap;
+            }
+
+            public final int getNumber() {
+                return value;
+            }
+
+            // @@protoc_insertion_point(enum_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel)
+        }
+
+        /**
+         * Protobuf type {@code de.rki.coronawarnapp.server.protocols.TemporaryExposureKey}
+         */
+        public static final class Builder extends
+                com.google.protobuf.GeneratedMessageLite.Builder<
+                        de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey, Builder> implements
+                // @@protoc_insertion_point(builder_implements:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
+                de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKeyOrBuilder {
+            // Construct using de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.newBuilder()
+            private Builder() {
+                super(DEFAULT_INSTANCE);
+            }
+
+
+            /**
+             * <pre>
+             * 16 bytes long exposure key
+             * </pre>
+             *
+             * <code>optional bytes keyData = 1;</code>
+             */
+            public com.google.protobuf.ByteString getKeyData() {
+                return instance.getKeyData();
+            }
+
+            /**
+             * <pre>
+             * 16 bytes long exposure key
+             * </pre>
+             *
+             * <code>optional bytes keyData = 1;</code>
+             */
+            public Builder setKeyData(com.google.protobuf.ByteString value) {
+                copyOnWrite();
+                instance.setKeyData(value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * 16 bytes long exposure key
+             * </pre>
+             *
+             * <code>optional bytes keyData = 1;</code>
+             */
+            public Builder clearKeyData() {
+                copyOnWrite();
+                instance.clearKeyData();
+                return this;
+            }
+
+            /**
+             * <pre>
+             * unix epoch timestamp / 600
+             * </pre>
+             *
+             * <code>optional sfixed32 rollingStartNumber = 2;</code>
+             */
+            public int getRollingStartNumber() {
+                return instance.getRollingStartNumber();
+            }
+
+            /**
+             * <pre>
+             * unix epoch timestamp / 600
+             * </pre>
+             *
+             * <code>optional sfixed32 rollingStartNumber = 2;</code>
+             */
+            public Builder setRollingStartNumber(int value) {
+                copyOnWrite();
+                instance.setRollingStartNumber(value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * unix epoch timestamp / 600
+             * </pre>
+             *
+             * <code>optional sfixed32 rollingStartNumber = 2;</code>
+             */
+            public Builder clearRollingStartNumber() {
+                copyOnWrite();
+                instance.clearRollingStartNumber();
+                return this;
+            }
+
+            /**
+             * <pre>
+             * risk level from the sending device
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+             */
+            public int getRiskLevelValue() {
+                return instance.getRiskLevelValue();
+            }
+
+            /**
+             * <pre>
+             * risk level from the sending device
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+             */
+            public Builder setRiskLevelValue(int value) {
+                copyOnWrite();
+                instance.setRiskLevelValue(value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * risk level from the sending device
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+             */
+            public de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel getRiskLevel() {
+                return instance.getRiskLevel();
+            }
+
+            /**
+             * <pre>
+             * risk level from the sending device
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+             */
+            public Builder setRiskLevel(de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey.RiskLevel value) {
+                copyOnWrite();
+                instance.setRiskLevel(value);
+                return this;
+            }
+
+            /**
+             * <pre>
+             * risk level from the sending device
+             * </pre>
+             *
+             * <code>optional .de.rki.coronawarnapp.server.protocols.TemporaryExposureKey.RiskLevel riskLevel = 3;</code>
+             */
+            public Builder clearRiskLevel() {
+                copyOnWrite();
+                instance.clearRiskLevel();
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
+        }
     }
 
-
-    // @@protoc_insertion_point(class_scope:de.rki.coronawarnapp.server.protocols.TemporaryExposureKey)
-    private static final de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new TemporaryExposureKey();
-      DEFAULT_INSTANCE.makeImmutable();
-    }
-
-    public static de.rki.coronawarnapp.server.protocols.ExposureKeys.TemporaryExposureKey getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static volatile com.google.protobuf.Parser<TemporaryExposureKey> PARSER;
-
-    public static com.google.protobuf.Parser<TemporaryExposureKey> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
-
-
-  static {
-  }
-
-  // @@protoc_insertion_point(outer_class_scope)
+    // @@protoc_insertion_point(outer_class_scope)
 }

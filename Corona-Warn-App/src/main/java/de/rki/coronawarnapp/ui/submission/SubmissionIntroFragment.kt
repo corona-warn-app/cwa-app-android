@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import de.rki.coronawarnapp.ui.BaseFragment
+
 /**
  * The [SubmissionIntroFragment] displays information about how the corona warning system works
  */

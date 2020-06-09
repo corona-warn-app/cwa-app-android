@@ -11,6 +11,7 @@ class OfflineCacheInterceptor(private val context: Context) : Interceptor {
         private const val MAX_STALE_DAYS = 1
         private const val MAX_STALE = 60 * 60 * 24 * MAX_STALE_DAYS
     }
+
     override fun intercept(chain: Interceptor.Chain): Response {
         // Get the request from the chain.
         var request = chain.request()

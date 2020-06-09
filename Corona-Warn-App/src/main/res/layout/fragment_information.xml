@@ -10,9 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_container"
-        android:contentDescription="@string/information_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_title">
 
         <include
             android:id="@+id/information_header"

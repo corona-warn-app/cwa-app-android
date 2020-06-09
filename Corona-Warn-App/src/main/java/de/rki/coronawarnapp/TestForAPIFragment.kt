@@ -252,7 +252,10 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         button_tracing_intervals.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
-                showToast(TracingIntervalRepository.getDateRepository(requireContext()).getIntervals().toString())
+                showToast(
+                    TracingIntervalRepository.getDateRepository(requireContext()).getIntervals()
+                        .toString()
+                )
             }
         }
 

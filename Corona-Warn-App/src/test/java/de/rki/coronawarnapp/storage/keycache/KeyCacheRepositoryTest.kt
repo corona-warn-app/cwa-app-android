@@ -69,7 +69,11 @@ class KeyCacheRepositoryTest {
     @Test
     fun testInsert() {
         runBlocking {
-            keyCacheRepository.createEntry(key = "1", type = KeyCacheRepository.DateEntryType.DAY, uri = URI("1"))
+            keyCacheRepository.createEntry(
+                key = "1",
+                type = KeyCacheRepository.DateEntryType.DAY,
+                uri = URI("1")
+            )
 
             coVerify {
                 keyCacheDao.insertEntry(any())

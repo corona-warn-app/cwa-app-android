@@ -10,9 +10,11 @@ import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.TanConstants.MAX_LENGTH
 import de.rki.coronawarnapp.util.TanHelper
-import java.util.Locale
+import kotlinx.android.synthetic.main.view_tan_input.view.dash_view_1
+import kotlinx.android.synthetic.main.view_tan_input.view.dash_view_2
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_edittext
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_1
+import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_10
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_2
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_3
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_4
@@ -21,9 +23,7 @@ import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_6
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_7
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_8
 import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_9
-import kotlinx.android.synthetic.main.view_tan_input.view.tan_input_textview_10
-import kotlinx.android.synthetic.main.view_tan_input.view.dash_view_1
-import kotlinx.android.synthetic.main.view_tan_input.view.dash_view_2
+import java.util.Locale
 
 class TanInput(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 

@@ -13,14 +13,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:focusable="true"
         android:id="@+id/submission_status_card_content"
         style="@style/cardNoPadding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <TextView
-            android:focusable="false"
             android:id="@+id/submission_status_card_content_title"
             style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
@@ -28,6 +27,7 @@
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/card_padding"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:focusable="false"
             android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentTitleText(deviceUIState)}"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,6 @@
             tools:text="@string/submission_status_card_title_available" />
 
         <TextView
-            android:focusable="false"
             android:id="@+id/submission_status_card_content_subtitle"
             style="@style/subtitleMedium"
             android:layout_width="@dimen/match_constraint"
@@ -43,6 +42,7 @@
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:focusable="false"
             android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardSubtitleText(deviceUIState)}"
             android:textColor="@{FormatterSubmissionHelper.formatSubmissionStatusCardSubtitleColor(deviceUIState)}"
             android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentStatusTextVisible(deviceUIState)}"
@@ -52,7 +52,6 @@
             tools:text="@string/test_result_card_status_negative" />
 
         <TextView
-            android:focusable="false"
             android:id="@+id/submission_status_card_content_body"
             style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
@@ -60,6 +59,7 @@
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:focusable="false"
             android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentBodyText(deviceUIState)}"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
             app:layout_constraintStart_toStartOf="parent"
