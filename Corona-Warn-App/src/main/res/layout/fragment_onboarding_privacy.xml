@@ -46,29 +46,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            android:id="@+id/onboarding_privacy"
             layout="@layout/include_onboarding"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            app:headline="@{@string/onboarding_privacy_headline}"
-            app:illustration="@{@drawable/ic_illustration_privacy}"
-            app:illustrationDescription="@{@string/onboarding_privacy_illustration_description}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/onboarding_header" />
-
-        <WebView
-            android:id="@+id/onboarding_privacy_webview"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:scrollbars="vertical"
+            app:headline="@{@string/onboarding_privacy_headline}"
+            app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_privacy_html_path)}"
+            app:illustration="@{@drawable/ic_illustration_privacy}"
+            app:illustrationDescription="@{@string/onboarding_privacy_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/onboarding_privacy" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/onboarding_header" />
 
         <Button
             android:id="@+id/onboarding_button_next"
