@@ -50,6 +50,8 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     }
 
     override fun onFailure(exception: Exception?) {
+        binding.submissionPositiveOtherWarningButtonNext.isEnabled = true
+        binding.submissionPositiveOtherWarningSpinner.visibility = View.GONE
         submissionFailed = true
     }
 
@@ -135,6 +137,16 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
         })
 
         submissionViewModel.submissionState.observeEvent(viewLifecycleOwner, {
+            binding.submissionPositiveOtherWarningButtonNext.isEnabled = when (it) {
+                ApiRequestState.STARTED -> false
+                else -> true
+            }
+
+            binding.submissionPositiveOtherWarningSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
             if (it == ApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
@@ -146,6 +158,8 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
     private fun setButtonOnClickListener() {
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
+            binding.submissionPositiveOtherWarningButtonNext.isEnabled = false
+            binding.submissionPositiveOtherWarningSpinner.visibility = View.VISIBLE
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
