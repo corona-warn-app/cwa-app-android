@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_status_card"
+        android:id="@+id/submission_status_card_unregistered"
+        style="@style/cardNoPadding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
 
         <TextView
@@ -13,18 +15,23 @@
             style="@style/headline5"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/card_padding"
             android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/submission_status_card_title_unregistered"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusable="false"/>
 
 
         <TextView
             android:id="@+id/submission_status_card_unregistered_body"
-            style="@style/subtitle"
+            android:focusable="false"
+            style="@style/subtitleMedium"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/submission_status_card_body_unregistered"
@@ -37,8 +44,12 @@
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/card_padding"
             android:text="@string/submission_status_card_button_unregistered"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_barrier" />

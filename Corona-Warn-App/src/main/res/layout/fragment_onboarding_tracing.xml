@@ -3,18 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/onboarding_tracing_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:contentDescription="@string/onboarding_tracing_accessibility_title">
 
-        <include
-            android:id="@+id/onboarding_button_back"
-            layout="@layout/include_button_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
-            app:layout_constraintStart_toStartOf="@id/guideline_back"
-            app:layout_constraintTop_toTopOf="@id/guideline_top" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/onboarding_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/onboarding_button_back"
+                layout="@layout/include_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@{@drawable/ic_back}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_back" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
             layout="@layout/include_onboarding"
@@ -82,13 +102,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_back" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

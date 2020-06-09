@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorBrandSecondary</item>
         <item name="colorPrimaryDark">@color/colorAccentTintButtonPressed</item>
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="alertDialogTheme">@style/dialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -25,6 +26,20 @@
 
     <style name="actionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:background">@color/colorSurface1</item>
+    </style>
+
+    <!-- Default dialog -->
+    <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextTint</item>
+    </style>
+
+    <style name="dialogNegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
     <!-- ####################################
@@ -99,6 +114,10 @@
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
+    <style name="cardNoPadding" parent="card">
+        <item name="android:padding">@dimen/no_padding</item>
+    </style>
+
     <style name="cardTracing">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
@@ -106,8 +125,7 @@
     </style>
 
     <style name="cardGrey">
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSurface2</item>
+        <item name="android:background">@drawable/card_dark</item>
     </style>
 
 
@@ -141,7 +159,6 @@
 
     <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">@color/colorTextPrimary1</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
@@ -187,8 +204,8 @@
           Progress Bar
     ###################################### -->
 
-    <style name="progressBar" parent="android:Widget.ProgressBar.Inverse">
-        <!-- todo apply styling -->
+    <style name="progressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/colorStableLight</item>
     </style>
 
     <!-- ####################################
@@ -213,6 +230,13 @@
         <item name="android:layout_width">@dimen/submission_tan_input_digit_width</item>
         <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
         <item name="android:background">@drawable/tan_input_digit</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="tanInputDash" parent="headline6">
+        <item name="android:layout_width">@dimen/submission_tan_input_dash_width</item>
+        <item name="android:layout_height">@dimen/submission_tan_input_dash_height</item>
+        <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
     </style>
 
