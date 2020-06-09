@@ -46,18 +46,15 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_intro_headline" />
 
-            <TextView
-                android:id="@+id/submission_intro_text_enum"
-                style="@style/subtitle"
-                android:focusable="false"
+            <de.rki.coronawarnapp.ui.submission.BulletPointList
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
                 android:paddingBottom="@dimen/spacing_normal"
-                android:text="@string/submission_intro_enum"
+                android:focusable="false"
+                app:entries="@array/submission_intro_bullet_points"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_text" />
+                app:layout_constraintTop_toBottomOf="@id/submission_intro_text" />
 
             <include layout="@layout/merge_guidelines_side" />
 
