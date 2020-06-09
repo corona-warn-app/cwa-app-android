@@ -35,10 +35,8 @@ object VersionComparator {
         } else if (versionToCompareMajor == currentVersionMajor) {
             if (versionToCompareMinor > currentVersionMinor) {
                 isVersionOlder = true
-            } else if (versionToCompareMinor == currentVersionMinor) {
-                if (versionToComparePatch > currentVersionPatch) {
-                    isVersionOlder = true
-                }
+            } else if ((versionToCompareMinor == currentVersionMinor) && (versionToComparePatch > currentVersionPatch)) {
+                isVersionOlder = true
             }
         }
         return isVersionOlder
