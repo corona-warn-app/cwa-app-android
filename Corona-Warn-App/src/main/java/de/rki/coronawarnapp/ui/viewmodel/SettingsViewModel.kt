@@ -34,11 +34,11 @@ class SettingsViewModel : ViewModel() {
     val isManualKeyRetrievalEnabled: LiveData<Boolean> = SettingsRepository.isManualKeyRetrievalEnabled
 
     /**
-     * Update button on the Risk Card and in the Risk Details live text
+     * Manual update button timer value
      *
-     * @see SettingsRepository.manualKeyRetrievalText
+     * @see SettingsRepository.manualKeyRetrievalTime
      */
-    val manualKeyRetrievalText: LiveData<String> = SettingsRepository.manualKeyRetrievalText
+    val manualKeyRetrievalTime: LiveData<Long> = SettingsRepository.manualKeyRetrievalTime
 
     /**
      * Refresher and toggles for settings
@@ -103,5 +103,14 @@ class SettingsViewModel : ViewModel() {
      */
     fun updateBackgroundJobEnabled(value: Boolean) {
         SettingsRepository.updateBackgroundJobEnabled(value)
+    }
+
+    /**
+     * Update manual key button enabled
+     *
+     * @param value
+     */
+    fun updateManualKeyRetrievalEnabled(value: Boolean) {
+        SettingsRepository.updateManualKeyRetrievalEnabled(value)
     }
 }
