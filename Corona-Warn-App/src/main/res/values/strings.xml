@@ -389,8 +389,7 @@
     <string name="onboarding_privacy_accessibility_title">Einführung Seite 2 von 5. Datenschutz</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
-    <!-- YTXT: onboarding(privacy) - body -->
-    <string name="onboarding_privacy_body">@string/information_privacy_body</string>
+
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
     <!-- XACT: Onboarding (tracing) page title -->
@@ -563,13 +562,16 @@
     <string name="information_privacy_title">Datenschutzinformation</string>
     <!-- XACT: describes illustration -->
     <string name="information_privacy_illustration_description">Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten.</string>
+    <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_privacy_html_path">privacy_de.html</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
     <string name="information_terms_title">Nutzungsbedingungen</string>
     <!-- XHED: Page headline for terms of use information page -->
     <string name="information_terms_headline">Inhalt</string>
-
     <!-- XACT: describes illustration -->
     <string name="information_terms_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Haken als Symbol für akzeptierte Nutzungsbedingungen.</string>
+    <!-- XTXT: Path to the full blown terms html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_terms_html_path">terms_de.html</string>
     <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
     <string name="information_contact_title">Technische Hotline</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
@@ -596,6 +598,8 @@
     <string name="information_technical_title">Rechtliche Hinweise</string>
     <!-- XACT: describes illustration -->
     <string name="information_technical_illustration_description">Eine Hand hält ein Smartphone mit viel Text, daneben ist eine Balkenwaage als Symbol für rechtliche Hinweise.</string>
+    <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_technical_html_path">technical_de.html</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
     <string name="information_legal_title">Impressum</string>
     <!-- XHED: Headline for legal information page, publisher section -->
