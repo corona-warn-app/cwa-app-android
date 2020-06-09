@@ -33,6 +33,9 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
     /**
      * Work execution
      *
+     * If background job is running for less than 21 days, testResult is checked.
+     * If the job is running for more than 21 days, the job will be stopped
+     *
      * @return Result
      *
      * @see LocalData.isTestResultNotificationSent
@@ -62,6 +65,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
             ) {
                 val testResult = SubmissionService.asyncRequestTestResult()
                 initiateNotification(testResult)
+            } else {
+                stopWorker()
             }
         } catch (e: Exception) {
             result = Result.retry()
@@ -69,10 +74,22 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
         return result
     }
 
+    /**
+     * Notification Initiation
+     *
+     * If the returned Test Result is Negative, Positive or Invalid
+     * The Background polling  will be stopped
+     * and a notification is shown, but only if the App is not in foreground
+     *
+     * @see LocalData.isTestResultNotificationSent
+     * @see LocalData.initialPollingForTestResultTimeStamp
+     * @see TestResult
+     */
     private fun initiateNotification(testResult: TestResult) {
-        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE) {
+        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE
+            || testResult == TestResult.INVALID
+        ) {
             if (!CoronaWarnApplication.isAppInForeground) {
-                LocalData.isTestResultNotificationSent(true)
                 NotificationHelper.sendNotification(
                     CoronaWarnApplication.getAppContext()
                         .getString(R.string.notification_name), CoronaWarnApplication.getAppContext()
@@ -80,12 +97,18 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                     NotificationCompat.PRIORITY_HIGH
                 )
             }
-            stopWorker()
-        } else {
+            LocalData.isTestResultNotificationSent(true)
             stopWorker()
         }
     }
 
+    /**
+     * Stops the Background Polling worker
+     *
+     * @see LocalData.initialPollingForTestResultTimeStamp
+     * @see BackgroundWorkScheduler.stop
+
+     */
     private fun stopWorker() {
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()

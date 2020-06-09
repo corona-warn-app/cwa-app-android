@@ -101,10 +101,9 @@ object BackgroundConstants {
     const val TIME_RANGE_MIN = 420
 
     /**
-     * Time schedule start in minutes of day
-     * 07:00 = 420 minutes passed midnight
+     * The maximum validity in days for keeping Background polling active
      *
-     * @see TimeUnit.MINUTES
+     * @see TimeUnit.DAYS
      */
     const val POLLING_VALIDITY_MAX_DAYS = 21
 
