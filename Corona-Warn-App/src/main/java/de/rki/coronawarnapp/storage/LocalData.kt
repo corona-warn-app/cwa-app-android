@@ -144,20 +144,6 @@ object LocalData {
     }
 
     /**
-     * Gets the total amount of time the tracing was not active
-     * from the EncryptedSharedPrefs
-     *
-     * @return timestamp in ms
-     */
-    fun totalNonActiveTracing(): Long {
-        return getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_total_non_active_tracing),
-            0L
-        )
-    }
-
-    /**
      * Sets the total amount of time the tracing was not active
      * from the EncryptedSharedPrefs
      *
@@ -173,6 +159,80 @@ object LocalData {
             )
         }
     }
+
+    /**
+     * Gets the total amount of time the tracing was not active
+     * from the EncryptedSharedPrefs
+     *
+     * @return timestamp in ms
+     */
+    fun totalNonActiveTracing(): Long {
+        return getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_total_non_active_tracing),
+            0L
+        )
+    }
+
+    /**
+
+     * Gets the timestamp when the Background Polling Began initially
+     * from the EncryptedSharedPrefs
+     *
+     * @return timestamp in ms
+     */
+    fun initialPollingForTestResultTimeStamp(): Long {
+        return getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_polling_test_result_started),
+            0L
+        )
+    }
+
+    /**
+     * Sets the timestamp when the Background Polling Began initially
+     * from the EncryptedSharedPrefs
+     *
+     * @param value timestamp in ms
+     */
+    fun initialPollingForTestResultTimeStamp(value: Long) =
+        getSharedPreferenceInstance().edit(true) {
+            putLong(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_polling_test_result_started),
+                value
+            )
+        }
+
+    /**
+
+     * Gets the flag if notification is executed on Status Change
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean
+     */
+    fun isTestResultNotificationSent(): Boolean {
+        return getSharedPreferenceInstance().getBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_test_result_notification),
+            false
+        )
+    }
+
+    /**
+     * Sets the flag if notification is executed on Status Change
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean
+     */
+    fun isTestResultNotificationSent(value: Boolean) =
+        getSharedPreferenceInstance().edit(true) {
+            putBoolean(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_test_result_notification),
+                value
+            )
+        }
 
     /****************************************************
      * RISK LEVEL
