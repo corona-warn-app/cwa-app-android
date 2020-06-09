@@ -125,9 +125,8 @@ class MainFragment : BaseFragment() {
             doNavigate(MainFragmentDirections.actionMainFragmentToRiskDetailsFragment())
         }
         binding.mainRisk.riskCardButtonUpdate.setOnClickListener {
-            tracingViewModel.refreshRiskLevel()
             tracingViewModel.refreshDiagnosisKeys()
-            TimerHelper.startManualKeyRetrievalTimer()
+            settingsViewModel.updateManualKeyRetrievalEnabled(false)
         }
         binding.mainRisk.riskCardButtonEnableTracing.setOnClickListener {
             doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
