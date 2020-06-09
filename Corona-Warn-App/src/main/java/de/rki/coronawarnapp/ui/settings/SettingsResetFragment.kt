@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.DataRetentionHelper
 import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -70,7 +71,10 @@ class SettingsResetFragment : BaseFragment() {
             try {
                 val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
                 // only stop tracing if it is currently enabled
-                if (isTracingEnabled) InternalExposureNotificationClient.asyncStop()
+                if (isTracingEnabled) {
+                    InternalExposureNotificationClient.asyncStop()
+                    BackgroundWorkScheduler.stopWorkScheduler()
+                }
             } catch (apiException: ApiException) {
                 apiException.report(
                     ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
