@@ -51,7 +51,6 @@ class RiskLevelTransactionTest {
         mockkObject(ExposureSummaryRepository.Companion)
         mockkObject(RiskLevel.Companion)
 
-
         every { ExposureSummaryRepository.getExposureSummaryRepository() } returns esRepositoryMock
 
         every { RiskLevelRepository.getLastCalculatedScore() } returns UNDETERMINED

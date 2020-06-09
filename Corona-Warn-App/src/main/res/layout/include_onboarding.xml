@@ -47,7 +47,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/onboarding_illustration"
@@ -66,6 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="false"
                 android:text="@{headline}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -78,6 +80,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:focusable="false"
                 android:text="@{subtitle}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(subtitle)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -91,6 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="false"
                 android:text="@{body}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -103,6 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="false"
                 android:text="@{bodyEmphasized}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(bodyEmphasized)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -119,8 +124,8 @@
                 android:visibility="@{FormatterHelper.formatVisibilityText(headlineCard)}"
                 app:body="@{bodyCard}"
                 app:headline="@{headlineCard}"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_body_emphasized" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -136,6 +141,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            <include layout="@layout/merge_guidelines_card" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
