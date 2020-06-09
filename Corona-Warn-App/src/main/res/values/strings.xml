@@ -501,11 +501,11 @@
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">Benachrichtigungen</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">Möchten Sie Benachrichtigungen zu Ihrem Covid-19-Risikostatus aktivieren?</string>
+    <string name="settings_notifications_headline_active">Möchten Sie Benachrichtigungen zu Ihrem COVID-19-Risikostatus aktivieren?</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">Benachrichtigungen sind ausgestellt</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">Erlauben Sie automatische Benachrichtigungen zu Covid-19-Risikostatus.</string>
+    <string name="settings_notifications_body_description">Erlauben Sie automatische Benachrichtigungen zu COVID-19-Risikostatus.</string>
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">Um Benachrichtigungen zu aktivieren, müssen Sie Benachrichtigungen für die Corona-Warn-App in Ihren Geräte-Einstellungen zulassen.</string>
