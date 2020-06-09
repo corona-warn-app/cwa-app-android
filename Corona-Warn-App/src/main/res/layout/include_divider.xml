@@ -2,6 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <variable
+            name="dividerColor"
+            type="Integer" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,10 +20,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <View
-            android:id="@+id/colorHairline"
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_divider"
-            android:background="@color/colorHairline"
+            android:background="@{FormatterHelper.formatColorDivider(dividerColor)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

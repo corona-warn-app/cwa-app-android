@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/main_overview_segment_icon"
@@ -48,7 +49,8 @@
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline_body"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="false"/>
 
             <TextView
                 android:id="@+id/main_overview_segment_body"
@@ -60,7 +62,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/main_overview_segment_subtitle"
-                app:layout_constraintTop_toBottomOf="@+id/main_overview_segment_subtitle" />
+                app:layout_constraintTop_toBottomOf="@+id/main_overview_segment_subtitle"
+                android:focusable="false"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_body"

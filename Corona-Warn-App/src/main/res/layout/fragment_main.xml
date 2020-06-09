@@ -22,6 +22,8 @@
     </data>
 
     <ScrollView
+        android:id="@+id/main_scrollview"
+        android:contentDescription="@string/main_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -35,7 +37,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_header"
                 android:layout_width="@dimen/match_constraint"
-                android:layout_height="@dimen/header"
+                android:layout_height="@dimen/header_main"
                 android:layout_margin="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +78,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:focusable="true"
                 android:id="@+id/main_tracing"
                 style="@style/buttonTracing"
                 android:layout_width="@dimen/match_constraint"
@@ -86,6 +89,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/main_header">
 
                 <TextView
+                    android:focusable="false"
                     android:id="@+id/main_tracing_headline"
                     style="@style/bodyButton"
                     android:layout_width="@dimen/match_constraint"
@@ -122,7 +126,7 @@
                 layout="@layout/include_risk_card"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"

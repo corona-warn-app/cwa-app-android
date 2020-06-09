@@ -40,12 +40,10 @@
             android:id="@+id/risk_card_header_icon"
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
-            android:contentDescription="@string/lorem_ipsum"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_forward"
             android:tint="@{FormatterRiskHelper.formatStableIconColor(tracingViewModel.riskLevel)}"
             android:visibility="@{FormatterHelper.formatVisibilityInverted(showDetails)}"
-            app:layout_constraintBottom_toBottomOf="@+id/risk_card_header_headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

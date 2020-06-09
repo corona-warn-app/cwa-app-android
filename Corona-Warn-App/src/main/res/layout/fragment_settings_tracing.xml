@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/settings_tracing_header"
             layout="@layout/include_header"
@@ -79,14 +78,14 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_switch_row">
 
                     <include
                         android:id="@+id/settings_tracing_status_bluetooth"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
@@ -100,7 +99,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_connection"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusConnection(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:body="@{@string/settings_tracing_status_connection_body}"
@@ -113,7 +112,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/settings_tracing_status_tracing"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
@@ -135,10 +134,9 @@
 
                         <de.rki.coronawarnapp.ui.view.CircleProgress
                             android:id="@+id/settings_tracing_status_tracing_circle_progress"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:circleWidth="10"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_width="@dimen/spacing_huge"
+                            android:layout_height="@dimen/spacing_huge"
+                            app:circleWidth="@dimen/circle_large_width"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
@@ -146,7 +144,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     style="@style/greyBodyBackground"
@@ -185,6 +182,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+                <include layout="@layout/merge_guidelines_card" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
