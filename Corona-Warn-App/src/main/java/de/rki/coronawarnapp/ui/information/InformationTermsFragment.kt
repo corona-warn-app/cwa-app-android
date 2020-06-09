@@ -39,7 +39,6 @@ class InformationTermsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
         loadWebView()
     }
 
@@ -51,11 +50,6 @@ class InformationTermsFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         binding.informationTermsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    private fun setContentDescription() {
-        val backButtonString: String = getString(R.string.button_back)
-        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {

@@ -132,6 +132,12 @@
 
     <!-- XACT: back description for screen readers -->
     <string name="accessibility_back">Zurück</string>
+    <!-- XACT: next description for screen readers -->
+    <string name="accessibility_next">Weiter</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_menu">Menu</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_close">Schließen</string>
 
     <!-- ####################################
                      Menu
