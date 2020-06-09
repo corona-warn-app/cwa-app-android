@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.util.AssetConstants
-import kotlinx.android.synthetic.main.fragment_onboarding_privacy.onboarding_privacy_webview
 
 /**
  * This fragment informs the user regarding privacy.
@@ -53,7 +52,7 @@ class OnboardingPrivacyFragment : BaseFragment() {
     }
 
     private fun loadInformationPrivacyWebView() {
-        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_body)
-        onboarding_privacy_webview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
+        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_html_path)
+        binding.onboardingPrivacyWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }

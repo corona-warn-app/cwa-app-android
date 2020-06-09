@@ -14,11 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/information_terms_header"
             layout="@layout/include_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,8 +26,8 @@
             app:title="@{@string/information_terms_title}" />
 
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,12 +36,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <include
                     android:id="@+id/information_terms_header_details"
                     layout="@layout/include_information_details"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     app:headline="@{@string/information_terms_headline}"
                     app:illustration="@{@drawable/ic_information_illustration_terms}"
@@ -51,13 +50,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/information_terms_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <WebView
+                    android:id="@+id/information_terms_webview"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_terms_body)}"
+                    android:layout_marginBottom="@dimen/spacing_normal"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_terms_header_details" />

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.databinding.FragmentInformationPrivacyBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.AssetConstants
-import kotlinx.android.synthetic.main.fragment_onboarding_privacy.*
+import kotlinx.android.synthetic.main.fragment_onboarding_privacy.onboarding_privacy_webview
 
 /**
  * Basic Fragment which only displays static content.
@@ -48,7 +48,7 @@ class InformationPrivacyFragment : BaseFragment() {
     }
 
     private fun loadInformationPrivacyWebView() {
-        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_body)
+        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_html_path)
         onboarding_privacy_webview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }

@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.databinding.FragmentInformationTermsBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.AssetConstants
-import kotlinx.android.synthetic.main.fragment_onboarding_privacy.*
 
 /**
  * Basic Fragment which only displays static content.
@@ -39,6 +38,7 @@ class InformationTermsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        loadInformationPrivacyWebView()
     }
 
     private fun setButtonOnClickListener() {
@@ -48,7 +48,7 @@ class InformationTermsFragment : BaseFragment() {
     }
 
     private fun loadInformationPrivacyWebView() {
-        val informationTermsHtmlFilename = getString(R.string.information_terms_body)
-        onboarding_privacy_webview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationTermsHtmlFilename)
+        val informationTermsHtmlFilename = getString(R.string.information_terms_html_path)
+        binding.informationTermsWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationTermsHtmlFilename)
     }
 }

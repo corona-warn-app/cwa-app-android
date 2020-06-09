@@ -36,7 +36,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <include
                     android:id="@+id/information_technical_header_details"
@@ -49,12 +49,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/information_technical_body"
-                    style="@style/subtitle"
+                <WebView
+                    android:id="@+id/information_technical_webview"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_technical_body)}"
+                    android:layout_marginBottom="@dimen/spacing_normal"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_technical_header_details" />

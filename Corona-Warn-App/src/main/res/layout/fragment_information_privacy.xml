@@ -54,7 +54,7 @@
                     style="@style/subtitle"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_privacy_body)}"
+                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_privacy_html_path)}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_privacy_header_details" />
