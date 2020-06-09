@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.exception
 
+import de.rki.coronawarnapp.exception.reporting.ErrorCodes
+import de.rki.coronawarnapp.exception.reporting.ReportedException
 import java.util.UUID
 
 /**
@@ -12,7 +14,8 @@ import java.util.UUID
  * @see de.rki.coronawarnapp.transaction.Transaction
  */
 class RollbackException(transactionId: UUID, state: String, cause: Throwable?) :
-    Exception(
+    ReportedException(
+        ErrorCodes.ROLLBACK_PROBLEM.code,
         "An error occurred during rollback of transaction $transactionId, State $state",
         IllegalStateException(
             "the state before the transaction state could not be restored.",
