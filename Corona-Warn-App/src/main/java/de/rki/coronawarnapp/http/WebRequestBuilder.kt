@@ -84,7 +84,7 @@ class WebRequestBuilder(
         return@withContext distributionService
             .getHourIndex(
                 DiagnosisKeyConstants.AVAILABLE_DATES_URL +
-                    "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
+                        "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
             )
             .toList()
     }
@@ -117,7 +117,8 @@ class WebRequestBuilder(
                 DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL
             ).byteStream().unzip { entry, entryContent ->
                 if (entry.name == EXPORT_BINARY_FILE_NAME) exportBinary = entryContent.copyOf()
-                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature = entryContent.copyOf()
+                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature =
+                    entryContent.copyOf()
             }
             if (exportBinary == null || exportSignature == null) {
                 throw ApplicationConfigurationInvalidException()
@@ -162,7 +163,8 @@ class WebRequestBuilder(
     suspend fun asyncGetTan(
         registrationToken: String
     ): String = withContext(Dispatchers.IO) {
-        verificationService.getTAN(SubmissionConstants.TAN_REQUEST_URL, "0",
+        verificationService.getTAN(
+            SubmissionConstants.TAN_REQUEST_URL, "0",
             TanRequestBody(
                 registrationToken
             )

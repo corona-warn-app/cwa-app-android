@@ -18,22 +18,22 @@
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/card_padding"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:focusable="false"
             android:text="@string/submission_status_card_title_unregistered"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:focusable="false"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
             android:id="@+id/submission_status_card_unregistered_body"
-            android:focusable="false"
             style="@style/subtitleMedium"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:focusable="false"
             android:text="@string/submission_status_card_body_unregistered"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_unregistered_icon"
             app:layout_constraintStart_toStartOf="parent"

@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+
 /**
  * Fragment for TAN entry
  */

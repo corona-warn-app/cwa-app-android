@@ -41,7 +41,6 @@ class InformationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
     }
 
     override fun onStart() {
@@ -52,11 +51,6 @@ class InformationFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    private fun setContentDescription() {
-        val backButtonString: String = getString(R.string.button_back)
-        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {

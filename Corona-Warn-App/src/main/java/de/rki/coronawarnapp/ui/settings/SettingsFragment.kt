@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -51,7 +50,6 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
     }
 
     override fun onResume() {
@@ -61,11 +59,6 @@ class SettingsFragment : Fragment() {
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
-    }
-
-    private fun setContentDescription() {
-        val backButtonString: String = getString(R.string.button_back)
-        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {

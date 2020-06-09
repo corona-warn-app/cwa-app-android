@@ -34,13 +34,15 @@ subprojects {
         ignoreFailures = false
         failFast = false // fail build on any finding
         buildUponDefaultConfig = true // preconfigure defaults
-        config = files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+        config = files("$projectDir/config/detekt.yml")
+        // point to your custom config defining rules to run, overwriting default behavior
         baseline = file("$projectDir/config/detekt-baseline.xml")
         parallel = true
         reports {
             html.enabled = true // observe findings in your browser with structure and code snippets
             xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-            txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+            txt.enabled = true
+            // similar to the console output, contains issue signature to manually edit baseline files
         }
     }
 

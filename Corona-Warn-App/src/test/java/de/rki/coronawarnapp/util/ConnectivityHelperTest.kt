@@ -50,6 +50,7 @@ class ConnectivityHelperTest {
             override fun onNetworkAvailable() {
                 available = true
             }
+
             override fun onNetworkUnavailable() {
                 available = false
             }
@@ -58,7 +59,10 @@ class ConnectivityHelperTest {
         mockkObject(NetworkRequest.Builder())
         val request = mockk<NetworkRequest>()
         val manager = mockk<ConnectivityManager>()
-        every { anyConstructed<NetworkRequest.Builder>().addCapability(any()).addCapability(any()).build() } returns request
+        every {
+            anyConstructed<NetworkRequest.Builder>().addCapability(any()).addCapability(any())
+                .build()
+        } returns request
         every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns manager
         every { manager.registerNetworkCallback(any(), callback) } answers { registered = true }
         every { manager.unregisterNetworkCallback(callback) } answers { registered = false }
@@ -101,11 +105,21 @@ class ConnectivityHelperTest {
 
         val turnOn = mockk<Intent>()
         every { turnOn.action } returns BluetoothAdapter.ACTION_STATE_CHANGED
-        every { turnOn.getIntExtra(BluetoothAdapter.EXTRA_STATE, any()) } returns BluetoothAdapter.STATE_ON
+        every {
+            turnOn.getIntExtra(
+                BluetoothAdapter.EXTRA_STATE,
+                any()
+            )
+        } returns BluetoothAdapter.STATE_ON
 
         val turnOff = mockk<Intent>()
         every { turnOff.action } returns BluetoothAdapter.ACTION_STATE_CHANGED
-        every { turnOff.getIntExtra(BluetoothAdapter.EXTRA_STATE, any()) } returns BluetoothAdapter.STATE_OFF
+        every {
+            turnOff.getIntExtra(
+                BluetoothAdapter.EXTRA_STATE,
+                any()
+            )
+        } returns BluetoothAdapter.STATE_OFF
 
         every { BluetoothAdapter.getDefaultAdapter() } returns bAdapter
         every { context.registerReceiver(any(), any()) } answers {

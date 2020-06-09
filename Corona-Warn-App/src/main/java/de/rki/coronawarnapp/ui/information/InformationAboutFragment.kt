@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationAboutBinding
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -38,7 +37,6 @@ class InformationAboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
     }
 
     override fun onStart() {
@@ -49,11 +47,6 @@ class InformationAboutFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.informationAboutScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    private fun setContentDescription() {
-        val backButtonString: String = getString(R.string.button_back)
-        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {

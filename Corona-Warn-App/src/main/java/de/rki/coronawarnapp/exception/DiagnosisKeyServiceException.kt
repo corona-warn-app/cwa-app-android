@@ -9,4 +9,5 @@ package de.rki.coronawarnapp.exception
  * @see DiagnosisKeySubmissionException
  * @see DiagnosisKeyRetrievalException
  */
-abstract class DiagnosisKeyServiceException(message: String, cause: Throwable) : Exception(message, cause)
+abstract class DiagnosisKeyServiceException(message: String, cause: Throwable) :
+    Exception(message, cause)
