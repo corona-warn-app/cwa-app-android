@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationTechnicalBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.AssetConstants
 
 /**
  * Basic Fragment which only displays static content.
@@ -39,7 +37,6 @@ class InformationTechnicalFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        loadWebView()
     }
 
     override fun onStart() {
@@ -56,10 +53,5 @@ class InformationTechnicalFragment : BaseFragment() {
         binding.informationTechnicalHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-    }
-
-    private fun loadWebView() {
-        val informationTermsHtmlFilename = getString(R.string.information_technical_html_path)
-        binding.informationTechnicalWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationTermsHtmlFilename)
     }
 }

@@ -615,12 +615,6 @@
     <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Do Not Allow"</string>
 
-    <!-- QR Code Scan Successful Dialog -->
-    <string name="submission_qr_code_scan_successful_dialog_headline">"Scan successful"</string>
-    <string name="submission_qr_code_scan_successful_dialog_body">"The QR code has been scanned successfully."</string>
-    <string name="submission_qr_code_scan_successful_dialog_button_positive">"Register"</string>
-    <string name="submission_qr_code_scan_successful_dialog_button_negative">"Cancel"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Incorrect QR code"</string>
@@ -634,11 +628,6 @@
     <!-- QR Code Scan Screen -->
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="submission_qr_code_scan_body">"Position the QR code in the frame."</string>
-
-    <!-- Register Device Screen -->
-    <!-- XHED: Text headline for test registration loading  -->
-    <string name="submission_register_device_headline">"Register your test"</string>
-    <string name="submission_register_device_body">@string/lorem_ipsum</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->

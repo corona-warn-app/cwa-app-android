@@ -20,7 +20,7 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
                     layout="@layout/include_tracing_status_card"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     app:body="@{@string/settings_reset_body_keys}"
                     app:buttonText="@{@string/settings_tracing_status_connection_button}"
                     app:headline="@{@string/settings_reset_headline_keys}"
@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
