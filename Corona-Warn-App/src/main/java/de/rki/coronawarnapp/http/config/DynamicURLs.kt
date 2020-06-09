@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.BuildConfig
 
 object DynamicURLs {
     const val PATTERN_PREFIX_HTTPS = "https://"
+
     /** CDN URLs for querying against the Server from the Build Config for downloading keys */
     var DOWNLOAD_CDN_URL = BuildConfig.DOWNLOAD_CDN_URL
 

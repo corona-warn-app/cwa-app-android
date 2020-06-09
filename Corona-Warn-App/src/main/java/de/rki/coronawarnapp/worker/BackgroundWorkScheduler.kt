@@ -131,6 +131,7 @@ object BackgroundWorkScheduler {
                 LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
             }
         }
+
     }
 
     /**

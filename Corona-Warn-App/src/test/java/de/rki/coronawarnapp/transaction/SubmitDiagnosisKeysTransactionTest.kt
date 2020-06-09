@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.transaction
 
+import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
@@ -57,7 +58,9 @@ class SubmitDiagnosisKeysTransactionTest {
             .setTransmissionRiskLevel(1)
             .build()
         val testList = slot<List<KeyExportFormat.TemporaryExposureKey>>()
-        coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf(key)
+        coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf(
+            key
+        )
         coEvery { DiagnosisKeyService.asyncSubmitKeys(authString, capture(testList)) } just Runs
 
         runBlocking {

@@ -20,7 +20,9 @@ open class CwaClientError(val statusCode: Int) : CwaWebException(statusCode) {
     }
 }
 
-open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
+open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: Int) :
+    CwaWebException(statusCode)
+
 open class CwaInformationalNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
 open class CwaRedirectNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
 

@@ -3,13 +3,15 @@
 
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">coronawarn.app</domain>
-        <pin-set expiration="2024-02-12" tools:ignore="MissingBackupPin">
+        <pin-set
+            expiration="2024-02-12"
+            tools:ignore="MissingBackupPin">
             <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
         </pin-set>
         <trust-anchors>
             <certificates
-                src="system"
-                overridePins="false" />
+                overridePins="false"
+                src="system" />
         </trust-anchors>
     </domain-config>
 
@@ -17,8 +19,8 @@
         <domain includeSubdomains="true">main.px.t-online.de</domain>
         <trust-anchors>
             <certificates
-                src="system"
-                overridePins="false" />
+                overridePins="false"
+                src="system" />
         </trust-anchors>
     </domain-config>
 

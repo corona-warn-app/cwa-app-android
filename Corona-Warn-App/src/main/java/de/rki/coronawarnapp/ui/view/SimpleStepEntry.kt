@@ -4,7 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
-import kotlinx.android.synthetic.main.include_step_entry_simple_body.view.*
+import kotlinx.android.synthetic.main.include_step_entry_simple_body.view.simple_step_entry_body
+import kotlinx.android.synthetic.main.include_step_entry_simple_body.view.simple_step_entry_title
 
 /**
  * The [SimpleStepEntry] is a step entry with title and text as content.

@@ -19,10 +19,17 @@ import org.junit.Test
 import java.util.Date
 
 class WebRequestBuilderTest {
-    @MockK private lateinit var verificationService: VerificationService
-    @MockK private lateinit var distributionService: DistributionService
-    @MockK private lateinit var submissionService: SubmissionService
-    @MockK private lateinit var verificationKeys: VerificationKeys
+    @MockK
+    private lateinit var verificationService: VerificationService
+
+    @MockK
+    private lateinit var distributionService: DistributionService
+
+    @MockK
+    private lateinit var submissionService: SubmissionService
+
+    @MockK
+    private lateinit var verificationKeys: VerificationKeys
 
     private lateinit var webRequestBuilder: WebRequestBuilder
 

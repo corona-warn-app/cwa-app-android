@@ -15,16 +15,16 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true">
 
         <include
-            android:focusable="false"
             android:id="@+id/risk_details_behavior_stay_home"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:focusable="false"
             app:body="@{@string/risk_details_behavior_body_stay_home}"
             app:icon="@{@drawable/ic_risk_details_home}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,12 +33,12 @@
             app:riskLevel="@{tracingViewModel.riskLevel}" />
 
         <include
-            android:focusable="false"
             android:id="@+id/risk_details_behavior_stay_away"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:focusable="false"
             app:body="@{@string/risk_details_behavior_body_stay_away}"
             app:icon="@{@drawable/ic_risk_details_distance}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,12 +47,12 @@
             app:riskLevel="@{tracingViewModel.riskLevel}" />
 
         <include
-            android:focusable="false"
             android:id="@+id/risk_details_behavior_cough_sneeze"
             layout="@layout/include_risk_details_behavior_row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:focusable="false"
             app:body="@{@string/risk_details_behavior_body_contact_doctor}"
             app:icon="@{@drawable/ic_risk_details_contact}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,45 +62,45 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_tiny"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_details_behavior_cough_sneeze">
 
             <TextView
-                android:focusable="false"
                 android:id="@+id/risk_details_behavior_bullet_point_1"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 android:text="@string/risk_details_behavior_increased_body_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:focusable="false"
                 android:id="@+id/risk_details_behavior_bullet_point_2"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
+                android:focusable="false"
                 android:text="@string/risk_details_behavior_increased_body_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1" />
 
             <TextView
-                android:focusable="false"
                 android:id="@+id/risk_details_behavior_bullet_point_3"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
+                android:focusable="false"
                 android:text="@string/risk_details_behavior_increased_body_3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

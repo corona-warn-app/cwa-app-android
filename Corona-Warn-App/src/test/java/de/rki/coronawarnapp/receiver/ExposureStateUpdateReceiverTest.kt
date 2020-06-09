@@ -22,6 +22,7 @@ import org.junit.Test
 class ExposureStateUpdateReceiverTest {
     @MockK
     private lateinit var context: Context
+
     @MockK
     private lateinit var intent: Intent
 

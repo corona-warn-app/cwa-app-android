@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.http
 
 import de.rki.coronawarnapp.exception.http.BadGatewayException
-import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.ConflictException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -9,6 +8,7 @@ import de.rki.coronawarnapp.exception.http.CwaInformationalNotSupportedError
 import de.rki.coronawarnapp.exception.http.CwaRedirectNotSupportedError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaSuccessResponseWithCodeMismatchNotSupportedError
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.exception.http.GatewayTimeoutException
 import de.rki.coronawarnapp.exception.http.GoneException

@@ -5,6 +5,7 @@
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
