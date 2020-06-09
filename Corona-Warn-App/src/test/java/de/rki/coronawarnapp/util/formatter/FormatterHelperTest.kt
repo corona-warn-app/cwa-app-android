@@ -76,13 +76,13 @@ class FormatterHelperTest {
         assertThat(result, `is`((context.getColor(iColor))))
     }
 
-   @Test
+    @Test
     fun formatVisibility() {
-       // Check visibility when value true
-       formatVisibilityBase(bValue = true, iResult = View.VISIBLE)
+        // Check visibility when value true
+        formatVisibilityBase(bValue = true, iResult = View.VISIBLE)
 
-       // Check visibility when value false
-       formatVisibilityBase(bValue = false, iResult = View.GONE)
+        // Check visibility when value false
+        formatVisibilityBase(bValue = false, iResult = View.GONE)
     }
 
     @Test

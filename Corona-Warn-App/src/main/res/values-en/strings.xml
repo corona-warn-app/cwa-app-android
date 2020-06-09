@@ -143,8 +143,8 @@
     <string name="main_about_headline">"FAQ"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App."</string>
-    <!-- NOTR todo insert english link in translation file http://www.bundesregierung.de/corona-warn-app-faq-englisch -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <!-- NOTR -->
+    <string name="main_about_link">"http://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
 
     <!-- ####################################
                Main - Share
@@ -459,8 +459,8 @@
     <string name="information_contact_subtitle_phone">"Technical hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"+49 (0)800 7540001"</string>
-    <!-- MOTR todo phone number to be called replace in english file-->
-    <string name="information_contact_phone_call_number">"Phone: +49 800 7540001"</string>
+    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, NO SPECIAL CHARACTERS EXCEPT "+" and "space" todo phone number to be called replace in english file -->
+    <string name="information_contact_phone_call_number">+49 800 7540001</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is here to help."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->

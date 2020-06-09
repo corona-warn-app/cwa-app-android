@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
+        android:id="@+id/submission_dispatcher_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:contentDescription="@string/submission_dispatcher_accessibility_title"
         tools:context=".ui.submission.SubmissionDispatcherFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout

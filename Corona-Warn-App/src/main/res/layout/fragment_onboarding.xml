@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/onboarding_container"
+        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -23,6 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top"
+            android:focusable="false"
             app:subtitle="@{@string/onboarding_subtitle}" />
 
         <Button

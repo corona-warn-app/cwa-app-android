@@ -106,7 +106,7 @@
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{body}"
                 app:layout_constraintEnd_toStartOf="@+id/main_card_content_illustration"
                 app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +116,6 @@
                 android:id="@+id/main_card_content_illustration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/lorem_ipsum"
                 android:src="@{illustration}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

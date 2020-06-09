@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/main_share_header"
             layout="@layout/include_header"

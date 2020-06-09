@@ -11,6 +11,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_terms_container"
+        android:contentDescription="@string/information_terms_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

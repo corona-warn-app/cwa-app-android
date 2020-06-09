@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationPrivacyBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.AssetConstants
-import kotlinx.android.synthetic.main.fragment_onboarding_privacy.onboarding_privacy_webview
 
 /**
  * Basic Fragment which only displays static content.
@@ -39,16 +39,33 @@ class InformationPrivacyFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        loadWebView()
+        setContentDescription()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    private fun setContentDescription() {
+        val backButtonString: String = getString(R.string.button_back)
+        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationPrivacyHeader.headerToolbar.setNavigationOnClickListener {
+        binding.informationPrivacyHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }
 
-    private fun loadInformationPrivacyWebView() {
+    private fun loadWebView() {
         val informationPrivacyHtmlFilename = getString(R.string.information_privacy_html_path)
-        onboarding_privacy_webview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
+        binding.informationPrivacyWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }

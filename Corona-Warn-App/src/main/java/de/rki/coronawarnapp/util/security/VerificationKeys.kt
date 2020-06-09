@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.security
 
+import KeyExportFormat
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
@@ -38,8 +39,8 @@ class VerificationKeys {
             .isEmpty()
             .also {
                 if (BuildConfig.DEBUG) {
-                    if (it) Log.d(TAG, "export is valid")
-                    else Log.d(TAG, "export is invalid")
+                    if (it) Log.d(TAG, "export is invalid")
+                    else Log.d(TAG, "export is valid")
                 }
             }
     }
