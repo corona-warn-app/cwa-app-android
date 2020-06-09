@@ -1,7 +1,20 @@
 package de.rki.coronawarnapp.update
 
+/**
+ * Helper to compare 2 version strings
+ */
 object VersionComparator {
 
+    /**
+     * Checks if currentVersion is older than versionToCompareTo
+     *
+     * Expected input format: <major>.<minor>.<patch>
+     * major, minor and patch are Int
+     *
+     * @param currentVersion
+     * @param versionToCompareTo
+     * @return true if currentVersion is older than versionToCompareTo, else false
+     */
     fun isVersionOlder(currentVersion: String, versionToCompareTo: String): Boolean {
         var isVersionOlder = false
 
@@ -19,12 +32,15 @@ object VersionComparator {
 
         if (versionToCompareMajor > currentVersionMajor) {
             isVersionOlder = true
-        } else if (versionToCompareMinor > currentVersionMinor) {
-            isVersionOlder = true
-        } else if (versionToComparePatch > currentVersionPatch) {
-            isVersionOlder = true
+        } else if (versionToCompareMajor == currentVersionMajor) {
+            if (versionToCompareMinor > currentVersionMinor) {
+                isVersionOlder = true
+            } else if ((versionToCompareMinor == currentVersionMinor) &&
+                (versionToComparePatch > currentVersionPatch)
+            ) {
+                isVersionOlder = true
+            }
         }
-
         return isVersionOlder
     }
 }

@@ -63,7 +63,7 @@
             app:riskLevel="@{RiskLevelConstants.INCREASED_RISK}" />
 
         <include
-            layout="@layout/include_further_info"
+            layout="@layout/include_submission_done_further_info"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"

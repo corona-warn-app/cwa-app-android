@@ -46,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_submission_qr_code_scan_close}"
+            app:iconDescription="@{@string/accessibility_close}"
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
             app:layout_constraintEnd_toStartOf="@+id/guideline_start"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"

@@ -20,14 +20,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <de.rki.coronawarnapp.ui.view.BulletPointList
             android:id="@+id/further_info_text"
-            style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/submission_done_further_info_enum"
+            app:entries="@array/submission_done_further_info_bullet_points"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/further_info_title" />
