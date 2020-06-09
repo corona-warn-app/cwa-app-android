@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.http.service
 
 import okhttp3.ResponseBody
 import retrofit2.http.GET
+import retrofit2.http.Streaming
 import retrofit2.http.Url
 
 interface DistributionService {
@@ -12,6 +13,7 @@ interface DistributionService {
     @GET
     suspend fun getHourIndex(@Url url: String): List<String>
 
+    @Streaming
     @GET
     suspend fun getKeyFiles(@Url url: String): ResponseBody
 
