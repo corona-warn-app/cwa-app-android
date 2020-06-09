@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
@@ -95,7 +96,7 @@ class SubmissionTanFragment : BaseFragment() {
 
         binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
-        binding.submissionTanHeader.headerToolbar.setNavigationOnClickListener { navigateToDispatchScreen() }
+        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {
@@ -108,6 +109,16 @@ class SubmissionTanFragment : BaseFragment() {
         submissionViewModel.registrationError.observeEvent(viewLifecycleOwner, {
             DialogHelper.showDialog(buildErrorDialog(it))
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.submissionTanScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionTanScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun navigateToDispatchScreen() =

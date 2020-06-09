@@ -9,10 +9,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_title">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/information_header"
             layout="@layout/include_header"

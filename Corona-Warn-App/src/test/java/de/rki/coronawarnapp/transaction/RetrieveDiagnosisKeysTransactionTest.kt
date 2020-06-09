@@ -33,7 +33,13 @@ class RetrieveDiagnosisKeysTransactionTest {
         mockkObject(LocalData)
 
         coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
-        coEvery { InternalExposureNotificationClient.asyncProvideDiagnosisKeys(any(), any(), any()) } returns mockk()
+        coEvery {
+            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                any(),
+                any(),
+                any()
+            )
+        } returns mockk()
         coEvery { ApplicationConfigurationService.asyncRetrieveExposureConfiguration() } returns mockk()
         every { LocalData.googleApiToken(any()) } just Runs
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
@@ -60,7 +66,9 @@ class RetrieveDiagnosisKeysTransactionTest {
     fun testTransactionHasFiles() {
         val file = Paths.get("src", "test", "resources", "keys.bin").toFile()
 
-        coEvery { RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>()) } returns listOf(file)
+        coEvery { RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>()) } returns listOf(
+            file
+        )
 
         runBlocking {
             RetrieveDiagnosisKeysTransaction.start()
@@ -69,7 +77,11 @@ class RetrieveDiagnosisKeysTransactionTest {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
                 RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
-                RetrieveDiagnosisKeysTransaction["executeAPISubmission"](any<String>(), listOf(file), any<ExposureConfiguration>())
+                RetrieveDiagnosisKeysTransaction["executeAPISubmission"](
+                    any<String>(),
+                    listOf(file),
+                    any<ExposureConfiguration>()
+                )
                 RetrieveDiagnosisKeysTransaction["executeFetchDateUpdate"](any<Date>())
             }
         }

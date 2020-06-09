@@ -1,5 +1,6 @@
 <resources>
     <!-- spacing, used as reference for everything else -->
+    <dimen name="spacing_huge">56dp</dimen>
     <dimen name="spacing_large">48dp</dimen>
     <dimen name="spacing_medium">32dp</dimen>
     <dimen name="spacing_normal">24dp</dimen>
@@ -8,19 +9,19 @@
     <dimen name="spacing_mega_tiny">3dp</dimen>
 
     <!-- font sizes -->
-    <dimen name="font_largest">34sp</dimen>
+    <dimen name="font_huge">34sp</dimen>
     <dimen name="font_larger">24sp</dimen>
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_normal">16sp</dimen>
     <dimen name="font_small">12sp</dimen>
-
     <dimen name="font_button">14sp</dimen>
     <dimen name="font_title">20sp</dimen>
 
     <dimen name="font_line_spacing_extra">4sp</dimen>
 
     <!-- header height -->
-    <dimen name="header">40dp</dimen>
+    <dimen name="header">56dp</dimen>
+    <dimen name="header_main">40dp</dimen>
 
     <!-- elevation -->
     <dimen name="elevation_strong">10dp</dimen>
@@ -62,7 +63,12 @@
     <dimen name="icon_size_settings">40dp</dimen>
     <dimen name="icon_size_risk_details_behavior">25dp</dimen>
     <dimen name="icon_margin_risk_details_behavior">8dp</dimen>
-    <dimen name="match_constraint">0dp</dimen>
+
+    <!-- Circle sizes -->
+    <dimen name="circle_big">@dimen/spacing_huge</dimen>
+    <dimen name="circle_small">23dp</dimen>
+    <dimen name="circle_large_width">10</dimen>
+    <dimen name="circle_small_width">5</dimen>
 
     <!-- todo illustration sizes -->
 
@@ -91,5 +97,13 @@
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
     <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
 
+    <!-- Bullet Points -->
+    <dimen name="bullet_point_size">4dp</dimen>
+    <dimen name="bullet_point_baseline_offset">8sp</dimen>
+    <dimen name="bullet_point_spacing_between">@dimen/spacing_small</dimen>
+    <dimen name="bullet_point_spacing_before">@dimen/spacing_tiny</dimen>
+    <dimen name="bullet_point_spacing_after">@dimen/spacing_normal</dimen>
+
+    <dimen name="match_constraint">0dp</dimen>
     <dimen name="no_padding">0dp</dimen>
 </resources>

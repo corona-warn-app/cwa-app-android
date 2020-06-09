@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/information_about_header"
             layout="@layout/include_header"
@@ -19,8 +18,10 @@
             app:title="@{@string/information_about_title}" />
 
         <ScrollView
+            android:id="@+id/information_about_scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/information_about_title"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +30,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusable="true">
 
                 <include
                     android:id="@+id/information_about_header_details"

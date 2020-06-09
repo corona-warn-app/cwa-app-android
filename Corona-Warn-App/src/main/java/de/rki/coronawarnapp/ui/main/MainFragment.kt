@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -62,6 +63,7 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setContentDescription()
     }
 
     override fun onResume() {
@@ -74,6 +76,22 @@ class MainFragment : BaseFragment() {
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
+        tracingViewModel.refreshLastSuccessfullyCalculatedScore()
+        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    private fun setContentDescription() {
+        val shareButtonString: String = getString(R.string.button_share)
+        val menuButtonString: String = getString(R.string.button_menu)
+        val mainCardString: String = getString(R.string.hint_external_webpage)
+        binding.mainHeaderShare.buttonIcon.setContentDescription(shareButtonString)
+        binding.mainHeaderOptionsMenu.buttonIcon.setContentDescription(menuButtonString)
+        binding.mainAbout.mainCard.setContentDescription(mainCardString)
     }
 
     private fun setButtonOnClickListener() {
@@ -107,9 +125,8 @@ class MainFragment : BaseFragment() {
             doNavigate(MainFragmentDirections.actionMainFragmentToRiskDetailsFragment())
         }
         binding.mainRisk.riskCardButtonUpdate.setOnClickListener {
-            tracingViewModel.refreshRiskLevel()
             tracingViewModel.refreshDiagnosisKeys()
-            TimerHelper.startManualKeyRetrievalTimer()
+            settingsViewModel.updateManualKeyRetrievalEnabled(false)
         }
         binding.mainRisk.riskCardButtonEnableTracing.setOnClickListener {
             doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())

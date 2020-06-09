@@ -7,12 +7,9 @@ import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.mockk.MockKAnnotations
-import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -22,10 +19,17 @@ import org.junit.Test
 import java.util.Date
 
 class WebRequestBuilderTest {
-    @MockK private lateinit var verificationService: VerificationService
-    @MockK private lateinit var distributionService: DistributionService
-    @MockK private lateinit var submissionService: SubmissionService
-    @MockK private lateinit var verificationKeys: VerificationKeys
+    @MockK
+    private lateinit var verificationService: VerificationService
+
+    @MockK
+    private lateinit var distributionService: DistributionService
+
+    @MockK
+    private lateinit var submissionService: SubmissionService
+
+    @MockK
+    private lateinit var verificationKeys: VerificationKeys
 
     private lateinit var webRequestBuilder: WebRequestBuilder
 

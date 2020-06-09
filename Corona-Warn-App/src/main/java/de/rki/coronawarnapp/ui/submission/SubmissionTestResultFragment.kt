@@ -126,7 +126,7 @@ class SubmissionTestResultFragment : BaseFragment() {
             removeTestAfterConfirmation()
         }
 
-        binding.submissionTestResultHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )

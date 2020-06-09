@@ -230,7 +230,7 @@ fun formatSettingsTracingIconColor(tracing: Boolean, bluetooth: Boolean, connect
     val appContext = CoronaWarnApplication.getAppContext()
     return when (tracingStatusHelper(tracing, bluetooth, connection)) {
         TracingStatusHelper.CONNECTION, TracingStatusHelper.BLUETOOTH ->
-            appContext.getColor(R.color.colorTextSemanticRed)
+            appContext.getColor(R.color.colorTextPrimary3)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getColor(R.color.colorAccentTintIcon)
         TracingStatusHelper.TRACING_INACTIVE ->
@@ -257,10 +257,10 @@ fun formatSettingsTracingIcon(
         TracingStatusHelper.CONNECTION,
         TracingStatusHelper.BLUETOOTH,
         TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_active)
+            appContext.getDrawable(R.drawable.ic_settings_tracing_active_small)
         TracingStatusHelper.TRACING_INACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_inactive)
-        else -> appContext.getDrawable(R.drawable.ic_settings_tracing_inactive)
+            appContext.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
+        else -> appContext.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
     }
 }
 

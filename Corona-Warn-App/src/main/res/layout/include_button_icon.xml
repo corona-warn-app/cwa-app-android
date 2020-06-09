@@ -4,9 +4,15 @@
 
     <data>
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
         <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="iconDescription"
+            type="String" />
 
     </data>
 
@@ -22,7 +28,7 @@
             style="@style/icon"
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
-            android:contentDescription="@string/lorem_ipsum"
+            android:contentDescription="@{FormatterHelper.formatEmptyString(iconDescription)}"
             android:src="@{icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

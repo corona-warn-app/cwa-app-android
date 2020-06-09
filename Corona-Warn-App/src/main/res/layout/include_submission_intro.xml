@@ -8,13 +8,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/submission_intro_hero_illustration"
+                contentDescription="@{@string/submission_intro_illustration_description}"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                contentDescription="@{@string/submission_intro_illustration_description}"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_illustration_test"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +28,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="false"
                 android:text="@string/submission_intro_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -38,22 +40,21 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="false"
                 android:text="@string/submission_intro_text"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_intro_headline" />
 
-            <TextView
-                android:id="@+id/submission_intro_text_enum"
-                style="@style/subtitle"
+            <de.rki.coronawarnapp.ui.view.BulletPointList
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:focusable="false"
                 android:paddingBottom="@dimen/spacing_normal"
-                android:text="@string/submission_intro_enum"
+                app:entries="@array/submission_intro_bullet_points"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_intro_text" />
+                app:layout_constraintTop_toBottomOf="@id/submission_intro_text" />
 
             <include layout="@layout/merge_guidelines_side" />
 

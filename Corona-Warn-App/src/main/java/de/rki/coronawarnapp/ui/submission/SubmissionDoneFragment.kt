@@ -36,7 +36,7 @@ class SubmissionDoneFragment : BaseFragment() {
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionDoneHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionDoneHeader.headerButtonBack.buttonIcon.setOnClickListener {
             doNavigate(
                 SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
             )

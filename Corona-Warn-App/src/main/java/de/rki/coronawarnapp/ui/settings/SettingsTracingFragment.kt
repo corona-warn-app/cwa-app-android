@@ -111,7 +111,7 @@ class SettingsTracingFragment : BaseFragment(),
                 }
             }
         }
-        binding.settingsTracingHeader.headerToolbar.setNavigationOnClickListener {
+        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
@@ -126,24 +126,24 @@ class SettingsTracingFragment : BaseFragment(),
         // if tracing is enabled when listener is activated it should be disabled
         lifecycleScope.launch {
             if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    try {
-                        Toast.makeText(
-                            requireContext(),
-                            "Tracing stopped successfully",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                try {
+                    Toast.makeText(
+                        requireContext(),
+                        "Tracing stopped successfully",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
 
-                        InternalExposureNotificationClient.asyncStop()
-                    } catch (exception: Exception) {
-                        exception.report(
-                            ExceptionCategory.EXPOSURENOTIFICATION,
-                            TAG,
-                            null
-                        )
-                    }
-                    tracingViewModel.refreshIsTracingEnabled()
-                    BackgroundWorkScheduler.stopWorkScheduler()
+                    InternalExposureNotificationClient.asyncStop()
+                } catch (exception: Exception) {
+                    exception.report(
+                        ExceptionCategory.EXPOSURENOTIFICATION,
+                        TAG,
+                        null
+                    )
+                }
+                tracingViewModel.refreshIsTracingEnabled()
+                BackgroundWorkScheduler.stopWorkScheduler()
             } else {
                 // tracing was already activated
                 if (LocalData.initialTracingActivationTimestamp() != null) {

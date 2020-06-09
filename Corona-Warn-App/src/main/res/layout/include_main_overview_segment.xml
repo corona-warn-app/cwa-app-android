@@ -26,6 +26,7 @@
             style="@style/row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -45,6 +46,7 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline_body"
@@ -56,6 +58,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:focusable="false"
                 android:text="@{body}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

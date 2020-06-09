@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.service.applicationconfiguration
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 
 object ApplicationConfigurationService {
-    suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration {
+    suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfiguration {
         return WebRequestBuilder.getInstance().asyncGetApplicationConfigurationFromServer()
     }
 
@@ -14,8 +14,7 @@ object ApplicationConfigurationService {
             .mapRiskScoreToExposureConfiguration()
 
     // todo double check that the weighted params are not used
-    private fun ApplicationConfigurationOuterClass.ApplicationConfiguration
-            .mapRiskScoreToExposureConfiguration(): ExposureConfiguration =
+    private fun ApplicationConfiguration.mapRiskScoreToExposureConfiguration(): ExposureConfiguration =
         ExposureConfiguration
             .ExposureConfigurationBuilder()
             .setTransmissionRiskScores(

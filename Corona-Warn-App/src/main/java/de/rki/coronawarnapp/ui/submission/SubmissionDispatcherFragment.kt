@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.BaseFragment
@@ -39,8 +40,18 @@ class SubmissionDispatcherFragment : BaseFragment() {
         setButtonOnClickListener()
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
     private fun setButtonOnClickListener() {
-        binding.submissionDispatcherHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {

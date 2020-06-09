@@ -143,8 +143,8 @@
     <string name="main_about_headline">"FAQ"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App."</string>
-    <!-- NOTR todo insert english link in translation file http://www.bundesregierung.de/corona-warn-app-faq-englisch -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <!-- NOTR -->
+    <string name="main_about_link">"http://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
 
     <!-- ####################################
                Main - Share
@@ -190,33 +190,33 @@
     <!-- YTXT: App overview body text about rest procedure -->
     <string name="main_overview_body_test">"Another central feature is registering your test and retrieving the result. If you are diagnosed with COVID-19, you can warn others and break the chain of infection."</string>
     <!-- XHED: App overview headline for glossary -->
-   <string name="main_overview_headline_glossary">"Definition of Terms:"</string>
+    <string name="main_overview_headline_glossary">"Definition of Terms:"</string>
     <!-- XHED: App overview subtitle for glossary key storage -->
-   <string name="main_overview_subtitle_glossary_tracing">"Exposure Logging"</string>
+    <string name="main_overview_subtitle_glossary_tracing">"Exposure Logging"</string>
     <!-- YTXT: App overview body for glossary key storage -->
-   <string name="main_overview_body_glossary_tracing">"List of received and temporary random IDs saved temporarily in the operating system storage. This list is read when the exposures are checked. All random IDs are automatically deleted after 14 days."</string>
+    <string name="main_overview_body_glossary_tracing">"List of received and temporary random IDs saved temporarily in the operating system storage. This list is read when the exposures are checked. All random IDs are automatically deleted after 14 days."</string>
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
-   <string name="main_overview_subtitle_glossary_calculation">"Exposure Check"</string>
+    <string name="main_overview_subtitle_glossary_calculation">"Exposure Check"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
-   <string name="main_overview_body_glossary_calculation">"Exposure logging data is retrieved and synchronized with reported infections of other users. The exposure check is performed automatically about every two hours."</string>
+    <string name="main_overview_body_glossary_calculation">"Exposure logging data is retrieved and synchronized with reported infections of other users. The exposure check is performed automatically about every two hours."</string>
     <!-- XHED: App overview subtitle for glossary contact  -->
-   <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
+    <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-   <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
-   <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
+    <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
-   <string name="main_overview_body_glossary_notification">"Display exposures in the Corona-Warn-App."</string>
+    <string name="main_overview_body_glossary_notification">"Display exposures in the Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-   <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
     <!-- YTXT: App overview body for glossary keys -->
-   <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exhanged between devices in close proximity. Random IDs cannot be assigned to a specific person and are automatically deleted after 14 days. People diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
+    <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exhanged between devices in close proximity. Random IDs cannot be assigned to a specific person and are automatically deleted after 14 days. People diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"One device shows different content numbered from 1 to 3."</string>
 
-   <!-- ####################################
-              Risk Details
-   ###################################### -->
+    <!-- ####################################
+               Risk Details
+    ###################################### -->
 
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Behavioral Recommendations"</string>
@@ -282,7 +282,6 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"A group of people are all using their devices in town."</string>
     <string name="onboarding_privacy_headline">"Data Privacy"</string>
-    <string name="onboarding_privacy_body">@string/lorem_ipsum</string>
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">"One of the women is using the Corona-Warn-App on her device. The padlock on the shield is the symbol for encrypted data."</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
@@ -459,8 +458,8 @@
     <string name="information_contact_subtitle_phone">"Technical hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"+49 (0)800 7540001"</string>
-    <!-- MOTR todo phone number to be called replace in english file-->
-    <string name="information_contact_phone_call_number">"Phone: +49 800 7540001"</string>
+    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, NO SPECIAL CHARACTERS EXCEPT "+" and "space" todo phone number to be called replace in english file -->
+    <string name="information_contact_phone_call_number">+49 800 7540001</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is here to help."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -604,8 +603,6 @@
     <string name="submission_intro_headline">"This is how the Corona-Warn-App works"</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who have tested positive. Since only encrypted random IDs are exchanged, you remain anonymous. You can now proceed as follows:\n"</string>
-    <!-- YTXT: submission introduction enumeration -->
-    <string name="submission_intro_enum">"If you tested  positive, you can warn others. If you were given a TAN for a positive result, you can use this to register the test. If you do not have a TAN, you can request one by telephone."</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
 
@@ -680,8 +677,6 @@
     <string name="submission_done_isolate">"Please isolate yourself from other people."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Other information:"</string>
-    <!-- YTXT: Content for further info -->
-    <string name="submission_done_further_info_enum">"Your quarantine period is usually 14 days. Please observe your symptoms and monitor how they develop. You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you developed symptoms. Please think especially about the people that will not be notified directly by the app since they don\'t have a device, or haven\'t installed the app."</string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Done"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->

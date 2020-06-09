@@ -32,14 +32,14 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 16
-        versionName "0.8.9"
+        versionCode 17
+        versionName "0.8.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
         buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
-        buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
+        buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp\""
 
         //override URLs with local variables
         Properties properties = new Properties()
@@ -181,7 +181,8 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-
+    androidTestImplementation "io.mockk:mockk-android:1.10.0"
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'
@@ -194,7 +195,7 @@ dependencies {
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation ('com.squareup.retrofit2:converter-protobuf:2.9.0') {
+    implementation('com.squareup.retrofit2:converter-protobuf:2.9.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
     implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")

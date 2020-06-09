@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util
 
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Test
@@ -11,8 +10,8 @@ class TanHelperTest {
     fun isValidCharacter() {
         // valid
         val validCharacters = arrayOf(
-            "2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H",
-            "J","K","M","N","P","Q","R","S","T","U","V","W","X","Y","Z"
+            "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H",
+            "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
         )
         for (character in validCharacters) {
             MatcherAssert.assertThat(
@@ -23,8 +22,8 @@ class TanHelperTest {
 
         // invalid
         val invalidCharacters = arrayOf(
-            "0","1","O","L","I","Ö","*","&","-","a","b",
-            "c","ö","ß","é","."," ","€","(",")",";",","
+            "0", "1", "O", "L", "I", "Ö", "*", "&", "-", "a", "b",
+            "c", "ö", "ß", "é", ".", " ", "€", "(", ")", ";", ","
         )
         for (character in invalidCharacters) {
             MatcherAssert.assertThat(
@@ -38,7 +37,8 @@ class TanHelperTest {
     fun areCharactersValid() {
         // valid input strings (not necessarily valid TANs)
         val validStrings = arrayOf(
-            "ABCD", "2345", "PTPHM35RP4", "AAAAAAAAAA", "BBBBB")
+            "ABCD", "2345", "PTPHM35RP4", "AAAAAAAAAA", "BBBBB"
+        )
         for (text in validStrings) {
             MatcherAssert.assertThat(
                 TanHelper.allCharactersValid(text),
@@ -48,7 +48,8 @@ class TanHelperTest {
 
         // invalid input strings
         val invalidStrings = arrayOf(
-            "ABCDÖ", "01234", "PTPHM15RP4", "AAAAAA AAA", "BB.BBB")
+            "ABCDÖ", "01234", "PTPHM15RP4", "AAAAAA AAA", "BB.BBB"
+        )
         for (text in invalidStrings) {
             MatcherAssert.assertThat(
                 TanHelper.allCharactersValid(text),
@@ -61,7 +62,8 @@ class TanHelperTest {
     fun isChecksumValid() {
         // valid
         val validTans = arrayOf(
-            "9A3B578UMG", "DEU7TKSV3H", "PTPHM35RP4", "V923D59AT8", "H9NC5CQ34E")
+            "9A3B578UMG", "DEU7TKSV3H", "PTPHM35RP4", "V923D59AT8", "H9NC5CQ34E"
+        )
         for (tan in validTans) {
             MatcherAssert.assertThat(
                 TanHelper.isChecksumValid(tan),

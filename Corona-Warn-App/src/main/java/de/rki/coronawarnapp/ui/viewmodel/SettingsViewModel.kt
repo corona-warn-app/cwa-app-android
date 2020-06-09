@@ -22,7 +22,6 @@ class SettingsViewModel : ViewModel() {
     val isBluetoothEnabled: LiveData<Boolean> =
         SettingsRepository.isBluetoothEnabled
 
-    // Todo bind to os settings, care API 23 / API 24 onwards
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
 
@@ -32,24 +31,25 @@ class SettingsViewModel : ViewModel() {
      *
      * @see SettingsRepository.isManualKeyRetrievalEnabled
      */
-    val isManualKeyRetrievalEnabled: LiveData<Boolean> = SettingsRepository.isManualKeyRetrievalEnabled
+    val isManualKeyRetrievalEnabled: LiveData<Boolean> =
+        SettingsRepository.isManualKeyRetrievalEnabled
 
     /**
-     * Update button on the Risk Card and in the Risk Details live text
+     * Manual update button timer value
      *
-     * @see SettingsRepository.manualKeyRetrievalText
+     * @see SettingsRepository.manualKeyRetrievalTime
      */
-    val manualKeyRetrievalText: LiveData<String> = SettingsRepository.manualKeyRetrievalText
+    val manualKeyRetrievalTime: LiveData<Long> = SettingsRepository.manualKeyRetrievalTime
 
     /**
-     * Refresher and toggler for settings
+     * Refresher and toggles for settings
      * - Notifications overall
      *  - Risk updates
      *  - Test updates
      *  - News updates
      *  - App updates
-     * - Mobile data // TODO should be removed
-     * - Background jobs // TODO could be removed
+     *  - Connectivity
+     *  - Background activity
      *
      * @see SettingsRepository
      */
@@ -104,5 +104,14 @@ class SettingsViewModel : ViewModel() {
      */
     fun updateBackgroundJobEnabled(value: Boolean) {
         SettingsRepository.updateBackgroundJobEnabled(value)
+    }
+
+    /**
+     * Update manual key button enabled
+     *
+     * @param value
+     */
+    fun updateManualKeyRetrievalEnabled(value: Boolean) {
+        SettingsRepository.updateManualKeyRetrievalEnabled(value)
     }
 }

@@ -27,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@{FormatterRiskHelper.formatRiskShape(showDetails)}"
-        android:backgroundTint="@{FormatterRiskHelper.formatRiskColor(tracingViewModel.riskLevel)}">
+        android:backgroundTint="@{FormatterRiskHelper.formatRiskColorStateList(tracingViewModel.riskLevel)}"
+        android:focusable="true">
 
         <include
             android:id="@+id/risk_card_header"
@@ -52,12 +53,11 @@
 
             <ProgressBar
                 android:id="@+id/risk_card_progress"
-                style="?android:attr/progressBarStyleInverse"
+                style="@style/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/colorStableLight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +97,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- todo exchange variable in body text formatter -->
             <include
                 android:id="@+id/risk_card_row_saved_risk"
                 layout="@layout/include_risk_card_row"
@@ -112,7 +111,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_body"
                 app:tracingViewModel="@{tracingViewModel}" />
 
-            <!-- todo possibly include icon formatter -->
             <include
                 android:id="@+id/risk_card_row_contact"
                 layout="@layout/include_risk_card_row"
@@ -141,12 +139,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact"
                 app:tracingViewModel="@{tracingViewModel}" />
 
-            <!-- todo exchange variable-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/risk_card_row_saved_days"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod))}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -162,15 +159,15 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <de.rki.coronawarnapp.ui.view.CircleProgress
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        app:circleColor="@color/colorStableMedium"
+                        android:layout_width="@dimen/circle_small"
+                        android:layout_height="@dimen/circle_small"
+                        app:circleColor="@color/colorStableHairlineLight"
+                        app:circleWidth="@dimen/circle_small_width"
                         app:disableText="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:circleWidth="5"
                         app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}"
                         app:progressColor="@color/colorStableLight" />
 
@@ -190,7 +187,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- todo exchange variable in body text formatter -->
             <include
                 android:id="@+id/risk_card_row_time_fetched"
                 layout="@layout/include_risk_card_row"
@@ -221,6 +217,7 @@
                     layout="@layout/include_divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
+                    app:dividerColor="@{FormatterRiskHelper.formatStableDividerColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -257,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:enabled="@{FormatterRiskHelper.formatButtonUpdateEnabled(settingsViewModel.isManualKeyRetrievalEnabled())}"
-                android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalText)}"
+                android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalTime)}"
                 android:visibility="@{FormatterRiskHelper.formatButtonUpdateVisibility(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled(), showDetails)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

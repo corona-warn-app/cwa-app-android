@@ -316,29 +316,6 @@ object LocalData {
         }
     }
 
-    /**
-     * Gets the last timestamp the user manually triggered the key retrieval process
-     *
-     * @return Long
-     */
-    fun lastTimeManualDiagnosisKeysRetrieved(): Long = getSharedPreferenceInstance().getLong(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_timestamp_manual_diagnosis_keys_retrieval),
-        0L
-    )
-
-    /**
-     * Sets the last timestamp the user manually triggered the key retrieval process
-     */
-    fun lastTimeManualDiagnosisKeysRetrieved(value: Long) =
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_timestamp_manual_diagnosis_keys_retrieval),
-                value
-            )
-        }
-
     /****************************************************
      * EXPOSURE NOTIFICATION DATA
      ****************************************************/
@@ -601,13 +578,15 @@ object LocalData {
 
     fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
         putBoolean(
-            CoronaWarnApplication.getAppContext().getString(R.string.preference_last_three_hours_from_server),
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_last_three_hours_from_server),
             value
         )
     }
 
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_last_three_hours_from_server), false
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_last_three_hours_from_server), false
     )
 
     /****************************************************

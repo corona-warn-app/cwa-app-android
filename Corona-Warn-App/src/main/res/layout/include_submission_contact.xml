@@ -8,7 +8,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/submission_contact_illustration"
@@ -25,6 +26,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:focusable="false"
                 android:text="@string/submission_contact_body"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -36,17 +38,18 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:focusable="false"
                 android:text="@string/submission_contact_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_body" />
-
 
             <de.rki.coronawarnapp.ui.view.StepEntry
                 android:id="@+id/submission_contact_step_1"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:contentDescription="@string/submission_contact_step_1_content"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_headline"
@@ -67,7 +70,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
 
                     <TextView
                         android:id="@+id/submission_contact_step_1_number"
@@ -105,12 +107,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_step_1"
                 app:step_entry_final="true"
                 app:step_entry_icon="@drawable/ic_main_overview_2">
+                android:contentDescription="@string/submission_contact_step_2_content">
 
-                <TextView
-                    style="@style/subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/submission_contact_step_2_body" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/button_icon_margin"
+                        android:text="@string/submission_contact_step_2_body"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </de.rki.coronawarnapp.ui.view.StepEntry>
 

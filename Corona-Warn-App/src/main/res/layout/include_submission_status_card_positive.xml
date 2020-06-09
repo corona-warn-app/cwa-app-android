@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:icon="@{@drawable/ic_forward}"
+            app:iconDescription="@{@string/accessibility_next}"
             app:layout_constraintBottom_toBottomOf="@+id/submission_status_card_positive_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/submission_status_card_positive_title" />

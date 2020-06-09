@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
-import kotlinx.android.synthetic.main.view_step_entry.view.*
+import kotlinx.android.synthetic.main.view_step_entry.view.step_entry_icon
+import kotlinx.android.synthetic.main.view_step_entry.view.step_entry_line
 
 /**
  * The [StepEntry] displays one step in a sequence. Children can be added to define the content.
