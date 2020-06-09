@@ -623,7 +623,8 @@
     <string name="submission_dispatcher_qr_card_text">"Register your test by scanning the QR code of your test document."</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Data Privacy"</string>
-    <string name="submission_dispatcher_qr_privacy_dialog_body">@string/lorem_ipsum</string>
+    <!-- YTXT: Dialog Body text for QR privacy dialog -->
+    <string name="submission_dispatcher_qr_privacy_dialog_body">By tapping "Allow" you agree that the app can query the status of your Corona virus test and display it in the app. This function is available if you have received a QR code and have given your consent that your test result may be transmitted to the server system. As soon as the test laboratory has saved your test result on the server, you can see the result in the app. If you have activated notifications, you will also be informed of the receipt of the test result outside the app. For data protection reasons, the test result itself is only displayed in the app. You can withdraw this consent at any time by deleting the test registration in the app. The withdrawal of consent does not affect the lawfulness of the processing carried out before the withdrawal. Further information can be found under the menu item "Data protection information".</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Allow"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
