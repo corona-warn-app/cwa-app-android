@@ -85,7 +85,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_bluetooth"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
@@ -99,7 +99,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_connection"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusConnection(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:body="@{@string/settings_tracing_status_connection_body}"
