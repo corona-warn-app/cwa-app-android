@@ -63,7 +63,6 @@
     <dimen name="icon_size_settings">40dp</dimen>
     <dimen name="icon_size_risk_details_behavior">25dp</dimen>
     <dimen name="icon_margin_risk_details_behavior">8dp</dimen>
-    <dimen name="match_constraint">0dp</dimen>
 
     <!-- Circle sizes -->
     <dimen name="circle_big">@dimen/spacing_huge</dimen>
@@ -98,5 +97,13 @@
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
     <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
 
+    <!-- Bullet Points -->
+    <dimen name="bullet_point_size">4dp</dimen>
+    <dimen name="bullet_point_baseline_offset">8sp</dimen>
+    <dimen name="bullet_point_spacing_between">@dimen/spacing_small</dimen>
+    <dimen name="bullet_point_spacing_before">@dimen/spacing_tiny</dimen>
+    <dimen name="bullet_point_spacing_after">@dimen/spacing_normal</dimen>
+
+    <dimen name="match_constraint">0dp</dimen>
     <dimen name="no_padding">0dp</dimen>
 </resources>

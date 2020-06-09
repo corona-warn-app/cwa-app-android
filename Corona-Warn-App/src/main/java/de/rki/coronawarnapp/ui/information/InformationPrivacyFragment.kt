@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationPrivacyBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.AssetConstants
 
 /**
  * Basic Fragment which only displays static content.
@@ -39,6 +40,7 @@ class InformationPrivacyFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
         setContentDescription()
+        loadWebView()
     }
 
     override fun onStart() {
@@ -60,5 +62,10 @@ class InformationPrivacyFragment : BaseFragment() {
         binding.informationPrivacyHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
+    }
+
+    private fun loadWebView() {
+        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_html_path)
+        binding.informationPrivacyWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }

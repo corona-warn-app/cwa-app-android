@@ -4,7 +4,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.junit.Test
 
-class VerificationServiceTest {
+class VersionComparatorTest {
 
     @Test
     fun testVersionMajorOlder() {
@@ -45,6 +45,18 @@ class VerificationServiceTest {
     @Test
     fun testSameVersion() {
         val result = VersionComparator.isVersionOlder("1.0.1", "1.0.1")
+        assertThat(result, `is`(false))
+    }
+
+    @Test
+    fun testIfMajorIsNewerButMinorSmallerNumber() {
+        val result = VersionComparator.isVersionOlder("3.1.0", "1.2.0")
+        assertThat(result, `is`(false))
+    }
+
+    @Test
+    fun testIfMinorIsNewerButPatchSmallerNumber() {
+        val result = VersionComparator.isVersionOlder("1.3.1", "1.2.4")
         assertThat(result, `is`(false))
     }
 }

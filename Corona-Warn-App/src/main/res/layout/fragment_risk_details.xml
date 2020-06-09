@@ -283,7 +283,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:enabled="@{FormatterRiskHelper.formatButtonUpdateEnabled(settingsViewModel.isManualKeyRetrievalEnabled())}"
-                android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalText)}"
+                android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalTime)}"
                 android:visibility="@{FormatterRiskHelper.formatDetailsButtonUpdateVisibility(settingsViewModel.isBackgroundJobEnabled(), tracingViewModel.riskLevel)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -2,13 +2,12 @@ package de.rki.coronawarnapp.timer
 
 import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
-import java.util.Date
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import java.util.Timer
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.fixedRateTimer
@@ -54,13 +53,16 @@ object TimerHelper {
      *
      * @return Long
      *
-     * @see LocalData.lastTimeManualDiagnosisKeysRetrieved
+     * @see LocalData.lastTimeDiagnosisKeysFromServerFetch
      * @see TimeVariables.getManualKeyRetrievalDelay
      */
     private fun getManualKeyRetrievalTimeLeft(): Long {
-        val lastTime = LocalData.lastTimeManualDiagnosisKeysRetrieved()
-        val currentTime = Date(System.currentTimeMillis()).time
-        return TimeVariables.getManualKeyRetrievalDelay() - (currentTime - lastTime)
+        if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null) return 0
+
+        val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
+        val lastFetch = DateTime(LocalData.lastTimeDiagnosisKeysFromServerFetch(), DateTimeZone.getDefault())
+
+        return TimeVariables.getManualKeyRetrievalDelay() - (currentDate.millis - lastFetch.millis)
     }
 
     /**
@@ -71,8 +73,6 @@ object TimerHelper {
      * @see SettingsRepository.isManualKeyRetrievalEnabled
      */
     fun startManualKeyRetrievalTimer() {
-        LocalData.lastTimeManualDiagnosisKeysRetrieved(Date(System.currentTimeMillis()).time)
-        SettingsRepository.isManualKeyRetrievalEnabled.postValue(false)
         checkManualKeyRetrievalTimer()
     }
 
@@ -96,6 +96,9 @@ object TimerHelper {
                 logTimerException(e)
             }
         }
+        if (!isManualKeyRetrievalOnTimer.get()) {
+            SettingsRepository.updateManualKeyRetrievalEnabled(true)
+        }
     }
 
     /**
@@ -104,25 +107,16 @@ object TimerHelper {
      * Else - update text with timer HMS format
      *
      * @see getManualKeyRetrievalTimeLeft
-     * @see SettingsRepository.isManualKeyRetrievalEnabled
-     * @see SettingsRepository.manualKeyRetrievalText
+     * @see SettingsRepository.updateManualKeyRetrievalEnabled
+     * @see SettingsRepository.updateManualKeyRetrievalTime
      * @see de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
      */
     private fun onManualKeyRetrievalTimerTick() {
-        val context = CoronaWarnApplication.getAppContext()
         val timeDifference = getManualKeyRetrievalTimeLeft()
         val result = timeDifference <= 0
-        SettingsRepository.isManualKeyRetrievalEnabled.postValue(result)
-        if (result) {
-            stopManualKeyRetrievalTimer()
-            SettingsRepository.manualKeyRetrievalText.postValue(
-                context.getString(R.string.risk_card_button_update)
-            )
-        } else {
-            val hmsCooldownTime = timeDifference.millisecondsToHMS()
-            val cooldownText = context.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
-            SettingsRepository.manualKeyRetrievalText.postValue(cooldownText)
-        }
+        SettingsRepository.updateManualKeyRetrievalEnabled(result)
+        SettingsRepository.updateManualKeyRetrievalTime(timeDifference)
+        if (result) stopManualKeyRetrievalTimer()
     }
 
     /**
