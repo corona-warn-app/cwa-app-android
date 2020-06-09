@@ -51,4 +51,17 @@ object TimeAndDateExtensions {
         TimeUnit.MILLISECONDS.toMinutes(this) % TimeUnit.HOURS.toMinutes(1),
         TimeUnit.MILLISECONDS.toSeconds(this) % TimeUnit.MINUTES.toSeconds(1)
     )
+
+    /**
+     * Calculates the difference between two timestamps in Days Units
+     *
+     * @return Long
+     *
+     * @see TimeUnit
+     */
+    fun calculateDays(firstDate: Long, secondDate: Long): Long {
+        val millionSeconds = secondDate - firstDate
+        var days = TimeUnit.MILLISECONDS.toDays(millionSeconds)
+        return days
+    }
 }
