@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
