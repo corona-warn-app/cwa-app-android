@@ -38,8 +38,8 @@ class VerificationKeys {
             .isEmpty()
             .also {
                 if (BuildConfig.DEBUG) {
-                    if (it) Log.d(TAG, "export is valid")
-                    else Log.d(TAG, "export is invalid")
+                    if (it) Log.d(TAG, "export is invalid")
+                    else Log.d(TAG, "export is valid")
                 }
             }
     }

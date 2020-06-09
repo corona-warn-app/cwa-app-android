@@ -25,9 +25,7 @@ object SettingsRepository {
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
-
-    // TODO should go to a formatter
-    val manualKeyRetrievalText = MutableLiveData<String>()
+    val manualKeyRetrievalTime = MutableLiveData<Long>()
 
     /**
      * Get the current notifications state. Only relevant for the ui.
@@ -102,5 +100,19 @@ object SettingsRepository {
      */
     fun updateBackgroundJobEnabled(value: Boolean) {
         isBackgroundJobEnabled.postValue(value)
+    }
+
+    /**
+     * Refresh manual key retrieval button status
+     */
+    fun updateManualKeyRetrievalEnabled(value: Boolean) {
+        isManualKeyRetrievalEnabled.postValue(value)
+    }
+
+    /**
+     * Refresh manual key retrieval button status
+     */
+    fun updateManualKeyRetrievalTime(value: Long) {
+        manualKeyRetrievalTime.postValue(value)
     }
 }
