@@ -680,12 +680,6 @@
     <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
 
-    <!-- QR Code Scan Successful Dialog -->
-    <string name="submission_qr_code_scan_successful_dialog_headline">Scan erfolgreich</string>
-    <string name="submission_qr_code_scan_successful_dialog_body">Der QR-Code wurde erfolgreich gescannt</string>
-    <string name="submission_qr_code_scan_successful_dialog_button_positive">Registrieren</string>
-    <string name="submission_qr_code_scan_successful_dialog_button_negative">Abbrechen</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">QR-Code nicht korrekt</string>
@@ -699,11 +693,6 @@
     <!-- QR Code Scan Screen -->
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
-
-    <!-- Register Device Screen -->
-    <!-- XHED: Text headline for test registration loading  -->
-    <string name="submission_register_device_headline">Test registrieren</string>
-    <string name="submission_register_device_body">@string/lorem_ipsum</string>
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
@@ -817,7 +806,7 @@
     <string name="submission_dispatcher_qr_card_text">Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">Einwilligungserklärung</string>
-    <!-- YTXT: Dialog Body text for QR privacy dialog -->
+    <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
     <string name="submission_dispatcher_qr_privacy_dialog_body">Durch Antippen von „Erlauben“ willigen Sie ein, dass die App den Status Ihres Corona-Virus-Tests abfragen und in der App anzeigen darf. Diese Funktion steht Ihnen zur Verfügung, wenn Sie einen QR-Code erhalten und eingewilligt haben, dass Ihr Testergebnis an das Serversystem der App übermittelt werden darf. Sobald das Testlabor Ihr Testergebnis auf dem Server hinterlegt hat, können Sie das Ergebnis in der App sehen. Falls Sie Mitteilungen aktiviert haben, werden Sie auch außerhalb der App über den Eingang des Testergebnis informiert. Das Testergebnis selbst wird aus Datenschutzgründen jedoch nur in der App angezeigt. Sie können diese Einwilligung jederzeit widerrufen, indem Sie die Testregistrierung in der App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutzinformation“.</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">Erlauben</string>
