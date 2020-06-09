@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.exception.http.ServiceFactoryException
 import de.rki.coronawarnapp.http.config.DynamicURLs
 import de.rki.coronawarnapp.http.config.HTTPVariables
 import de.rki.coronawarnapp.http.interceptor.OfflineCacheInterceptor
-import de.rki.coronawarnapp.http.interceptor.WebSecurityVerificationInterceptor
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
+import de.rki.coronawarnapp.http.interceptor.WebSecurityVerificationInterceptor
 import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService

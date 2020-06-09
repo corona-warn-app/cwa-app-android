@@ -91,7 +91,10 @@ object BackgroundWorkScheduler {
      */
     fun startWorkScheduler() {
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-        logWorkActiveStatus(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag, isPeriodicWorkActive)
+        logWorkActiveStatus(
+            WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag,
+            isPeriodicWorkActive
+        )
         if (!isPeriodicWorkActive) WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
     }
 

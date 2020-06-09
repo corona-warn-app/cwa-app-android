@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 
@@ -35,8 +36,18 @@ class SubmissionIntroFragment : BaseFragment() {
         setButtonOnClickListener()
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.submissionIntroScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionIntroScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
     private fun setButtonOnClickListener() {
-        binding.submissionIntroHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionIntroHeader.headerButtonBack.buttonIcon.setOnClickListener {
             doNavigate(SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment())
         }
         binding.submissionIntroButtonNext.setOnClickListener {

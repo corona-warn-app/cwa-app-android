@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_status_card_done"
+        style="@style/card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="0dp">
 
         <TextView
             android:id="@+id/submission_done_card_title"
@@ -15,20 +18,21 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/submission_done_title"
-            app:layout_constraintEnd_toStartOf="@+id/submission_done_card__icon"
+            app:layout_constraintEnd_toStartOf="@+id/submission_done_card_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/submission_done_card__icon"
+            android:id="@+id/submission_done_card_icon"
             layout="@layout/include_button_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
-            app:icon="@{@drawable/ic_icon_drilldowncard_dark}"
+            app:icon="@{@drawable/ic_forward}"
+            app:iconDescription="@{@string/accessibility_next}"
+            app:layout_constraintBottom_toBottomOf="@+id/submission_done_card_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/submission_done_card_title" />
 
         <ImageView
             android:id="@+id/submission_done_card_illustration"
@@ -48,8 +52,8 @@
             layout="@layout/include_submission_done_content"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            app:illustrationDescription="@{@string/submission_done_illustration_description}"
             android:layout_marginTop="@dimen/spacing_normal"
+            app:illustrationDescription="@{@string/submission_done_illustration_description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/submission_done_card_illustration" />

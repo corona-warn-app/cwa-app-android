@@ -111,7 +111,11 @@ object InternalExposureNotificationClient {
         token: String
     ): Void = suspendCoroutine { cont ->
         val exposureConfiguration = configuration ?: ExposureConfigurationBuilder().build()
-        exposureNotificationClient.provideDiagnosisKeys(keyFiles.toList(), exposureConfiguration, token)
+        exposureNotificationClient.provideDiagnosisKeys(
+            keyFiles.toList(),
+            exposureConfiguration,
+            token
+        )
             .addOnSuccessListener {
                 cont.resume(it)
             }.addOnFailureListener {

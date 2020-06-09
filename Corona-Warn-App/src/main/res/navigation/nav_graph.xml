@@ -36,6 +36,9 @@
             android:id="@+id/action_mainFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment" />
         <action
+            android:id="@+id/action_mainFragment_to_submissionDoneFragment"
+            app:destination="@id/submissionDoneFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
@@ -53,7 +56,7 @@
         android:id="@+id/mainOverviewFragment"
         android:name="de.rki.coronawarnapp.ui.main.MainOverviewFragment"
         android:label="@layout/fragment_main_overview"
-        tools:layout="@layout/fragment_main_overview"/>
+        tools:layout="@layout/fragment_main_overview" />
 
     <!-- Settings -->
     <fragment

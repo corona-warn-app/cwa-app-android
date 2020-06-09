@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentInformationAboutBinding
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -38,8 +39,18 @@ class InformationAboutFragment : BaseFragment() {
         setButtonOnClickListener()
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.informationAboutScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.informationAboutScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
     private fun setButtonOnClickListener() {
-        binding.informationAboutHeader.headerToolbar.setNavigationOnClickListener {
+        binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
     }

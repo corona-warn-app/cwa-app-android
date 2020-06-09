@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
         <variable
@@ -14,20 +16,24 @@
 
 
     <ScrollView
+        android:id="@+id/submission_tan_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/submission_tan_accessibility_title"
         android:fillViewport="true"
         tools:context=".ui.submission.SubmissionTanFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true">
 
             <include
                 android:id="@+id/submission_tan_header"
                 layout="@layout/include_header"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 app:icon="@{@drawable/ic_close}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +46,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:focusable="false"
                 android:text="@string/submission_tan_body"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -53,6 +60,33 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_tan_body" />
+
+            <TextView
+                android:id="@+id/submission_tan_character_error"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/submission_tan_character_error"
+                android:textColor="@color/colorTextSemanticRed"
+                android:visibility="@{FormatterSubmissionHelper.formatShowTanCharacterError(viewmodel.tanCharactersValid, viewmodel.tanChecksumValid)}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_tan_input" />
+
+            <TextView
+                android:id="@+id/submission_tan_error"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/submission_tan_error"
+                android:textColor="@color/colorTextSemanticRed"
+                android:visibility="@{FormatterHelper.formatVisibility(!viewmodel.tanChecksumValid)}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_tan_input" />
+
 
             <Button
                 android:id="@+id/submission_tan_button_enter"

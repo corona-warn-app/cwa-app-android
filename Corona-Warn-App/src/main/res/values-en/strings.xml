@@ -494,8 +494,8 @@
     <string name="information_contact_subtitle_phone">"Technical hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">"+49 (0)800 7540001"</string>
-    <!-- MOTR todo phone number to be called replace in english file-->
-    <string name="information_contact_phone_call_number">"Phone: +49 800 7540001"</string>
+    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, NO SPECIAL CHARACTERS EXCEPT "+" and "space" todo phone number to be called replace in english file -->
+    <string name="information_contact_phone_call_number">+49 800 7540001</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is here to help."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
@@ -657,7 +657,7 @@
     <!-- XHED: Page title for TAN submission pge -->
     <string name="submission_tan_title">"TAN entry"</string>
     <!-- YTXT: Body text for the tan submission page -->
-    <string name="submission_tan_body">"The TAN has 7 characters and is case-insensitive.\n\nPlease enter the TAN you were given:"</string>
+    <string name="submission_tan_body">"Please enter the 10 characters of the TAN you were given:"</string>
     <!-- XBUT: Submit TAN button -->
     <string name="submission_tan_button_text">"Next"</string>
 
@@ -746,8 +746,6 @@
     <string name="submission_done_isolate">"Please isolate yourself from other people."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Other information:"</string>
-    <!-- YTXT: Content for further info -->
-    <string name="submission_done_further_info_enum">"Your quarantine period is usually 14 days. Please observe your symptoms and monitor how they develop. You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you developed symptoms. Please think especially about the people that will not be notified directly by the app since they don\'t have a device, or haven\'t installed the app."</string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Done"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
@@ -766,8 +764,6 @@
     <string name="submission_contact_button_enter">"Enter TAN"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Call the hotline and request a TAN:\n"</string>
-    <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
-    <string name="submission_contact_number">"+49 (0)800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Register the test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -805,8 +801,6 @@
     <string name="submission_status_card_button_unregistered">"Notify and Help"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
-    <!-- XBUT: submission status card show details button -->
-    <string name="submission_status_card_button_show_details">"Display Details"</string>
     <!-- XHED: submission status card positive result title -->
     <string name="submission_status_card_positive_result_title">"Positive Result"</string>
     <!-- XHED: submission status card positive result subtitle -->

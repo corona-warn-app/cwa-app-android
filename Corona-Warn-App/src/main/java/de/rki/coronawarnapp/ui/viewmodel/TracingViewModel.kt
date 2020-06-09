@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -32,7 +33,8 @@ class TracingViewModel : ViewModel() {
     // TODO: comments for variables
     // Values from RiskLevelRepository
     val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
-    val riskLevelScoreLastSuccessfulCalculated = RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
+    val riskLevelScoreLastSuccessfulCalculated =
+        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
 
     // Values from ExposureSummaryRepository
     val daysSinceLastExposure: LiveData<Int?> = ExposureSummaryRepository.daysSinceLastExposure
@@ -44,9 +46,6 @@ class TracingViewModel : ViewModel() {
     val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
     val activeTracingDaysInRetentionPeriod = TracingRepository.activeTracingDaysInRetentionPeriod
     var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
-
-    // Todo exchange and get the real next update date
-    val nextUpdate = Date()
 
     /**
      * Launches the RiskLevelTransaction in the viewModel scope
@@ -81,6 +80,7 @@ class TracingViewModel : ViewModel() {
     fun refreshDiagnosisKeys() {
         this.viewModelScope.launch {
             TracingRepository.refreshDiagnosisKeys()
+            TimerHelper.startManualKeyRetrievalTimer()
         }
     }
 
@@ -128,5 +128,9 @@ class TracingViewModel : ViewModel() {
         viewModelScope.launch {
             TracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
+    }
+
+    fun refreshLastSuccessfullyCalculatedScore() {
+        RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
     }
 }

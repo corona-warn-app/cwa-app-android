@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentRiskDetailsBinding
 import de.rki.coronawarnapp.timer.TimerHelper
@@ -51,6 +52,11 @@ class RiskDetailsFragment : BaseFragment() {
         setButtonOnClickListeners()
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
     override fun onResume() {
         super.onResume()
         // refresh required data
@@ -58,21 +64,21 @@ class RiskDetailsFragment : BaseFragment() {
         tracingViewModel.refreshExposureSummary()
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
         TimerHelper.checkManualKeyRetrievalTimer()
+        binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListeners() {
+        binding.riskDetailsHeaderButtonBack.setOnClickListener {
+            (activity as MainActivity).goBack()
+        }
         binding.riskDetailsButtonUpdate.setOnClickListener {
-            tracingViewModel.refreshRiskLevel()
             tracingViewModel.refreshDiagnosisKeys()
-            TimerHelper.startManualKeyRetrievalTimer()
+            settingsViewModel.updateManualKeyRetrievalEnabled(false)
         }
         binding.riskDetailsButtonEnableTracing.setOnClickListener {
             doNavigate(
                 RiskDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
-        }
-        binding.riskDetailsToolbar.setNavigationOnClickListener {
-            (activity as MainActivity).goBack()
         }
     }
 }

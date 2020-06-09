@@ -34,13 +34,15 @@ object NotificationHelper {
      * @see NotificationConstants.NOTIFICATION_CHANNEL_ID
      */
     private val channelId =
-        CoronaWarnApplication.getAppContext().getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)
+        CoronaWarnApplication.getAppContext()
+            .getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)
 
     /**
      * Notification manager
      */
     private val notificationManager =
-        CoronaWarnApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        CoronaWarnApplication.getAppContext()
+            .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     /**
      * Notification channel audio attributes
@@ -63,15 +65,18 @@ object NotificationHelper {
      */
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelName = CoronaWarnApplication.getAppContext().getString(NotificationConstants.CHANNEL_NAME)
+            val channelName =
+                CoronaWarnApplication.getAppContext().getString(NotificationConstants.CHANNEL_NAME)
 
-            val notificationRingtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val notificationRingtone =
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
             val channel =
                 NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
 
             channel.description =
-                CoronaWarnApplication.getAppContext().getString(NotificationConstants.CHANNEL_DESCRIPTION)
+                CoronaWarnApplication.getAppContext()
+                    .getString(NotificationConstants.CHANNEL_DESCRIPTION)
             channel.setSound(notificationRingtone, audioAttributes)
             notificationManager.createNotificationChannel(channel)
         }
@@ -92,7 +97,7 @@ object NotificationHelper {
     private fun buildNotification(title: String, content: String, visibility: Int): Notification? {
         val builder = NotificationCompat.Builder(CoronaWarnApplication.getAppContext(), channelId)
             .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
             .setVisibility(visibility)
             .setContentIntent(createPendingIntentToMainActivity())
             .setAutoCancel(true)

@@ -32,7 +32,10 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
         if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
+            if (BuildConfig.DEBUG) Log.d(
+                TAG,
+                "Background job failed after $runAttemptCount attempts. Rescheduling"
+            )
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             return Result.failure()
         }

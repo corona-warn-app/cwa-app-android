@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -110,17 +111,11 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
-            submissionViewModel.deregisterTestFromDevice()
-            doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            removeTestAfterConfirmation()
         }
 
         binding.submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
-            submissionViewModel.deregisterTestFromDevice()
-            doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            removeTestAfterConfirmation()
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
@@ -128,13 +123,10 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
-            submissionViewModel.deregisterTestFromDevice()
-            doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            removeTestAfterConfirmation()
         }
 
-        binding.submissionTestResultHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
             doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
@@ -157,5 +149,24 @@ class SubmissionTestResultFragment : BaseFragment() {
             SubmissionTestResultFragmentDirections
                 .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
         )
+    }
+
+    private fun removeTestAfterConfirmation() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                submissionViewModel.deregisterTestFromDevice()
+                doNavigate(
+                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                )
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
     }
 }

@@ -22,7 +22,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/risk_details_behavior_icon"
@@ -38,10 +39,11 @@
                 style="@style/icon"
                 android:layout_width="@dimen/icon_size_risk_details_behavior"
                 android:layout_height="@dimen/icon_size_risk_details_behavior"
+                android:layout_margin="@dimen/icon_margin_risk_details_behavior"
+                android:focusable="false"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
                 android:tint="@{FormatterRiskHelper.formatBehaviorIcon(riskLevel)}"
-                android:layout_margin="@dimen/icon_margin_risk_details_behavior"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
+            android:focusable="false"
             android:text="@{body}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

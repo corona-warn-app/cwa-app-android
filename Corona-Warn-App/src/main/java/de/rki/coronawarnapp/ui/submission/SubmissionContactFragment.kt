@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.BaseFragment
@@ -38,8 +39,18 @@ class SubmissionContactFragment : BaseFragment() {
         setButtonOnClickListener()
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.submissionContactScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionContactScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+    }
+
     private fun setButtonOnClickListener() {
-        binding.submissionContactHeader.headerToolbar.setNavigationOnClickListener {
+        binding.submissionContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         binding.submissionContactButtonCall.setOnClickListener {
@@ -51,7 +62,7 @@ class SubmissionContactFragment : BaseFragment() {
     }
 
     private fun dial() = context?.let {
-        val number = getString(R.string.submission_contact_number)
+        val number = getString(R.string.submission_contact_number_dial)
         CallHelper.call(this, "tel:$number")
     }
 }

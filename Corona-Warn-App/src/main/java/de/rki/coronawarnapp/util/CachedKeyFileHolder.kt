@@ -35,7 +35,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.lang.IllegalStateException
 import java.util.Date
 import java.util.UUID
 
@@ -49,7 +48,8 @@ object CachedKeyFileHolder {
     /**
      * the key cache instance used to store queried dates and hours
      */
-    private val keyCache = KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
+    private val keyCache =
+        KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
 
     /**
      * Fetches all necessary Files from the Cached KeyFile Entries out of the [KeyCacheRepository] and
@@ -75,9 +75,12 @@ object CachedKeyFileHolder {
             if (serverDates.contains(currentDateServerFormat)) {
                 return@withContext getLast3Hours(currentDate)
                     .map { getURLForHour(currentDate.toServerFormat(), it) }
-                    .map { url -> async {
-                        return@async WebRequestBuilder.asyncGetKeyFilesFromServer(url)
-                    } }.awaitAll()
+                    .map { url ->
+                        async {
+                            return@async WebRequestBuilder.getInstance()
+                                .asyncGetKeyFilesFromServer(url)
+                        }
+                    }.awaitAll()
             } else {
                 throw IllegalStateException(
                     "you cannot use the last 3 hour mode if the date index " +
@@ -126,6 +129,7 @@ object CachedKeyFileHolder {
      * TODO remove before Release
      */
     private const val LATEST_HOURS_NEEDED = 3
+
     /**
      * Calculates the last 3 hours
      * TODO remove before Release
@@ -152,7 +156,7 @@ object CachedKeyFileHolder {
      */
     private suspend fun String.createDayEntryForUrl() = keyCache.createEntry(
         this.generateCacheKeyFromString(),
-        WebRequestBuilder.asyncGetKeyFilesFromServer(this).toURI(),
+        WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
         DAY
     )
 
@@ -160,7 +164,12 @@ object CachedKeyFileHolder {
      * Generates a unique key name (UUIDv3) for the cache entry based out of a string (e.g. an url)
      */
     private fun String.generateCacheKeyFromString() =
-        "${UUID.nameUUIDFromBytes(this.toByteArray())}".also { Log.v(TAG, "$this mapped to cache entry $it") }
+        "${UUID.nameUUIDFromBytes(this.toByteArray())}".also {
+            Log.v(
+                TAG,
+                "$this mapped to cache entry $it"
+            )
+        }
 
     /**
      * Gets the correct URL String for querying an hour bucket
@@ -183,13 +192,13 @@ object CachedKeyFileHolder {
      * Get all dates from server based as formatted dates
      */
     private suspend fun getDatesFromServer() =
-        WebRequestBuilder.asyncGetDateIndex()
+        WebRequestBuilder.getInstance().asyncGetDateIndex()
 
     /**
      * Get all hours from server based as formatted dates
      */
     private suspend fun getHoursFromServer(day: Date) =
-        WebRequestBuilder.asyncGetHourIndex(day)
+        WebRequestBuilder.getInstance().asyncGetHourIndex(day)
 
     /**
      * TODO remove before release

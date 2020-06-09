@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_contact_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_contact_title">
 
-        <!-- todo font adjustments needed through final styles -->
         <include
             android:id="@+id/information_contact_header"
             layout="@layout/include_header"
@@ -29,7 +30,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusable="true">
 
                 <include
                     android:id="@+id/information_contact_header_details"

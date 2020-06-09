@@ -122,3 +122,22 @@ fun formatStringAsHTML(@StringRes stringRes: Int) = HtmlCompat.fromHtml(
     CoronaWarnApplication.getAppContext().getString(stringRes),
     HtmlCompat.FROM_HTML_MODE_LEGACY
 )
+
+/**
+ * TODO
+ *
+ * @param color
+ * @return
+ */
+fun formatColorDivider(color: Int?): Int {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return color ?: appContext.getColor(R.color.colorHairline)
+}
+
+/**
+ * Returns string if it isn't null, otherwise it returns an empty String
+ *
+ * @param string
+ * @return String
+ */
+fun formatEmptyString(string: String?): String = string ?: ""

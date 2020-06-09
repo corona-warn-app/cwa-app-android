@@ -26,7 +26,8 @@ object TimeVariables {
      *
      * @return number of seconds
      */
-    fun getDeactivationTracingMeasureThresholdTimeRange(): Long = DEACTIVATION_TRACING_MEASURE_THRESHOLD_TIMERANGE
+    fun getDeactivationTracingMeasureThresholdTimeRange(): Long =
+        DEACTIVATION_TRACING_MEASURE_THRESHOLD_TIMERANGE
 
     /**
      * The maximal runtime of a transaction
@@ -59,7 +60,8 @@ object TimeVariables {
      *
      * @return max calculation range in ms
      */
-    fun getDefaultRetentionPeriodInMS() = getDefaultRetentionPeriodInDays().toLong().daysToMilliseconds()
+    fun getDefaultRetentionPeriodInMS() =
+        getDefaultRetentionPeriodInDays().toLong().daysToMilliseconds()
 
     /**
      * The time that the tracing has to be active to show the low risk level
@@ -103,11 +105,10 @@ object TimeVariables {
 
     /**
      * Delay in milliseconds for manual key retrieval process
-     * Internal requirements: 2 hours = 7200000 milliseconds
-     * Test value: 1 minute
+     * Internal requirements: 24 hours = 1000 * 60 * 60 * 24 milliseconds
+     * TODO Change this to the real 24 Hours
      */
-    // todo exchange with real value (currently 120 min)
-    private const val MANUAL_KEY_RETRIEVAL_DELAY = 60000L
+    private const val MANUAL_KEY_RETRIEVAL_DELAY = 1000 * 60 * 1
 
     /**
      * Getter function for [MANUAL_KEY_RETRIEVAL_DELAY]

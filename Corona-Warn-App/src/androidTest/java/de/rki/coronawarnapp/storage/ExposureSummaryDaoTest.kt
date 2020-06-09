@@ -23,7 +23,8 @@ class ExposureSummaryDaoTest {
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabase::class.java).build()
+            context, AppDatabase::class.java
+        ).build()
         dao = db.exposureSummaryDao()
     }
 

@@ -47,7 +47,10 @@ object ConnectivityHelper {
             }
         }
         callback.recevier = receiver
-        context.registerReceiver(callback.recevier, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
+        context.registerReceiver(
+            callback.recevier,
+            IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        )
         // bluetooth state doesn't change when you register
         if (isBluetoothEnabled())
             callback.onBluetoothAvailable()
@@ -123,37 +126,6 @@ object ConnectivityHelper {
     }
 
     /**
-     * Checks if background jobs are enabled
-     *
-     * @param context the context
-     *
-     * @return Boolean
-     *
-     * @see isDataSaverEnabled
-     * @see isBackgroundRestricted
-     */
-    fun isBackgroundJobEnabled(context: Context): Boolean {
-        return !(isDataSaverEnabled(context) || isBackgroundRestricted(context))
-    }
-
-    /**
-     * For API level 24+ check if data saver is enabled
-     * Else always return false
-     *
-     * @param context the context
-     *
-     * @return Boolean
-     *
-     * @see ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
-     */
-    private fun isDataSaverEnabled(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            connectivityManager.restrictBackgroundStatus != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_DISABLED
-        } else false
-    }
-
-    /**
      * For API level 28+ check if background is restricted
      * Else always return false
      *
@@ -163,11 +135,11 @@ object ConnectivityHelper {
      *
      * @see isBackgroundRestricted
      */
-    private fun isBackgroundRestricted(context: Context): Boolean {
+    fun isBackgroundJobEnabled(context: Context): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            return activityManager.isBackgroundRestricted
-        } else return false
+            return !activityManager.isBackgroundRestricted
+        } else return true
     }
 
     /**

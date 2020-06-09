@@ -7,7 +7,9 @@ import javax.net.ssl.SSLException
 
 class WebSecurityVerificationInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        try { return chain.proceed(chain.request()) } catch (e: SSLException) {
+        try {
+            return chain.proceed(chain.request())
+        } catch (e: SSLException) {
             throw CwaWebSecurityException(e)
         }
     }
