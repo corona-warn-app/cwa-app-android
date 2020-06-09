@@ -17,4 +17,8 @@
         <attr name="simple_step_entry_title" format="string" />
         <attr name="simple_step_entry_text" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="BulletPointList">
+        <attr name="entries" format="reference" />
+    </declare-styleable>
 </resources>

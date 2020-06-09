@@ -602,8 +602,6 @@
     <string name="submission_intro_headline">"So funktioniert das Corona-Warn-System"</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">"Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n"</string>
-    <!-- YTXT: submission introduction enumeration -->
-    <string name="submission_intro_enum"><li>"Wenn Sie positiv getestet wurden, können Sie andere warnen."</li>"\n\n"<li>"Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde, können Sie diese für die Registrierung des Tests nutzen."</li>"\n\n"<li>"Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen."</li></string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Weiter"</string>
 
@@ -678,8 +676,6 @@
     <string name="submission_done_isolate">"Bitte isolieren Sie sich von anderen Personen."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
-    <!-- YTXT: Content for further info -->
-    <string name="submission_done_further_info_enum"><li>"Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln."</li>"\n\n"<li>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten."</li>"\n\n"<li>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone habe oder die App nicht installiert haben."</li>"\n\n"<li>"Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein."</li></string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Fertig"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->

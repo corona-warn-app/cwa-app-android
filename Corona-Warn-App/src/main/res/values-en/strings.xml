@@ -604,8 +604,6 @@
     <string name="submission_intro_headline">"This is how the Corona-Warn-App works"</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who have tested positive. Since only encrypted random IDs are exchanged, you remain anonymous. You can now proceed as follows:\n"</string>
-    <!-- YTXT: submission introduction enumeration -->
-    <string name="submission_intro_enum">"If you tested  positive, you can warn others. If you were given a TAN for a positive result, you can use this to register the test. If you do not have a TAN, you can request one by telephone."</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
 
@@ -680,8 +678,6 @@
     <string name="submission_done_isolate">"Please isolate yourself from other people."</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Other information:"</string>
-    <!-- YTXT: Content for further info -->
-    <string name="submission_done_further_info_enum">"Your quarantine period is usually 14 days. Please observe your symptoms and monitor how they develop. You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you developed symptoms. Please think especially about the people that will not be notified directly by the app since they don\'t have a device, or haven\'t installed the app."</string>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Done"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
