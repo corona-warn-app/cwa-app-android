@@ -48,18 +48,33 @@ class VerificationKeys {
         export: ByteArray?,
         signatures: ByteArray?
     ) = getKeysForSignatureVerificationFilteredByEnvironment()
-        .map { filteredIdAndKeyBinary ->
-            initVerify(filteredIdAndKeyBinary.value)
-            update(export)
-            verify(getTEKSignaturesForEnvironment(signatures))
+        .filter { filteredIdAndPublicKeys ->
+            var verified = false
+            getTEKSignaturesForEnvironment(signatures).forEach { tek ->
+                filteredIdAndPublicKeys.value.forEach { publicKey ->
+                    initVerify(publicKey)
+                    update(export)
+                    if (verify(tek)) verified = true
+                }
+            }
+            verified
         }
         .also { Log.v(TAG, "${it.size} valid signatures found") }
 
     private fun getKeysForSignatureVerificationFilteredByEnvironment() = verificationKeyProperties
         .entries
-        .associate { it.key as String to Base64.decode(it.value as String, Base64.DEFAULT) }
-        .filterKeys { key -> key == CoronaWarnApplication.getAppContext().packageName }
-        .mapValues { keyFactory.generatePublic(X509EncodedKeySpec(it.value)) }
+        .associate {
+            it.key as String to (it.value as String).split(",").mapNotNull { delimitedString ->
+                Base64.decode(delimitedString, Base64.DEFAULT)
+            }.map { binaryPublicKey ->
+                keyFactory.generatePublic(
+                    X509EncodedKeySpec(
+                        binaryPublicKey
+                    )
+                )
+            }
+        }
+        .filterKeys { key -> key == BuildConfig.APPLICATION_ID }
         .onEach { Log.v(TAG, "$it") }
 
     private fun getTEKSignaturesForEnvironment(
@@ -70,6 +85,4 @@ class VerificationKeys {
         .asSequence()
         .onEach { Log.v(TAG, "$it") }
         .mapNotNull { it.signature.toByteArray() }
-        .asIterable()
-        .single()
 }
