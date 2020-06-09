@@ -86,8 +86,8 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      * @see TestResult
      */
     private fun initiateNotification(testResult: TestResult) {
-        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE
-            || testResult == TestResult.INVALID
+        if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
+            testResult == TestResult.INVALID
         ) {
             if (!CoronaWarnApplication.isAppInForeground) {
                 NotificationHelper.sendNotification(
