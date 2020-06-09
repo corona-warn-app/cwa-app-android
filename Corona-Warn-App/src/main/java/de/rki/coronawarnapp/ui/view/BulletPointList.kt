@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
