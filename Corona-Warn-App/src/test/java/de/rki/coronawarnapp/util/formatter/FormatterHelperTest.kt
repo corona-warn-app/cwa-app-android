@@ -16,7 +16,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 class FormatterHelperTest {
 
     @MockK
@@ -31,10 +30,9 @@ class FormatterHelperTest {
         mockkObject(CoronaWarnApplication.Companion)
 
         every { CoronaWarnApplication.getAppContext() } returns context
-
     }
 
-    private fun formatVisibilityBase(bValue: Boolean, iResult: Int){
+    private fun formatVisibilityBase(bValue: Boolean, iResult: Int) {
         val result = formatVisibility(value = bValue)
         assertThat(result, `is`((iResult)))
     }
@@ -44,12 +42,12 @@ class FormatterHelperTest {
         assertThat(result, `is`((iResult)))
     }
 
-    private fun formatVisibilityInvertedBase(bValue: Boolean){
+    private fun formatVisibilityInvertedBase(bValue: Boolean) {
         val result = formatVisibilityInverted(value = bValue)
         assertThat(result, `is`((formatVisibility(!bValue))))
     }
 
-    private fun formatVisibilityTextBase(bValue: Boolean, sText: String?){
+    private fun formatVisibilityTextBase(bValue: Boolean, sText: String?) {
         val result = formatVisibilityText(text = sText)
         assertThat(result, `is`((formatVisibility(bValue))))
     }
@@ -62,7 +60,7 @@ class FormatterHelperTest {
         assertThat(result, `is`((CoronaWarnApplication.getAppContext().getString(iResult))))
     }
 
-    private fun formatDrawableBase(bValue: Boolean)  {
+    private fun formatDrawableBase(bValue: Boolean) {
         every { context.getDrawable(1) } returns drawable
         every { context.getDrawable(2) } returns drawable
 
@@ -70,7 +68,7 @@ class FormatterHelperTest {
         assertThat(result, `is`((equalTo(drawable))))
     }
 
-    private fun formatColorBase(bValue: Boolean, iColor: Int)  {
+    private fun formatColorBase(bValue: Boolean, iColor: Int) {
         every { context.getColor(1) } returns 1
         every { context.getColor(2) } returns 2
 
@@ -97,7 +95,7 @@ class FormatterHelperTest {
     }
 
     @Test
-    fun formatVisibilityInverted(){
+    fun formatVisibilityInverted() {
         // Check visibilityIcon when value true
         formatVisibilityInvertedBase(bValue = true)
 
@@ -106,7 +104,7 @@ class FormatterHelperTest {
     }
 
     @Test
-    fun formatVisibilityText(){
+    fun formatVisibilityText() {
         // Check visibilityText when value true and text is not empty
         formatVisibilityTextBase(bValue = true, sText = "NOT_NULL_STRING")
 
@@ -118,7 +116,7 @@ class FormatterHelperTest {
     }
 
     @Test
-    fun formatText(){
+    fun formatText() {
         // Check  formatText when value true
         formatTextBase(bValue = true, iResult = 1)
 
@@ -128,7 +126,6 @@ class FormatterHelperTest {
         // Check  formatText when value false
         formatTextBase(bValue = null, iResult = 2)
     }
-
 
     @Test
     fun formatDrawable() {
@@ -152,5 +149,4 @@ class FormatterHelperTest {
     fun cleanUp() {
         unmockkAll()
     }
-
 }

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util
 
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Test
@@ -11,8 +10,8 @@ class TanHelperTest {
     fun isValidCharacter() {
         // valid
         val validCharacters = arrayOf(
-            "2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H",
-            "J","K","M","N","P","Q","R","S","T","U","V","W","X","Y","Z"
+            "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H",
+            "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
         )
         for (character in validCharacters) {
             MatcherAssert.assertThat(
@@ -23,8 +22,8 @@ class TanHelperTest {
 
         // invalid
         val invalidCharacters = arrayOf(
-            "0","1","O","L","I","Ö","*","&","-","a","b",
-            "c","ö","ß","é","."," ","€","(",")",";",","
+            "0", "1", "O", "L", "I", "Ö", "*", "&", "-", "a", "b",
+            "c", "ö", "ß", "é", ".", " ", "€", "(", ")", ";", ","
         )
         for (character in invalidCharacters) {
             MatcherAssert.assertThat(
