@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -79,6 +80,7 @@ class TracingViewModel : ViewModel() {
     fun refreshDiagnosisKeys() {
         this.viewModelScope.launch {
             TracingRepository.refreshDiagnosisKeys()
+            TimerHelper.startManualKeyRetrievalTimer()
         }
     }
 

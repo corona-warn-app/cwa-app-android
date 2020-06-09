@@ -770,12 +770,16 @@
     <string name="submission_intro_headline">So funktionert das\nCorona-Warn-System</string>
     <!-- YTXT: submission introduction text -->
     <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
-    <!-- YTXT: submission introduction enumeration -->
-    <string name="submission_intro_enum"><li>Wenn Sie positiv getestet wurden, können Sie andere warnen.</li>\n\n<li>Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde , können Sie diese für die Registrierung des Tests nutzen.</li>\n\n<li>Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen.</li></string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
     <string name="submission_intro_illustration_description">Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt.</string>
+    <!-- YTXT: submission introduction bullet points -->
+    <string-array name="submission_intro_bullet_points">
+        <item>Wenn Sie positiv getestet wurden, können Sie andere warnen.</item>
+        <item>Wenn Ihnen für einen positiven Test eine TAN mitgeteilt wurde, können Sie diese für die Registrierung des Tests nutzen.</item>
+        <item>Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen.</item>
+    </string-array>
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
 
@@ -853,8 +857,13 @@
     <string name="submission_done_isolate">Isolieren Sie sich von anderen Personen.</string>
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">Weitere Infos:</string>
-    <!-- YTXT: Content for further info -->
-    <string name="submission_done_further_info_enum"><li>Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln.</li>\n\n<li>Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten.</li>\n\n<li>Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone oder die App haben.</li>\n\n<li>Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein.</li></string>
+    <!-- YTXT: submission done further info bullet points -->
+    <string-array name="submission_done_further_info_bullet_points">
+        <item>Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln.</item>
+        <item>Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten.</item>
+        <item>Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone oder die App haben.</item>
+        <item>Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein.</item>
+    </string-array>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">Fertig</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
@@ -947,6 +956,14 @@
     <string name="test_result_card_status_invalid">Auswertung nicht möglich</string>
     <!-- YTXT: pending status text -->
     <string name="test_result_card_status_pending">Ergebnis liegt noch nicht vor</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_title">Weitere Infos:</string>
+    <!-- YTXT: Content for further info of test result negative -->
+    <string-array name="test_result_card_negative_further_info_bullet_points">
+        <item>Sie haben trotzdem gesundheitliche Beschwerden? Wenn Sie sich sehr krankfühlen und/oder Ihre Beschwerden sich verschlechtert haben, wenden Sie sich bitte an Ihre/-n Hausärztin/Hausarzt.</item>
+        <item>Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen.</item>
+        <item>Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen.</item>
+    </string-array>
 
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">OK</string>
