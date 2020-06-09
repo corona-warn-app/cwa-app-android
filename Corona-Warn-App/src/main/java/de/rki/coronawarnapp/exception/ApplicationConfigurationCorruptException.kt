@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.exception
 
-class ApplicationConfigurationCorruptException : Exception(
-    "the application configuration is corrupt"
+import de.rki.coronawarnapp.exception.reporting.ErrorCodes
+import de.rki.coronawarnapp.exception.reporting.ReportedException
+
+class ApplicationConfigurationCorruptException : ReportedException(
+    ErrorCodes.APPLICATION_CONFIGURATION_CORRUPT.code, "the application configuration is corrupt"
 )
