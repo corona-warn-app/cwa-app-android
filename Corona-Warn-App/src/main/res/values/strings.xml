@@ -137,8 +137,6 @@
                      Menu
     ###################################### -->
 
-    <!-- Todo pluralize strings when necessary -->
-    <!-- Todo include date formats when necessary -->
     <!-- XMIT: application overview -->
     <string name="menu_help">Überblick</string>
     <!-- XMIT: application information -->
@@ -183,17 +181,22 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">Bisher keine Risiko-Begegnungen</string>
+    <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">%1$s Risikobegegnung</item>
         <item quantity="other">%1$s Risikobegegnungen</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">%1$s von 14 Tagen aktiv</string>
+    <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">Kontakte wurden noch nicht überprüft.</string>
+    <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">Aktualisiert: %1$s</string>
+    <!-- XTXT: risk card - next update -->
     <string name="risk_card_body_next_update">Tägliche Aktualisierung</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">Aktualisieren</string>
+    <!-- XBUT: risk card - update risk with time display -->
     <string name="risk_card_button_cooldown">Aktualisierung in %1$s</string>
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">Risiko-Ermittlung einschalten</string>
@@ -203,6 +206,7 @@
     <string name="risk_card_low_risk_headline">Niedriges Risiko</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">Erhöhtes Risiko</string>
+    <!-- XTXT: risk card - increased risk days since last contact -->
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">%1$s Tag seit der letzten Begegnung</item>
         <item quantity="other">%1$s Tage seit der letzten Begegnung</item>
@@ -213,6 +217,7 @@
     <string name="risk_card_unknown_risk_body">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">Risiko-Ermittlung gestoppt</string>
+    <!-- XTXT: risk card - last successfully calculated risk level -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">Letzte Ermittlung:<xliff:g id="line_break">\n</xliff:g>%1$s</string>
     <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
     <string name="risk_card_outdated_risk_headline">Risiko-Ermittlung nicht möglich</string>
@@ -345,13 +350,18 @@
     <string name="risk_details_information_body_unknown_risk">Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen.</string>
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">Ihre Risiko-Berechnung konnte seit mehr als 24 Stunden nicht aktualisiert werden.</string>
-    <string name="risk_details_information_body_low_risk">Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Coronapositiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat.</string> <!-- final -->
+    <!-- YTXT: risk details - low risk explanation text -->
+    <string name="risk_details_information_body_low_risk">Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Coronapositiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat.</string>
+    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</item>
         <item quantity="other">Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer- Corona positiv-getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind.</item>
     </plurals>
-    <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string> <!-- final -->
+    <!-- YTXT: risk details - risk calculation explanation -->
+    <string name="risk_details_information_body_notice">Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben.</string>
+    <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
+    <!-- NOTR -->
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">Ihr Risikostatus</string>
@@ -2902,10 +2912,15 @@ as modifying the License.
     <!-- ####################################
                Generic Error Messages
         ###################################### -->
+    <!-- XHED: error dialog - headline -->
     <string name="errors_generic_headline">Etwas ist schief gelaufen</string>
+    <!-- XTXT: error dialog - short text for error reason -->
     <string name="errors_generic_details_headline">Ursache</string>
+    <!-- XBUT: error dialog - button close -->
     <string name="errors_generic_button_positive">Okay</string>
+    <!-- XBUT: error dialog - button show details -->
     <string name="errors_generic_button_negative">Details</string>
+    <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">Ein unbekanntes Problem ist aufgetreten</string>
 
     <!-- ####################################
