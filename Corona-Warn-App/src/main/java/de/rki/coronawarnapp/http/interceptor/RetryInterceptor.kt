@@ -9,6 +9,7 @@ class RetryInterceptor : Interceptor {
     companion object {
         private const val MAX_RETRY_COUNT = 3
     }
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
         var response = chain.proceed(request)

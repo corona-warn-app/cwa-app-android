@@ -578,13 +578,15 @@ object LocalData {
 
     fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
         putBoolean(
-            CoronaWarnApplication.getAppContext().getString(R.string.preference_last_three_hours_from_server),
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_last_three_hours_from_server),
             value
         )
     }
 
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_last_three_hours_from_server), false
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_last_three_hours_from_server), false
     )
 
     /****************************************************

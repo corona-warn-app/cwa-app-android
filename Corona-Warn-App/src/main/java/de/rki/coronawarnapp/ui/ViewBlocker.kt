@@ -9,7 +9,11 @@ import kotlin.concurrent.schedule
 object ViewBlocker {
     private const val DEFAULT_INTERVAL: Long = 500
 
-    fun runAndBlockInteraction(views: Array<View>, delay: Long = DEFAULT_INTERVAL, runnable: () -> Unit?) {
+    fun runAndBlockInteraction(
+        views: Array<View>,
+        delay: Long = DEFAULT_INTERVAL,
+        runnable: () -> Unit?
+    ) {
         views.forEach { it.isEnabled = false }
         val handler = Handler(Looper.getMainLooper())
         runnable()

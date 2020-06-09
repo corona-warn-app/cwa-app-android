@@ -108,7 +108,10 @@ object KeyFileHelper {
                 )
             ).also {
                 if (BuildConfig.DEBUG) Log.d(TAG, "output file name:" + it.absolutePath)
-                if (BuildConfig.DEBUG) Log.d(TAG, "output file size:${it.length() / BYTES_IN_KILOBYTES} KB")
+                if (BuildConfig.DEBUG) Log.d(
+                    TAG,
+                    "output file size:${it.length() / BYTES_IN_KILOBYTES} KB"
+                )
 
                 exportFile.await().delete()
                 exportSignatureFile.await().delete()

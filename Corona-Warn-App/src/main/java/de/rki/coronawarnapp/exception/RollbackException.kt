@@ -14,5 +14,8 @@ import java.util.UUID
 class RollbackException(transactionId: UUID, state: String, cause: Throwable?) :
     Exception(
         "An error occurred during rollback of transaction $transactionId, State $state",
-        IllegalStateException("the state before the transaction state could not be restored.", cause)
+        IllegalStateException(
+            "the state before the transaction state could not be restored.",
+            cause
+        )
     )

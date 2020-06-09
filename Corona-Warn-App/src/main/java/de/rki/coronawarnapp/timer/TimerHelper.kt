@@ -60,7 +60,8 @@ object TimerHelper {
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null) return 0
 
         val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
-        val lastFetch = DateTime(LocalData.lastTimeDiagnosisKeysFromServerFetch(), DateTimeZone.getDefault())
+        val lastFetch =
+            DateTime(LocalData.lastTimeDiagnosisKeysFromServerFetch(), DateTimeZone.getDefault())
 
         return TimeVariables.getManualKeyRetrievalDelay() - (currentDate.millis - lastFetch.millis)
     }
@@ -89,7 +90,12 @@ object TimerHelper {
             try {
                 isManualKeyRetrievalOnTimer.set(true)
                 manualKeyRetrievalTimer =
-                    fixedRateTimer(MANUAL_KEY_RETRIEVAL_TIMER_NAME, true, INITIAL_TIMER_DELAY, TIMER_TICK) {
+                    fixedRateTimer(
+                        MANUAL_KEY_RETRIEVAL_TIMER_NAME,
+                        true,
+                        INITIAL_TIMER_DELAY,
+                        TIMER_TICK
+                    ) {
                         onManualKeyRetrievalTimerTick()
                     }.also { it.logTimerStart() }
             } catch (e: Exception) {
