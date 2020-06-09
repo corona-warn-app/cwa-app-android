@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
+
 /**
  * The [SubmissionIntroFragment] displays information about how the corona warning system works
  */
-class SubmissionIntroFragment : BaseFragment() {
+class SubmissionIntroFragment : Fragment() {
 
     private var _binding: FragmentSubmissionIntroBinding? = null
     private val binding: FragmentSubmissionIntroBinding get() = _binding!!
@@ -47,10 +50,14 @@ class SubmissionIntroFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.submissionIntroHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            doNavigate(SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment())
+            findNavController().doNavigate(
+                SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment()
+            )
         }
         binding.submissionIntroButtonNext.setOnClickListener {
-            doNavigate(SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToSubmissionDispatcherFragment())
+            findNavController().doNavigate(
+                SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToSubmissionDispatcherFragment()
+            )
         }
     }
 }

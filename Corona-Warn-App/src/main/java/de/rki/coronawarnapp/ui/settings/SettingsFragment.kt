@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -18,7 +20,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
  * @see TracingViewModel
  * @see SettingsViewModel
  */
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : Fragment() {
 
     companion object {
         private val TAG: String? = SettingsFragment::class.simpleName
@@ -72,17 +74,17 @@ class SettingsFragment : BaseFragment() {
         val resetRow = binding.settingsReset
         val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsResetFragment()
             )
         }
         tracingRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsTracingFragment()
             )
         }
         notificationRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsNotificationFragment()
             )
         }

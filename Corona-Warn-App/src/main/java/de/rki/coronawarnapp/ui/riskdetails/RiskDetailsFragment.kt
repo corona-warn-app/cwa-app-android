@@ -8,7 +8,9 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentRiskDetailsBinding
 import de.rki.coronawarnapp.timer.TimerHelper
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -18,7 +20,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
  * @see TracingViewModel
  * @see SettingsViewModel
  */
-class RiskDetailsFragment : BaseFragment() {
+class RiskDetailsFragment : Fragment() {
 
     companion object {
         private val TAG: String? = RiskDetailsFragment::class.simpleName
@@ -75,7 +77,7 @@ class RiskDetailsFragment : BaseFragment() {
             settingsViewModel.updateManualKeyRetrievalEnabled(false)
         }
         binding.riskDetailsButtonEnableTracing.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 RiskDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
         }

@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.CallHelper
 
 /**
  * The [SubmissionContactFragment] allows requesting a teletan via phone
  */
-class SubmissionContactFragment : BaseFragment() {
+class SubmissionContactFragment : Fragment() {
 
     private var _binding: FragmentSubmissionContactBinding? = null
     private val binding: FragmentSubmissionContactBinding get() = _binding!!
@@ -57,7 +59,9 @@ class SubmissionContactFragment : BaseFragment() {
             dial()
         }
         binding.submissionContactButtonEnter.setOnClickListener {
-            doNavigate(SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment())
+            findNavController().doNavigate(
+                SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
+            )
         }
     }
 
