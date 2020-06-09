@@ -45,7 +45,8 @@ object SecurityHelper {
 
     val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
         withSecurityCatch {
-            CoronaWarnApplication.getAppContext().getEncryptedSharedPrefs(ENCRYPTED_SHARED_PREFERENCES_FILE)
+            CoronaWarnApplication.getAppContext()
+                .getEncryptedSharedPrefs(ENCRYPTED_SHARED_PREFERENCES_FILE)
         }
     }
 

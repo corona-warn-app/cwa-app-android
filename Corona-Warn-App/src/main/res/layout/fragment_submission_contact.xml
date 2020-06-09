@@ -7,8 +7,8 @@
         android:id="@+id/submission_contact_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:contentDescription="@string/submission_contact_accessibility_title"
+        android:fillViewport="true"
         tools:context=".ui.submission.SubmissionContactFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout

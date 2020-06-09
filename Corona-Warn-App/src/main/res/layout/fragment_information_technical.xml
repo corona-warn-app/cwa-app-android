@@ -12,9 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_technical_container"
-        android:contentDescription="@string/information_technical_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_technical_title">
 
         <include
             android:id="@+id/information_technical_header"
@@ -28,10 +28,10 @@
             app:title="@{@string/information_technical_title}" />
 
         <ScrollView
-            android:focusable="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:fillViewport="true"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

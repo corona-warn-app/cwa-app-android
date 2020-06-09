@@ -75,7 +75,8 @@ abstract class Transaction {
      * @see currentTransactionState
      * @see isInStateStack
      */
-    private val executedStatesStack: AtomicReference<MutableList<TransactionState>> = AtomicReference(ArrayList())
+    private val executedStatesStack: AtomicReference<MutableList<TransactionState>> =
+        AtomicReference(ArrayList())
 
     /**
      * Finalizes a state by adding the state to the executedStatesStack
@@ -166,7 +167,10 @@ abstract class Transaction {
      * @param block Any function containing the actual Execution Code for that state
      * @return The return value of the state, useful for piping to a wrapper or a lock without a message bus or actor
      */
-    protected suspend fun <T> executeState(state: TransactionState, block: suspend CoroutineScope.() -> T): T =
+    protected suspend fun <T> executeState(
+        state: TransactionState,
+        block: suspend CoroutineScope.() -> T
+    ): T =
         executeState(Dispatchers.Default, state, block)
 
     /**

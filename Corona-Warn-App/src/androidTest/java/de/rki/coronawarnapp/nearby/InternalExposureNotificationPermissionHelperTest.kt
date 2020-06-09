@@ -35,9 +35,11 @@ class InternalExposureNotificationPermissionHelperTest {
         override fun onFailure(exception: Exception?) {
             fail = true
         }
+
         override fun onStartPermissionGranted() {
             startSuccess = true
         }
+
         override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
             sharingSuccess = true
         }
@@ -146,7 +148,8 @@ class InternalExposureNotificationPermissionHelperTest {
         val exception = ApiException(status)
         // don't need a dialog for exception
         every {
-            LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(any())
+            LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext())
+                .sendBroadcast(any())
         } returns true
         return exception
     }

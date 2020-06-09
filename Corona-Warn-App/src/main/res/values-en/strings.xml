@@ -190,33 +190,33 @@
     <!-- YTXT: App overview body text about rest procedure -->
     <string name="main_overview_body_test">"Another central feature is registering your test and retrieving the result. If you are diagnosed with COVID-19, you can warn others and break the chain of infection."</string>
     <!-- XHED: App overview headline for glossary -->
-   <string name="main_overview_headline_glossary">"Definition of Terms:"</string>
+    <string name="main_overview_headline_glossary">"Definition of Terms:"</string>
     <!-- XHED: App overview subtitle for glossary key storage -->
-   <string name="main_overview_subtitle_glossary_tracing">"Exposure Logging"</string>
+    <string name="main_overview_subtitle_glossary_tracing">"Exposure Logging"</string>
     <!-- YTXT: App overview body for glossary key storage -->
-   <string name="main_overview_body_glossary_tracing">"List of received and temporary random IDs saved temporarily in the operating system storage. This list is read when the exposures are checked. All random IDs are automatically deleted after 14 days."</string>
+    <string name="main_overview_body_glossary_tracing">"List of received and temporary random IDs saved temporarily in the operating system storage. This list is read when the exposures are checked. All random IDs are automatically deleted after 14 days."</string>
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
-   <string name="main_overview_subtitle_glossary_calculation">"Exposure Check"</string>
+    <string name="main_overview_subtitle_glossary_calculation">"Exposure Check"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
-   <string name="main_overview_body_glossary_calculation">"Exposure logging data is retrieved and synchronized with reported infections of other users. The exposure check is performed automatically about every two hours."</string>
+    <string name="main_overview_body_glossary_calculation">"Exposure logging data is retrieved and synchronized with reported infections of other users. The exposure check is performed automatically about every two hours."</string>
     <!-- XHED: App overview subtitle for glossary contact  -->
-   <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
+    <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-   <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
-   <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
+    <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
-   <string name="main_overview_body_glossary_notification">"Display exposures in the Corona-Warn-App."</string>
+    <string name="main_overview_body_glossary_notification">"Display exposures in the Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-   <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
     <!-- YTXT: App overview body for glossary keys -->
-   <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exhanged between devices in close proximity. Random IDs cannot be assigned to a specific person and are automatically deleted after 14 days. People diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
+    <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exhanged between devices in close proximity. Random IDs cannot be assigned to a specific person and are automatically deleted after 14 days. People diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"One device shows different content numbered from 1 to 3."</string>
 
-   <!-- ####################################
-              Risk Details
-   ###################################### -->
+    <!-- ####################################
+               Risk Details
+    ###################################### -->
 
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Behavioral Recommendations"</string>

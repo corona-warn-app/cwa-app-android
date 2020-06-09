@@ -28,17 +28,19 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
     suspend fun getExposureSummaryEntities() = exposureSummaryDao.getExposureSummaryEntities()
         .map { it.convertToExposureSummary() }
 
-    suspend fun insertExposureSummaryEntity(exposureSummary: ExposureSummary) = ExposureSummaryEntity().apply {
-        this.daysSinceLastExposure = exposureSummary.daysSinceLastExposure
-        this.matchedKeyCount = exposureSummary.matchedKeyCount
-        this.maximumRiskScore = exposureSummary.maximumRiskScore
-        this.summationRiskScore = exposureSummary.summationRiskScore
-        this.attenuationDurationsInMinutes = exposureSummary.attenuationDurationsInMinutes.toTypedArray().toList()
-    }.run {
-        exposureSummaryDao.insertExposureSummaryEntity(this)
-        ExposureSummaryRepository.matchedKeyCount.postValue(matchedKeyCount)
-        ExposureSummaryRepository.daysSinceLastExposure.postValue(daysSinceLastExposure)
-    }
+    suspend fun insertExposureSummaryEntity(exposureSummary: ExposureSummary) =
+        ExposureSummaryEntity().apply {
+            this.daysSinceLastExposure = exposureSummary.daysSinceLastExposure
+            this.matchedKeyCount = exposureSummary.matchedKeyCount
+            this.maximumRiskScore = exposureSummary.maximumRiskScore
+            this.summationRiskScore = exposureSummary.summationRiskScore
+            this.attenuationDurationsInMinutes =
+                exposureSummary.attenuationDurationsInMinutes.toTypedArray().toList()
+        }.run {
+            exposureSummaryDao.insertExposureSummaryEntity(this)
+            ExposureSummaryRepository.matchedKeyCount.postValue(matchedKeyCount)
+            ExposureSummaryRepository.daysSinceLastExposure.postValue(daysSinceLastExposure)
+        }
 
     suspend fun getLatestExposureSummary() = exposureSummaryDao
         .getLatestExposureSummary()
@@ -48,11 +50,12 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
             daysSinceLastExposure.postValue(it?.daysSinceLastExposure)
         }
 
-    private fun ExposureSummaryEntity.convertToExposureSummary() = ExposureSummary.ExposureSummaryBuilder()
-        .setAttenuationDurations(this.attenuationDurationsInMinutes.toIntArray())
-        .setDaysSinceLastExposure(this.daysSinceLastExposure)
-        .setMatchedKeyCount(this.matchedKeyCount)
-        .setMaximumRiskScore(this.maximumRiskScore)
-        .setSummationRiskScore(this.summationRiskScore)
-        .build()
+    private fun ExposureSummaryEntity.convertToExposureSummary() =
+        ExposureSummary.ExposureSummaryBuilder()
+            .setAttenuationDurations(this.attenuationDurationsInMinutes.toIntArray())
+            .setDaysSinceLastExposure(this.daysSinceLastExposure)
+            .setMatchedKeyCount(this.matchedKeyCount)
+            .setMaximumRiskScore(this.maximumRiskScore)
+            .setSummationRiskScore(this.summationRiskScore)
+            .build()
 }
