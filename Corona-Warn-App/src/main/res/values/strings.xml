@@ -337,7 +337,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">- Ihre Hausärztin/Ihren Hausarzt</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">- Den Kassenärztlichen Bereitschaftsdienst unter der Telefonnummer: 116117</string>
+    <string name="risk_details_behavior_increased_body_2">- Den ärztlichen Bereitschaftsdienst unter der Telefonnummer: 116117</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">- Ihr Gesundheitsamt</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
