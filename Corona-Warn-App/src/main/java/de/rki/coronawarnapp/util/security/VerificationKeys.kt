@@ -6,7 +6,6 @@ import android.util.Base64
 import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.security.SecurityConstants.EXPORT_ENVIRONMENT_IDENTIFIER
 import de.rki.coronawarnapp.util.security.SecurityConstants.EXPORT_SIGNATURE_VERIFICATION_PUBLIC_KEYS
 import java.security.KeyFactory
 import java.security.Signature
@@ -49,23 +48,19 @@ class VerificationKeys {
         export: ByteArray?,
         signatures: ByteArray?
     ) = getKeysForSignatureVerificationFilteredByEnvironment()
-        .flatMap { filteredIdAndKeyBinary ->
-            getTEKSignaturesForEnvironment(signatures)
-                .filter { signatureBinary ->
-                    initVerify(filteredIdAndKeyBinary.value)
-                    update(export)
-                    verify(signatureBinary)
-                }
-                .toList()
+        .map { filteredIdAndKeyBinary ->
+            initVerify(filteredIdAndKeyBinary.value)
+            update(export)
+            verify(getTEKSignaturesForEnvironment(signatures))
         }
         .also { Log.v(TAG, "${it.size} valid signatures found") }
 
     private fun getKeysForSignatureVerificationFilteredByEnvironment() = verificationKeyProperties
         .entries
         .associate { it.key as String to Base64.decode(it.value as String, Base64.DEFAULT) }
+        .filterKeys { key -> key == CoronaWarnApplication.getAppContext().packageName }
         .mapValues { keyFactory.generatePublic(X509EncodedKeySpec(it.value)) }
         .onEach { Log.v(TAG, "$it") }
-        .filterKeys { publicKeyIdentifier -> publicKeyIdentifier == EXPORT_ENVIRONMENT_IDENTIFIER }
 
     private fun getTEKSignaturesForEnvironment(
         signatureListBinary: ByteArray?
@@ -73,7 +68,8 @@ class VerificationKeys {
         .parseFrom(signatureListBinary)
         .signaturesList
         .asSequence()
-        .filter { TEKSig -> TEKSig.signatureInfo.appBundleId == EXPORT_ENVIRONMENT_IDENTIFIER }
         .onEach { Log.v(TAG, "$it") }
         .mapNotNull { it.signature.toByteArray() }
+        .asIterable()
+        .single()
 }
