@@ -67,7 +67,7 @@ object BackgroundConstants {
      *
      * @see TimeUnit.MINUTES
      */
-    const val DIAGNOSIS_KEY_PERIODIC_KIND_DELAY = 1L
+    const val KIND_DELAY = 1L
 
     /**
      * Kind initial delay in minutes for periodic work for accessibility reason
@@ -101,13 +101,6 @@ object BackgroundConstants {
     const val TIME_RANGE_MIN = 420
 
     /**
-     * The maximum validity in days for keeping Background polling active
-     *
-     * @see TimeUnit.DAYS
-     */
-    const val POLLING_VALIDITY_MAX_DAYS = 21
-
-    /**
      * Time schedule stop in minutes of day
      * 23:59 = 1439 minutes passed midnight
      *
@@ -119,4 +112,11 @@ object BackgroundConstants {
      * Retries before work would set as FAILED
      */
     const val WORKER_RETRY_COUNT_THRESHOLD = 3
+
+    /**
+     * The maximum validity in days for keeping Background polling active
+     *
+     * @see TimeUnit.DAYS
+     */
+    const val POLLING_VALIDITY_MAX_DAYS = 21
 }
