@@ -39,7 +39,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             DialogHelper.showDialog(
                 DialogHelper.DialogInstance(
                     activity,
-                    "$errorTitle:$errorCode\n$title",
+                    "$errorTitle: $errorCode\n$title",
                     message,
                     confirm,
                     details,
