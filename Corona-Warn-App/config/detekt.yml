@@ -521,7 +521,8 @@ style:
       '**/*.Spec.kt',
       '**/*.Spek.kt',
       '**/CwaWebException.kt',
-      '**/HttpErrorParser.kt'
+      '**/HttpErrorParser.kt',
+      '**/ErrorCodes.kt'
     ]
     ignoreNumbers: ['-1', '0', '1', '2']
     ignoreHashCodeFunction: true

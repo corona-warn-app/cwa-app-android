@@ -58,7 +58,7 @@ class TracingViewModel : ViewModel() {
             try {
                 RiskLevelTransaction.start()
             } catch (e: TransactionException) {
-                e.report(INTERNAL)
+                e.cause?.report(INTERNAL)
             }
         }
     }
