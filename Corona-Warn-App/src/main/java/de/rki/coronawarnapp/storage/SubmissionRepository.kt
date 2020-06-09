@@ -48,7 +48,6 @@ object SubmissionRepository {
                 testResultReceivedDate.value = Date(currentTime)
                 if (testResult == TestResult.PENDING) {
                     BackgroundWorkScheduler.startWorkScheduler()
-
                 }
             } else {
                 testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
