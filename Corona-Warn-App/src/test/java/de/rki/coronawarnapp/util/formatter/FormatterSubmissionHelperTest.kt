@@ -39,7 +39,6 @@ class FormatterSubmissionHelperTest {
         mockkStatic(SpannableStringBuilder::class)
         mockkStatic(Spannable::class)
 
-
         every { CoronaWarnApplication.getAppContext() } returns context
 
         every { context.getString(R.string.test_result_card_status_positive) } returns R.string.test_result_card_status_positive.toString()
@@ -73,7 +72,6 @@ class FormatterSubmissionHelperTest {
         every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
 
         every { context.getDrawable(R.drawable.ic_test_result_illustration_negative) } returns drawable
-
     }
 
     private fun formatTestResultSpinnerVisibleBase(oUiStateState: ApiRequestState?, iResult: Int) {
@@ -131,7 +129,6 @@ class FormatterSubmissionHelperTest {
         assertThat(result, `is`(iResult))
     }
 
-
     private fun formatSubmissionStatusCardContentStatusTextVisibleBase(oUiState: DeviceUIState?, iResult: Int) {
         val result = formatSubmissionStatusCardContentStatusTextVisible(uiState = oUiState)
         assertThat(result, `is`(iResult))
@@ -144,7 +141,8 @@ class FormatterSubmissionHelperTest {
 
     private fun formatSubmissionStatusCardFetchingVisibleBase(
         bDeviceRegistered: Boolean?,
-        bUiStateState: ApiRequestState?, iResult: Int
+        bUiStateState: ApiRequestState?,
+        iResult: Int
     ) {
         val result = formatSubmissionStatusCardFetchingVisible(
             deviceRegistered = bDeviceRegistered,
@@ -200,7 +198,6 @@ class FormatterSubmissionHelperTest {
         val result = formatTestResult(uiState = oUiState)
         assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
     }
-
 
     @Test
     fun formatTestResultSpinnerVisible() {
@@ -593,7 +590,6 @@ class FormatterSubmissionHelperTest {
             iResult = View.GONE
         )
         formatSubmissionStatusCardContentVisibleBase(oDeviceUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
-
     }
 
     @Test
@@ -656,7 +652,6 @@ class FormatterSubmissionHelperTest {
         formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_INITIAL)
         formatTestResultBase(oUiState = DeviceUIState.UNPAIRED)
     }
-
 
     @After
     fun cleanUp() {
