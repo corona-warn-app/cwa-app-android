@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 
 /**
  * The [SubmissionDoneFragment] displays information to a user that submitted his exposure keys
  */
-class SubmissionDoneFragment : BaseFragment() {
+class SubmissionDoneFragment : Fragment() {
 
     private var _binding: FragmentSubmissionDoneBinding? = null
     private val binding: FragmentSubmissionDoneBinding get() = _binding!!
@@ -37,12 +39,12 @@ class SubmissionDoneFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.submissionDoneHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
             )
         }
         binding.submissionDoneButtonDone.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
             )
         }

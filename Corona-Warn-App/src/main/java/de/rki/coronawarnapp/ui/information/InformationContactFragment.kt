@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.CallHelper
 
 /**
  * Basic Fragment which only displays static content.
  */
-class InformationContactFragment : BaseFragment() {
+class InformationContactFragment : Fragment() {
     companion object {
         private val TAG: String? = InformationContactFragment::class.simpleName
     }
@@ -39,7 +39,6 @@ class InformationContactFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
     }
 
     override fun onStart() {
@@ -50,11 +49,6 @@ class InformationContactFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         binding.informationContactContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    private fun setContentDescription() {
-        val backButtonString: String = getString(R.string.button_back)
-        // TODO contentDescription for back button, should be in XML
     }
 
     private fun setButtonOnClickListener() {

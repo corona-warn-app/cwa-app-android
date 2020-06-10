@@ -47,7 +47,10 @@ object ConnectivityHelper {
             }
         }
         callback.recevier = receiver
-        context.registerReceiver(callback.recevier, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
+        context.registerReceiver(
+            callback.recevier,
+            IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        )
         // bluetooth state doesn't change when you register
         if (isBluetoothEnabled())
             callback.onBluetoothAvailable()

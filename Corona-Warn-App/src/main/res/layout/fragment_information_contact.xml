@@ -4,9 +4,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_contact_container"
-        android:contentDescription="@string/information_contact_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_contact_title">
 
         <include
             android:id="@+id/information_contact_header"
@@ -29,9 +29,9 @@
             app:layout_constraintTop_toBottomOf="@+id/information_contact_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:focusable="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusable="true">
 
                 <include
                     android:id="@+id/information_contact_header_details"
@@ -51,7 +51,7 @@
                     layout="@layout/include_divider"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact_header_details" />

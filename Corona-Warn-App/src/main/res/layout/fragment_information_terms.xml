@@ -12,9 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_terms_container"
-        android:contentDescription="@string/information_terms_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_terms_title">
 
         <include
             android:id="@+id/information_terms_header"
@@ -38,30 +38,20 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <include
                     android:id="@+id/information_terms_header_details"
                     layout="@layout/include_information_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_terms_html_path)}"
                     app:headline="@{@string/information_terms_headline}"
                     app:illustration="@{@drawable/ic_information_illustration_terms}"
                     app:illustrationDescription="@{@string/information_terms_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/information_terms_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_terms_body)}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_terms_header_details" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"

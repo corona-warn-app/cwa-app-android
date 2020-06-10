@@ -46,7 +46,10 @@ object DiagnosisKeyService {
      * @param authCode - TAN Authorization Code used to validate the request
      * @param keysToReport - KeyList in the Server Format to submit to the Server
      */
-    suspend fun asyncSubmitKeys(authCode: String, keysToReport: List<KeyExportFormat.TemporaryExposureKey>) {
+    suspend fun asyncSubmitKeys(
+        authCode: String,
+        keysToReport: List<KeyExportFormat.TemporaryExposureKey>
+    ) {
         Log.d(TAG, "Diagnosis Keys will be submitted.")
         WebRequestBuilder.getInstance().asyncSubmitKeysToServer(
             authCode,

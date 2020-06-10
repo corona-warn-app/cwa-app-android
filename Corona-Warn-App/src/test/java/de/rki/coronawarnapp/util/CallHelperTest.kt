@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.util
 
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -18,7 +18,7 @@ class CallHelperTest {
      */
     @Test
     fun testCall() {
-        val fragment = mockk<BaseFragment>()
+        val fragment = mockk<Fragment>()
         every { fragment.startActivity(any()) } just Runs
         CallHelper.call(fragment, "+77777777777")
         verify(exactly = 1) { fragment.startActivity(any()) }

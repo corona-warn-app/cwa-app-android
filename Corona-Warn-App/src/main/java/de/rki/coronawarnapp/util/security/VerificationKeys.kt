@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.security
 
+import KeyExportFormat
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log

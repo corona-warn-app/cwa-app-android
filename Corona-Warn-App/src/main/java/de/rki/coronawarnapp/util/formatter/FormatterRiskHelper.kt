@@ -88,7 +88,10 @@ fun formatRiskBody(riskLevelScore: Int?): String {
  * @param riskLevelScoreLastSuccessfulCalculated
  * @return
  */
-fun formatRiskSavedRisk(riskLevelScore: Int?, riskLevelScoreLastSuccessfulCalculated: Int?): String {
+fun formatRiskSavedRisk(
+    riskLevelScore: Int?,
+    riskLevelScoreLastSuccessfulCalculated: Int?
+): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (
         riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
@@ -520,7 +523,7 @@ fun formatBehaviorIcon(riskLevelScore: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (riskLevelScore) {
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorAccentTintIcon)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getColor(R.color.colorSemanticNeutralRisk)
         else -> appContext.getColor(R.color.colorStableLight)
     }
 }

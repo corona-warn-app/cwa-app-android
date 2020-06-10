@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.util.DialogHelper
+import java.util.Locale
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
     companion object {
@@ -18,21 +19,37 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
     override fun onReceive(context: Context, intent: Intent) {
         val category = ExceptionCategory
             .valueOf(intent.getStringExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA) ?: "")
+        val errorCode = intent.getIntExtra(
+            ReportingConstants.ERROR_REPORT_CODE_EXTRA,
+            ReportingConstants.ERROR_REPORT_UNKNOWN_ERROR
+        )
         val prefix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA)
         val suffix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA)
-        val message = intent.getStringExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA)
+
+        // set the message of the dialog: default is technical
+        var message = intent.getStringExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA)
             ?: context.resources.getString(R.string.errors_generic_text_unknown_error_cause)
+
+        // if we have a res id we set that message
+        if (intent.hasExtra(ReportingConstants.ERROR_REPORT_RES_ID)) {
+            val resId = intent.getIntExtra(ReportingConstants.ERROR_REPORT_RES_ID, 0)
+            message = context.resources.getString(resId)
+        }
+
         val stack = intent.getStringExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA)
         val title = context.resources.getString(R.string.errors_generic_headline)
         val confirm = context.resources.getString(R.string.errors_generic_button_positive)
         val details = context.resources.getString(R.string.errors_generic_button_negative)
         val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
 
+        val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
+            .toUpperCase(Locale.ROOT)
+
         if (CoronaWarnApplication.isAppInForeground) {
             DialogHelper.showDialog(
                 DialogHelper.DialogInstance(
                     activity,
-                    title,
+                    "$errorTitle: $errorCode\n$title",
                     message,
                     confirm,
                     details,

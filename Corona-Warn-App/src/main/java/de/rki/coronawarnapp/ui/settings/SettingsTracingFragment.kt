@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
  * @see InternalExposureNotificationClient
  * @see InternalExposureNotificationPermissionHelper
  */
-class SettingsTracingFragment : BaseFragment(),
+class SettingsTracingFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
@@ -126,24 +126,24 @@ class SettingsTracingFragment : BaseFragment(),
         // if tracing is enabled when listener is activated it should be disabled
         lifecycleScope.launch {
             if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    try {
-                        Toast.makeText(
-                            requireContext(),
-                            "Tracing stopped successfully",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                try {
+                    Toast.makeText(
+                        requireContext(),
+                        "Tracing stopped successfully",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
 
-                        InternalExposureNotificationClient.asyncStop()
-                    } catch (exception: Exception) {
-                        exception.report(
-                            ExceptionCategory.EXPOSURENOTIFICATION,
-                            TAG,
-                            null
-                        )
-                    }
-                    tracingViewModel.refreshIsTracingEnabled()
-                    BackgroundWorkScheduler.stopWorkScheduler()
+                    InternalExposureNotificationClient.asyncStop()
+                } catch (exception: Exception) {
+                    exception.report(
+                        ExceptionCategory.EXPOSURENOTIFICATION,
+                        TAG,
+                        null
+                    )
+                }
+                tracingViewModel.refreshIsTracingEnabled()
+                BackgroundWorkScheduler.stopWorkScheduler()
             } else {
                 // tracing was already activated
                 if (LocalData.initialTracingActivationTimestamp() != null) {

@@ -21,7 +21,7 @@
 
         <variable
             name="body"
-            type="String" />
+            type="CharSequence" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,8 +32,8 @@
             android:id="@+id/information_details_header_illustration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@{illustration}"
             android:contentDescription="@{illustrationDescription}"
+            android:src="@{illustration}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,6 +49,7 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:text="@{headline}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +62,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@{body}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"

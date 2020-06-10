@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@{@drawable/ic_back}"
+                app:iconDescription="@{@string/accessibility_back}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_back"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,20 +45,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <include
             layout="@layout/include_onboarding"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            app:body="@{FormatterHelper.formatStringAsHTML(R.string.onboarding_privacy_body)}"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:layout_marginBottom="@dimen/spacing_small"
             app:headline="@{@string/onboarding_privacy_headline}"
+            app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_privacy_html_path)}"
             app:illustration="@{@drawable/ic_illustration_privacy}"
             app:illustrationDescription="@{@string/onboarding_privacy_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/onboarding_button_back" />
+            app:layout_constraintTop_toBottomOf="@+id/onboarding_header" />
 
         <Button
             android:id="@+id/onboarding_button_next"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

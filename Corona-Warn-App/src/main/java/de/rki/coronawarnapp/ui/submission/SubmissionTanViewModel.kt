@@ -18,9 +18,9 @@ class SubmissionTanViewModel : ViewModel() {
     val isValidTanFormat =
         Transformations.map(tan) {
             it != null &&
-            it.length == TanConstants.MAX_LENGTH &&
-            TanHelper.isChecksumValid(it) &&
-            TanHelper.allCharactersValid(it)
+                    it.length == TanConstants.MAX_LENGTH &&
+                    TanHelper.isChecksumValid(it) &&
+                    TanHelper.allCharactersValid(it)
         }
 
     val tanChecksumValid =

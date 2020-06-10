@@ -39,7 +39,6 @@ class FormatterSubmissionHelperTest {
         mockkStatic(SpannableStringBuilder::class)
         mockkStatic(Spannable::class)
 
-
         every { CoronaWarnApplication.getAppContext() } returns context
 
         every { context.getString(R.string.test_result_card_status_positive) } returns R.string.test_result_card_status_positive.toString()
@@ -73,7 +72,6 @@ class FormatterSubmissionHelperTest {
         every { context.getDrawable(R.drawable.ic_main_illustration_invalid) } returns drawable
 
         every { context.getDrawable(R.drawable.ic_test_result_illustration_negative) } returns drawable
-
     }
 
     private fun formatTestResultSpinnerVisibleBase(oUiStateState: ApiRequestState?, iResult: Int) {
@@ -121,18 +119,26 @@ class FormatterSubmissionHelperTest {
         assertThat(result, `is`(iResult))
     }
 
-    private fun formatSubmissionStatusCardContentTitleTextBase(oUiState: DeviceUIState?, iResult: String) {
+    private fun formatSubmissionStatusCardContentTitleTextBase(
+        oUiState: DeviceUIState?,
+        iResult: String
+    ) {
         val result = formatSubmissionStatusCardContentTitleText(uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
-    private fun formatSubmissionStatusCardContentBodyTextBase(oUiState: DeviceUIState?, iResult: String) {
+    private fun formatSubmissionStatusCardContentBodyTextBase(
+        oUiState: DeviceUIState?,
+        iResult: String
+    ) {
         val result = formatSubmissionStatusCardContentBodyText(uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
 
-
-    private fun formatSubmissionStatusCardContentStatusTextVisibleBase(oUiState: DeviceUIState?, iResult: Int) {
+    private fun formatSubmissionStatusCardContentStatusTextVisibleBase(
+        oUiState: DeviceUIState?,
+        iResult: Int
+    ) {
         val result = formatSubmissionStatusCardContentStatusTextVisible(uiState = oUiState)
         assertThat(result, `is`(iResult))
     }
@@ -144,7 +150,8 @@ class FormatterSubmissionHelperTest {
 
     private fun formatSubmissionStatusCardFetchingVisibleBase(
         bDeviceRegistered: Boolean?,
-        bUiStateState: ApiRequestState?, iResult: Int
+        bUiStateState: ApiRequestState?,
+        iResult: Int
     ) {
         val result = formatSubmissionStatusCardFetchingVisible(
             deviceRegistered = bDeviceRegistered,
@@ -162,7 +169,10 @@ class FormatterSubmissionHelperTest {
         assertThat(result, `is`(iResult))
     }
 
-    private fun formatShowSubmissionStatusPositiveCardBase(oDeviceUIState: DeviceUIState?, iResult: Int) {
+    private fun formatShowSubmissionStatusPositiveCardBase(
+        oDeviceUIState: DeviceUIState?,
+        iResult: Int
+    ) {
         val result = formatShowSubmissionStatusPositiveCard(deviceUiState = oDeviceUIState)
         assertThat(result, `is`(iResult))
     }
@@ -201,14 +211,25 @@ class FormatterSubmissionHelperTest {
         assertThat(result, `is`(spannableStringBuilder3 as Spannable?))
     }
 
-
     @Test
     fun formatTestResultSpinnerVisible() {
         formatTestResultSpinnerVisibleBase(oUiStateState = null, iResult = View.VISIBLE)
-        formatTestResultSpinnerVisibleBase(oUiStateState = ApiRequestState.FAILED, iResult = View.VISIBLE)
-        formatTestResultSpinnerVisibleBase(oUiStateState = ApiRequestState.IDLE, iResult = View.VISIBLE)
-        formatTestResultSpinnerVisibleBase(oUiStateState = ApiRequestState.STARTED, iResult = View.VISIBLE)
-        formatTestResultSpinnerVisibleBase(oUiStateState = ApiRequestState.SUCCESS, iResult = View.GONE)
+        formatTestResultSpinnerVisibleBase(
+            oUiStateState = ApiRequestState.FAILED,
+            iResult = View.VISIBLE
+        )
+        formatTestResultSpinnerVisibleBase(
+            oUiStateState = ApiRequestState.IDLE,
+            iResult = View.VISIBLE
+        )
+        formatTestResultSpinnerVisibleBase(
+            oUiStateState = ApiRequestState.STARTED,
+            iResult = View.VISIBLE
+        )
+        formatTestResultSpinnerVisibleBase(
+            oUiStateState = ApiRequestState.SUCCESS,
+            iResult = View.GONE
+        )
     }
 
     @Test
@@ -262,7 +283,10 @@ class FormatterSubmissionHelperTest {
 
     @Test
     fun formatTestResultStatusColor() {
-        formatTestResultStatusColorBase(oUiState = null, iResult = context.getColor(R.color.colorTextSemanticRed))
+        formatTestResultStatusColorBase(
+            oUiState = null,
+            iResult = context.getColor(R.color.colorTextSemanticRed)
+        )
         formatTestResultStatusColorBase(
             oUiState = DeviceUIState.PAIRED_NEGATIVE,
             iResult = context.getColor(R.color.colorTextSemanticGreen)
@@ -313,56 +337,149 @@ class FormatterSubmissionHelperTest {
     @Test
     fun formatTestResultPendingStepsVisible() {
         formatTestResultPendingStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.PAIRED_ERROR, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.VISIBLE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.GONE)
-        formatTestResultPendingStepsVisibleBase(oUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.GONE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.GONE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.VISIBLE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE,
+            iResult = View.GONE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            iResult = View.GONE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.GONE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.GONE
+        )
+        formatTestResultPendingStepsVisibleBase(
+            oUiState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
     fun formatTestResultNegativeStepsVisible() {
         formatTestResultNegativeStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.VISIBLE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.PAIRED_ERROR, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.GONE)
-        formatTestResultNegativeStepsVisibleBase(oUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.VISIBLE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.GONE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.GONE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE,
+            iResult = View.GONE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            iResult = View.GONE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.GONE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.GONE
+        )
+        formatTestResultNegativeStepsVisibleBase(
+            oUiState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
     fun formatTestResultPositiveStepsVisible() {
         formatTestResultPositiveStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.PAIRED_ERROR, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE, iResult = View.VISIBLE)
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.GONE
+        )
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.GONE
+        )
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.GONE
+        )
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE,
+            iResult = View.VISIBLE
+        )
         formatTestResultPositiveStepsVisibleBase(
             oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
             iResult = View.VISIBLE
         )
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.GONE)
-        formatTestResultPositiveStepsVisibleBase(oUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.GONE
+        )
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.GONE
+        )
+        formatTestResultPositiveStepsVisibleBase(
+            oUiState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
     fun formatTestResultInvalidStepsVisible() {
         formatTestResultInvalidStepsVisibleBase(oUiState = null, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.PAIRED_ERROR, iResult = View.VISIBLE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.GONE)
-        formatTestResultInvalidStepsVisibleBase(oUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.GONE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.VISIBLE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.GONE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE,
+            iResult = View.GONE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            iResult = View.GONE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.GONE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.GONE
+        )
+        formatTestResultInvalidStepsVisibleBase(
+            oUiState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
@@ -476,7 +593,10 @@ class FormatterSubmissionHelperTest {
             oUiState = DeviceUIState.SUBMITTED_INITIAL,
             iResult = View.GONE
         )
-        formatSubmissionStatusCardContentStatusTextVisibleBase(oUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatSubmissionStatusCardContentStatusTextVisibleBase(
+            oUiState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
@@ -592,16 +712,27 @@ class FormatterSubmissionHelperTest {
             oDeviceUiState = DeviceUIState.SUBMITTED_INITIAL,
             iResult = View.GONE
         )
-        formatSubmissionStatusCardContentVisibleBase(oDeviceUiState = DeviceUIState.UNPAIRED, iResult = View.GONE)
-
+        formatSubmissionStatusCardContentVisibleBase(
+            oDeviceUiState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
     fun formatShowSubmissionStatusPositiveCard() {
         formatShowSubmissionStatusPositiveCardBase(oDeviceUIState = null, iResult = View.GONE)
-        formatShowSubmissionStatusPositiveCardBase(oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.GONE)
-        formatShowSubmissionStatusPositiveCardBase(oDeviceUIState = DeviceUIState.PAIRED_ERROR, iResult = View.GONE)
-        formatShowSubmissionStatusPositiveCardBase(oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.GONE)
+        formatShowSubmissionStatusPositiveCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.GONE
+        )
+        formatShowSubmissionStatusPositiveCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.GONE
+        )
+        formatShowSubmissionStatusPositiveCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.GONE
+        )
         formatShowSubmissionStatusPositiveCardBase(
             oDeviceUIState = DeviceUIState.PAIRED_POSITIVE,
             iResult = View.VISIBLE
@@ -610,38 +741,92 @@ class FormatterSubmissionHelperTest {
             oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
             iResult = View.VISIBLE
         )
-        formatShowSubmissionStatusPositiveCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
+        formatShowSubmissionStatusPositiveCardBase(
+            oDeviceUIState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.GONE
+        )
         formatShowSubmissionStatusPositiveCardBase(
             oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL,
             iResult = View.GONE
         )
-        formatShowSubmissionStatusPositiveCardBase(oDeviceUIState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatShowSubmissionStatusPositiveCardBase(
+            oDeviceUIState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
     fun formatShowSubmissionDoneCard() {
         formatShowSubmissionDoneCardBase(oDeviceUIState = null, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.PAIRED_ERROR, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.PAIRED_POSITIVE, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_FINAL, iResult = View.VISIBLE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.GONE)
-        formatShowSubmissionDoneCardBase(oDeviceUIState = DeviceUIState.UNPAIRED, iResult = View.GONE)
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.GONE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.GONE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.GONE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_POSITIVE,
+            iResult = View.GONE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            iResult = View.GONE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.VISIBLE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.GONE
+        )
+        formatShowSubmissionDoneCardBase(
+            oDeviceUIState = DeviceUIState.UNPAIRED,
+            iResult = View.GONE
+        )
     }
 
     @Test
     fun formatShowRiskStatusCard() {
         formatShowRiskStatusCardBase(oDeviceUIState = null, iResult = View.VISIBLE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE, iResult = View.VISIBLE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_ERROR, iResult = View.VISIBLE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT, iResult = View.VISIBLE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_POSITIVE, iResult = View.GONE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN, iResult = View.GONE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_FINAL, iResult = View.GONE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL, iResult = View.VISIBLE)
-        formatShowRiskStatusCardBase(oDeviceUIState = DeviceUIState.UNPAIRED, iResult = View.VISIBLE)
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE,
+            iResult = View.VISIBLE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_ERROR,
+            iResult = View.VISIBLE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT,
+            iResult = View.VISIBLE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_POSITIVE,
+            iResult = View.GONE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            iResult = View.GONE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.SUBMITTED_FINAL,
+            iResult = View.GONE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL,
+            iResult = View.VISIBLE
+        )
+        formatShowRiskStatusCardBase(
+            oDeviceUIState = DeviceUIState.UNPAIRED,
+            iResult = View.VISIBLE
+        )
     }
 
     @Test
@@ -656,7 +841,6 @@ class FormatterSubmissionHelperTest {
         formatTestResultBase(oUiState = DeviceUIState.SUBMITTED_INITIAL)
         formatTestResultBase(oUiState = DeviceUIState.UNPAIRED)
     }
-
 
     @After
     fun cleanUp() {

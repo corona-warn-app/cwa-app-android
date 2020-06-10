@@ -31,7 +31,8 @@ class SettingsViewModel : ViewModel() {
      *
      * @see SettingsRepository.isManualKeyRetrievalEnabled
      */
-    val isManualKeyRetrievalEnabled: LiveData<Boolean> = SettingsRepository.isManualKeyRetrievalEnabled
+    val isManualKeyRetrievalEnabled: LiveData<Boolean> =
+        SettingsRepository.isManualKeyRetrievalEnabled
 
     /**
      * Manual update button timer value

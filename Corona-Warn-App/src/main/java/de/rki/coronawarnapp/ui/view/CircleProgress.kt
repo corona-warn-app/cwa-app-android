@@ -132,7 +132,8 @@ class CircleProgress @JvmOverloads constructor(
             centerX.minus(radius),
             centerY.minus(radius),
             centerX.plus(radius),
-            centerY.plus(radius))
+            centerY.plus(radius)
+        )
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
@@ -144,6 +145,7 @@ class CircleProgress @JvmOverloads constructor(
             START_ANGLE,
             FULL_CIRCLE.times(progress).div(DEFAULT_MAX_PROGRESS),
             false,
-            progressPaint)
+            progressPaint
+        )
     }
 }

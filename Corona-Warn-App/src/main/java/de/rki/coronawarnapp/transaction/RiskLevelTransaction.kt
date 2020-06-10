@@ -7,7 +7,10 @@ import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.TestRiskLevelCalculation
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.NoNetworkException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel
@@ -24,6 +27,7 @@ import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigur
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_APP_CONNECTIVITY
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_INCREASED_RISK
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_TRACING
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS
@@ -34,6 +38,7 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RISK_CALCULATION_DATE_UPDATE
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -104,13 +109,14 @@ import java.util.concurrent.atomic.AtomicReference
  * 1. [CHECK_TRACING]
  * 2. [CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS]
  * 3. [CHECK_UNKNOWN_RISK_OUTDATED]
- * 4. [RETRIEVE_APPLICATION_CONFIG]
- * 5. [RETRIEVE_EXPOSURE_SUMMARY]
- * 6. [CHECK_INCREASED_RISK]
- * 7. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
- * 8. [UPDATE_RISK_LEVEL]
- * 9. [RISK_CALCULATION_DATE_UPDATE]
- * 10. [CLOSE]
+ * 4. [CHECK_APP_CONNECTIVITY]
+ * 5. [RETRIEVE_APPLICATION_CONFIG]
+ * 6. [RETRIEVE_EXPOSURE_SUMMARY]
+ * 7. [CHECK_INCREASED_RISK]
+ * 8. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
+ * 9. [UPDATE_RISK_LEVEL]
+ * 10. [RISK_CALCULATION_DATE_UPDATE]
+ * 11. [CLOSE]
  *
  * This transaction will queue up any start calls and executes them in the given order (unlike the other defined
  * transactions (e.g. [RetrieveDiagnosisKeysTransaction]). This is necessary in order to respond to various trigger
@@ -136,6 +142,9 @@ object RiskLevelTransaction : Transaction() {
 
         /** Check the conditions for the [UNKNOWN_RISK_OUTDATED_RESULTS] score */
         CHECK_UNKNOWN_RISK_OUTDATED,
+
+        /** Check if the current app has internet, if not, use the last successful  */
+        CHECK_APP_CONNECTIVITY,
 
         /** Retrieve the Application Configuration values to calculate the Risk Score
          * and determine the [INCREASED_RISK] and [LOW_LEVEL_RISK] */
@@ -198,6 +207,14 @@ object RiskLevelTransaction : Transaction() {
          ****************************************************/
         result = executeCheckUnknownRiskOutdatedResults()
         if (isValidResult(result)) return@lockAndExecute
+
+        /****************************************************
+         * [CHECK_APP_CONNECTIVITY]
+         ****************************************************/
+        if (!executeCheckAppConnectivity()) {
+            executeClose()
+            return@lockAndExecute
+        }
 
         /****************************************************
          * RETRIEVE APPLICATION CONFIGURATION
@@ -308,6 +325,30 @@ object RiskLevelTransaction : Transaction() {
 
             Log.v(TAG, "$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
             return@executeState UNDETERMINED
+        }
+
+    /**
+     * Executes the [CHECK_APP_CONNECTIVITY] Transaction State
+     * If there is no connectivity the transaction will set the last calculated
+     * risk level, report a [NoNetworkException] and closes the transaction
+     *
+     * @return
+     */
+    private suspend fun executeCheckAppConnectivity(): Boolean =
+        executeState(CHECK_APP_CONNECTIVITY) {
+            val isNetworkEnabled =
+                ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+
+            if (!isNetworkEnabled) {
+                RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
+                NoNetworkException(
+                    IllegalStateException("Network is required to retrieve the Application Configuration")
+                ).report(
+                    ExceptionCategory.CONNECTIVITY
+                )
+                return@executeState false
+            }
+            return@executeState true
         }
 
     /**

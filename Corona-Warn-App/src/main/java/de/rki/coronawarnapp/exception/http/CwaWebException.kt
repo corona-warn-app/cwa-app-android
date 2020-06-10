@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.exception.http
 
-import java.io.IOException
+import de.rki.coronawarnapp.exception.reporting.ErrorCodes
+import de.rki.coronawarnapp.exception.reporting.ReportedIOException
 
-open class CwaWebException(statusCode: Int) : IOException(
-    "error during web request, http status $statusCode"
+open class CwaWebException(statusCode: Int) : ReportedIOException(
+    ErrorCodes.CWA_WEB_REQUEST_PROBLEM.code, "error during web request, http status $statusCode"
 )
 
 open class CwaServerError(val statusCode: Int) : CwaWebException(statusCode) {
@@ -20,7 +21,9 @@ open class CwaClientError(val statusCode: Int) : CwaWebException(statusCode) {
     }
 }
 
-open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
+open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: Int) :
+    CwaWebException(statusCode)
+
 open class CwaInformationalNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
 open class CwaRedirectNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
 

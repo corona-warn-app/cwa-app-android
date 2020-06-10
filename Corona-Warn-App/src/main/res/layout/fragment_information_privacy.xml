@@ -12,9 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_privacy_container"
-        android:contentDescription="@string/information_privacy_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/information_privacy_title">
 
         <include
             android:id="@+id/information_privacy_header"
@@ -47,19 +47,10 @@
                     android:layout_height="wrap_content"
                     app:illustration="@{@drawable/ic_illustration_privacy}"
                     app:illustrationDescription="@{@string/information_privacy_illustration_description}"
+                    app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_privacy_html_path)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/information_privacy_body"
-                    style="@style/subtitle"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    android:text="@{FormatterHelper.formatStringAsHTML(R.string.information_privacy_body)}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_privacy_header_details" />
 
                 <include layout="@layout/merge_guidelines_side" />
 

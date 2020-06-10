@@ -3,8 +3,8 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.graphics.drawable.Drawable
+import android.text.Spanned
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.core.text.HtmlCompat
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
@@ -89,6 +89,14 @@ fun formatVisibilityInverted(value: Boolean): Int = formatVisibility(!value)
  */
 fun formatVisibilityText(text: String?): Int = formatVisibility(text != null && text != "")
 
+/**
+ * Formats visibility of item if valid spannable is provided
+ *
+ * @param text
+ * @return
+ */
+fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null)
+
 /*Text*/
 /**
  * Formats text resource to be displayed depending on flag provided
@@ -118,10 +126,14 @@ fun formatColorIcon(color: Int?): Int {
     return color ?: appContext.getColor(R.color.colorAccentTintIcon)
 }
 
-fun formatStringAsHTML(@StringRes stringRes: Int) = HtmlCompat.fromHtml(
-    CoronaWarnApplication.getAppContext().getString(stringRes),
-    HtmlCompat.FROM_HTML_MODE_LEGACY
-)
+fun formatStringAsHTMLFromLocal(path: String): Spanned {
+    val appContext = CoronaWarnApplication.getAppContext()
+    val content = appContext.assets.open(path).bufferedReader().use { it.readText() }
+    return HtmlCompat.fromHtml(
+        content,
+        HtmlCompat.FROM_HTML_MODE_LEGACY
+    )
+}
 
 /**
  * TODO
@@ -133,3 +145,11 @@ fun formatColorDivider(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return color ?: appContext.getColor(R.color.colorHairline)
 }
+
+/**
+ * Returns string if it isn't null, otherwise it returns an empty String
+ *
+ * @param string
+ * @return String
+ */
+fun formatEmptyString(string: String?): String = string ?: ""

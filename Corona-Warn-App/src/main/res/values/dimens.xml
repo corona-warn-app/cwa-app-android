@@ -17,6 +17,11 @@
     <dimen name="font_button">14sp</dimen>
     <dimen name="font_title">20sp</dimen>
 
+    <!-- line heights -->
+    <dimen name="line_height_large">28sp</dimen>
+    <dimen name="line_height_normal">24sp</dimen>
+    <dimen name="line_height_small">20sp</dimen>
+
     <dimen name="font_line_spacing_extra">4sp</dimen>
 
     <!-- header height -->
@@ -32,7 +37,7 @@
     <dimen name="guideline_start">@dimen/spacing_normal</dimen>
     <dimen name="guideline_end">@dimen/spacing_normal</dimen>
     <dimen name="guideline_top">@dimen/spacing_normal</dimen>
-    <dimen name="guideline_bottom">@dimen/spacing_normal</dimen>
+    <dimen name="guideline_bottom">@dimen/spacing_small</dimen>
     <dimen name="guideline_action">72dp</dimen>
     <dimen name="guideline_action_large">150dp</dimen>
     <dimen name="guideline_body_title">45dp</dimen>
@@ -63,7 +68,6 @@
     <dimen name="icon_size_settings">40dp</dimen>
     <dimen name="icon_size_risk_details_behavior">25dp</dimen>
     <dimen name="icon_margin_risk_details_behavior">8dp</dimen>
-    <dimen name="match_constraint">0dp</dimen>
 
     <!-- Circle sizes -->
     <dimen name="circle_big">@dimen/spacing_huge</dimen>
@@ -98,5 +102,13 @@
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
     <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
 
+    <!-- Bullet Points -->
+    <dimen name="bullet_point_size">4dp</dimen>
+    <dimen name="bullet_point_baseline_offset">8sp</dimen>
+    <dimen name="bullet_point_spacing_between">@dimen/spacing_small</dimen>
+    <dimen name="bullet_point_spacing_before">@dimen/spacing_tiny</dimen>
+    <dimen name="bullet_point_spacing_after">@dimen/spacing_normal</dimen>
+
+    <dimen name="match_constraint">0dp</dimen>
     <dimen name="no_padding">0dp</dimen>
 </resources>

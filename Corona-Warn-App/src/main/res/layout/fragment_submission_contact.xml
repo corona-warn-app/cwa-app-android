@@ -3,72 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
-        android:id="@+id/submission_contact_scrollview"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_contact_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:contentDescription="@string/submission_contact_accessibility_title"
+        android:fillViewport="true"
         tools:context=".ui.submission.SubmissionContactFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <include
+            android:id="@+id/submission_contact_header"
+            layout="@layout/include_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_back}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_contact_title}" />
 
-            <include
-                android:id="@+id/submission_contact_header"
-                layout="@layout/include_header"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                app:icon="@{@drawable/ic_back}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_contact_title}" />
+        <include
+            layout="@layout/include_submission_contact"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_contact_header" />
 
-            <include
-                layout="@layout/include_submission_contact"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="@dimen/match_constraint"
-                app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_contact_header" />
+        <Button
+            android:id="@+id/submission_contact_button_call"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_contact_button_call"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@+id/submission_contact_button_enter"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_bottom" />
 
-            <Button
-                android:id="@+id/submission_contact_button_call"
-                style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="@string/submission_contact_button_call"
-                android:textAllCaps="true"
-                app:layout_constraintBottom_toTopOf="@+id/submission_contact_button_enter"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/guideline_bottom" />
+        <Button
+            android:id="@+id/submission_contact_button_enter"
+            style="@style/buttonLight"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_contact_button_enter"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_contact_button_call" />
 
-            <Button
-                android:id="@+id/submission_contact_button_enter"
-                style="@style/buttonLight"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="@string/submission_contact_button_enter"
-                android:textAllCaps="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_contact_button_call" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action_large" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_action_large" />
+        <include layout="@layout/merge_guidelines_side" />
 
-            <include layout="@layout/merge_guidelines_side" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
 </layout>
