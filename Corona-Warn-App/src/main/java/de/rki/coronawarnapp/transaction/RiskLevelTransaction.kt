@@ -211,7 +211,10 @@ object RiskLevelTransaction : Transaction() {
         /****************************************************
          * [CHECK_APP_CONNECTIVITY]
          ****************************************************/
-        if (!executeCheckAppConnectivity()) return@lockAndExecute
+        if (!executeCheckAppConnectivity()) {
+            executeClose()
+            return@lockAndExecute
+        }
 
         /****************************************************
          * RETRIEVE APPLICATION CONFIGURATION
@@ -338,7 +341,6 @@ object RiskLevelTransaction : Transaction() {
 
             if (!isNetworkEnabled) {
                 RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
-                executeClose()
                 NoNetworkException(
                     IllegalStateException("Network is required to retrieve the Application Configuration")
                 ).report(
