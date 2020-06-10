@@ -311,7 +311,6 @@
               Onboarding
     ###################################### -->
 
-    <string name="onboarding_image_description">"IS MISSING"</string>
     <!-- XBUT: onboarding - forward and deny -->
     <string name="onboarding_button_disable">"Do Not Activate"</string>
     <!-- XBUT: onboarding - forward and allow -->
@@ -634,8 +633,6 @@
     <string name="submission_test_result_headline">"Test result"</string>
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"How this works:"</string>
-    <!-- XBUT:  test result submission - finish button -->
-    <string name="submission_test_result_button_finish">"Finish"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Test added successfully"</string>
     <!-- YTXT: Body text for for results next steps  -->
@@ -723,13 +720,6 @@
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">"Have you been tested? This is how the Corona-Warn-App works"</string>
 
-
-    <!-- Notification -->
-    <!-- XHED: Dialog headline for result dialog  -->
-    <string name="submission_result_dialog_headline">"Thank you for your support."</string>
-    <!-- YTXT: Body text for result dialog -->
-    <string name="submission_result_dialog_body">"Your verified test diagnosis was transmitted anonymously."</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Selection"</string>
@@ -741,6 +731,7 @@
     <string name="submission_dispatcher_qr_card_text">"Register your test by scanning the QR code of your test document."</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Declaration of Consent"</string>
+    <!-- YTXT: Dialog Body text for QR privacy dialog -->
     <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping on “Accept”, you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Allow"</string>
@@ -770,14 +761,6 @@
     <string name="submission_positive_other_warning_privacy_body">"By tapping on “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the risk identification feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalised if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out on the basis of the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy Information”.\n"</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Next"</string>
-    <!-- XHED: Dialog title for positive other warning dialog  -->
-    <string name="submission_positive_dialog_confirmation_title">"Share random IDs with the Corona-Warn-App?"</string>
-    <!-- YTXT: Body text for the positive result confirmation dialog-->
-    <string name="submission_positive_dialog_confirmation_body">"Your random IDs over the last 14 days are used to notify others that you were in close proximity to them, and therefore that you may have been exposed to COVID-19."</string>
-    <!-- XBUT: submission(positive other warning) - positive button (right) -->
-    <string name="submission_positive_dialog_confirmation_positive">"Allow"</string>
-    <!-- XBUT: submission(positive other warning) - negative button (left) -->
-    <string name="submission_positive_dialog_confirmation_negative">"Do Not Allow"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A device is transmitting an encrypted positive test diagnosis to the system."</string>
 
@@ -785,8 +768,6 @@
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Thank you"</string>
-    <!-- XHED: Page subheadline for completed submission page -->
-    <string name="submission_done_headline">"You have made a valuable contribution."</string>
     <!-- YTXT: Body text for completed submission page -->
     <string name="submission_done_body">"You have made a valuable contribution. Thanks to your support, other people can now be warned and can react appropriately."</string>
     <!-- XHED: Page subtitle for completed submission page -->
@@ -869,12 +850,8 @@
     <string name="submission_status_card_button_unregistered">"Notify and Help"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
-    <!-- XHED: submission status card positive result title -->
-    <string name="submission_status_card_positive_result_title">"Positive Result"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Please note:"</string>
-    <!-- XBUT: submission status card show positive result button -->
-    <string name="submission_status_card_positive_result_show_button">"Display Test Result"</string>
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"You are infectious. Isolate yourself from other people."</string>
     <!-- YTXT: text for contact card -->
@@ -904,10 +881,6 @@
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
-
-    <!-- XBUT: submission result dialog close button -->
-    <string name="submission_result_button_dialog_close">"OK"</string>
-
 
     <!-- ####################################
           Button Tooltips for Accessibility
