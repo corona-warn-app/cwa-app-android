@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
-import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.

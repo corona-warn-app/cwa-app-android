@@ -65,16 +65,26 @@
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_header_details" />
 
+                <include
+                    android:id="@+id/information_legal_divider_contact"
+                    layout="@layout/include_divider"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_body_publisher" />
+
                 <TextView
                     android:id="@+id/information_legal_headline_contact"
-                    style="@style/headline6"
+                    style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:text="@string/information_legal_headline_contact"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_legal_body_publisher" />
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_divider_contact" />
 
                 <TextView
                     android:id="@+id/information_legal_subtitle_contact"
@@ -87,16 +97,26 @@
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_contact" />
 
+                <include
+                    android:id="@+id/information_legal_divider_taxid"
+                    layout="@layout/include_divider"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_subtitle_contact" />
+
                 <TextView
                     android:id="@+id/information_legal_headline_taxid"
-                    style="@style/headline6"
+                    style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:text="@string/information_legal_headline_taxid"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_legal_subtitle_contact" />
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_divider_taxid" />
 
                 <TextView
                     android:id="@+id/information_legal_subtitle_taxid"

@@ -43,7 +43,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settings_row"
-            style="@style/row"
+            style="@style/rowSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
                 android:src="@{icon}"
                 android:tint="@{color}"
                 app:layout_constraintBottom_toBottomOf="@id/settings_row_header"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_icon"
                 app:layout_constraintTop_toTopOf="@id/settings_row_header" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,7 +108,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_body_title" />
+                app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
