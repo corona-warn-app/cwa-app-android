@@ -20,9 +20,9 @@
 package de.rki.coronawarnapp.storage.tracing
 
 import android.content.Context
-import android.util.Log
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppDatabase
+import timber.log.Timber
 
 class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalDao) {
 
@@ -48,7 +48,7 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
     }
 
     suspend fun createInterval(from: Long, to: Long) {
-        Log.v(TAG, "Insert Tracing Interval $from, $to")
+        Timber.v("Insert Tracing Interval $from, $to")
         if (to < from) throw IllegalArgumentException("to cannot be after or equal from")
         tracingIntervalDao.insertInterval(TracingIntervalEntity().apply {
             this.from = from
@@ -61,7 +61,7 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
         return tracingIntervalDao.getAllIntervals().map {
             Pair(it.from, it.to)
         }.also {
-            Log.d(TAG, "Intervals: $it")
+            Timber.d("Intervals: $it")
         }
     }
 

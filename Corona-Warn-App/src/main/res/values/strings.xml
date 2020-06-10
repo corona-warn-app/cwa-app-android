@@ -534,6 +534,8 @@
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">Um Benachrichtigungen zu aktivieren, müssen Sie Benachrichtigungen für die Corona-Warn-App in Ihren Geräte-Einstellungen zulassen.</string>
+    <!-- XHED: settings(notification) - card headline -->
+    <string name="settings_notifications_headline_card">Mitteilungen aktivieren</string>
     <!-- XHED: settings - notification headline on settings overview -->
     <string name="settings_notifications_subtitle_notification">Benachrichtigungen</string>
     <!-- XTXT: settings(notification) - next to a switch -->

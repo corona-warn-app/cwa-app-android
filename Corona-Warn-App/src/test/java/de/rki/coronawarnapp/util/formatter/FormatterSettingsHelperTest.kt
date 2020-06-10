@@ -111,7 +111,7 @@ class FormatterSettingsHelperTest {
                 (formatText(
                     bValue,
                     R.string.settings_notifications_headline_active,
-                    R.string.settings_notifications_headline_inactive
+                    null
                 ))
             )
         )
@@ -124,7 +124,7 @@ class FormatterSettingsHelperTest {
                 (formatText(
                     bValue,
                     R.string.settings_notifications_body_active,
-                    R.string.settings_notifications_body_inactive
+                    null
                 ))
             )
         )

@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
@@ -14,8 +16,6 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -53,7 +53,9 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     }
 
     override fun onFailure(exception: Exception?) {
-            submissionFailed = true
+        binding.submissionPositiveOtherWarningButtonNext.isEnabled = true
+        binding.submissionPositiveOtherWarningSpinner.visibility = View.GONE
+        submissionFailed = true
     }
 
     override fun onCreateView(
@@ -138,6 +140,16 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         })
 
         submissionViewModel.submissionState.observeEvent(viewLifecycleOwner, {
+            binding.submissionPositiveOtherWarningButtonNext.isEnabled = when (it) {
+                ApiRequestState.STARTED -> false
+                else -> true
+            }
+
+            binding.submissionPositiveOtherWarningSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
             if (it == ApiRequestState.SUCCESS) {
                 findNavController().doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
@@ -149,6 +161,8 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     private fun setButtonOnClickListener() {
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
+            binding.submissionPositiveOtherWarningButtonNext.isEnabled = false
+            binding.submissionPositiveOtherWarningSpinner.visibility = View.VISIBLE
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
