@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.http.interceptor
 
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import timber.log.Timber
 
 class RetryInterceptor : Interceptor {
     companion object {
@@ -15,7 +15,7 @@ class RetryInterceptor : Interceptor {
         var response = chain.proceed(request)
         var tryCount = 0
         while (!response.isSuccessful && tryCount < MAX_RETRY_COUNT) {
-            Log.d(this.javaClass.simpleName, "Request is not successful - $tryCount")
+            Timber.d("Request is not successful - $tryCount")
             tryCount++
             response = chain.proceed(request)
         }

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,19 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.OpenUrlHelper
+import timber.log.Timber
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -30,7 +32,7 @@ import de.rki.coronawarnapp.util.OpenUrlHelper
  * @see submissionViewModel
  * @see PopupMenu
  */
-class MainFragment : BaseFragment() {
+class MainFragment : Fragment() {
 
     companion object {
         private val TAG: String? = MainFragment::class.simpleName
@@ -89,9 +91,9 @@ class MainFragment : BaseFragment() {
         val shareButtonString: String = getString(R.string.button_share)
         val menuButtonString: String = getString(R.string.button_menu)
         val mainCardString: String = getString(R.string.hint_external_webpage)
-        binding.mainHeaderShare.buttonIcon.setContentDescription(shareButtonString)
-        binding.mainHeaderOptionsMenu.buttonIcon.setContentDescription(menuButtonString)
-        binding.mainAbout.mainCard.setContentDescription(mainCardString)
+        binding.mainHeaderShare.buttonIcon.contentDescription = shareButtonString
+        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = menuButtonString
+        binding.mainAbout.mainCard.contentDescription = mainCardString
     }
 
     private fun setButtonOnClickListener() {
@@ -102,7 +104,7 @@ class MainFragment : BaseFragment() {
             toSubmissionIntro()
         }
         binding.mainTestDone.submissionStatusCardDone.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 MainFragmentDirections.actionMainFragmentToSubmissionDoneFragment()
             )
         }
@@ -119,23 +121,23 @@ class MainFragment : BaseFragment() {
             toSubmissionResult()
         }
         binding.mainTracing.setOnClickListener {
-            doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
+            findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainRisk.riskCard.setOnClickListener {
-            doNavigate(MainFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+            findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToRiskDetailsFragment())
         }
         binding.mainRisk.riskCardButtonUpdate.setOnClickListener {
             tracingViewModel.refreshDiagnosisKeys()
             settingsViewModel.updateManualKeyRetrievalEnabled(false)
         }
         binding.mainRisk.riskCardButtonEnableTracing.setOnClickListener {
-            doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
+            findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainAbout.mainCard.setOnClickListener {
             OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
         }
         binding.mainHeaderShare.buttonIcon.setOnClickListener {
-            doNavigate(MainFragmentDirections.actionMainFragmentToMainSharingFragment())
+            findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToMainSharingFragment())
         }
         binding.mainHeaderOptionsMenu.buttonIcon.setOnClickListener {
             showPopup(it)
@@ -143,13 +145,13 @@ class MainFragment : BaseFragment() {
     }
 
     private fun toSubmissionResult() {
-        doNavigate(
+        findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionResultFragment()
         )
     }
 
     private fun toSubmissionIntro() {
-        doNavigate(
+        findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
         )
     }
@@ -160,32 +162,33 @@ class MainFragment : BaseFragment() {
         popup.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
-                    doNavigate(MainFragmentDirections.actionMainFragmentToMainOverviewFragment())
+                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToMainOverviewFragment())
                     true
                 }
                 R.id.menu_information -> {
-                    doNavigate(MainFragmentDirections.actionMainFragmentToInformationFragment())
+                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToInformationFragment())
                     true
                 }
                 R.id.menu_settings -> {
-                    doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
+                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
                     true
                 }
                 // todo remove only for testing
                 R.id.menu_test_api -> {
-                    doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
+                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
                     true
                 }
                 // todo remove only for testing
                 R.id.menu_test_risk_level -> {
-                    doNavigate(MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation())
+                    findNavController().doNavigate(
+                        MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation()
+                    )
                     true
                 }
                 // todo remove only for testing
                 R.id.menu_notification_test -> {
-                    Log.i(TAG, "calling notification")
-                    Log.i(
-                        TAG,
+                    Timber.i("calling notification")
+                    Timber.i(
                         NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
                             .toString()
                     )
