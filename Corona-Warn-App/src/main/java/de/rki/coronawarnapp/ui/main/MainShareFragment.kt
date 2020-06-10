@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainShareBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ShareHelper
 
@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.ShareHelper
  *
  * @see TracingViewModel
  */
-class MainShareFragment : BaseFragment() {
+class MainShareFragment : Fragment() {
 
     companion object {
         private val TAG: String? = MainShareFragment::class.simpleName

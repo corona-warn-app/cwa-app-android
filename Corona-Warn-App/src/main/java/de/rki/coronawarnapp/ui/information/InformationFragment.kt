@@ -5,16 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.OpenUrlHelper
 
 /**
  * Basic Fragment which links to static and web content.
  */
-class InformationFragment : BaseFragment() {
+class InformationFragment : Fragment() {
     companion object {
         private val TAG: String? = InformationFragment::class.simpleName
     }
@@ -53,22 +55,22 @@ class InformationFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.informationAbout.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationAboutFragment()
             )
         }
         binding.informationPrivacy.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationPrivacyFragment()
             )
         }
         binding.informationTerms.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
         }
         binding.informationContact.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
             )
         }
@@ -76,12 +78,12 @@ class InformationFragment : BaseFragment() {
             OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationLegalFragment()
             )
         }
         binding.informationTechnical.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
             )
         }
