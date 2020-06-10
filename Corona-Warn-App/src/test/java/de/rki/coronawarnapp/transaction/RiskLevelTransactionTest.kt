@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.transaction
 
+import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
@@ -17,6 +20,7 @@ import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigur
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -37,6 +41,9 @@ class RiskLevelTransactionTest {
     @MockK
     private lateinit var esRepositoryMock: ExposureSummaryRepository
 
+    @MockK
+    private lateinit var context: Context
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -50,6 +57,8 @@ class RiskLevelTransactionTest {
         mockkObject(TimeVariables)
         mockkObject(ExposureSummaryRepository.Companion)
         mockkObject(RiskLevel.Companion)
+        mockkObject(ConnectivityHelper)
+        mockkObject(CoronaWarnApplication)
 
         every { ExposureSummaryRepository.getExposureSummaryRepository() } returns esRepositoryMock
 
@@ -59,6 +68,8 @@ class RiskLevelTransactionTest {
         every { RiskLevel.riskLevelChangedBetweenLowAndHigh(any(), any()) } returns false
         every { LocalData.lastTimeRiskLevelCalculation() } returns System.currentTimeMillis()
         every { LocalData.lastTimeRiskLevelCalculation(any()) } just Runs
+        every { ConnectivityHelper.isNetworkEnabled(any()) } returns true
+        every { CoronaWarnApplication.getAppContext() } returns context
     }
 
     /** Test case for [NO_CALCULATION_POSSIBLE_TRACING_OFF] */
@@ -203,6 +214,8 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
+
                 RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
@@ -262,6 +275,8 @@ class RiskLevelTransactionTest {
 
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
 
                 RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
@@ -325,6 +340,8 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
+
                 RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
@@ -340,6 +357,51 @@ class RiskLevelTransactionTest {
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
                 RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                RiskLevelTransaction["executeClose"]()
+            }
+        }
+    }
+
+    /** Test case if app is not connected */
+    @Test(expected = TransactionException::class)
+    fun checkAppConnectivity() {
+
+        val testRiskLevel = INCREASED_RISK
+
+        // tracing is activated
+        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
+
+        // the last time we fetched keys from the server happened 30 mins ago (within maxStale)
+        every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
+            .minus(TimeUnit.MINUTES.toMillis(30))
+
+        // active tracing time is 1h above the threshold
+        every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(
+            TimeVariables.getMinActivatedTracingTime().plus(1).toLong()
+        )
+
+        every { RiskLevelRepository.getLastCalculatedScore() } returns testRiskLevel
+
+        every { ConnectivityHelper.isNetworkEnabled(context) } returns false
+
+        runBlocking {
+
+            RiskLevelTransaction.start()
+
+            coVerifyOrder {
+                RiskLevelTransaction.start()
+
+                RiskLevelTransaction["executeCheckTracing"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
+                RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
                 RiskLevelTransaction["executeClose"]()
             }
         }
