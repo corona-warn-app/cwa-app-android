@@ -258,7 +258,7 @@
             android:id="@+id/risk_details_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorSurface1"
+            android:background="@color/colorBackground"
             android:paddingStart="@dimen/spacing_normal"
             android:paddingTop="@dimen/spacing_small"
             android:paddingEnd="@dimen/spacing_normal"
