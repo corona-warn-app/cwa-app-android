@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,11 +49,11 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        submissionViewModel.submitDiagnosisKeys()
+        submissionViewModel.submitDiagnosisKeys(keys)
     }
 
     override fun onFailure(exception: Exception?) {
-        submissionFailed = true
+            submissionFailed = true
     }
 
     override fun onCreateView(
@@ -176,4 +177,12 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         submissionRequested = true
         internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
     }
-}
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        this.internalExposureNotificationPermissionHelper.onResolutionComplete(
+            requestCode,
+            resultCode
+        )
+    }
+
+    }

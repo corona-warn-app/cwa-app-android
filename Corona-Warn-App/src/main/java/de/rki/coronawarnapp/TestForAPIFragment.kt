@@ -203,7 +203,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 try {
                     internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
 
-                    SubmitDiagnosisKeysTransaction.start("123")
+                    //SubmitDiagnosisKeysTransaction.start("123")
                     withContext(Dispatchers.Main) {
                         showToast("Key submission successful")
                     }

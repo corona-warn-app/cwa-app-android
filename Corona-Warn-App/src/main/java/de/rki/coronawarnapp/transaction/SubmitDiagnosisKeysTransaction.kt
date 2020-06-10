@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.transaction
 
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -49,7 +50,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start(registrationToken: String) = lockAndExecuteUnique {
+    suspend fun start(registrationToken: String,  keys: List<TemporaryExposureKey>) = lockAndExecuteUnique {
         /****************************************************
          * RETRIEVE TAN
          ****************************************************/
@@ -61,8 +62,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
          ****************************************************/
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
-            InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory()
-                .limitKeyCount()
+                keys.limitKeyCount()
                 .transformKeyHistoryToExternalFormat()
         }
         /****************************************************

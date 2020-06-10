@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -47,9 +48,9 @@ class SubmissionViewModel : ViewModel() {
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
 
-    fun submitDiagnosisKeys() =
+    fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) =
         executeRequestWithStateForEvent(
-            SubmissionService::asyncSubmitExposureKeys,
+            { SubmissionService.asyncSubmitExposureKeys(keys) },
             _submissionState,
             _submissionError
         )
