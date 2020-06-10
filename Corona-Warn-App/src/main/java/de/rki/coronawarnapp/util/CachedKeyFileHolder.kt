@@ -19,7 +19,6 @@
 
 package de.rki.coronawarnapp.util
 
-import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
@@ -34,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
@@ -69,7 +69,7 @@ object CachedKeyFileHolder {
         val serverDates = getDatesFromServer()
         // TODO remove last3HourFetch before Release
         if (isLast3HourFetchEnabled()) {
-            Log.v(TAG, "Last 3 Hours will be Fetched. Only use for Debugging!")
+            Timber.v("Last 3 Hours will be Fetched. Only use for Debugging!")
             val currentDateServerFormat = currentDate.toServerFormat()
             // just fetch the hours if the date is available
             if (serverDates.contains(currentDateServerFormat)) {
@@ -109,7 +109,7 @@ object CachedKeyFileHolder {
                 throw e
             }
             keyCache.getFilesFromEntries()
-                .also { it.forEach { file -> Log.v(TAG, "cached file:${file.path}") } }
+                .also { it.forEach { file -> Timber.v("cached file:${file.path}") } }
         }
     }
 
@@ -119,10 +119,10 @@ object CachedKeyFileHolder {
     private suspend fun getMissingDaysFromDiff(datesFromServer: Collection<String>): List<String> {
         val cacheEntries = keyCache.getDates()
         return datesFromServer
-            .also { Log.d(TAG, "${it.size} days from server") }
+            .also { Timber.d("${it.size} days from server") }
             .filter { it.dateEntryCacheMiss(cacheEntries) }
             .toList()
-            .also { Log.d(TAG, "${it.size} missing days") }
+            .also { Timber.d("${it.size} missing days") }
     }
 
     /**
@@ -135,10 +135,10 @@ object CachedKeyFileHolder {
      * TODO remove before Release
      */
     private suspend fun getLast3Hours(day: Date): List<String> = getHoursFromServer(day)
-        .also { Log.v(TAG, "${it.size} hours from server, but only latest 3 hours needed") }
+        .also { Timber.v("${it.size} hours from server, but only latest 3 hours needed") }
         .filter { TimeAndDateExtensions.getCurrentHourUTC() - LATEST_HOURS_NEEDED <= it.toInt() }
         .toList()
-        .also { Log.d(TAG, "${it.size} missing hours") }
+        .also { Timber.d("${it.size} missing hours") }
 
     /**
      * Determines whether a given String has an existing date cache entry under a unique name
@@ -165,10 +165,7 @@ object CachedKeyFileHolder {
      */
     private fun String.generateCacheKeyFromString() =
         "${UUID.nameUUIDFromBytes(this.toByteArray())}".also {
-            Log.v(
-                TAG,
-                "$this mapped to cache entry $it"
-            )
+            Timber.v("$this mapped to cache entry $it")
         }
 
     /**
