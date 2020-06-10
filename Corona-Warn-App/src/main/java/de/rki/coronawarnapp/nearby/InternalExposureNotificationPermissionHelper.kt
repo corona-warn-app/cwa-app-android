@@ -136,11 +136,14 @@ class InternalExposureNotificationPermissionHelper(
      * @param exception
      */
     private fun returnError(exception: Exception) {
-        exception.report(
-            ExceptionCategory.EXPOSURENOTIFICATION,
-            TAG,
-            null
-        )
+        if (!exception.message.equals("6: "))
+        {
+            exception.report(
+                ExceptionCategory.EXPOSURENOTIFICATION,
+                TAG,
+                null
+            )
+        }
         permissionResolutionInProgress = false
         callback.onFailure(exception)
     }
