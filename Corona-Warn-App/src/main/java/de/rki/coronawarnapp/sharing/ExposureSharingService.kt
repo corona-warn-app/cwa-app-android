@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.sharing
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Base64
-import android.util.Log
 import com.google.android.gms.common.api.ApiException
 import com.google.protobuf.ByteString
 import com.google.zxing.BarcodeFormat
@@ -13,6 +12,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import timber.log.Timber
 
 object ExposureSharingService {
     private const val defaultWidth: Int = 150
@@ -47,7 +47,7 @@ object ExposureSharingService {
                     bmp.setPixel(x, y, if (bMatrix.get(x, y)) Color.BLACK else Color.WHITE)
                 }
             }
-            Log.d("ExposureSharingService", "Bitmap generated")
+            Timber.d("Bitmap generated")
             callback(bmp)
         } catch (e: ApiException) {
             e.report(EXPOSURENOTIFICATION)
@@ -67,7 +67,7 @@ object ExposureSharingService {
             val key = AppleLegacyKeyExchange.Key.parseFrom(decodedQr)
             callback(key)
         } catch (ex: Exception) {
-            Log.d("ExposureSharingService", "$ex")
+            Timber.d("$ex")
             callback(null)
         }
     }

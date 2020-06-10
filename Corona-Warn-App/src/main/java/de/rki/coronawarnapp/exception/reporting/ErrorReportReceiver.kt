@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.util.DialogHelper
+import timber.log.Timber
 import java.util.Locale
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
@@ -67,9 +67,6 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
                     }
                 ))
         }
-        Log.e(
-            TAG,
-            "[$category]${(prefix ?: "")} $message${(suffix ?: "")}"
-        )
+        Timber.e("[$category]${(prefix ?: "")} $message${(suffix ?: "")}")
     }
 }

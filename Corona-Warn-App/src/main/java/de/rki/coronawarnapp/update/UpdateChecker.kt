@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.update
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.IntentSender.SendIntentException
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.android.play.core.appupdate.AppUpdateInfo
@@ -18,6 +17,7 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
+import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -35,10 +35,10 @@ class UpdateChecker(private val activity: LauncherActivity) {
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
         } catch (exception: CwaSecurityException) {
-            Log.e(TAG, "CwaSecurityException caught:" + exception.localizedMessage)
+            Timber.e("CwaSecurityException caught:$exception.localizedMessage")
             true
         } catch (exception: Exception) {
-            Log.e(TAG, "Exception caught:" + exception.localizedMessage)
+            Timber.e("Exception caught:$exception.localizedMessage")
             false
         }
 
@@ -61,7 +61,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
         }
 
         if (updateNeededFromServer && updateAvailableFromGooglePlay && appUpdateInfo != null) {
-            Log.i(TAG, "show update dialog")
+            Timber.i("show update dialog")
             showUpdateAvailableDialog(appUpdateManager, appUpdateInfo)
         } else {
             activity.navigateToActivities()
@@ -93,7 +93,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
                 REQUEST_CODE
             )
         } catch (exception: SendIntentException) {
-            Log.i(TAG, exception.toString())
+            Timber.i(exception.toString())
         }
     }
 
@@ -103,14 +103,14 @@ class UpdateChecker(private val activity: LauncherActivity) {
             // TODO react to these
             when (resultCode) {
                 RESULT_OK -> {
-                    Log.i(TAG, "startFlowResult RESULT_OK")
+                    Timber.i("startFlowResult RESULT_OK")
                     activity.navigateToActivities()
                 }
                 RESULT_CANCELED -> {
-                    Log.i(TAG, "startFlowResult RESULT_CANCELED")
+                    Timber.i("startFlowResult RESULT_CANCELED")
                 }
                 RESULT_IN_APP_UPDATE_FAILED -> {
-                    Log.i(TAG, "startFlowResult RESULT_IN_APP_UPDATE_FAILED")
+                    Timber.i("startFlowResult RESULT_IN_APP_UPDATE_FAILED")
                     val toast = Toast.makeText(activity, "In app update failed", Toast.LENGTH_LONG)
                     toast.show()
                     activity.navigateToActivities()
@@ -127,19 +127,14 @@ class UpdateChecker(private val activity: LauncherActivity) {
         val minVersionFromServer = applicationConfigurationFromServer.appVersion.android.min
         val minVersionFromServerString =
             constructSemanticVersionString(minVersionFromServer)
-        Log.i(
-            TAG,
-            "minVersionStringFromServer:" + constructSemanticVersionString(
-                minVersionFromServer
-            )
-        )
-        Log.i(TAG, "Current app version:" + BuildConfig.VERSION_NAME)
+        Timber.i("minVersionStringFromServer:${constructSemanticVersionString(minVersionFromServer)}")
+        Timber.i("Current app version:${BuildConfig.VERSION_NAME}")
 
         val needsImmediateUpdate = VersionComparator.isVersionOlder(
             BuildConfig.VERSION_NAME,
             minVersionFromServerString
         )
-        Log.i(TAG, "needs update:" + needsImmediateUpdate)
+        Timber.i("needs update:$needsImmediateUpdate")
         return true
     }
 
