@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -14,6 +12,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
+import timber.log.Timber
 
 /**
  * Diagnosis Test Result Periodic retrieavl
@@ -43,16 +42,10 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      */
     override suspend fun doWork(): Result {
 
-        if (BuildConfig.DEBUG) Log.d(
-            TAG,
-            "Background job started. Run attempt: $runAttemptCount"
-        )
+        Timber.d("Background job started. Run attempt: $runAttemptCount")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            if (BuildConfig.DEBUG) Log.d(
-                TAG,
-                "Background job failed after $runAttemptCount attempts. Rescheduling"
-            )
+            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
             return Result.failure()
         }
