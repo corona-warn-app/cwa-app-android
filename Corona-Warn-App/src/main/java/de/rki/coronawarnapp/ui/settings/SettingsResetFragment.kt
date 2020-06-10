@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.DataRetentionHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,9 +58,6 @@ class SettingsResetFragment : Fragment() {
         }
         binding.settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
-        }
-        binding.settingsResetKeys.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toEnSettings(requireContext())
         }
     }
 

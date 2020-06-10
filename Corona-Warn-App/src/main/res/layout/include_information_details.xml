@@ -52,7 +52,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@{headline}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/settings_title" />
