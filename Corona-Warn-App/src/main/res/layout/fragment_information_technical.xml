@@ -46,20 +46,12 @@
                     layout="@layout/include_information_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_technical_html_path)}"
                     app:illustration="@{@drawable/ic_information_illustration_technical}"
                     app:illustrationDescription="@{@string/information_technical_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <WebView
-                    android:id="@+id/information_technical_webview"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_technical_header_details" />
 
                 <include layout="@layout/merge_guidelines_side" />
 

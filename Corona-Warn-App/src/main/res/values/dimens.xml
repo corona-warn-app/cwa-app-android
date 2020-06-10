@@ -17,6 +17,11 @@
     <dimen name="font_button">14sp</dimen>
     <dimen name="font_title">20sp</dimen>
 
+    <!-- line heights -->
+    <dimen name="line_height_large">28sp</dimen>
+    <dimen name="line_height_normal">24sp</dimen>
+    <dimen name="line_height_small">20sp</dimen>
+
     <dimen name="font_line_spacing_extra">4sp</dimen>
 
     <!-- header height -->
@@ -32,7 +37,7 @@
     <dimen name="guideline_start">@dimen/spacing_normal</dimen>
     <dimen name="guideline_end">@dimen/spacing_normal</dimen>
     <dimen name="guideline_top">@dimen/spacing_normal</dimen>
-    <dimen name="guideline_bottom">@dimen/spacing_normal</dimen>
+    <dimen name="guideline_bottom">@dimen/spacing_small</dimen>
     <dimen name="guideline_action">72dp</dimen>
     <dimen name="guideline_action_large">150dp</dimen>
     <dimen name="guideline_body_title">45dp</dimen>
