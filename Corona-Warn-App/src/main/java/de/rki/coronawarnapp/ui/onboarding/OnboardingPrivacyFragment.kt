@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 
 /**
  * This fragment informs the user regarding privacy.
  */
-class OnboardingPrivacyFragment : BaseFragment() {
+class OnboardingPrivacyFragment : Fragment() {
     companion object {
         private val TAG: String? = OnboardingPrivacyFragment::class.simpleName
     }
@@ -50,7 +52,7 @@ class OnboardingPrivacyFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 OnboardingPrivacyFragmentDirections.actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
             )
         }
