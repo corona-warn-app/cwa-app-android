@@ -1,4 +1,10 @@
 package de.rki.coronawarnapp.exception
 
-class NoNetworkException(cause: Throwable) :
-    Exception("The application is not connected to the internet", cause)
+import de.rki.coronawarnapp.exception.reporting.ErrorCodes
+import de.rki.coronawarnapp.exception.reporting.ReportedException
+
+class NoNetworkException(cause: Throwable) : ReportedException(
+    ErrorCodes.NO_NETWORK_CONNECTIVITY.code,
+    "The application is not connected to the internet",
+    cause
+)

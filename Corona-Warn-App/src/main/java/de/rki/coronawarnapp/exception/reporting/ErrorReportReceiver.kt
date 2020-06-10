@@ -19,19 +19,27 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
     override fun onReceive(context: Context, intent: Intent) {
         val category = ExceptionCategory
             .valueOf(intent.getStringExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA) ?: "")
+        val errorCode = intent.getIntExtra(
+            ReportingConstants.ERROR_REPORT_CODE_EXTRA,
+            ReportingConstants.ERROR_REPORT_UNKNOWN_ERROR
+        )
         val prefix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA)
         val suffix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA)
-        val message = intent.getStringExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA)
-            ?: context.resources.getString(R.string.errors_generic_text_unknown_error_cause)
+
+        // set the message of the dialog (default is technical, for some we have a more user
+        // friendly message
+        val message = when (errorCode) {
+            ErrorCodes.NO_NETWORK_CONNECTIVITY.code -> context.resources.getString(R.string.errors_no_connectivity_cause)
+            else -> intent.getStringExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA)
+                ?: context.resources.getString(R.string.errors_generic_text_unknown_error_cause)
+        }
+
         val stack = intent.getStringExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA)
         val title = context.resources.getString(R.string.errors_generic_headline)
         val confirm = context.resources.getString(R.string.errors_generic_button_positive)
         val details = context.resources.getString(R.string.errors_generic_button_negative)
         val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
-        val errorCode = intent.getIntExtra(
-            ReportingConstants.ERROR_REPORT_CODE_EXTRA,
-            ReportingConstants.ERROR_REPORT_UNKNOWN_ERROR
-        )
+
         val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
             .toUpperCase(Locale.ROOT)
 

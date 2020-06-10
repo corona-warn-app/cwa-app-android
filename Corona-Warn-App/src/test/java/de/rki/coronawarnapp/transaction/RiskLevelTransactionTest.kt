@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.transaction
 import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.exception.NoNetworkException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
@@ -213,6 +214,8 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
+
                 RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
@@ -272,6 +275,8 @@ class RiskLevelTransactionTest {
 
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
 
                 RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
@@ -335,6 +340,8 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
+
                 RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
                 RiskLevelTransaction["executeRetrieveExposureSummary"]()
@@ -350,6 +357,56 @@ class RiskLevelTransactionTest {
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
                 RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                RiskLevelTransaction["executeClose"]()
+            }
+        }
+    }
+
+    /** Test case if app is not connected */
+    @Test
+    fun checkAppConnectivity() {
+
+        val testRiskLevel = INCREASED_RISK
+
+        // tracing is activated
+        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
+
+        // the last time we fetched keys from the server happened 30 mins ago (within maxStale)
+        every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
+            .minus(TimeUnit.MINUTES.toMillis(30))
+
+        // active tracing time is 1h above the threshold
+        every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(
+            TimeVariables.getMinActivatedTracingTime().plus(1).toLong()
+        )
+
+        every { RiskLevelRepository.getLastCalculatedScore() } returns testRiskLevel
+
+        every { ConnectivityHelper.isNetworkEnabled(context) } returns false
+
+        every { RiskLevelTransaction["executeCheckAppConnectivity"]() } throws NoNetworkException(
+            IllegalStateException("Network is required to retrieve the Application Configuration")
+        )
+
+        runBlocking {
+
+            RiskLevelTransaction.start()
+
+            coVerifyOrder {
+                RiskLevelTransaction.start()
+
+                RiskLevelTransaction["executeCheckTracing"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckAppConnectivity"]()
+
+                RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
                 RiskLevelTransaction["executeClose"]()
             }
         }
