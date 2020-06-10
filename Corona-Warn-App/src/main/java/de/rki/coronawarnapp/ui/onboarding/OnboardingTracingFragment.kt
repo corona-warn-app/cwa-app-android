@@ -15,7 +15,9 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,7 @@ import kotlinx.coroutines.launch
  * @see InternalExposureNotificationPermissionHelper
  * @see AlertDialog
  */
-class OnboardingTracingFragment : BaseFragment(),
+class OnboardingTracingFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
@@ -114,7 +116,7 @@ class OnboardingTracingFragment : BaseFragment(),
     }
 
     private fun navigate() {
-        doNavigate(
+        findNavController().doNavigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
     }

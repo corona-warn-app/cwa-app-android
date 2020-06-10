@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.databinding.FragmentInformationAboutBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 
 /**
  * Basic Fragment which only displays static content.
  */
-class InformationAboutFragment : BaseFragment() {
+class InformationAboutFragment : Fragment() {
     companion object {
         private val TAG: String? = InformationAboutFragment::class.simpleName
     }
