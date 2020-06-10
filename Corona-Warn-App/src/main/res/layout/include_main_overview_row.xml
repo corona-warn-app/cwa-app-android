@@ -18,9 +18,6 @@
             name="icon"
             type="android.graphics.drawable.Drawable" />
 
-        <variable
-            name="hideDivider"
-            type="Boolean" />
 
     </data>
 
@@ -32,8 +29,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main_row"
-            style="@style/row"
+            android:id="@+id/main_overview_row"
+            style="@style/rowOverview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,13 +45,13 @@
                 android:src="@{icon}"
                 android:tint="@{FormatterHelper.formatColorIcon(iconTint)}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
-                app:layout_constraintBottom_toBottomOf="@+id/main_row_item_subtitle"
-                app:layout_constraintEnd_toStartOf="@+id/main_row_item_subtitle"
+                app:layout_constraintBottom_toBottomOf="@+id/main_overview_row_subtitle"
+                app:layout_constraintEnd_toStartOf="@+id/main_overview_row_subtitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/main_row_item_subtitle" />
+                app:layout_constraintTop_toTopOf="@+id/main_overview_row_subtitle" />
 
             <TextView
-                android:id="@+id/main_row_item_subtitle"
+                android:id="@+id/main_overview_row_subtitle"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -71,22 +68,6 @@
                 app:layout_constraintGuide_begin="@dimen/guideline_body_title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include
-            layout="@layout/include_divider"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/card_divider"
-            android:visibility="@{FormatterHelper.formatVisibilityInverted(hideDivider)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/settings_guideline_divider"
-            app:layout_constraintTop_toBottomOf="@+id/main_row" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/settings_guideline_divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
