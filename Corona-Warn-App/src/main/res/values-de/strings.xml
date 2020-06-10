@@ -311,7 +311,6 @@
               Onboarding
     ###################################### -->
 
-    <string name="onboarding_image_description">"IS MISSING"</string>
     <!-- XBUT: onboarding - forward and deny -->
     <string name="onboarding_button_disable">"Nicht aktivieren"</string>
     <!-- XBUT: onboarding - forward and allow -->

@@ -66,6 +66,7 @@
     <string name="preference_registration_token">
         <xliff:g id="preference">preference_registration_token</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_device_pairing_successful_time">
         <xliff:g id="preference">preference_device_pairing_successful_time</xliff:g>
     </string>
@@ -125,11 +126,11 @@
     <string name="preference_last_three_hours_from_server">
         <xliff:g id="preference">preference_last_three_hours_from_server</xliff:g>
     </string>
-
+    <!-- NOTR -->
     <string name="preference_polling_test_result_started">
         <xliff:g id="preference">preference_polling_test_result_started</xliff:g>
     </string>
-
+    <!-- NOTR -->
     <string name="preference_test_result_notification">
         <xliff:g id="preference">preference_test_result_notification</xliff:g>
     </string>
@@ -385,7 +386,6 @@
               Onboarding
     ###################################### -->
 
-    <string name="onboarding_image_description">IS MISSING</string>
     <!-- XBUT: onboarding - forward and deny -->
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <!-- XBUT: onboarding - forward and allow -->
