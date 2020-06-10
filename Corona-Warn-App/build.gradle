@@ -74,6 +74,11 @@ android {
             buildConfigField "String", "BUILD_VARIANT", "\"device\""
             resValue "string", "app_name", "Corona-Warn"
         }
+        deviceForTesters {
+            dimension "version"
+            buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
+            resValue "string", "app_name", "CWA TEST"
+        }
     }
 
     buildFeatures {
@@ -119,6 +124,17 @@ android {
         exclude 'CODEOWNERS'
         exclude 'README.md'
         exclude 'CODE_OF_CONDUCT.md'
+    }
+    sourceSets {
+        deviceForTesters {
+            kotlin {
+                exclude '**/main/**/MainFragment.kt'
+                srcDirs 'src/releaseForTest'
+            }
+            res {
+                srcDirs 'src/releaseForTest/res', 'src/releaseForTest/res/navigation'
+            }
+        }
     }
 
 }
