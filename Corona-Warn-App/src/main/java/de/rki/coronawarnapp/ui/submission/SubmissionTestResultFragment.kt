@@ -5,22 +5,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
 
 /**
- * A simple [BaseFragment] subclass.
+ * A simple [Fragment] subclass.
  */
-class SubmissionTestResultFragment : BaseFragment() {
+class SubmissionTestResultFragment : Fragment() {
     companion object {
         private val TAG: String? = SubmissionTanFragment::class.simpleName
     }
@@ -45,7 +47,9 @@ class SubmissionTestResultFragment : BaseFragment() {
     }
 
     private fun navigateToMainScreen() =
-        doNavigate(SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment())
+        findNavController().doNavigate(
+            SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+        )
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
@@ -127,7 +131,7 @@ class SubmissionTestResultFragment : BaseFragment() {
         }
 
         binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
         }
@@ -145,7 +149,7 @@ class SubmissionTestResultFragment : BaseFragment() {
             return
         }
 
-        doNavigate(
+        findNavController().doNavigate(
             SubmissionTestResultFragmentDirections
                 .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
         )
@@ -160,7 +164,7 @@ class SubmissionTestResultFragment : BaseFragment() {
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
                 submissionViewModel.deregisterTestFromDevice()
-                doNavigate(
+                findNavController().doNavigate(
                     SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
                 )
             }

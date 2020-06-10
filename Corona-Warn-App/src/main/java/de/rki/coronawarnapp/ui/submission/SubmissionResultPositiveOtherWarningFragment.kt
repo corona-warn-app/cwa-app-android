@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
@@ -13,13 +15,13 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
 
-class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
+class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
@@ -136,7 +138,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
 
         submissionViewModel.submissionState.observeEvent(viewLifecycleOwner, {
             if (it == ApiRequestState.SUCCESS) {
-                doNavigate(
+                findNavController().doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
                         .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
                 )
@@ -154,7 +156,7 @@ class SubmissionResultPositiveOtherWarningFragment : BaseFragment(),
     }
 
     private fun navigateToSubmissionResultFragment() =
-        doNavigate(
+        findNavController().doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
         )

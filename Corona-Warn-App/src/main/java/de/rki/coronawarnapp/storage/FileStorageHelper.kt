@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.storage
 
-import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
+import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -86,14 +86,11 @@ object FileStorageHelper {
 
     // LOGGING
     private fun logFileRemovalResult(fileName: String, result: Boolean) =
-        Log.d(TAG, "File $fileName was deleted: $result")
+        Timber.d("File $fileName was deleted: $result")
 
     private fun logAvailableSpace(availableSpace: Long) =
-        Log.d(TAG, "Available space: $availableSpace")
+        Timber.d("Available space: $availableSpace")
 
     private fun logInsufficientSpace(availableSpace: Long) =
-        Log.e(
-            TAG,
-            "Not enough free space! Required: ${FileStorageConstants.FREE_SPACE_THRESHOLD} Has: $availableSpace"
-        )
+        Timber.e("Not enough free space! Required: ${FileStorageConstants.FREE_SPACE_THRESHOLD} Has: $availableSpace")
 }

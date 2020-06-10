@@ -19,7 +19,6 @@
 
 package de.rki.coronawarnapp.transaction
 
-import android.util.Log
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
@@ -37,6 +36,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
@@ -142,7 +142,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
              ****************************************************/
             executeAPISubmission(token, keyFiles, exposureConfiguration)
         } else {
-            Log.w(TAG, "no key files, skipping submission to internal API.")
+            Timber.w("no key files, skipping submission to internal API.")
         }
         /****************************************************
          * Fetch Date Update
@@ -174,17 +174,17 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     private fun rollbackSetup() {
-        Log.v(TAG, "rollback $SETUP")
+        Timber.v("rollback $SETUP")
         LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback.get())
     }
 
     private fun rollbackToken() {
-        Log.v(TAG, "rollback $TOKEN")
+        Timber.v("rollback $TOKEN")
         LocalData.googleApiToken(googleAPITokenForRollback.get())
     }
 
     private suspend fun rollbackFilesFromWebRequests() {
-        Log.v(TAG, "rollback $FILES_FROM_WEB_REQUESTS")
+        Timber.v("rollback $FILES_FROM_WEB_REQUESTS")
         KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
             .clear()
     }
@@ -197,7 +197,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             throw IllegalStateException("The Exposure Notification Framework must be active, check your tracing status")
         lastFetchDateForRollback.set(LocalData.lastTimeDiagnosisKeysFromServerFetch())
         val currentDate = Date(System.currentTimeMillis())
-        Log.d(TAG, "using $currentDate as current date in Transaction.")
+        Timber.d("using $currentDate as current date in Transaction.")
         currentDate
     }
 
@@ -247,7 +247,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
                 token
             )
         }
-        Log.d(TAG, "Diagnosis Keys provided successfully, Token: $token")
+        Timber.d("Diagnosis Keys provided successfully, Token: $token")
     }
 
     /**
