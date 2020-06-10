@@ -345,7 +345,7 @@ object RiskLevelTransaction : Transaction() {
         executeState(RETRIEVE_APPLICATION_CONFIG) {
             return@executeState getApplicationConfiguration()
                 .also {
-                    Log.v(TAG, "$transactionId - retrieved configuration from backend")
+                    Timber.v(TAG, "$transactionId - retrieved configuration from backend")
                 }
         }
 
