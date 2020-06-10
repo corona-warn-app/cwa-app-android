@@ -977,6 +977,10 @@
         ###################################### -->
     <!-- XTXT: error dialog - detailed text if device is offline  -->
     <string name="errors_no_network">Du bist nicht mit dem Internet verbunden.</string>
+    <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
+    <string name="errors_not_enough_device_storage">Du hast nicht genug speicherplatz.</string>
+    <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
+    <string name="errors_communication_with_api">Fehler bei kommunikation mit Google API.</string>
 
     <!-- ####################################
                Generic Error Messages
