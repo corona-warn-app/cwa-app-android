@@ -232,4 +232,6 @@ dependencies {
     implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
     implementation 'org.conscrypt:conscrypt-android:2.4.0'
 
+    // LOGGING
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

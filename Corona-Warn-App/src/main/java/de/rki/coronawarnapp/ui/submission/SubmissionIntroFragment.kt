@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import de.rki.coronawarnapp.ui.doNavigate
 
 /**

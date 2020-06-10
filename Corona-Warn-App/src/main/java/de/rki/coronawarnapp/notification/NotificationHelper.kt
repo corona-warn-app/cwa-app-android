@@ -9,12 +9,12 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.ui.main.MainActivity
+import timber.log.Timber
 import kotlin.random.Random
 
 /**
@@ -172,9 +172,9 @@ object NotificationHelper {
     private fun logNotificationBuild(notification: Notification?) {
         if (BuildConfig.DEBUG) {
             if (notification != null) {
-                Log.d(TAG, "Notification build successfully.")
+                Timber.d("Notification build successfully.")
             } else {
-                Log.d(TAG, "Notification build failed.")
+                Timber.d("Notification build failed.")
             }
         }
     }

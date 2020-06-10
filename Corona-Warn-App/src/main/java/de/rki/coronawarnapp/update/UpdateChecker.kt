@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.update
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import de.rki.coronawarnapp.BuildConfig
@@ -11,6 +10,7 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
+import timber.log.Timber
 
 class UpdateChecker(private val activity: LauncherActivity) {
 
@@ -27,15 +27,14 @@ class UpdateChecker(private val activity: LauncherActivity) {
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
         } catch (exception: CwaSecurityException) {
-            Log.e(TAG, "CwaSecurityException caught:" + exception.localizedMessage)
+            Timber.e("CwaSecurityException caught:%s", exception.localizedMessage)
             true
         } catch (exception: Exception) {
-            Log.e(TAG, "Exception caught:" + exception.localizedMessage)
+            Timber.e("Exception caught:%s", exception.localizedMessage)
             false
         }
 
         if (updateNeededFromServer) {
-            Log.i(TAG, "show update dialog")
             showUpdateNeededDialog()
         } else {
             activity.navigateToActivities()
@@ -71,19 +70,19 @@ class UpdateChecker(private val activity: LauncherActivity) {
         val minVersionFromServer = applicationConfigurationFromServer.appVersion.android.min
         val minVersionFromServerString =
             constructSemanticVersionString(minVersionFromServer)
-        Log.i(
-            TAG,
-            "minVersionStringFromServer:" + constructSemanticVersionString(
+
+        Timber.e(
+            "minVersionStringFromServer:%s", constructSemanticVersionString(
                 minVersionFromServer
             )
         )
-        Log.i(TAG, "Current app version:" + BuildConfig.VERSION_NAME)
+        Timber.e("Current app version:%s", BuildConfig.VERSION_NAME)
 
         val needsImmediateUpdate = VersionComparator.isVersionOlder(
             BuildConfig.VERSION_NAME,
             minVersionFromServerString
         )
-        Log.i(TAG, "needs update:" + needsImmediateUpdate)
+        Timber.e("needs update:$needsImmediateUpdate")
         return true
     }
 

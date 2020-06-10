@@ -11,9 +11,9 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import android.util.Log
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import timber.log.Timber
 
 /**
  * Helper for connectivity statuses.
@@ -152,7 +152,7 @@ object ConnectivityHelper {
     fun isBluetoothEnabled(): Boolean {
         val bAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bAdapter == null) {
-            Log.d(TAG, "Device does not have bluetooth hardware")
+            Timber.d("Device does not have bluetooth hardware")
             return false
         }
         return bAdapter.isEnabled
