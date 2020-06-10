@@ -75,31 +75,24 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp\""
-        }
-        releaseForTest {
-            applicationIdSuffix '.dev'
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
         }
     }
 
-    // https://developer.android.com/studio/build/build-variants
-    // We use flavors to build different versions of the app. One version which uses
-    // the mock ExposureNotification API and one for the real Google API
+    // One version contains our Test Fragments
     flavorDimensions "version"
     productFlavors {
         device {
             dimension "version"
             buildConfigField "String", "BUILD_VARIANT", "\"device\""
             resValue "string", "app_name", "Corona-Warn"
+            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp\""
         }
         deviceForTesters {
             dimension "version"
             buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
             resValue "string", "app_name", "CWA TEST"
+            buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
+            applicationIdSuffix '.dev'
         }
     }
 
