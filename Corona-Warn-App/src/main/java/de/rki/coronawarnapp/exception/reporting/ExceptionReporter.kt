@@ -23,6 +23,7 @@ fun Throwable.report(
 
     if (this is ReportedExceptionInterface) {
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, this.code)
+        intent.putExtra(ReportingConstants.ERROR_REPORT_RES_ID, this.resId)
     }
 
     val sw = StringWriter()

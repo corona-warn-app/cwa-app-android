@@ -26,12 +26,14 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
         val prefix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA)
         val suffix = intent.getStringExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA)
 
-        // set the message of the dialog (default is technical, for some we have a more user
-        // friendly message
-        val message = when (errorCode) {
-            ErrorCodes.NO_NETWORK_CONNECTIVITY.code -> context.resources.getString(R.string.errors_no_connectivity_cause)
-            else -> intent.getStringExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA)
-                ?: context.resources.getString(R.string.errors_generic_text_unknown_error_cause)
+        // set the message of the dialog: default is technical
+        var message = intent.getStringExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA)
+            ?: context.resources.getString(R.string.errors_generic_text_unknown_error_cause)
+
+        // if we have a res id we set that message
+        if (intent.hasExtra(ReportingConstants.ERROR_REPORT_RES_ID)) {
+            val resId = intent.getIntExtra(ReportingConstants.ERROR_REPORT_RES_ID, 0)
+            message = context.resources.getString(resId)
         }
 
         val stack = intent.getStringExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA)
