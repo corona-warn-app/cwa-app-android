@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.storage.LocalData
@@ -17,19 +16,13 @@ class LauncherActivity : AppCompatActivity() {
 
     private lateinit var updateChecker: UpdateChecker
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        updateChecker = UpdateChecker(this)
+    override fun onResume() {
+        super.onResume()
 
+        updateChecker = UpdateChecker(this)
         lifecycleScope.launch {
             updateChecker.checkForUpdate()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        updateChecker.onActivityResult(requestCode, resultCode)
     }
 
     fun navigateToActivities() {
