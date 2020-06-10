@@ -136,8 +136,7 @@ class InternalExposureNotificationPermissionHelper(
      * @param exception
      */
     private fun returnError(exception: Exception) {
-        if (!exception.message.equals("6: "))
-        {
+        if (!exception.message.equals("6: ")) {
             exception.report(
                 ExceptionCategory.EXPOSURENOTIFICATION,
                 TAG,
