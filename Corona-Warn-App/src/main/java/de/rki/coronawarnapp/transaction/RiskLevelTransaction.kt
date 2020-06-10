@@ -357,7 +357,7 @@ object RiskLevelTransaction : Transaction() {
             val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
 
             return@executeState lastExposureSummary.also {
-                Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
+                Timber.v(TAG, "$transactionId - get the exposure summary for further calculation")
             }
         }
 
@@ -380,7 +380,7 @@ object RiskLevelTransaction : Transaction() {
                 attenuationParameters,
                 exposureSummary
             ).also {
-                Log.v(TAG, "calculated risk with the given config: $it")
+                Timber.v(TAG, "calculated risk with the given config: $it")
             }
 
             // these are the defined risk classes. They will divide the calculated
