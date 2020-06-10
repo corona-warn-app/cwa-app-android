@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper

@@ -2,7 +2,6 @@ package de.rki.coronawarnapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +38,7 @@ import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calcu
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.util.UUID
 
@@ -168,7 +168,7 @@ class TestRiskLevelCalculation : Fragment() {
     }
 
     private val onScannedKey = { key: AppleLegacyKeyExchange.Key? ->
-        Log.i(TAG, "keys scanned..")
+        Timber.i("keys scanned..")
         provideDiagnosisKey(key)
     }
 
@@ -211,10 +211,7 @@ class TestRiskLevelCalculation : Fragment() {
             lifecycleScope.launch {
                 googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-                Log.i(
-                    TAG,
-                    "Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token"
-                )
+                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(

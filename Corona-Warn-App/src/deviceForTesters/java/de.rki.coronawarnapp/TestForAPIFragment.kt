@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,6 +77,7 @@ import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_s
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.UUID
@@ -86,8 +86,6 @@ import java.util.UUID
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
-        val TAG: String? = TestForAPIFragment::class.simpleName
-
         const val CONFIG_SCORE = 8
 
         fun keysToJson(keys: List<TemporaryExposureKey>): String {
@@ -282,7 +280,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     private val onScannedKey = { key: AppleLegacyKeyExchange.Key? ->
-        Log.i(TAG, "keys scanned..")
+        Timber.i("keys scanned..")
         key?.let {
             text_scanned_key.text = prettyKey(key)
             text_scanned_key.visibility = View.VISIBLE
@@ -366,10 +364,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             lifecycleScope.launch {
                 googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-                Log.i(
-                    TAG,
-                    "Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token"
-                )
+                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
@@ -386,10 +381,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     private fun checkExposure() {
-        Log.d(
-            TAG,
-            "Check Exposure with token $token"
-        )
+        Timber.d("Check Exposure with token $token")
 
         lifecycleScope.launch {
             try {
@@ -397,10 +389,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     InternalExposureNotificationClient.asyncGetExposureSummary(token!!)
                 updateExposureSummaryDisplay(exposureSummary)
                 showToast("Updated Exposure Summary with token $token")
-                Log.d(
-                    TAG, "Received exposure with token $token from QR Code"
-                )
-                Log.i(TAG, exposureSummary.toString())
+                Timber.d("Received exposure with token $token from QR Code")
+                Timber.i(exposureSummary.toString())
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }

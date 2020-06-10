@@ -19,8 +19,7 @@
 
 package de.rki.coronawarnapp.util
 
-import android.util.Log
-import de.rki.coronawarnapp.BuildConfig
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -40,7 +39,7 @@ object ZipHelper {
         val outputFile = File(directory, nameOfOutputFile)
 
         if (outputFile.exists()) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "file with output name already exists, override.")
+            Timber.d("file with output name already exists, override.")
             outputFile.delete()
         }
         outputFile.createNewFile()
@@ -65,10 +64,7 @@ object ZipHelper {
         zipOutputStream: ZipOutputStream,
         filesWithName: Iterable<Pair<String, File>>
     ) = filesWithName.forEach { file ->
-        if (BuildConfig.DEBUG) Log.d(
-            TAG,
-            "writing ${file.second.name} as ${file.first} " + "to $nameOfOutputFile in $directory"
-        )
+        Timber.d("writing ${file.second.name} as ${file.first} to $nameOfOutputFile in $directory")
         val fileInputStream = FileInputStream(file.second)
         val zipEntry = ZipEntry(file.first)
         zipOutputStream.putNextEntry(zipEntry)
@@ -83,7 +79,7 @@ object ZipHelper {
             do {
                 val entry = it.nextEntry
                 if (entry != null) {
-                    Log.v(TAG, "read zip entry ${entry.name}")
+                    Timber.v("read zip entry ${entry.name}")
                     callback(entry, it.readBytes())
                     it.closeEntry()
                 }
