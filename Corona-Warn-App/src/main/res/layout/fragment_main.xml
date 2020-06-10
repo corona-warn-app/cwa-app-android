@@ -205,20 +205,14 @@
 
             <include
                 android:id="@+id/main_about"
-                layout="@layout/include_main_card"
+                layout="@layout/include_main_faq_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:body="@{@string/main_about_body}"
-                app:headline="@{@string/main_about_headline}"
-                app:icon="@{@drawable/ic_main_about}"
-                app:iconEnd="@{@drawable/ic_forward}"
                 app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toBottomOf="@+id/main_barrier"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:layout_constraintTop_toBottomOf="@+id/main_barrier" />
 
             <include layout="@layout/merge_guidelines_side" />
 
