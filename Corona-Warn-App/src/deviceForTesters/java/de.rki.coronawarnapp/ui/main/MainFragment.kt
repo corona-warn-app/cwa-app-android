@@ -1,21 +1,17 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
@@ -173,29 +169,13 @@ class MainFragment : Fragment() {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
                     true
                 }
-                // todo remove only for testing
                 R.id.menu_test_api -> {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
                     true
                 }
-                // todo remove only for testing
                 R.id.menu_test_risk_level -> {
                     findNavController().doNavigate(
                         MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation()
-                    )
-                    true
-                }
-                // todo remove only for testing
-                R.id.menu_notification_test -> {
-                    Log.i(TAG, "calling notification")
-                    Log.i(
-                        TAG,
-                        NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
-                            .toString()
-                    )
-                    NotificationHelper.sendNotification(
-                        getString(R.string.notification_body),
-                        NotificationCompat.PRIORITY_HIGH
                     )
                     true
                 }
