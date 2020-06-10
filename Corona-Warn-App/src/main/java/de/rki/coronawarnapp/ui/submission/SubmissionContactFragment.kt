@@ -43,12 +43,12 @@ class SubmissionContactFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.submissionContactScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionContactRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.submissionContactScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionContactRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {
