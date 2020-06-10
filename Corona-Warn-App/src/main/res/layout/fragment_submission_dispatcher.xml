@@ -3,87 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
-        android:id="@+id/submission_dispatcher_scrollview"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_dispatcher_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_dispatcher_accessibility_title"
         android:fillViewport="true"
         tools:context=".ui.submission.SubmissionDispatcherFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <include
+            android:id="@+id/submission_dispatcher_header"
+            layout="@layout/include_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_back}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_dispatcher_headline}" />
 
-            <include
-                android:id="@+id/submission_dispatcher_header"
-                layout="@layout/include_header"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                app:icon="@{@drawable/ic_back}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_dispatcher_headline}" />
+        <include
+            android:id="@+id/submission_dispatcher_content"
+            layout="@layout/include_submission_dispatcher"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_header" />
 
-            <TextView
-                android:id="@+id/submission_dispatcher_text"
-                style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/submission_dispatcher_subheadline"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_header" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include
-                android:id="@+id/submission_dispatcher_qr"
-                layout="@layout/include_dispatcher_card"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:clickable="true"
-                android:focusable="true"
-                app:body="@{@string/submission_dispatcher_qr_card_text}"
-                app:headline="@{@string/submission_dispatcher_card_qr}"
-                app:illustration="@{@drawable/ic_submission_illustration_qr_code_card}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_text" />
-
-            <include
-                android:id="@+id/submission_dispatcher_tan_code"
-                layout="@layout/include_dispatcher_card"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                app:body="@{@string/submission_dispatcher_tan_code_card_text}"
-                app:headline="@{@string/submission_dispatcher_card_tan_code}"
-                app:illustration="@{@drawable/ic_submission_illustration_tan_code_card}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_qr" />
-
-            <include
-                android:id="@+id/submission_dispatcher_tan_tele"
-                layout="@layout/include_dispatcher_card"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                app:body="@{@string/submission_dispatcher_tan_tele_card_text}"
-                app:headline="@{@string/submission_dispatcher_card_tan_tele}"
-                app:illustration="@{@drawable/ic_submission_illustration_tan_hotline_card}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_tan_code" />
-
-
-            <include layout="@layout/merge_guidelines_side" />
-
-            <include layout="@layout/merge_guidelines_card" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
 </layout>

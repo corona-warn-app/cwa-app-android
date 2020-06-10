@@ -42,28 +42,28 @@ class SubmissionDispatcherFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
+        binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
             checkForDataPrivacyPermission()
         }
-        binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
+        binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
-        binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
+        binding.submissionDispatcherContent.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
             doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionContactFragment()

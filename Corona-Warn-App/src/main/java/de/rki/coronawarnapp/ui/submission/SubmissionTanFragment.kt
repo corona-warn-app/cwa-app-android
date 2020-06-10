@@ -94,7 +94,7 @@ class SubmissionTanFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
+        binding.submissionTanContent.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
 
@@ -113,12 +113,12 @@ class SubmissionTanFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.submissionTanScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.submissionTanScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun navigateToDispatchScreen() =
