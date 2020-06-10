@@ -56,7 +56,7 @@ class FormatterRiskHelperTest {
         every { context.getColor(R.color.colorSurface2) } returns R.color.colorSurface2
         every { context.getString(R.string.risk_card_button_update) } returns R.string.risk_card_button_update.toString()
         every { context.getString(R.string.risk_card_button_cooldown) } returns R.string.risk_card_button_cooldown.toString()
-
+        every { context.getColor(R.color.colorTextSemanticNeutral) } returns R.color.colorTextSemanticNeutral
 
     }
 
@@ -332,12 +332,12 @@ class FormatterRiskHelperTest {
         )
     }
 
-//    private fun formatBehaviorIconBase(iRiskLevelScore: Int?, iValue: Int) {
-//        val result = formatBehaviorIcon(riskLevelScore = iRiskLevelScore)
-//        assertThat(
-//            result, `is`(iValue)
-//        )
-//    }
+    private fun formatBehaviorIconBase(iRiskLevelScore: Int?, iValue: Int) {
+        val result = formatBehaviorIcon(riskLevelScore = iRiskLevelScore)
+        assertThat(
+            result, `is`(iValue)
+        )
+    }
 
     private fun formatBehaviorIconBackgroundBase(iRiskLevelScore: Int?, iValue: Int) {
         val result = formatBehaviorIconBackground(riskLevelScore = iRiskLevelScore)
@@ -1458,30 +1458,30 @@ class FormatterRiskHelperTest {
         )
     }
 
-//    @Test
-//    fun formatBehaviorIcon() {
-//        formatBehaviorIconBase(iRiskLevelScore = null, iValue = context.getColor(R.color.colorStableLight))
-//        formatBehaviorIconBase(
-//            iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
-//            iValue = context.getColor(R.color.colorStableLight)
-//        )
-//        formatBehaviorIconBase(
-//            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-//            iValue = context.getColor(R.color.colorSemanticNeutralRisk)
-//        )
-//        formatBehaviorIconBase(
-//            iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-//            iValue = context.getColor(R.color.colorSemanticNeutralRisk)
-//        )
-//        formatBehaviorIconBase(
-//            iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
-//            iValue = context.getColor(R.color.colorStableLight)
-//        )
-//        formatBehaviorIconBase(
-//            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-//            iValue = context.getColor(R.color.colorStableLight)
-//        )
-//    }
+    @Test
+    fun formatBehaviorIcon() {
+        formatBehaviorIconBase(iRiskLevelScore = null, iValue = context.getColor(R.color.colorStableLight))
+        formatBehaviorIconBase(
+            iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
+            iValue = context.getColor(R.color.colorStableLight)
+        )
+        formatBehaviorIconBase(
+            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+            iValue = context.getColor(R.color.colorTextSemanticNeutral)
+        )
+        formatBehaviorIconBase(
+            iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+            iValue = context.getColor(R.color.colorTextSemanticNeutral)
+        )
+        formatBehaviorIconBase(
+            iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
+            iValue = context.getColor(R.color.colorStableLight)
+        )
+        formatBehaviorIconBase(
+            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
+            iValue = context.getColor(R.color.colorStableLight)
+        )
+    }
 
     @Test
     fun formatBehaviorIconBackground() {
