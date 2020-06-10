@@ -8,7 +8,4 @@
     <item
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
-    <item
-        android:id="@+id/menu_test_risk_level"
-        android:title="@string/menu_test_risk_level" />
 </menu>
