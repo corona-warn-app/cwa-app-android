@@ -36,18 +36,11 @@ class SubmitDiagnosisKeysTransactionTest {
 
     @Test
     fun testTransactionNoKeys() {
-        val key = TemporaryExposureKey.TemporaryExposureKeyBuilder()
-            .setKeyData(ByteArray(1))
-            .setRollingPeriod(1)
-            .setRollingStartIntervalNumber(1)
-            .setTransmissionRiskLevel(1)
-            .build()
-
         coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf()
         coEvery { DiagnosisKeyService.asyncSubmitKeys(authString, listOf()) } just Runs
 
         runBlocking {
-             SubmitDiagnosisKeysTransaction.start("123", listOf(key))
+             SubmitDiagnosisKeysTransaction.start("123", listOf())
 
             coVerifyOrder {
                 DiagnosisKeyService.asyncSubmitKeys(authString, listOf())
