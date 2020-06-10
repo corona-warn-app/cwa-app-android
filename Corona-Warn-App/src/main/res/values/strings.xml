@@ -998,6 +998,12 @@
     <string name="button_menu">Menü</string>
 
     <!-- ####################################
+               Business Error Messages
+        ###################################### -->
+    <!-- XTXT: error dialog - detailed text if device is offline  -->
+    <string name="errors_no_network">Du bist nicht mit dem Internet verbunden.</string>
+
+    <!-- ####################################
                Generic Error Messages
         ###################################### -->
     <!-- XHED: error dialog - headline -->

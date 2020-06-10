@@ -31,6 +31,22 @@ object RiskLevelRepository {
     }
 
     /**
+     * Set the current risk level from the last calculated risk level.
+     * This is necessary if the app has no connectivity and the risk level transaction
+     * fails.
+     *
+     * @see de.rki.coronawarnapp.transaction.RiskLevelTransaction
+     *
+     */
+    fun setLastCalculatedRiskLevelAsCurrent() {
+        var lastRiskLevelScore = getLastCalculatedScore()
+        if (lastRiskLevelScore == RiskLevel.UNDETERMINED) {
+            lastRiskLevelScore = RiskLevel.UNKNOWN_RISK_INITIAL
+        }
+        riskLevelScore.postValue(lastRiskLevelScore.raw)
+    }
+
+    /**
      * Get the last calculated RiskLevel
      *
      * @return
