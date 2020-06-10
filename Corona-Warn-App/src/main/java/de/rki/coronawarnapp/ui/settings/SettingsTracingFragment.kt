@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
  * @see InternalExposureNotificationClient
  * @see InternalExposureNotificationPermissionHelper
  */
-class SettingsTracingFragment : BaseFragment(),
+class SettingsTracingFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {

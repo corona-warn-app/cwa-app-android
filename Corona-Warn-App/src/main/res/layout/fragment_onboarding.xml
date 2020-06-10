@@ -15,7 +15,7 @@
             layout="@layout/include_onboarding"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:focusable="false"
             app:body="@{@string/onboarding_body}"
             app:bodyEmphasized="@{@string/onboarding_body_emphasized}"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

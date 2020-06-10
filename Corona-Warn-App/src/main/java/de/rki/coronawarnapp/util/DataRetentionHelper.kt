@@ -21,10 +21,10 @@ package de.rki.coronawarnapp.util
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import timber.log.Timber
 
 /**
  * Helper for supplying functionality regarding Data Retention
@@ -38,13 +38,13 @@ object DataRetentionHelper {
      */
     @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
     fun clearAllLocalData(context: Context) {
-        Log.w(TAG, "CWA LOCAL DATA DELETION INITIATED.")
+        Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Database Reset
         AppDatabase.reset(context)
         // Shared Preferences Reset
         SecurityHelper.resetSharedPrefs()
         // Export File Reset
         FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
-        Log.w(TAG, "CWA LOCAL DATA DELETION COMPLETED.")
+        Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }

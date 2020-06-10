@@ -20,7 +20,6 @@
 package de.rki.coronawarnapp.http
 
 import KeyExportFormat
-import android.util.Log
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
@@ -40,6 +39,7 @@ import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
@@ -97,13 +97,12 @@ class WebRequestBuilder(
     suspend fun asyncGetKeyFilesFromServer(
         url: String
     ): File = withContext(Dispatchers.IO) {
-        val requestID = UUID.randomUUID()
         val fileName = "${UUID.nameUUIDFromBytes(url.toByteArray())}.zip"
         val file = File(FileStorageHelper.keyExportDirectory, fileName)
         file.outputStream().use {
-            Log.v(requestID.toString(), "Added $url to queue.")
+            Timber.v("Added $url to queue.")
             distributionService.getKeyFiles(url).byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
-            Log.v(requestID.toString(), "key file request successful.")
+            Timber.v("key file request successful.")
         }
         return@withContext file
     }
@@ -176,7 +175,7 @@ class WebRequestBuilder(
         faked: Boolean,
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Writing ${keyList.size} Keys to the Submission Payload.")
+        Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .build()

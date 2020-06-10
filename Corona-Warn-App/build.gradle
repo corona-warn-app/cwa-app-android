@@ -32,8 +32,8 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 18
-        versionName "0.8.11"
+        versionCode 23
+        versionName "0.8.15"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -195,4 +195,6 @@ dependencies {
     implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
     implementation 'org.conscrypt:conscrypt-android:2.4.0'
 
+    // LOGGING
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

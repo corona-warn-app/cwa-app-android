@@ -1,13 +1,15 @@
 package de.rki.coronawarnapp.transaction
 
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.TestRiskLevelCalculation
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.NoNetworkException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel
@@ -24,6 +26,7 @@ import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigur
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_APP_CONNECTIVITY
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_INCREASED_RISK
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_TRACING
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS
@@ -34,9 +37,11 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RETRIEVE_EXPOSURE_SUMMARY
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.RISK_CALCULATION_DATE_UPDATE
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -104,13 +109,14 @@ import java.util.concurrent.atomic.AtomicReference
  * 1. [CHECK_TRACING]
  * 2. [CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS]
  * 3. [CHECK_UNKNOWN_RISK_OUTDATED]
- * 4. [RETRIEVE_APPLICATION_CONFIG]
- * 5. [RETRIEVE_EXPOSURE_SUMMARY]
- * 6. [CHECK_INCREASED_RISK]
- * 7. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
- * 8. [UPDATE_RISK_LEVEL]
- * 9. [RISK_CALCULATION_DATE_UPDATE]
- * 10. [CLOSE]
+ * 4. [CHECK_APP_CONNECTIVITY]
+ * 5. [RETRIEVE_APPLICATION_CONFIG]
+ * 6. [RETRIEVE_EXPOSURE_SUMMARY]
+ * 7. [CHECK_INCREASED_RISK]
+ * 8. [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION]
+ * 9. [UPDATE_RISK_LEVEL]
+ * 10. [RISK_CALCULATION_DATE_UPDATE]
+ * 11. [CLOSE]
  *
  * This transaction will queue up any start calls and executes them in the given order (unlike the other defined
  * transactions (e.g. [RetrieveDiagnosisKeysTransaction]). This is necessary in order to respond to various trigger
@@ -136,6 +142,9 @@ object RiskLevelTransaction : Transaction() {
 
         /** Check the conditions for the [UNKNOWN_RISK_OUTDATED_RESULTS] score */
         CHECK_UNKNOWN_RISK_OUTDATED,
+
+        /** Check if the current app has internet, if not, use the last successful  */
+        CHECK_APP_CONNECTIVITY,
 
         /** Retrieve the Application Configuration values to calculate the Risk Score
          * and determine the [INCREASED_RISK] and [LOW_LEVEL_RISK] */
@@ -200,6 +209,14 @@ object RiskLevelTransaction : Transaction() {
         if (isValidResult(result)) return@lockAndExecute
 
         /****************************************************
+         * [CHECK_APP_CONNECTIVITY]
+         ****************************************************/
+        if (!executeCheckAppConnectivity()) {
+            executeClose()
+            return@lockAndExecute
+        }
+
+        /****************************************************
          * RETRIEVE APPLICATION CONFIGURATION
          ****************************************************/
         val appConfiguration = executeRetrieveApplicationConfiguration()
@@ -260,7 +277,7 @@ object RiskLevelTransaction : Transaction() {
         val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
         if (!isTracingEnabled) return@executeState NO_CALCULATION_POSSIBLE_TRACING_OFF
 
-        Log.v(TAG, "$transactionId - TRACING_NOT_ACTIVE_RISK not applicable")
+        Timber.v("$transactionId - TRACING_NOT_ACTIVE_RISK not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -273,13 +290,10 @@ object RiskLevelTransaction : Transaction() {
         // if there was no key retrieval before, we return no calculation state
         TimeVariables.getLastTimeDiagnosisKeysFromServerFetch()
             ?: return@executeState UNKNOWN_RISK_INITIAL.also {
-                Log.v(
-                    TAG,
-                    "$transactionId - no last time diagnosis keys from server fetch timestamp was found"
-                )
+                Timber.v("$transactionId - no last time diagnosis keys from server fetch timestamp was found")
             }
 
-        Log.v(TAG, "$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
+        Timber.v("$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -302,12 +316,36 @@ object RiskLevelTransaction : Transaction() {
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
                 return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
-                    Log.v(TAG, "diagnosis keys outdated and active tracing time is above threshold")
+                    Timber.v("diagnosis keys outdated and active tracing time is above threshold")
                 }
             }
 
-            Log.v(TAG, "$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
+            Timber.v("$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
             return@executeState UNDETERMINED
+        }
+
+    /**
+     * Executes the [CHECK_APP_CONNECTIVITY] Transaction State
+     * If there is no connectivity the transaction will set the last calculated
+     * risk level, report a [NoNetworkException] and closes the transaction
+     *
+     * @return
+     */
+    private suspend fun executeCheckAppConnectivity(): Boolean =
+        executeState(CHECK_APP_CONNECTIVITY) {
+            val isNetworkEnabled =
+                ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+
+            if (!isNetworkEnabled) {
+                RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
+                NoNetworkException(
+                    IllegalStateException("Network is required to retrieve the Application Configuration")
+                ).report(
+                    ExceptionCategory.CONNECTIVITY
+                )
+                return@executeState false
+            }
+            return@executeState true
         }
 
     /**
@@ -322,7 +360,7 @@ object RiskLevelTransaction : Transaction() {
                 .also {
                     // todo remove after testing sessions
                     recordedTransactionValuesForTestingOnly.appConfig = it
-                    Log.v(TAG, "$transactionId - retrieved configuration from backend")
+                    Timber.v("$transactionId - retrieved configuration from backend")
                 }
         }
 
@@ -336,7 +374,7 @@ object RiskLevelTransaction : Transaction() {
             return@executeState lastExposureSummary.also {
                 // todo remove after testing sessions
                 recordedTransactionValuesForTestingOnly.exposureSummary = it
-                Log.v(TAG, "$transactionId - get the exposure summary for further calculation")
+                Timber.v("$transactionId - get the exposure summary for further calculation")
             }
         }
 
@@ -361,7 +399,7 @@ object RiskLevelTransaction : Transaction() {
             ).also {
                 // todo remove after testing sessions
                 recordedTransactionValuesForTestingOnly.riskScore = it
-                Log.v(TAG, "calculated risk with the given config: $it")
+                Timber.v("calculated risk with the given config: $it")
             }
 
             // these are the defined risk classes. They will divide the calculated
@@ -375,10 +413,7 @@ object RiskLevelTransaction : Transaction() {
 
             // if the calculated risk score is above the defined level threshold we return the high level risk score
             if (riskScore >= highRiskScoreClass.min && riskScore <= highRiskScoreClass.max) {
-                Log.v(
-                    TAG, "$riskScore is above the defined " +
-                            "min value ${highRiskScoreClass.min}"
-                )
+                Timber.v("$riskScore is above the defined min value ${highRiskScoreClass.min}")
                 return@executeState INCREASED_RISK
             } else if (riskScore > highRiskScoreClass.max) {
                 throw RiskLevelCalculationException(
@@ -386,7 +421,7 @@ object RiskLevelTransaction : Transaction() {
                 )
             }
 
-            Log.v(TAG, "$transactionId - INCREASED_RISK not applicable")
+            Timber.v("$transactionId - INCREASED_RISK not applicable")
             return@executeState UNDETERMINED
         }
 
@@ -398,11 +433,11 @@ object RiskLevelTransaction : Transaction() {
     ) {
         // if the active tracing duration is not above the defined threshold we return no calculation state
         if (!isActiveTracingTimeAboveThreshold()) {
-            Log.v(TAG, "$transactionId - active tracing time is not enough")
+            Timber.v("$transactionId - active tracing time is not enough")
             return@executeState UNKNOWN_RISK_INITIAL
         }
 
-        Log.v(TAG, "$transactionId - UNKNOWN_RISK_INITIAL not applicable")
+        Timber.v("$transactionId - UNKNOWN_RISK_INITIAL not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -411,7 +446,7 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun executeUpdateRiskLevelScore(riskLevel: RiskLevel) =
         executeState(UPDATE_RISK_LEVEL) {
-            Log.v(TAG, "$transactionId - update the risk level with $riskLevel")
+            Timber.v("$transactionId - update the risk level with $riskLevel")
             updateRiskLevelScore(riskLevel)
                 .also {
                     // todo remove after testing sessions
@@ -426,7 +461,7 @@ object RiskLevelTransaction : Transaction() {
      * Executes the [CLOSE] Transaction State
      */
     private suspend fun executeClose() = executeState(CLOSE) {
-        Log.v(TAG, "$transactionId - transaction will close")
+        Timber.v("$transactionId - transaction will close")
         lastCalculatedRiskLevelScoreForRollback.set(null)
         lastCalculatedRiskLevelDate.set(null)
     }
@@ -445,11 +480,7 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun isValidResult(riskLevel: RiskLevel): Boolean {
         if (riskLevel != UNDETERMINED) {
-            Log.v(
-                TAG,
-                "$transactionId - $riskLevel was determined by the transaction. " +
-                        "UPDATE and CLOSE will be called"
-            )
+            Timber.v("$transactionId - $riskLevel was determined by the transaction. UPDATE and CLOSE will be called")
             lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(riskLevel)
             lastCalculatedRiskLevelDate.set(LocalData.lastTimeRiskLevelCalculation())
@@ -470,7 +501,7 @@ object RiskLevelTransaction : Transaction() {
     private suspend fun getLastExposureSummary(): ExposureSummary? {
         return ExposureSummaryRepository.getExposureSummaryRepository()
             .getLatestExposureSummary().also {
-                Log.v(TAG, "used exposure summary for the risk level calculation: $it")
+                Timber.v("used exposure summary for the risk level calculation: $it")
             }
     }
 
@@ -482,7 +513,7 @@ object RiskLevelTransaction : Transaction() {
     private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
         withContext(Dispatchers.Default) {
             return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                .also { Log.v(TAG, "configuration from backend: $it") }
+                .also { Timber.v("configuration from backend: $it") }
         }
 
     /**
@@ -498,8 +529,8 @@ object RiskLevelTransaction : Transaction() {
         val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
 
         return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-            Log.v(
-                TAG, "active tracing time ($activeTracingDurationInHours h) is above threshold " +
+            Timber.v(
+                "active tracing time ($activeTracingDurationInHours h) is above threshold " +
                         "($durationTracingIsActiveThreshold h): $it"
             )
         }
@@ -538,7 +569,7 @@ object RiskLevelTransaction : Transaction() {
             .insertExposureSummaryEntity(exposureSummary)
 
         return exposureSummary.also {
-            Log.v(TAG, "$transactionId - generated new exposure summary with $googleToken")
+            Timber.v("$transactionId - generated new exposure summary with $googleToken")
         }
     }
 

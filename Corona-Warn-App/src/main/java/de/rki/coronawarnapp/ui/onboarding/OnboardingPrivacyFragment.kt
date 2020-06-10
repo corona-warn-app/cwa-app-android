@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.R
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
-import de.rki.coronawarnapp.ui.BaseFragment
-import de.rki.coronawarnapp.util.AssetConstants
+import de.rki.coronawarnapp.ui.doNavigate
 
 /**
  * This fragment informs the user regarding privacy.
  */
-class OnboardingPrivacyFragment : BaseFragment() {
+class OnboardingPrivacyFragment : Fragment() {
     companion object {
         private val TAG: String? = OnboardingPrivacyFragment::class.simpleName
     }
@@ -38,7 +38,6 @@ class OnboardingPrivacyFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        loadWebView()
     }
 
     override fun onStart() {
@@ -53,17 +52,12 @@ class OnboardingPrivacyFragment : BaseFragment() {
 
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 OnboardingPrivacyFragmentDirections.actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
             )
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
         }
-    }
-
-    private fun loadWebView() {
-        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_html_path)
-        binding.onboardingPrivacyWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }
