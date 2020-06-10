@@ -104,6 +104,10 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="rowSettings" parent="@style/row">
+        <item name="android:paddingStart">@dimen/match_constraint</item>
+    </style>
+
     <!-- ####################################
                     Card
     ###################################### -->
