@@ -12,7 +12,9 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
@@ -20,7 +22,7 @@ import de.rki.coronawarnapp.util.observeEvent
 /**
  * Fragment for TAN entry
  */
-class SubmissionTanFragment : BaseFragment() {
+class SubmissionTanFragment : Fragment() {
 
     private val viewModel: SubmissionTanViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
@@ -100,7 +102,7 @@ class SubmissionTanFragment : BaseFragment() {
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
+                findNavController().doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
                 )
             }
@@ -122,7 +124,9 @@ class SubmissionTanFragment : BaseFragment() {
     }
 
     private fun navigateToDispatchScreen() =
-        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDispatcherFragment())
+        findNavController().doNavigate(
+            SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDispatcherFragment()
+        )
 
     private fun storeTanAndContinue() {
         // verify input format
