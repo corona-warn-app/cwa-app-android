@@ -95,7 +95,7 @@ fun formatVisibilityText(text: String?): Int = formatVisibility(text != null && 
  * @param text
  * @return
  */
-fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null)
+fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null && text != "")
 
 /*Text*/
 /**
