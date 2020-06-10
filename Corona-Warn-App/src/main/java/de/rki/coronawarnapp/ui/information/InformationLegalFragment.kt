@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.databinding.FragmentInformationLegalBinding
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.databinding.FragmentInformationLegalBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 
 /**

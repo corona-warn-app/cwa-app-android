@@ -95,7 +95,7 @@ fun formatVisibilityText(text: String?): Int = formatVisibility(text != null && 
  * @param text
  * @return
  */
-fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null)
+fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null && text != "")
 
 /*Text*/
 /**
@@ -106,12 +106,14 @@ fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != nu
  * @param stringFalse
  * @return
  */
-fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int): String {
+fun formatText(value: Boolean?, stringTrue: Int, stringFalse: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (value == true) {
         appContext.getString(stringTrue)
     } else {
-        appContext.getString(stringFalse)
+        if (stringFalse != null) {
+            appContext.getString(stringFalse)
+        } else ""
     }
 }
 
