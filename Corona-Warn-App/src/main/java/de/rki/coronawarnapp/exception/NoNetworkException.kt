@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.exception.reporting.ReportedException
 
 class NoNetworkException(cause: Throwable) : ReportedException(
     ErrorCodes.NO_NETWORK_CONNECTIVITY.code,
-    "The application is not connected to the internet",
+    "The application is not connected to a network",
     cause,
     R.string.errors_no_network
 )

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.transaction
 import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.exception.NoNetworkException
+import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
@@ -363,7 +363,7 @@ class RiskLevelTransactionTest {
     }
 
     /** Test case if app is not connected */
-    @Test
+    @Test(expected = TransactionException::class)
     fun checkAppConnectivity() {
 
         val testRiskLevel = INCREASED_RISK
@@ -384,10 +384,6 @@ class RiskLevelTransactionTest {
 
         every { ConnectivityHelper.isNetworkEnabled(context) } returns false
 
-        every { RiskLevelTransaction["executeCheckAppConnectivity"]() } throws NoNetworkException(
-            IllegalStateException("Network is required to retrieve the Application Configuration")
-        )
-
         runBlocking {
 
             RiskLevelTransaction.start()
@@ -405,7 +401,6 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["isValidResult"](UNDETERMINED)
 
                 RiskLevelTransaction["executeCheckAppConnectivity"]()
-
                 RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
                 RiskLevelTransaction["executeClose"]()
             }

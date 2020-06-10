@@ -338,12 +338,12 @@ object RiskLevelTransaction : Transaction() {
 
             if (!isNetworkEnabled) {
                 RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
+                executeClose()
                 NoNetworkException(
                     IllegalStateException("Network is required to retrieve the Application Configuration")
                 ).report(
                     ExceptionCategory.CONNECTIVITY
                 )
-                executeClose()
                 return@executeState false
             }
             return@executeState true
