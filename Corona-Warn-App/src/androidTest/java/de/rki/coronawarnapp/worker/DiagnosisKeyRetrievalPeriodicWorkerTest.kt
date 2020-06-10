@@ -130,7 +130,7 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
 
     @After
     fun cleanUp() {
-        workManager.cancelAllWork().result.get()
+        workManager.cancelAllWork()
         unmockkAll()
     }
 
