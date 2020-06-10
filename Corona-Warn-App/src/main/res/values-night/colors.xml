@@ -29,7 +29,7 @@
     <color name="colorSemanticHighRiskPressed">#CA465C</color>
     <color name="colorSemanticLowRisk">#378250</color>
     <color name="colorSemanticLowRiskPressed">#378250</color>
-    <color name="colorSemanticNeutralRisk">#B8C8D9</color>
+    <color name="colorSemanticNeutralRisk">#5D6E80</color>
     <color name="colorSemanticNeutralRiskPressed">#556675</color>
     <color name="colorSemanticUnknownRisk">#232324</color>
     <color name="colorSemanticUnknownRiskPressed">#39393A</color>
