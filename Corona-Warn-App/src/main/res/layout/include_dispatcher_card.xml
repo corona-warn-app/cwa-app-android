@@ -48,6 +48,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:src="@drawable/ic_forward"
+            android:tint="@color/colorTextPrimary1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
