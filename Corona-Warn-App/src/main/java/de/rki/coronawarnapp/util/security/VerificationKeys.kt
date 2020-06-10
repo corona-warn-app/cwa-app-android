@@ -73,7 +73,7 @@ class VerificationKeys {
             }
         }
         .filterKeys { key -> key == BuildConfig.APPLICATION_ID }
-        .onEach { Timber.v(TAG, "$it") }
+        .onEach { Timber.v("$it") }
 
     private fun getTEKSignaturesForEnvironment(
         signatureListBinary: ByteArray?
@@ -81,6 +81,6 @@ class VerificationKeys {
         .parseFrom(signatureListBinary)
         .signaturesList
         .asSequence()
-        .onEach { Timber.v(TAG, "$it") }
+        .onEach { Timber.v(it.toString()) }
         .mapNotNull { it.signature.toByteArray() }
 }
