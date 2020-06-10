@@ -1,14 +1,18 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
+import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
@@ -165,6 +169,30 @@ class MainFragment : BaseFragment() {
                 }
                 R.id.menu_settings -> {
                     doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
+                    true
+                }
+                // todo remove only for testing
+                R.id.menu_test_api -> {
+                    doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
+                    true
+                }
+                // todo remove only for testing
+                R.id.menu_test_risk_level -> {
+                    doNavigate(MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation())
+                    true
+                }
+                // todo remove only for testing
+                R.id.menu_notification_test -> {
+                    Log.i(TAG, "calling notification")
+                    Log.i(
+                        TAG,
+                        NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+                            .toString()
+                    )
+                    NotificationHelper.sendNotification(
+                        getString(R.string.notification_body),
+                        NotificationCompat.PRIORITY_HIGH
+                    )
                     true
                 }
                 else -> super.onOptionsItemSelected(it)

@@ -147,14 +147,19 @@ android {
         exclude 'README.md'
         exclude 'CODE_OF_CONDUCT.md'
     }
+
     sourceSets {
         deviceForTesters {
             kotlin {
-                exclude '**/main/**/MainFragment.kt'
-                srcDirs 'src/releaseForTest'
+                srcDirs = ['src/deviceForTesters']
             }
             res {
-                srcDirs 'src/releaseForTest/res', 'src/releaseForTest/res/navigation'
+                srcDirs 'src/deviceForTesters/res', 'src/deviceForTesters/res/navigation'
+            }
+        }
+        device {
+            kotlin {
+                srcDirs = ['src/device']
             }
         }
     }
