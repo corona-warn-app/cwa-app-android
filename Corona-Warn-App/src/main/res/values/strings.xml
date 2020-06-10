@@ -254,6 +254,7 @@
     <string name="main_about_link">https://www.bundesregierung.de/corona-warn-app-faq</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Aufruf externer Infos im Web.</string>
+
     <!-- ####################################
                Main - Share
     ###################################### -->
@@ -529,6 +530,7 @@
     <string name="settings_notifications_headline_inactive">Benachrichtigungen sind ausgestellt</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">Erlauben Sie automatische Benachrichtigungen zu COVID-19-Risikostatus.</string>
+    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">Um Benachrichtigungen zu aktivieren, müssen Sie Benachrichtigungen für die Corona-Warn-App in Ihren Geräte-Einstellungen zulassen.</string>

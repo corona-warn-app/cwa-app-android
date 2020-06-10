@@ -114,7 +114,7 @@
                         android:id="@+id/settings_tracing_status_tracing"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginTop="@dimen/spacing_tiny"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
