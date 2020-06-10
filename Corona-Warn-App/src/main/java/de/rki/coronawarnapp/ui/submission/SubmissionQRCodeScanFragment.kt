@@ -136,6 +136,11 @@ class SubmissionQRCodeScanFragment : Fragment() {
         })
 
         viewModel.registrationState.observeEvent(viewLifecycleOwner, {
+            binding.submissionQrCodeScanSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
             if (ApiRequestState.SUCCESS == it) {
                 findNavController().doNavigate(
                     SubmissionQRCodeScanFragmentDirections

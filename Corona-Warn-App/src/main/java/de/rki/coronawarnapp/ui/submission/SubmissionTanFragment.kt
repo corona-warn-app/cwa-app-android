@@ -101,6 +101,11 @@ class SubmissionTanFragment : Fragment() {
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
+            binding.submissionTanSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
             if (ApiRequestState.SUCCESS == it) {
                 findNavController().doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
