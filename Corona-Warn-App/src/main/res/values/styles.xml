@@ -136,7 +136,7 @@
         <item name="android:layout_marginTop">@dimen/spacing_large</item>
         <item name="android:background">@color/colorSurface2</item>
         <item name="android:paddingStart">@dimen/guideline_start</item>
-        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:paddingTop">@dimen/spacing_medium</item>
         <item name="android:paddingEnd">@dimen/guideline_end</item>
         <item name="android:paddingBottom">@dimen/spacing_normal</item>
     </style>
