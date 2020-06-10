@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.worker
 
-import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
@@ -15,6 +14,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import timber.log.Timber
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
@@ -304,29 +304,23 @@ object BackgroundWorkScheduler {
      */
     private fun Operation.logOperationSchedule(workType: WorkType) =
         this.result.addListener({
-            if (BuildConfig.DEBUG) Log.d(
-                TAG,
-                "${workType.uniqueName} completed."
-            )
+            Timber.d("${workType.uniqueName} completed.")
         }, { it.run() })
-            .also { if (BuildConfig.DEBUG) Log.d(TAG, "${workType.uniqueName} scheduled.") }
+            .also { if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} scheduled.") }
 
     /**
      * Log operation cancellation
      */
     private fun Operation.logOperationCancelByTag(workTag: WorkTag) =
         this.result.addListener({
-            if (BuildConfig.DEBUG) Log.d(
-                TAG,
-                "All work with tag ${workTag.tag} canceled."
-            )
+            Timber.d("All work with tag ${workTag.tag} canceled.")
         }, { it.run() })
-            .also { if (BuildConfig.DEBUG) Log.d(TAG, "Canceling all work with tag ${workTag.tag}") }
+            .also { if (BuildConfig.DEBUG) Timber.d("Canceling all work with tag ${workTag.tag}") }
 
     /**
      * Log work active status
      */
     private fun logWorkActiveStatus(tag: String, active: Boolean) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Work type $tag is active: $active")
+        if (BuildConfig.DEBUG) Timber.d("Work type $tag is active: $active")
     }
 }
