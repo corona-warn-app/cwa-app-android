@@ -32,14 +32,14 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 18
-        versionName "0.8.11"
+        versionCode 20
+        versionName "0.8.13"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
         buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
-        buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp\""
+        buildConfigField "String", "EXPORT_SIGNATURE_ID", "\"de.rki.coronawarnapp-dev\""
 
         javaCompileOptions {
             annotationProcessorOptions {

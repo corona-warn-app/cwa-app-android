@@ -45,22 +45,13 @@
                     layout="@layout/include_information_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_terms_html_path)}"
                     app:headline="@{@string/information_terms_headline}"
                     app:illustration="@{@drawable/ic_information_illustration_terms}"
                     app:illustrationDescription="@{@string/information_terms_illustration_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <WebView
-                    android:id="@+id/information_terms_webview"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_terms_header_details" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"

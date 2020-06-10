@@ -20,6 +20,11 @@ fun Throwable.report(
     intent.putExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA, prefix)
     intent.putExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA, suffix)
     intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, this.message)
+
+    if (this is ReportedExceptionInterface) {
+        intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, this.code)
+    }
+
     val sw = StringWriter()
     this.printStackTrace()
     this.printStackTrace(PrintWriter(sw))

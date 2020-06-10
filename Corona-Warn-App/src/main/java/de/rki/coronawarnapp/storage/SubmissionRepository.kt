@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import java.util.Date
 
 object SubmissionRepository {
@@ -45,6 +46,9 @@ object SubmissionRepository {
                 val currentTime = System.currentTimeMillis()
                 LocalData.inititalTestResultReceivedTimestamp(currentTime)
                 testResultReceivedDate.value = Date(currentTime)
+                if (testResult == TestResult.PENDING) {
+                    BackgroundWorkScheduler.startWorkScheduler()
+                }
             } else {
                 testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
             }
