@@ -46,7 +46,7 @@ fun formatNotificationsTitle(notifications: Boolean): String? {
     return if (notifications) {
         appContext.getString(R.string.settings_notifications_headline_active)
     } else {
-        null
+        ""
     }
 }
 
@@ -61,7 +61,7 @@ fun formatNotificationsDescription(notifications: Boolean): String? {
     return if (notifications) {
         appContext.getString(R.string.settings_notifications_body_active)
     } else {
-        null
+        ""
     }
 }
 
