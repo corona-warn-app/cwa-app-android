@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.ui.doNavigate
 
@@ -50,7 +52,7 @@ class OnboardingPrivacyFragment : Fragment() {
 
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 OnboardingPrivacyFragmentDirections.actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
             )
         }
