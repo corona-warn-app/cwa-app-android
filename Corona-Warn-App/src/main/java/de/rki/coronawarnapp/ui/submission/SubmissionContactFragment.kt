@@ -67,6 +67,6 @@ class SubmissionContactFragment : Fragment() {
 
     private fun dial() = context?.let {
         val number = getString(R.string.submission_contact_number_dial)
-        CallHelper.call(this, "tel:$number")
+        CallHelper.call(this, number)
     }
 }

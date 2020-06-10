@@ -57,7 +57,7 @@ class InformationContactFragment : Fragment() {
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
             val number = getString(R.string.information_contact_phone_call_number)
-            CallHelper.call(this, "tel:$number")
+            CallHelper.call(this, number)
         }
     }
 }
