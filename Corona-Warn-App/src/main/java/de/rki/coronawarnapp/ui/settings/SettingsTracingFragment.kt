@@ -149,13 +149,13 @@ class SettingsTracingFragment : BaseFragment(),
                     }
                 }
             } catch (exception: Exception) {
+                tracingViewModel.refreshIsTracingEnabled()
                 exception.report(
                     ExceptionCategory.EXPOSURENOTIFICATION,
                     TAG,
                     null
                 )
             }
-            tracingViewModel.refreshIsTracingEnabled()
         }
     }
 
