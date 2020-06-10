@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
@@ -55,7 +56,7 @@ class SubmissionTanFragment : Fragment() {
                 R.string.submission_error_dialog_web_test_paired_button_positive,
                 null,
                 true,
-                ::navigateToDispatchScreen
+                ::goBack
             )
             is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
@@ -67,7 +68,7 @@ class SubmissionTanFragment : Fragment() {
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToDispatchScreen
+                ::goBack
             )
             is CwaClientError -> DialogHelper.DialogInstance(
                 requireActivity(),
@@ -79,7 +80,7 @@ class SubmissionTanFragment : Fragment() {
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToDispatchScreen
+                ::goBack
             )
             else -> DialogHelper.DialogInstance(
                 requireActivity(),
@@ -88,7 +89,7 @@ class SubmissionTanFragment : Fragment() {
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToDispatchScreen
+                ::goBack
             )
         }
     }
@@ -96,9 +97,10 @@ class SubmissionTanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.submissionTanContent.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
+        binding.submissionTanContent.submissionTanInput.listener =
+            { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
-        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
+        binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
             if (ApiRequestState.SUCCESS == it) {
@@ -123,10 +125,7 @@ class SubmissionTanFragment : Fragment() {
         binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
-    private fun navigateToDispatchScreen() =
-        findNavController().doNavigate(
-            SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDispatcherFragment()
-        )
+    private fun goBack() = (activity as MainActivity).goBack()
 
     private fun storeTanAndContinue() {
         // verify input format
