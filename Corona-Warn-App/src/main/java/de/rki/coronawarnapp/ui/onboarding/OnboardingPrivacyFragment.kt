@@ -5,11 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
-import androidx.fragment.app.Fragment
-import de.rki.coronawarnapp.util.AssetConstants
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.ui.doNavigate
 
 /**
@@ -40,7 +36,6 @@ class OnboardingPrivacyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        loadWebView()
     }
 
     override fun onStart() {
@@ -55,17 +50,12 @@ class OnboardingPrivacyFragment : Fragment() {
 
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
-            findNavController().doNavigate(
+            doNavigate(
                 OnboardingPrivacyFragmentDirections.actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
             )
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
         }
-    }
-
-    private fun loadWebView() {
-        val informationPrivacyHtmlFilename = getString(R.string.information_privacy_html_path)
-        binding.onboardingPrivacyWebview.loadUrl(AssetConstants.ANDROID_ASSET_PATH + informationPrivacyHtmlFilename)
     }
 }

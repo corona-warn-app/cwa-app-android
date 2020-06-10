@@ -254,6 +254,7 @@
     <string name="main_about_link">https://www.bundesregierung.de/corona-warn-app-faq</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Aufruf externer Infos im Web.</string>
+
     <!-- ####################################
                Main - Share
     ###################################### -->
@@ -529,6 +530,7 @@
     <string name="settings_notifications_headline_inactive">Benachrichtigungen sind ausgestellt</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">Erlauben Sie automatische Benachrichtigungen zu COVID-19-Risikostatus.</string>
+    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">Um Benachrichtigungen zu aktivieren, müssen Sie Benachrichtigungen für die Corona-Warn-App in Ihren Geräte-Einstellungen zulassen.</string>
@@ -898,7 +900,7 @@
     <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">+49 (0) 800 7540002</string>
-    <!-- NOTR -->
+    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">+49 800 7540002</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
@@ -907,8 +909,8 @@
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">TAN Anfrage per Telefonanruf</string>
-    <!-- XACT: Content Description for submission contact step 1 -->
-    <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer 0800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Es gelten die Preise ihres Telefonanbieters.</string>
+    <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
+    <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer +49 (0) 800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Es gelten die Preise ihres Telefonanbieters.</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">Im Zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App</string>
 
@@ -994,6 +996,12 @@
     <string name="button_share">Teilen</string>
     <!-- XACT: menu button-->
     <string name="button_menu">Menü</string>
+
+    <!-- ####################################
+               Business Error Messages
+        ###################################### -->
+    <!-- XTXT: error dialog - detailed text if device is offline  -->
+    <string name="errors_no_network">Du bist nicht mit dem Internet verbunden.</string>
 
     <!-- ####################################
                Generic Error Messages

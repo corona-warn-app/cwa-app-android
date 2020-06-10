@@ -57,6 +57,7 @@
                 <include
                     android:id="@+id/settings_switch_row_notifications_risk"
                     layout="@layout/include_settings_switch_row"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="@{FormatterHelper.formatVisibility(settingsViewModel.isNotificationsEnabled())}"
