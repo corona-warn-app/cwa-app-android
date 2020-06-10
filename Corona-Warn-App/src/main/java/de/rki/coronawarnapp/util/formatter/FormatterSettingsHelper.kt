@@ -41,14 +41,8 @@ fun formatNotificationsStatusText(
  * @param notifications
  * @return
  */
-fun formatNotificationsTitle(notifications: Boolean): String? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (notifications) {
-        appContext.getString(R.string.settings_notifications_headline_active)
-    } else {
-        ""
-    }
-}
+fun formatNotificationsTitle(notifications: Boolean): String? =
+    formatText(notifications, R.string.settings_notifications_headline_active, null)
 
 /**
  * Formats the settings notifications description text display depending on notifications status
@@ -56,14 +50,8 @@ fun formatNotificationsTitle(notifications: Boolean): String? {
  * @param notifications
  * @return
  */
-fun formatNotificationsDescription(notifications: Boolean): String? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (notifications) {
-        appContext.getString(R.string.settings_notifications_body_active)
-    } else {
-        ""
-    }
-}
+fun formatNotificationsDescription(notifications: Boolean): String? =
+    formatText(notifications, R.string.settings_notifications_body_active, null)
 
 /**
  * Formats the settings notifications details illustration description depending on notifications status
