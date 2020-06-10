@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 
-class SubmissionDispatcherFragment : BaseFragment() {
+class SubmissionDispatcherFragment : Fragment() {
 
     companion object {
         private val TAG: String? = SubmissionDispatcherFragment::class.simpleName
@@ -58,13 +60,13 @@ class SubmissionDispatcherFragment : BaseFragment() {
             checkForDataPrivacyPermission()
         }
         binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
         binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
             )
@@ -88,7 +90,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun privacyPermissionIsGranted() {
-        doNavigate(
+        findNavController().doNavigate(
             SubmissionDispatcherFragmentDirections
                 .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
         )
