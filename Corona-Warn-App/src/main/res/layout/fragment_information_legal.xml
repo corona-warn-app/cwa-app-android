@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="@string/information_legal_body_publisher"
+                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_header_details" />
@@ -72,6 +73,7 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_body_publisher" />
@@ -84,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:text="@string/information_legal_headline_contact"
+                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_divider_contact" />
@@ -95,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="@string/information_legal_subtitle_contact"
+                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_contact" />
@@ -117,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:text="@string/information_legal_headline_taxid"
+                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_divider_taxid" />
@@ -128,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="@string/information_legal_subtitle_taxid"
+                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_taxid" />
