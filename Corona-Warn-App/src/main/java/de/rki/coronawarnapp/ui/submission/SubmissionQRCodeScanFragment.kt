@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
     private val viewModel: SubmissionViewModel by activityViewModels()
     private var _binding: FragmentSubmissionQrCodeScanBinding? = null
     private val binding: FragmentSubmissionQrCodeScanBinding get() = _binding!!
+    private var showsPermissionRationalDialog = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,14 +113,6 @@ class SubmissionQRCodeScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                showCameraPermissionRationaleDialog()
-            } else {
-                requestCameraPermission()
-            }
-        }
-
         binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
             binding.submissionQrCodeScanPreview.setTorch(
                 isChecked
@@ -183,13 +177,42 @@ class SubmissionQRCodeScanFragment : Fragment() {
         DialogHelper.showDialog(invalidScanDialogInstance)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION_CODE) {
+
+            // permission was denied
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    showCameraPermissionRationaleDialog()
+                } else {
+                    // user permanently denied access to the camera
+                    // would be nice to show a dialog explaining this situation
+                    goBack()
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
 
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.submissionQrCodeScanPreview.resume()
             startDecode()
+            return
         }
+
+        // we might already show a rational dialog (e.g. when onRequestPermissionsResult was denied
+        // then do nothing
+        if (showsPermissionRationalDialog) {
+            return
+        }
+
+        requestCameraPermission()
     }
 
     private fun showCameraPermissionRationaleDialog() {
@@ -201,13 +224,16 @@ class SubmissionQRCodeScanFragment : Fragment() {
             R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
             false,
             {
+                showsPermissionRationalDialog = false
                 requestCameraPermission()
             },
             {
+                showsPermissionRationalDialog = false
                 goBack()
             }
         )
 
+        showsPermissionRationalDialog = true
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
