@@ -26,6 +26,10 @@
             name="iconStart"
             type="android.graphics.drawable.Drawable" />
 
+        <variable
+            name="hideDivider"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,6 +95,7 @@
             layout="@layout/include_divider"
             android:layout_width="0dp"
             android:layout_height="@dimen/card_divider"
+            android:visibility="@{FormatterHelper.formatVisibilityInverted(hideDivider)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/settings_guideline_divider"
             app:layout_constraintTop_toBottomOf="@+id/main_row" />

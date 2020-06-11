@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.DataRetentionHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,9 +58,6 @@ class SettingsResetFragment : Fragment() {
         }
         binding.settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
-        }
-        binding.settingsResetKeys.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toEnSettings(requireContext())
         }
     }
 

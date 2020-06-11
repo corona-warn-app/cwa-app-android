@@ -66,7 +66,7 @@ class SettingsNotificationFragment : Fragment() {
         val updateTestNotificationSwitch =
             binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
         // Settings
-        val settingsRow = binding.settingsNavigationRowSystem.navigationRow
+        val settingsRow = binding.settingsNotificationsCard.tracingStatusCardButton
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
