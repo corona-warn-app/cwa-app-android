@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 
 /**
  * Onboarding starting point.
  */
-class OnboardingFragment : BaseFragment() {
+class OnboardingFragment : Fragment() {
     companion object {
         private val TAG: String? = OnboardingFragment::class.simpleName
     }
@@ -36,7 +38,7 @@ class OnboardingFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.onboardingButtonNext.setOnClickListener {
-            doNavigate(
+            findNavController().doNavigate(
                 OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
             )
         }

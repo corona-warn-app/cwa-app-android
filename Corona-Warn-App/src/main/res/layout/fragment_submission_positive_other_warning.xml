@@ -3,58 +3,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".ui.submission.SubmissionResultPositiveOtherWarningFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <include
+            android:id="@+id/submission_positive_other_warning_header"
+            layout="@layout/include_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_back}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_positive_other_warning_title}" />
 
-            <include
-                android:id="@+id/submission_positive_other_warning_header"
-                layout="@layout/include_header"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                app:icon="@{@drawable/ic_back}"
-                app:layout_constraintEnd_toEndOf="parent"
+        <include
+            layout="@layout/include_submission_positive_other_warning"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_action"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_positive_other_warning_title}" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_header"
+                app:layout_constraintVertical_bias="0.0" />
 
-            <include
-                layout="@layout/include_submission_positive_other_warning"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="@dimen/match_constraint"
-                app:layout_constraintBottom_toTopOf="@+id/guideline_action"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_header" />
+        <Button
+            android:id="@+id/submission_positive_other_warning_button_next"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_positive_other_warning_button"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/guideline_action" />
 
-            <Button
-                android:id="@+id/submission_positive_other_warning_button_next"
-                style="@style/buttonPrimary"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="@string/submission_positive_other_warning_button"
-                android:textAllCaps="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/guideline_action" />
+        <ProgressBar
+            android:id="@+id/submission_positive_other_warning_spinner"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/submission_positive_other_warning_button_next"
+            app:layout_constraintEnd_toEndOf="@+id/submission_positive_other_warning_button_next"
+            app:layout_constraintStart_toStartOf="@+id/submission_positive_other_warning_button_next"
+            app:layout_constraintTop_toTopOf="@+id/submission_positive_other_warning_button_next" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="@dimen/guideline_action" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action" />
 
-            <include layout="@layout/merge_guidelines_side" />
+        <include layout="@layout/merge_guidelines_side" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
 </layout>

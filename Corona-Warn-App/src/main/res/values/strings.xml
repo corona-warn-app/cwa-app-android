@@ -66,6 +66,7 @@
     <string name="preference_registration_token">
         <xliff:g id="preference">preference_registration_token</xliff:g>
     </string>
+    <!-- NOTR -->
     <string name="preference_device_pairing_successful_time">
         <xliff:g id="preference">preference_device_pairing_successful_time</xliff:g>
     </string>
@@ -125,11 +126,11 @@
     <string name="preference_last_three_hours_from_server">
         <xliff:g id="preference">preference_last_three_hours_from_server</xliff:g>
     </string>
-
+    <!-- NOTR -->
     <string name="preference_polling_test_result_started">
         <xliff:g id="preference">preference_polling_test_result_started</xliff:g>
     </string>
-
+    <!-- NOTR -->
     <string name="preference_test_result_notification">
         <xliff:g id="preference">preference_test_result_notification</xliff:g>
     </string>
@@ -385,7 +386,6 @@
               Onboarding
     ###################################### -->
 
-    <string name="onboarding_image_description">IS MISSING</string>
     <!-- XBUT: onboarding - forward and deny -->
     <string name="onboarding_button_disable">Nicht aktivieren</string>
     <!-- XBUT: onboarding - forward and allow -->
@@ -534,6 +534,8 @@
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">Um Benachrichtigungen zu aktivieren, müssen Sie Benachrichtigungen für die Corona-Warn-App in Ihren Geräte-Einstellungen zulassen.</string>
+    <!-- XHED: settings(notification) - card headline -->
+    <string name="settings_notifications_headline_card">Mitteilungen aktivieren</string>
     <!-- XHED: settings - notification headline on settings overview -->
     <string name="settings_notifications_subtitle_notification">Benachrichtigungen</string>
     <!-- XTXT: settings(notification) - next to a switch -->
@@ -709,8 +711,6 @@
     <string name="submission_test_result_headline">Test-Ergebnis</string>
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">Info zum Ablauf:</string>
-    <!-- XBUT:  test result submission - finish button -->
-    <string name="submission_test_result_button_finish">Abschließen</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">Test erfolgreich hinzugefügt</string>
     <!-- YTXT: Body text for for results next steps  -->
@@ -798,13 +798,6 @@
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">Wurden Sie getestet? So funktioniert das Corona-Warn-System</string>
 
-
-    <!-- Notification -->
-    <!-- XHED: Dialog headline for result dialog  -->
-    <string name="submission_result_dialog_headline">Danke für die Mithilfe!</string>
-    <!-- YTXT: Body text for result dialog -->
-    <string name="submission_result_dialog_body">Ihr verifizierter Befund wurde anonym übertragen.</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">Auswahl</string>
@@ -816,7 +809,7 @@
     <string name="submission_dispatcher_qr_card_text">Registrieren Sie Ihren Test, indem Sie den QR-Code ihres Test-Dokument scannen</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">Einwilligungserklärung</string>
-    <!-- YTXT: Dialog text for dispatcher QR prviacy dialog -->
+    <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
     <string name="submission_dispatcher_qr_privacy_dialog_body">Durch Antippen von „Erlauben“ willigen Sie ein, dass die App den Status Ihres Corona-Virus-Tests abfragen und in der App anzeigen darf. Diese Funktion steht Ihnen zur Verfügung, wenn Sie einen QR-Code erhalten und eingewilligt haben, dass Ihr Testergebnis an das Serversystem der App übermittelt werden darf. Sobald das Testlabor Ihr Testergebnis auf dem Server hinterlegt hat, können Sie das Ergebnis in der App sehen. Falls Sie Mitteilungen aktiviert haben, werden Sie auch außerhalb der App über den Eingang des Testergebnis informiert. Das Testergebnis selbst wird aus Datenschutzgründen jedoch nur in der App angezeigt. Sie können diese Einwilligung jederzeit widerrufen, indem Sie die Testregistrierung in der App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutzinformation“.</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">Erlauben</string>
@@ -846,14 +839,6 @@
     <string name="submission_positive_other_warning_privacy_body">Durch Antippen von „Weiter“ willigen Sie ein, dass die App Ihr positives Testergebnis zusammen mit Ihren Zufalls-IDs der letzten 14 Tage an das Serversystem der App übermittelt, damit andere App-Nutzer mit aktivierter Risiko-Ermittlung automatisch informiert werden können, dass sie möglicherweise einem Infektionsrisiko ausgesetzt waren. Die übermittelten Zufalls-IDs enthalten keine Angaben, die Rückschlüsse auf Ihre Identität oder Ihre Person zulassen.\n\nDie Übermittlung Ihres Testergebnisses per App ist freiwillig. Wenn Sie Ihr Testergebnis nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen niemand, ob Sie eine Infektion übermittelt haben.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutzinformation“.</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">Weiter</string>
-    <!-- XHED: Dialog title for positive other warning dialog  -->
-    <string name="submission_positive_dialog_confirmation_title">Zufalls-IDs mit der App "Corona-Warn" teilen?</string>
-    <!-- YTXT: Body text for the positive result confirmation dialog-->
-    <string name="submission_positive_dialog_confirmation_body">Deine zufälligen IDs der letzten 14 Tage werden dazu genutzt, andere darüber zu informieren, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit COVID-19 gekommen sind.</string>
-    <!-- XBUT: submission(positive other warning) - positive button (right) -->
-    <string name="submission_positive_dialog_confirmation_positive">Erlauben</string>
-    <!-- XBUT: submission(positive other warning) - negative button (left) -->
-    <string name="submission_positive_dialog_confirmation_negative">Nicht erlauben</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System.</string>
 
@@ -861,8 +846,6 @@
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">Vielen Dank!</string>
-    <!-- XHED: Page subheadline for completed submission page -->
-    <string name="submission_done_headline">Sie haben einen wichtigen Beitrag geleistet!</string>
     <!-- YTXT: Body text for completed submission page -->
     <string name="submission_done_body">Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren.</string>
     <!-- XHED: Page subtitle for completed submission page -->
@@ -900,7 +883,7 @@
     <string name="submission_contact_step_1_body"><![CDATA[Hotline anrufen & TAN erfragen:]]></string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">+49 (0) 800 7540002</string>
-    <!-- NOTR -->
+    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
     <string name="submission_contact_number_dial">+49 800 7540002</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">Test per TAN-Eingabe in der App registrieren</string>
@@ -909,8 +892,8 @@
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">TAN Anfrage per Telefonanruf</string>
-    <!-- XACT: Content Description for submission contact step 1 -->
-    <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer 0800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Es gelten die Preise ihres Telefonanbieters.</string>
+    <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
+    <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer +49 (0) 800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Es gelten die Preise ihres Telefonanbieters.</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">Im Zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App</string>
 
@@ -945,12 +928,8 @@
     <string name="submission_status_card_button_unregistered">Informieren &amp; mitmachen</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">Test anzeigen</string>
-    <!-- XHED: submission status card positive result title -->
-    <string name="submission_status_card_positive_result_title">Positives Ergebnis</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">Bitte beachten Sie:</string>
-    <!-- XBUT: submission status card show positive result button -->
-    <string name="submission_status_card_positive_result_show_button">Test-Ergebnis anzeigen</string>
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">Sie sind ansteckend. Isolieren Sie sich von anderen Personen.</string>
     <!-- YTXT: text for contact card -->
@@ -981,10 +960,6 @@
         <item>Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen.</item>
     </string-array>
 
-    <!-- XBUT: submission result dialog close button -->
-    <string name="submission_result_button_dialog_close">OK</string>
-
-
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
@@ -996,6 +971,16 @@
     <string name="button_share">Teilen</string>
     <!-- XACT: menu button-->
     <string name="button_menu">Menü</string>
+
+    <!-- ####################################
+               Business Error Messages
+        ###################################### -->
+    <!-- XTXT: error dialog - detailed text if device is offline  -->
+    <string name="errors_no_network">Sie sind nicht mit dem Internet verbunden.</string>
+    <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
+    <string name="errors_not_enough_device_storage">Sie haben nicht genug Speicherplatz.</string>
+    <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
+    <string name="errors_communication_with_api">Fehler bei Kommunikation mit Google API.</string>
 
     <!-- ####################################
                Generic Error Messages

@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.DataRetentionHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +25,7 @@ import kotlinx.coroutines.withContext
  * The user is informed what a reset means and he can perform it.
  *
  */
-class SettingsResetFragment : BaseFragment() {
+class SettingsResetFragment : Fragment() {
 
     companion object {
         private val TAG: String? = SettingsResetFragment::class.simpleName
@@ -59,9 +58,6 @@ class SettingsResetFragment : BaseFragment() {
         }
         binding.settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
-        }
-        binding.settingsResetKeys.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toEnSettings(requireContext())
         }
     }
 

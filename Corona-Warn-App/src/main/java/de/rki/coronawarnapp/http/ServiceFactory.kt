@@ -4,7 +4,6 @@ import android.webkit.URLUtil
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.http.ServiceFactoryException
-import de.rki.coronawarnapp.http.config.DynamicURLs
 import de.rki.coronawarnapp.http.config.HTTPVariables
 import de.rki.coronawarnapp.http.interceptor.OfflineCacheInterceptor
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
@@ -160,7 +159,7 @@ class ServiceFactory {
         this.newBuilder().connectionSpecs(specs).build()
 
     private val downloadCdnUrl
-        get() = getValidUrl(DynamicURLs.DOWNLOAD_CDN_URL)
+        get() = getValidUrl(BuildConfig.DOWNLOAD_CDN_URL)
 
     fun distributionService(): DistributionService = distributionService
     private val distributionService by lazy {
@@ -173,7 +172,7 @@ class ServiceFactory {
     }
 
     private val verificationCdnUrl
-        get() = getValidUrl(DynamicURLs.VERIFICATION_CDN_URL)
+        get() = getValidUrl(BuildConfig.VERIFICATION_CDN_URL)
 
     fun verificationService(): VerificationService = verificationService
     private val verificationService by lazy {
@@ -186,7 +185,7 @@ class ServiceFactory {
     }
 
     private val submissionCdnUrl
-        get() = getValidUrl(DynamicURLs.SUBMISSION_CDN_URL)
+        get() = getValidUrl(BuildConfig.SUBMISSION_CDN_URL)
 
     fun submissionService(): SubmissionService = submissionService
     private val submissionService by lazy {

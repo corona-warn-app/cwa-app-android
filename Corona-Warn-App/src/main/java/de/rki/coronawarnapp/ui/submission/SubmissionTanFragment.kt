@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
@@ -20,7 +22,7 @@ import de.rki.coronawarnapp.util.observeEvent
 /**
  * Fragment for TAN entry
  */
-class SubmissionTanFragment : BaseFragment() {
+class SubmissionTanFragment : Fragment() {
 
     private val viewModel: SubmissionTanViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
@@ -94,13 +96,18 @@ class SubmissionTanFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
+        binding.submissionTanContent.submissionTanInput.listener = { tan -> viewModel.tan.value = tan }
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToDispatchScreen() }
 
         submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
+            binding.submissionTanSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
             if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
+                findNavController().doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
                 )
             }
@@ -113,16 +120,18 @@ class SubmissionTanFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.submissionTanScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.submissionTanScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun navigateToDispatchScreen() =
-        doNavigate(SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDispatcherFragment())
+        findNavController().doNavigate(
+            SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDispatcherFragment()
+        )
 
     private fun storeTanAndContinue() {
         // verify input format

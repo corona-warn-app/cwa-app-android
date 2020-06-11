@@ -311,7 +311,6 @@
               Onboarding
     ###################################### -->
 
-    <string name="onboarding_image_description">"IS MISSING"</string>
     <!-- XBUT: onboarding - forward and deny -->
     <string name="onboarding_button_disable">"Nicht aktivieren"</string>
     <!-- XBUT: onboarding - forward and allow -->
@@ -616,6 +615,7 @@
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
 
     <!-- QR Code Scan Invalid Dialog -->
+
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code nicht korrekt"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
@@ -634,8 +634,6 @@
     <string name="submission_test_result_headline">"Test-Ergebnis"</string>
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Info zum Ablauf:"</string>
-    <!-- XBUT:  test result submission - finish button -->
-    <string name="submission_test_result_button_finish">"Abschließen"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Test erfolgreich hinzugefügt"</string>
     <!-- YTXT: Body text for for results next steps  -->
@@ -723,8 +721,8 @@
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">"Wurden Sie getestet? So funktioniert das Corona-Warn-System"</string>
 
-
     <!-- Notification -->
+
     <!-- XHED: Dialog headline for result dialog  -->
     <string name="submission_result_dialog_headline">"Danke für die Mithilfe!"</string>
     <!-- YTXT: Body text for result dialog -->
@@ -770,14 +768,6 @@
     <string name="submission_positive_other_warning_privacy_body">"Durch Antippen von „Weiter“ willigen Sie ein, dass die App Ihr positives Testergebnis zusammen mit Ihren Zufalls-IDs der letzten 14 Tage an das Serversystem der App übermittelt, damit andere App-Nutzer mit aktivierter Risiko-Ermittlung automatisch informiert werden können, dass sie möglicherweise einem Infektionsrisiko ausgesetzt waren. Die übermittelten Zufalls-IDs enthalten keine Angaben, die Rückschlüsse auf Ihre Identität oder Ihre Person zulassen.\n\nDie Übermittlung Ihres Testergebnisses per App ist freiwillig. Wenn Sie Ihr Testergebnis nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen niemand, ob Sie eine Infektion übermittelt haben.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutzinformation“."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Weiter"</string>
-    <!-- XHED: Dialog title for positive other warning dialog  -->
-    <string name="submission_positive_dialog_confirmation_title">"Zufallscodes mit der Corona-Warn-App teilen?"</string>
-    <!-- YTXT: Body text for the positive result confirmation dialog-->
-    <string name="submission_positive_dialog_confirmation_body">"Ihre Zufallscodes der letzten 14 Tage werden dazu genutzt, andere darüber zu informieren, dass Sie in ihrer Nähe gewesen sind und sie daher möglicherweise in Kontakt mit COVID-19 gekommen sind."</string>
-    <!-- XBUT: submission(positive other warning) - positive button (right) -->
-    <string name="submission_positive_dialog_confirmation_positive">"Erlauben"</string>
-    <!-- XBUT: submission(positive other warning) - negative button (left) -->
-    <string name="submission_positive_dialog_confirmation_negative">"Nicht erlauben"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
 
@@ -785,8 +775,6 @@
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Vielen Dank!"</string>
-    <!-- XHED: Page subheadline for completed submission page -->
-    <string name="submission_done_headline">"Sie haben einen wichtigen Beitrag geleistet!"</string>
     <!-- YTXT: Body text for completed submission page -->
     <string name="submission_done_body">"Sie haben einen wichtigen Beitrag geleistet! Dank Ihrer Mithilfe können Andere gewarnt werden und entsprechend reagieren."</string>
     <!-- XHED: Page subtitle for completed submission page -->
@@ -869,12 +857,8 @@
     <string name="submission_status_card_button_unregistered">"Informieren &amp; mitmachen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
-    <!-- XHED: submission status card positive result title -->
-    <string name="submission_status_card_positive_result_title">"Positives Ergebnis"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
-    <!-- XBUT: submission status card show positive result button -->
-    <string name="submission_status_card_positive_result_show_button">"Testergebnis anzeigen"</string>
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
@@ -904,10 +888,8 @@
         <item>"Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen."</item>
         <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
     </string-array>
-
     <!-- XBUT: submission result dialog close button -->
     <string name="submission_result_button_dialog_close">"Ok"</string>
-
 
     <!-- ####################################
           Button Tooltips for Accessibility

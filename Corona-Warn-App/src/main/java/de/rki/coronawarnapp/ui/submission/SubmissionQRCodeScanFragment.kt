@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -15,7 +17,7 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
@@ -23,9 +25,9 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
 
 /**
- * A simple [BaseFragment] subclass.
+ * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : BaseFragment() {
+class SubmissionQRCodeScanFragment : Fragment() {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1
@@ -134,8 +136,13 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
         })
 
         viewModel.registrationState.observeEvent(viewLifecycleOwner, {
+            binding.submissionQrCodeScanSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
             if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
+                findNavController().doNavigate(
                     SubmissionQRCodeScanFragmentDirections
                         .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
                 )
@@ -148,7 +155,7 @@ class SubmissionQRCodeScanFragment : BaseFragment() {
     }
 
     private fun navigateToDispatchScreen() =
-        doNavigate(
+        findNavController().doNavigate(
             SubmissionQRCodeScanFragmentDirections
                 .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )

@@ -41,6 +41,7 @@
     <dimen name="guideline_action">72dp</dimen>
     <dimen name="guideline_action_large">150dp</dimen>
     <dimen name="guideline_body_title">45dp</dimen>
+    <dimen name="guideline_body_title_padding">69dp</dimen>
     <dimen name="guideline_back">14dp</dimen> <!-- guideline_start - button_icon_padding -->
     <dimen name="guideline_top_onboarding">64dp</dimen>
     <dimen name="guideline_top_submission">72dp</dimen>
