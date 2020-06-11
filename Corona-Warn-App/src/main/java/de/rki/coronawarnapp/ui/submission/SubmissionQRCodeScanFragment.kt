@@ -117,7 +117,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
             )
         }
 
-        binding.submissionQrCodeScanClose.buttonIcon.setOnClickListener {
+        binding.submissionQrCodeScanClose.setOnClickListener {
             navigateToDispatchScreen()
         }
 
