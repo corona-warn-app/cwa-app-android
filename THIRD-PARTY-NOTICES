@@ -50,11 +50,6 @@ Licensor: Xtreme Labs, Pivotal Labs and Google Inc.
 Website: http://robolectric.org/
 License: MIT
 
-Component: RootBeer
-Licensor: Scott Alexander-Bown, Mat Rollings
-Website: https://github.com/scottyab/rootbeer
-License: Apache 2.0
-
 Component: Zxing
 Licensor: zxing
 Website: https://github.com/zxing/zxing/
@@ -108,6 +103,11 @@ License: Public Domain
 Component: Timber
 Licensor: Jake Wharton
 Website: https://github.com/JakeWharton/timber/
+License: Apache 2.0
+
+Component: Conscrypt
+Licensor: Conscrypt
+Website: https://github.com/google/conscrypt
 License: Apache 2.0
 
 --------------------------------------------------------------------------------
