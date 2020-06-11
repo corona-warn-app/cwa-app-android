@@ -41,11 +41,6 @@ class SubmissionContactFragment : Fragment() {
         setButtonOnClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.submissionContactRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     override fun onResume() {
         super.onResume()
         binding.submissionContactRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)

@@ -54,11 +54,6 @@ class RiskDetailsFragment : Fragment() {
         setButtonOnClickListeners()
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     override fun onResume() {
         super.onResume()
         // refresh required data

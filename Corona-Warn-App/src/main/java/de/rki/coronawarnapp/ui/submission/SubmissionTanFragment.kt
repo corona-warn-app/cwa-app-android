@@ -120,11 +120,6 @@ class SubmissionTanFragment : Fragment() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     override fun onResume() {
         super.onResume()
         binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)

@@ -42,11 +42,6 @@ class SubmissionDispatcherFragment : Fragment() {
         setButtonOnClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     override fun onResume() {
         super.onResume()
         binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
