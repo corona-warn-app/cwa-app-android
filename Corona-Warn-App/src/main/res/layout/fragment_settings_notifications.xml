@@ -16,6 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_notifications_container"
         android:contentDescription="@string/settings_notifications_title"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

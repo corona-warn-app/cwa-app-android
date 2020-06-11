@@ -39,11 +39,6 @@ class InformationTermsFragment : Fragment() {
         setButtonOnClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.informationTermsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     override fun onResume() {
         super.onResume()
         binding.informationTermsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)

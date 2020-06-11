@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -69,6 +68,7 @@ class SettingsTracingFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        viewCreatedBool = true
     }
 
     override fun onResume() {
@@ -116,7 +116,6 @@ class SettingsTracingFragment : Fragment(),
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
             ExternalActionHelper.toConnections(requireContext())
         }
-        viewCreatedBool = true
     }
 
     private fun startStopTracing() {

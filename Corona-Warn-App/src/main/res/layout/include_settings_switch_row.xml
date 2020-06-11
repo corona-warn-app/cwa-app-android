@@ -41,6 +41,7 @@
             style="@style/row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -86,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:checked="@{status}"
                 android:enabled="@{enabled}"
+                android:contentDescription="@{FormatterSettingsHelper.formatSwitchHint(subtitle, statusText)}"
                 android:theme="@style/switchBase"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

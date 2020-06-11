@@ -122,8 +122,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:focusable="false"
                     android:text="@string/risk_details_headline_behavior"
+                    android:focusable="true"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/risk_details_risk_card" />
@@ -134,7 +134,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:focusable="false"
+                    android:focusable="true"
                     android:text="@string/risk_details_subtitle_behavior"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -155,7 +155,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="false"
+                        android:focusable="true"
                         android:visibility="@{FormatterRiskHelper.formatVisibilityBehavior(tracingViewModel.riskLevel)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +168,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="false"
+                        android:focusable="true"
                         android:visibility="@{FormatterRiskHelper.formatVisibilityBehaviorIncreasedRisk(tracingViewModel.riskLevel)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -193,6 +193,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/risk_details_headline_infection_risk"
+                        android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -204,6 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:text="@string/risk_details_subtitle_infection_risk"
+                        android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_headline" />
@@ -216,6 +218,7 @@
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure)}"
                         android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure))}"
+                        android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_subtitle" />
@@ -227,6 +230,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:text="@string/risk_details_information_body_notice"
+                        android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_body" />

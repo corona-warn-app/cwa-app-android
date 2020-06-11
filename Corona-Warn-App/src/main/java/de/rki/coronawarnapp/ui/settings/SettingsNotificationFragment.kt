@@ -50,6 +50,7 @@ class SettingsNotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        viewCreatedBool = true
     }
 
     override fun onResume() {
@@ -93,6 +94,5 @@ class SettingsNotificationFragment : Fragment() {
         settingsRow.setOnClickListener {
             ExternalActionHelper.toNotifications(requireContext())
         }
-        viewCreatedBool = true
     }
 }

@@ -44,7 +44,6 @@
             android:id="@+id/tracing_status_card_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -58,7 +57,6 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:text="@{headline}"
                 android:contentDescription="@{headline}"
-                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tracing_status_card_header_icon"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +82,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{body}"
-            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header" />
@@ -96,7 +93,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@{buttonText}"
-            android:focusable="true"
             android:visibility="@{FormatterHelper.formatVisibilityText(buttonText)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
