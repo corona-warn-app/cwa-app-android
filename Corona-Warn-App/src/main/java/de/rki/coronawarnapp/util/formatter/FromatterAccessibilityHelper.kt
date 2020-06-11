@@ -3,16 +3,15 @@
 package de.rki.coronawarnapp.util.formatter
 
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 
-fun formatSuffix(string: Int?, suffix: String): String {
+fun formatSuffix(string: String?, suffix: Int): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (string != null) {
-        "${appContext.getString(string)} $suffix"
+        "$string ${appContext.getString(suffix)}"
     } else ""
 }
 
-fun formatTitle(string: Int?): String = formatSuffix(string, "Titel")
+fun formatButton(string: String?): String = formatSuffix(string, R.string.suffix_button)
 
-fun formatButton(string: Int?): String = formatSuffix(string, "Button")
-
-fun formatImage(string: Int?): String = formatSuffix(string, "Bild")
+fun formatImage(string: String?): String = formatSuffix(string, R.string.suffix_button)

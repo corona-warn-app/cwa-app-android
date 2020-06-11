@@ -65,7 +65,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setContentDescription()
     }
 
     override fun onResume() {
@@ -85,15 +84,6 @@ class MainFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
-    private fun setContentDescription() {
-        val shareButtonString: String = getString(R.string.button_share)
-        val menuButtonString: String = getString(R.string.button_menu)
-        val mainCardString: String = getString(R.string.hint_external_webpage)
-        binding.mainHeaderShare.buttonIcon.contentDescription = shareButtonString
-        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = menuButtonString
-        binding.mainAbout.mainCard.contentDescription = mainCardString
     }
 
     private fun setButtonOnClickListener() {

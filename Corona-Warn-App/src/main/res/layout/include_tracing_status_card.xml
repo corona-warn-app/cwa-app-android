@@ -57,7 +57,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:text="@{headline}"
                 android:contentDescription="@{headline}"
-                android:focusable="false"
+                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tracing_status_card_header_icon"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{body}"
-            android:focusable="false"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header" />

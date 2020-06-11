@@ -5,6 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_card"
         style="@style/card"
+        android:contentDescription="@string/hint_external_webpage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
