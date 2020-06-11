@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.exception.CwaSecurityException
+import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
@@ -22,12 +22,14 @@ class UpdateChecker(private val activity: LauncherActivity) {
     }
 
     suspend fun checkForUpdate() {
-
         // check if an update is needed based on server config
         val updateNeededFromServer: Boolean = try {
             checkIfUpdatesNeededFromServer()
-        } catch (exception: CwaSecurityException) {
-            Timber.e("CwaSecurityException caught:%s", exception.localizedMessage)
+        } catch (exception: ApplicationConfigurationCorruptException) {
+            Timber.e(
+                "ApplicationConfigurationCorruptException caught:%s",
+                exception.localizedMessage
+            )
             true
         } catch (exception: Exception) {
             Timber.e("Exception caught:%s", exception.localizedMessage)
@@ -83,7 +85,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
             minVersionFromServerString
         )
         Timber.e("needs update:$needsImmediateUpdate")
-        return true
+        return needsImmediateUpdate
     }
 
     private fun constructSemanticVersionString(
