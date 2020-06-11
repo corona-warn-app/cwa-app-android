@@ -974,8 +974,8 @@
     <string name="button_share">Teilen</string>
     <!-- XACT: menu button-->
     <string name="button_menu">Menü</string>
-    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility button strings, e.g. "Zurück Button" -->
-    <string name="suffix_button">Button</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility button strings, e.g. "Zurück Taste", "Taste" is the default used by android in german -->
+    <string name="suffix_button">Taste</string>
     <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility content description strings for images, e.g. "Eine Gruppe von... Bild" -->
     <string name="suffix_image">Bild</string>
 
