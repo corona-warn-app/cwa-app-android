@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import de.rki.coronawarnapp.CoronaWarnApplication
-
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -51,6 +50,7 @@ class CachedKeyFileHolderTest {
         coEvery { keyCacheRepository.getDates() } returns listOf()
         coEvery { keyCacheRepository.getFilesFromEntries() } returns listOf()
         every { CachedKeyFileHolder["isLast3HourFetchEnabled"]() } returns false
+        every { CachedKeyFileHolder["checkForFreeSpace"]() } returns Unit
         every { CachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
 
         runBlocking {

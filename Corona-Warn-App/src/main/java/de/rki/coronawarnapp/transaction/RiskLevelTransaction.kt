@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.transaction
 
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.TestRiskLevelCalculation
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoNetworkException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
@@ -169,17 +167,6 @@ object RiskLevelTransaction : Transaction() {
         /** Transaction Closure */
         CLOSE
     }
-
-    /** TESTING ONLY
-     *
-     * TODO remove asap, only used to display the used values for risk level calculation
-     */
-
-    val tempExposedTransactionValuesForTestingOnly =
-        MutableLiveData<TestRiskLevelCalculation.TransactionValues>()
-
-    var recordedTransactionValuesForTestingOnly =
-        TestRiskLevelCalculation.TransactionValues()
 
     /** atomic reference for the rollback value for the last calculated risk level score */
     private val lastCalculatedRiskLevelScoreForRollback = AtomicReference<RiskLevel>()
@@ -358,9 +345,7 @@ object RiskLevelTransaction : Transaction() {
         executeState(RETRIEVE_APPLICATION_CONFIG) {
             return@executeState getApplicationConfiguration()
                 .also {
-                    // todo remove after testing sessions
-                    recordedTransactionValuesForTestingOnly.appConfig = it
-                    Timber.v("$transactionId - retrieved configuration from backend")
+                    Timber.v(TAG, "$transactionId - retrieved configuration from backend")
                 }
         }
 
@@ -372,9 +357,7 @@ object RiskLevelTransaction : Transaction() {
             val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
 
             return@executeState lastExposureSummary.also {
-                // todo remove after testing sessions
-                recordedTransactionValuesForTestingOnly.exposureSummary = it
-                Timber.v("$transactionId - get the exposure summary for further calculation")
+                Timber.v(TAG, "$transactionId - get the exposure summary for further calculation")
             }
         }
 
@@ -397,9 +380,7 @@ object RiskLevelTransaction : Transaction() {
                 attenuationParameters,
                 exposureSummary
             ).also {
-                // todo remove after testing sessions
-                recordedTransactionValuesForTestingOnly.riskScore = it
-                Timber.v("calculated risk with the given config: $it")
+                Timber.v(TAG, "calculated risk with the given config: $it")
             }
 
             // these are the defined risk classes. They will divide the calculated
@@ -448,13 +429,6 @@ object RiskLevelTransaction : Transaction() {
         executeState(UPDATE_RISK_LEVEL) {
             Timber.v("$transactionId - update the risk level with $riskLevel")
             updateRiskLevelScore(riskLevel)
-                .also {
-                    // todo remove after testing sessions
-                    recordedTransactionValuesForTestingOnly.riskLevel = riskLevel
-                    tempExposedTransactionValuesForTestingOnly.postValue(
-                        recordedTransactionValuesForTestingOnly
-                    )
-                }
         }
 
     /**
