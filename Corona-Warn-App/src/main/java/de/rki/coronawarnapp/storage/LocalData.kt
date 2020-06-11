@@ -542,7 +542,7 @@ object LocalData {
     }
 
     fun devicePairingSuccessfulTimestamp(value: Long) =
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_device_pairing_successful_time),
