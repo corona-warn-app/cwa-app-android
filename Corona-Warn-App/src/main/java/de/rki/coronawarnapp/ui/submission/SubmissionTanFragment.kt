@@ -120,14 +120,9 @@ class SubmissionTanFragment : Fragment() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
     override fun onResume() {
         super.onResume()
-        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionTanRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun goBack() = (activity as MainActivity).goBack()

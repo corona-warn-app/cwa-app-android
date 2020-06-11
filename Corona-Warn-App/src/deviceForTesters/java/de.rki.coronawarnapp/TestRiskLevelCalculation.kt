@@ -130,9 +130,7 @@ class TestRiskLevelCalculation : Fragment() {
             }
         }
 
-
         startObserving()
-
     }
 
     override fun onResume() {

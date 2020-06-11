@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -72,6 +72,7 @@ class SettingsTracingFragment : Fragment(),
         super.onResume()
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
+        binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -93,23 +94,21 @@ class SettingsTracingFragment : Fragment(),
 
     private fun setButtonOnClickListener() {
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
+        val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
+        val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
+        val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (switch.isPressed) {
-                ViewBlocker.runAndBlockInteraction(arrayOf(switch)) {
-                    startStopTracing()
-                }
-            }
+        switch.setOnClickListener {
+            startStopTracing()
         }
-        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        back.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
+        bluetooth.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
-        binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
+        connection.setOnClickListener {
             ExternalActionHelper.toConnections(requireContext())
         }
     }
