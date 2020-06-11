@@ -177,7 +177,7 @@
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App."</string>
-    <!-- NOTR -->
+    <!-- XTXT: External Website for FAQ, has to be translated -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Aufruf externer Infos im Web."</string>
