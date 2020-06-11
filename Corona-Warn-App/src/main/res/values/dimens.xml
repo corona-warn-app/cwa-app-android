@@ -63,8 +63,8 @@
     <dimen name="radius_card">4dp</dimen>
     <dimen name="icon_size">20dp</dimen>
     <dimen name="icon_size_risk_card">40dp</dimen>
-    <dimen name="icon_size_main_card">35dp</dimen>
-    <dimen name="icon_size_main_card_end">35dp</dimen>
+    <dimen name="icon_size_main_card">40dp</dimen>
+    <dimen name="icon_size_main_card_end">40dp</dimen>
     <dimen name="icon_size_button">40dp</dimen>
     <dimen name="icon_size_settings">40dp</dimen>
     <dimen name="icon_size_risk_details_behavior">25dp</dimen>

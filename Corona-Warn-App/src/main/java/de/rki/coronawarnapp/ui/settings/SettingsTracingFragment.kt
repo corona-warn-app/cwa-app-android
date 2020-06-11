@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,7 +20,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -85,18 +84,11 @@ class SettingsTracingFragment : Fragment(),
     override fun onStartPermissionGranted() {
         tracingViewModel.refreshIsTracingEnabled()
         BackgroundWorkScheduler.startWorkScheduler()
-        Toast.makeText(requireContext(), "Tracing started successfully", Toast.LENGTH_SHORT).show()
     }
 
     override fun onFailure(exception: Exception?) {
         tracingViewModel.refreshIsTracingEnabled()
         exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
-        // TODO
-        Toast.makeText(
-            requireContext(),
-            exception?.localizedMessage ?: "Unknown Error",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     private fun setButtonOnClickListener() {
@@ -115,10 +107,10 @@ class SettingsTracingFragment : Fragment(),
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+            ExternalActionHelper.toMainSettings(requireContext())
         }
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+            ExternalActionHelper.toConnections(requireContext())
         }
     }
 
@@ -127,13 +119,6 @@ class SettingsTracingFragment : Fragment(),
         lifecycleScope.launch {
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Tracing stopped successfully",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-
                     InternalExposureNotificationClient.asyncStop()
                     tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()

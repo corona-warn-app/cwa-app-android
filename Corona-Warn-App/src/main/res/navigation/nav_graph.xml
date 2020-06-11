@@ -21,9 +21,6 @@
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_testForAPIFragment"
-            app:destination="@id/testForAPIFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_informationFragment"
             app:destination="@id/informationFragment" />
         <action
@@ -163,12 +160,6 @@
         tools:layout="@layout/fragment_information_technical" />
 
     <!-- Submission -->
-    <fragment
-        android:id="@+id/testForAPIFragment"
-        android:name="de.rki.coronawarnapp.TestForAPIFragment"
-        android:label="@layout/fragment_test_for_a_p_i"
-        tools:layout="@layout/fragment_test_for_a_p_i" />
-
     <fragment
         android:id="@+id/riskDetailsFragment"
         android:name="de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragment"
