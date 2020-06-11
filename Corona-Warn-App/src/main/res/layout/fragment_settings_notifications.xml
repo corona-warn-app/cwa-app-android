@@ -59,7 +59,7 @@
                     layout="@layout/include_settings_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:visibility="@{FormatterHelper.formatVisibility(settingsViewModel.isNotificationsEnabled())}"
                     app:enabled="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
