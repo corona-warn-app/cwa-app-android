@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.common.api.ApiException
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -89,26 +90,22 @@ object TimeVariables {
      */
     fun getMaxStaleExposureRiskRange(): Int = MAX_STALE_EXPOSURE_RISK_RANGE
 
-    /**
-     * This is the exact number of days until the end of time is reached.
-     * This is used by the Google Exposure Notification API daysSinceLastExposure property in the
-     * ExposureSummary if there was no contact with someone.
-     */
-    private const val END_OF_TIME_DAYS = 2147483647
-
-    /**
-     * Getter function for [END_OF_TIME_DAYS]
-     *
-     * @return number of days until end of time
-     */
-    fun getEndOfTimeDays() = END_OF_TIME_DAYS
+    private const val MILISECONDS_IN_A_SECOND = 1000
+    private const val SECONDS_IN_A_MINUTES = 60
+    private const val MINUTES_IN_AN_HOUR = 60
+    private const val HOURS_IN_AN_DAY = 24
 
     /**
      * Delay in milliseconds for manual key retrieval process
-     * Internal requirements: 24 hours = 1000 * 60 * 60 * 24 milliseconds
-     * TODO Change this to the real 24 Hours
+     * Value for testing: 1 min =  1000 * 60 * 1
+     * Value: 24 hours = 1000 * 60 * 60 * 24 milliseconds
      */
-    private const val MANUAL_KEY_RETRIEVAL_DELAY = 1000 * 60 * 1
+    private val MANUAL_KEY_RETRIEVAL_DELAY =
+        if (BuildConfig.FLAVOR == "deviceForTesters") {
+            MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES
+        } else {
+            MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES * MINUTES_IN_AN_HOUR * HOURS_IN_AN_DAY
+        }
 
     /**
      * Getter function for [MANUAL_KEY_RETRIEVAL_DELAY]
@@ -159,18 +156,6 @@ object TimeVariables {
     /****************************************************
      * CALCULATED TIME VARIABLES
      ****************************************************/
-
-    /**
-     * The timeRange for calculating the exposure risk figures
-     * In milliseconds
-     *
-     * @return Pair of Long describing the timerange in milliseconds
-     */
-    fun getCalculationTimeRange(): Pair<Long, Long> =
-        Pair(
-            getTimeRangeFromRetentionPeriod(),
-            System.currentTimeMillis()
-        )
 
     /**
      * The time since the last successful exposure calculation ran in foreground or background.

@@ -20,11 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/card_dark"
+        android:focusable="true"
         android:padding="@dimen/card_padding">
 
         <TextView
             android:id="@+id/test_result_card_headline"
             style="@style/body2"
+            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
