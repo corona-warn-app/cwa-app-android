@@ -18,7 +18,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class VerificationServiceTest {
+class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
 
