@@ -34,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <de.rki.coronawarnapp.ui.submission.TanInput
+            <de.rki.coronawarnapp.ui.view.TanInput
                 android:id="@+id/submission_tan_input"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"

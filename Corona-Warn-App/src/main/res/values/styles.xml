@@ -244,8 +244,7 @@
         <item name="android:layout_height">@dimen/submission_tan_dash_height</item>
         <item name="android:background">@color/colorTextSemanticNeutral</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginStart">@dimen/submission_tan_dash_spacing_start
-        </item>
+        <item name="android:layout_marginStart">@dimen/submission_tan_dash_spacing_start</item>
         <item name="android:layout_marginEnd">@dimen/submission_tan_dash_spacing_end</item>
     </style>
 

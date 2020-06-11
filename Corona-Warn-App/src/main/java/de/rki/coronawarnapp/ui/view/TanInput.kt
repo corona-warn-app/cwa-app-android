@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
 import android.os.Handler
@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.submission.TanConstants
 import de.rki.coronawarnapp.ui.submission.TanConstants.MAX_LENGTH
 import de.rki.coronawarnapp.util.TanHelper
 import kotlinx.android.synthetic.main.view_tan_input_edittext.view.tan_input_edittext
@@ -58,7 +59,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         setOnClickListener { showKeyboard() }
 
         // initially show the keyboard
-        Handler().postDelayed({ showKeyboard() }, KEYBOARD_TRIGGER_DELAY)
+        Handler().postDelayed({ showKeyboard() },
+            KEYBOARD_TRIGGER_DELAY
+        )
     }
 
     private fun showKeyboard() {
