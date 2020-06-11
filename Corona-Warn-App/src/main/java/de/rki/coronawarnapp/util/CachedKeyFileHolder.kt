@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
+import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
@@ -67,6 +68,7 @@ object CachedKeyFileHolder {
      * @return list of all files from both the cache and the diff query
      */
     suspend fun asyncFetchFiles(currentDate: Date): List<File> = withContext(Dispatchers.IO) {
+        checkForFreeSpace()
         val serverDates = getDatesFromServer()
         // TODO remove last3HourFetch before Release
         if (BuildConfig.FLAVOR != "device" && isLast3HourFetchEnabled()) {
@@ -113,6 +115,8 @@ object CachedKeyFileHolder {
                 .also { it.forEach { file -> Timber.v("cached file:${file.path}") } }
         }
     }
+
+    private fun checkForFreeSpace() = FileStorageHelper.checkFileStorageFreeSpace()
 
     /**
      * Calculates the missing days based on current missing entries in the cache
