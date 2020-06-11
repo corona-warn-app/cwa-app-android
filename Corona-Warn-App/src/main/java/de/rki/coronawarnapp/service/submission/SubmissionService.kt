@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.service.submission
 
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
@@ -48,10 +49,10 @@ object SubmissionService {
         return WebRequestBuilder.getInstance().asyncGetTan(registrationToken)
     }
 
-    suspend fun asyncSubmitExposureKeys() {
+    suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>) {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        SubmitDiagnosisKeysTransaction.start(registrationToken)
+        SubmitDiagnosisKeysTransaction.start(registrationToken, keys)
     }
 
     suspend fun asyncRequestTestResult(): TestResult {
