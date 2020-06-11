@@ -1,8 +1,13 @@
 package de.rki.coronawarnapp.storage
 
+import android.content.Context
+import android.os.Build
+import android.os.storage.StorageManager
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.exception.NotEnoughSpaceOnDiskException
 import timber.log.Timber
 import java.io.File
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 /**
@@ -38,32 +43,21 @@ object FileStorageHelper {
      * Checks if internal store has free memory.
      * Threshold: FileStorageConstants.FREE_SPACE_THRESHOLD
      * Bound to .usableSpace due to API level restrictions (minimum required level - 23)
-     *
-     * TODO Check with UX team to handle insufficient space flow
      */
     fun checkFileStorageFreeSpace() {
-        val availableSpace = (keyExportDirectory.usableSpace / BYTES)
-            .also { logAvailableSpace(it) }
-
-        if (availableSpace < FileStorageConstants.FREE_SPACE_THRESHOLD) {
-            logInsufficientSpace(availableSpace)
+        val availableSpace = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val storageManager = CoronaWarnApplication.getAppContext()
+                .getSystemService(Context.STORAGE_SERVICE) as StorageManager
+            val storageVolume = storageManager.primaryStorageVolume
+            val storageUUID =
+                UUID.fromString(storageVolume.uuid ?: StorageManager.UUID_DEFAULT.toString())
+            storageManager.getAllocatableBytes(storageUUID) / BYTES
+        } else {
+            keyExportDirectory.usableSpace / BYTES
         }
-    }
-
-    /**
-     * Remove outdated key files from internal storage.
-     * Threshold: FileStorageConstants.DAYS_TO_KEEP
-     */
-    fun removeOutdatedFilesFromStorage() {
-        keyExportDirectory
-            .walk()
-            .filter(File::isDirectory)
-            .forEach { file: File ->
-                Unit
-                if (file != keyExportDirectory && file.isOutdated()) {
-                    file.checkAndRemove().also { logFileRemovalResult(file.name, it) }
-                }
-            }
+        if (availableSpace < FileStorageConstants.FREE_SPACE_THRESHOLD) {
+            throw NotEnoughSpaceOnDiskException()
+        }
     }
 
     fun getAllFilesInKeyExportDirectory(): List<File> {
