@@ -269,7 +269,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">Download-Link versenden</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.coronawarn.app/</xliff:g><xliff:g id="line_break">\n</xliff:g></string>
+    <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.corona-warn-app.de</xliff:g><xliff:g id="line_break">\n</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">Ein Mann teilt die Corona-Warn-App mit vier anderen Personen.</string>
 
