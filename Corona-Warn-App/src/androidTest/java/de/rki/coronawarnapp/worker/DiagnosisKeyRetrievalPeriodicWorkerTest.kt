@@ -1,14 +1,12 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.work.Configuration
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import androidx.work.testing.SynchronousExecutor
+import androidx.work.testing.TestDriver
 import androidx.work.testing.WorkManagerTestInitHelper
 import io.mockk.Runs
 import io.mockk.every
@@ -38,13 +36,13 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
 
     @Before
     fun setUp() {
-        context = ApplicationProvider.getApplicationContext()
-        val config = Configuration.Builder()
-            .setMinimumLoggingLevel(Log.DEBUG)
-            .setExecutor(SynchronousExecutor())
-            .build()
         mockkObject(BackgroundWorkScheduler)
-        WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
+        // do not init Test WorkManager instance again between tests
+        // leads to all tests instead of first one to fail
+        context = ApplicationProvider.getApplicationContext()
+        if (WorkManager.getInstance(context) !is TestDriver) {
+            WorkManagerTestInitHelper.initializeTestWorkManager(context)
+        }
         workManager = WorkManager.getInstance(context)
 
         every { BackgroundWorkScheduler["buildDiagnosisKeyRetrievalPeriodicWork"]() } answers {
@@ -54,11 +52,10 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
     }
 
     /**
-     * Test worker for success, retries and fail.
+     * Test worker for success.
      */
     @Test
-    fun testDiagnosisKeyRetrievalPeriodicWorker() {
-        // Begin Test worker for success run.
+    fun testDiagnosisKeyRetrievalPeriodicWorkerSuccess() {
         every { BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork() } just Runs
 
         BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
@@ -78,17 +75,19 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
         assertThat(request, notNullValue())
         workInfo = workManager.getWorkInfoById(request.id).get()
         assertThat(workInfo.runAttemptCount, `is`(0))
+    }
 
-        // End Test worker for success run.
-
-        // Begin test worker for retries and fails.
-
+    /**
+     * Test worker for retries and fail.
+     */
+    @Test
+    fun testDiagnosisKeyRetrievalPeriodicWorkerRetryAndFail() {
         every { BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork() } throws Exception("test exception")
 
         BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
 
         assertThat(request, notNullValue())
-        workInfo = workManager.getWorkInfoById(request.id).get()
+        var workInfo = workManager.getWorkInfoById(request.id).get()
         assertThat(workInfo, notNullValue())
         assertThat(workInfo.state, `is`((WorkInfo.State.ENQUEUED)))
 
@@ -120,12 +119,11 @@ class DiagnosisKeyRetrievalPeriodicWorkerTest {
                 }
                 else -> {
                     assertThat(request, notNullValue())
-                    workInfo = workManager.getWorkInfoById(request!!.id).get()
+                    workInfo = workManager.getWorkInfoById(request.id).get()
                     assertThat(workInfo.runAttemptCount, `is`(i))
                 }
             }
         }
-        // End test worker for retries and fails.
     }
 
     @After
