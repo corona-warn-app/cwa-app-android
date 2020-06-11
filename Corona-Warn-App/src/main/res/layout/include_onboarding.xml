@@ -7,6 +7,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
         <variable
             name="illustration"
             type="android.graphics.drawable.Drawable" />
@@ -47,15 +49,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/onboarding_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@{illustrationDescription}"
+                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(illustrationDescription)}"
                 android:src="@{illustration}"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,11 +66,12 @@
             <TextView
                 android:id="@+id/onboarding_headline"
                 style="@style/headline4"
+                android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@{headline}"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration"
@@ -80,9 +83,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@{subtitle}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(subtitle)}"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
@@ -94,8 +97,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@{body}"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_subtitle"
@@ -107,9 +110,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@{bodyEmphasized}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(bodyEmphasized)}"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body"
@@ -124,6 +127,7 @@
                 android:visibility="@{FormatterHelper.formatVisibilityText(headlineCard)}"
                 app:body="@{bodyCard}"
                 app:headline="@{headlineCard}"
+                android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_body_emphasized" />

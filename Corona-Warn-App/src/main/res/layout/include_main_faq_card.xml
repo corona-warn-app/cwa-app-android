@@ -5,6 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_card"
         style="@style/card"
+        android:contentDescription="@string/hint_external_webpage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -30,6 +31,7 @@
             <TextView
                 android:id="@+id/main_card_header_headline"
                 style="@style/headline5"
+                android:accessibilityHeading="true"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
