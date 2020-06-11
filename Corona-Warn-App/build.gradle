@@ -44,24 +44,12 @@ android {
         //override URLs. Use local.properties if exist.
         // If environment.properties also exist, override local.properties
         def propertiesFile = project.rootProject.file('local.properties')
-        def environmentPropertiesFile = project.rootProject.file('environment.properties')
 
-        Properties overridingProperties
 
         if (propertiesFile.exists()) {
-            overridingProperties = new Properties()
+            Properties overridingProperties = new Properties()
             overridingProperties.load(propertiesFile.newDataInputStream())
-        }
 
-        if (environmentPropertiesFile.exists()) {
-            overridingProperties = new Properties()
-            overridingProperties.load(environmentPropertiesFile.newDataInputStream())
-        }else if (propertiesFile.exists()) {
-            overridingProperties = new Properties()
-            overridingProperties.load(propertiesFile.newDataInputStream())
-        }
-
-        if(overridingProperties){
             def DOWNLOAD_CDN_URL = overridingProperties.getProperty('DOWNLOAD_CDN_URL')
             if (DOWNLOAD_CDN_URL)
                 buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -107,6 +95,28 @@ android {
             buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
             resValue "string", "app_name", "CWA TEST"
             applicationIdSuffix '.dev'
+
+            def environmentPropertiesFile = project.rootProject.file('environment.properties')
+            if (environmentPropertiesFile.exists()) {
+                Properties overridingProperties = new Properties()
+                overridingProperties.load(environmentPropertiesFile.newDataInputStream())
+
+                def DOWNLOAD_CDN_URL = overridingProperties.getProperty('DOWNLOAD_CDN_URL')
+                if (DOWNLOAD_CDN_URL)
+                    buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
+
+                def SUBMISSION_CDN_URL = overridingProperties.getProperty('SUBMISSION_CDN_URL')
+                if (SUBMISSION_CDN_URL)
+                    buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
+
+                def VERIFICATION_CDN_URL = overridingProperties.getProperty('VERIFICATION_CDN_URL')
+                if (VERIFICATION_CDN_URL)
+                    buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+
+                def PUB_KEYS_SIGNATURE_VERIFICATION = overridingProperties.getProperty('PUB_KEYS_SIGNATURE_VERIFICATION')
+                if (PUB_KEYS_SIGNATURE_VERIFICATION)
+                    buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
+            }
         }
     }
 
