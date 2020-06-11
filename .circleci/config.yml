@@ -40,9 +40,9 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - run:
-          name: Skip SonarCloud for external Pull Requests
-          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
+      #- run:
+      #    name: Skip SonarCloud for external Pull Requests
+      #    command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
 workflows:
   version: 2
