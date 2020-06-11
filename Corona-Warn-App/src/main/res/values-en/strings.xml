@@ -614,6 +614,14 @@
     <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Do Not Allow"</string>
 
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission denied  -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Camera authorization required"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Please go to the system settings and allow the app to use the camera to scan the QR code."</string>
+    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
+
     <!-- QR Code Scan Invalid Dialog -->
 
     <!-- XHED: Dialog headline for invalid QR code  -->

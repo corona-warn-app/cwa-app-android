@@ -38,7 +38,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
     private val viewModel: SubmissionViewModel by activityViewModels()
     private var _binding: FragmentSubmissionQrCodeScanBinding? = null
     private val binding: FragmentSubmissionQrCodeScanBinding get() = _binding!!
-    private var showsPermissionRationalDialog = false
+    private var showsPermissionDialog = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -190,8 +190,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
                     showCameraPermissionRationaleDialog()
                 } else {
                     // user permanently denied access to the camera
-                    // would be nice to show a dialog explaining this situation
-                    goBack()
+                    showCameraPermissionDeniedDialog()
                 }
             }
         }
@@ -208,11 +207,27 @@ class SubmissionQRCodeScanFragment : Fragment() {
 
         // we might already show a rational dialog (e.g. when onRequestPermissionsResult was denied
         // then do nothing
-        if (showsPermissionRationalDialog) {
+        if (showsPermissionDialog) {
             return
         }
 
         requestCameraPermission()
+    }
+
+    private fun showCameraPermissionDeniedDialog() {
+        val permissionDeniedDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_permission_denied_dialog_headline,
+            R.string.submission_qr_code_scan_permission_denied_dialog_body,
+            R.string.submission_qr_code_scan_permission_denied_dialog_button,
+            cancelable = false,
+            positiveButtonFunction = {
+                showsPermissionDialog = false
+                goBack()
+            }
+        )
+        showsPermissionDialog = true
+        DialogHelper.showDialog(permissionDeniedDialog)
     }
 
     private fun showCameraPermissionRationaleDialog() {
@@ -224,16 +239,16 @@ class SubmissionQRCodeScanFragment : Fragment() {
             R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
             false,
             {
-                showsPermissionRationalDialog = false
+                showsPermissionDialog = false
                 requestCameraPermission()
             },
             {
-                showsPermissionRationalDialog = false
+                showsPermissionDialog = false
                 goBack()
             }
         )
 
-        showsPermissionRationalDialog = true
+        showsPermissionDialog = true
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
