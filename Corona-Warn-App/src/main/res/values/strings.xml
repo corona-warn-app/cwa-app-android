@@ -147,6 +147,8 @@
     <string name="accessibility_menu">Menu</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">Schließen</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_logo">Corona Warn-App</string>
 
     <!-- ####################################
                      Menu
@@ -411,7 +413,7 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">Einführung Seite 2 von 5. Datenschutz</string>
+    <string name="onboarding_privacy_accessibility_title">Einführung Seite 2 von 5. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung. </string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
 
@@ -710,6 +712,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">Abbrechen</string>
 
     <!-- QR Code Scan Screen -->
+    <string name="submission_qr_code_scan_title">QR-Code Scan View Positionieren sie den QR-Code in den Rahmen</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="submission_qr_code_scan_body">Positionieren Sie den QR Code in den Rahmen</string>
 
@@ -900,9 +903,9 @@
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">TAN Anfrage per Telefonanruf</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer +49 (0) 800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Es gelten die Preise ihres Telefonanbieters.</string>
+    <string name="submission_contact_step_1_content">Erster Schritt: Hotline anrufen und TAN erfragen, unter der Rufnummer +49 (0) 800 7540002. Die Öffnungszeiten sind Montag bis Freitag von 8 bis 10 Uhr abends, sowie Samstag und Sonntag von 10 bis 10 Uhr abends. Es gelten die Preise ihres Telefonanbieters.</string>
     <!-- XACT: Content Description for submission contact step 2 -->
-    <string name="submission_contact_step_2_content">Im Zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App</string>
+    <string name="submission_contact_step_2_content">Zweiter Schritt: Registrieren Sie den Test per TAN-Eingabe in der App</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -978,6 +981,10 @@
     <string name="button_share">Teilen</string>
     <!-- XACT: menu button-->
     <string name="button_menu">Menü</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility button strings, e.g. "Zurück Taste", "Taste" is the default used by android in german -->
+    <string name="suffix_button">Taste</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility content description strings for images, e.g. "Eine Gruppe von... Bild" -->
+    <string name="suffix_image">Bild</string>
 
     <!-- ####################################
                Business Error Messages
