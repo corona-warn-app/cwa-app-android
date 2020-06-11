@@ -534,6 +534,8 @@
     <string name="settings_notifications_body_active">Legen Sie fest, zu welchen Themen Sie informiert beiben möchten.</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">Um Benachrichtigungen zu aktivieren, müssen Sie Benachrichtigungen für die Corona-Warn-App in Ihren Geräte-Einstellungen zulassen.</string>
+    <!-- XHED: settings(notification) - card headline -->
+    <string name="settings_notifications_headline_card">Mitteilungen aktivieren</string>
     <!-- XHED: settings - notification headline on settings overview -->
     <string name="settings_notifications_subtitle_notification">Benachrichtigungen</string>
     <!-- XTXT: settings(notification) - next to a switch -->
@@ -974,7 +976,11 @@
                Business Error Messages
         ###################################### -->
     <!-- XTXT: error dialog - detailed text if device is offline  -->
-    <string name="errors_no_network">Du bist nicht mit dem Internet verbunden.</string>
+    <string name="errors_no_network">Sie sind nicht mit dem Internet verbunden.</string>
+    <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
+    <string name="errors_not_enough_device_storage">Sie haben nicht genug Speicherplatz.</string>
+    <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
+    <string name="errors_communication_with_api">Fehler bei Kommunikation mit Google API.</string>
 
     <!-- ####################################
                Generic Error Messages

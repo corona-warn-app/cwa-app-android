@@ -41,11 +41,8 @@ fun formatNotificationsStatusText(
  * @param notifications
  * @return
  */
-fun formatNotificationsTitle(notifications: Boolean): String = formatText(
-    notifications,
-    R.string.settings_notifications_headline_active,
-    R.string.settings_notifications_headline_inactive
-)
+fun formatNotificationsTitle(notifications: Boolean): String? =
+    formatText(notifications, R.string.settings_notifications_headline_active, null)
 
 /**
  * Formats the settings notifications description text display depending on notifications status
@@ -53,11 +50,8 @@ fun formatNotificationsTitle(notifications: Boolean): String = formatText(
  * @param notifications
  * @return
  */
-fun formatNotificationsDescription(notifications: Boolean): String = formatText(
-    notifications,
-    R.string.settings_notifications_body_active,
-    R.string.settings_notifications_body_inactive
-)
+fun formatNotificationsDescription(notifications: Boolean): String? =
+    formatText(notifications, R.string.settings_notifications_body_active, null)
 
 /**
  * Formats the settings notifications details illustration description depending on notifications status
