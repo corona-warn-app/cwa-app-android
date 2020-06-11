@@ -342,7 +342,6 @@ class TestRiskLevelCalculation : Fragment() {
         }
     }
 
-    // todo remove before release - not used in prod setup - only for testing
     suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
         suspendCoroutine { cont ->
             exposureNotificationClient.getExposureInformation(token)

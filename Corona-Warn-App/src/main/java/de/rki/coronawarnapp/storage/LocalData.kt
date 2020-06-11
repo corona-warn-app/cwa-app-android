@@ -89,9 +89,7 @@ object LocalData {
             0L
         )
 
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         if (timestamp == 0L) return null
-
         return timestamp
     }
 
@@ -121,9 +119,7 @@ object LocalData {
                 .getString(R.string.preference_last_non_active_tracing_timestamp),
             0L
         )
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         if (timestamp == 0L) return null
-
         return timestamp
     }
 
@@ -134,7 +130,6 @@ object LocalData {
      * @param value timestamp in ms
      */
     fun lastNonActiveTracingTimestamp(value: Long?) = getSharedPreferenceInstance().edit(true) {
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         putLong(
             CoronaWarnApplication.getAppContext().getString(
                 R.string.preference_last_non_active_tracing_timestamp
@@ -150,7 +145,6 @@ object LocalData {
      * @param value timestamp in ms
      */
     fun totalNonActiveTracing(value: Long?) {
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
@@ -323,7 +317,6 @@ object LocalData {
                 .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
             0L
         )
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         if (time == 0L) return null
 
         return Date(time)
@@ -535,14 +528,12 @@ object LocalData {
             0L
         )
 
-        // TODO need this for nullable ref, shout not be goto for nullable storage
         if (timestamp == 0L) return null
-
         return timestamp
     }
 
     fun devicePairingSuccessfulTimestamp(value: Long) =
-        with(getSharedPreferenceInstance().edit()) {
+        getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_device_pairing_successful_time),
