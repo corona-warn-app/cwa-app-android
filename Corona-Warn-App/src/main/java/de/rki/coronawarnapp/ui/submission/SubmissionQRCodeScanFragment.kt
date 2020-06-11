@@ -111,6 +111,14 @@ class SubmissionQRCodeScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (!CameraPermissionHelper.hasCameraPermission(requireActivity())) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                showCameraPermissionRationaleDialog()
+            } else {
+                requestCameraPermission()
+            }
+        }
+
         binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
             binding.submissionQrCodeScanPreview.setTorch(
                 isChecked
@@ -178,13 +186,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (!CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                showCameraPermissionRationaleDialog()
-            } else {
-                requestCameraPermission()
-            }
-        } else {
+        if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.submissionQrCodeScanPreview.resume()
             startDecode()
         }
