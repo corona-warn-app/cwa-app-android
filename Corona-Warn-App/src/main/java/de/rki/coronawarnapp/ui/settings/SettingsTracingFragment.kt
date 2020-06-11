@@ -115,7 +115,7 @@ class SettingsTracingFragment : Fragment(),
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            ExternalActionHelper.toConnections(requireContext())
+            ExternalActionHelper.toMainSettings(requireContext())
         }
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
             ExternalActionHelper.toConnections(requireContext())

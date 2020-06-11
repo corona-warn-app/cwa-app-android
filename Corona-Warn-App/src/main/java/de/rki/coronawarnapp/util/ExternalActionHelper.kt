@@ -115,5 +115,16 @@ object ExternalActionHelper {
         }
         context.startActivity(intent)
     }
+
+    /**
+     * Navigate the user to the os settings as navigation to
+     * bluetooth settings directly is not reliable for all devices
+     *
+     * @param context
+     */
+    fun toMainSettings(context: Context) {
+        val intent = Intent(Settings.ACTION_SETTINGS)
+        context.startActivity(intent)
+    }
     // todo navigate storage settings
 }
