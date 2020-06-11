@@ -17,8 +17,6 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import timber.log.Timber
-import de.rki.coronawarnapp.util.OpenUrlHelper
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.

@@ -326,6 +326,5 @@ class TestRiskLevelCalculation : Fragment() {
                 binding.labelExposureInfo.text = infoString
             }
         }
-
     }
 }
