@@ -47,9 +47,7 @@
     ###################################### -->
     <style name="button">
         <item name="android:paddingStart">@dimen/button_padding_start_end</item>
-        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
-        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/font_button</item>
