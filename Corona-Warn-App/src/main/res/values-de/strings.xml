@@ -142,7 +142,7 @@
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">"Risiko-Ermittlung einschalten"</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
-    <string name="risk_card_body_tracing_off">"Aktivieren Sie die Risiko-Ermittlung, um Ihre heutige Risikostatus zu berechnen."</string>
+    <string name="risk_card_body_tracing_off">"Aktivieren Sie die Risiko-Ermittlung, um Ihren heutigen Risikostatus zu berechnen."</string>
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">"Niedriges Risiko"</string>
     <!-- XHED: risk card - increased risk headline -->
@@ -488,6 +488,7 @@
     <string name="settings_reset_button_negative">"Abbrechen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="settings_reset_illustration_description">"Eine Hand hält ein Smartphone, auf dem das Zurücksetzen der Anwendung symbolisiert wird."</string>
+    <!-- XHED: settings(reset) - dialog headline -->
 
 
     <!-- ####################################
