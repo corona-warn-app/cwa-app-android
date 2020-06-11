@@ -27,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@{FormatterRiskHelper.formatRiskShape(showDetails)}"
-        android:backgroundTint="@{FormatterRiskHelper.formatRiskColorStateList(tracingViewModel.riskLevel)}">
+        android:backgroundTint="@{FormatterRiskHelper.formatRiskColorStateList(tracingViewModel.riskLevel)}"
+        android:focusable="true">
 
         <include
             android:id="@+id/risk_card_header"

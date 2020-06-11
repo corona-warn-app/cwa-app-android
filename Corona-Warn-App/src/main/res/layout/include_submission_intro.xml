@@ -16,6 +16,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_illustration_test"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -27,8 +28,8 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@string/submission_intro_headline"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_intro_hero_illustration" />
@@ -39,8 +40,8 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@string/submission_intro_text"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_intro_headline" />
@@ -48,9 +49,9 @@
             <de.rki.coronawarnapp.ui.view.BulletPointList
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:paddingBottom="@dimen/spacing_normal"
                 app:entries="@array/submission_intro_bullet_points"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_intro_text" />

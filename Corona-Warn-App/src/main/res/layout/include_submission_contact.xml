@@ -10,12 +10,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <ImageView
                 android:id="@+id/submission_contact_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_submission_illustration_hotline"
+                android:contentDescription="@string/information_contact_illustration_description"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@string/submission_contact_body"
+                android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_illustration" />
@@ -39,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:text="@string/submission_contact_headline"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_body" />
@@ -48,6 +51,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
                 android:contentDescription="@string/submission_contact_step_1_content"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -102,6 +106,7 @@
                 android:id="@+id/submission_contact_step_2"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:contentDescription="@string/submission_contact_step_2_content"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
