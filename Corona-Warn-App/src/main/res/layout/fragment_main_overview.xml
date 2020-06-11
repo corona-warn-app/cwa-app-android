@@ -66,6 +66,7 @@
                     app:body="@{@string/main_overview_body_risk}"
                     app:icon="@{@drawable/ic_main_overview_2}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_tracing"
                     app:subtitle="@{@string/main_overview_subtitle_risk}" />
@@ -80,16 +81,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk">
 
-                    <include
-                        android:id="@+id/main_overview_risk_subtitle_text"
-                        layout="@layout/include_main_overview_glossary"
-                        android:accessibilityHeading="true"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/main_overview_risk_headline"
+                        style="@style/row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/spacing_small"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:subtitle="@{@string/main_overview_subtitle_risk_levels}" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            style="@style/headline6"
+                            android:accessibilityHeading="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/guideline_body_title"
+                            android:text="@string/main_overview_subtitle_risk_levels"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <include
                         android:id="@+id/main_overview_risk_increased_risk"
@@ -100,7 +114,7 @@
                         app:iconTint="@{@color/colorSemanticHighRisk}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_subtitle_text"
+                        app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_headline"
                         app:subtitle="@{@string/main_overview_subtitle_increased_risk}" />
 
                     <include
