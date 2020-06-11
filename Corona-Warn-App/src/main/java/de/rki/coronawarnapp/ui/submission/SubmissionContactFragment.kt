@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.CallHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * The [SubmissionContactFragment] allows requesting a teletan via phone
@@ -67,6 +67,6 @@ class SubmissionContactFragment : Fragment() {
 
     private fun dial() = context?.let {
         val number = getString(R.string.submission_contact_number_dial)
-        CallHelper.call(this, number)
+        ExternalActionHelper.call(this, number)
     }
 }
