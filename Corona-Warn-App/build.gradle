@@ -32,8 +32,8 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 24
-        versionName "0.8.16"
+        versionCode 25
+        versionName "0.8.17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -219,6 +219,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.work:work-testing:2.3.4'
     androidTestImplementation "io.mockk:mockk-android:1.10.0"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
 
