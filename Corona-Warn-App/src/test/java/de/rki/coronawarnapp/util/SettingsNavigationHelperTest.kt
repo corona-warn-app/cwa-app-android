@@ -32,7 +32,7 @@ class SettingsNavigationHelperTest {
     @Test
     fun toConnectionsTest() {
         every { context.startActivity(any()) } just Runs
-        SettingsNavigationHelper.toConnections(context = context)
+        ExternalActionHelper.toConnections(context = context)
         verify(exactly = 1) { context.startActivity(any()) }
     }
 
@@ -42,10 +42,16 @@ class SettingsNavigationHelperTest {
         every { context.packageName } returns "package_name"
         every { context.applicationInfo } returns applicationInfo
 
-        SettingsNavigationHelper.toNotifications(context = context)
+        ExternalActionHelper.toNotifications(context = context)
         verify(exactly = 1) { context.startActivity(any()) }
     }
 
+    @Test
+    fun toMainSettingsTest() {
+        every { context.startActivity(any()) } just Runs
+        ExternalActionHelper.toConnections(context = context)
+        verify(exactly = 1) { context.startActivity(any()) }
+    }
 
     @After
     fun cleanUp() {
