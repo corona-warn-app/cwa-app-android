@@ -271,7 +271,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">Download-Link versenden</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.coronawarn.app/</xliff:g><xliff:g id="line_break">\n</xliff:g></string>
+    <string name="main_share_message">Gemeinsam Corona bekämpfen<xliff:g id="line_break">\n</xliff:g>Ich bin dabei. Du auch?<xliff:g id="line_break">\n</xliff:g><xliff:g id="link_play_store">https://www.corona-warn-app.de</xliff:g><xliff:g id="line_break">\n</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">Ein Mann teilt die Corona-Warn-App mit vier anderen Personen.</string>
 
@@ -568,7 +568,14 @@
     <string name="settings_reset_button_negative">Abbrechen</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="settings_reset_illustration_description">Eine Hand hält ein Smartphone, auf dem das Zurücksetzen der Anwendung symbolisiert wird.</string>
-
+    <!-- XHED: settings(reset) - dialog headline todo finalize texts for dialog headline, body, cancel button, confirm button-->
+    <string name="settings_reset_dialog_headline">Anwendung zurücksetzen</string>
+    <!-- XTXT: settings(reset) - dialog content -->
+    <string name="settings_reset_dialog_body">Sie werden nicht mehr über Ihre Risiko-Begegnungen informiert und können andere Nutzerinnen und Nutzer nicht mehr warnen. Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
+    <!-- XBUT: settings(reset) - dialog cancel -->
+    <string name="settings_reset_dialog_button_cancel">Abbrechen</string>
+    <!-- XBUT: settings(reset) - dialog confirm -->
+    <string name="settings_reset_dialog_button_confirm">Zurücksetzen</string>
 
     <!-- ####################################
                App Information
@@ -693,6 +700,14 @@
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">Erlauben</string>
     <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">Nicht erlauben</string>
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission denied  -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_headline">Kamera Zugriff benötigt</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
+    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_button">OK</string>
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
