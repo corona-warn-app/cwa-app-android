@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.OpenUrlHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * Basic Fragment which links to static and web content.
@@ -75,7 +75,7 @@ class InformationFragment : Fragment() {
             )
         }
         binding.informationHelp.mainRow.setOnClickListener {
-            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
+            ExternalActionHelper.openUrl(this, requireContext().getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
             findNavController().doNavigate(

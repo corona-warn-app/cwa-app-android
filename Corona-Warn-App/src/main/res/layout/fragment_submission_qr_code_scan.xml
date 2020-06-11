@@ -51,24 +51,36 @@
             app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_body"
             app:layout_constraintTop_toBottomOf="@+id/submission_qr_code_scan_body" />
 
-        <include
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/submission_qr_code_scan_close"
-            layout="@layout/include_button_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_submission_qr_code_scan_close}"
-            app:iconDescription="@{@string/accessibility_close}"
+            style="@style/buttonIcon"
+            android:layout_width="@dimen/icon_size_button"
+            android:layout_height="@dimen/icon_size_button"
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"
             app:layout_constraintEnd_toStartOf="@+id/guideline_start"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toTopOf="@+id/submission_qr_code_scan_guideline_top" />
+            app:layout_constraintTop_toTopOf="@+id/submission_qr_code_scan_guideline_top">
+
+            <ImageView
+                style="@style/iconStable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/accessibility_close"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ToggleButton
             android:id="@+id/submission_qr_code_scan_torch"
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
             android:background="@drawable/ic_registration_qr_code_scan_torch_toggle"
-            android:backgroundTint="@color/colorTextPrimary1"
+            android:backgroundTint="@color/colorStableLight"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toTopOf="@+id/submission_qr_code_scan_guideline_top"

@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.ExternalActionHelper
+import timber.log.Timber
 import de.rki.coronawarnapp.util.OpenUrlHelper
 
 /**
@@ -130,7 +132,7 @@ class MainFragment : Fragment() {
             findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainAbout.mainCard.setOnClickListener {
-            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
+            ExternalActionHelper.openUrl(this, requireContext().getString(R.string.main_about_link))
         }
         binding.mainHeaderShare.buttonIcon.setOnClickListener {
             findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToMainSharingFragment())

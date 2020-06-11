@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -107,10 +107,10 @@ class SettingsTracingFragment : Fragment(),
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+            ExternalActionHelper.toMainSettings(requireContext())
         }
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+            ExternalActionHelper.toConnections(requireContext())
         }
     }
 

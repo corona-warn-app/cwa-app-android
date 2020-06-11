@@ -216,7 +216,7 @@
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">Risiko-Ermittlung einschalten</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
-    <string name="risk_card_body_tracing_off">Aktivieren Sie die Risiko-Ermittlung, um Ihre heutige Risiko-Einschätzung zu berechnen.</string>
+    <string name="risk_card_body_tracing_off">Aktivieren Sie die Risiko-Ermittlung, um Ihren heutige Risiko-Einschätzung zu berechnen.</string>
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">Niedriges Risiko</string>
     <!-- XHED: risk card - increased risk headline -->
@@ -981,6 +981,8 @@
     <string name="errors_not_enough_device_storage">Sie haben nicht genug Speicherplatz.</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
     <string name="errors_communication_with_api">Fehler bei Kommunikation mit Google API.</string>
+    <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
+    <string name="errors_external_action">Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline.</string>
 
     <!-- ####################################
                Generic Error Messages
