@@ -8,4 +8,11 @@
     <item
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
+    <!-- Todo throwaway code only for testing -->
+    <item
+        android:id="@+id/menu_test_api"
+        android:title="@string/menu_test_api" />
+    <item
+        android:id="@+id/menu_test_risk_level"
+        android:title="@string/menu_test_risk_level" />
 </menu>
