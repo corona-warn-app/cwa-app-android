@@ -158,18 +158,6 @@ object TimeVariables {
      ****************************************************/
 
     /**
-     * The timeRange for calculating the exposure risk figures
-     * In milliseconds
-     *
-     * @return Pair of Long describing the timerange in milliseconds
-     */
-    fun getCalculationTimeRange(): Pair<Long, Long> =
-        Pair(
-            getTimeRangeFromRetentionPeriod(),
-            System.currentTimeMillis()
-        )
-
-    /**
      * The time since the last successful exposure calculation ran in foreground or background.
      * In milliseconds
      *
