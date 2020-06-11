@@ -19,6 +19,7 @@
 
 package de.rki.coronawarnapp.util
 
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
@@ -68,7 +69,7 @@ object CachedKeyFileHolder {
     suspend fun asyncFetchFiles(currentDate: Date): List<File> = withContext(Dispatchers.IO) {
         val serverDates = getDatesFromServer()
         // TODO remove last3HourFetch before Release
-        if (isLast3HourFetchEnabled()) {
+        if (BuildConfig.FLAVOR != "device" && isLast3HourFetchEnabled()) {
             Timber.v("Last 3 Hours will be Fetched. Only use for Debugging!")
             val currentDateServerFormat = currentDate.toServerFormat()
             // just fetch the hours if the date is available

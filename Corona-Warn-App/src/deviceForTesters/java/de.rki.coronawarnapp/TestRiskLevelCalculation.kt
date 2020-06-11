@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -43,6 +45,9 @@ import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
 class TestRiskLevelCalculation : Fragment() {
@@ -55,6 +60,11 @@ class TestRiskLevelCalculation : Fragment() {
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private var _binding: FragmentTestRiskLevelCalculationBinding? = null
     private val binding: FragmentTestRiskLevelCalculationBinding get() = _binding!!
+
+    // reference to the client from the Google framework with the given application context
+    private val exposureNotificationClient by lazy {
+        Nearby.getExposureNotificationClient(CoronaWarnApplication.getAppContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -307,8 +317,7 @@ class TestRiskLevelCalculation : Fragment() {
 
             val token = LocalData.googleApiToken()
             if (token != null) {
-                val exposureInformation =
-                    InternalExposureNotificationClient.asyncGetExposureInformation(token)
+                val exposureInformation = asyncGetExposureInformation(token)
 
                 var infoString = ""
                 exposureInformation.forEach {
@@ -327,4 +336,15 @@ class TestRiskLevelCalculation : Fragment() {
             }
         }
     }
+
+    // todo remove before release - not used in prod setup - only for testing
+    suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
+        suspendCoroutine { cont ->
+            exposureNotificationClient.getExposureInformation(token)
+                .addOnSuccessListener {
+                    cont.resume(it)
+                }.addOnFailureListener {
+                    cont.resumeWithException(it)
+                }
+        }
 }
