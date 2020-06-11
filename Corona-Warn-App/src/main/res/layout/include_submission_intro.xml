@@ -27,7 +27,6 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@string/submission_intro_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -39,7 +38,6 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@string/submission_intro_text"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -48,7 +46,6 @@
             <de.rki.coronawarnapp.ui.view.BulletPointList
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:paddingBottom="@dimen/spacing_normal"
                 app:entries="@array/submission_intro_bullet_points"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"

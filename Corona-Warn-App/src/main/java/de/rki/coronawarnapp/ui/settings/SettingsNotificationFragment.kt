@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import kotlinx.android.synthetic.main.include_settings_switch_row.*
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.util.SettingsNavigationHelper
 class SettingsNotificationFragment : Fragment() {
     companion object {
         private val TAG: String? = SettingsNotificationFragment::class.simpleName
+        var viewCreatedBool = false
     }
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -74,14 +76,14 @@ class SettingsNotificationFragment : Fragment() {
         // Update Risk
         updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateRiskNotificationSwitch.isPressed) {
+            if (viewCreatedBool) {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
         // Update Test
         updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateTestNotificationSwitch.isPressed) {
+            if (viewCreatedBool) {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
         }
@@ -92,5 +94,6 @@ class SettingsNotificationFragment : Fragment() {
         settingsRow.setOnClickListener {
             SettingsNavigationHelper.toNotifications(requireContext())
         }
+        viewCreatedBool = true
     }
 }

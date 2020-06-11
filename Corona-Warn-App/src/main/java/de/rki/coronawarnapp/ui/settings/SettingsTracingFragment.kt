@@ -39,6 +39,7 @@ class SettingsTracingFragment : Fragment(),
 
     companion object {
         private val TAG: String? = SettingsTracingFragment::class.simpleName
+        var viewCreatedBool = false
     }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
@@ -107,7 +108,7 @@ class SettingsTracingFragment : Fragment(),
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (switch.isPressed) {
+            if (viewCreatedBool) {
                 ViewBlocker.runAndBlockInteraction(arrayOf(switch)) {
                     startStopTracing()
                 }
@@ -122,6 +123,7 @@ class SettingsTracingFragment : Fragment(),
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
             SettingsNavigationHelper.toConnections(requireContext())
         }
+        viewCreatedBool = true
     }
 
     private fun startStopTracing() {
