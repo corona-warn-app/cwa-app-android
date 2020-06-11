@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 class SettingsNotificationFragment : Fragment() {
     companion object {
         private val TAG: String? = SettingsNotificationFragment::class.simpleName
+        var viewCreatedBool = false
     }
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -74,14 +75,14 @@ class SettingsNotificationFragment : Fragment() {
         // Update Risk
         updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateRiskNotificationSwitch.isPressed) {
+            if (viewCreatedBool) {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
         // Update Test
         updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateTestNotificationSwitch.isPressed) {
+            if (viewCreatedBool) {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
         }
@@ -92,5 +93,6 @@ class SettingsNotificationFragment : Fragment() {
         settingsRow.setOnClickListener {
             ExternalActionHelper.toNotifications(requireContext())
         }
+        viewCreatedBool = true
     }
 }
