@@ -3,33 +3,20 @@ package de.rki.coronawarnapp.util.security
 import KeyExportFormat
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.security.SecurityConstants.EXPORT_ENVIRONMENT_IDENTIFIER
-import de.rki.coronawarnapp.util.security.SecurityConstants.EXPORT_SIGNATURE_VERIFICATION_PUBLIC_KEYS
+import timber.log.Timber
 import java.security.KeyFactory
 import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
-import java.util.Properties
 
 class VerificationKeys {
     companion object {
-        private val TAG = VerificationKeys::class.java.simpleName
+        private const val KEY_DELIMITER = ","
     }
 
     private val keyFactory = KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC)
     private val signature =
         Signature.getInstance(SecurityConstants.EXPORT_FILE_SIGNATURE_VERIFICATION_ALGORITHM)
-
-    private val verificationKeyProperties = Properties().apply {
-        load(
-            CoronaWarnApplication
-                .getAppContext()
-                .assets
-                .open(EXPORT_SIGNATURE_VERIFICATION_PUBLIC_KEYS)
-        )
-    }
 
     fun hasInvalidSignature(
         export: ByteArray?,
@@ -38,10 +25,8 @@ class VerificationKeys {
         signature.getValidSignaturesForExport(export, signatureListBinary)
             .isEmpty()
             .also {
-                if (BuildConfig.DEBUG) {
-                    if (it) Log.d(TAG, "export is invalid")
-                    else Log.d(TAG, "export is valid")
-                }
+                if (it) Timber.d("export is invalid")
+                else Timber.d("export is valid")
             }
     }
 
@@ -49,23 +34,29 @@ class VerificationKeys {
         export: ByteArray?,
         signatures: ByteArray?
     ) = getKeysForSignatureVerificationFilteredByEnvironment()
-        .flatMap { filteredIdAndKeyBinary ->
-            getTEKSignaturesForEnvironment(signatures)
-                .filter { signatureBinary ->
-                    initVerify(filteredIdAndKeyBinary.value)
-                    update(export)
-                    verify(signatureBinary)
-                }
-                .toList()
+        .filter { publicKey ->
+            var verified = false
+            getTEKSignaturesForEnvironment(signatures).forEach { tek ->
+                initVerify(publicKey)
+                update(export)
+                if (verify(tek)) verified = true
+            }
+            verified
         }
-        .also { Log.v(TAG, "${it.size} valid signatures found") }
+        .also { Timber.v("${it.size} valid signatures found") }
 
-    private fun getKeysForSignatureVerificationFilteredByEnvironment() = verificationKeyProperties
-        .entries
-        .associate { it.key as String to Base64.decode(it.value as String, Base64.DEFAULT) }
-        .mapValues { keyFactory.generatePublic(X509EncodedKeySpec(it.value)) }
-        .onEach { Log.v(TAG, "$it") }
-        .filterKeys { publicKeyIdentifier -> publicKeyIdentifier == EXPORT_ENVIRONMENT_IDENTIFIER }
+    private fun getKeysForSignatureVerificationFilteredByEnvironment() =
+        BuildConfig.PUB_KEYS_SIGNATURE_VERIFICATION.split(KEY_DELIMITER)
+            .mapNotNull { delimitedString ->
+                Base64.decode(delimitedString, Base64.DEFAULT)
+            }.map { binaryPublicKey ->
+            keyFactory.generatePublic(
+                X509EncodedKeySpec(
+                    binaryPublicKey
+                )
+            )
+        }
+            .onEach { Timber.v("$it") }
 
     private fun getTEKSignaturesForEnvironment(
         signatureListBinary: ByteArray?
@@ -73,7 +64,6 @@ class VerificationKeys {
         .parseFrom(signatureListBinary)
         .signaturesList
         .asSequence()
-        .filter { TEKSig -> TEKSig.signatureInfo.appBundleId == EXPORT_ENVIRONMENT_IDENTIFIER }
-        .onEach { Log.v(TAG, "$it") }
+        .onEach { Timber.v(it.toString()) }
         .mapNotNull { it.signature.toByteArray() }
 }

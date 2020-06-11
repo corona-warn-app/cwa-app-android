@@ -15,7 +15,7 @@
                 android:id="@+id/submission_contact_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_information_illustration_contact"
+                android:src="@drawable/ic_submission_illustration_hotline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -102,18 +102,19 @@
                 android:id="@+id/submission_contact_step_2"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/submission_contact_step_2_content"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_step_1"
                 app:step_entry_final="true"
                 app:step_entry_icon="@drawable/ic_main_overview_2">
-                android:contentDescription="@string/submission_contact_step_2_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
+                        style="@style/subtitle"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/button_icon_margin"

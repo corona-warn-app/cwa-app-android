@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
-import de.rki.coronawarnapp.ui.BaseFragment
 
 /**
  * The fragment displays static informative content to the user
@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.ui.BaseFragment
  *
  */
 
-class MainOverviewFragment : BaseFragment() {
+class MainOverviewFragment : Fragment() {
 
     companion object {
         private val TAG: String? = MainOverviewFragment::class.simpleName

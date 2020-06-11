@@ -78,6 +78,8 @@ object TracingRepository {
             val isEnabled = InternalExposureNotificationClient.asyncIsEnabled()
             isTracingEnabled.value = isEnabled
         } catch (e: Exception) {
+            // when API is not available, ensure tracing is displayed as off
+            isTracingEnabled.postValue(false)
             e.report(
                 ExceptionCategory.EXPOSURENOTIFICATION,
                 TAG,

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
@@ -15,13 +16,12 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.BaseFragment
 import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
  * @see InternalExposureNotificationClient
  * @see InternalExposureNotificationPermissionHelper
  */
-class SettingsTracingFragment : BaseFragment(),
+class SettingsTracingFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
@@ -115,18 +115,18 @@ class SettingsTracingFragment : BaseFragment(),
             (activity as MainActivity).goBack()
         }
         binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+            ExternalActionHelper.toMainSettings(requireContext())
         }
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+            ExternalActionHelper.toConnections(requireContext())
         }
     }
 
     private fun startStopTracing() {
         // if tracing is enabled when listener is activated it should be disabled
         lifecycleScope.launch {
-            if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                try {
+            try {
+                if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     Toast.makeText(
                         requireContext(),
                         "Tracing stopped successfully",
@@ -135,25 +135,26 @@ class SettingsTracingFragment : BaseFragment(),
                         .show()
 
                     InternalExposureNotificationClient.asyncStop()
-                } catch (exception: Exception) {
-                    exception.report(
-                        ExceptionCategory.EXPOSURENOTIFICATION,
-                        TAG,
-                        null
-                    )
-                }
-                tracingViewModel.refreshIsTracingEnabled()
-                BackgroundWorkScheduler.stopWorkScheduler()
-            } else {
-                // tracing was already activated
-                if (LocalData.initialTracingActivationTimestamp() != null) {
-                    internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                    tracingViewModel.refreshIsTracingEnabled()
+                    BackgroundWorkScheduler.stopWorkScheduler()
                 } else {
-                    // tracing was never activated
-                    // ask for consent via dialog for initial tracing activation when tracing was not
-                    // activated during onboarding
-                    showConsentDialog()
+                    // tracing was already activated
+                    if (LocalData.initialTracingActivationTimestamp() != null) {
+                        internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                    } else {
+                        // tracing was never activated
+                        // ask for consent via dialog for initial tracing activation when tracing was not
+                        // activated during onboarding
+                        showConsentDialog()
+                    }
                 }
+            } catch (exception: Exception) {
+                tracingViewModel.refreshIsTracingEnabled()
+                exception.report(
+                    ExceptionCategory.EXPOSURENOTIFICATION,
+                    TAG,
+                    null
+                )
             }
         }
     }

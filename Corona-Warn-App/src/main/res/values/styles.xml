@@ -104,6 +104,15 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="rowSettings" parent="@style/row">
+        <item name="android:paddingStart">@dimen/match_constraint</item>
+    </style>
+
+    <style name="rowOverview" parent="@style/row">
+        <item name="android:paddingTop">@dimen/spacing_tiny</item>
+        <item name="android:paddingBottom">@dimen/spacing_tiny</item>
+    </style>
+
     <!-- ####################################
                     Card
     ###################################### -->
@@ -136,7 +145,7 @@
         <item name="android:layout_marginTop">@dimen/spacing_large</item>
         <item name="android:background">@color/colorSurface2</item>
         <item name="android:paddingStart">@dimen/guideline_start</item>
-        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:paddingTop">@dimen/spacing_medium</item>
         <item name="android:paddingEnd">@dimen/guideline_end</item>
         <item name="android:paddingBottom">@dimen/spacing_normal</item>
     </style>
@@ -231,13 +240,17 @@
         <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
         <item name="android:background">@drawable/tan_input_digit</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/submission_tan_input_digit_spacing</item>
+        <item name="android:layout_marginEnd">@dimen/submission_tan_input_digit_spacing</item>
     </style>
 
     <style name="tanInputDash" parent="headline6">
-        <item name="android:layout_width">@dimen/submission_tan_input_dash_width</item>
-        <item name="android:layout_height">@dimen/submission_tan_input_dash_height</item>
-        <item name="android:background">@null</item>
+        <item name="android:layout_width">@dimen/submission_tan_dash_width</item>
+        <item name="android:layout_height">@dimen/submission_tan_dash_height</item>
+        <item name="android:background">@color/colorTextSemanticNeutral</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/submission_tan_dash_spacing_start</item>
+        <item name="android:layout_marginEnd">@dimen/submission_tan_dash_spacing_end</item>
     </style>
 
     <style name="tanInputEdittext">

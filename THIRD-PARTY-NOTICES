@@ -50,11 +50,6 @@ Licensor: Xtreme Labs, Pivotal Labs and Google Inc.
 Website: http://robolectric.org/
 License: MIT
 
-Component: RootBeer
-Licensor: Scott Alexander-Bown, Mat Rollings
-Website: https://github.com/scottyab/rootbeer
-License: Apache 2.0
-
 Component: Zxing
 Licensor: zxing
 Website: https://github.com/zxing/zxing/
@@ -105,6 +100,16 @@ Licensor: Hwaci
 Website: https://www.sqlite.org/
 License: Public Domain
 
+Component: Timber
+Licensor: Jake Wharton
+Website: https://github.com/JakeWharton/timber/
+License: Apache 2.0
+
+Component: Conscrypt
+Licensor: Conscrypt
+Website: https://github.com/google/conscrypt
+License: Apache 2.0
+
 --------------------------------------------------------------------------------
 Copyright (c) 2008-2020 Zetetic LLC
 All rights reserved.
@@ -132,7 +137,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 Apache License 2.0 (guava, joda-time, MockK, RootBeer, Zxing, ZXing Android Embedded, Detekt, 
-gson, okhttp, kotlinx.coroutines, Retrofit)
+gson, okhttp, kotlinx.coroutines, Retrofit, Timber)
 
                                  Apache License
                            Version 2.0, January 2004

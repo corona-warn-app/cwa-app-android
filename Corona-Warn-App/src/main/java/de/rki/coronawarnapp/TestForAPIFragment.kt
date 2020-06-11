@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,6 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.button_api_enter_other_keys
@@ -78,6 +76,7 @@ import kotlinx.android.synthetic.main.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.UUID
@@ -86,8 +85,6 @@ import java.util.UUID
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
-        val TAG: String? = TestForAPIFragment::class.simpleName
-
         const val CONFIG_SCORE = 8
 
         fun keysToJson(keys: List<TemporaryExposureKey>): String {
@@ -203,7 +200,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 try {
                     internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
 
-                    SubmitDiagnosisKeysTransaction.start("123")
+                    // SubmitDiagnosisKeysTransaction.start("123")
                     withContext(Dispatchers.Main) {
                         showToast("Key submission successful")
                     }
@@ -282,7 +279,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     private val onScannedKey = { key: AppleLegacyKeyExchange.Key? ->
-        Log.i(TAG, "keys scanned..")
+        Timber.i("keys scanned..")
         key?.let {
             text_scanned_key.text = prettyKey(key)
             text_scanned_key.visibility = View.VISIBLE
@@ -366,10 +363,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             lifecycleScope.launch {
                 googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
 
-                Log.i(
-                    TAG,
-                    "Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token"
-                )
+                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
@@ -386,10 +380,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     private fun checkExposure() {
-        Log.d(
-            TAG,
-            "Check Exposure with token $token"
-        )
+        Timber.d("Check Exposure with token $token")
 
         lifecycleScope.launch {
             try {
@@ -397,10 +388,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     InternalExposureNotificationClient.asyncGetExposureSummary(token!!)
                 updateExposureSummaryDisplay(exposureSummary)
                 showToast("Updated Exposure Summary with token $token")
-                Log.d(
-                    TAG, "Received exposure with token $token from QR Code"
-                )
-                Log.i(TAG, exposureSummary.toString())
+                Timber.d("Received exposure with token $token from QR Code")
+                Timber.i(exposureSummary.toString())
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }

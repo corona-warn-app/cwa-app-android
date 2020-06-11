@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -47,9 +49,9 @@ class SubmissionViewModel : ViewModel() {
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
 
-    fun submitDiagnosisKeys() =
+    fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) =
         executeRequestWithStateForEvent(
-            SubmissionService::asyncSubmitExposureKeys,
+            { SubmissionService.asyncSubmitExposureKeys(keys) },
             _submissionState,
             _submissionError
         )
@@ -121,7 +123,15 @@ class SubmissionViewModel : ViewModel() {
             } catch (err: CwaWebException) {
                 exceptionLiveData?.value = Event(err)
                 state.value = Event(ApiRequestState.FAILED)
+            } catch (err: TransactionException) {
+                if (err.cause is CwaWebException) {
+                    exceptionLiveData?.value = Event(err.cause)
+                } else {
+                    err.report(ExceptionCategory.INTERNAL)
+                }
+                state.value = Event(ApiRequestState.FAILED)
             } catch (err: Exception) {
+                state.value = Event(ApiRequestState.FAILED)
                 err.report(ExceptionCategory.INTERNAL)
             }
         }

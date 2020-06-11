@@ -7,24 +7,20 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
             name="subtitle"
             type="String" />
-
-        <variable
-            name="icon"
-            type="android.graphics.drawable.Drawable" />
 
         <variable
             name="iconTint"
             type="Integer" />
 
         <variable
-            name="iconStart"
+            name="icon"
             type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="hideDivider"
+            type="Boolean" />
 
     </data>
 
@@ -49,33 +45,22 @@
                 android:layout_width="@dimen/icon_size_main_card"
                 android:layout_height="@dimen/icon_size_main_card"
                 android:importantForAccessibility="no"
-                android:src="@{iconStart}"
+                android:src="@{icon}"
                 android:tint="@{FormatterHelper.formatColorIcon(iconTint)}"
-                android:visibility="@{FormatterHelper.formatVisibilityIcon(iconStart)}"
-                app:layout_constraintBottom_toBottomOf="@+id/main_row_item_headline"
-                app:layout_constraintEnd_toStartOf="@+id/main_row_item_headline"
+                android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
+                app:layout_constraintBottom_toBottomOf="@+id/main_row_item_subtitle"
+                app:layout_constraintEnd_toStartOf="@+id/main_row_item_subtitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/main_row_item_headline" />
+                app:layout_constraintTop_toTopOf="@+id/main_row_item_subtitle" />
 
             <TextView
-                android:id="@+id/main_row_item_headline"
+                android:id="@+id/main_row_item_subtitle"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{subtitle}"
-                app:layout_constraintEnd_toStartOf="@+id/main_row_item_icon"
-                app:layout_constraintStart_toEndOf="@+id/guideline_body"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/main_row_item_icon"
-                style="@style/icon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
-                android:src="@{icon}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline_body"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -91,6 +76,7 @@
             layout="@layout/include_divider"
             android:layout_width="0dp"
             android:layout_height="@dimen/card_divider"
+            android:visibility="@{FormatterHelper.formatVisibilityInverted(hideDivider)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/settings_guideline_divider"
             app:layout_constraintTop_toBottomOf="@+id/main_row" />

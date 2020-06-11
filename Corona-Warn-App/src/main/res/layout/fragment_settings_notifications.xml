@@ -57,9 +57,9 @@
                 <include
                     android:id="@+id/settings_switch_row_notifications_risk"
                     layout="@layout/include_settings_switch_row"
-                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:visibility="@{FormatterHelper.formatVisibility(settingsViewModel.isNotificationsEnabled())}"
                     app:enabled="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,16 +86,19 @@
                     app:subtitle="@{@string/settings_notifications_subtitle_update_test}" />
 
                 <include
-                    android:id="@+id/settings_navigation_row_system"
-                    layout="@layout/include_navigation_row"
-                    android:layout_width="0dp"
+                    android:id="@+id/settings_notifications_card"
+                    layout="@layout/include_tracing_status_card"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:visibility="@{FormatterHelper.formatVisibilityInverted(settingsViewModel.isNotificationsEnabled())}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_switch_row_notifications_test"
-                    app:subtitle="@{@string/settings_notifications_button_open_settings}" />
+                    app:body="@{@string/settings_notifications_body_inactive}"
+                    app:buttonText="@{@string/settings_notifications_button_open_settings}"
+                    app:headline="@{@string/settings_notifications_headline_card}"
+                    app:icon="@{@drawable/ic_settings_notification_circle}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_switch_row_notifications_test" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
@@ -110,6 +113,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+                <include layout="@layout/merge_guidelines_card" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
-import de.rki.coronawarnapp.ui.BaseFragment
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 
-class SubmissionDispatcherFragment : BaseFragment() {
+class SubmissionDispatcherFragment : Fragment() {
 
     companion object {
         private val TAG: String? = SubmissionDispatcherFragment::class.simpleName
@@ -42,29 +44,29 @@ class SubmissionDispatcherFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.submissionDispatcherScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionDispatcherRoot.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
+        binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
             checkForDataPrivacyPermission()
         }
-        binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
-            doNavigate(
+        binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
+            findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
-        binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
-            doNavigate(
+        binding.submissionDispatcherContent.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
+            findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
             )
@@ -88,7 +90,7 @@ class SubmissionDispatcherFragment : BaseFragment() {
     }
 
     private fun privacyPermissionIsGranted() {
-        doNavigate(
+        findNavController().doNavigate(
             SubmissionDispatcherFragmentDirections
                 .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
         )
