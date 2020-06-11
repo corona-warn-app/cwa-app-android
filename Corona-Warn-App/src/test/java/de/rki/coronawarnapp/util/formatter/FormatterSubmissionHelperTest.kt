@@ -197,7 +197,7 @@ class FormatterSubmissionHelperTest {
         val spannableStringBuilder3 = mockk<SpannableStringBuilder>("result")
 
         every { SpannableStringBuilder().append(any<String>()) } returns spannableStringBuilder1
-        every { spannableStringBuilder1.append(" ") } returns spannableStringBuilder2
+        every { spannableStringBuilder1.append("\n") } returns spannableStringBuilder2
         every { context.getString(R.string.test_result_card_virus_name_text) } returns R.string.test_result_card_virus_name_text.toString()
         every {
             spannableStringBuilder2.append(
