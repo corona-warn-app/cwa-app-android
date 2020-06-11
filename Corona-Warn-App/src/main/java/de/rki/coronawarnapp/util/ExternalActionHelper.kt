@@ -153,7 +153,6 @@ object ExternalActionHelper {
             ExternalActionException(exception).report(
                 ExceptionCategory.UI
             )
-
         }
     }
     // todo navigate storage settings

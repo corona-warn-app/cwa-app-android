@@ -21,5 +21,4 @@ enum class ErrorCodes(val code: Int) {
     // NONTECHNICAL
     NO_NETWORK_CONNECTIVITY(1),
     EXTERNAL_NAVIGATION(10),
-
 }
