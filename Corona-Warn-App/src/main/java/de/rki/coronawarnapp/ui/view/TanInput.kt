@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.DimenRes
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
@@ -24,6 +25,12 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     companion object {
         private const val KEYBOARD_TRIGGER_DELAY = 100L
         private const val EMPTY_STRING = ""
+
+        private const val GROUP_SPACING_COUNT = 2
+        private const val DIGIT_SPACING_COUNT = 7
+        private const val DIGIT_COUNT = 10
+
+        private const val WIDTH_HEIGTH_RATIO = (32.0 / 24.0)
     }
 
     private val whitespaceFilter =
@@ -50,7 +57,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         inflate(context, R.layout.view_tan_input_group_3, this)
         inflate(context, R.layout.view_tan_input_group_4, this)
 
-        lineSpacing = context.resources.getDimension(R.dimen.submission_tan_line_spacing).toInt()
+        lineSpacing = getDimension(R.dimen.submission_tan_line_spacing).toInt()
 
         tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
 
@@ -125,6 +132,15 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         val availableWith = MeasureSpec.getSize(widthMeasureSpec)
 
+        // calculate digit dimensions based on available width
+        val (digitWidth, digitHeight) = calculateDigitDimension(availableWith)
+
+        // adjust digits to calculated width/height
+        digits().forEach {
+            it.layoutParams.width = digitWidth
+            it.layoutParams.height = digitHeight
+        }
+
         var lines = 1
         var remainingWidthInLine = availableWith
         var longestLineWidth = 0
@@ -192,4 +208,28 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
             child.layout(childStart, childTop, childEnd, childBottom)
         }
     }
+
+    // calculate digit digit width
+    // digits should take as much space as possible, limited by min and max digit width
+    // spaces between digits and separators stay constant
+    // digits are displayed in xxx - xxx - xxxx pattern
+    private fun calculateDigitDimension(availableWith: Int): Pair<Int, Int> {
+        val widthRequiredForSpacing =
+            (DIGIT_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_digit_spacing)) +
+                    (GROUP_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_group_spacing))
+
+        val remainingWidthForDigits = availableWith - widthRequiredForSpacing
+
+        val digitWidth = (remainingWidthForDigits / DIGIT_COUNT).coerceIn(
+            getDimension(R.dimen.submission_tan_input_digit_min_width),
+            getDimension(R.dimen.submission_tan_input_digit_max_width)
+        ).toInt()
+
+        // digit should have fixed width/height ratio
+        val digitHeight = (WIDTH_HEIGTH_RATIO * digitWidth).toInt()
+
+        return digitWidth to digitHeight
+    }
+
+    private fun getDimension(@DimenRes dimension: Int) = context.resources.getDimension(dimension)
 }
