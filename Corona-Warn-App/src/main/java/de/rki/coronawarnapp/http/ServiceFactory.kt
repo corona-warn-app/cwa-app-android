@@ -122,26 +122,12 @@ class ServiceFactory {
             )
             .cipherSuites(
                 // TLS 1.2 with Perfect Forward Secrecy (BSI TR-02102-2)
-                CipherSuite.TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256,
-                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-                CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
-                CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
                 CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
                 CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-                CipherSuite.TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
-                CipherSuite.TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
-                CipherSuite.TLS_DHE_DSS_WITH_AES_128_GCM_SHA256,
-                CipherSuite.TLS_DHE_DSS_WITH_AES_256_GCM_SHA384,
-                CipherSuite.TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
-                CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
-                CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
-                CipherSuite.TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
                 // TLS 1.3 (BSI TR-02102-2)
                 CipherSuite.TLS_AES_128_GCM_SHA256,
-                CipherSuite.TLS_AES_256_GCM_SHA384,
-                CipherSuite.TLS_AES_128_CCM_SHA256
+                CipherSuite.TLS_AES_256_GCM_SHA384
             )
             .build()
     )
