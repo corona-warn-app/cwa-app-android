@@ -9,9 +9,9 @@ import io.mockk.verify
 import org.junit.Test
 
 /**
- * CallHelper test.
+ * ExternalActionHelper test.
  */
-class CallHelperTest {
+class ExternalActionHelperTest {
 
     /**
      * Test activity called.
@@ -20,7 +20,7 @@ class CallHelperTest {
     fun testCall() {
         val fragment = mockk<Fragment>()
         every { fragment.startActivity(any()) } just Runs
-        CallHelper.call(fragment, "+77777777777")
+        ExternalActionHelper.call(fragment, "+77777777777")
         verify(exactly = 1) { fragment.startActivity(any()) }
     }
 }
