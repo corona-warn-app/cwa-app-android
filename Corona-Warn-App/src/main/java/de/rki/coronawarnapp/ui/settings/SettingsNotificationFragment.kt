@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
@@ -52,6 +53,7 @@ class SettingsNotificationFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.settingsNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         // refresh required data
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()

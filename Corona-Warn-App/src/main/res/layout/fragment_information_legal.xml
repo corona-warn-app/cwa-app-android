@@ -78,6 +78,7 @@
                 <TextView
                     android:id="@+id/information_legal_headline_contact"
                     style="@style/headline5"
+                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -110,6 +111,7 @@
                 <TextView
                     android:id="@+id/information_legal_headline_taxid"
                     style="@style/headline5"
+                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"

@@ -41,12 +41,12 @@ class InformationPrivacyFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun setButtonOnClickListener() {
