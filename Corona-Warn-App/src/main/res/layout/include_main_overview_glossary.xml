@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
         <variable
             name="subtitle"
             type="String" />
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@{body}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/main_overview_glossary_subtitle"

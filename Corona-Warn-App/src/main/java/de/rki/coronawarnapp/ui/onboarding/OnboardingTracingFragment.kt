@@ -93,7 +93,7 @@ class OnboardingTracingFragment : Fragment(),
     }
 
     override fun onFailure(exception: Exception?) {
-        navigate()
+        // dialog closed, user has to explicitly allow or deny the tracing permission
     }
 
     private fun showCancelDialog() {

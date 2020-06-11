@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -90,7 +90,7 @@ class SettingsNotificationFragment : Fragment() {
         }
         // System Settings
         settingsRow.setOnClickListener {
-            SettingsNavigationHelper.toNotifications(requireContext())
+            ExternalActionHelper.toNotifications(requireContext())
         }
     }
 }

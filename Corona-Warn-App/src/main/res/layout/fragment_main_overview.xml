@@ -72,7 +72,6 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/main_overview_risk_subtitle"
-                    style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -81,27 +80,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_risk">
 
-                    <TextView
+                    <include
                         android:id="@+id/main_overview_risk_subtitle_text"
-                        style="@style/headline6"
+                        layout="@layout/include_main_overview_glossary"
                         android:accessibilityHeading="true"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/guideline_body_title"
-                        android:focusable="false"
-                        android:text="@string/main_overview_subtitle_risk_levels"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:subtitle="@{@string/main_overview_subtitle_risk_levels}" />
 
                     <include
                         android:id="@+id/main_overview_risk_increased_risk"
-                        layout="@layout/include_row"
+                        layout="@layout/include_main_overview_row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
-                        app:hideDivider="@{true}"
-                        app:iconStart="@{@drawable/ic_main_overview_circle}"
+                        app:icon="@{@drawable/ic_main_overview_circle}"
                         app:iconTint="@{@color/colorSemanticHighRisk}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -110,11 +105,10 @@
 
                     <include
                         android:id="@+id/main_overview_risk_low_risk"
-                        layout="@layout/include_row"
+                        layout="@layout/include_main_overview_row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:hideDivider="@{true}"
-                        app:iconStart="@{@drawable/ic_main_overview_circle}"
+                        app:icon="@{@drawable/ic_main_overview_circle}"
                         app:iconTint="@{@color/colorSemanticLowRisk}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -123,11 +117,10 @@
 
                     <include
                         android:id="@+id/main_overview_risk_unknown_risk"
-                        layout="@layout/include_row"
+                        layout="@layout/include_main_overview_row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:hideDivider="@{true}"
-                        app:iconStart="@{@drawable/ic_main_overview_circle}"
+                        app:icon="@{@drawable/ic_main_overview_circle}"
                         app:iconTint="@{@color/colorSemanticNeutralRisk}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

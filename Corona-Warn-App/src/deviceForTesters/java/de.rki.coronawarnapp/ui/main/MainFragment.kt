@@ -6,21 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.OpenUrlHelper
-import timber.log.Timber
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -124,7 +120,7 @@ class MainFragment : Fragment() {
             findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainAbout.mainCard.setOnClickListener {
-            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
+            ExternalActionHelper.openUrl(this, requireContext().getString(R.string.main_about_link))
         }
         binding.mainHeaderShare.buttonIcon.setOnClickListener {
             findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToMainSharingFragment())
@@ -163,28 +159,13 @@ class MainFragment : Fragment() {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
                     true
                 }
-                // todo remove only for testing
                 R.id.menu_test_api -> {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
                     true
                 }
-                // todo remove only for testing
                 R.id.menu_test_risk_level -> {
                     findNavController().doNavigate(
                         MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation()
-                    )
-                    true
-                }
-                // todo remove only for testing
-                R.id.menu_notification_test -> {
-                    Timber.i("calling notification")
-                    Timber.i(
-                        NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
-                            .toString()
-                    )
-                    NotificationHelper.sendNotification(
-                        getString(R.string.notification_body),
-                        NotificationCompat.PRIORITY_HIGH
                     )
                     true
                 }
