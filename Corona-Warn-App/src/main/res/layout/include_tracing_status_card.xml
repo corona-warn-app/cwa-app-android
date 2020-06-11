@@ -6,6 +6,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
         <import type="android.view.View" />
 
         <variable
@@ -35,12 +37,14 @@
         android:id="@+id/tracing_status_card"
         style="@style/cardTracing"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tracing_status_card_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -52,6 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:text="@{headline}"
+                android:contentDescription="@{headline}"
+                android:focusable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tracing_status_card_header_icon"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +68,7 @@
                 android:layout_width="@dimen/icon_size_main_card_end"
                 android:layout_height="@dimen/icon_size_main_card_end"
                 android:importantForAccessibility="no"
+                android:focusable="false"
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{body}"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header" />
@@ -87,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@{buttonText}"
+            android:focusable="true"
             android:visibility="@{FormatterHelper.formatVisibilityText(buttonText)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
