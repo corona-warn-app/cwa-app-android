@@ -721,13 +721,6 @@
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">"Have you been tested? This is how the Corona-Warn-App works"</string>
 
-
-    <!-- Notification -->
-    <!-- XHED: Dialog headline for result dialog  -->
-    <string name="submission_result_dialog_headline">"Thank you for your support."</string>
-    <!-- YTXT: Body text for result dialog -->
-    <string name="submission_result_dialog_body">"Your verified test diagnosis was transmitted anonymously."</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Selection"</string>
@@ -857,12 +850,8 @@
     <string name="submission_status_card_button_unregistered">"Notify and Help"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
-    <!-- XHED: submission status card positive result title -->
-    <string name="submission_status_card_positive_result_title">"Positive Result"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Please note:"</string>
-    <!-- XBUT: submission status card show positive result button -->
-    <string name="submission_status_card_positive_result_show_button">"Display Test Result"</string>
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"You are infectious. Isolate yourself from other people."</string>
     <!-- YTXT: text for contact card -->
@@ -892,24 +881,9 @@
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
-    <!-- XBUT: submission result dialog close button -->
-    <string name="submission_result_button_dialog_close">"OK"</string>
 
     <!-- ####################################
       Button Tooltips for Accessibility
-    ###################################### -->
-    <!-- XACT: back button-->
-    <string name="button_back">"Back to previous page"</string>
-    <!-- XACT: proceed button-->
-    <string name="button_proceed">"Continue Button"</string>
-    <!-- XACT: share button-->
-    <string name="button_share">"Share"</string>
-    <!-- XACT: menu button-->
-    <string name="button_menu">"Menu"</string>
-
-
-    <!-- ####################################
-          Button Tooltips for Accessibility
     ###################################### -->
     <!-- XACT: back button-->
     <string name="button_back">"Back to previous page"</string>

@@ -721,13 +721,6 @@
     <!-- XACT: Submission Intro page title -->
     <string name="submission_intro_accessibility_title">"Wurden Sie getestet? So funktioniert das Corona-Warn-System"</string>
 
-    <!-- Notification -->
-
-    <!-- XHED: Dialog headline for result dialog  -->
-    <string name="submission_result_dialog_headline">"Danke für die Mithilfe!"</string>
-    <!-- YTXT: Body text for result dialog -->
-    <string name="submission_result_dialog_body">"Ihr verifizierter Befund wurde anonym übertragen."</string>
-
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
     <string name="submission_dispatcher_headline">"Auswahl"</string>
@@ -888,8 +881,6 @@
         <item>"Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen."</item>
         <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
     </string-array>
-    <!-- XBUT: submission result dialog close button -->
-    <string name="submission_result_button_dialog_close">"Ok"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
