@@ -94,7 +94,7 @@
     <!-- Submission Tan Input -->
     <dimen name="submission_tan_input_edittext_size">1dp</dimen>
     <dimen name="submission_tan_input_digit_radius">2dp</dimen>
-    <dimen name="submission_tan_input_digit_width">24dp</dimen>
+    <dimen name="submission_tan_input_digit_width">26dp</dimen>
     <dimen name="submission_tan_input_digit_height">32dp</dimen>
     <dimen name="submission_tan_input_digit_spacing">3dp</dimen>
     <dimen name="submission_tan_input_digit_stroke">2dp</dimen>
