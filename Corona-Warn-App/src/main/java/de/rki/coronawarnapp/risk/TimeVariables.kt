@@ -154,7 +154,7 @@ object TimeVariables {
      */
     // because we have risk level calculation and key retrieval calculation
     fun getLastTimeDiagnosisKeysFromServerFetch(): Long? =
-        LocalData.lastTimeDiagnosisKeysFromServerFetch()?.time
+        LocalData.lastTimeDiagnosisKeysFromServerFetch()
 
     /****************************************************
      * CALCULATED TIME VARIABLES

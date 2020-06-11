@@ -138,7 +138,7 @@ fun formatStringAsHTMLFromLocal(path: String): Spanned {
 }
 
 /**
- * TODO
+ * Returns color if it isn't null, otherwise returns [R.color.colorHairline]
  *
  * @param color
  * @return

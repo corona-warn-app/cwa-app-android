@@ -34,7 +34,8 @@ object TracingRepository {
      * @see LocalData
      */
     fun refreshLastTimeDiagnosisKeysFetchedDate() {
-        lastTimeDiagnosisKeysFetched.postValue(LocalData.lastTimeDiagnosisKeysFromServerFetch())
+        val ts = LocalData.lastTimeDiagnosisKeysFromServerFetch()
+        lastTimeDiagnosisKeysFetched.postValue(if (ts != null) Date(ts) else null)
     }
 
     /**

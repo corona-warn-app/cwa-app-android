@@ -175,7 +175,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     private fun rollbackSetup() {
         Timber.v("rollback $SETUP")
-        LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback.get())
+        LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback.get()?.time)
     }
 
     private fun rollbackToken() {
@@ -195,7 +195,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private suspend fun executeSetup() = executeState(SETUP) {
         if (!InternalExposureNotificationClient.asyncIsEnabled())
             throw IllegalStateException("The Exposure Notification Framework must be active, check your tracing status")
-        lastFetchDateForRollback.set(LocalData.lastTimeDiagnosisKeysFromServerFetch())
+        val ts = LocalData.lastTimeDiagnosisKeysFromServerFetch()
+        lastFetchDateForRollback.set(if (ts != null) Date(ts) else null)
         val currentDate = Date(System.currentTimeMillis())
         Timber.d("using $currentDate as current date in Transaction.")
         currentDate
@@ -256,7 +257,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private suspend fun executeFetchDateUpdate(
         currentDate: Date
     ) = executeState(FETCH_DATE_UPDATE) {
-        LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
+        LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate.time)
     }
 
     /**

@@ -316,8 +316,7 @@ object LocalData {
      *
      * @return timestamp as Date
      */
-    // TODO should be changed to Long as well to align with other timestamps
-    fun lastTimeDiagnosisKeysFromServerFetch(): Date? {
+    fun lastTimeDiagnosisKeysFromServerFetch(): Long? {
         val time = getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
@@ -326,7 +325,7 @@ object LocalData {
         // TODO need this for nullable ref, shout not be goto for nullable storage
         if (time == 0L) return null
 
-        return Date(time)
+        return time
     }
 
     /**
@@ -335,12 +334,12 @@ object LocalData {
      *
      * @param value timestamp as Date
      */
-    fun lastTimeDiagnosisKeysFromServerFetch(value: Date?) {
+    fun lastTimeDiagnosisKeysFromServerFetch(value: Long?) {
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_timestamp_diagnosis_keys_fetch),
-                value?.time ?: 0L
+                value ?: 0L
             )
         }
     }

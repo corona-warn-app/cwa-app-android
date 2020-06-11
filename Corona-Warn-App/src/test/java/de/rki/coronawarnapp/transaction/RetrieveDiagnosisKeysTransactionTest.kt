@@ -42,7 +42,7 @@ class RetrieveDiagnosisKeysTransactionTest {
         } returns mockk()
         coEvery { ApplicationConfigurationService.asyncRetrieveExposureConfiguration() } returns mockk()
         every { LocalData.googleApiToken(any()) } just Runs
-        every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
+        every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date().time
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch(any()) } just Runs
     }
 
