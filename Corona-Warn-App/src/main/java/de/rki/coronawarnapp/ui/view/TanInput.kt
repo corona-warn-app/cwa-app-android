@@ -30,7 +30,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         private const val DIGIT_SPACING_COUNT = 7
         private const val DIGIT_COUNT = 10
 
-        private const val WIDTH_HEIGTH_RATIO = (32.0 / 24.0)
+        private const val WIDTH_HEIGHT_RATIO = (32.0 / 24.0)
     }
 
     private val whitespaceFilter =
@@ -132,8 +132,10 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         val availableWith = MeasureSpec.getSize(widthMeasureSpec)
 
-        // calculate digit dimensions based on available width
-        val (digitWidth, digitHeight) = calculateDigitDimension(availableWith)
+        // calculate digit dimensions based on available width and text size
+        val textSize = digits().first().textSize
+
+        val (digitWidth, digitHeight) = calculateDigitDimension(availableWith, textSize.toInt())
 
         // adjust digits to calculated width/height
         digits().forEach {
@@ -213,7 +215,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     // digits should take as much space as possible, limited by min and max digit width
     // spaces between digits and separators stay constant
     // digits are displayed in xxx - xxx - xxxx pattern
-    private fun calculateDigitDimension(availableWith: Int): Pair<Int, Int> {
+    private fun calculateDigitDimension(availableWith: Int, textSize: Int): Pair<Int, Int> {
         val widthRequiredForSpacing =
             (DIGIT_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_digit_spacing)) +
                     (GROUP_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_group_spacing))
@@ -226,7 +228,15 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         ).toInt()
 
         // digit should have fixed width/height ratio
-        val digitHeight = (WIDTH_HEIGTH_RATIO * digitWidth).toInt()
+        val digitHeight = (WIDTH_HEIGHT_RATIO * digitWidth).toInt()
+
+        // is the calculated height enough to display with the text properly?
+        val requiredHeightForText = textSize * 1.3 // text size + some spacing
+        if (digitHeight < requiredHeightForText) {
+            val correctedHeight = requiredHeightForText.toInt()
+            val correctedWidth = (correctedHeight * (1 / WIDTH_HEIGHT_RATIO)).toInt()
+            return correctedWidth to correctedHeight
+        }
 
         return digitWidth to digitHeight
     }
