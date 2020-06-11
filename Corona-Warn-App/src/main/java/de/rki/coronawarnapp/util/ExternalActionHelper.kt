@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.ExternalActionException
 import de.rki.coronawarnapp.exception.reporting.report
 
 /**
@@ -24,11 +25,19 @@ object ExternalActionHelper {
      * @param title
      */
     fun shareText(fragment: Fragment, text: String, title: String?) {
-        fragment.startActivity(Intent.createChooser(Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, text)
-        }, title))
+        try {
+            fragment.startActivity(Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, text)
+            }, title))
+        } catch (exception: Exception) {
+            // catch generic exception on share
+            // possibly due to bad share content format
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
+            )
+        }
     }
 
     /**
@@ -48,10 +57,8 @@ object ExternalActionHelper {
         } catch (exception: Exception) {
             // catch generic exception on call
             // possibly due to bad number format
-            exception.report(
-                ExceptionCategory.UI,
-                TAG,
-                null
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
             )
         }
     }
@@ -74,10 +81,8 @@ object ExternalActionHelper {
             // catch generic exception on url navigation
             // most likely due to bad url format
             // or less likely no browser installed
-            exception.report(
-                ExceptionCategory.UI,
-                TAG,
-                null
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
             )
         }
     }
@@ -88,8 +93,16 @@ object ExternalActionHelper {
      * @param context
      */
     fun toConnections(context: Context) {
-        val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
-        context.startActivity(intent)
+        try {
+            val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+            context.startActivity(intent)
+        } catch (exception: Exception) {
+            // catch generic exception on settings navigation
+            // most likely due to device / rom specific intent issue
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
+            )
+        }
     }
 
     /**
@@ -99,21 +112,29 @@ object ExternalActionHelper {
      */
     // todo has to be tested on API23 on a device
     fun toNotifications(context: Context) {
-        val intent = Intent()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            intent.putExtra(
-                Settings.EXTRA_APP_PACKAGE,
-                context.packageName
+        try {
+            val intent = Intent()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                intent.putExtra(
+                    Settings.EXTRA_APP_PACKAGE,
+                    context.packageName
+                )
+            } else {
+                intent.putExtra(
+                    "app_package",
+                    context.packageName
+                )
+                intent.putExtra("app_uid", context.applicationInfo.uid)
+            }
+            context.startActivity(intent)
+        } catch (exception: Exception) {
+            // catch generic exception on settings navigation
+            // most likely due to device / rom specific intent issue
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
             )
-        } else {
-            intent.putExtra(
-                "app_package",
-                context.packageName
-            )
-            intent.putExtra("app_uid", context.applicationInfo.uid)
         }
-        context.startActivity(intent)
     }
 
     /**
@@ -123,8 +144,17 @@ object ExternalActionHelper {
      * @param context
      */
     fun toMainSettings(context: Context) {
-        val intent = Intent(Settings.ACTION_SETTINGS)
-        context.startActivity(intent)
+        try {
+            val intent = Intent(Settings.ACTION_SETTINGS)
+            context.startActivity(intent)
+        } catch (exception: Exception) {
+            // catch generic exception on settings navigation
+            // most likely due to device / rom specific intent issue
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
+            )
+
+        }
     }
     // todo navigate storage settings
 }
