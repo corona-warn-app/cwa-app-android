@@ -60,7 +60,6 @@ class SettingsResetFragment : Fragment() {
         }
     }
 
-    // TODO verify that all local data is deleted
     private fun deleteAllAppContent() {
         lifecycleScope.launch {
             try {

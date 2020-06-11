@@ -13,7 +13,6 @@ object ApplicationConfigurationService {
         asyncRetrieveApplicationConfiguration()
             .mapRiskScoreToExposureConfiguration()
 
-    // todo double check that the weighted params are not used
     private fun ApplicationConfiguration.mapRiskScoreToExposureConfiguration(): ExposureConfiguration =
         ExposureConfiguration
             .ExposureConfigurationBuilder()
