@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_qr_code_scan_container"
+        android:contentDescription="@string/submission_qr_code_scan_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

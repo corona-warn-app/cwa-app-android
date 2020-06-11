@@ -64,6 +64,7 @@
             <TextView
                 android:id="@+id/onboarding_headline"
                 style="@style/headline4"
+                android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"

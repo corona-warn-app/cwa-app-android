@@ -23,6 +23,7 @@
 
             <TextView
                 android:id="@+id/submission_positive_other_warning_headline"
+                android:accessibilityHeading="true"
                 style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"

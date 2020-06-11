@@ -99,8 +99,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true">
+                android:layout_height="wrap_content">
+
 
                 <include
                     android:id="@+id/risk_details_risk_card"
@@ -118,6 +118,7 @@
                 <TextView
                     android:id="@+id/risk_details_behavior_headline"
                     style="@style/headline5"
+                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
@@ -181,7 +182,6 @@
                     style="@style/greyBodyBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wrapper">
@@ -189,9 +189,9 @@
                     <TextView
                         android:id="@+id/risk_details_information_headline"
                         style="@style/headline5"
+                        android:accessibilityHeading="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
                         android:text="@string/risk_details_headline_infection_risk"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +203,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_tiny"
-                        android:focusable="false"
                         android:text="@string/risk_details_subtitle_infection_risk"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +214,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="false"
                         android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure)}"
                         android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure))}"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -228,7 +226,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:focusable="false"
                         android:text="@string/risk_details_information_body_notice"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

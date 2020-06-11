@@ -8,8 +8,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true">
+            android:layout_height="wrap_content">
+
 
             <ImageView
                 android:id="@+id/submission_contact_illustration"
@@ -26,7 +26,6 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="false"
                 android:text="@string/submission_contact_body"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -35,10 +34,10 @@
             <TextView
                 android:id="@+id/submission_contact_headline"
                 style="@style/headline5"
+                android:accessibilityHeading="true"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:focusable="false"
                 android:text="@string/submission_contact_headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"

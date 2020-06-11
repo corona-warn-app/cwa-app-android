@@ -30,8 +30,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true">
+                android:layout_height="wrap_content">
 
                 <include
                     android:id="@+id/information_contact_header_details"
