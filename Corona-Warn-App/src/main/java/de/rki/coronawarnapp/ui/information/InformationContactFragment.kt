@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.CallHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * Basic Fragment which only displays static content.
@@ -57,7 +57,7 @@ class InformationContactFragment : Fragment() {
         }
         binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
             val number = getString(R.string.information_contact_phone_call_number)
-            CallHelper.call(this, "tel:$number")
+            ExternalActionHelper.call(this, number)
         }
     }
 }
