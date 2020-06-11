@@ -57,9 +57,7 @@ class FormatterRiskHelperTest {
         every { context.getString(R.string.risk_card_button_update) } returns R.string.risk_card_button_update.toString()
         every { context.getString(R.string.risk_card_button_cooldown) } returns R.string.risk_card_button_cooldown.toString()
         every { context.getColor(R.color.colorTextSemanticNeutral) } returns R.color.colorTextSemanticNeutral
-
     }
-
 
     private fun formatRiskLevelHeadlineBase(iRiskLevelScore: Int?, bIsRefreshing: Boolean?, sValue: String) {
         val result = formatRiskLevelHeadline(riskLevelScore = iRiskLevelScore, isRefreshing = bIsRefreshing)
@@ -117,7 +115,8 @@ class FormatterRiskHelperTest {
     private fun formatRiskActiveTracingDaysInRetentionPeriodBase(
         iRiskLevelScore: Int?,
         bShowDetails: Boolean,
-        lActiveTracingDaysInRetentionPeriod: Long, sValue: String
+        lActiveTracingDaysInRetentionPeriod: Long,
+        sValue: String
     ) {
         every { context.getString(R.string.risk_card_body_saved_days) } returns R.string.risk_card_body_saved_days.toString()
 
@@ -144,7 +143,6 @@ class FormatterRiskHelperTest {
             )
         } returns R.string.risk_card_body_time_fetched.toString()
         every { context.getString(R.string.risk_card_body_not_yet_fetched) } returns R.string.risk_card_body_not_yet_fetched.toString()
-
 
         val result = formatTimeFetched(
             riskLevelScore = iRiskLevelScore,
@@ -179,7 +177,6 @@ class FormatterRiskHelperTest {
         every { context.getString(R.string.risk_details_information_body_low_risk) } returns R.string.risk_details_information_body_low_risk.toString()
         every { context.getString(R.string.risk_details_information_body_unknown_risk) } returns R.string.risk_details_information_body_unknown_risk.toString()
 
-
         val result = formatRiskDetailsRiskLevelBody(
             riskLevelScore = iRiskLevelScore,
             daysSinceLastExposure = iDaysSinceLastExposure
@@ -195,7 +192,6 @@ class FormatterRiskHelperTest {
         every { context.getColorStateList(R.color.card_no_calculation) } returns colorStateList
         every { context.getColorStateList(R.color.card_low) } returns colorStateList
         every { context.getColorStateList(R.color.card_unknown) } returns colorStateList
-
 
         val result = formatRiskColorStateList(riskLevelScore = iRiskLevelScore)
         assertThat(
@@ -489,7 +485,6 @@ class FormatterRiskHelperTest {
             sValue = ""
         )
 
-
         formatRiskSavedRiskBase(
             iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             iRiskLevelScoreLastSuccessfulCalculated = RiskLevelConstants.LOW_LEVEL_RISK,
@@ -578,7 +573,6 @@ class FormatterRiskHelperTest {
                 2
             )
         )
-
 
         formatRiskContactBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
