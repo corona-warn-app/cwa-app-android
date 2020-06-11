@@ -14,4 +14,4 @@ fun formatSuffix(string: String?, suffix: Int): String {
 
 fun formatButton(string: String?): String = formatSuffix(string, R.string.suffix_button)
 
-fun formatImage(string: String?): String = formatSuffix(string, R.string.suffix_button)
+fun formatImage(string: String?): String = formatSuffix(string, R.string.suffix_image)
