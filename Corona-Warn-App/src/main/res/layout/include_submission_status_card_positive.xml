@@ -22,6 +22,7 @@
         <TextView
             android:id="@+id/submission_status_card_positive_title"
             style="@style/headline5"
+            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
@@ -64,6 +65,7 @@
         <TextView
             android:id="@+id/submission_status_card_positive_result_subtitle"
             style="@style/headline5"
+            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
