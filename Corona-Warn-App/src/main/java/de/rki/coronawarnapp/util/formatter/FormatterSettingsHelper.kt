@@ -88,13 +88,13 @@ fun formatTracingStatusText(tracing: Boolean, bluetooth: Boolean, connection: Bo
 }
 
 /**
- * Returns a combined string of subtitle and status for the switch hint
+ * Returns a combined string of subtitle and status for the content description for switches
  *
  * @param subtitle
  * @param status
  * @return String
  */
-fun formatSwitchHint(subtitle: String, status: String): String = "$subtitle $status"
+fun formatSwitchContentDescription(subtitle: String, status: String): String = "$subtitle $status"
 
 /**
  * Format the settings tracing description text display depending on tracing status

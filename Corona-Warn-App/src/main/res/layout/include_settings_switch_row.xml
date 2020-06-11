@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:checked="@{status}"
                 android:enabled="@{enabled}"
-                android:contentDescription="@{FormatterSettingsHelper.formatSwitchHint(subtitle, statusText)}"
+                android:contentDescription="@{FormatterSettingsHelper.formatSwitchContentDescription(subtitle, statusText)}"
                 android:theme="@style/switchBase"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
