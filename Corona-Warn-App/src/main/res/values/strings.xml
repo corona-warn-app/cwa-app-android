@@ -411,7 +411,7 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">Eine vielfältige Gruppe in einer Stadt benutzt Smartphones.</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">Einführung Seite 2 von 5. Datenschutz</string>
+    <string name="onboarding_privacy_accessibility_title">Einführung Seite 2 von 5. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung. </string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">Datenschutz</string>
 
