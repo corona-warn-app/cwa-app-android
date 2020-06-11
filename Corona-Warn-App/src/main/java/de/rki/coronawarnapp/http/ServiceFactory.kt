@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.http.ServiceFactoryException
 import de.rki.coronawarnapp.http.config.HTTPVariables
-import de.rki.coronawarnapp.http.interceptor.OfflineCacheInterceptor
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
 import de.rki.coronawarnapp.http.interceptor.WebSecurityVerificationInterceptor
 import de.rki.coronawarnapp.http.service.DistributionService
@@ -47,9 +46,6 @@ class ServiceFactory {
         HttpLoggingInterceptor().also {
             if (BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
         },
-        OfflineCacheInterceptor(
-            CoronaWarnApplication.getAppContext()
-        ),
         RetryInterceptor(),
         HttpErrorParser()
     )
