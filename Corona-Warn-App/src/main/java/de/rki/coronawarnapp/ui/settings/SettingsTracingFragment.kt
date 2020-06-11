@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -38,7 +37,6 @@ class SettingsTracingFragment : Fragment(),
 
     companion object {
         private val TAG: String? = SettingsTracingFragment::class.simpleName
-        var viewCreatedBool = false
     }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
@@ -68,7 +66,6 @@ class SettingsTracingFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        viewCreatedBool = true
     }
 
     override fun onResume() {
@@ -97,23 +94,21 @@ class SettingsTracingFragment : Fragment(),
 
     private fun setButtonOnClickListener() {
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
+        val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
+        val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
+        val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (viewCreatedBool) {
-                ViewBlocker.runAndBlockInteraction(arrayOf(switch)) {
-                    startStopTracing()
-                }
-            }
+        switch.setOnClickListener {
+            startStopTracing()
         }
-        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        back.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
+        bluetooth.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
-        binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
+        connection.setOnClickListener {
             ExternalActionHelper.toConnections(requireContext())
         }
     }

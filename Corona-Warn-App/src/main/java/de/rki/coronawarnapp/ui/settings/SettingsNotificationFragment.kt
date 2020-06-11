@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 class SettingsNotificationFragment : Fragment() {
     companion object {
         private val TAG: String? = SettingsNotificationFragment::class.simpleName
-        var viewCreatedBool = false
     }
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -50,7 +49,6 @@ class SettingsNotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        viewCreatedBool = true
     }
 
     override fun onResume() {
@@ -74,18 +72,12 @@ class SettingsNotificationFragment : Fragment() {
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (viewCreatedBool) {
-                settingsViewModel.toggleNotificationsRiskEnabled()
-            }
+        updateRiskNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (viewCreatedBool) {
-                settingsViewModel.toggleNotificationsTestEnabled()
-            }
+        updateTestNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
