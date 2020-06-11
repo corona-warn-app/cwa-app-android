@@ -40,7 +40,7 @@ class SubmitDiagnosisKeysTransactionTest {
         coEvery { DiagnosisKeyService.asyncSubmitKeys(authString, listOf()) } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start("123")
+            SubmitDiagnosisKeysTransaction.start("123", listOf())
 
             coVerifyOrder {
                 DiagnosisKeyService.asyncSubmitKeys(authString, listOf())
@@ -64,7 +64,7 @@ class SubmitDiagnosisKeysTransactionTest {
         coEvery { DiagnosisKeyService.asyncSubmitKeys(authString, capture(testList)) } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start("123")
+            SubmitDiagnosisKeysTransaction.start("123", listOf(key))
 
             coVerifyOrder {
                 DiagnosisKeyService.asyncSubmitKeys(authString, any())

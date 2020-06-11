@@ -34,11 +34,11 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <de.rki.coronawarnapp.ui.submission.TanInput
+            <de.rki.coronawarnapp.ui.view.TanInput
                 android:id="@+id/submission_tan_input"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_large"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_tan_body" />
@@ -49,6 +49,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:accessibilityLiveRegion="assertive"
                 android:text="@string/submission_tan_character_error"
                 android:textColor="@color/colorTextSemanticRed"
                 android:visibility="@{FormatterSubmissionHelper.formatShowTanCharacterError(viewmodel.tanCharactersValid, viewmodel.tanChecksumValid)}"
@@ -62,6 +63,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:accessibilityLiveRegion="assertive"
                 android:text="@string/submission_tan_error"
                 android:textColor="@color/colorTextSemanticRed"
                 android:visibility="@{FormatterHelper.formatVisibility(!viewmodel.tanChecksumValid)}"

@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/submission_status_card_content_subtitle"
-            style="@style/subtitleMedium"
+            style="@style/headline6"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"
@@ -53,7 +53,7 @@
 
         <TextView
             android:id="@+id/submission_status_card_content_body"
-            style="@style/subtitle"
+            style="@style/subtitleMedium"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_padding"

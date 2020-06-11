@@ -33,35 +33,24 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 23
-        versionName "0.8.15"
+        versionCode 25
+        versionName "0.8.17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
         buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+        buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
 
         //override URLs. Use local.properties if exist.
         // If environment.properties also exist, override local.properties
         def propertiesFile = project.rootProject.file('local.properties')
-        def environmentPropertiesFile = project.rootProject.file('environment.properties')
 
-        Properties overridingProperties
 
         if (propertiesFile.exists()) {
-            overridingProperties = new Properties()
+            Properties overridingProperties = new Properties()
             overridingProperties.load(propertiesFile.newDataInputStream())
-        }
 
-        if (environmentPropertiesFile.exists()) {
-            overridingProperties = new Properties()
-            overridingProperties.load(environmentPropertiesFile.newDataInputStream())
-        }else if (propertiesFile.exists()) {
-            overridingProperties = new Properties()
-            overridingProperties.load(propertiesFile.newDataInputStream())
-        }
-
-        if(overridingProperties){
             def DOWNLOAD_CDN_URL = overridingProperties.getProperty('DOWNLOAD_CDN_URL')
             if (DOWNLOAD_CDN_URL)
                 buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -73,6 +62,10 @@ android {
             def VERIFICATION_CDN_URL = overridingProperties.getProperty('VERIFICATION_CDN_URL')
             if (VERIFICATION_CDN_URL)
                 buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+
+            def PUB_KEYS_SIGNATURE_VERIFICATION = overridingProperties.getProperty('PUB_KEYS_SIGNATURE_VERIFICATION')
+            if (PUB_KEYS_SIGNATURE_VERIFICATION)
+                buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
         }
 
         javaCompileOptions {
@@ -88,23 +81,43 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        releaseForTest {
-            applicationIdSuffix '.dev'
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 
-    // https://developer.android.com/studio/build/build-variants
-    // We use flavors to build different versions of the app. One version which uses
-    // the mock ExposureNotification API and one for the real Google API
+    // One version contains our Test Fragments
     flavorDimensions "version"
     productFlavors {
         device {
             dimension "version"
             buildConfigField "String", "BUILD_VARIANT", "\"device\""
             resValue "string", "app_name", "Corona-Warn"
+        }
+        deviceForTesters {
+            dimension "version"
+            buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
+            resValue "string", "app_name", "CWA TEST"
+            applicationIdSuffix '.dev'
+
+            def environmentPropertiesFile = project.rootProject.file('environment.properties')
+            if (environmentPropertiesFile.exists()) {
+                Properties overridingProperties = new Properties()
+                overridingProperties.load(environmentPropertiesFile.newDataInputStream())
+
+                def DOWNLOAD_CDN_URL = overridingProperties.getProperty('DOWNLOAD_CDN_URL')
+                if (DOWNLOAD_CDN_URL)
+                    buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
+
+                def SUBMISSION_CDN_URL = overridingProperties.getProperty('SUBMISSION_CDN_URL')
+                if (SUBMISSION_CDN_URL)
+                    buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
+
+                def VERIFICATION_CDN_URL = overridingProperties.getProperty('VERIFICATION_CDN_URL')
+                if (VERIFICATION_CDN_URL)
+                    buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
+
+                def PUB_KEYS_SIGNATURE_VERIFICATION = overridingProperties.getProperty('PUB_KEYS_SIGNATURE_VERIFICATION')
+                if (PUB_KEYS_SIGNATURE_VERIFICATION)
+                    buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
+            }
         }
     }
 
@@ -151,6 +164,22 @@ android {
         exclude 'CODEOWNERS'
         exclude 'README.md'
         exclude 'CODE_OF_CONDUCT.md'
+    }
+
+    sourceSets {
+        deviceForTesters {
+            kotlin {
+                srcDirs = ['src/deviceForTesters']
+            }
+            res {
+                srcDirs 'src/deviceForTesters/res', 'src/deviceForTesters/res/navigation'
+            }
+        }
+        device {
+            kotlin {
+                srcDirs = ['src/device']
+            }
+        }
     }
 
 }
@@ -228,6 +257,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.work:work-testing:2.3.4'
     androidTestImplementation "io.mockk:mockk-android:1.10.0"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
 

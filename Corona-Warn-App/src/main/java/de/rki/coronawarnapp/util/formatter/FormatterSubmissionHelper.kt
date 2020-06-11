@@ -45,7 +45,7 @@ fun formatTestResult(uiState: DeviceUIState?): Spannable {
     val appContext = CoronaWarnApplication.getAppContext()
     return SpannableStringBuilder()
         .append(appContext.getString(R.string.test_result_card_virus_name_text))
-        .append(" ")
+        .append("\n")
         .append(
             formatTestResultStatusText(uiState),
             ForegroundColorSpan(formatTestResultStatusColor(uiState)),
