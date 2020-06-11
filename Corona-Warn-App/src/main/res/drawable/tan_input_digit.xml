@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <corners android:radius="@dimen/submission_tan_input_digit_radius" />
             <solid android:color="@color/colorSurface2" />
         </shape>
     </item>
     <item
-        android:height="1.5dp"
+        android:height="@dimen/submission_tan_input_digit_stroke"
         android:gravity="bottom">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <corners android:bottomLeftRadius="@dimen/submission_tan_input_digit_radius" />
             <corners android:bottomRightRadius="@dimen/submission_tan_input_digit_radius" />
             <solid android:color="@color/colorTextSemanticNeutral" />
