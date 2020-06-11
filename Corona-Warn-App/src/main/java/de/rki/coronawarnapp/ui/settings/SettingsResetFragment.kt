@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
@@ -75,11 +74,6 @@ class SettingsResetFragment : Fragment() {
                 apiException.report(
                     ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
                 )
-                Toast.makeText(
-                    this@SettingsResetFragment.context,
-                    "Could not stop tracing. ${apiException.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
             }
             withContext(Dispatchers.IO) {
                 deleteLocalAppContent()
