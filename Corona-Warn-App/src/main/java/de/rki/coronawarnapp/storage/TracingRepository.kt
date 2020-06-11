@@ -53,7 +53,7 @@ object TracingRepository {
             RetrieveDiagnosisKeysTransaction.start()
             RiskLevelTransaction.start()
         } catch (e: Exception) {
-            e.report(ExceptionCategory.EXPOSURENOTIFICATION)
+            e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
         refreshLastTimeDiagnosisKeysFetchedDate()
         isRefreshing.value = false
