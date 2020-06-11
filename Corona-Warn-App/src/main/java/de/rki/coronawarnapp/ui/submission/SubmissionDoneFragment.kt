@@ -40,7 +40,7 @@ class SubmissionDoneFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.submissionDoneContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionDoneContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun setButtonOnClickListener() {

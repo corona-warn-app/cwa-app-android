@@ -72,12 +72,12 @@ class OnboardingTracingFragment : Fragment(),
 
     override fun onStart() {
         super.onStart()
-        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     override fun onResume() {
         super.onResume()
-        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         resetTracing()
     }
 

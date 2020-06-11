@@ -84,6 +84,7 @@
                     <TextView
                         android:id="@+id/main_overview_risk_subtitle_text"
                         style="@style/headline6"
+                        android:accessibilityHeading="true"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/guideline_body_title"
@@ -166,6 +167,7 @@
 
                         <TextView
                             style="@style/headline5"
+                            android:accessibilityHeading="true"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/guideline_body_title"

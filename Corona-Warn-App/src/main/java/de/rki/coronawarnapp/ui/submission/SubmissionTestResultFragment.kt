@@ -106,7 +106,7 @@ class SubmissionTestResultFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         submissionViewModel.refreshDeviceUIState()
         tracingViewModel.refreshIsTracingEnabled()
     }

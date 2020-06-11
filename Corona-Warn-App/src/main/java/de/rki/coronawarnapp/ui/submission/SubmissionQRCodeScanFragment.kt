@@ -178,7 +178,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         if (!CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {

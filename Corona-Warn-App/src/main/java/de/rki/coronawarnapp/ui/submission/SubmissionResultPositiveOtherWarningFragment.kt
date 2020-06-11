@@ -42,7 +42,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
-        binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         tracingViewModel.refreshIsTracingEnabled()
         if (submissionRequested && !submissionFailed) {
             internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()

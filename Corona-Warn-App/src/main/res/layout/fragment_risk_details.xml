@@ -61,6 +61,7 @@
             <TextView
                 android:id="@+id/risk_details_header_title"
                 style="@style/headline6"
+                android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/guideline_body_title"
