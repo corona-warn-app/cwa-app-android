@@ -615,6 +615,7 @@
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
 
     <!-- QR Code Scan Invalid Dialog -->
+
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code nicht korrekt"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
