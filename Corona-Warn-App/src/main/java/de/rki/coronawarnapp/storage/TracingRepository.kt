@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.storage
 
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
@@ -52,8 +53,10 @@ object TracingRepository {
         try {
             RetrieveDiagnosisKeysTransaction.start()
             RiskLevelTransaction.start()
-        } catch (e: Exception) {
+        } catch (e: TransactionException) {
             e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
+        } catch (e: Exception) {
+            e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
         refreshLastTimeDiagnosisKeysFetchedDate()
         isRefreshing.value = false
