@@ -20,5 +20,6 @@ enum class ErrorCodes(val code: Int) {
 
     // NONTECHNICAL
     NO_NETWORK_CONNECTIVITY(1),
+    NOT_ENOUGH_AVAILABLE_SPACE_ON_DISK(2),
     EXTERNAL_NAVIGATION(10),
 }
