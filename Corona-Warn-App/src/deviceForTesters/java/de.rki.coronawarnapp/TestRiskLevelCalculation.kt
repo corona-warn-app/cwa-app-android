@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentResult
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -130,7 +130,9 @@ class TestRiskLevelCalculation : Fragment() {
             }
         }
 
+
         startObserving()
+
     }
 
     override fun onResume() {
@@ -245,94 +247,99 @@ class TestRiskLevelCalculation : Fragment() {
 
     private fun startObserving() {
         tracingViewModel.viewModelScope.launch {
-            val googleToken = LocalData.googleApiToken() ?: UUID.randomUUID().toString()
-            val exposureSummary =
-                InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
+            try {
+                val googleToken = LocalData.googleApiToken() ?: UUID.randomUUID().toString()
+                val exposureSummary =
+                    InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
-            val appConfig = ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                val appConfig =
+                    ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
 
-            val riskLevelScore = RiskLevelCalculation.calculateRiskScore(
-                appConfig.attenuationDuration,
-                exposureSummary
-            )
+                val riskLevelScore = RiskLevelCalculation.calculateRiskScore(
+                    appConfig.attenuationDuration,
+                    exposureSummary
+                )
 
-            val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
-                    "Last successful Level: " +
-                    "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
-                    "Calculated Score: ${riskLevelScore}\n" +
-                    "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
-                    "Tracing Duration: " +
-                    "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
-                    "Tracing Duration in last 14 days: " +
-                    "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days \n" +
-                    "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
+                val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
+                        "Last successful Level: " +
+                        "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
+                        "Calculated Score: ${riskLevelScore}\n" +
+                        "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
+                        "Tracing Duration: " +
+                        "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
+                        "Tracing Duration in last 14 days: " +
+                        "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days \n" +
+                        "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
 
-            binding.labelRiskScore.text = riskAsString
+                binding.labelRiskScore.text = riskAsString
 
-            val lowClass =
-                appConfig.riskScoreClasses?.riskClassesList?.find { low -> low.label == "LOW" }
-            val highClass =
-                appConfig.riskScoreClasses?.riskClassesList?.find { high -> high.label == "HIGH" }
+                val lowClass =
+                    appConfig.riskScoreClasses?.riskClassesList?.find { low -> low.label == "LOW" }
+                val highClass =
+                    appConfig.riskScoreClasses?.riskClassesList?.find { high -> high.label == "HIGH" }
 
-            val configAsString =
-                "Attenuation Weight Low: ${appConfig.attenuationDuration?.weights?.low}\n" +
-                        "Attenuation Weight Mid: ${appConfig.attenuationDuration?.weights?.mid}\n" +
-                        "Attenuation Weight High: ${appConfig.attenuationDuration?.weights?.high}\n\n" +
-                        "Attenuation Offset: ${appConfig.attenuationDuration?.defaultBucketOffset}\n" +
-                        "Attenuation Normalization: " +
-                        "${appConfig.attenuationDuration?.riskScoreNormalizationDivisor}\n\n" +
-                        "Risk Score Low Class: ${lowClass?.min ?: 0} - ${lowClass?.max ?: 0}\n" +
-                        "Risk Score High Class: ${highClass?.min ?: 0} - ${highClass?.max ?: 0}"
+                val configAsString =
+                    "Attenuation Weight Low: ${appConfig.attenuationDuration?.weights?.low}\n" +
+                            "Attenuation Weight Mid: ${appConfig.attenuationDuration?.weights?.mid}\n" +
+                            "Attenuation Weight High: ${appConfig.attenuationDuration?.weights?.high}\n\n" +
+                            "Attenuation Offset: ${appConfig.attenuationDuration?.defaultBucketOffset}\n" +
+                            "Attenuation Normalization: " +
+                            "${appConfig.attenuationDuration?.riskScoreNormalizationDivisor}\n\n" +
+                            "Risk Score Low Class: ${lowClass?.min ?: 0} - ${lowClass?.max ?: 0}\n" +
+                            "Risk Score High Class: ${highClass?.min ?: 0} - ${highClass?.max ?: 0}"
 
-            binding.labelBackendParameters.text = configAsString
+                binding.labelBackendParameters.text = configAsString
 
-            val summaryAsString =
-                "Days Since Last Exposure: ${exposureSummary.daysSinceLastExposure}\n" +
-                        "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
-                        "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
-                        "Attenuation Durations: [${exposureSummary.attenuationDurationsInMinutes?.get(
-                            0
-                        )}," +
-                        "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
-                        "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
-                        "Summation Risk Score: ${exposureSummary.summationRiskScore}"
+                val summaryAsString =
+                    "Days Since Last Exposure: ${exposureSummary.daysSinceLastExposure}\n" +
+                            "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
+                            "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
+                            "Attenuation Durations: [${exposureSummary.attenuationDurationsInMinutes?.get(
+                                0
+                            )}," +
+                            "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
+                            "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
+                            "Summation Risk Score: ${exposureSummary.summationRiskScore}"
 
-            binding.labelExposureSummary.text = summaryAsString
+                binding.labelExposureSummary.text = summaryAsString
 
-            val maxRisk = exposureSummary.maximumRiskScore
-            val atWeights = appConfig.attenuationDuration?.weights
-            val attenuationDurationInMin =
-                exposureSummary.attenuationDurationsInMinutes
-            val attenuationConfig = appConfig.attenuationDuration
-            val formulaString =
-                "($maxRisk / ${attenuationConfig?.riskScoreNormalizationDivisor}) * " +
-                        "(${attenuationDurationInMin?.get(0)} * ${atWeights?.low} " +
-                        "+ ${attenuationDurationInMin?.get(1)} * ${atWeights?.mid} " +
-                        "+ ${attenuationDurationInMin?.get(2)} * ${atWeights?.high} " +
-                        "+ ${attenuationConfig?.defaultBucketOffset})"
+                val maxRisk = exposureSummary.maximumRiskScore
+                val atWeights = appConfig.attenuationDuration?.weights
+                val attenuationDurationInMin =
+                    exposureSummary.attenuationDurationsInMinutes
+                val attenuationConfig = appConfig.attenuationDuration
+                val formulaString =
+                    "($maxRisk / ${attenuationConfig?.riskScoreNormalizationDivisor}) * " +
+                            "(${attenuationDurationInMin?.get(0)} * ${atWeights?.low} " +
+                            "+ ${attenuationDurationInMin?.get(1)} * ${atWeights?.mid} " +
+                            "+ ${attenuationDurationInMin?.get(2)} * ${atWeights?.high} " +
+                            "+ ${attenuationConfig?.defaultBucketOffset})"
 
-            binding.labelFormula.text = formulaString
+                binding.labelFormula.text = formulaString
 
-            binding.labelFullConfig.text = appConfig.toString()
+                binding.labelFullConfig.text = appConfig.toString()
 
-            val token = LocalData.googleApiToken()
-            if (token != null) {
-                val exposureInformation = asyncGetExposureInformation(token)
+                val token = LocalData.googleApiToken()
+                if (token != null) {
+                    val exposureInformation = asyncGetExposureInformation(token)
 
-                var infoString = ""
-                exposureInformation.forEach {
-                    infoString += "Attenuation duration in min.: " +
-                            "[${it.attenuationDurationsInMinutes?.get(0)}, " +
-                            "${it.attenuationDurationsInMinutes?.get(1)}," +
-                            "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
-                            "Attenuation value: ${it.attenuationValue}\n" +
-                            "Duration in min.: ${it.durationMinutes}\n" +
-                            "Risk Score: ${it.totalRiskScore}\n" +
-                            "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
-                            "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
+                    var infoString = ""
+                    exposureInformation.forEach {
+                        infoString += "Attenuation duration in min.: " +
+                                "[${it.attenuationDurationsInMinutes?.get(0)}, " +
+                                "${it.attenuationDurationsInMinutes?.get(1)}," +
+                                "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
+                                "Attenuation value: ${it.attenuationValue}\n" +
+                                "Duration in min.: ${it.durationMinutes}\n" +
+                                "Risk Score: ${it.totalRiskScore}\n" +
+                                "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
+                                "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
+                    }
+
+                    binding.labelExposureInfo.text = infoString
                 }
-
-                binding.labelExposureInfo.text = infoString
+            } catch (e: Exception) {
+                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
         }
     }
