@@ -36,6 +36,14 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             message = context.resources.getString(resId)
         }
 
+        if (intent.hasExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE)) {
+            val apiStatusCode = intent.getIntExtra(
+                ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE,
+                ErrorCodes.REPORTED_EXCEPTION_UNKNOWN_PROBLEM.code
+            )
+            message += "($apiStatusCode)"
+        }
+
         val stack = intent.getStringExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA)
         val title = context.resources.getString(R.string.errors_generic_headline)
         val confirm = context.resources.getString(R.string.errors_generic_button_positive)
