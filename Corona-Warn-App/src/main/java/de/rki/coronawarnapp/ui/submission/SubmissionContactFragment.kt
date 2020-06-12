@@ -53,6 +53,9 @@ class SubmissionContactFragment : Fragment() {
         binding.submissionContactButtonCall.setOnClickListener {
             dial()
         }
+        binding.submissionContact.submissionContactStep1Number.setOnClickListener {
+            dial()
+        }
         binding.submissionContactButtonEnter.setOnClickListener {
             findNavController().doNavigate(
                 SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
