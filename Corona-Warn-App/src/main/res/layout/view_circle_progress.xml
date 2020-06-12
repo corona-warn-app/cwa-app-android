@@ -20,7 +20,7 @@
             android:id="@+id/circle_progress_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="Sie haben alle tage erfasst"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_risk_card_saved_days"
             android:tint="@color/colorAccentTintIcon"
             app:layout_constraintBottom_toBottomOf="parent"

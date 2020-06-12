@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,7 +18,7 @@
 
             <ImageView
                 android:id="@+id/submission_intro_hero_illustration"
-                android:contentDescription="@{@string/submission_intro_illustration_description}"
+                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/submission_intro_illustration_description)}"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_illustration_test"
