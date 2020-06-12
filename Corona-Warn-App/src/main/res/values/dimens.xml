@@ -68,6 +68,7 @@
     <dimen name="icon_size_button">40dp</dimen>
     <dimen name="icon_size_settings">40dp</dimen>
     <dimen name="icon_size_risk_details_behavior">25dp</dimen>
+    <dimen name="icon_size_external_link">18dp</dimen>
     <dimen name="icon_margin_risk_details_behavior">8dp</dimen>
 
     <!-- Circle sizes -->
