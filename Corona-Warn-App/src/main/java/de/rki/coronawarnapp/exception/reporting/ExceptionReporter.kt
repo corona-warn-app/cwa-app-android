@@ -2,7 +2,9 @@ package de.rki.coronawarnapp.exception.reporting
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -24,6 +26,16 @@ fun Throwable.report(
     if (this is ReportedExceptionInterface) {
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, this.code)
         this.resId?.let { intent.putExtra(ReportingConstants.ERROR_REPORT_RES_ID, it) }
+    }
+
+    // override the message with a generic one if it is an ApiException
+    if (this is ApiException) {
+        intent.putExtra(
+            ReportingConstants.ERROR_REPORT_RES_ID,
+            R.string.errors_communication_with_api
+        )
+        intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, ErrorCodes.API_EXCEPTION.code)
+        intent.putExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE, this.statusCode)
     }
 
     val sw = StringWriter()
