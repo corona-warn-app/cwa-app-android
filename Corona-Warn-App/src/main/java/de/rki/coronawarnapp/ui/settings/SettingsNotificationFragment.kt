@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
@@ -52,6 +53,7 @@ class SettingsNotificationFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.settingsNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         // refresh required data
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
@@ -70,18 +72,12 @@ class SettingsNotificationFragment : Fragment() {
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateRiskNotificationSwitch.isPressed) {
-                settingsViewModel.toggleNotificationsRiskEnabled()
-            }
+        updateRiskNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateTestNotificationSwitch.isPressed) {
-                settingsViewModel.toggleNotificationsTestEnabled()
-            }
+        updateTestNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()

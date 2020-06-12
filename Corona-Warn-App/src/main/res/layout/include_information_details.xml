@@ -7,6 +7,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
         <variable
             name="illustration"
             type="android.graphics.drawable.Drawable" />
@@ -32,7 +34,8 @@
             android:id="@+id/information_details_header_illustration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@{illustrationDescription}"
+            android:contentDescription="@{FormatterAccessibilityHelper.formatImage(illustrationDescription)}"
+            android:focusable="true"
             android:src="@{illustration}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +53,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:accessibilityHeading="true"
+                android:focusable="true"
                 android:text="@{headline}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(headline)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -63,6 +68,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
+                android:focusable="true"
                 android:text="@{body}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(body)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
