@@ -23,17 +23,6 @@ class SubmissionTanViewModel : ViewModel() {
                     TanHelper.allCharactersValid(it)
         }
 
-    val tanChecksumValid =
-        Transformations.map(tan) {
-            ((it !== null && it.trim().length == TanConstants.MAX_LENGTH) &&
-                    TanHelper.isChecksumValid(it).not()).not()
-        }
-
-    val tanCharactersValid =
-        Transformations.map(tan) {
-            !((it != null) && TanHelper.allCharactersValid(it).not())
-        }
-
     fun storeTeletan() {
         val teletan = tan.value!!
         Timber.d("Storing teletan $teletan")

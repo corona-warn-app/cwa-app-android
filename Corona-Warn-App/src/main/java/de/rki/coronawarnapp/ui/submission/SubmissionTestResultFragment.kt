@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -33,6 +35,16 @@ class SubmissionTestResultFragment : Fragment() {
     private var _binding: FragmentSubmissionTestResultBinding? = null
     private val binding: FragmentSubmissionTestResultBinding get() = _binding!!
 
+    // Overrides default back behaviour
+    private val backCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().doNavigate(
+                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                )
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +54,8 @@ class SubmissionTestResultFragment : Fragment() {
         _binding = FragmentSubmissionTestResultBinding.inflate(inflater)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
+        // registers callback when the os level back is pressed
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -105,6 +119,7 @@ class SubmissionTestResultFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         submissionViewModel.refreshDeviceUIState()
         tracingViewModel.refreshIsTracingEnabled()
     }

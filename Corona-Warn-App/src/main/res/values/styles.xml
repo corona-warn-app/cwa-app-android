@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">@color/colorBrandSecondary</item>
-        <item name="colorPrimaryDark">@color/colorAccentTintButtonPressed</item>
+        <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="alertDialogTheme">@style/dialog</item>
     </style>
@@ -108,6 +108,7 @@
     </style>
 
     <style name="rowOverview" parent="@style/row">
+        <item name="android:paddingStart">@dimen/match_constraint</item>
         <item name="android:paddingTop">@dimen/spacing_tiny</item>
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
@@ -235,8 +236,8 @@
     ###################################### -->
 
     <style name="tanInputDigit" parent="headline6">
-        <item name="android:layout_width">@dimen/submission_tan_input_digit_width</item>
-        <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/tan_input_digit</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginStart">@dimen/submission_tan_input_digit_spacing</item>
@@ -266,7 +267,7 @@
     ###################################### -->
     <style name="registrationQRCodeScanBody">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textColor">@color/colorStableLight</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

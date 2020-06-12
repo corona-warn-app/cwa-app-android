@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -41,6 +42,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
+        binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         tracingViewModel.refreshIsTracingEnabled()
         if (submissionRequested && !submissionFailed) {
             internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()

@@ -23,7 +23,6 @@
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">#5D6E80</color>
     <color name="colorTextTint">#007FAD</color>
-    <color name="colorTextLight">#FFFFFF</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -42,7 +41,7 @@
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
-    <!-- Todo move to night colors? -->
+
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
 

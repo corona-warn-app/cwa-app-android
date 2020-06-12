@@ -67,7 +67,6 @@ object TracingRepository {
      *
      * @see InternalExposureNotificationClient
      */
-    // TODO [EN] Define EN error handling
     suspend fun refreshIsTracingEnabled() {
         try {
             val isEnabled = InternalExposureNotificationClient.asyncIsEnabled()

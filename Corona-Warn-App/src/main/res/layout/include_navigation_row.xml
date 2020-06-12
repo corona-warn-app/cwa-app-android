@@ -31,6 +31,7 @@
             style="@style/row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -41,7 +42,7 @@
                 android:layout_width="@dimen/icon_size_settings"
                 android:layout_height="@dimen/icon_size_settings"
                 android:layout_marginEnd="@dimen/spacing_small"
-                android:contentDescription="@string/lorem_ipsum"
+                android:importantForAccessibility="no"
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
                 app:layout_constraintBottom_toBottomOf="parent"
