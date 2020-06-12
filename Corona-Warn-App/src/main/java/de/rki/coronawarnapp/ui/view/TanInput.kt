@@ -14,7 +14,6 @@ import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.submission.TanConstants
-import de.rki.coronawarnapp.ui.submission.TanConstants.MAX_LENGTH
 import de.rki.coronawarnapp.util.TanHelper
 import kotlinx.android.synthetic.main.view_tan_input_edittext.view.tan_input_edittext
 import java.util.Locale
@@ -40,7 +39,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
             TanConstants.ALPHA_NUMERIC_CHARS.contains(it)
         }
     }
-    private var lengthFilter = InputFilter.LengthFilter(MAX_LENGTH)
+    private var lengthFilter = InputFilter.LengthFilter(TanConstants.MAX_LENGTH)
 
     var listener: ((String?) -> Unit)? = null
 
@@ -78,20 +77,9 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         }
     }
 
-    private fun limitLength(length: Int?) {
-        lengthFilter = InputFilter.LengthFilter(if (length != null) length else MAX_LENGTH)
-        tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
-    }
-
     private fun updateTan(text: CharSequence?) {
         this.tan = text?.toString()?.toUpperCase(Locale.ROOT)
         updateDigits()
-        tan?.let {
-            limitLength(
-                if (TanHelper.allCharactersValid(it)) null
-                else it.length
-            )
-        }
         notifyListener()
     }
 
