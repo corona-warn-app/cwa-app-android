@@ -82,6 +82,8 @@
     <string name="accessibility_menu">"Menü"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">"Schließen"</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_logo">"Corona-Warn-App"</string>
 
     <!-- ####################################
                      Menu
@@ -133,7 +135,7 @@
         <item quantity="other">"%1$s Risiko-Begegnungen"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s von 14 Tagen gespeichert"</string>
+    <string name="risk_card_body_saved_days">"%1$s von 14 Tagen aktiv"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -181,11 +183,11 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App."</string>
-    <!-- XTXT: External Website for FAQ, has to be translated -->
+    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
+    <!-- NOTR -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
-    <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Aufruf externer Infos im Web."</string>
+    <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
 
     <!-- ####################################
                Main - Share
@@ -200,7 +202,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Download-Link versenden"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Gemeinsam Corona bekämpfen"<xliff:g id="line_break">"\n"</xliff:g>"Ich bin dabei. Du auch?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.coronawarn.app/"</xliff:g><xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Gemeinsam Corona bekämpfen"<xliff:g id="line_break">"\n"</xliff:g>"Ich bin dabei. Du auch?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g><xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"Ein Mann teilt die Corona-Warn-App mit vier anderen Personen."</string>
 
@@ -221,7 +223,7 @@
     <!-- YTXT: App overview body text about risk levels -->
     <string name="main_overview_body_risk">"Sind Sie innerhalb der letzten 14 Tage einer Corona-positiv getesteten Person begegnet, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche Dauer und mit welchem Abstand eine Begegnung stattfand."</string>
     <!-- XHED: App overview subtitle for risk level list -->
-    <string name="main_overview_subtitle_risk_levels">"Folgende Risikostufen können angezeigt werden:"</string>
+    <string name="main_overview_subtitle_risk_levels">"Folgende Risikostatus können angezeigt werden:"</string>
     <!-- XTXT: App overview increased risk level -->
     <string name="main_overview_subtitle_increased_risk">"Erhöhtes Risiko"</string>
     <!-- XTXT: App overview low risk level -->
@@ -342,7 +344,7 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">"Einführung Seite 2 von 5: Datenschutz"</string>
+    <string name="onboarding_privacy_accessibility_title">"Einführung Seite 2 von 5. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Datenschutz"</string>
 
@@ -497,7 +499,14 @@
     <string name="settings_reset_button_negative">"Abbrechen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="settings_reset_illustration_description">"Eine Hand hält ein Smartphone, auf dem das Zurücksetzen der Anwendung symbolisiert wird."</string>
-
+    <!-- XHED: settings(reset) - dialog headline todo finalize texts for dialog headline, body, cancel button, confirm button-->
+    <string name="settings_reset_dialog_headline">"Anwendung zurücksetzen"</string>
+    <!-- XTXT: settings(reset) - dialog content -->
+    <string name="settings_reset_dialog_body">"Sie werden nicht mehr über Ihre Risiko-Begegnungen informiert und können andere Nutzerinnen und Nutzer nicht mehr warnen. Dieser Vorgang kann nicht rückgängig gemacht werden."</string>
+    <!-- XBUT: settings(reset) - dialog cancel -->
+    <string name="settings_reset_dialog_button_cancel">"Abbrechen"</string>
+    <!-- XBUT: settings(reset) - dialog confirm -->
+    <string name="settings_reset_dialog_button_confirm">"Zurücksetzen"</string>
 
     <!-- ####################################
                App Information
@@ -546,7 +555,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Unser Kundenservice ist für Sie da."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Unsere Öffnungszeiten:"<xliff:g id="line_break">"\n"</xliff:g>"Mo - Sa: 08:00 - 22:00 Uhr"<xliff:g id="line_break">"\n(außer an bundesweiten Feiertagen)"</xliff:g><xliff:g id="line_break">"\nDer Anruf ist kostenfrei."</xliff:g></string>
+    <string name="information_contact_body_open">"Sprachen: Deutsch, Englisch \nErreichbarkeit:"<xliff:g id="line_break">"\n"</xliff:g>"Mo - Sa: 07:00 - 22:00 Uhr"<xliff:g id="line_break">"\n(außer an bundesweiten Feiertagen)"</xliff:g><xliff:g id="line_break">"\nDer Anruf ist kostenfrei."</xliff:g></string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -623,6 +632,14 @@
     <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
 
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission denied  -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Kamerazugriff benötigt"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
+    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
+
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code nicht korrekt"</string>
@@ -634,6 +651,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
     <!-- QR Code Scan Screen -->
+    <string name="submission_qr_code_scan_title">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="submission_qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
 
@@ -819,12 +837,12 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Unsere Öffnungszeiten:\nMo - Sa: 08:00 - 22:00 Uhr\n(außer an bundesweiten Feiertagen)\nDer Anruf ist kostenfrei."</string>
+    <string name="submission_contact_operating_hours_body">"Sprachen: Deutsch, Englisch, Türkisch \nErreichbarkeit:\nMo - Fr: 08:00 - 22:00 Uhr\nSa - So: 10:00 - 22:00 Uhr\nDer Anruf ist kostenfrei."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"TAN-Anfrage per Telefonanruf"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"Im ersten Schritt rufen Sie die Hotline an und erfragen Ihre TAN. Sie erreichen die Hotline unter der Rufnummer +49 800 7540002. Die Öffnungszeiten sind Montag bis Samstag von 8 bis 22 Uhr. Der Anruf ist kostenfrei."</string>
+    <string name="submission_contact_step_1_content">"Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer +49 800 7540002. Die Erreichbarkeit ist Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Der Anruf ist kostenfrei."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Im zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App."</string>
 
@@ -902,6 +920,10 @@
     <string name="button_share">"Teilen"</string>
     <!-- XACT: menu button-->
     <string name="button_menu">"Menü"</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility button strings, e.g. "Zurück Taste", "Taste" is the default used by android in german -->
+    <string name="suffix_button">"Taste"</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility content description strings for images, e.g. "Eine Gruppe von... Bild" -->
+    <string name="suffix_image">"Bild"</string>
 
     <!-- ####################################
                Business Error Messages
