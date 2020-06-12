@@ -13,7 +13,7 @@
         <variable
             name="tracingViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-        <!-- todo include 'x' button? -->
+
         <variable
             name="showDetails"
             type="Boolean" />
