@@ -118,7 +118,7 @@ object TimeVariables {
      * This is the maximum attenuation duration value for the risk level calculation
      * in minutes
      */
-    private const val MAX_ATTENUATION_DURATION = 30.0
+    private const val MAX_ATTENUATION_DURATION = 30
 
     /**
      * Getter function for [MAX_ATTENUATION_DURATION]
