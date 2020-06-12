@@ -21,6 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/button_icon"
         style="@style/buttonIcon"
+        android:contentDescription="@{FormatterAccessibilityHelper.formatButton(iconDescription)}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +32,7 @@
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
             android:src="@{icon}"
-            android:contentDescription="@{FormatterAccessibilityHelper.formatButton(iconDescription)}"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

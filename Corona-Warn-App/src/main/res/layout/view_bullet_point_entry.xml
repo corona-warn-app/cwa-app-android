@@ -13,6 +13,7 @@
         android:layout_marginStart="@dimen/bullet_point_spacing_before"
         android:baseline="@dimen/bullet_point_baseline_offset"
         android:src="@drawable/bullet_point"
+        android:importantForAccessibility="no"
         app:layout_constraintBaseline_toBaselineOf="@+id/bullet_point_content"
         app:layout_constraintStart_toStartOf="parent" />
 
