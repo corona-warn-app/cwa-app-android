@@ -36,7 +36,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
             false
         }
 
-        if (false) {
+        if (updateNeededFromServer) {
             showUpdateNeededDialog()
         } else {
             activity.navigateToActivities()
