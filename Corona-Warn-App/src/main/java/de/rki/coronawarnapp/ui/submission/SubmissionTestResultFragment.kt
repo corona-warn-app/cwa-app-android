@@ -39,7 +39,9 @@ class SubmissionTestResultFragment : Fragment() {
     private val backCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().doNavigate(SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment())
+                findNavController().doNavigate(
+                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                )
             }
         }
 
