@@ -78,11 +78,6 @@ class MainFragment : Fragment() {
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
     private fun setContentDescription() {
         val shareButtonString: String = getString(R.string.button_share)
         val menuButtonString: String = getString(R.string.button_menu)
