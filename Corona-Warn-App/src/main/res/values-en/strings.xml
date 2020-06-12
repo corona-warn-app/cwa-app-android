@@ -185,7 +185,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
     <!-- NOTR -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <string name="main_about_link">"http://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
 
@@ -535,7 +535,7 @@
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
     <string name="information_terms_title">"Terms of Use"</string>
     <!-- XHED: Page headline for terms of use information page -->
-    <string name="information_terms_headline">"Inhalt"</string>
+    <string name="information_terms_headline">"Content"</string>
     <!-- XACT: describes illustration -->
     <string name="information_terms_illustration_description">"One person is holding a device with a lot of text on the screen. Next to the text is a tick, which is the symbol for accepting the terms of use."</string>
     <!-- XTXT: Path to the full blown terms html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
