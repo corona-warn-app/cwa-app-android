@@ -266,7 +266,7 @@
     ###################################### -->
     <style name="registrationQRCodeScanBody">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textColor">@color/colorStableLight</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

@@ -110,7 +110,6 @@ object ExternalActionHelper {
      *
      * @param context
      */
-    // todo has to be tested on API23 on a device
     fun toNotifications(context: Context) {
         try {
             val intent = Intent()
@@ -155,5 +154,4 @@ object ExternalActionHelper {
             )
         }
     }
-    // todo navigate storage settings
 }
