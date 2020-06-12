@@ -95,8 +95,6 @@
     <!-- Submission Tan Input -->
     <dimen name="submission_tan_input_edittext_size">1dp</dimen>
     <dimen name="submission_tan_input_digit_radius">2dp</dimen>
-    <dimen name="submission_tan_input_digit_width">24dp</dimen>
-    <dimen name="submission_tan_input_digit_height">32dp</dimen>
     <dimen name="submission_tan_input_digit_spacing">3dp</dimen>
     <dimen name="submission_tan_input_digit_stroke">2dp</dimen>
     <dimen name="submission_tan_dash_width">6dp</dimen>
@@ -104,6 +102,10 @@
     <dimen name="submission_tan_dash_spacing_start">2dp</dimen>
     <dimen name="submission_tan_dash_spacing_end">5dp</dimen>
     <dimen name="submission_tan_line_spacing">16dp</dimen>
+    <dimen name="submission_tan_input_digit_min_width">20dp</dimen>
+    <dimen name="submission_tan_input_digit_max_width">48dp</dimen>
+    <dimen name="submission_tan_total_digit_spacing">6dp</dimen>
+    <dimen name="submission_tan_total_group_spacing">16dp</dimen>
 
     <!-- Submission QR Code Scan -->
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>

@@ -27,6 +27,7 @@
         <TextView
             android:id="@+id/tan_input_4"
             style="@style/tanInputDigit"
+            android:layout_marginEnd="@dimen/no_padding"
             tools:text="X" />
 
     </LinearLayout>
