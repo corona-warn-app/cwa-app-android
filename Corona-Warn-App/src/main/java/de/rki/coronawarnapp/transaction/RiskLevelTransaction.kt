@@ -4,7 +4,6 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.exception.NoNetworkException
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -312,7 +311,7 @@ object RiskLevelTransaction : Transaction() {
     /**
      * Executes the [CHECK_APP_CONNECTIVITY] Transaction State
      * If there is no connectivity the transaction will set the last calculated
-     * risk level, report a [NoNetworkException] and closes the transaction
+     * risk level and closes the transaction
      *
      * @return
      */
