@@ -113,8 +113,8 @@ class SubmissionTanFragment : Fragment() {
                 if (tan.length == TanConstants.MAX_LENGTH && !TanHelper.isChecksumValid(tan))
                     showTanError()
             }
-
         }
+
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 
