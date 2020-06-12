@@ -9,6 +9,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
         <import type="android.view.View" />
 
         <variable
@@ -49,7 +51,7 @@
                     style="@style/icon"
                     android:layout_width="@dimen/icon_size_button"
                     android:layout_height="@dimen/icon_size_button"
-                    android:contentDescription="@{@string/accessibility_back}"
+                    android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/accessibility_back)}"
                     android:src="@{@drawable/ic_close}"
                     android:tint="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintBottom_toBottomOf="parent"
