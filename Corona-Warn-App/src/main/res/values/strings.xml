@@ -631,6 +631,8 @@
     <string name="information_contact_illustration_description">Ein Mann nutzt ein Headset zum Telefonieren.</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">Häufige Fragen</string>
+    <!-- XACT: accessibility hint -->
+    <string name="information_help_title_accessibility">"Häufige Fragen. Aufruf externer Infos im Web"</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">Rechtliche Hinweise</string>
     <!-- XACT: describes illustration -->

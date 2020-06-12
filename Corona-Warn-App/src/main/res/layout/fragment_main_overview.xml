@@ -93,10 +93,10 @@
 
                         <TextView
                             style="@style/headline6"
-                            android:accessibilityHeading="true"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/guideline_body_title"
+                            android:accessibilityHeading="true"
                             android:text="@string/main_overview_subtitle_risk_levels"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -174,10 +174,10 @@
 
                         <TextView
                             style="@style/headline5"
-                            android:accessibilityHeading="true"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/guideline_body_title"
+                            android:accessibilityHeading="true"
                             android:text="@string/main_overview_headline_glossary"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

@@ -235,8 +235,8 @@
     ###################################### -->
 
     <style name="tanInputDigit" parent="headline6">
-        <item name="android:layout_width">@dimen/submission_tan_input_digit_width</item>
-        <item name="android:layout_height">@dimen/submission_tan_input_digit_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/tan_input_digit</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginStart">@dimen/submission_tan_input_digit_spacing</item>
