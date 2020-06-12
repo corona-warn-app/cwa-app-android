@@ -41,7 +41,7 @@ class InformationAboutFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.informationAboutScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.informationAboutContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun setButtonOnClickListener() {
