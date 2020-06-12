@@ -138,7 +138,8 @@ fun formatStringAsHTMLFromLocal(path: String): Spanned {
 }
 
 /**
- * TODO
+ * Formats divider color depending on resource value
+ * Returns colorHairline as default
  *
  * @param color
  * @return
