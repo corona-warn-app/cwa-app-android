@@ -13,9 +13,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
-        android:contentDescription="@string/submission_test_result_headline"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/submission_test_result_headline">
 
         <include
             android:id="@+id/submission_test_result_header"

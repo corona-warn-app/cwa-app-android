@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/onboarding_privacy_accessibility_title"
-        android:focusable="true"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/onboarding_header"
@@ -51,8 +51,8 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/spacing_small"
-            app:headline="@{@string/onboarding_privacy_headline}"
             app:body="@{FormatterHelper.formatStringAsHTMLFromLocal(@string/information_privacy_html_path)}"
+            app:headline="@{@string/onboarding_privacy_headline}"
             app:illustration="@{@drawable/ic_illustration_privacy}"
             app:illustrationDescription="@{@string/onboarding_privacy_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"

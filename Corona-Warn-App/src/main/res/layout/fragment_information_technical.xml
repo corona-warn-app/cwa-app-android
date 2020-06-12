@@ -14,8 +14,8 @@
         android:id="@+id/information_technical_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:contentDescription="@string/information_technical_title">
+        android:contentDescription="@string/information_technical_title"
+        android:focusable="true">
 
         <include
             android:id="@+id/information_technical_header"

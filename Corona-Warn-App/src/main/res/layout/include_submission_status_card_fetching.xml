@@ -12,9 +12,9 @@
         <TextView
             android:id="@+id/submission_status_card_fetching_title"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
             android:text="@string/submission_status_card_title_fetching"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

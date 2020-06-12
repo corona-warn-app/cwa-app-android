@@ -22,10 +22,10 @@
         <TextView
             android:id="@+id/submission_status_card_positive_title"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
             android:text="@string/submission_status_card_title_positive"
             app:layout_constraintEnd_toStartOf="@id/submission_status_card_positive_next"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,10 +65,10 @@
         <TextView
             android:id="@+id/submission_status_card_positive_result_subtitle"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
             android:text="@string/submission_status_card_positive_result_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

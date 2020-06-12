@@ -33,9 +33,9 @@
             <TextView
                 android:id="@+id/main_overview_glossary_subtitle"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline_body"

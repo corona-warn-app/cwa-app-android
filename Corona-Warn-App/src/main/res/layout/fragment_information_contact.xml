@@ -6,8 +6,8 @@
         android:id="@+id/information_contact_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:contentDescription="@string/information_contact_title">
+        android:contentDescription="@string/information_contact_title"
+        android:focusable="true">
 
         <include
             android:id="@+id/information_contact_header"
@@ -59,12 +59,12 @@
                 <TextView
                     android:id="@+id/information_contact_subtitle_phone"
                     style="@style/headline6"
-                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@string/information_contact_subtitle_phone"
+                    android:accessibilityHeading="true"
                     android:focusable="true"
+                    android:text="@string/information_contact_subtitle_phone"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -84,8 +84,8 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/information_contact_body_phone"
                     android:focusable="true"
+                    android:text="@string/information_contact_body_phone"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact_navigation_row_phone" />
@@ -96,8 +96,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/information_contact_body_open"
                     android:focusable="true"
+                    android:text="@string/information_contact_body_open"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact_body_phone" />
@@ -108,8 +108,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:text="@string/information_contact_body_other"
                     android:focusable="true"
+                    android:text="@string/information_contact_body_other"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact_body_open" />

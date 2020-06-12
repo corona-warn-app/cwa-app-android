@@ -13,9 +13,9 @@
         <TextView
             android:id="@+id/further_info_title"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
             android:text="@string/test_result_card_negative_further_info_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

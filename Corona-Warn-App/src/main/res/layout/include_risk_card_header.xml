@@ -25,11 +25,11 @@
 
         <TextView
             android:id="@+id/risk_card_header_headline"
-            android:accessibilityHeading="true"
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
             android:text="@{FormatterRiskHelper.formatRiskLevelHeadline(tracingViewModel.riskLevel, tracingViewModel.isRefreshing)}"
             android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
             app:layout_constraintBottom_toBottomOf="parent"

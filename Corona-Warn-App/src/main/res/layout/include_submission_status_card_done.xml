@@ -12,12 +12,12 @@
         <TextView
             android:id="@+id/submission_done_card_title"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
             android:text="@string/submission_done_title"
             app:layout_constraintEnd_toStartOf="@+id/submission_done_card_icon"
             app:layout_constraintStart_toStartOf="parent"

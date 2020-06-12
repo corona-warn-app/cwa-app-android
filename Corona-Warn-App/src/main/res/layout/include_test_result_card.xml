@@ -26,10 +26,10 @@
         <TextView
             android:id="@+id/test_result_card_headline"
             style="@style/body2"
-            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
             android:text="@string/test_result_card_headline"
             app:layout_constraintEnd_toStartOf="@id/test_result_card_status_icon"
             app:layout_constraintStart_toStartOf="parent"

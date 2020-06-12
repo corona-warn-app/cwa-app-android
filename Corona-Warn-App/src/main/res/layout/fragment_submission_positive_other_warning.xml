@@ -5,9 +5,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_positive_other_privacy_container"
-        android:contentDescription="@string/submission_positive_other_warning_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/submission_positive_other_warning_title"
         android:fillViewport="true"
         tools:context=".ui.submission.SubmissionResultPositiveOtherWarningFragment">
 

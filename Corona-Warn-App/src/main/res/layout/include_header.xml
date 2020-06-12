@@ -34,10 +34,10 @@
         <TextView
             android:id="@+id/header_title"
             style="@style/headline6"
-            android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/guideline_body_title"
+            android:accessibilityHeading="true"
             android:text="@{title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
