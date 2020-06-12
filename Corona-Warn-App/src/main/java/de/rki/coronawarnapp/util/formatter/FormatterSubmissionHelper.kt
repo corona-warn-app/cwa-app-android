@@ -146,7 +146,6 @@ fun formatSubmissionStatusCardContentStatusTextVisible(uiState: DeviceUIState?):
 
 fun formatSubmissionStatusCardContentIcon(uiState: DeviceUIState?): Drawable? {
     val appContext = CoronaWarnApplication.getAppContext()
-    // TODO Replace with real drawables when design is finished
     return when (uiState) {
         DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_main_illustration_pending)
         DeviceUIState.PAIRED_POSITIVE,

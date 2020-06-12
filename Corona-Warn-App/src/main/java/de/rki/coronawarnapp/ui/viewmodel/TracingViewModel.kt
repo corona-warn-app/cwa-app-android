@@ -30,7 +30,6 @@ class TracingViewModel : ViewModel() {
         val TAG: String? = TracingViewModel::class.simpleName
     }
 
-    // TODO: comments for variables
     // Values from RiskLevelRepository
     val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
     val riskLevelScoreLastSuccessfulCalculated =
