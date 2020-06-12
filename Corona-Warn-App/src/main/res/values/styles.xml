@@ -108,6 +108,7 @@
     </style>
 
     <style name="rowOverview" parent="@style/row">
+        <item name="android:paddingStart">@dimen/match_constraint</item>
         <item name="android:paddingTop">@dimen/spacing_tiny</item>
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
