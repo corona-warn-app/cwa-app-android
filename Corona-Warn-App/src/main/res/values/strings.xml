@@ -568,7 +568,7 @@
     <string name="settings_reset_button_negative">Abbrechen</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="settings_reset_illustration_description">Eine Hand hält ein Smartphone, auf dem das Zurücksetzen der Anwendung symbolisiert wird.</string>
-    <!-- XHED: settings(reset) - dialog headline todo finalize texts for dialog headline, body, cancel button, confirm button-->
+    <!-- XHED: settings(reset) - dialog headline -->
     <string name="settings_reset_dialog_headline">Anwendung zurücksetzen</string>
     <!-- XTXT: settings(reset) - dialog content -->
     <string name="settings_reset_dialog_body">Sie werden nicht mehr über Ihre Risiko-Begegnungen informiert und können andere Nutzerinnen und Nutzer nicht mehr warnen. Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
@@ -619,7 +619,7 @@
     <string name="information_contact_subtitle_phone">Technische Hotline:</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
     <string name="information_contact_button_phone">+49 (0)800 7540001</string>
-    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; todo phone number to be called replace in english file -->
+    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
     <string name="information_contact_phone_call_number">+49 800 7540001</string>
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">Unser Kundenservice ist für Sie da.</string>
@@ -631,6 +631,8 @@
     <string name="information_contact_illustration_description">Ein Mann nutzt ein Headset zum Telefonieren.</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">Häufige Fragen</string>
+    <!-- XACT: accessibility hint -->
+    <string name="information_help_title_accessibility">"Häufige Fragen. Aufruf externer Infos im Web"</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">Rechtliche Hinweise</string>
     <!-- XACT: describes illustration -->
@@ -802,7 +804,7 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">So funktionert das\nCorona-Warn-System</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:\n</string>
+    <string name="submission_intro_text">Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiven Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">Weiter</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->

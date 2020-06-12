@@ -108,6 +108,7 @@
     </style>
 
     <style name="rowOverview" parent="@style/row">
+        <item name="android:paddingStart">@dimen/match_constraint</item>
         <item name="android:paddingTop">@dimen/spacing_tiny</item>
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
@@ -266,7 +267,7 @@
     ###################################### -->
     <style name="registrationQRCodeScanBody">
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textColor">@color/colorStableLight</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

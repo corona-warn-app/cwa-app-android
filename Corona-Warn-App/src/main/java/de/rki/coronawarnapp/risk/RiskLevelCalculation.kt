@@ -17,14 +17,14 @@ object RiskLevelCalculation {
 
         /** all attenuation values are capped to [TimeVariables.MAX_ATTENUATION_DURATION] */
         val weightedAttenuationLow =
-            attenuationParameters.weights.low.capped()
-                .times(exposureSummary.attenuationDurationsInMinutes[0])
+            attenuationParameters.weights.low
+                .times(exposureSummary.attenuationDurationsInMinutes[0].capped())
         val weightedAttenuationMid =
-            attenuationParameters.weights.mid.capped()
-                .times(exposureSummary.attenuationDurationsInMinutes[1])
+            attenuationParameters.weights.mid
+                .times(exposureSummary.attenuationDurationsInMinutes[1].capped())
         val weightedAttenuationHigh =
-            attenuationParameters.weights.high.capped()
-                .times(exposureSummary.attenuationDurationsInMinutes[2])
+            attenuationParameters.weights.high
+                .times(exposureSummary.attenuationDurationsInMinutes[2].capped())
 
         val maximumRiskScore = exposureSummary.maximumRiskScore.toDouble()
 
@@ -49,7 +49,7 @@ object RiskLevelCalculation {
         return round(riskScore.times(DECIMAL_MULTIPLIER)).div(DECIMAL_MULTIPLIER)
     }
 
-    private fun Double.capped(): Double {
+    private fun Int.capped(): Int {
         return if (this > TimeVariables.getMaxAttenuationDuration()) {
             TimeVariables.getMaxAttenuationDuration()
         } else {

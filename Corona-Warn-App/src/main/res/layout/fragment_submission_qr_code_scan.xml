@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_qr_code_scan_container"
         android:contentDescription="@string/submission_qr_code_scan_title"
@@ -68,7 +74,7 @@
                 style="@style/iconStable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/accessibility_close"
+                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/accessibility_close)"
                 android:src="@drawable/ic_close"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

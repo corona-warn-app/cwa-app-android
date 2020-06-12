@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_about_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/information_about_title"
@@ -20,7 +21,6 @@
             app:title="@{@string/information_about_title}" />
 
         <ScrollView
-            android:id="@+id/information_about_scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
