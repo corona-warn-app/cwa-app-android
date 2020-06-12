@@ -1001,6 +1001,8 @@
         ###################################### -->
     <!-- XTXT: error dialog - detailed text if device is offline  -->
     <string name="errors_no_network">Sie sind nicht mit dem Internet verbunden.</string>
+    <!-- XTXT: error dialog - detailed text if device is offline  -->
+    <string name="errors_api_exception">Es ist ein Fehler bei der Begegnungs-Aufzeichnung aufgetreten. </string>
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
     <string name="errors_not_enough_device_storage">Sie haben nicht genug Speicherplatz.</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
