@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
         <variable
             name="headline"
             type="String" />
@@ -50,6 +52,7 @@
             android:layout_marginEnd="@dimen/spacing_normal"
             android:src="@drawable/ic_forward"
             android:tint="@color/colorTextPrimary1"
+            android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,6 +66,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:text="@{body}"
+            android:contentDescription="@{FormatterAccessibilityHelper.formatButton(body)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_icon_margin"
             android:src="@{illustration}"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_icon"
