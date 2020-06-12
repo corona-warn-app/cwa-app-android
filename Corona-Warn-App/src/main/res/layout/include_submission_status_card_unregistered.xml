@@ -59,6 +59,7 @@
             android:id="@+id/submission_status_card_unregistered_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/submission_status_card_unregistered_title"
             app:srcCompat="@drawable/ic_main_illustration_untested" />

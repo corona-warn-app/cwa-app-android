@@ -50,6 +50,7 @@
             android:layout_marginEnd="@dimen/spacing_normal"
             android:src="@drawable/ic_forward"
             android:tint="@color/colorTextPrimary1"
+            android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_icon_margin"
             android:src="@{illustration}"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_icon"
