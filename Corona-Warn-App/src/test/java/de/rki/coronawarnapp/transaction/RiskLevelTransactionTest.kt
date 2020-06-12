@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.transaction
 import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
@@ -363,7 +362,7 @@ class RiskLevelTransactionTest {
     }
 
     /** Test case if app is not connected */
-    @Test(expected = TransactionException::class)
+    @Test
     fun checkAppConnectivity() {
 
         val testRiskLevel = INCREASED_RISK
