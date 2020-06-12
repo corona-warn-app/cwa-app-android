@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -41,11 +42,24 @@ class InformationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setAccessibilityDelegate()
     }
 
     override fun onResume() {
         super.onResume()
         binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun setAccessibilityDelegate() {
+        val accessibilityDelegate: View.AccessibilityDelegate =
+            object : View.AccessibilityDelegate() {
+                override fun onInitializeAccessibilityNodeInfo(v: View?, info: AccessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfo(v, info)
+                    val string: String = getString(R.string.information_help_title_accessibility)
+                    info.text = string
+                }
+            }
+        binding.informationHelp.mainRowItemSubtitle.accessibilityDelegate = accessibilityDelegate
     }
 
     private fun setButtonOnClickListener() {
