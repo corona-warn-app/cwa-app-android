@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.exception.http.CwaInformationalNotSupportedError
 import de.rki.coronawarnapp.exception.http.CwaRedirectNotSupportedError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaSuccessResponseWithCodeMismatchNotSupportedError
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.exception.http.GatewayTimeoutException
@@ -65,7 +66,7 @@ class HttpErrorParser : Interceptor {
                 }
             }
         } catch (err: UnknownHostException) {
-            throw BadGatewayException()
+            throw CwaUnknownHostException()
         }
     }
 }
