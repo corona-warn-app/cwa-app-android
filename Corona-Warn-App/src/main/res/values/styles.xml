@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">@color/colorBrandSecondary</item>
-        <item name="colorPrimaryDark">@color/colorAccentTintButtonPressed</item>
+        <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="alertDialogTheme">@style/dialog</item>
     </style>

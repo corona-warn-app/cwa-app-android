@@ -40,14 +40,9 @@ class OnboardingTestFragment : Fragment() {
         setButtonOnClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.onboardingTestContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
     override fun onResume() {
         super.onResume()
-        binding.onboardingTestContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTestContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     private fun setButtonOnClickListener() {
