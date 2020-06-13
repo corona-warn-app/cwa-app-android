@@ -28,7 +28,7 @@ class SubmissionViewModel : ViewModel() {
     private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
     private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
 
-    private val _submissionState = MutableLiveData(Event(ApiRequestState.IDLE))
+    private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
@@ -39,7 +39,7 @@ class SubmissionViewModel : ViewModel() {
     val uiStateState: LiveData<ApiRequestState> = _uiStateState
     val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
 
-    val submissionState: LiveData<Event<ApiRequestState>> = _submissionState
+    val submissionState: LiveData<ApiRequestState> = _submissionState
     val submissionError: LiveData<Event<CwaWebException>> = _submissionError
 
     val deviceRegistered get() = LocalData.registrationToken() != null
@@ -49,19 +49,47 @@ class SubmissionViewModel : ViewModel() {
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
 
-    fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) =
-        executeRequestWithStateForEvent(
-            { SubmissionService.asyncSubmitExposureKeys(keys) },
-            _submissionState,
-            _submissionError
-        )
+    fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
+        try {
+            _submissionState.value = ApiRequestState.STARTED
+            SubmissionService.asyncSubmitExposureKeys(keys)
+            _submissionState.value = ApiRequestState.SUCCESS
+        } catch (err: CwaWebException) {
+            _submissionError.value = Event(err)
+            _submissionState.value = ApiRequestState.FAILED
+        } catch (err: TransactionException) {
+            if (err.cause is CwaWebException) {
+                _submissionError.value = Event(err.cause)
+            } else {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            _submissionState.value = ApiRequestState.FAILED
+        } catch (err: Exception) {
+            _submissionState.value = ApiRequestState.FAILED
+            err.report(ExceptionCategory.INTERNAL)
+        }
+    }
 
-    fun doDeviceRegistration() =
-        executeRequestWithStateForEvent(
-            SubmissionService::asyncRegisterDevice,
-            _registrationState,
-            _registrationError
-        )
+    fun doDeviceRegistration() = viewModelScope.launch {
+        try {
+            _registrationState.value = Event(ApiRequestState.STARTED)
+            SubmissionService.asyncRegisterDevice()
+            _registrationState.value = Event(ApiRequestState.SUCCESS)
+        } catch (err: CwaWebException) {
+            _registrationError.value = Event(err)
+            _registrationState.value = Event(ApiRequestState.FAILED)
+        } catch (err: TransactionException) {
+            if (err.cause is CwaWebException) {
+                _registrationError.value = Event(err.cause)
+            } else {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            _registrationState.value = Event(ApiRequestState.FAILED)
+        } catch (err: Exception) {
+            _registrationState.value = Event(ApiRequestState.FAILED)
+            err.report(ExceptionCategory.INTERNAL)
+        }
+    }
 
     fun refreshDeviceUIState() =
         executeRequestWithState(
@@ -105,33 +133,6 @@ class SubmissionViewModel : ViewModel() {
                 exceptionLiveData?.value = Event(err)
                 state.value = ApiRequestState.FAILED
             } catch (err: Exception) {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-        }
-    }
-
-    private fun executeRequestWithStateForEvent(
-        apiRequest: suspend () -> Unit,
-        state: MutableLiveData<Event<ApiRequestState>>,
-        exceptionLiveData: MutableLiveData<Event<CwaWebException>>? = null
-    ) {
-        state.value = Event(ApiRequestState.STARTED)
-        viewModelScope.launch {
-            try {
-                apiRequest()
-                state.value = Event(ApiRequestState.SUCCESS)
-            } catch (err: CwaWebException) {
-                exceptionLiveData?.value = Event(err)
-                state.value = Event(ApiRequestState.FAILED)
-            } catch (err: TransactionException) {
-                if (err.cause is CwaWebException) {
-                    exceptionLiveData?.value = Event(err.cause)
-                } else {
-                    err.report(ExceptionCategory.INTERNAL)
-                }
-                state.value = Event(ApiRequestState.FAILED)
-            } catch (err: Exception) {
-                state.value = Event(ApiRequestState.FAILED)
                 err.report(ExceptionCategory.INTERNAL)
             }
         }
