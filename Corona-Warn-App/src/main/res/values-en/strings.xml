@@ -562,6 +562,8 @@
     <string name="information_contact_illustration_description">"One man is wearing a headset while he is telephoning."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"FAQ"</string>
+    <!-- XACT: accessibility hint -->
+    <string name="information_help_title_accessibility">"FAQ. Open external link."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Legal Notices"</string>
     <!-- XACT: describes illustration -->
@@ -837,7 +839,7 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Register the test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Languages: \nGerman, English, Turkish\n\nBusiness hours:\nMonday to Friday: 8am - 10pm; \nSaturday to Sunday: 10am - 10pm\n\nThe call is free of charge."</string>
+    <string name="submission_contact_operating_hours_body">"Languages: \nGerman, English, Turkish\n\nBusiness hours:\nMonday to Sunday: 24 hours\n\nThe call is free of charge."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Call the hotline and request a TAN"</string>
