@@ -69,11 +69,6 @@ class InternalExposureNotificationPermissionHelper(
                     ResolutionRequestCodes.REQUEST_CODE_START_EXPOSURE_NOTIFICATION.code
                 )
             } catch (exception: Exception) {
-                exception.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
                 returnError(exception)
             }
         }

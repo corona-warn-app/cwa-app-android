@@ -89,7 +89,6 @@ class SettingsTracingFragment : Fragment(),
 
     override fun onFailure(exception: Exception?) {
         tracingViewModel.refreshIsTracingEnabled()
-        exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
     }
 
     private fun setButtonOnClickListener() {
