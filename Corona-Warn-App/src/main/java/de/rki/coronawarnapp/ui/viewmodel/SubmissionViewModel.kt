@@ -16,9 +16,7 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
@@ -52,48 +50,44 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
-        withContext(Dispatchers.Default) {
-            try {
-                _submissionState.postValue(ApiRequestState.STARTED)
-                SubmissionService.asyncSubmitExposureKeys(keys)
-                _submissionState.postValue(ApiRequestState.SUCCESS)
-            } catch (err: CwaWebException) {
-                _submissionError.postValue(Event(err))
-                _submissionState.postValue(ApiRequestState.FAILED)
-            } catch (err: TransactionException) {
-                if (err.cause is CwaWebException) {
-                    _submissionError.postValue(Event(err.cause))
-                } else {
-                    err.report(ExceptionCategory.INTERNAL)
-                }
-                _submissionState.postValue(ApiRequestState.FAILED)
-            } catch (err: Exception) {
-                _submissionState.postValue(ApiRequestState.FAILED)
+        try {
+            _submissionState.value = ApiRequestState.STARTED
+            SubmissionService.asyncSubmitExposureKeys(keys)
+            _submissionState.value = ApiRequestState.SUCCESS
+        } catch (err: CwaWebException) {
+            _submissionError.value = Event(err)
+            _submissionState.value = ApiRequestState.FAILED
+        } catch (err: TransactionException) {
+            if (err.cause is CwaWebException) {
+                _submissionError.value = Event(err.cause)
+            } else {
                 err.report(ExceptionCategory.INTERNAL)
             }
+            _submissionState.value = ApiRequestState.FAILED
+        } catch (err: Exception) {
+            _submissionState.value = ApiRequestState.FAILED
+            err.report(ExceptionCategory.INTERNAL)
         }
     }
 
     fun doDeviceRegistration() = viewModelScope.launch {
-        withContext(Dispatchers.Default) {
-            try {
-                _registrationState.postValue(Event(ApiRequestState.STARTED))
-                SubmissionService.asyncRegisterDevice()
-                _registrationState.postValue(Event(ApiRequestState.SUCCESS))
-            } catch (err: CwaWebException) {
-                _registrationError.postValue(Event(err))
-                _registrationState.postValue(Event(ApiRequestState.FAILED))
-            } catch (err: TransactionException) {
-                if (err.cause is CwaWebException) {
-                    _registrationError.postValue(Event(err.cause))
-                } else {
-                    err.report(ExceptionCategory.INTERNAL)
-                }
-                _registrationState.postValue(Event(ApiRequestState.FAILED))
-            } catch (err: Exception) {
-                _registrationState.postValue(Event(ApiRequestState.FAILED))
+        try {
+            _registrationState.value = Event(ApiRequestState.STARTED)
+            SubmissionService.asyncRegisterDevice()
+            _registrationState.value = Event(ApiRequestState.SUCCESS)
+        } catch (err: CwaWebException) {
+            _registrationError.value = Event(err)
+            _registrationState.value = Event(ApiRequestState.FAILED)
+        } catch (err: TransactionException) {
+            if (err.cause is CwaWebException) {
+                _registrationError.value = Event(err.cause)
+            } else {
                 err.report(ExceptionCategory.INTERNAL)
             }
+            _registrationState.value = Event(ApiRequestState.FAILED)
+        } catch (err: Exception) {
+            _registrationState.value = Event(ApiRequestState.FAILED)
+            err.report(ExceptionCategory.INTERNAL)
         }
     }
 
