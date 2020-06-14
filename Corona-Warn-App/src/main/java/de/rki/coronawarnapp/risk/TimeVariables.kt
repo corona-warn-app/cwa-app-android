@@ -93,18 +93,18 @@ object TimeVariables {
     private const val MILISECONDS_IN_A_SECOND = 1000
     private const val SECONDS_IN_A_MINUTES = 60
     private const val MINUTES_IN_AN_HOUR = 60
-    private const val HOURS_IN_AN_DAY = 24
+    private const val KEY_RETRIEVAL_DELAY_HOURS = 2
 
     /**
      * Delay in milliseconds for manual key retrieval process
      * Value for testing: 1 min =  1000 * 60 * 1
-     * Value: 24 hours = 1000 * 60 * 60 * 24 milliseconds
+     * Value: 2 hours = 1000 * 60 * 60 * 2 milliseconds
      */
     private val MANUAL_KEY_RETRIEVAL_DELAY =
         if (BuildConfig.FLAVOR == "deviceForTesters") {
             MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES
         } else {
-            MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES * MINUTES_IN_AN_HOUR * HOURS_IN_AN_DAY
+            MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES * MINUTES_IN_AN_HOUR * KEY_RETRIEVAL_DELAY_HOURS
         }
 
     /**
