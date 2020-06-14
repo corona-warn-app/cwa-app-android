@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.DAY
+import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.HOUR
 import de.rki.coronawarnapp.util.CachedKeyFileHolder.asyncFetchFiles
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import kotlinx.coroutines.Deferred
@@ -103,6 +104,14 @@ object CachedKeyFileHolder {
                         .map { url -> async { url.createDayEntryForUrl() } }
                 )
             }
+            val missingHours = getMissingHoursFromDiff(currentDate)
+            if (missingHours.isNotEmpty()) {
+                deferredQueries.addAll(
+                    missingHours
+                        .map { getURLForHour(currentDate.toServerFormat(), it) }
+                        .map { url -> async { url.createHourEntryForUrl() }}
+                )
+            }
             // execute the query plan
             try {
                 deferredQueries.awaitAll()
@@ -131,6 +140,18 @@ object CachedKeyFileHolder {
     }
 
     /**
+     * Calculates the missing hours based on current missing entries in the cache
+     */
+    private suspend fun getMissingHoursFromDiff(day: Date): List<String> {
+        val cacheEntries = keyCache.getHours()
+        return getHoursFromServer(day)
+                .also { Timber.v(TAG, "${it.size} hours from server") }
+                .filter { it.hourEntryCacheMiss(cacheEntries, day) }
+                .toList()
+                .also { Timber.d(TAG, "${it.size} missing hours") }
+    }
+
+    /**
      * TODO remove before Release
      */
     private const val LATEST_HOURS_NEEDED = 3
@@ -156,6 +177,16 @@ object CachedKeyFileHolder {
         .contains(getURLForDay(this).generateCacheKeyFromString())
 
     /**
+     * Determines whether a given String has an existing hour cache entry under a unique name
+     * given from the URL that is based on this String
+     *
+     * @param cache the given cache entries
+     */
+    private fun String.hourEntryCacheMiss(cache: List<KeyCacheEntity>, day: Date) = !cache
+        .map { hour -> hour.id }
+        .contains(getURLForHour(day.toServerFormat(), this).generateCacheKeyFromString())
+
+    /**
      * Creates a date entry in the Key Cache for a given String with a unique Key Name derived from the URL
      * and the URI of the downloaded File for that given key
      */
@@ -163,6 +194,16 @@ object CachedKeyFileHolder {
         this.generateCacheKeyFromString(),
         WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
         DAY
+    )
+
+    /**
+     * Creates an hour entry in the Key Cache for a given String with a unique Key Name derived from the URL
+     * and the URI of the downloaded File for that given key
+     */
+    private suspend fun String.createHourEntryForUrl() = keyCache.createEntry(
+        this.generateCacheKeyFromString(),
+        WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
+        HOUR
     )
 
     /**
