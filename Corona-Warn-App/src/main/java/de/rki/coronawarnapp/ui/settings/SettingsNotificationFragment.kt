@@ -63,10 +63,10 @@ class SettingsNotificationFragment : Fragment() {
     private fun setButtonOnClickListener() {
         // Notifications about risk status
         val updateRiskNotificationSwitch =
-            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRowSwitch
+            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRow
         // Notifications about test status
         val updateTestNotificationSwitch =
-            binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
+            binding.settingsSwitchRowNotificationsTest.settingsSwitchRow
         // Settings
         val settingsRow = binding.settingsNotificationsCard.tracingStatusCardButton
         val goBack =
