@@ -25,7 +25,7 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 * [1 Setup](https://github.com/corona-warn-app/cwa-app-android/wiki/1-Setup)
 * [2 Backend](https://github.com/corona-warn-app/cwa-app-android/wiki/2-Backend)
 * [3 UI](https://github.com/corona-warn-app/cwa-app-android/wiki/3-UI)
-* [4 Exposure Notification Google API](https://github.com/corona-warn-app/cwa-app-android/wiki/4-Exposure-Notification-Google-API)
+* [4 Exposure Notification Google API](https://github.com/corona-warn-app/cwa-app-android/wiki/4-Google-Exposure-Notifications-API)
 * [5 Packages](https://github.com/corona-warn-app/cwa-app-android/wiki/5-Packages)
 
 ## Known Issues
