@@ -104,12 +104,14 @@ object CachedKeyFileHolder {
                         .map { url -> async { url.createDayEntryForUrl() } }
                 )
             }
+            // there is no check if the date is available, since we want to get
+            // Diagnosis Keys for a day which is not yet complete
             val missingHours = getMissingHoursFromDiff(currentDate)
             if (missingHours.isNotEmpty()) {
                 deferredQueries.addAll(
                     missingHours
                         .map { getURLForHour(currentDate.toServerFormat(), it) }
-                        .map { url -> async { url.createHourEntryForUrl() }}
+                        .map { url -> async { url.createHourEntryForUrl() } }
                 )
             }
             // execute the query plan
