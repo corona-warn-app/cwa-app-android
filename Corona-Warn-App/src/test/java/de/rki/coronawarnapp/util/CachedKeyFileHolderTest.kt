@@ -48,10 +48,12 @@ class CachedKeyFileHolderTest {
         val date = Date()
 
         coEvery { keyCacheRepository.getDates() } returns listOf()
+        coEvery { keyCacheRepository.getHours() } returns listOf()
         coEvery { keyCacheRepository.getFilesFromEntries() } returns listOf()
         every { CachedKeyFileHolder["isLast3HourFetchEnabled"]() } returns false
         every { CachedKeyFileHolder["checkForFreeSpace"]() } returns Unit
         every { CachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
+        every { CachedKeyFileHolder["getHoursFromServer"](any<Date>()) } returns arrayListOf<String>()
 
         runBlocking {
 
@@ -63,6 +65,8 @@ class CachedKeyFileHolderTest {
                 keyCacheRepository.deleteOutdatedEntries()
                 CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
                 keyCacheRepository.getDates()
+                CachedKeyFileHolder["getMissingHoursFromDiff"](any<Date>())
+                keyCacheRepository.getHours()
                 keyCacheRepository.getFilesFromEntries()
             }
         }
