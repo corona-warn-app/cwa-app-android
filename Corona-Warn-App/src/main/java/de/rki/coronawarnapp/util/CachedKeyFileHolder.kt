@@ -143,6 +143,8 @@ object CachedKeyFileHolder {
 
     /**
      * Calculates the missing hours based on current missing entries in the cache
+     *
+     * @param day current day
      */
     private suspend fun getMissingHoursFromDiff(day: Date): List<String> {
         val cacheEntries = keyCache.getHours()
@@ -183,6 +185,7 @@ object CachedKeyFileHolder {
      * given from the URL that is based on this String
      *
      * @param cache the given cache entries
+     * @param day current day
      */
     private fun String.hourEntryCacheMiss(cache: List<KeyCacheEntity>, day: Date) = !cache
         .map { hour -> hour.id }
