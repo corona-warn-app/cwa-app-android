@@ -179,8 +179,7 @@ class WebRequestBuilder(
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .build()
-        var fakeHeader = "0"
-        if (faked) fakeHeader = Math.random().toInt().toString()
+        val fakeHeader = if (faked) "1" else "0"
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
