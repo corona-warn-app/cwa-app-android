@@ -92,7 +92,7 @@ class SettingsTracingFragment : Fragment(),
     }
 
     private fun setButtonOnClickListener() {
-        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
+        val switch = binding.settingsTracingSwitchRow.settingsSwitchRow
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
