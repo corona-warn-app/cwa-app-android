@@ -11,12 +11,12 @@ object ProtoFormatConverterExtensions {
     private const val DEFAULT_TRANSMISSION_RISK_LEVEL = 1
     private const val TRANSMISSION_RISK_DAY_0 = 5
     private const val TRANSMISSION_RISK_DAY_1 = 6
-    private const val TRANSMISSION_RISK_DAY_2 = 7
+    private const val TRANSMISSION_RISK_DAY_2 = 8
     private const val TRANSMISSION_RISK_DAY_3 = 8
-    private const val TRANSMISSION_RISK_DAY_4 = 7
+    private const val TRANSMISSION_RISK_DAY_4 = 8
     private const val TRANSMISSION_RISK_DAY_5 = 5
     private const val TRANSMISSION_RISK_DAY_6 = 3
-    private const val TRANSMISSION_RISK_DAY_7 = 2
+    private const val TRANSMISSION_RISK_DAY_7 = 1
     private val DEFAULT_TRANSMISSION_RISK_VECTOR = intArrayOf(
         TRANSMISSION_RISK_DAY_0,
         TRANSMISSION_RISK_DAY_1,
