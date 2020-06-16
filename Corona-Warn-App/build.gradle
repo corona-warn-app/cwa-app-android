@@ -231,6 +231,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-tasks:17.1.0'
     api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.2-eap.aar'])
 
+    // Chrome Custom Tabs
+    implementation 'androidx.browser:browser:1.2.0'
+
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

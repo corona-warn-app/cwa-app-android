@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExternalActionException
@@ -71,12 +72,18 @@ object ExternalActionHelper {
      */
     fun openUrl(fragment: Fragment, url: String) {
         try {
+            val customTabBuilder = CustomTabsIntent.Builder().build()
+            fragment.context?.let { customTabBuilder.launchUrl(it, Uri.parse(url)) }
+
+            // a fallback to a traditional browser could be implemented, if not already handled by Chrome Custom Tabs
+            /*
             fragment.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse(url)
                 )
             )
+            */
         } catch (exception: Exception) {
             // catch generic exception on url navigation
             // most likely due to bad url format
