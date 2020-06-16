@@ -128,7 +128,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
 
-        // set thte lifecycleowner for LiveData
+        // set the lifecycleowner for LiveData
         binding.lifecycleOwner = this
 
         // Inflate the layout for this fragment
