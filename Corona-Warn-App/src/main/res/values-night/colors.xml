@@ -42,4 +42,14 @@
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
 
+    <!-- Tan Input -->
+    <color name="tanInputBackground">#1A17191A</color>
+
+    <!-- Stable Colors -->
+    <color name="colorStableDark">#000000</color>
+    <color name="colorStableMedium">#4D17191A</color>
+    <color name="colorStableLight">#FFFFFF</color>
+    <color name="colorStableHairlineLight">#33FFFFFF</color>
+    <color name="colorStableHairlineDark">#3317191A</color>
+
 </resources>

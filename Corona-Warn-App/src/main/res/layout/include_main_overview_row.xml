@@ -46,8 +46,7 @@
                 android:tint="@{FormatterHelper.formatColorIcon(iconTint)}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
                 app:layout_constraintBottom_toBottomOf="@+id/main_overview_row_subtitle"
-                app:layout_constraintEnd_toStartOf="@+id/main_overview_row_subtitle"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_icon"
                 app:layout_constraintTop_toTopOf="@+id/main_overview_row_subtitle" />
 
             <TextView
@@ -65,7 +64,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_body_title" />
+                app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

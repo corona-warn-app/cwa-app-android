@@ -62,6 +62,17 @@ class RiskLevelCalculationTest {
         assertEquals(9830.4, riskScore)
     }
 
+    @Test
+    fun calculateRiskScoreCapped() {
+        val riskScore =
+            RiskLevelCalculation.calculateRiskScore(
+                buildAttenuationDuration(0.5, 0.5, 1.0),
+                buildSummary(4096, 45, 45, 45)
+            )
+
+        assertEquals(9830.4, riskScore)
+    }
+
     private fun buildAttenuationDuration(
         high: Double,
         mid: Double,
