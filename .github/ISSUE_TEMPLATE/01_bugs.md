@@ -33,7 +33,8 @@ Also, be sure to check our documentation first: <URL>
 
 ## Technical details
 
-- Host Machine OS (Windows/Linux/Mac):
+- Mobile device:
+- Android version:
 
 ## Possible Fix
 
