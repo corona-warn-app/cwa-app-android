@@ -92,13 +92,18 @@ class SettingsTracingFragment : Fragment(),
     }
 
     private fun setButtonOnClickListener() {
-        val switch = binding.settingsTracingSwitchRow.settingsSwitchRow
+        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
+        val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnClickListener {
+            startStopTracing()
+        }
+        // Additional click target to toggle switch
+        row.setOnClickListener {
             startStopTracing()
         }
         back.setOnClickListener {

@@ -63,9 +63,15 @@ class SettingsNotificationFragment : Fragment() {
     private fun setButtonOnClickListener() {
         // Notifications about risk status
         val updateRiskNotificationSwitch =
+            binding.settingsSwitchRowNotificationsRisk.settingsSwitchRowSwitch
+        // Additional click target to toggle switch
+        val updateRiskNotificationRow =
             binding.settingsSwitchRowNotificationsRisk.settingsSwitchRow
         // Notifications about test status
         val updateTestNotificationSwitch =
+            binding.settingsSwitchRowNotificationsTest.settingsSwitchRowSwitch
+        // Additional click target to toggle switch
+        val updateTestNotificationRow =
             binding.settingsSwitchRowNotificationsTest.settingsSwitchRow
         // Settings
         val settingsRow = binding.settingsNotificationsCard.tracingStatusCardButton
@@ -75,8 +81,16 @@ class SettingsNotificationFragment : Fragment() {
         updateRiskNotificationSwitch.setOnClickListener {
             settingsViewModel.toggleNotificationsRiskEnabled()
         }
+        // Additional click target to toggle switch
+        updateRiskNotificationRow.setOnClickListener {
+            settingsViewModel.toggleNotificationsRiskEnabled()
+        }
         // Update Test
         updateTestNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsTestEnabled()
+        }
+        // Additional click target to toggle switch
+        updateTestNotificationRow.setOnClickListener {
             settingsViewModel.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
