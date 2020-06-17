@@ -21,6 +21,12 @@ fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
 fun formatTestResultVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState == ApiRequestState.SUCCESS)
 
+fun formatSubmitButtonEnabled(apiRequestState: ApiRequestState) =
+    apiRequestState == ApiRequestState.IDLE || apiRequestState == ApiRequestState.FAILED
+
+fun formatSubmitSpinnerVisible(apiRequestState: ApiRequestState) =
+    formatVisibility(apiRequestState == ApiRequestState.STARTED)
+
 fun formatTestResultStatusText(uiState: DeviceUIState?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
@@ -192,8 +198,3 @@ fun formatShowRiskStatusCard(deviceUiState: DeviceUIState?): Int =
                 deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
                 deviceUiState != DeviceUIState.SUBMITTED_FINAL
     )
-
-fun formatShowTanCharacterError(
-    charactersValid: Boolean,
-    checksumValid: Boolean
-): Int = formatVisibility(checksumValid && !charactersValid)
