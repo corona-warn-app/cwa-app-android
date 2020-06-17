@@ -21,13 +21,14 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.screenshots.ScreenshotCaptureBlockable
 import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_error
 import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_character_error
 
 /**
  * Fragment for TAN entry
  */
-class SubmissionTanFragment : Fragment() {
+class SubmissionTanFragment : Fragment(), ScreenshotCaptureBlockable {
 
     private val viewModel: SubmissionTanViewModel by viewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()

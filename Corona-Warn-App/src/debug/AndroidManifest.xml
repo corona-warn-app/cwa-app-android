@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="de.rki.coronawarnapp">
+
+    <application>
+        <activity
+                android:name=".test.TestActivity"
+                android:exported="false"
+                android:theme="@style/AppTheme" />
+    </application>
+
+</manifest>

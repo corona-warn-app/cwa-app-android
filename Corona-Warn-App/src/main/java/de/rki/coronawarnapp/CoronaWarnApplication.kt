@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.WindowManager
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -16,12 +16,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.util.ActivityScreenshotHelper
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
+
+    private val activityScreenshotsHelper = ActivityScreenshotHelper(BuildConfig.FLAVOR)
 
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
@@ -81,10 +84,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         // does not override function. Empty on intention
     }
 
-    override fun onActivityDestroyed(activity: Activity) {
-        // does not override function. Empty on intention
-    }
-
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         // does not override function. Empty on intention
     }
@@ -95,17 +94,19 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        // prevents screenshot of the app for all activities,
-        // except for deviceForTesters build flavor, which is used for testing
-        if (BuildConfig.FLAVOR != "deviceForTesters") {
-            activity.window.setFlags(
-                WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE
-            )
-        }
+        (activity as? FragmentActivity)?.supportFragmentManager?.registerFragmentLifecycleCallbacks(
+            activityScreenshotsHelper,
+            true
+        )
 
         // set screen orientation to portrait
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+    }
+
+    override fun onActivityDestroyed(activity: Activity) {
+        (activity as? FragmentActivity)?.supportFragmentManager?.unregisterFragmentLifecycleCallbacks(
+            activityScreenshotsHelper
+        )
     }
 
     override fun onActivityResumed(activity: Activity) {
