@@ -72,12 +72,18 @@ class SettingsNotificationFragment : Fragment() {
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnClickListener {
-            settingsViewModel.toggleNotificationsRiskEnabled()
+        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (updateRiskNotificationSwitch.isPressed) {
+                settingsViewModel.toggleNotificationsRiskEnabled()
+            }
         }
         // Update Test
-        updateTestNotificationSwitch.setOnClickListener {
-            settingsViewModel.toggleNotificationsTestEnabled()
+        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (updateTestNotificationSwitch.isPressed) {
+                settingsViewModel.toggleNotificationsTestEnabled()
+            }
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
