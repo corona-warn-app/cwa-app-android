@@ -98,8 +98,11 @@ class SettingsTracingFragment : Fragment(),
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnClickListener {
-            startStopTracing()
+        switch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (switch.isPressed) {
+                startStopTracing()
+            }
         }
         back.setOnClickListener {
             (activity as MainActivity).goBack()
