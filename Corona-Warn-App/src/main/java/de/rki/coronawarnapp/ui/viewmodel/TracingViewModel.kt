@@ -72,6 +72,7 @@ class TracingViewModel : ViewModel() {
                 val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
                 if (keysWereNotRetrievedToday && isNetworkEnabled) {
                     RetrieveDiagnosisKeysTransaction.start()
+                    refreshLastTimeDiagnosisKeysFetchedDate()
                 }
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
