@@ -30,9 +30,17 @@ fun Throwable.report(
 
     // override the message with a generic one if it is an ApiException
     if (this is ApiException) {
+
+        var errorMessage = R.string.errors_communication_with_api
+        val statusCodeGoogleUpdateNeeded = 17
+
+        if (this.statusCode == statusCodeGoogleUpdateNeeded) {
+            errorMessage = R.string.errors_google_update_needed
+        }
+
         intent.putExtra(
             ReportingConstants.ERROR_REPORT_RES_ID,
-            R.string.errors_communication_with_api
+            errorMessage
         )
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, ErrorCodes.API_EXCEPTION.code)
         intent.putExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE, this.statusCode)
