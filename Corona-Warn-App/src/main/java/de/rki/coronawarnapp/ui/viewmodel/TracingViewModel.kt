@@ -3,15 +3,22 @@ package de.rki.coronawarnapp.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
 
@@ -47,13 +54,28 @@ class TracingViewModel : ViewModel() {
     var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
 
     /**
-     * Launches the RiskLevelTransaction in the viewModel scope
+     * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
      *
      * @see RiskLevelTransaction
      * @see RiskLevelRepository
      */
     fun refreshRiskLevel() {
         viewModelScope.launch {
+            try {
+                val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
+                val lastFetch = DateTime(
+                    LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+                    DateTimeZone.getDefault()
+                )
+                val keysWereNotRetrievedToday = LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                        currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+                val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+                if (keysWereNotRetrievedToday && isNetworkEnabled) {
+                    RetrieveDiagnosisKeysTransaction.start()
+                }
+            } catch (e: TransactionException) {
+                e.cause?.report(INTERNAL)
+            }
             try {
                 RiskLevelTransaction.start()
             } catch (e: TransactionException) {
