@@ -33,7 +33,8 @@ Also, be sure to check our documentation first: https://github.com/corona-warn-a
 
 ## Technical details
 
-- Host Machine OS (Windows/Linux/Mac):
+- Mobile device:
+- Android version:
 
 ## Possible Fix
 
