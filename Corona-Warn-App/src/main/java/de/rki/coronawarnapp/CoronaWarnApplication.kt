@@ -95,15 +95,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        // prevents screenshot of the app for all activities,
-        // except for deviceForTesters build flavor, which is used for testing
-        if (BuildConfig.FLAVOR != "deviceForTesters") {
-            activity.window.setFlags(
-                WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE
-            )
-        }
-
         // set screen orientation to portrait
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
     }
