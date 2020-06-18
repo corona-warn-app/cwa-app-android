@@ -108,7 +108,7 @@
                 android:id="@+id/text_my_keys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your keys will be diplayed here"
+                android:hint="Your keys will be displayed here"
                 android:lines="5"
                 android:visibility="gone" />
 
