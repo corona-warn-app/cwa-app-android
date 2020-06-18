@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.util
 
-import android.content.Context
+import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -8,15 +8,22 @@ import de.rki.coronawarnapp.util.screenshots.ScreenshotCaptureBlockable
 
 /**
  * Before the fragment is attached, any Fragment with a marker of [ScreenshotCaptureBlockable]
- * will set the FLAG_SECURE flag. Please note that once this flag is set, you won't be able to
- * revert unless the activity is recreated.
+ * will set the FLAG_SECURE flag.
  */
 class ActivityScreenshotHelper(private val flavor: String) :
     FragmentManager.FragmentLifecycleCallbacks() {
 
-    override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
+    override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) {
+        super.onFragmentCreated(fm, f, savedInstanceState)
         if (f is ScreenshotCaptureBlockable) {
             f.disableScreenshots()
+        }
+    }
+
+    override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+        super.onFragmentDestroyed(fm, f)
+        if (f is ScreenshotCaptureBlockable) {
+            f.requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 

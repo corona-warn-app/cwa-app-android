@@ -19,11 +19,10 @@ import org.robolectric.RobolectricTestRunner
 class ActivityScreenshotHelperTest {
 
     @Test
-    fun flagSecure_IsSet_WhenFragmentIsAttached() {
+    fun `flag secure is set when fragment is attached`() {
         val activityScreenshotHelper = ActivityScreenshotHelper("device")
 
         var flagSecureExists = false
-
         ActivityScenario.launch(TestActivity::class.java).use { scenario ->
             scenario.setupFragment(activityScreenshotHelper)
 
@@ -36,7 +35,7 @@ class ActivityScreenshotHelperTest {
     }
 
     @Test
-    fun flagSecure_IsNotSet_WhenBuildConfigFlavorIsdeviceForTesters() {
+    fun `flag secure is not set when flavor is deviceForTesters`() {
         val activityScreenshotHelper = ActivityScreenshotHelper("deviceForTesters")
 
         var flagSecureExists = false
@@ -51,6 +50,35 @@ class ActivityScreenshotHelperTest {
         Assert.assertEquals(false, flagSecureExists)
     }
 
+    @Test
+    fun `flag secure is cleared when fragment is destroyed`() {
+        val activityScreenshotHelper = ActivityScreenshotHelper("device")
+
+        var flagSecureExists = false
+        ActivityScenario.launch(TestActivity::class.java).use { scenario ->
+            scenario.setupFragment(activityScreenshotHelper)
+
+            scenario.onActivity { activity ->
+                flagSecureExists = activity.window.flagSecureExists()
+            }
+
+            // Assert that flag is set after the fragment got added.
+            Assert.assertEquals(true, flagSecureExists)
+
+            // Now remove the fragment to call onDestroy
+            scenario.onActivity { activity ->
+                val fragment = activity.supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
+                activity.supportFragmentManager.beginTransaction()
+                    .remove(fragment!!)
+                    .commitNow()
+                flagSecureExists = activity.window.flagSecureExists()
+            }
+
+            // The flag should not be set any more.
+            Assert.assertEquals(false, flagSecureExists)
+        }
+    }
+
     private fun Window.flagSecureExists(): Boolean =
         (attributes.flags and WindowManager.LayoutParams.FLAG_SECURE) == WindowManager.LayoutParams.FLAG_SECURE
 
@@ -63,7 +91,7 @@ class ActivityScreenshotHelperTest {
                 true
             )
             val fragment = TestScreenshotFragment()
-            activity.addFragment(fragment)
+            activity.addFragment(fragment, tag = FRAGMENT_TAG)
             Assert.assertEquals(true, fragment.isAdded)
         }
     }
@@ -74,5 +102,9 @@ class ActivityScreenshotHelperTest {
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? = View(requireContext())
+    }
+
+    private companion object {
+        private const val FRAGMENT_TAG = "fragment_tag"
     }
 }
