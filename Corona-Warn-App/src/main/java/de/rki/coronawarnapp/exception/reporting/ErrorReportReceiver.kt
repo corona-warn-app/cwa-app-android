@@ -7,6 +7,7 @@ import android.content.Intent
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.util.DialogHelper
 import timber.log.Timber
 import java.util.Locale
@@ -36,19 +37,25 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             message = context.resources.getString(resId)
         }
 
+        val stack = intent.getStringExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA)
+        val title = context.resources.getString(R.string.errors_generic_headline)
+        val confirm = context.resources.getString(R.string.errors_generic_button_positive)
+        val details = context.resources.getString(R.string.errors_generic_button_negative)
+
+        var detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
+
         if (intent.hasExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE)) {
             val apiStatusCode = intent.getIntExtra(
                 ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE,
                 ErrorCodes.REPORTED_EXCEPTION_UNKNOWN_PROBLEM.code
             )
+
+            if (apiStatusCode == STATUS_CODE_GOOGLE_UPDATE_NEEDED) {
+                detailsTitle =
+                    context.resources.getString(R.string.errors_google_update_needed_details_title)
+            }
             message += "($apiStatusCode)"
         }
-
-        val stack = intent.getStringExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA)
-        val title = context.resources.getString(R.string.errors_generic_headline)
-        val confirm = context.resources.getString(R.string.errors_generic_button_positive)
-        val details = context.resources.getString(R.string.errors_generic_button_negative)
-        val detailsTitle = context.resources.getString(R.string.errors_generic_details_headline)
 
         val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
             .toUpperCase(Locale.ROOT)

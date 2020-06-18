@@ -940,6 +940,10 @@
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Your Corona-Warn-App was installed correctly. Unfortunately, your device is missing a system update and you cannot use the Corona-Warn-App. Please try to restart the Corona-Warn-App in a couple of days."</string>
+    <!-- XTXT: error dialog - details of possible steps that could be taken to fix  -->
+    <string name="errors_google_update_needed_hints">"\n- Only download the Corona-Warn-App from the official Google Play Store. \n- Check if your Google Play Services have the latest update. \n- Check if, in your Google Play Store Account, Germany is set as region and language. \n- Check if you are the admin user of the device."</string>
+    <!-- XTXT: error dialog - details title for error that phone still needs Google Play Services or Google Mobile Services update  -->
+    <string name="errors_google_update_needed_details_title">Possible solutions</string>
 
     <!-- ####################################
                Generic Error Messages
