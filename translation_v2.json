@@ -4,7 +4,7 @@
       "collectionName": "cwa-app-android",
       "folders": [
         {
-          "startingFolderPath": "**/res/values/**",
+          "startingFolderPath": "**/res/values-de/**",
           "sourceFilters": [
             "strings.xml"
           ],
