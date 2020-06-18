@@ -73,6 +73,7 @@ class TracingViewModel : ViewModel() {
                 if (keysWereNotRetrievedToday && isNetworkEnabled) {
                     RetrieveDiagnosisKeysTransaction.start()
                     refreshLastTimeDiagnosisKeysFetchedDate()
+                    TimerHelper.checkManualKeyRetrievalTimer()
                 }
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
