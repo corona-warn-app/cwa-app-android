@@ -1,7 +1,13 @@
 package de.rki.coronawarnapp.util
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import de.rki.coronawarnapp.R
 
 object DialogHelper {
 
@@ -59,11 +65,12 @@ object DialogHelper {
     fun showDialog(
         dialogInstance: DialogInstance
     ): AlertDialog {
+        val message = getMessage(dialogInstance.activity, dialogInstance.message)
         val alertDialog: AlertDialog = dialogInstance.activity.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
                 setTitle(dialogInstance.title)
-                setMessage(dialogInstance.message)
+                setView(message)
                 setCancelable(dialogInstance.cancelable ?: true)
                 setPositiveButton(
                     dialogInstance.positiveButton
@@ -82,5 +89,23 @@ object DialogHelper {
         }
         alertDialog.show()
         return alertDialog
+    }
+
+    private fun getMessage(activity: Activity, message: String?): TextView {
+        // create spannable and add links
+        val spannable = SpannableString(message)
+        Linkify.addLinks(spannable, Linkify.WEB_URLS)
+        // get padding for all sides
+        val paddingStartEnd = activity.resources.getDimension(R.dimen.spacing_normal).toInt()
+        val paddingLeftRight = activity.resources.getDimension(R.dimen.spacing_small).toInt()
+        // create a textview with clickable links from the spannable
+        val textView = TextView(activity)
+        textView.text = spannable
+        textView.autoLinkMask = RESULT_OK
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        textView.setPadding(paddingStartEnd, paddingLeftRight, paddingStartEnd, paddingLeftRight)
+        textView.setTextAppearance(R.style.body1)
+        textView.setLinkTextColor(activity.getColorStateList(R.color.button_primary))
+        return textView
     }
 }
