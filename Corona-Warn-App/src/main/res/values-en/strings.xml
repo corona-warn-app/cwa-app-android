@@ -185,7 +185,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
     <!-- NOTR -->
-    <string name="main_about_link">"http://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
 
@@ -840,7 +840,6 @@
     <string name="submission_contact_step_2_body">"Register the test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Languages: \nGerman, English, Turkish\n\nBusiness hours:\nMonday to Sunday: 24 hours\n\nThe call is free of charge."</string>
-
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Call the hotline and request a TAN"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
