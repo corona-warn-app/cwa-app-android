@@ -18,7 +18,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
         val TAG: String? = UpdateChecker::class.simpleName
 
         const val STORE_PREFIX = "https://play.google.com/store/apps/details?id="
-        const val COM_ANDROID_VENDING = "com.android.vending"
+        const val COM_ANDROID_VENDING = "de.rki.coronawarnapp"
     }
 
     suspend fun checkForUpdate() {
