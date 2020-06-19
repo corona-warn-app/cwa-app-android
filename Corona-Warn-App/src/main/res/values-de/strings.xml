@@ -840,7 +840,6 @@
     <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo - So: Täglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
-
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"TAN-Anfrage per Telefonanruf"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
@@ -938,6 +937,8 @@
     <string name="errors_communication_with_api">"Fehler bei Kommunikation mit Google API"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
+    <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
+    <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die "Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten" und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
