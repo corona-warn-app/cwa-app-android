@@ -10,3 +10,5 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 
 Also, be sure to check our readme first: https://github.com/corona-warn-app/cwa-app-android
 -->
+
+* [ ] None of the other issue templates apply to this issue.

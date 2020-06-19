@@ -120,6 +120,7 @@ object ExternalActionHelper {
                     context.packageName
                 )
             } else {
+                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
                 intent.putExtra(
                     "app_package",
                     context.packageName
