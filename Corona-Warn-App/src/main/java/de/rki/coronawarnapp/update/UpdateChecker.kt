@@ -14,6 +14,9 @@ import timber.log.Timber
 
 class UpdateChecker(private val activity: LauncherActivity) {
 
+    private lateinit var inAppUpdateHandler: InAppUpdateHandler
+    private var isCompatModeEnabled: Boolean = false
+
     companion object {
         val TAG: String? = UpdateChecker::class.simpleName
 
@@ -37,10 +40,28 @@ class UpdateChecker(private val activity: LauncherActivity) {
         }
 
         if (updateNeededFromServer) {
-            showUpdateNeededDialog()
+            if (isCompatModeEnabled) {
+                showUpdateNeededDialog()
+            } else {
+                startAppUpdate()
+            }
         } else {
             activity.navigateToActivities()
         }
+    }
+
+    /**
+     * Start in-app-update and fallback to the dialog in failures
+     */
+    private fun startAppUpdate() {
+        inAppUpdateHandler = InAppUpdateHandler(
+            activity = activity,
+            onFailure = {
+                isCompatModeEnabled = true
+                showUpdateNeededDialog()
+            }
+        )
+        inAppUpdateHandler.startImmediateUpdate()
     }
 
     /**
@@ -86,6 +107,12 @@ class UpdateChecker(private val activity: LauncherActivity) {
         )
         Timber.e("needs update:$needsImmediateUpdate")
         return needsImmediateUpdate
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (this::inAppUpdateHandler.isInitialized) {
+            inAppUpdateHandler.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun constructSemanticVersionString(
