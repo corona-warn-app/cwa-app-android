@@ -938,7 +938,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Your Corona-Warn-App was installed correctly. Unfortunately, your device is missing a system update and you cannot use the Corona-Warn-App. Please try to restart the Corona-Warn-App in a couple of days. \n Or look at our FAQ here: https://www.coronawarn.app/de/faq/ \n"</string>
+    <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die "Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten" und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
