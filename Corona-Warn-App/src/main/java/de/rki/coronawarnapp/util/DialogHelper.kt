@@ -94,7 +94,7 @@ object DialogHelper {
     private fun getMessage(activity: Activity, message: String?): TextView {
         // create spannable and add links, removed stack trace links into nowhere
         val spannable = SpannableString(message)
-        val httpPattern: Pattern = Pattern.compile("[a-z]+://[^ \\n]*");
+        val httpPattern: Pattern = Pattern.compile("[a-z]+://[^ \\n]*")
         Linkify.addLinks(spannable, httpPattern, "")
         // get padding for all sides
         val paddingStartEnd = activity.resources.getDimension(R.dimen.spacing_normal).toInt()
