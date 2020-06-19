@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  *  getTemporaryExposureKeyHistory
  *  start
  *
- *  The permission in the current state is implemented with a specific excpetion. If the Exposure Notification functions
+ *  The permission in the current state is implemented with a specific exception. If the Exposure Notification functions
  *  needs a specific permission to proceed an ApiException with a certain status will be raised.
  *  This needs to be handled accordingly in order to display the permission dialog to the user.
  *  @see handleException
