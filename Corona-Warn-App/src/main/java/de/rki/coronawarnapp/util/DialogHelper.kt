@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.util
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import de.rki.coronawarnapp.R
+import java.util.regex.Pattern
 
 object DialogHelper {
 
@@ -92,16 +92,17 @@ object DialogHelper {
     }
 
     private fun getMessage(activity: Activity, message: String?): TextView {
-        // create spannable and add links
+        // create spannable and add links, removed stack trace links into nowhere
         val spannable = SpannableString(message)
-        Linkify.addLinks(spannable, Linkify.WEB_URLS)
+        val httpPattern: Pattern = Pattern.compile("[a-z]+://[^ \\n]*")
+        Linkify.addLinks(spannable, httpPattern, "")
         // get padding for all sides
         val paddingStartEnd = activity.resources.getDimension(R.dimen.spacing_normal).toInt()
         val paddingLeftRight = activity.resources.getDimension(R.dimen.spacing_small).toInt()
         // create a textview with clickable links from the spannable
         val textView = TextView(activity)
         textView.text = spannable
-        textView.autoLinkMask = RESULT_OK
+        textView.linksClickable = true
         textView.movementMethod = LinkMovementMethod.getInstance()
         textView.setPadding(paddingStartEnd, paddingLeftRight, paddingStartEnd, paddingLeftRight)
         textView.setTextAppearance(R.style.body1)
