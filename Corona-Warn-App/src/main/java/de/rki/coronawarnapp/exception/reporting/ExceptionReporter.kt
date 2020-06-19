@@ -38,8 +38,6 @@ fun Throwable.report(
 
         if (this.statusCode == STATUS_CODE_GOOGLE_UPDATE_NEEDED) {
             errorMessage = R.string.errors_google_update_needed
-            stackExtra = CoronaWarnApplication.getAppContext()
-                .getString(R.string.errors_google_update_needed_hints)
         }
 
         intent.putExtra(

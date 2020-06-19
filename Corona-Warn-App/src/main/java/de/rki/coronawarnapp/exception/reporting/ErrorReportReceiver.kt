@@ -7,7 +7,6 @@ import android.content.Intent
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.util.DialogHelper
 import timber.log.Timber
 import java.util.Locale
@@ -50,10 +49,6 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
                 ErrorCodes.REPORTED_EXCEPTION_UNKNOWN_PROBLEM.code
             )
 
-            if (apiStatusCode == STATUS_CODE_GOOGLE_UPDATE_NEEDED) {
-                detailsTitle =
-                    context.resources.getString(R.string.errors_google_update_needed_details_title)
-            }
             message += "($apiStatusCode)"
         }
 
