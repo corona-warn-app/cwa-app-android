@@ -30,10 +30,10 @@ object ProtoFormatConverterExtensions {
     private const val MAXIMUM_KEYS = 14
 
     fun List<TemporaryExposureKey>.limitKeyCount() =
-        this.sortedWith(compareBy { it.rollingStartIntervalNumber }).asReversed().take(MAXIMUM_KEYS)
+        this.sortedWith(compareByDescending { it.rollingStartIntervalNumber }).take(MAXIMUM_KEYS)
 
     fun List<TemporaryExposureKey>.transformKeyHistoryToExternalFormat() =
-        this.sortedWith(compareBy { it.rollingStartIntervalNumber }).asReversed()
+        this.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
             .mapIndexed { index, it ->
                 // The latest key we receive is from yesterday (i.e. 1 day ago),
                 // thus we need use index+1
@@ -48,7 +48,7 @@ object ProtoFormatConverterExtensions {
                     .setRollingPeriod(ROLLING_PERIOD)
                     .setTransmissionRiskLevel(riskValue)
                     .build()
-            }.asReversed()
+            }
 
     fun AppleLegacyKeyExchange.Key.convertToGoogleKey(): KeyExportFormat.TemporaryExposureKey =
         KeyExportFormat.TemporaryExposureKey.newBuilder()

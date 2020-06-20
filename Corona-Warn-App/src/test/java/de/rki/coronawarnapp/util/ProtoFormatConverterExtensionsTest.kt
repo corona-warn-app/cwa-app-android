@@ -40,6 +40,7 @@ class ProtoFormatConverterExtensionsTest {
         }
 
         val transformedKeyList = diagnosisKeyList.transformKeyHistoryToExternalFormat()
+            .sortedWith(compareBy { it.rollingStartIntervalNumber })
 
         MatcherAssert.assertThat(
             transformedKeyList.size,
@@ -97,6 +98,7 @@ class ProtoFormatConverterExtensionsTest {
         }
 
         val transformedKeyList = diagnosisKeyList.transformKeyHistoryToExternalFormat()
+            .sortedWith(compareBy { it.rollingStartIntervalNumber })
 
         MatcherAssert.assertThat(
             transformedKeyList.size,
