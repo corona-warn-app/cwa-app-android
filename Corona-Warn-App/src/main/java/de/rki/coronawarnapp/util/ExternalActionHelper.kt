@@ -72,18 +72,9 @@ object ExternalActionHelper {
      */
     fun openUrl(fragment: Fragment, url: String) {
         try {
-            val customTabBuilder = CustomTabsIntent.Builder().build()
-            fragment.context?.let { customTabBuilder.launchUrl(it, Uri.parse(url)) }
+            val customTabIntent = CustomTabsIntent.Builder().build()
+            customTabIntent.launchUrl(fragment.requireContext(), Uri.parse(url))
 
-            // a fallback to a traditional browser could be implemented, if not already handled by Chrome Custom Tabs
-            /*
-            fragment.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(url)
-                )
-            )
-            */
         } catch (exception: Exception) {
             // catch generic exception on url navigation
             // most likely due to bad url format
