@@ -96,6 +96,7 @@ class SettingsFragment : Fragment() {
                 .setSingleChoiceItems(R.array.settings_ui_theme_options_array,settingsViewModel.uiThemeSetting.value?: 0
                 ) { dialog, which ->
                     settingsViewModel.updateUiThemeSetting(which)
+                    UiThemeHelper.applyUiTheme()
                     dialog.dismiss()
                 }
                 .setNegativeButton(R.string.settings_ui_theme_cancel, null)

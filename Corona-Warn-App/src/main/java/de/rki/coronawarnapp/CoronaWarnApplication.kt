@@ -16,6 +16,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.util.UiThemeHelper
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -43,6 +44,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     override fun onCreate() {
         super.onCreate()
         instance = this
+        UiThemeHelper.applyUiTheme()
         NotificationHelper.createNotificationChannel()
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
