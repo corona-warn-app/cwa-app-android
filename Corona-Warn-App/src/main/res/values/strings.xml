@@ -30,6 +30,8 @@
     <!-- NOTR -->
     <string name="preference_notifications_test_enabled"><xliff:g id="preference">"preference_notifications_test_enabled"</xliff:g></string>
     <!-- NOTR -->
+    <string name="preference_ui_theme"><xliff:g id="preference">"preference_ui_theme"</xliff:g></string>
+    <!-- NOTR -->
     <string name="preference_background_job_allowed"><xliff:g id="preference">"preference_background_job_enabled"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_mobile_data_allowed"><xliff:g id="preference">"preference_mobile_data_enabled"</xliff:g></string>

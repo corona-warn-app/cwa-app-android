@@ -412,6 +412,20 @@ object LocalData {
         true
     )
 
+    fun updateUiThemeSetting(value : Int) = getSharedPreferenceInstance().edit(true) {
+        putInt(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_ui_theme),
+            value
+        )
+    }
+
+    fun uiThemeSetting(): Int = getSharedPreferenceInstance().getInt(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_ui_theme),
+        0
+    )
+
     /**
      * Toggles the user decision if notification should be enabled for a risk change
      *

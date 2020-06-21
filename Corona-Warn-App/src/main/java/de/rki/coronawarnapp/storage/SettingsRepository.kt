@@ -25,6 +25,7 @@ object SettingsRepository {
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
+    val uiThemeSetting = MutableLiveData<Int>()
     val manualKeyRetrievalTime = MutableLiveData<Long>()
 
     /**
@@ -64,6 +65,15 @@ object SettingsRepository {
     fun toggleNotificationsTestEnabled() {
         LocalData.toggleNotificationsTestEnabled()
         refreshNotificationsTestEnabled()
+    }
+
+    fun refreshUiThemeSetting() {
+        uiThemeSetting.value = LocalData.uiThemeSetting()
+    }
+
+    fun updateUiThemeSetting(value: Int) {
+        LocalData.updateUiThemeSetting(value)
+        refreshUiThemeSetting()
     }
 
     /**

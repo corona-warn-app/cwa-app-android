@@ -21,6 +21,8 @@ class SettingsViewModel : ViewModel() {
         SettingsRepository.isConnectionEnabled
     val isBluetoothEnabled: LiveData<Boolean> =
         SettingsRepository.isBluetoothEnabled
+    val uiThemeSetting: LiveData<Int> =
+        SettingsRepository.uiThemeSetting
 
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
@@ -79,6 +81,13 @@ class SettingsViewModel : ViewModel() {
         SettingsRepository.toggleNotificationsTestEnabled()
     }
 
+    fun updateUiThemeSetting(value: Int) {
+        SettingsRepository.updateUiThemeSetting(value)
+    }
+
+    fun refreshUiThemeSetting() {
+        SettingsRepository.refreshUiThemeSetting()
+    }
     /**
      * Update connection enabled
      *
