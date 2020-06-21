@@ -20,11 +20,8 @@
 package de.rki.coronawarnapp.http
 
 import KeyExportFormat
-import com.google.protobuf.InvalidProtocolBufferException
-import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
-import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
-import de.rki.coronawarnapp.http.requests.ReqistrationRequest
+import de.rki.coronawarnapp.http.requests.RegistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
 import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
@@ -34,7 +31,6 @@ import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
-import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
@@ -155,7 +151,7 @@ class WebRequestBuilder(
     ): Int = withContext(Dispatchers.IO) {
         verificationService.getTestResult(
             SubmissionConstants.TEST_RESULT_URL,
-            "0", ReqistrationRequest(registrationToken)
+            "0", RegistrationRequest(registrationToken)
         ).testResult
     }
 
