@@ -457,6 +457,19 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Eine Person hat die Internetverbindung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
 
+    <!-- XHED: settings(ui_theme) - UI Theme Picker dialog title -->
+    <string name="settings_ui_theme_title">"Darstellung"</string>
+    <!-- XTXT: settings(ui_theme) - text in row on settings overview -->
+    <string name="settings_ui_theme_body_description">"Ändere den Farbmodus der App"</string>
+    <!-- XTXT: settings(ui_theme) - text for dialog "Light" option -->
+    <string name="settings_ui_theme_light_option">"Helles Design"</string>
+    <!-- XTXT: settings(ui_theme) - text for dialog "Dark" option -->
+    <string name="settings_ui_theme_dark_option">"Dunkles Design"</string>
+    <!-- XTXT: settings(ui_theme) - text for dialog default (system) option -->
+    <string name="settings_ui_theme_default_option">"Gerätestandard"</string>
+    <!-- XTXT: settings(ui_theme) - text for dialog cancel button -->
+    <string name="settings_ui_theme_cancel">"Abbrechen"</string>
+
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Mitteilungen"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->

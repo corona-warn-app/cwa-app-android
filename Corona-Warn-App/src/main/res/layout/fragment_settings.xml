@@ -80,6 +80,22 @@
                     app:subtitle="@{@string/settings_notifications_title}"
                     app:tracingViewModel="@{tracingViewModel}" />
 
+                <include
+                    android:id="@+id/settings_ui_theme"
+                    layout="@layout/include_setting_row"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_ui_theme_body_description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_notifications"
+                    app:showDivider="@{true}"
+                    app:color="@{@color/colorTextPrimary2}"
+                    app:icon="@{@drawable/ic_settings_ui_theme}"
+                    app:statusText="@{FormatterSettingsHelper.formatUiThemeStatusText(settingsViewModel.uiThemeSetting)}"
+                    app:subtitle="@{@string/settings_ui_theme_title}"
+                    app:tracingViewModel="@{tracingViewModel}" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_reset"
                     style="@style/row"
@@ -87,7 +103,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_notifications">
+                    app:layout_constraintTop_toBottomOf="@+id/settings_ui_theme">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"

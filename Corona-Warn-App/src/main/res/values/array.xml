@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_ui_theme_options_array">
+        <item>@string/settings_ui_theme_default_option</item>
+        <item>@string/settings_ui_theme_light_option</item>
+        <item>@string/settings_ui_theme_dark_option</item>
+    </string-array>
+</resources>

@@ -32,6 +32,7 @@
     <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+        <item name="colorControlActivated">@color/colorTextTint</item>
     </style>
 
     <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">

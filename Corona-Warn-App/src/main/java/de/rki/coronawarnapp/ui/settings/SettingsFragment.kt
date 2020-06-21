@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.UiThemeHelper
 
 /**
  * This is the setting overview page.
@@ -60,6 +63,7 @@ class SettingsFragment : Fragment() {
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
+        settingsViewModel.refreshUiThemeSetting()
 
         binding.settingsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
@@ -67,6 +71,7 @@ class SettingsFragment : Fragment() {
     private fun setButtonOnClickListener() {
         val tracingRow = binding.settingsTracing.settingsRow
         val notificationRow = binding.settingsNotifications.settingsRow
+        val uiThemeRow = binding.settingsUiTheme.settingsRow
         val resetRow = binding.settingsReset
         val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
@@ -83,6 +88,18 @@ class SettingsFragment : Fragment() {
             findNavController().doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsNotificationFragment()
             )
+        }
+        uiThemeRow.setOnClickListener {
+            settingsViewModel.refreshUiThemeSetting()
+            AlertDialog.Builder(it.context, R.style.dialog)
+                .setTitle(R.string.settings_ui_theme_title)
+                .setSingleChoiceItems(R.array.settings_ui_theme_options_array,settingsViewModel.uiThemeSetting.value?: 0
+                ) { dialog, which ->
+                    settingsViewModel.updateUiThemeSetting(which)
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.settings_ui_theme_cancel, null)
+                .show()
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()

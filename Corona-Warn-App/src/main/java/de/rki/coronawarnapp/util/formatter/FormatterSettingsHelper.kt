@@ -66,6 +66,14 @@ fun formatNotificationIllustrationText(notifications: Boolean): String =
         R.string.settings_notifications_illustration_description_inactive
     )
 
+fun formatUiThemeStatusText(value: Int): String {
+    val optStrings = CoronaWarnApplication.getAppContext().resources.getStringArray(R.array.settings_ui_theme_options_array)
+    if (value < optStrings.size) {
+        return optStrings[value]
+    }
+    return ""
+}
+
 /**
  * Change the tracing text in the row based on the tracing status.
  *
