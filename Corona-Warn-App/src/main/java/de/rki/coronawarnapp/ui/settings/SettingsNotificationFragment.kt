@@ -83,7 +83,7 @@ class SettingsNotificationFragment : Fragment() {
         }
         // Additional click target to toggle switch
         updateRiskNotificationRow.setOnClickListener {
-            settingsViewModel.toggleNotificationsRiskEnabled()
+            if (updateRiskNotificationRow.isEnabled) settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
         updateTestNotificationSwitch.setOnClickListener {
@@ -91,7 +91,7 @@ class SettingsNotificationFragment : Fragment() {
         }
         // Additional click target to toggle switch
         updateTestNotificationRow.setOnClickListener {
-            settingsViewModel.toggleNotificationsTestEnabled()
+            if (updateTestNotificationRow.isEnabled) settingsViewModel.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
