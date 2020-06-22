@@ -128,7 +128,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
             DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observeEvent(viewLifecycleOwner, {
+        viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
             if (ScanStatus.SUCCESS == it) {
                 viewModel.doDeviceRegistration()
             }
@@ -136,9 +136,9 @@ class SubmissionQRCodeScanFragment : Fragment() {
             if (ScanStatus.INVALID == it) {
                 showInvalidScanDialog()
             }
-        })
+        }
 
-        viewModel.registrationState.observeEvent(viewLifecycleOwner, {
+        viewModel.registrationState.observeEvent(viewLifecycleOwner) {
             binding.submissionQrCodeScanSpinner.visibility = when (it) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
@@ -150,11 +150,11 @@ class SubmissionQRCodeScanFragment : Fragment() {
                         .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
                 )
             }
-        })
+        }
 
-        viewModel.registrationError.observeEvent(viewLifecycleOwner, {
+        viewModel.registrationError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        })
+        }
     }
 
     private fun navigateToDispatchScreen() =

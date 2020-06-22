@@ -61,7 +61,7 @@ object TimeAndDateExtensions {
      */
     fun calculateDays(firstDate: Long, secondDate: Long): Long {
         val millionSeconds = secondDate - firstDate
-        var days = TimeUnit.MILLISECONDS.toDays(millionSeconds)
+        val days = TimeUnit.MILLISECONDS.toDays(millionSeconds)
         return days
     }
 }
