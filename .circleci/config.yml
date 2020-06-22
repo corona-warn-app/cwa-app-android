@@ -48,4 +48,5 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - quickBuildReleaseWithTestsAndChecks
+      - quickBuildReleaseWithTestsAndChecks:
+          context: SonarCloud
