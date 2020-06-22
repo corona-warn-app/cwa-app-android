@@ -118,7 +118,7 @@ class SubmissionTanFragment : Fragment() {
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 
-        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner) {
             binding.submissionTanSpinner.visibility = when (it) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
@@ -129,11 +129,11 @@ class SubmissionTanFragment : Fragment() {
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
                 )
             }
-        })
+        }
 
-        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        })
+        }
     }
 
     private fun resetError() {
