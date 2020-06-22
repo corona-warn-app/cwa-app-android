@@ -6,11 +6,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import timber.log.Timber
@@ -169,6 +171,17 @@ object ConnectivityHelper {
         val activeNetwork: Network? = manager.activeNetwork
         val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
         return caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
+    }
+
+    /**
+     * Get location enabled status.
+     *
+     * @return current location status
+     *
+     */
+    fun isLocationEnabled(context: Context): Boolean {
+        val manager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(manager)
     }
 
     /**

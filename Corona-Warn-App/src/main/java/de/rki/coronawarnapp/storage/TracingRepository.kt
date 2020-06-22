@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.storage
 
 import androidx.lifecycle.MutableLiveData
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -8,6 +9,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import java.util.Date
 
 /**
@@ -70,7 +72,8 @@ object TracingRepository {
     suspend fun refreshIsTracingEnabled() {
         try {
             val isEnabled = InternalExposureNotificationClient.asyncIsEnabled()
-            isTracingEnabled.value = isEnabled
+            val isActive = ConnectivityHelper.isLocationEnabled(CoronaWarnApplication.getAppContext())
+            isTracingEnabled.value = isEnabled && isActive
         } catch (e: Exception) {
             // when API is not available, ensure tracing is displayed as off
             isTracingEnabled.postValue(false)
