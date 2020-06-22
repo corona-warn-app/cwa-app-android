@@ -30,12 +30,12 @@ object ProtoFormatConverterExtensions {
     private const val MAXIMUM_KEYS = 14
 
     fun List<TemporaryExposureKey>.limitKeyCount() =
-        this.sortedWith(compareBy { it.rollingStartIntervalNumber }).asReversed().take(MAXIMUM_KEYS)
+        this.sortedWith(compareByDescending { it.rollingStartIntervalNumber }).take(MAXIMUM_KEYS)
 
     fun List<TemporaryExposureKey>.transformKeyHistoryToExternalFormat() =
-        this.sortedWith(compareBy { it.rollingStartIntervalNumber })
+        this.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
             .mapIndexed { index, it ->
-                // The earliest key we receive is from yesterday (i.e. 1 day ago),
+                // The latest key we receive is from yesterday (i.e. 1 day ago),
                 // thus we need use index+1
                 val riskValue =
                     if (index + 1 <= DEFAULT_TRANSMISSION_RISK_VECTOR.lastIndex)
