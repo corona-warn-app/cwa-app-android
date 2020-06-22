@@ -9,8 +9,13 @@ Thanks for reporting a bug 🙌 ❤️
 
 Before opening a new issue, please make sure that we do not have any duplicates already open. You can ensure this by searching the issue list for this repository. If there is a duplicate, please close your issue and add a comment to the existing issue instead.
 
-Also, be sure to check our documentation first: <URL>
+Also, be sure to check our documentation first: https://github.com/corona-warn-app/cwa-documentation
 -->
+
+## Avoid duplicates
+* [ ] Bug is not mentioned in the [FAQ](https://www.coronawarn.app/en/faq/)
+* [ ] Bug is specific for Android only, for general issues / questions that apply to iOS and Android please raise them in the [documentation repository](https://github.com/corona-warn-app/cwa-documentation)
+* [ ] Bug is not already reported in another issue
 
 ## Describe the bug
 
@@ -33,7 +38,8 @@ Also, be sure to check our documentation first: <URL>
 
 ## Technical details
 
-- Host Machine OS (Windows/Linux/Mac):
+- Mobile device:
+- Android version:
 
 ## Possible Fix
 
