@@ -558,10 +558,10 @@ fun formatButtonUpdateText(
     time: Long
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    if (time <= 0) {
-        return appContext.getString(R.string.risk_card_button_update)
+    return if (time <= 0) {
+        appContext.getString(R.string.risk_card_button_update)
     } else {
         val hmsCooldownTime = time.millisecondsToHMS()
-        return appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+        appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
     }
 }

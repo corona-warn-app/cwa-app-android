@@ -123,9 +123,9 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.submissionError.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.submissionError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        })
+        }
 
         submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
