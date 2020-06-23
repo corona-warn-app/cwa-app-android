@@ -305,17 +305,12 @@ fun formatTracingSwitchEnabled(tracing: Boolean, bluetooth: Boolean, connection:
  * @param connection
  * @return Drawable
  */
-fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, connection: Boolean): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
+fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, connection: Boolean): Int? {
     return when (tracingStatusHelper(tracing, bluetooth, connection)) {
-        TracingStatusHelper.BLUETOOTH ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive)
-        TracingStatusHelper.CONNECTION ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_connection_inactive)
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_active)
-        else ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_inactive)
+        TracingStatusHelper.BLUETOOTH -> R.drawable.ic_settings_tracing_bluetooth_inactive
+        TracingStatusHelper.CONNECTION -> R.drawable.ic_settings_tracing_connection_inactive
+        TracingStatusHelper.TRACING_ACTIVE -> R.raw.ic_settings_tracing_animated
+        else -> R.raw.ic_settings_tracing_animated
     }
 }
 
