@@ -139,7 +139,7 @@ object TimeVariables {
      *
      * @return time in milliseconds when tracing was initially activated
      */
-    fun getInitialExposureTracingActivationTimestamp(): Long? =
+    private fun getInitialExposureTracingActivationTimestamp(): Long? =
         LocalData.initialTracingActivationTimestamp()
 
     /**

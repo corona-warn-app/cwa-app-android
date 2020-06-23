@@ -21,11 +21,11 @@ open class CwaClientError(val statusCode: Int) : CwaWebException(statusCode) {
     }
 }
 
-open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: Int) :
+open class CwaSuccessResponseWithCodeMismatchNotSupportedError(statusCode: Int) :
     CwaWebException(statusCode)
 
-open class CwaInformationalNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
-open class CwaRedirectNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
+open class CwaInformationalNotSupportedError(statusCode: Int) : CwaWebException(statusCode)
+open class CwaRedirectNotSupportedError(statusCode: Int) : CwaWebException(statusCode)
 
 class CwaUnknownHostException : CwaWebException(901)
 class BadRequestException : CwaClientError(400)

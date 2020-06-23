@@ -465,7 +465,7 @@ object LocalData {
      *
      * @return
      */
-    fun isMobileDataEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
+    private fun isMobileDataEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed),
         false
     )
@@ -644,5 +644,5 @@ object LocalData {
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
 
-    fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
+    private fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
 }

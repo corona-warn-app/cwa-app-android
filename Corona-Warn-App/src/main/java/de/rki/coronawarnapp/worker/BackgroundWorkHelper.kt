@@ -42,7 +42,7 @@ object BackgroundWorkHelper {
      * @see BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
      * @see BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY
      */
-    fun getDiagnosisKeyRetrievalMaximumCalls() =
+    private fun getDiagnosisKeyRetrievalMaximumCalls() =
         BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
             .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 

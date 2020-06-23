@@ -108,7 +108,7 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun deleteTestGUID() {
+    private fun deleteTestGUID() {
         SubmissionService.deleteTestGUID()
     }
 

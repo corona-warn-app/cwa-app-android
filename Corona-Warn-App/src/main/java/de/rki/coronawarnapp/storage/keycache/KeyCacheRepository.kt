@@ -69,7 +69,7 @@ class KeyCacheRepository(private val keyCacheDao: KeyCacheDao) {
     private fun deleteFileForEntry(entry: KeyCacheEntity) = File(entry.path).delete()
 
     suspend fun getDates() = keyCacheDao.getDates()
-    suspend fun getHours() = keyCacheDao.getHours()
+    private suspend fun getHours() = keyCacheDao.getHours()
 
     suspend fun clearHours() {
         getHours().forEach { deleteFileForEntry(it) }
