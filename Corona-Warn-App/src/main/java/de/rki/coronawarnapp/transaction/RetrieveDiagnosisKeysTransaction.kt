@@ -205,6 +205,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the TOKEN Transaction State
      */
     private suspend fun executeToken() = executeState(TOKEN) {
+        googleAPITokenForRollback.set(LocalData.googleApiToken())
         val tempToken = UUID.randomUUID().toString()
         LocalData.googleApiToken(tempToken)
         return@executeState tempToken

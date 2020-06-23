@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tan_input_1"
+            style="@style/tanInputDigit"
+            android:layout_marginStart="@dimen/no_padding"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_2"
+            style="@style/tanInputDigit"
+            tools:text="X" />
+
+        <TextView
+            android:id="@+id/tan_input_3"
+            style="@style/tanInputDigit"
+            tools:text="X" />
+
+        <View style="@style/tanInputDash" />
+
+    </LinearLayout>
+
+</layout>

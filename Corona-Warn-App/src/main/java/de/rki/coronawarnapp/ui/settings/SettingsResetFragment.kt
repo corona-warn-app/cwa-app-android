@@ -1,14 +1,16 @@
 package de.rki.coronawarnapp.ui.settings
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -16,6 +18,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.DataRetentionHelper
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,7 +54,7 @@ class SettingsResetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.settingsResetButtonDelete.setOnClickListener {
-            deleteAllAppContent()
+            confirmReset()
         }
         binding.settingsResetButtonCancel.setOnClickListener {
             (activity as MainActivity).goBack()
@@ -61,7 +64,11 @@ class SettingsResetFragment : Fragment() {
         }
     }
 
-    // TODO verify that all local data is deleted
+    override fun onResume() {
+        super.onResume()
+        binding.settingsResetContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
     private fun deleteAllAppContent() {
         lifecycleScope.launch {
             try {
@@ -75,11 +82,6 @@ class SettingsResetFragment : Fragment() {
                 apiException.report(
                     ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
                 )
-                Toast.makeText(
-                    this@SettingsResetFragment.context,
-                    "Could not stop tracing. ${apiException.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
             }
             withContext(Dispatchers.IO) {
                 deleteLocalAppContent()
@@ -95,5 +97,23 @@ class SettingsResetFragment : Fragment() {
 
     private fun deleteLocalAppContent() {
         DataRetentionHelper.clearAllLocalData(requireContext())
+    }
+
+    private fun confirmReset() {
+        val resetDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.settings_reset_dialog_headline,
+            R.string.settings_reset_dialog_body,
+            R.string.settings_reset_dialog_button_confirm,
+            R.string.settings_reset_dialog_button_cancel,
+            true,
+            {
+                deleteAllAppContent()
+            }
+        )
+
+        DialogHelper.showDialog(resetDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
     }
 }

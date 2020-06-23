@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.OpenUrlHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * Basic Fragment which links to static and web content.
@@ -41,16 +42,24 @@ class InformationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        setAccessibilityDelegate()
     }
 
     override fun onResume() {
         super.onResume()
-        binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun setAccessibilityDelegate() {
+        val accessibilityDelegate: View.AccessibilityDelegate =
+            object : View.AccessibilityDelegate() {
+                override fun onInitializeAccessibilityNodeInfo(v: View?, info: AccessibilityNodeInfo) {
+                    super.onInitializeAccessibilityNodeInfo(v, info)
+                    val string: String = getString(R.string.information_help_title_accessibility)
+                    info.text = string
+                }
+            }
+        binding.informationHelp.mainRowItemSubtitle.accessibilityDelegate = accessibilityDelegate
     }
 
     private fun setButtonOnClickListener() {
@@ -75,7 +84,7 @@ class InformationFragment : Fragment() {
             )
         }
         binding.informationHelp.mainRow.setOnClickListener {
-            OpenUrlHelper.navigate(this, requireContext().getString(R.string.main_about_link))
+            ExternalActionHelper.openUrl(this, requireContext().getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
             findNavController().doNavigate(

@@ -12,6 +12,7 @@
         <TextView
             android:id="@+id/submission_done_card_title"
             style="@style/headline5"
+            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,12 +16,11 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.ui.ViewBlocker
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -73,6 +72,7 @@ class SettingsTracingFragment : Fragment(),
         super.onResume()
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
+        binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,40 +85,30 @@ class SettingsTracingFragment : Fragment(),
     override fun onStartPermissionGranted() {
         tracingViewModel.refreshIsTracingEnabled()
         BackgroundWorkScheduler.startWorkScheduler()
-        Toast.makeText(requireContext(), "Tracing started successfully", Toast.LENGTH_SHORT).show()
     }
 
     override fun onFailure(exception: Exception?) {
         tracingViewModel.refreshIsTracingEnabled()
-        exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
-        // TODO
-        Toast.makeText(
-            requireContext(),
-            exception?.localizedMessage ?: "Unknown Error",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     private fun setButtonOnClickListener() {
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
+        val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
+        val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
+        val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (switch.isPressed) {
-                ViewBlocker.runAndBlockInteraction(arrayOf(switch)) {
-                    startStopTracing()
-                }
-            }
+        switch.setOnClickListener {
+            startStopTracing()
         }
-        binding.settingsTracingHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        back.setOnClickListener {
             (activity as MainActivity).goBack()
         }
-        binding.settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+        bluetooth.setOnClickListener {
+            ExternalActionHelper.toMainSettings(requireContext())
         }
-        binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
-            SettingsNavigationHelper.toConnections(requireContext())
+        connection.setOnClickListener {
+            ExternalActionHelper.toConnections(requireContext())
         }
     }
 
@@ -127,13 +117,6 @@ class SettingsTracingFragment : Fragment(),
         lifecycleScope.launch {
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Tracing stopped successfully",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-
                     InternalExposureNotificationClient.asyncStop()
                     tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()

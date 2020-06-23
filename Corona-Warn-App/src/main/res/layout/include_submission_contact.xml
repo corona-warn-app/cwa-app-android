@@ -2,20 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/submission_contact_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_submission_illustration_hotline"
+                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/information_contact_illustration_description)}"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +33,8 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="false"
                 android:text="@string/submission_contact_body"
+                android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_contact_illustration" />
@@ -35,11 +42,12 @@
             <TextView
                 android:id="@+id/submission_contact_headline"
                 style="@style/headline5"
+                android:accessibilityHeading="true"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
-                android:focusable="false"
                 android:text="@string/submission_contact_headline"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_contact_body" />
@@ -49,6 +57,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
                 android:contentDescription="@string/submission_contact_step_1_content"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -74,6 +83,7 @@
                     <TextView
                         android:id="@+id/submission_contact_step_1_number"
                         style="@style/headline5"
+                        android:accessibilityHeading="true"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
@@ -102,6 +112,7 @@
                 android:id="@+id/submission_contact_step_2"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:focusable="true"
                 android:contentDescription="@string/submission_contact_step_2_content"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -114,6 +125,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        style="@style/subtitle"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/button_icon_margin"

@@ -2,22 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/submission_intro_hero_illustration"
-                contentDescription="@{@string/submission_intro_illustration_description}"
+                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/submission_intro_illustration_description)}"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
                 android:src="@drawable/ic_illustration_test"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -25,11 +30,12 @@
             <TextView
                 android:id="@+id/submission_intro_headline"
                 style="@style/headline4"
+                android:accessibilityHeading="true"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@string/submission_intro_headline"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_intro_hero_illustration" />
@@ -40,8 +46,8 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
                 android:text="@string/submission_intro_text"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_intro_headline" />
@@ -49,9 +55,10 @@
             <de.rki.coronawarnapp.ui.view.BulletPointList
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:paddingBottom="@dimen/spacing_normal"
                 app:entries="@array/submission_intro_bullet_points"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_intro_text" />

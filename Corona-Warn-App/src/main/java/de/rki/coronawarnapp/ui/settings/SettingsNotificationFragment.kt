@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.SettingsNavigationHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -52,6 +53,7 @@ class SettingsNotificationFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.settingsNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         // refresh required data
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
@@ -70,25 +72,19 @@ class SettingsNotificationFragment : Fragment() {
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateRiskNotificationSwitch.isPressed) {
-                settingsViewModel.toggleNotificationsRiskEnabled()
-            }
+        updateRiskNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
-            // android calls this listener also on start, so it has to be verified if the user pressed the switch
-            if (updateTestNotificationSwitch.isPressed) {
-                settingsViewModel.toggleNotificationsTestEnabled()
-            }
+        updateTestNotificationSwitch.setOnClickListener {
+            settingsViewModel.toggleNotificationsTestEnabled()
         }
         goBack.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         // System Settings
         settingsRow.setOnClickListener {
-            SettingsNavigationHelper.toNotifications(requireContext())
+            ExternalActionHelper.toNotifications(requireContext())
         }
     }
 }

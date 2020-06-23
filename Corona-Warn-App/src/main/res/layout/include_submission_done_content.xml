@@ -22,6 +22,7 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@string/submission_done_body"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,10 +30,12 @@
         <TextView
             android:id="@+id/submission_done_subtitle"
             style="@style/headline5"
+            android:accessibilityHeading="true"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_done_subtitle"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/submission_done_text" />

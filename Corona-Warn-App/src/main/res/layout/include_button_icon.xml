@@ -6,6 +6,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
         <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
@@ -19,6 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/button_icon"
         style="@style/buttonIcon"
+        android:contentDescription="@{FormatterAccessibilityHelper.formatButton(iconDescription)}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +31,8 @@
             style="@style/icon"
             android:layout_width="@dimen/icon_size_button"
             android:layout_height="@dimen/icon_size_button"
-            android:contentDescription="@{FormatterHelper.formatEmptyString(iconDescription)}"
             android:src="@{icon}"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

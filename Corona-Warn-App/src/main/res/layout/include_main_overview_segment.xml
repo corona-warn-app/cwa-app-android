@@ -23,7 +23,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_overview_segment"
-            style="@style/row"
+            style="@style/rowSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="true"
@@ -38,7 +38,7 @@
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
                 app:layout_constraintBottom_toBottomOf="@id/main_overview_segment_subtitle"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_icon"
                 app:layout_constraintTop_toTopOf="@id/main_overview_segment_subtitle" />
 
             <TextView
@@ -46,6 +46,7 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:focusable="false"
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +71,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_body_title" />
+                app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,23 +7,15 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
             name="subtitle"
             type="String" />
-
-        <variable
-            name="icon"
-            type="android.graphics.drawable.Drawable" />
 
         <variable
             name="iconTint"
             type="Integer" />
 
         <variable
-            name="iconStart"
+            name="icon"
             type="android.graphics.drawable.Drawable" />
 
         <variable
@@ -49,23 +41,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="@dimen/icon_size_main_card"
-                android:layout_height="@dimen/icon_size_main_card"
-                android:importantForAccessibility="no"
-                android:src="@{iconStart}"
-                android:tint="@{FormatterHelper.formatColorIcon(iconTint)}"
-                android:visibility="@{FormatterHelper.formatVisibilityIcon(iconStart)}"
-                app:layout_constraintBottom_toBottomOf="@+id/main_row_item_headline"
-                app:layout_constraintEnd_toStartOf="@+id/main_row_item_headline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/main_row_item_headline" />
-
             <TextView
-                android:id="@+id/main_row_item_headline"
+                android:id="@+id/main_row_item_subtitle"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny"
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toStartOf="@+id/main_row_item_icon"
                 app:layout_constraintStart_toEndOf="@+id/guideline_body"
@@ -74,13 +55,14 @@
             <ImageView
                 android:id="@+id/main_row_item_icon"
                 style="@style/icon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/icon_size_external_link"
+                android:layout_height="@dimen/icon_size_external_link"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
+                app:layout_constraintBottom_toBottomOf="@+id/main_row_item_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/main_row_item_subtitle" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_body"

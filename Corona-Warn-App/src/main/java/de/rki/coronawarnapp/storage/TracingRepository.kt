@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.storage
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
@@ -54,12 +53,8 @@ object TracingRepository {
         try {
             RetrieveDiagnosisKeysTransaction.start()
             RiskLevelTransaction.start()
-            // TODO remove after testing
-            Toast.makeText(
-                CoronaWarnApplication.getAppContext(),
-                "transaction completed",
-                Toast.LENGTH_SHORT
-            ).show()
+        } catch (e: TransactionException) {
+            e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
         } catch (e: Exception) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
@@ -72,7 +67,6 @@ object TracingRepository {
      *
      * @see InternalExposureNotificationClient
      */
-    // TODO [EN] Define EN error handling
     suspend fun refreshIsTracingEnabled() {
         try {
             val isEnabled = InternalExposureNotificationClient.asyncIsEnabled()
@@ -91,7 +85,7 @@ object TracingRepository {
     /**
      * Refresh the activeTracingDaysInRetentionPeriod calculation.
      *
-     * @see TimeVariables
+     * @see de.rki.coronawarnapp.risk.TimeVariables
      */
     suspend fun refreshActiveTracingDaysInRetentionPeriod() {
         activeTracingDaysInRetentionPeriod.postValue(getActiveTracingDaysInRetentionPeriod())

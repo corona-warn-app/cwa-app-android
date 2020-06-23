@@ -3,9 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+
+    </data>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_positive_other_privacy_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/submission_positive_other_warning_title"
         android:fillViewport="true"
         tools:context=".ui.submission.SubmissionResultPositiveOtherWarningFragment">
 
@@ -27,15 +40,16 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_header"
-                app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_header"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/submission_positive_other_warning_button_next"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
+            android:enabled="@{FormatterSubmissionHelper.formatSubmitButtonEnabled(submissionViewModel.submissionState)}"
             android:text="@string/submission_positive_other_warning_button"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
             android:indeterminate="true"
-            android:visibility="gone"
+            android:visibility="@{FormatterSubmissionHelper.formatSubmitSpinnerVisible(submissionViewModel.submissionState)}"
             app:layout_constraintBottom_toBottomOf="@+id/submission_positive_other_warning_button_next"
             app:layout_constraintEnd_toEndOf="@+id/submission_positive_other_warning_button_next"
             app:layout_constraintStart_toStartOf="@+id/submission_positive_other_warning_button_next"

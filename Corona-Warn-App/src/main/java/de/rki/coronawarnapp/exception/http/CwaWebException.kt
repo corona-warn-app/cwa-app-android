@@ -27,6 +27,7 @@ open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: I
 open class CwaInformationalNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
 open class CwaRedirectNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
 
+class CwaUnknownHostException : CwaWebException(901)
 class BadRequestException : CwaClientError(400)
 class UnauthorizedException : CwaClientError(401)
 class ForbiddenException : CwaClientError(403)

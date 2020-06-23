@@ -19,6 +19,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settings_tracing_container"
+        android:contentDescription="@string/settings_tracing_title"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -116,6 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                        android:focusable="true"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent">
@@ -136,6 +140,7 @@
                             android:id="@+id/settings_tracing_status_tracing_circle_progress"
                             android:layout_width="@dimen/spacing_huge"
                             android:layout_height="@dimen/spacing_huge"
+                            android:importantForAccessibility="no"
                             app:circleWidth="@dimen/circle_large_width"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -165,6 +170,7 @@
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_tracing_body_text"
+                        android:focusable="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

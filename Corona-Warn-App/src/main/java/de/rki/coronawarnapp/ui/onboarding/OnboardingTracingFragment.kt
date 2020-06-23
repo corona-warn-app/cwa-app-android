@@ -70,14 +70,9 @@ class OnboardingTracingFragment : Fragment(),
         setButtonOnClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-    }
-
     override fun onResume() {
         super.onResume()
-        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         resetTracing()
     }
 
@@ -98,7 +93,7 @@ class OnboardingTracingFragment : Fragment(),
     }
 
     override fun onFailure(exception: Exception?) {
-        navigate()
+        // dialog closed, user has to explicitly allow or deny the tracing permission
     }
 
     private fun showCancelDialog() {

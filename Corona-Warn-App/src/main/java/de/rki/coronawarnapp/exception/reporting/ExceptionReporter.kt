@@ -2,8 +2,11 @@ package de.rki.coronawarnapp.exception.reporting
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -26,10 +29,33 @@ fun Throwable.report(
         this.resId?.let { intent.putExtra(ReportingConstants.ERROR_REPORT_RES_ID, it) }
     }
 
-    val sw = StringWriter()
-    this.printStackTrace()
-    this.printStackTrace(PrintWriter(sw))
-    intent.putExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA, sw.toString())
+    var stackExtra = ""
+
+    // override the message with a generic one if it is an ApiException
+    if (this is ApiException) {
+
+        var errorMessage = R.string.errors_communication_with_api
+
+        if (this.statusCode == STATUS_CODE_GOOGLE_UPDATE_NEEDED) {
+            errorMessage = R.string.errors_google_update_needed
+        }
+
+        intent.putExtra(
+            ReportingConstants.ERROR_REPORT_RES_ID,
+            errorMessage
+        )
+        intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, ErrorCodes.API_EXCEPTION.code)
+        intent.putExtra(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE, this.statusCode)
+    }
+
+    if (stackExtra.isEmpty()) {
+        val sw = StringWriter()
+        this.printStackTrace()
+        this.printStackTrace(PrintWriter(sw))
+        stackExtra = sw.toString()
+    }
+
+    intent.putExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA, stackExtra)
     LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
 }
 

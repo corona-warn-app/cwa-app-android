@@ -1,11 +1,14 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
@@ -33,28 +36,13 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     private var _binding: FragmentSubmissionPositiveOtherWarningBinding? = null
     private val binding: FragmentSubmissionPositiveOtherWarningBinding get() = _binding!!
-    private var submissionRequested = false
-    private var submissionFailed = false
     private lateinit var internalExposureNotificationPermissionHelper:
             InternalExposureNotificationPermissionHelper
 
     override fun onResume() {
         super.onResume()
+        binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         tracingViewModel.refreshIsTracingEnabled()
-        if (submissionRequested && !submissionFailed) {
-            internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
-        }
-    }
-
-    override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
-        super.onKeySharePermissionGranted(keys)
-        submissionViewModel.submitDiagnosisKeys()
-    }
-
-    override fun onFailure(exception: Exception?) {
-        binding.submissionPositiveOtherWarningButtonNext.isEnabled = true
-        binding.submissionPositiveOtherWarningSpinner.visibility = View.GONE
-        submissionFailed = true
     }
 
     override fun onCreateView(
@@ -65,6 +53,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         _binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
+        binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -134,21 +123,11 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.submissionError.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.submissionError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        })
+        }
 
-        submissionViewModel.submissionState.observeEvent(viewLifecycleOwner, {
-            binding.submissionPositiveOtherWarningButtonNext.isEnabled = when (it) {
-                ApiRequestState.STARTED -> false
-                else -> true
-            }
-
-            binding.submissionPositiveOtherWarningSpinner.visibility = when (it) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
-            }
-
+        submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
                 findNavController().doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
@@ -160,8 +139,6 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     private fun setButtonOnClickListener() {
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
-            binding.submissionPositiveOtherWarningButtonNext.isEnabled = false
-            binding.submissionPositiveOtherWarningSpinner.visibility = View.VISIBLE
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -187,7 +164,22 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             return
         }
 
-        submissionRequested = true
         internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        this.internalExposureNotificationPermissionHelper.onResolutionComplete(
+            requestCode,
+            resultCode
+        )
+    }
+
+    // InternalExposureNotificationPermissionHelper - callbacks
+    override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
+        super.onKeySharePermissionGranted(keys)
+        submissionViewModel.submitDiagnosisKeys(keys)
+    }
+
+    override fun onFailure(exception: Exception?) {
     }
 }

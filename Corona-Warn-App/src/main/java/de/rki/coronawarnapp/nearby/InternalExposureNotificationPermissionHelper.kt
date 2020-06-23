@@ -15,13 +15,13 @@ import kotlinx.coroutines.launch
 /**
  * Permission Helper for Exposure Notification permissions needed by the API
  *
- * In the current v1.3 of the Exposure Notification the user is asked for as permission for the following
+ * In the current v1.3 of the Exposure Notification the user is asked for permission for the following
  * actions:
  *
  *  getTemporaryExposureKeyHistory
  *  start
  *
- *  The permission in the current state is implemented with a specific excpetion. If the Exposure Notification functions
+ *  The permission in the current state is implemented with a specific exception. If the Exposure Notification functions
  *  needs a specific permission to proceed an ApiException with a certain status will be raised.
  *  This needs to be handled accordingly in order to display the permission dialog to the user.
  *  @see handleException
@@ -69,11 +69,6 @@ class InternalExposureNotificationPermissionHelper(
                     ResolutionRequestCodes.REQUEST_CODE_START_EXPOSURE_NOTIFICATION.code
                 )
             } catch (exception: Exception) {
-                exception.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
                 returnError(exception)
             }
         }
@@ -136,11 +131,11 @@ class InternalExposureNotificationPermissionHelper(
      * @param exception
      */
     private fun returnError(exception: Exception) {
-        exception.report(
-            ExceptionCategory.EXPOSURENOTIFICATION,
-            TAG,
-            null
-        )
+            exception.report(
+                ExceptionCategory.EXPOSURENOTIFICATION,
+                TAG,
+                null
+            )
         permissionResolutionInProgress = false
         callback.onFailure(exception)
     }
