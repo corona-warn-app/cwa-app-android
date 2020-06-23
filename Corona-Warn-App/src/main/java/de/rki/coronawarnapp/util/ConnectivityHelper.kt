@@ -61,7 +61,7 @@ object ConnectivityHelper {
     }
 
     /**
-     * Register bluetooth state change listener.
+     * Unregister bluetooth state change listener.
      *
      * @param context the context
      * @param callback the bluetooth state callback
