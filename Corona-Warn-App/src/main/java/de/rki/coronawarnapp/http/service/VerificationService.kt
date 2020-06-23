@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.http.service
 
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
-import de.rki.coronawarnapp.http.requests.ReqistrationRequest
+import de.rki.coronawarnapp.http.requests.RegistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
 import de.rki.coronawarnapp.http.responses.RegistrationTokenResponse
 import de.rki.coronawarnapp.http.responses.TanResponse
@@ -24,7 +24,7 @@ interface VerificationService {
     suspend fun getTestResult(
         @Url url: String,
         @Header("cwa-fake") fake: String,
-        @Body request: ReqistrationRequest
+        @Body request: RegistrationRequest
     ): TestResultResponse
 
     @POST
