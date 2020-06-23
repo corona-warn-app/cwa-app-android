@@ -74,14 +74,14 @@ class SettingsNotificationFragment : Fragment() {
         // Update Risk
         updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // Make sure that listener is called by user interaction
-            if (updateRiskNotificationSwitch.isPressed) {
+            if (updateRiskNotificationSwitch.isAccessibilityFocused || updateRiskNotificationSwitch.isPressed) {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
         // Update Test
         updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
             // Make sure that listener is called by user interaction
-            if (updateTestNotificationSwitch.isPressed) {
+            if (updateTestNotificationSwitch.isAccessibilityFocused || updateTestNotificationSwitch.isPressed) {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
         }

@@ -100,7 +100,7 @@ class SettingsTracingFragment : Fragment(),
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnCheckedChangeListener { _, _ ->
             // Make sure that listener is called by user interaction
-            if (switch.isPressed) {
+            if (switch.isAccessibilityFocused || switch.isPressed) {
                 startStopTracing()
             }
         }
