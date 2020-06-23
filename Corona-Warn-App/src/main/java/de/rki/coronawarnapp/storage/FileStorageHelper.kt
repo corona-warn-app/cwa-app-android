@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.storage.StorageManager
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.NotEnoughSpaceOnDiskException
-import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -69,22 +68,4 @@ object FileStorageHelper {
 
     fun File.isOutdated(): Boolean =
         (System.currentTimeMillis() - lastModified() > TIME_TO_KEEP)
-
-    private fun File.checkAndRemove(): Boolean {
-        return if (exists() && isDirectory) {
-            deleteRecursively()
-        } else {
-            false
-        }
-    }
-
-    // LOGGING
-    private fun logFileRemovalResult(fileName: String, result: Boolean) =
-        Timber.d("File $fileName was deleted: $result")
-
-    private fun logAvailableSpace(availableSpace: Long) =
-        Timber.d("Available space: $availableSpace")
-
-    private fun logInsufficientSpace(availableSpace: Long) =
-        Timber.e("Not enough free space! Required: ${FileStorageConstants.FREE_SPACE_THRESHOLD} Has: $availableSpace")
 }

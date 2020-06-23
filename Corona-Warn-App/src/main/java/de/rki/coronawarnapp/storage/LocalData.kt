@@ -47,22 +47,6 @@ object LocalData {
     }
 
     /**
-     * Gets the time when the user has completed the onboarding
-     * from the EncryptedSharedPrefs
-     *
-     * @return
-     */
-    fun onboardingCompletedTimestamp(): Long? {
-        val timestamp = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_onboarding_completed_timestamp), 0L
-        )
-
-        if (timestamp == 0L) return null
-        return timestamp
-    }
-
-    /**
      * Sets the time when the user has completed the onboarding
      * from the EncryptedSharedPrefs
      * @param value
@@ -448,40 +432,6 @@ object LocalData {
         false
     )
 
-    /**
-     * Toggles the decision if background jobs are enabled
-     *
-     */
-    fun toggleBackgroundJobEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_background_job_allowed),
-            !isBackgroundJobEnabled()
-        )
-    }
-
-    /**
-     * Gets the boolean if the user has mobile data enabled
-     *
-     * @return
-     */
-    fun isMobileDataEnabled(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext().getString(R.string.preference_mobile_data_allowed),
-        false
-    )
-
-    /**
-     * Toggles the boolean if the user has mobile data enabled
-     *
-     */
-    fun toggleMobileDataEnabled() = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_mobile_data_allowed),
-            !isMobileDataEnabled()
-        )
-    }
-
     /****************************************************
      * SUBMISSION DATA
      ****************************************************/
@@ -541,14 +491,6 @@ object LocalData {
             )
         }
 
-    fun devicePairingSuccessfulTimestamp(): Long? {
-        return getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_device_pairing_successful_time),
-            0L
-        )
-    }
-
     fun numberOfSuccessfulSubmissions(value: Int) =
         getSharedPreferenceInstance().edit(true) {
             putInt(
@@ -582,22 +524,6 @@ object LocalData {
         }
     }
 
-    fun authCode(): String? = getSharedPreferenceInstance().getString(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_auth_code),
-        null
-    )
-
-    fun authCode(value: String?) {
-        getSharedPreferenceInstance().edit(true) {
-            putString(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_auth_code),
-                value
-            )
-        }
-    }
-
     fun isAllowedToSubmitDiagnosisKeys(isAllowedToSubmitDiagnosisKeys: Boolean) {
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
@@ -626,14 +552,6 @@ object LocalData {
     fun teletan(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
-
-    fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_last_three_hours_from_server),
-            value
-        )
-    }
 
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext()

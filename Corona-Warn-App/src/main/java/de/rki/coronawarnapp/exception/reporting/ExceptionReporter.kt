@@ -58,12 +58,3 @@ fun Throwable.report(
     intent.putExtra(ReportingConstants.ERROR_REPORT_STACK_EXTRA, stackExtra)
     LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
 }
-
-fun reportGeneric(
-    stackString: String
-) {
-    val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)
-    intent.putExtra("category", ExceptionCategory.INTERNAL.name)
-    intent.putExtra("stack", stackString)
-    LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
-}

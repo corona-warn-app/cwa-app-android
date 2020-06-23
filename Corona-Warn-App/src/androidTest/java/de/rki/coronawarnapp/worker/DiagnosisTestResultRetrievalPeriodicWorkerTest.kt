@@ -35,7 +35,7 @@ class DiagnosisTestResultRetrievalPeriodicWorkerTest {
     private lateinit var context: Context
     private lateinit var workManager: WorkManager
     private lateinit var request: WorkRequest
-    private lateinit var request2: WorkRequest
+
     // small delay because WorkManager does not run work instantly when delay is off
     private val delay = 500L
 

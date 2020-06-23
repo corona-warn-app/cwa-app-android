@@ -148,11 +148,3 @@ fun formatColorDivider(color: Int?): Int {
     val appContext = CoronaWarnApplication.getAppContext()
     return color ?: appContext.getColor(R.color.colorHairline)
 }
-
-/**
- * Returns string if it isn't null, otherwise it returns an empty String
- *
- * @param string
- * @return String
- */
-fun formatEmptyString(string: String?): String = string ?: ""

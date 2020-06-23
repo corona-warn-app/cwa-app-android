@@ -60,17 +60,12 @@ object DiagnosisKeyConstants {
     private val PARAMETERS_DOWNLOAD_URL = "$VERSIONED_DISTRIBUTION_CDN_URL/$PARAMETERS"
     private val APPCONFIG_DOWNLOAD_URL = "$VERSIONED_DISTRIBUTION_CDN_URL/$APPCONFIG"
 
-    /** Index Download URL built from CDN URL's and REST resources */
-    val INDEX_DOWNLOAD_URL = "$VERSIONED_DISTRIBUTION_CDN_URL/$INDEX_FILE_NAME"
-
     /** Diagnosis key Download URL built from CDN URL's and REST resources */
     val DIAGNOSIS_KEYS_DOWNLOAD_URL = "$VERSIONED_DISTRIBUTION_CDN_URL/$DIAGNOSIS_KEYS"
 
     /** Diagnosis key Submission URL built from CDN URL's and REST resources */
     val DIAGNOSIS_KEYS_SUBMISSION_URL = "$VERSIONED_SUBMISSION_CDN_URL/$DIAGNOSIS_KEYS"
 
-    /** Country-Specific Parameter URL built from CDN URL's and REST resources */
-    val PARAMETERS_COUNTRY_DOWNLOAD_URL = "$PARAMETERS_DOWNLOAD_URL/$COUNTRY"
     val APPCONFIG_COUNTRY_DOWNLOAD_URL = "$APPCONFIG_DOWNLOAD_URL/$COUNTRY"
 
     val COUNTRY_APPCONFIG_DOWNLOAD_URL =
@@ -78,6 +73,4 @@ object DiagnosisKeyConstants {
 
     /** Available Dates URL built from CDN URL's and REST resources */
     val AVAILABLE_DATES_URL = "$DIAGNOSIS_KEYS_DOWNLOAD_URL/$COUNTRY/$CURRENT_COUNTRY/$DATE"
-
-    const val SERVER_ERROR_CODE_403 = 403
 }

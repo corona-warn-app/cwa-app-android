@@ -28,14 +28,4 @@ object NotificationConstants {
      * Notification channel description String.xml path
      */
     const val CHANNEL_DESCRIPTION = R.string.notification_description
-
-    /**
-     * Risk changed notification title String.xml path
-     */
-    const val NOTIFICATION_CONTENT_TITLE_RISK_CHANGED = R.string.notification_headline
-
-    /**
-     * Risk changed notification content text String.xml path
-     */
-    const val NOTIFICATION_CONTENT_TEXT_RISK_CHANGED = R.string.notification_body
 }
