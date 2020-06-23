@@ -30,5 +30,4 @@ class ErrorCodesTest {
         Assert.assertEquals(ErrorCodes.API_EXCEPTION.code, 3)
         Assert.assertEquals(ErrorCodes.EXTERNAL_NAVIGATION.code, 10)
     }
-
 }

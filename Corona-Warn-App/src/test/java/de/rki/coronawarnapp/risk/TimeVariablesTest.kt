@@ -50,5 +50,4 @@ class TimeVariablesTest {
     fun getMaxAttenuationDuration() {
         Assert.assertEquals(TimeVariables.getMaxAttenuationDuration(), 30)
     }
-
 }

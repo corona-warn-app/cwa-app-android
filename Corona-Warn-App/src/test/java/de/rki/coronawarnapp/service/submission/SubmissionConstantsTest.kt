@@ -19,5 +19,4 @@ class SubmissionConstantsTest {
 
         Assert.assertEquals(SubmissionConstants.SERVER_ERROR_CODE_400, 400)
     }
-
 }
