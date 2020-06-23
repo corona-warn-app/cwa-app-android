@@ -12,7 +12,8 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 
 ## Avoid duplicates
 * [ ] This enhancement request has not already been raised before
-* [ ] Enhancement request is specific for Android only, for general issues / questions that apply to iOS and Android please raise them in the [documentation repository](https://github.com/corona-warn-app/cwa-documentation)
+* [ ] Enhancement request is specific for Android only, for general issues / questions that apply to iOS and Android please raise them in [CWA-Wishlist](https://github.com/corona-warn-app/cwa-wishlist)
+* [ ] If you are proposing a new feature, please do so in [CWA-Wishlist](https://github.com/corona-warn-app/cwa-wishlist)
 
 ## Current Implementation
 <!-- Describe or point to the current implementation that you would like to see improved -->
