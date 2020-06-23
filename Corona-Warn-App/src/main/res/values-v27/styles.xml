@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorBrandSecondary</item>
+        <item name="colorPrimaryDark">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">@bool/lightNavigationAndStatusBar</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="alertDialogTheme">@style/dialog</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowLightNavigationBar">@bool/lightNavigationAndStatusBar</item>
+    </style>
+</resources>

@@ -21,4 +21,6 @@
     <declare-styleable name="BulletPointList">
         <attr name="entries" format="reference" />
     </declare-styleable>
+
+    <item name="lightNavigationAndStatusBar" type="bool">true</item>
 </resources>

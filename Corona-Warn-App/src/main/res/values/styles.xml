@@ -2,9 +2,11 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">@color/colorBrandSecondary</item>
-        <item name="colorPrimaryDark">@color/colorStableDark</item>
+        <item name="colorPrimaryDark">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">@bool/lightNavigationAndStatusBar</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="alertDialogTheme">@style/dialog</item>
+        <item name="android:navigationBarColor">@color/colorStableDark</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
