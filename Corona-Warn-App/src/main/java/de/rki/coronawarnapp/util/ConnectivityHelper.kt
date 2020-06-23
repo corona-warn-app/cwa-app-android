@@ -59,7 +59,7 @@ object ConnectivityHelper {
     }
 
     /**
-     * Register bluetooth state change listener.
+     * Unregister bluetooth state change listener.
      *
      * @param context the context
      * @param callback the bluetooth state callback
@@ -137,9 +137,9 @@ object ConnectivityHelper {
      */
     fun isBackgroundJobEnabled(context: Context): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            return !activityManager.isBackgroundRestricted
-        } else return true
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            !activityManager.isBackgroundRestricted
+        } else true
     }
 
     /**
