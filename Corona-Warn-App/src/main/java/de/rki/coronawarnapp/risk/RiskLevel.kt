@@ -68,19 +68,8 @@ enum class RiskLevel(val raw: Int) {
             previousRiskLevel: RiskLevel,
             currentRiskLevel: RiskLevel
         ): Boolean {
-            var riskLevelChangedBetweenLowAndHigh = false
-            if (HIGH_RISK_LEVELS.contains(previousRiskLevel) && LOW_RISK_LEVELS.contains(
-                    currentRiskLevel
-                )
-            ) {
-                riskLevelChangedBetweenLowAndHigh = true
-            } else if (LOW_RISK_LEVELS.contains(previousRiskLevel) && HIGH_RISK_LEVELS.contains(
-                    currentRiskLevel
-                )
-            ) {
-                riskLevelChangedBetweenLowAndHigh = true
-            }
-            return riskLevelChangedBetweenLowAndHigh
+            return HIGH_RISK_LEVELS.contains(previousRiskLevel) && LOW_RISK_LEVELS.contains(currentRiskLevel) ||
+                    LOW_RISK_LEVELS.contains(previousRiskLevel) && HIGH_RISK_LEVELS.contains(currentRiskLevel)
         }
     }
 }
