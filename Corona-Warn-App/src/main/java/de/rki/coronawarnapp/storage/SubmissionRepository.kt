@@ -40,11 +40,11 @@ object SubmissionRepository {
                 LocalData.isAllowedToSubmitDiagnosisKeys(true)
             }
 
-            val initialTestResultReceivedTimestamp = LocalData.inititalTestResultReceivedTimestamp()
+            val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
 
             if (initialTestResultReceivedTimestamp == null) {
                 val currentTime = System.currentTimeMillis()
-                LocalData.inititalTestResultReceivedTimestamp(currentTime)
+                LocalData.initialTestResultReceivedTimestamp(currentTime)
                 testResultReceivedDate.value = Date(currentTime)
                 if (testResult == TestResult.PENDING) {
                     BackgroundWorkScheduler.startWorkScheduler()
