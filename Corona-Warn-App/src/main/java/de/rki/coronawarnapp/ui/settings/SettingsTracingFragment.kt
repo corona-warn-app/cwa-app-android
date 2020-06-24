@@ -100,11 +100,11 @@ class SettingsTracingFragment : Fragment(),
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnClickListener {
-            if (row.isEnabled) startStopTracing()
+            startStopTracing()
         }
         // Additional click target to toggle switch
         row.setOnClickListener {
-            startStopTracing()
+            if (row.isEnabled) startStopTracing()
         }
         back.setOnClickListener {
             (activity as MainActivity).goBack()
