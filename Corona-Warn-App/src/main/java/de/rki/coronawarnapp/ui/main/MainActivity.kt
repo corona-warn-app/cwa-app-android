@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,10 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG: String? = MainActivity::class.simpleName
+
+        fun start(context: Context) {
+            context.startActivity(Intent(context, MainActivity::class.java))
+        }
     }
 
     private val FragmentManager.currentNavigationFragment: Fragment?
