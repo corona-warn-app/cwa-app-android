@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.settings
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -91,7 +90,7 @@ class SettingsResetFragment : Fragment() {
     }
 
     private fun navigateToOnboarding() {
-        startActivity(Intent(activity, OnboardingActivity::class.java))
+        OnboardingActivity.start(requireContext())
         activity?.finish()
     }
 
