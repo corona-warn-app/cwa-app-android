@@ -14,7 +14,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 class CameraPermissionHelperTest {
 
     @MockK
@@ -25,7 +24,6 @@ class CameraPermissionHelperTest {
         MockKAnnotations.init(this)
         mockkObject(CoronaWarnApplication)
     }
-
 
     /**
      * Test call order is correct.
