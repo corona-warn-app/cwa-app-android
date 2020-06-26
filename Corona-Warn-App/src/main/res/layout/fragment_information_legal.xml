@@ -100,6 +100,7 @@
                     android:text="@string/information_legal_subtitle_contact"
                     android:focusable="true"
                     android:autoLink="all"
+                    android:textColorLink="@color/colorTextTint"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_contact" />
