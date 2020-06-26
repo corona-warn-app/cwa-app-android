@@ -116,7 +116,7 @@ class SubmissionViewModel : ViewModel() {
         deleteTestGUID()
         SubmissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
-        LocalData.inititalTestResultReceivedTimestamp(0L)
+        LocalData.initialTestResultReceivedTimestamp(0L)
     }
 
     private fun executeRequestWithState(
