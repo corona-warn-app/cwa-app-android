@@ -110,6 +110,8 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/information_contact_body_other"
                     android:focusable="true"
+                    android:autoLink="phone"
+                    android:textColorLink="@color/colorTextTint"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_contact_body_open" />
