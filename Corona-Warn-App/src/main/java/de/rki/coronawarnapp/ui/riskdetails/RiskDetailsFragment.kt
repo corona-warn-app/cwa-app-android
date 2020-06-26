@@ -61,6 +61,7 @@ class RiskDetailsFragment : Fragment() {
         tracingViewModel.refreshExposureSummary()
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
         TimerHelper.checkManualKeyRetrievalTimer()
+        tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
