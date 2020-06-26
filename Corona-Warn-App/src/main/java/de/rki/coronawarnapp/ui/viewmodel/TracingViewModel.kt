@@ -84,7 +84,7 @@ class TracingViewModel : ViewModel() {
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
             }
-           TracingRepository.isRefreshing.value = false
+            TracingRepository.isRefreshing.value = false
         }
     }
 
