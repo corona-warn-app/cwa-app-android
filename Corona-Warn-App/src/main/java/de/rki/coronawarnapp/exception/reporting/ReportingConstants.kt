@@ -11,4 +11,6 @@ object ReportingConstants {
     const val ERROR_REPORT_API_EXCEPTION_CODE = "api-exception-code"
     const val ERROR_REPORT_RES_ID = "res-id"
     val ERROR_REPORT_UNKNOWN_ERROR = ErrorCodes.REPORTED_EXCEPTION_UNKNOWN_PROBLEM.code
+
+    const val STATUS_CODE_GOOGLE_UPDATE_NEEDED = 17
 }

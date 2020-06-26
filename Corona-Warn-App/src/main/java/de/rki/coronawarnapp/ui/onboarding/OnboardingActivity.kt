@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.onboarding
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,11 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
     companion object {
         private val TAG: String? = OnboardingActivity::class.simpleName
+
+        fun start(context: Context) {
+            val intent = Intent(context, OnboardingActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
     private val FragmentManager.currentNavigationFragment: Fragment?
@@ -43,7 +49,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
     fun completeOnboarding() {
         LocalData.isOnboarded(true)
         LocalData.onboardingCompletedTimestamp(System.currentTimeMillis())
-        startActivity(Intent(this, MainActivity::class.java))
+        MainActivity.start(this)
         finish()
     }
 
