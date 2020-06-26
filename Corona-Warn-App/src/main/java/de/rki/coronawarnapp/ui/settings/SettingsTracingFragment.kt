@@ -107,7 +107,7 @@ class SettingsTracingFragment : Fragment(),
             val isTracingEnabled = tracingViewModel.isTracingEnabled.value!!
             val isBluetoothEnabled = settingsViewModel.isBluetoothEnabled.value!!
             val isConnectionEnabled = settingsViewModel.isConnectionEnabled.value!!
-            // check if the row is clickable, this adds the same functionality like it is applied for the switch
+            // check if the row is clickable, this adds the switch behaviour
             val isEnabled = formatTracingSwitch(
                 isTracingEnabled,
                 isBluetoothEnabled,
