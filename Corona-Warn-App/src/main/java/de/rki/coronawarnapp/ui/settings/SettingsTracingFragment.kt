@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.formatter.formatTracingSwitch
+import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -104,15 +104,18 @@ class SettingsTracingFragment : Fragment(),
             startStopTracing()
         }
         row.setOnClickListener {
-            val isTracingEnabled = tracingViewModel.isTracingEnabled.value!!
-            val isBluetoothEnabled = settingsViewModel.isBluetoothEnabled.value!!
-            val isConnectionEnabled = settingsViewModel.isConnectionEnabled.value!!
+            val isTracingEnabled =
+                tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
+            val isBluetoothEnabled =
+                settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
+            val isConnectionEnabled =
+                settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
             // check if the row is clickable, this adds the switch behaviour
-            val isEnabled = formatTracingSwitch(
+            val isEnabled = formatTracingSwitchEnabled(
                 isTracingEnabled,
                 isBluetoothEnabled,
                 isConnectionEnabled
-            ) || !isTracingEnabled
+            )
             if (isEnabled) startStopTracing()
         }
         back.setOnClickListener {
