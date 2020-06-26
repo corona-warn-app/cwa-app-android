@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.storage.LocalData
@@ -34,15 +33,13 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun startOnboardingActivity() {
-        val onboardingActivity = Intent(this, OnboardingActivity::class.java)
-        startActivity(onboardingActivity)
+        OnboardingActivity.start(this)
         this.overridePendingTransition(0, 0)
         finish()
     }
 
     private fun startMainActivity() {
-        val mainActivityIntent = Intent(this, MainActivity::class.java)
-        startActivity(mainActivityIntent)
+        MainActivity.start(this)
         this.overridePendingTransition(0, 0)
         finish()
     }
