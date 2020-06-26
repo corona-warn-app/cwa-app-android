@@ -7,20 +7,31 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
+import de.rki.coronawarnapp.CoronaWarnApplication
+
+private const val DRAWABLE_TYPE = "drawable"
 
 @BindingAdapter("animation")
 fun setAnimation(view: LottieAnimationView, animation: Int?) {
     if (animation != null) {
-        view.setAnimation(animation)
-        view.repeatCount = LottieDrawable.INFINITE
-        view.repeatMode = LottieDrawable.RESTART
-        view.playAnimation()
+        val appContext = CoronaWarnApplication.getAppContext()
+        val type = appContext.resources.getResourceTypeName(animation)
+
+        if (type == DRAWABLE_TYPE) {
+            view.background = appContext.getDrawable(animation)
+        } else {
+            view.setAnimation(animation)
+            view.repeatCount = LottieDrawable.INFINITE
+            view.repeatMode = LottieDrawable.RESTART
+            view.playAnimation()
+        }
     }
 }
 
 @BindingAdapter("animation_tint")
 fun setAnimationColor(view: LottieAnimationView, color: Int?) {
     if (color != null) {
+        view.background?.setTint(color)
         view.addValueCallback(
             KeyPath("**"),
             LottieProperty.COLOR_FILTER

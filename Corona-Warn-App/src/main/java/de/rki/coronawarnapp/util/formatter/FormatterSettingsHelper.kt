@@ -310,7 +310,7 @@ fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, connection: Boolean)
         TracingStatusHelper.BLUETOOTH -> R.drawable.ic_settings_tracing_bluetooth_inactive
         TracingStatusHelper.CONNECTION -> R.drawable.ic_settings_tracing_connection_inactive
         TracingStatusHelper.TRACING_ACTIVE -> R.raw.ic_settings_tracing_animated
-        else -> R.raw.ic_settings_tracing_animated
+        else -> R.drawable.ic_settings_tracing_inactive
     }
 }
 
