@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.formatter.formatTracingSwitch
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -102,9 +103,17 @@ class SettingsTracingFragment : Fragment(),
         switch.setOnClickListener {
             startStopTracing()
         }
-        // Additional click target to toggle switch
         row.setOnClickListener {
-            if (row.isEnabled) startStopTracing()
+            val isTracingEnabled = tracingViewModel.isTracingEnabled.value!!
+            val isBluetoothEnabled = settingsViewModel.isBluetoothEnabled.value!!
+            val isConnectionEnabled = settingsViewModel.isConnectionEnabled.value!!
+            // check if the row is clickable, this adds the same functionality like it is applied for the switch
+            val isEnabled = formatTracingSwitch(
+                isTracingEnabled,
+                isBluetoothEnabled,
+                isConnectionEnabled
+            ) || !isTracingEnabled
+            if (isEnabled) startStopTracing()
         }
         back.setOnClickListener {
             (activity as MainActivity).goBack()
