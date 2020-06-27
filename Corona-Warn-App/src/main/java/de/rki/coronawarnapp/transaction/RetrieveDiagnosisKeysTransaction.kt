@@ -81,8 +81,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = RetrieveDiagnosisKeysTransaction::class.simpleName
 
-    /** delay between provideDiagnosisKeys() calls in milliseconds,
-     *  to avoid error 10
+    /**
+     * Delay between provideDiagnosisKeys() calls in milliseconds, attempts to prevent
+     * ApiException: 10: Unable to validate key file signature: Pipe is closed.
+     * Empirically average number of exceptions decreases linearly with a log of delay.
      */
     private const val DELAY_BETWEEN_PROVIDE_DIAGNOSIS_KEYS_CALLS = 10000L
 
