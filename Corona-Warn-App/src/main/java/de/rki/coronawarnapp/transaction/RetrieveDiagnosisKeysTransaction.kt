@@ -81,7 +81,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = RetrieveDiagnosisKeysTransaction::class.simpleName
 
-    private const val MAX_RETRIES_DUE_TO_ERROR_10 = 5
+    private const val PROVIDE_DIAGNOSIS_KEYS_MAX_RETRIES = 5
 
     /** possible transaction states */
     private enum class RetrieveDiagnosisKeysTransactionState :
@@ -239,7 +239,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * @param exposureConfiguration exposure configuration
      * @param token token
      * @param maxRetries how many times this method should be
-     * retried in case of Google API(10) exception
+     * retried (workaround for Google API(10) exception)
      */
     private suspend fun executeSingleElementBatch(
         file: File,
@@ -279,7 +279,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
                 batch,
                 exposureConfiguration,
                 token,
-                MAX_RETRIES_DUE_TO_ERROR_10
+                PROVIDE_DIAGNOSIS_KEYS_MAX_RETRIES
             )
         }
         Timber.d("Diagnosis Keys provided successfully, Token: $token")
