@@ -19,6 +19,7 @@
 
 package de.rki.coronawarnapp.transaction
 
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
@@ -79,6 +80,9 @@ import java.util.concurrent.atomic.AtomicReference
 object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = RetrieveDiagnosisKeysTransaction::class.simpleName
+
+    private const val ERROR_10_CODE = 10
+    private const val MAX_RETRIES_DUE_TO_ERROR_10 = 5
 
     /** possible transaction states */
     private enum class RetrieveDiagnosisKeysTransactionState :
@@ -230,6 +234,37 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     /**
+     * Execute provideDiagnosisKeys with retry
+     *
+     * @param file file to be evaluated
+     * @param exposureConfiguration exposure configuration
+     * @param token token
+     * @param maxRetries how many times this method should be
+     * retried in case of Google API(10) exception
+     */
+    private suspend fun executeSingleElementBatch(
+        file: File,
+        exposureConfiguration: ExposureConfiguration?,
+        token: String,
+        maxRetries: Int
+    ) {
+        var retriesRemaining = maxRetries
+        while (true) {
+            try {
+                InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                    listOf(file),
+                    exposureConfiguration,
+                    token
+                )
+                break
+            } catch (e: ApiException) {
+                // maybe would not harm to retry in case of ANY exception?
+                if (e.statusCode != ERROR_10_CODE || --retriesRemaining <= 0) throw e
+            }
+        }
+    }
+
+    /**
      * Executes the API_SUBMISSION Transaction State
      *
      * We currently use Batch Size 1 and thus submit multiple times to the API.
@@ -242,10 +277,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
         exportFiles.forEach { batch ->
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                listOf(batch),
+            executeSingleElementBatch(
+                batch,
                 exposureConfiguration,
-                token
+                token,
+                MAX_RETRIES_DUE_TO_ERROR_10
             )
         }
         Timber.d("Diagnosis Keys provided successfully, Token: $token")
