@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -79,6 +80,11 @@ import java.util.concurrent.atomic.AtomicReference
 object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = RetrieveDiagnosisKeysTransaction::class.simpleName
+
+    /** delay between provideDiagnosisKeys() calls in milliseconds,
+     *  to avoid error 10
+     */
+    private const val DELAY_BETWEEN_PROVIDE_DIAGNOSIS_KEYS_CALLS = 10000L
 
     /** possible transaction states */
     private enum class RetrieveDiagnosisKeysTransactionState :
@@ -242,6 +248,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
         exportFiles.forEach { batch ->
+            delay(DELAY_BETWEEN_PROVIDE_DIAGNOSIS_KEYS_CALLS)
             InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                 listOf(batch),
                 exposureConfiguration,
