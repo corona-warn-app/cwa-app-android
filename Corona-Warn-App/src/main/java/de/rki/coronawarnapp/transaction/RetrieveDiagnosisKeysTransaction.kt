@@ -81,7 +81,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = RetrieveDiagnosisKeysTransaction::class.simpleName
 
-    private const val ERROR_10_CODE = 10
     private const val MAX_RETRIES_DUE_TO_ERROR_10 = 5
 
     /** possible transaction states */
@@ -258,8 +257,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
                 )
                 break
             } catch (e: ApiException) {
-                // maybe would not harm to retry in case of ANY exception?
-                if (e.statusCode != ERROR_10_CODE || --retriesRemaining <= 0) throw e
+                if (--retriesRemaining <= 0) throw e
             }
         }
     }
