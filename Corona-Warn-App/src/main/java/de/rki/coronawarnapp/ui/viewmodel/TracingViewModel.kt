@@ -71,6 +71,7 @@ class TracingViewModel : ViewModel() {
                         currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
                 val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
                 if (keysWereNotRetrievedToday && isNetworkEnabled) {
+                    TracingRepository.isRefreshing.value = true
                     RetrieveDiagnosisKeysTransaction.start()
                     refreshLastTimeDiagnosisKeysFetchedDate()
                     TimerHelper.checkManualKeyRetrievalTimer()
@@ -83,6 +84,7 @@ class TracingViewModel : ViewModel() {
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
             }
+            TracingRepository.isRefreshing.value = false
         }
     }
 
