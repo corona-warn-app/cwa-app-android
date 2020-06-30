@@ -120,6 +120,30 @@ fun formatTracingDescription(tracing: Boolean, bluetooth: Boolean, connection: B
 }
 
 /**
+ * Format the settings tracing content description text display depending on tracing status
+ * but appends the word button at the end for screen reader accessibility reasons
+ *
+ * @param tracing
+ * @param bluetooth
+ * @param connection
+ * @return String
+ */
+fun formatTracingContentDescription(tracing: Boolean, bluetooth: Boolean, connection: Boolean): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return when (tracingStatusHelper(tracing, bluetooth, connection)) {
+        TracingStatusHelper.CONNECTION ->
+            appContext.getString(R.string.settings_tracing_body_connection_inactive) + appContext.getString(R.string.accessibility_button)
+        TracingStatusHelper.BLUETOOTH ->
+            appContext.getString(R.string.settings_tracing_body_bluetooth_inactive) + appContext.getString(R.string.accessibility_button)
+        TracingStatusHelper.TRACING_ACTIVE ->
+            appContext.getString(R.string.settings_tracing_body_active) + appContext.getString(R.string.accessibility_button)
+        TracingStatusHelper.TRACING_INACTIVE ->
+            appContext.getString(R.string.settings_tracing_body_inactive) + appContext.getString(R.string.accessibility_button)
+        else -> ""
+    }
+}
+
+/**
  * Formats the tracing body depending on the tracing status and the days since last exposure.
  *
  * @param activeTracingDaysInRetentionPeriod
