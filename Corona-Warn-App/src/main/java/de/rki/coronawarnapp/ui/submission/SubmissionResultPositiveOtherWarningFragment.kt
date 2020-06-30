@@ -152,6 +152,12 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
         )
 
+    private fun navigateToHomeFragment() =
+        findNavController().doNavigate(
+            SubmissionResultPositiveOtherWarningFragmentDirections
+                .actionSubmissionResultPositiveOtherWarningFragmentToMainFragment()
+        )
+
     private fun initiateWarningOthers() {
         if (tracingViewModel.isTracingEnabled.value != true) {
             val tracingRequiredDialog = DialogHelper.DialogInstance(
@@ -178,6 +184,31 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
         submissionViewModel.submitDiagnosisKeys(keys)
+        if(submissionViewModel.submissionState!=ApiRequestState.SUCCESS)
+        {
+            submitDiagnosisKeyError()
+        }
+    }
+
+    fun submitDiagnosisKeyError()
+    {
+        showSubmitErrorDialog()
+    }
+
+    private fun showSubmitErrorDialog() {
+        val submitErrorDialogDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_error_dialog_diagnosis_key_title,
+            R.string.submission_error_dialog_diagnosis_key_paired_body,
+            R.string.submission_error_dialog_diagnosis_key_paired_button_positive,
+            null,
+            true,
+            {
+                navigateToHomeFragment()
+            }
+        )
+
+        DialogHelper.showDialog(submitErrorDialogDialogInstance)
     }
 
     override fun onFailure(exception: Exception?) {
