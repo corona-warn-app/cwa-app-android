@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="LockedOrientationActivity"
     package="de.rki.coronawarnapp">
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
@@ -37,6 +38,7 @@
 
         <activity
             android:name=".ui.LauncherActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,10 +48,12 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Main" />
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Onboarding" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
