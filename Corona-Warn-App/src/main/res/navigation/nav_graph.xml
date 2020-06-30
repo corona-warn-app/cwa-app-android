@@ -201,7 +201,7 @@
             app:popUpTo="@id/submissionDoneFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_mainFragment"
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragmentToMainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />

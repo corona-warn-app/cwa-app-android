@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -152,6 +153,9 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
         )
 
+    /**
+     * Navigate to Home Fragment after the Diagnosis Key submission error
+     */
     private fun navigateToHomeFragment() =
         findNavController().doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
@@ -184,17 +188,20 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
         submissionViewModel.submitDiagnosisKeys(keys)
-        if(submissionViewModel.submissionState!=ApiRequestState.SUCCESS)
-        {
-            submitDiagnosisKeyError()
+        if (submissionViewModel.submissionState != ApiRequestState.SUCCESS) {
+            showSubmitErrorDialog()
         }
     }
 
-    fun submitDiagnosisKeyError()
-    {
-        showSubmitErrorDialog()
-    }
-
+    /**
+     * Error Dialog
+     *
+     * If Diagnosis Key submission is failed, this error dialog is shown
+     * Cancellable is set to false
+     *
+     * @see SubmissionViewModel.submissionState
+     * @see AlertDialog.setCancelable
+     */
     private fun showSubmitErrorDialog() {
         val submitErrorDialogDialogInstance = DialogHelper.DialogInstance(
             requireActivity(),
@@ -202,7 +209,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             R.string.submission_error_dialog_diagnosis_key_paired_body,
             R.string.submission_error_dialog_diagnosis_key_paired_button_positive,
             null,
-            true,
+            false,
             {
                 navigateToHomeFragment()
             }
