@@ -132,13 +132,17 @@ fun formatTracingContentDescription(tracing: Boolean, bluetooth: Boolean, connec
     val appContext = CoronaWarnApplication.getAppContext()
     return when (tracingStatusHelper(tracing, bluetooth, connection)) {
         TracingStatusHelper.CONNECTION ->
-            appContext.getString(R.string.settings_tracing_body_connection_inactive) + appContext.getString(R.string.accessibility_button)
+            appContext.getString(R.string.settings_tracing_body_connection_inactive) +
+                    appContext.getString(R.string.accessibility_button)
         TracingStatusHelper.BLUETOOTH ->
-            appContext.getString(R.string.settings_tracing_body_bluetooth_inactive) + appContext.getString(R.string.accessibility_button)
+            appContext.getString(R.string.settings_tracing_body_bluetooth_inactive) +
+                    appContext.getString(R.string.accessibility_button)
         TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getString(R.string.settings_tracing_body_active) + appContext.getString(R.string.accessibility_button)
+            appContext.getString(R.string.settings_tracing_body_active) +
+                    appContext.getString(R.string.accessibility_button)
         TracingStatusHelper.TRACING_INACTIVE ->
-            appContext.getString(R.string.settings_tracing_body_inactive) + appContext.getString(R.string.accessibility_button)
+            appContext.getString(R.string.settings_tracing_body_inactive) +
+                    appContext.getString(R.string.accessibility_button)
         else -> ""
     }
 }
