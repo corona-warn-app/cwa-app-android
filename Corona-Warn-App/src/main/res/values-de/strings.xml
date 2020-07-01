@@ -184,7 +184,7 @@
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
+    <!-- NOTR -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
@@ -474,7 +474,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
+    <string name="settings_notifications_subtitle_update_test">"Status Ihres COVID-19 Tests"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
@@ -935,7 +935,7 @@
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
     <string name="errors_not_enough_device_storage">"Sie haben nicht genug Speicherplatz."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
-    <string name="errors_communication_with_api">"Fehler bei der Kommunikation mit dem Google API"</string>
+    <string name="errors_communication_with_api">"Fehler bei der Kommunikation mit der Google Schnittstelle"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
 
