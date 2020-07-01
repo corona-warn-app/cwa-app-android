@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.widget.Switch
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
@@ -9,7 +10,17 @@ import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import de.rki.coronawarnapp.CoronaWarnApplication
 
+const val IGNORE_CHANGE_TAG = "ignore"
 private const val DRAWABLE_TYPE = "drawable"
+
+@BindingAdapter("checked")
+fun setChecked(switch: Switch, status: Boolean?) {
+    if (status != null) {
+        switch.tag = IGNORE_CHANGE_TAG
+        switch.isChecked = status
+        switch.tag = null
+    }
+}
 
 @BindingAdapter("animation")
 fun setAnimation(view: LottieAnimationView, animation: Int?) {

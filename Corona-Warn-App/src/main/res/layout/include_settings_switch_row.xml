@@ -85,7 +85,7 @@
                 android:id="@+id/settings_switch_row_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{status}"
+                app:checked="@{status}"
                 android:enabled="@{enabled}"
                 android:contentDescription="@{FormatterSettingsHelper.formatSwitchContentDescription(subtitle, statusText)}"
                 android:theme="@style/switchBase"
