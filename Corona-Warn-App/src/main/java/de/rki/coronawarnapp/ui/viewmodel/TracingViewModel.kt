@@ -67,10 +67,14 @@ class TracingViewModel : ViewModel() {
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(),
                     DateTimeZone.getDefault()
                 )
-                val keysWereNotRetrievedToday = LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                        currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
-                val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
-                if (keysWereNotRetrievedToday && isNetworkEnabled) {
+                val keysWereNotRetrievedToday =
+                    LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+                val isNetworkEnabled =
+                    ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+                val isBackgroundJobEnabled =
+                    ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext())
+                if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
                     TracingRepository.isRefreshing.value = true
                     RetrieveDiagnosisKeysTransaction.start()
                     refreshLastTimeDiagnosisKeysFetchedDate()
@@ -78,12 +82,18 @@ class TracingViewModel : ViewModel() {
                 }
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
+            } catch (e: Exception) {
+                e.report(INTERNAL)
             }
+
             try {
                 RiskLevelTransaction.start()
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
+            } catch (e: Exception) {
+                e.report(INTERNAL)
             }
+
             TracingRepository.isRefreshing.value = false
         }
     }
