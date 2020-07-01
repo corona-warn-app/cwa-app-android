@@ -184,7 +184,7 @@
     <string name="main_about_headline">"SSS"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
+    <!-- NOTR -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
@@ -791,7 +791,7 @@
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Sonraki"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
-    <string name="submission_positive_other_illustration_description">"Bir cihaz şifrelenmiş pozitif test tanısını sisteme aktarıyor."</string>
+    <string name="submission_positive_other_illustration_description">"Bir cihaz şifrelenmiş pozitif test tanısını sisteme aktarır."</string>
 
 
     <!-- Submission Done -->
@@ -811,7 +811,7 @@
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Karantina süreniz genellikle 14 gündür. Lütfen belirtilerinizi gözlemleyin ve belirtilerinizin nasıl ortaya çıktığını izleyin."</item>
         <item>"Kamu sağlığı yetkilisi, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, belirtileriniz ortaya çıkmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir."</item>
-        <item>"Lütfen özellikle cihazı olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
+        <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
@@ -933,9 +933,9 @@
     <!-- XTXT: error dialog - detailed text if device is offline  -->
     <string name="errors_no_network">"İnternet bağlantınız yok."</string>
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
-    <string name="errors_not_enough_device_storage">"Yeterli bellek alanınız yok."</string>
+    <string name="errors_not_enough_device_storage">"Yeterli boş bellek alanınız yok."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
-    <string name="errors_communication_with_api">"Google API ile iletişim sırasında hata oluştu"</string>
+    <string name="errors_communication_with_api">"Google arayüzü ile iletişim sırasında hata oluştu"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Bu işlemi gerçekleştiremezsiniz. Lütfen yardım hattı ile iletişime geçin."</string>
 
