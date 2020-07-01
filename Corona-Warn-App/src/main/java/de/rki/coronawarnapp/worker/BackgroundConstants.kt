@@ -48,7 +48,7 @@ object BackgroundConstants {
      * Total tries count for diagnosis key retrieval per day
      * Internal requirement
      */
-    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 1
+    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 12
 
     /**
      * Maximum tries count for diagnosis key retrieval per day
@@ -98,7 +98,7 @@ object BackgroundConstants {
      *
      * @see TimeUnit.MINUTES
      */
-    const val TIME_RANGE_MIN = 420
+    const val TIME_RANGE_MIN = 0
 
     /**
      * Time schedule stop in minutes of day
@@ -111,7 +111,7 @@ object BackgroundConstants {
     /**
      * Retries before work would set as FAILED
      */
-    const val WORKER_RETRY_COUNT_THRESHOLD = 3
+    const val WORKER_RETRY_COUNT_THRESHOLD = 2
 
     /**
      * The maximum validity in days for keeping Background polling active
@@ -119,4 +119,11 @@ object BackgroundConstants {
      * @see TimeUnit.DAYS
      */
     const val POLLING_VALIDITY_MAX_DAYS = 21
+
+    /**
+     * Backoff initial delay
+     *
+     * @see TimeUnit.MINUTES
+     */
+    const val BACKOFF_INITIAL_DELAY = 8L
 }
