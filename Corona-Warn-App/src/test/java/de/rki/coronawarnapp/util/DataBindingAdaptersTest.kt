@@ -1,9 +1,19 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import android.content.res.AssetManager
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.widget.Switch
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
+import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
@@ -14,10 +24,13 @@ class DataBindingAdaptersTest {
 
     @MockK
     private lateinit var context: Context
+    @MockK
+    private lateinit var drawable: Drawable
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        mockkObject(CoronaWarnApplication)
     }
 
     private fun setChecked(status: Boolean?) {
@@ -53,5 +66,79 @@ class DataBindingAdaptersTest {
     @Test
     fun setCheckedNull() {
         setChecked(false)
+    }
+
+    private fun setAnimation(animation: Int?) {
+        every { CoronaWarnApplication.getAppContext().resources.getResourceTypeName(any()) } returns "raw"
+
+        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true)
+
+        setAnimation(animationView, animation)
+
+        verify(exactly = 0) {
+            animationView.setImageDrawable(any())
+        }
+
+        if (animation != null) {
+            verifySequence {
+                animationView.setAnimation(animation)
+                animationView.repeatCount = LottieDrawable.INFINITE
+                animationView.repeatMode = LottieDrawable.RESTART
+                animationView.playAnimation()
+            }
+        } else {
+            verify(exactly = 0) {
+                animationView.setAnimation(any<Int>())
+                animationView.repeatCount = any()
+                animationView.repeatMode = any()
+                animationView.playAnimation()
+            }
+        }
+    }
+
+    @Test
+    fun setAnimationIcon() {
+        setAnimation(R.raw.ic_settings_tracing_animated)
+    }
+
+    @Test
+    fun setAnimationNull() {
+        setAnimation(null)
+    }
+
+    private fun setDrawable(drawableId: Int?) {
+        every { CoronaWarnApplication.getAppContext().resources.getResourceTypeName(any()) } returns DRAWABLE_TYPE
+        every { CoronaWarnApplication.getAppContext().getDrawable(any()) } returns drawable
+
+        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true)
+
+        setAnimation(animationView, drawableId)
+
+        verify(exactly = 0) {
+            animationView.setAnimation(any<Int>())
+            animationView.repeatCount = any()
+            animationView.repeatMode = any()
+            animationView.playAnimation()
+        }
+
+        if (drawableId != null) {
+            verifySequence {
+                animationView.setImageDrawable(any())
+            }
+        } else {
+            verify(exactly = 0) {
+                animationView.setImageDrawable(any())
+            }
+        }
+    }
+
+    @Test
+    fun setDrawableIcon() {
+        setDrawable(R.drawable.ic_settings_tracing_inactive)
+    }
+
+    @Test
+    fun setDrawableNull() {
+        setDrawable(null)
     }
 }

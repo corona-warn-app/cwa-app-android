@@ -11,7 +11,7 @@ import com.airbnb.lottie.model.KeyPath
 import de.rki.coronawarnapp.CoronaWarnApplication
 
 const val IGNORE_CHANGE_TAG = "ignore"
-private const val DRAWABLE_TYPE = "drawable"
+const val DRAWABLE_TYPE = "drawable"
 
 @BindingAdapter("checked")
 fun setChecked(switch: Switch, status: Boolean?) {
