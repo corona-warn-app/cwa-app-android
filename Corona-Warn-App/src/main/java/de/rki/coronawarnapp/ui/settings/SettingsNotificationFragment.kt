@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -78,16 +79,22 @@ class SettingsNotificationFragment : Fragment() {
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnClickListener {
-            settingsViewModel.toggleNotificationsRiskEnabled()
+        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (updateRiskNotificationSwitch.tag != IGNORE_CHANGE_TAG) {
+                settingsViewModel.toggleNotificationsRiskEnabled()
+            }
         }
         // Additional click target to toggle switch
         updateRiskNotificationRow.setOnClickListener {
             if (updateRiskNotificationRow.isEnabled) settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
-        updateTestNotificationSwitch.setOnClickListener {
-            settingsViewModel.toggleNotificationsTestEnabled()
+        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (updateTestNotificationSwitch.tag != IGNORE_CHANGE_TAG) {
+                settingsViewModel.toggleNotificationsTestEnabled()
+            }
         }
         // Additional click target to toggle switch
         updateTestNotificationRow.setOnClickListener {
