@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.storage
 
 import android.content.Context
+import android.os.PowerManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -25,6 +26,7 @@ object SettingsRepository {
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
+    val isBackgroundPriorityEnabled = MutableLiveData(false)
     val manualKeyRetrievalTime = MutableLiveData<Long>()
 
     /**
@@ -114,5 +116,14 @@ object SettingsRepository {
      */
     fun updateManualKeyRetrievalTime(value: Long) {
         manualKeyRetrievalTime.postValue(value)
+    }
+
+    /**
+     * Get the current background priority state.
+     */
+    fun refreshBackgroundPriorityEnabled(context: Context) {
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        isBackgroundPriorityEnabled.value =
+            powerManager.isIgnoringBatteryOptimizations(context.packageName)
     }
 }

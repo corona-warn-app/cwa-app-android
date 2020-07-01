@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
@@ -853,6 +854,55 @@ class FormatterSettingsHelperTest {
         formatNotificationImageBase(bNotifications = true)
 
         formatNotificationImageBase(bNotifications = false)
+    }
+
+    @Test
+    fun formatSettingsBackgroundPriorityIconColor() {
+        formatSettingsBackgroundPriorityIconColorBase(true, R.color.colorAccentTintIcon)
+        formatSettingsBackgroundPriorityIconColorBase(false, R.color.colorTextSemanticRed)
+    }
+
+    private fun formatSettingsBackgroundPriorityIconColorBase(
+        enabled: Boolean,
+        expectedColor: Int
+    ) {
+        every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
+        every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
+
+        val result =
+            formatSettingsBackgroundPriorityIconColor(enabled)
+        assertThat(
+            result, `is`(context.getColor(expectedColor))
+        )
+    }
+
+    @Test
+    fun formatSettingsBackgroundPriorityIcon() {
+        formatSettingsBackgroundPriorityIconBase(
+            true,
+            R.drawable.ic_settings_background_priority_enabled
+        )
+        formatSettingsBackgroundPriorityIconBase(
+            false,
+            R.drawable.ic_settings_background_priority_disabled
+        )
+    }
+
+    private fun formatSettingsBackgroundPriorityIconBase(
+        enabled: Boolean,
+        expectedDrawable: Int
+    ) {
+        val drawableA = mockk<Drawable>()
+        val drawableB = mockk<Drawable>()
+
+        every { context.getDrawable(R.drawable.ic_settings_background_priority_enabled) } returns drawableA
+        every { context.getDrawable(R.drawable.ic_settings_background_priority_disabled) } returns drawableB
+
+        val result =
+            formatSettingsBackgroundPriorityIcon(enabled)
+        assertThat(
+            result, `is`(context.getDrawable(expectedDrawable))
+        )
     }
 
     @After
