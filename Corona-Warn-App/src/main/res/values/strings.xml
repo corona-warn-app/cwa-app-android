@@ -508,6 +508,17 @@
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Reset"</string>
 
+    <!-- XHED: settings(background priority) - notification page title -->
+    <string name="settings_background_priority_title"> </string>
+    <!-- XTXT: settings(background priority) - text in row on settings overview -->
+    <string name="settings_background_priority_body_description"> </string>
+    <!-- XHED: settings(background priority) - multiline headline below illustration -->
+    <string name="settings_background_priority_headline"> </string>
+    <!-- YTXT: settings(background priority) - description text -->
+    <string name="settings_background_priority_body"> </string>
+    <!-- XACT: settings(background priority) - illustration description -->
+    <string name="settings_background_priority_illustration_description"> </string>
+
     <!-- ####################################
                App Information
     ###################################### -->
