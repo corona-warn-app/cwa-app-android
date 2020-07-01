@@ -518,6 +518,12 @@
     <string name="settings_background_priority_body"> </string>
     <!-- XACT: settings(background priority) - illustration description -->
     <string name="settings_background_priority_illustration_description"> </string>
+    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
+    <string name="settings_background_priority_card_body"> </string>
+    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
+    <string name="settings_background_priority_card_button"> </string>
+    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
+    <string name="settings_background_priority_card_headline"> </string>
 
     <!-- ####################################
                App Information
