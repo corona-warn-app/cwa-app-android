@@ -184,7 +184,7 @@
     <string name="main_about_headline">"SSS"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
-    <!-- NOTR -->
+    <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
