@@ -74,6 +74,11 @@ class TracingViewModel : ViewModel() {
                     ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
                 val isBackgroundJobEnabled =
                     ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext())
+
+                Timber.v("Keys were not retrieved today $keysWereNotRetrievedToday")
+                Timber.v("Network is enabled $isNetworkEnabled")
+                Timber.v("Background jobs are enabled $isBackgroundJobEnabled")
+
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
                     TracingRepository.isRefreshing.value = true
                     RetrieveDiagnosisKeysTransaction.start()
