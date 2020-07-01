@@ -18,7 +18,7 @@ fun setAnimation(view: LottieAnimationView, animation: Int?) {
         val type = appContext.resources.getResourceTypeName(animation)
 
         if (type == DRAWABLE_TYPE) {
-            view.background = appContext.getDrawable(animation)
+            view.setImageDrawable(appContext.getDrawable(animation))
         } else {
             view.setAnimation(animation)
             view.repeatCount = LottieDrawable.INFINITE
@@ -31,7 +31,7 @@ fun setAnimation(view: LottieAnimationView, animation: Int?) {
 @BindingAdapter("animation_tint")
 fun setAnimationColor(view: LottieAnimationView, color: Int?) {
     if (color != null) {
-        view.background?.setTint(color)
+        view.setColorFilter(color)
         view.addValueCallback(
             KeyPath("**"),
             LottieProperty.COLOR_FILTER
