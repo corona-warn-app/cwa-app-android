@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
-import android.content.res.AssetManager
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.widget.Switch
 import com.airbnb.lottie.LottieAnimationView
@@ -140,5 +138,31 @@ class DataBindingAdaptersTest {
     @Test
     fun setDrawableNull() {
         setDrawable(null)
+    }
+
+    private fun setAnimationColor(color: Int?) {
+        val animationView = mockk<LottieAnimationView>(relaxUnitFun = true)
+
+        setAnimationColor(animationView, color)
+
+        if (color != null) {
+            verify {
+                animationView.setColorFilter(color)
+            }
+        } else {
+            verify(exactly = 0) {
+                animationView.setColorFilter(any<Int>())
+            }
+        }
+    }
+
+    @Test
+    fun setAnimationColorColor() {
+        setAnimationColor(R.color.colorTextSemanticRed)
+    }
+
+    @Test
+    fun setAnimationColorNull() {
+        setAnimationColor(null)
     }
 }
