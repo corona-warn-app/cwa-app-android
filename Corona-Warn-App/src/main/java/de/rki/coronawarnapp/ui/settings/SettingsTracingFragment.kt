@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -100,8 +101,11 @@ class SettingsTracingFragment : Fragment(),
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnClickListener {
-            startStopTracing()
+        switch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (switch.tag != IGNORE_CHANGE_TAG) {
+                startStopTracing()
+            }
         }
         row.setOnClickListener {
             val isTracingEnabled =
