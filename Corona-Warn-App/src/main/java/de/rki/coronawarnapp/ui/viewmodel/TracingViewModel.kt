@@ -62,27 +62,56 @@ class TracingViewModel : ViewModel() {
     fun refreshRiskLevel() {
         viewModelScope.launch {
             try {
+
+                // get the current date and the date the diagnosis keys were fetched the last time
                 val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
                 val lastFetch = DateTime(
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(),
                     DateTimeZone.getDefault()
                 )
-                val keysWereNotRetrievedToday = LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                        currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
-                val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
-                if (keysWereNotRetrievedToday && isNetworkEnabled) {
+
+                // check if the keys were not already retrieved today
+                val keysWereNotRetrievedToday =
+                    LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+
+                // check if the network is enabled to make the server fetch
+                val isNetworkEnabled =
+                    ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+
+                // only fetch the diagnosis keys if background jobs are enabled, so that in manual
+                // model the keys are only fetched on button press of the user
+                val isBackgroundJobEnabled =
+                    ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext())
+
+                Timber.v("Keys were not retrieved today $keysWereNotRetrievedToday")
+                Timber.v("Network is enabled $isNetworkEnabled")
+                Timber.v("Background jobs are enabled $isBackgroundJobEnabled")
+
+                if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
+                    TracingRepository.isRefreshing.value = true
+
+                    // start the fetching and submitting of the diagnosis keys
                     RetrieveDiagnosisKeysTransaction.start()
                     refreshLastTimeDiagnosisKeysFetchedDate()
                     TimerHelper.checkManualKeyRetrievalTimer()
                 }
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
+            } catch (e: Exception) {
+                e.report(INTERNAL)
             }
+
+            // refresh the risk level
             try {
                 RiskLevelTransaction.start()
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
+            } catch (e: Exception) {
+                e.report(INTERNAL)
             }
+
+            TracingRepository.isRefreshing.value = false
         }
     }
 
