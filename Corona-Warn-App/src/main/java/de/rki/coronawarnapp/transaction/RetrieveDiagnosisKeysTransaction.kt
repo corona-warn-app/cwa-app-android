@@ -116,6 +116,16 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start() = lockAndExecuteUnique {
+        /**
+         * Handles the case when the ENClient got disabled but the Transaction is still scheduled
+         * in a background job. Also it acts as a failure catch in case the orchestration code did
+         * not check in before.
+         */
+        if (!InternalExposureNotificationClient.asyncIsEnabled()) {
+            Timber.w("EN is not enabled, skipping RetrieveDiagnosisKeys")
+            executeClose()
+            return@lockAndExecuteUnique
+        }
         /****************************************************
          * INIT TRANSACTION
          ****************************************************/
@@ -193,8 +203,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the INIT Transaction State
      */
     private suspend fun executeSetup() = executeState(SETUP) {
-        if (!InternalExposureNotificationClient.asyncIsEnabled())
-            throw IllegalStateException("The Exposure Notification Framework must be active, check your tracing status")
         lastFetchDateForRollback.set(LocalData.lastTimeDiagnosisKeysFromServerFetch())
         val currentDate = Date(System.currentTimeMillis())
         Timber.d("using $currentDate as current date in Transaction.")
