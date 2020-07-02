@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 /**
  * Permission Helper for Exposure Notification permissions needed by the API
  *
- * In the current v1.3 of the Exposure Notification the user is asked for as permission for the following
+ * In the current v1.3 of the Exposure Notification the user is asked for permission for the following
  * actions:
  *
  *  getTemporaryExposureKeyHistory

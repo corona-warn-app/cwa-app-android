@@ -30,16 +30,15 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
     override suspend fun doWork(): Result {
         Timber.d("Background job started. Run attempt: $runAttemptCount")
 
-        if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
-            BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
-            return Result.failure()
-        }
         var result = Result.success()
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
-            result = Result.retry()
+            if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                return Result.failure()
+            } else {
+                result = Result.retry()
+            }
         }
         return result
     }

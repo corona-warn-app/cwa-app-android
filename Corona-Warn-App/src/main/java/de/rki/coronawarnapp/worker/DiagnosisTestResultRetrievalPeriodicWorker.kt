@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import timber.log.Timber
 
 /**
- * Diagnosis Test Result Periodic retrieavl
+ * Diagnosis Test Result Periodic retrieval
  *
  * @see BackgroundWorkScheduler
  */
