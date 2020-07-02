@@ -641,11 +641,11 @@
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Zurück"</string>
 
     <!-- XHED: Dialog title submission diagnosis keys error -->
-    <string name="submission_error_dialog_diagnosis_key_title">"Fehler"</string>
+    <string name="submission_no_dialog_diagnosis_key_available_title">"Fehler"</string>
     <!-- XMSG: Dialog body for already paired test error -->
-    <string name="submission_error_dialog_diagnosis_key_paired_body">"Keine Positivkennung verfügbar. Bitte versuchen Sie es morgen erneut."</string>
+    <string name="submission_dialog_no_diagnosis_key_available_paired_body">"Keine Positivkennung verfügbar. Bitte versuchen Sie es morgen erneut."</string>
     <!-- XBUT: Positive button for already paired test error -->
-    <string name="submission_error_dialog_diagnosis_key_paired_button_positive">"Zurück"</string>
+    <string name="submission_dialog_no_diagnosis_key_available_paired_button_positive">"Zurück"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
