@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.storage
 
 import android.content.Context
-import android.os.PowerManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.PowerManagementHelper
 
 /**
  * The Settings Repository maps all setting states from different sources to MutableLiveData.
@@ -119,11 +119,10 @@ object SettingsRepository {
     }
 
     /**
-     * Get the current background priority state.
+     * Refresh the current background priority state.
      */
     fun refreshBackgroundPriorityEnabled(context: Context) {
-        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
         isBackgroundPriorityEnabled.value =
-            powerManager.isIgnoringBatteryOptimizations(context.packageName)
+            PowerManagementHelper.isIgnoringBatteryOptimizations(context)
     }
 }
