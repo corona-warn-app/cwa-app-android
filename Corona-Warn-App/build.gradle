@@ -301,4 +301,7 @@ dependencies {
 
     // LOGGING
     implementation 'com.jakewharton.timber:timber:4.7.1@aar'
+
+    // ANIMATIONS
+    implementation "com.airbnb.android:lottie:3.4.1"
 }

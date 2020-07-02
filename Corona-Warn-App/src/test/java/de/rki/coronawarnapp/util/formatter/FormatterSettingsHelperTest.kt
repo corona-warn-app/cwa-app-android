@@ -184,7 +184,7 @@ class FormatterSettingsHelperTest {
         val result =
             formatTracingIcon(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
         assertThat(
-            result, `is`(CoreMatchers.equalTo(drawable))
+            result, CoreMatchers.isA(Int::class.java)
         )
     }
 
