@@ -975,8 +975,7 @@
            Just for Development
     ###################################### -->
     <!-- NOTR -->
-    <string name="lorem_ipsum">"Lorem Ipsum..."</string>
-    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
     <string name="menu_test_api">"Test API"</string>
     <!-- NOTR -->

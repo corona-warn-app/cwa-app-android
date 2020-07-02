@@ -184,8 +184,8 @@
     <string name="main_about_headline">"SSS"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
-    <!-- NOTR -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <!-- XTXT: FAQ link, should be translated  -->
+    <string name="main_about_link">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-tuerkisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
@@ -957,8 +957,7 @@
            Just for Development
     ###################################### -->
     <!-- NOTR -->
-    <string name="lorem_ipsum"/>
-    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
     <string name="menu_test_api">"Test API\'si"</string>
     <!-- NOTR -->
