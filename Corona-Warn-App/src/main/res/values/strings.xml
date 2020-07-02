@@ -160,19 +160,19 @@
         <item quantity="other">"%1$s days since the last encounter"</item>
     </plurals>
     <!-- XHED: risk card - unknown risk headline -->
-    <string name="risk_card_unknown_risk_headline">"Risk Unknown"</string>
+    <string name="risk_card_unknown_risk_headline">"Unknown Risk"</string>
     <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
     <string name="risk_card_unknown_risk_body">"Since you have not activated exposure logging for long enough, we could not calculate your risk of infection."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"Exposure logging stopped"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
-    <string name="risk_card_no_calculation_possible_body_saved_risk">"Last exposure logging:"<xliff:g id="line_break"/>" %1$s"</string>
+    <string name="risk_card_no_calculation_possible_body_saved_risk">"Last exposure logging:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
     <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
     <string name="risk_card_outdated_risk_headline">"Exposure logging is not possible"</string>
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
-    <string name="risk_card_loading_headline">"Check is running..."</string>
+    <string name="risk_card_loading_headline">"Check is running…"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
     <string name="risk_card_loading_body">"Current data is being downloaded and checked.\nThis can take several minutes."</string>
 
@@ -184,7 +184,7 @@
     <string name="main_about_headline">"FAQ"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
-    <!-- NOTR -->
+    <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
@@ -202,7 +202,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Send Download Link"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Fighting coronavirus together"<xliff:g id="line_break">"\n"</xliff:g>"I\'m in on this, you too?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g><xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Fighting coronavirus together"<xliff:g id="line_break">"\n"</xliff:g>"I\'m in on this, you too?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"One man is sharing the Corona-Warn-App with four other people."</string>
 
@@ -229,7 +229,7 @@
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Low Risk"</string>
     <!-- XTXT: App overview unknown risk level -->
-    <string name="main_overview_subtitle_unknown_risk">"Risk Unknown"</string>
+    <string name="main_overview_subtitle_unknown_risk">"Unknown Risk"</string>
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Notifying Other Users"</string>
     <!-- YTXT: App overview body text about rest procedure -->
@@ -251,9 +251,9 @@
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
-    <string name="main_overview_body_glossary_notification">"Display exposures in the Corona-Warn-App."</string>
+    <string name="main_overview_body_glossary_notification">"The display of exposures in the Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Random IDs"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exchanged between devices in close proximity. Random IDs cannot be assigned to a specific person and are automatically deleted after 14 days. People diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -274,7 +274,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"If you have questions about symptoms, testing possibilities, or additional isolation measures, please contact one of the following:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"If you have questions about symptoms, testing availability, or self-isolation, please contact one of the following:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -340,7 +340,7 @@
     <!-- YTXT: onboarding(together) - inform about the app -->
     <string name="onboarding_body">"Turn your device into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with COVID-19 in the last 14 days."</string>
     <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"The app logs exposures between individuals by exchanging encrypted, random IDs between their devices, whereby no personal data whatsoever is accessed."</string>
+    <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their devices, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"A group of people are all using their devices in town."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -379,11 +379,11 @@
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Onboarding page 4 of 5: If you are diagnosed with COVID-19..."</string>
     <!-- XHED: onboarding(test) - about positive tests -->
-    <string name="onboarding_test_headline">"If you are diagnosed with COVID-19..."</string>
+    <string name="onboarding_test_headline">"If you are diagnosed with COVID-19…"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
-    <string name="onboarding_test_subtitle">"...please report this in the Corona-Warn-App. Sharing your test results is voluntary and secure. Please do this for the sake of everyone\'s health."</string>
+    <string name="onboarding_test_subtitle">"… please report this in the Corona-Warn-App. Sharing your test results is voluntary and secure. Please do this for the sake of everyone\'s health."</string>
     <!-- YTXT: onboarding(test) - explain test -->
-    <string name="onboarding_test_body">"Your notification is encrypted securely and processed on a secure server. People whose encrypted random IDs your device has collected, will now receive a warning along with information about what they should now do."</string>
+    <string name="onboarding_test_body">"Your notification is encrypted securely and processed on a secure server. People whose encrypted random IDs your device has collected will now receive a warning along with information about what they should now do."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"An encrypted positive test diagnosis is transmitted to the system, which will now warn other users."</string>
     <!-- XACT: Onboarding (datashare) page title -->
@@ -507,6 +507,22 @@
     <string name="settings_reset_dialog_button_cancel">"Cancel"</string>
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Reset"</string>
+    <!-- XHED: settings(background priority) - notification page title -->
+    <string name="settings_background_priority_title">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(background priority) - text in row on settings overview -->
+    <string name="settings_background_priority_body_description">@string/lorem_ipsum</string>
+    <!-- XHED: settings(background priority) - multiline headline below illustration -->
+    <string name="settings_background_priority_headline">@string/lorem_ipsum</string>
+    <!-- YTXT: settings(background priority) - description text -->
+    <string name="settings_background_priority_body">@string/lorem_ipsum</string>
+    <!-- XACT: settings(background priority) - illustration description -->
+    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
+    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
+    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
+    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
@@ -527,7 +543,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"A group of people are all using their devices in town."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
-    <string name="information_privacy_title">"Data Privacy Information"</string>
+    <string name="information_privacy_title">"Data Privacy"</string>
     <!-- XACT: describes illustration -->
     <string name="information_privacy_illustration_description">"One of the women is using the Corona-Warn-App on her device. The padlock on the shield is the symbol for encrypted data."</string>
     <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
@@ -555,15 +571,15 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is here to help."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Languages: German, English\nBusiness hours:"<xliff:g id="line_break">"\n"</xliff:g>"Monday to Saturday: 7am - 10pm"<xliff:g id="line_break">"\n(except national holidays)"</xliff:g><xliff:g id="line_break">"\nThe call is free of charge."</xliff:g></string>
+    <string name="information_contact_body_open">"Languages: German, English, Turkish\nBusiness hours:"<xliff:g id="line_break">"\n"</xliff:g>"Monday to Saturday: 7am - 10pm"<xliff:g id="line_break">"\n(except national holidays)"</xliff:g><xliff:g id="line_break">"\nThe call is free of charge."</xliff:g></string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the hotline for the medical emergency service, telephone: +49 6251 / 708-1082, telefax: +49 116 / 78117."</string>
+    <string name="information_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the hotline for the medical emergency service, telephone: 116 117."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"One man is wearing a headset while he is telephoning."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"FAQ"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"FAQ. Open external link."</string>
+    <string name="information_help_title_accessibility">"Frequently asked questions. You will be forwarded to an external web site."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Legal Notices"</string>
     <!-- XACT: describes illustration -->
@@ -571,23 +587,23 @@
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_technical_html_path">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
-    <string name="information_legal_title">"Publication Details"</string>
+    <string name="information_legal_title">"Imprint"</string>
     <!-- XHED: Headline for legal information page, publisher section -->
     <string name="information_legal_headline_publisher">"Published by"</string>
     <!-- YTXT: subtitle for legal information page, publisher section -->
-    <string name="information_legal_subtitle_publisher">"(responsible according to § 5, Paragraph 1 TMG, § 55 Paragraph 1 RStV, DS-GVO, BDSG)"</string>
+    <string name="information_legal_subtitle_publisher">"(responsible in accordance with § 5, para. 1 TMG, § 55 para. 1 RStV, DS-GVO, BDSG)"</string>
     <!-- YTXT: body for legal information page, publisher section -->
-    <string name="information_legal_body_publisher">"Robert Koch Institute"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"vertreten durch den Präsidenten"</string>
+    <string name="information_legal_body_publisher">"Robert Koch Institute"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"represented by its president"</string>
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"Contact"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
-    <string name="information_legal_subtitle_contact">"E-Mail: CoronaWarnApp@rki.de"<xliff:g id="line_break">"\n"</xliff:g>"Telefon: +49 30 18754 5100"</string>
+    <string name="information_legal_subtitle_contact">"E-Mail: CoronaWarnApp@rki.de"<xliff:g id="line_break">"\n"</xliff:g>"Telephone: +49 30 18754 5100"</string>
     <!-- XHED: Headline for legal information page, tax section -->
     <string name="information_legal_headline_taxid">"VAT identification number"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_legal_illustration_description">"One person is holding a device with a lot of text on the screen. Next to the text is a paragraph symbol for the publication details."</string>
+    <string name="information_legal_illustration_description">"One person is holding a device with a lot of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
 
     <!-- ####################################
@@ -599,7 +615,7 @@
     <!-- XMSG: Dialog body for generic web request network error with status code -->
     <string name="submission_error_dialog_web_generic_network_error_body">"Connection could not be established (%1$d). Please try again."</string>
     <!-- XMSG: Dialog body for generic web request error without status code -->
-    <string name="submission_error_dialog_web_generic_error_body">"Connection could not be established. Please try again. "</string>
+    <string name="submission_error_dialog_web_generic_error_body">"Connection could not be established. Please try again."</string>
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Back"</string>
 
@@ -693,7 +709,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Your Test Result"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the public health authority to find out how to proceed. Please delete the test from your Corona-Warn-App so that you will be able to save a new test code there if necessary."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the public health authority to find out how to proceed.\n\nPlease delete the test from your Corona-Warn-App so that you will be able to save a new test code there, if necessary."</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Delete Test"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -771,11 +787,11 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Register your test by entering your TAN manually."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"No TAN yet?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"Request TAN"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Please call us if you have been diagnosed with COVID-19."</string>
     <!-- XACT: Dispatcher Tan page title -->
-    <string name="submission_dispatcher_accessibility_title">"What information is here for you?"</string>
+    <string name="submission_dispatcher_accessibility_title">"What information do you have?"</string>
 
     <!-- Submission Positive Other Warning -->
     <!-- XHED: Page title for the positive result additional warning page-->
@@ -825,13 +841,13 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"How this works:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"We can tell you your TAN by telephone."</string>
+    <string name="submission_contact_body">"Please keep your test result (if available) and your phone number ready to request a TAN."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Call"</string>
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"Enter TAN"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
-    <string name="submission_contact_step_1_body">"Call the hotline and request a TAN:\n"</string>
+    <string name="submission_contact_step_1_body">"Call the hotline and request a TAN:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"+49 800 7540002"</string>
     <!-- XLNK: Technical number which is called when the user clicks on the display number -->
@@ -840,6 +856,7 @@
     <string name="submission_contact_step_2_body">"Register the test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Languages: \nGerman, English, Turkish\n\nBusiness hours:\nMonday to Sunday: 24 hours\n\nThe call is free of charge."</string>
+
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Call the hotline and request a TAN"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
@@ -875,7 +892,7 @@
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Notify and Help"</string>
+    <string name="submission_status_card_button_unregistered">"Learn More and Help"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
     <!-- XHED: submission status card positive result subtitle -->
@@ -958,8 +975,7 @@
            Just for Development
     ###################################### -->
     <!-- NOTR -->
-    <string name="lorem_ipsum">"Lorem Ipsum..."</string>
-    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
     <string name="menu_test_api">"Test API"</string>
     <!-- NOTR -->
