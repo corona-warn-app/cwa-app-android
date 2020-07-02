@@ -172,7 +172,7 @@
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
-    <string name="risk_card_loading_headline">"Prüfung läuft…"</string>
+    <string name="risk_card_loading_headline">"Prüfung läuft …"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
     <string name="risk_card_loading_body">"Es werden aktuelle Daten heruntergeladen und geprüft. Dies kann mehrere Minuten dauern."</string>
 
@@ -184,7 +184,7 @@
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
-    <!-- NOTR -->
+    <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
@@ -202,7 +202,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"Download-Link versenden"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Gemeinsam Corona bekämpfen"<xliff:g id="line_break">"\n"</xliff:g>"Ich bin dabei. Du auch?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g><xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Gemeinsam Corona bekämpfen"<xliff:g id="line_break">"\n"</xliff:g>"Ich bin dabei. Du auch?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"Ein Mann teilt die Corona-Warn-App mit vier anderen Personen."</string>
 
@@ -363,7 +363,7 @@
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Einwilligungserklärung"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"Um zu erfahren, ob Sie Kontakt mit einer infizierten Person hatten und für Sie ein Infektionsrisiko besteht, müssen Sie die Funktion Risiko-Ermittlung in der App aktivieren. Der Aktivierung der Risiko-Ermittlung und der damit im Zusammenhang stehenden Datenverarbeitung stimmen Sie mit Antippen des Buttons: Risiko-Ermittlung aktivieren zu."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Um die Risiko-Ermittlung nutzen zu können müssen Sie zudem auf Ihrem Smartphone die von Google bereitgestellte Kontaktaufzeichnungs-Funktion „Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten“ aktivieren und für die Corona-Warn-App freigeben."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Ihr Smartphone erzeugt und versendet bei aktivierter Kontaktaufzeichnung kontinuierlich Zufalls-IDs per Bluetooth, die von anderen Apple- und Android-Smartphones mit ebenfalls aktivierter Kontaktaufzeichnung in Ihrer Umgebung empfangen werden können. Umgekehrt empfängt Ihr Smartphone die Zufalls-IDs der anderen Smartphones. Die eigenen und die von anderen Smartphones empfangenen Zufalls-IDs werden im Kontaktprotokoll der Kontaktaufzeichnungs-Funktion aufgezeichnet und dort für 14 Tage gespeichert."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Zur Ermittlung Ihres Infektionsrisikos lädt die App mehrmals täglich oder auf Abfrage eine Liste mit den Zufalls-IDs aller Nutzer, die Ihre Infektion mit dem Corona-Virus in der App geteilt haben. Diese Liste wird dann mit den im Kontaktprotokoll der Kontaktaufzeichnungs-Funktion gespeicherten Zufalls-IDs verglichen. Wenn die App dabei feststellt, dass Sie möglicherweise Kontakt zu einem infizierten Nutzer gehabt haben, werden Sie von der App informiert, dass Sie mit einer infizierten Person in Kontakt waren und insoweit ein Infektionsrisiko besteht. In diesem Fall erhält die App außerdem Zugriff auf weitere im Kontaktprotokoll der Kontaktaufzeichnungs-Funktion Ihres Smartphones gespeicherte Daten (Datum und Dauer sowie Bluetooth-Signalstärke des Kontakts)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aus der Bluetooth-Signalstärke wird der räumliche Abstand abgeleitet (je stärker das Signal, desto geringer der Abstand). Diese Angaben werden von der App ausgewertet, um Ihr Gesundheitsrisiko durch eine Infektion mit dem Corona-Virus abzuschätzen und Ihnen Empfehlungen für die nächsten Schritte zu geben. Diese Auswertung wird ausschließlich lokal auf Ihrem Smartphone durchgeführt. Außer Ihnen erfährt niemand (auch nicht das RKI), ob Sie mit einer infizierten Person Kontakt hatten und welches Risiko für Sie ermittelt wird."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Zum Widerruf Ihrer Einwilligung in die Risiko-Ermittlung können Sie die Funktion über den Schieberegler innerhalb der App deaktivieren oder die App löschen. Wenn Sie die Risiko-Ermittlung wieder nutzen möchten, können Sie den Schieberegler erneut aktivieren oder die App erneut installieren. Wenn Sie die Risiko-Ermittlung deaktivieren, prüft die App nicht mehr, ob Sie Kontakt zu einem infizierten Nutzer gehabt haben. Um auch die Aussendung und den Empfang der Zufalls-IDs anzuhalten, müssen Sie das Kontaktprotokoll der Kontaktaufzeichnungs-Funktion in den Einstellungen Ihres Smartphones deaktivieren. Bitte beachten Sie, dass die im Kontaktprotokoll aufgezeichneten fremden und eigenen Zufalls-Kennungen nicht in der App gelöscht werden. Die im Kontaktprotokoll gespeicherten Daten können Sie nur in den Einstellungen Ihres Smartphones dauerhaft löschen."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Die Datenschutzhinweise der App (einschließlich Informationen zur Datenverarbeitung für die Risiko-Ermittlung) finden Sie unter dem Menüpunkt „Datenschutzinformation“."</string>
+    <string name="onboarding_tracing_body_consent">"Um zu erfahren, ob Sie Kontakt mit einer infizierten Person hatten und für Sie ein Infektionsrisiko besteht, müssen Sie die Funktion Risiko-Ermittlung in der App aktivieren. Der Aktivierung der Risiko-Ermittlung und der damit im Zusammenhang stehenden Datenverarbeitung stimmen Sie mit Antippen des Buttons: Risiko-Ermittlung aktivieren zu."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Um die Risiko-Ermittlung nutzen zu können müssen Sie zudem auf Ihrem Smartphone die von Google bereitgestellte Kontaktaufzeichnungs-Funktion „Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten“ aktivieren und für die Corona-Warn-App freigeben."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Ihr Smartphone erzeugt und versendet bei aktivierter Kontaktaufzeichnung kontinuierlich Zufalls-IDs per Bluetooth, die von anderen Apple- und Android-Smartphones mit ebenfalls aktivierter Kontaktaufzeichnung in Ihrer Umgebung empfangen werden können. Umgekehrt empfängt Ihr Smartphone die Zufalls-IDs der anderen Smartphones. Die eigenen und die von anderen Smartphones empfangenen Zufalls-IDs werden im Kontaktprotokoll der Kontaktaufzeichnungs-Funktion aufgezeichnet und dort für 14 Tage gespeichert."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Zur Ermittlung Ihres Infektionsrisikos lädt die App mehrmals täglich oder auf Abfrage eine Liste mit den Zufalls-IDs aller Nutzer, die Ihre Infektion mit dem Corona-Virus in der App geteilt haben. Diese Liste wird dann mit den im Kontaktprotokoll der Kontaktaufzeichnungs-Funktion gespeicherten Zufalls-IDs verglichen. Wenn die App dabei feststellt, dass Sie möglicherweise Kontakt zu einem infizierten Nutzer gehabt haben, werden Sie von der App informiert, dass Sie mit einer infizierten Person in Kontakt waren und insoweit ein Infektionsrisiko besteht. In diesem Fall erhält die App außerdem Zugriff auf weitere im Kontaktprotokoll der Kontaktaufzeichnungs-Funktion Ihres Smartphones gespeicherte Daten (Datum und Dauer sowie Bluetooth-Signalstärke des Kontakts)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aus der Bluetooth-Signalstärke wird der räumliche Abstand abgeleitet (je stärker das Signal, desto geringer der Abstand). Diese Angaben werden von der App ausgewertet, um Ihr Gesundheitsrisiko durch eine Infektion mit dem Corona-Virus abzuschätzen und Ihnen Empfehlungen für die nächsten Schritte zu geben. Diese Auswertung wird ausschließlich lokal auf Ihrem Smartphone durchgeführt. Außer Ihnen erfährt niemand (auch nicht das RKI), ob Sie mit einer infizierten Person Kontakt hatten und welches Risiko für Sie ermittelt wird."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Zum Widerruf Ihrer Einwilligung in die Risiko-Ermittlung können Sie die Funktion über den Schieberegler innerhalb der App deaktivieren oder die App löschen. Wenn Sie die Risiko-Ermittlung wieder nutzen möchten, können Sie den Schieberegler erneut aktivieren oder die App erneut installieren. Wenn Sie die Risiko-Ermittlung deaktivieren, prüft die App nicht mehr, ob Sie Kontakt zu einem infizierten Nutzer gehabt haben. Um auch die Aussendung und den Empfang der Zufalls-IDs anzuhalten, müssen Sie das Kontaktprotokoll der Kontaktaufzeichnungs-Funktion in den Einstellungen Ihres Smartphones deaktivieren. Bitte beachten Sie, dass die im Kontaktprotokoll aufgezeichneten fremden und eigenen Zufalls-Kennungen nicht in der App gelöscht werden. Die im Kontaktprotokoll gespeicherten Daten können Sie nur in den Einstellungen Ihres Smartphones dauerhaft löschen."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Die Datenschutzhinweise der App (einschließlich Informationen zur Datenver1arbeitung für die Risiko-Ermittlung) finden Sie unter dem Menüpunkt „Datenschutzinformation“."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Risiko-Ermittlung aktivieren"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -379,9 +379,9 @@
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Einführung Seite 4 von 5: Falls Sie positiv getestet wurden"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
-    <string name="onboarding_test_headline">"Falls Sie Corona-positiv getestet werden ..."</string>
+    <string name="onboarding_test_headline">"Falls Sie Corona-positiv getestet werden …"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
-    <string name="onboarding_test_subtitle">"... teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller."</string>
+    <string name="onboarding_test_subtitle">"… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller."</string>
     <!-- YTXT: onboarding(test) - explain test -->
     <string name="onboarding_test_body">"Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
@@ -474,7 +474,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
+    <string name="settings_notifications_subtitle_update_test">"Status Ihres COVID-19 Tests"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
@@ -507,6 +507,22 @@
     <string name="settings_reset_dialog_button_cancel">"Abbrechen"</string>
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Zurücksetzen"</string>
+    <!-- XHED: settings(background priority) - notification page title -->
+    <string name="settings_background_priority_title">"Priorisierte Hintergrundaktivität"</string>
+    <!-- XTXT: settings(background priority) - text in row on settings overview -->
+    <string name="settings_background_priority_body_description">"Erlauben Sie die automatische Aktualisierung Ihres Risikostatus."</string>
+    <!-- XHED: settings(background priority) - multiline headline below illustration -->
+    <string name="settings_background_priority_headline">"Corona-Warn-App im Hintergrund ausführen"</string>
+    <!-- YTXT: settings(background priority) - description text -->
+    <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität anschalten, wird die Corona-Warn-App dauerhaft im Hintergrund ausgeführt. So kann die App jederzeit Ihren Risikostatus ermitteln."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
+    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
+    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
+    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
+    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
@@ -527,7 +543,7 @@
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
-    <string name="information_privacy_title">"Datenschutzinformation"</string>
+    <string name="information_privacy_title">"Datenschutz"</string>
     <!-- XACT: describes illustration -->
     <string name="information_privacy_illustration_description">"Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
     <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
@@ -555,7 +571,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Unser Kundenservice ist für Sie da."</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Sprachen: Deutsch, Englisch \nErreichbarkeit:"<xliff:g id="line_break">"\n"</xliff:g>"Mo - Sa: 07:00 - 22:00 Uhr"<xliff:g id="line_break">"\n(außer an bundesweiten Feiertagen)"</xliff:g><xliff:g id="line_break">"\nDer Anruf ist kostenfrei."</xliff:g></string>
+    <string name="information_contact_body_open">"Sprachen: Deutsch, Englisch, Türkisch \nErreichbarkeit:"<xliff:g id="line_break">"\n"</xliff:g>"Mo - Sa: 07:00 - 22:00 Uhr"<xliff:g id="line_break">"\n(außer an bundesweiten Feiertagen)"</xliff:g><xliff:g id="line_break">"\nDer Anruf ist kostenfrei."</xliff:g></string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -563,7 +579,7 @@
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"Häufige Fragen"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"Häufige Fragen. Aufruf externer Infos im Web"</string>
+    <string name="information_help_title_accessibility">"Häufige Fragen. Sie werden auf eine externe Website weitergeleitet."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Rechtliche Hinweise"</string>
     <!-- XACT: describes illustration -->
@@ -708,7 +724,7 @@
     <!-- YTXT: Dialog text for tracing required dialog-->
     <string name="submission_test_result_dialog_tracing_required_message">"Bitte aktivieren Sie die Risiko-Ermittlung, um andere zu warnen."</string>
     <!-- XBUT: tracing required : OK button -->
-    <string name="submission_test_result_dialog_tracing_required_button">"Ok"</string>
+    <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test entfernen?"</string>
     <!-- YTXT: Dialog text for test removal -->
@@ -778,7 +794,7 @@
     <!-- YTXT: Body text for TAN code dispatcher option -->
     <string name="submission_dispatcher_tan_code_card_text">"Registrieren Sie Ihren Test per manueller TAN-Eingabe."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
-    <string name="submission_dispatcher_card_tan_tele">"Noch keine TAN?"</string>
+    <string name="submission_dispatcher_card_tan_tele">"TAN anfragen"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Bitte rufen Sie uns an, falls Sie Corona-positiv getestet wurden."</string>
     <!-- XACT: Dispatcher Tan page title -->
@@ -832,7 +848,7 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Info zum Ablauf:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"Wir teilen Ihnen Ihre TAN gerne per Telefon mit."</string>
+    <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Anrufen"</string>
     <!-- XBUT: submission contact enter tan button -->
@@ -847,6 +863,7 @@
     <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo - So: Täglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
+
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"TAN-Anfrage per Telefonanruf"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
@@ -882,7 +899,7 @@
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Sie wurden negativ auf SARS-CoV-2 getestet."</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Informieren &amp; mitmachen"</string>
+    <string name="submission_status_card_button_unregistered">"Informieren &amp; helfen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XHED: submission status card positive result subtitle -->
@@ -941,7 +958,7 @@
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
     <string name="errors_not_enough_device_storage">"Sie haben nicht genug Speicherplatz."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
-    <string name="errors_communication_with_api">"Fehler bei Kommunikation mit Google API"</string>
+    <string name="errors_communication_with_api">"Fehler bei der Kommunikation mit der Google Schnittstelle"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
@@ -951,7 +968,7 @@
                Generic Error Messages
         ###################################### -->
     <!-- XHED: error dialog - headline -->
-    <string name="errors_generic_headline">"Etwas ist schief gelaufen."</string>
+    <string name="errors_generic_headline">"Etwas ist schiefgelaufen."</string>
     <!-- XTXT: error dialog - short text for error reason -->
     <string name="errors_generic_details_headline">"Ursache"</string>
     <!-- XBUT: error dialog - button close -->
@@ -965,8 +982,7 @@
            Just for Development
     ###################################### -->
     <!-- NOTR -->
-    <string name="lorem_ipsum">"Lorem ipsum..."</string>
-    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
     <string name="menu_test_api">"Test API"</string>
     <!-- NOTR -->
