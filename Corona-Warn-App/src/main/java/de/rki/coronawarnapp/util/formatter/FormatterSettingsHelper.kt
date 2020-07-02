@@ -268,6 +268,29 @@ fun formatSettingsTracingIcon(
 }
 
 /**
+ * Formats the settings icon for background priority
+ */
+fun formatSettingsBackgroundPriorityIcon(
+    enabled: Boolean
+): Drawable? = formatDrawable(
+    enabled,
+    R.drawable.ic_settings_background_priority_enabled,
+    R.drawable.ic_settings_background_priority_disabled
+)
+
+/**
+ * Formats the settings icon color for background priority
+ */
+fun formatSettingsBackgroundPriorityIconColor(
+    enabled: Boolean
+): Int =
+    formatColor(
+        enabled,
+        R.color.colorAccentTintIcon,
+        R.color.colorTextSemanticRed
+    )
+
+/**
  * Formats the tracing switch status based on the tracing status
  *
  * @param tracing
