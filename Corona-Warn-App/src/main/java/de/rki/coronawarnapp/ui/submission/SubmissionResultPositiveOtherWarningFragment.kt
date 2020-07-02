@@ -187,10 +187,8 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     // InternalExposureNotificationPermissionHelper - callbacks
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        if(keys.isNotEmpty()){
-            submissionViewModel.submitDiagnosisKeys(keys)
-        }
-        else{ showSubmitErrorDialog()
+        if (keys.isNotEmpty()) { submissionViewModel.submitDiagnosisKeys(keys)
+        } else { showSubmitErrorDialog()
         }
     }
 
@@ -205,15 +203,14 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
      */
     private fun showSubmitErrorDialog() {
         val submitErrorDialogDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_error_dialog_diagnosis_key_title,
-            R.string.submission_error_dialog_diagnosis_key_paired_body,
-            R.string.submission_error_dialog_diagnosis_key_paired_button_positive,
-            null,
-            false,
-           ::navigateToHomeFragment
+                requireActivity(),
+                R.string.submission_error_dialog_diagnosis_key_title,
+                R.string.submission_error_dialog_diagnosis_key_paired_body,
+                R.string.submission_error_dialog_diagnosis_key_paired_button_positive,
+                null,
+                false,
+                ::navigateToHomeFragment
         )
-
         DialogHelper.showDialog(submitErrorDialogDialogInstance)
     }
 
