@@ -185,7 +185,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
     <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
 
@@ -938,6 +938,8 @@
     <string name="errors_communication_with_api">"Error when communicating with Google API"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
+    <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
+    <string name="errors_google_update_needed">"Your Corona-Warn-App was installed correctly. Unfortunately, COVID-19 Exposure Notifications is currently not available on your device and you cannot use the Corona-Warn-App. Further information is available on our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
@@ -957,8 +959,7 @@
            Just for Development
     ###################################### -->
     <!-- NOTR -->
-    <string name="lorem_ipsum"/>
-    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
     <string name="menu_test_api">"Test API"</string>
     <!-- NOTR -->

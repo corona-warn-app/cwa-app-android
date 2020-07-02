@@ -184,7 +184,7 @@
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
-    <!-- NOTR -->
+    <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
@@ -507,7 +507,6 @@
     <string name="settings_reset_dialog_button_cancel">"Abbrechen"</string>
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Zurücksetzen"</string>
-
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Priorisierte Hintergrundaktivität"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
@@ -955,6 +954,8 @@
     <string name="errors_communication_with_api">"Fehler bei der Kommunikation mit der Google Schnittstelle"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
+    <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
+    <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die "Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten" und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
@@ -974,8 +975,7 @@
            Just for Development
     ###################################### -->
     <!-- NOTR -->
-    <string name="lorem_ipsum"/>
-    <!-- TODO test fragment only - remove after test fragment is deleted-->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
     <string name="menu_test_api">"Test API"</string>
     <!-- NOTR -->
