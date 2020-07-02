@@ -302,7 +302,7 @@ fun formatNextUpdateContentDescription(
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> appContext.getString(
                 R.string.risk_card_body_next_update
-            ) + appContext.getString(
+            ) + " " + appContext.getString(
                 R.string.accessibility_button)
             else -> ""
         }
