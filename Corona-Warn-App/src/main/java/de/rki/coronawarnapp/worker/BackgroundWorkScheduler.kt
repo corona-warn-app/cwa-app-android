@@ -11,9 +11,6 @@ import androidx.work.WorkManager
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
@@ -26,8 +23,6 @@ import java.util.concurrent.TimeUnit
  * @see BackgroundWorkHelper
  */
 object BackgroundWorkScheduler {
-
-    private val TAG: String? = BackgroundWorkScheduler::class.simpleName
 
     /**
      * Enum class for work tags
@@ -224,6 +219,7 @@ object BackgroundWorkScheduler {
      *
      * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER
      * @see BackgroundConstants.KIND_DELAY
+     * @see BackgroundConstants.BACKOFF_INITIAL_DELAY
      * @see BackoffPolicy.LINEAR
      */
     private fun buildDiagnosisKeyRetrievalPeriodicWork() =
@@ -231,14 +227,13 @@ object BackgroundWorkScheduler {
             BackgroundWorkHelper.getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
         )
             .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyPeriodicBackgroundWork())
             .setInitialDelay(
                 BackgroundConstants.KIND_DELAY,
                 TimeUnit.MINUTES
             )
             .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                BackgroundConstants.KIND_DELAY,
+                BackoffPolicy.EXPONENTIAL,
+                BackgroundConstants.BACKOFF_INITIAL_DELAY,
                 TimeUnit.MINUTES
             )
             .build()
@@ -252,7 +247,7 @@ object BackgroundWorkScheduler {
      *
      * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER
      * @see buildDiagnosisKeyRetrievalOneTimeWork
-     * @see BackgroundConstants.KIND_DELAY
+     * @see BackgroundConstants.BACKOFF_INITIAL_DELAY
      * @see BackoffPolicy.LINEAR
      */
     private fun buildDiagnosisKeyRetrievalOneTimeWork() =
@@ -260,16 +255,12 @@ object BackgroundWorkScheduler {
             .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER.tag)
             .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
             .setInitialDelay(
-                DiagnosisKeyRetrievalTimeCalculator.generateDiagnosisKeyRetrievalOneTimeWorkRandomDuration(
-                    DateTime(
-                        Instant.now(),
-                        DateTimeZone.getDefault()
-                    )
-                ), TimeUnit.MINUTES
+                BackgroundConstants.KIND_DELAY,
+                TimeUnit.MINUTES
             )
             .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                BackgroundConstants.KIND_DELAY,
+                BackoffPolicy.EXPONENTIAL,
+                BackgroundConstants.BACKOFF_INITIAL_DELAY,
                 TimeUnit.MINUTES
             )
             .build()
