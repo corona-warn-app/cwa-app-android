@@ -40,7 +40,6 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
                 LocalData.lastTimeDiagnosisKeysFromServerFetch(),
                 DateTimeZone.getDefault()
             )
-            Timber.d("Date time: $currentDate")
             if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
                 currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
             ) {

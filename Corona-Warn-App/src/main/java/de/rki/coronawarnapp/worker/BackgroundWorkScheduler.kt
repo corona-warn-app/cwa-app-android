@@ -227,7 +227,6 @@ object BackgroundWorkScheduler {
             BackgroundWorkHelper.getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
         )
             .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyPeriodicBackgroundWork())
             .setInitialDelay(
                 BackgroundConstants.KIND_DELAY,
                 TimeUnit.MINUTES

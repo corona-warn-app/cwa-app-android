@@ -77,38 +77,6 @@ object BackgroundConstants {
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY = 10L
 
     /**
-     * Minimum initial delay in minutes for diagnosis key retrieval one time work
-     *
-     * @see DiagnosisKeyRetrievalTimeCalculator.getPossibleSchedulingTimes
-     * @see TimeUnit.MINUTES
-     */
-    const val DIAGNOSIS_KEY_RETRIEVAL_MIN_DELAY = 0
-
-    /**
-     * Maximum initial delay in minutes for diagnosis key retrieval one time work
-     *
-     * @see DiagnosisKeyRetrievalTimeCalculator.getPossibleSchedulingTimes
-     * @see TimeUnit.MINUTES
-     */
-    const val DIAGNOSIS_KEY_RETRIEVAL_MAX_DELAY = 59
-
-    /**
-     * Time schedule start in minutes of day
-     * 07:00 = 420 minutes passed midnight
-     *
-     * @see TimeUnit.MINUTES
-     */
-    const val TIME_RANGE_MIN = 0
-
-    /**
-     * Time schedule stop in minutes of day
-     * 23:59 = 1439 minutes passed midnight
-     *
-     * @see TimeUnit.MINUTES
-     */
-    const val TIME_RANGE_MAX = 1439
-
-    /**
      * Retries before work would set as FAILED
      */
     const val WORKER_RETRY_COUNT_THRESHOLD = 2
