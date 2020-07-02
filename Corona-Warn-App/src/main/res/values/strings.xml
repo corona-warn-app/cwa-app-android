@@ -507,6 +507,22 @@
     <string name="settings_reset_dialog_button_cancel">"Cancel"</string>
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Reset"</string>
+    <!-- XHED: settings(background priority) - notification page title -->
+    <string name="settings_background_priority_title">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(background priority) - text in row on settings overview -->
+    <string name="settings_background_priority_body_description">@string/lorem_ipsum</string>
+    <!-- XHED: settings(background priority) - multiline headline below illustration -->
+    <string name="settings_background_priority_headline">@string/lorem_ipsum</string>
+    <!-- YTXT: settings(background priority) - description text -->
+    <string name="settings_background_priority_body">@string/lorem_ipsum</string>
+    <!-- XACT: settings(background priority) - illustration description -->
+    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
+    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
+    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
+    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
@@ -938,6 +954,8 @@
     <string name="errors_communication_with_api">"Error when communicating with Google API"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
+    <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
+    <string name="errors_google_update_needed">"Your Corona-Warn-App was installed correctly. Unfortunately, COVID-19 Exposure Notifications is currently not available on your device and you cannot use the Corona-Warn-App. Further information is available on our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
