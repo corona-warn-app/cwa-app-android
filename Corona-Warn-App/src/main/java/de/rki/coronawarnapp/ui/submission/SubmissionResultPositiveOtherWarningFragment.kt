@@ -187,9 +187,10 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     // InternalExposureNotificationPermissionHelper - callbacks
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        submissionViewModel.submitDiagnosisKeys(keys)
-        if (submissionViewModel.submissionState != ApiRequestState.SUCCESS) {
-            showSubmitErrorDialog()
+        if(keys.isNotEmpty()){
+            submissionViewModel.submitDiagnosisKeys(keys)
+        }
+        else{ showSubmitErrorDialog()
         }
     }
 
@@ -210,9 +211,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             R.string.submission_error_dialog_diagnosis_key_paired_button_positive,
             null,
             false,
-            {
-                navigateToHomeFragment()
-            }
+           ::navigateToHomeFragment
         )
 
         DialogHelper.showDialog(submitErrorDialogDialogInstance)
