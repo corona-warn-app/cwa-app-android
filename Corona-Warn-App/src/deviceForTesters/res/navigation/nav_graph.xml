@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_settingsNotificationFragment"
             app:destination="@id/settingsNotificationFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsBackgroundPriorityFragment"
+            app:destination="@id/settingsBackgroundPriorityFragment" />
     </fragment>
 
     <fragment
@@ -89,6 +92,12 @@
         android:name="de.rki.coronawarnapp.ui.settings.SettingsNotificationFragment"
         android:label="SettingsNotificationFragment"
         tools:layout="@layout/fragment_settings_notifications" />
+
+    <fragment
+        android:id="@+id/settingsBackgroundPriorityFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.SettingsBackgroundPriorityFragment"
+        android:label="SettingsBackgroundPriorityFragment"
+        tools:layout="@layout/fragment_settings_background_priority" />
 
     <fragment
         android:id="@+id/settingsResetFragment"
