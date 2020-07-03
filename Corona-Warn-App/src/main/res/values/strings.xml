@@ -84,6 +84,8 @@
     <string name="accessibility_close">"Close"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_logo">"Corona-Warn-App"</string>
+    <!-- XACT: button description for screen readers to be appended at the end of content without focusable subcontent that are explored by touch -->
+    <string name="accessibility_button">"Button"</string>
 
     <!-- ####################################
                      Menu

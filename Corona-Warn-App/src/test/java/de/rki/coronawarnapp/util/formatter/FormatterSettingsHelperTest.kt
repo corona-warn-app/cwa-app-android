@@ -105,6 +105,29 @@ class FormatterSettingsHelperTest {
         assertThat(result, `is`((context.getString(iValue))))
     }
 
+
+    private fun formatTracingContentDescriptionBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean,
+        sValue: String
+    ) {
+        every { context.getString(R.string.settings_tracing_body_bluetooth_inactive) } returns R.string.settings_tracing_body_bluetooth_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_connection_inactive) } returns R.string.settings_tracing_body_connection_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_active) } returns R.string.settings_tracing_body_active.toString()
+        every { context.getString(R.string.settings_tracing_body_inactive) } returns R.string.settings_tracing_body_inactive.toString()
+        every { context.getString(R.string.accessibility_button) } returns R.string.accessibility_button.toString()
+
+        val result = formatTracingContentDescription(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
+        assertThat(
+            result, `is`(sValue)
+        )
+    }
+
     private fun formatNotificationsTitleBase(bValue: Boolean) {
         val result = formatNotificationsTitle(notifications = bValue)
         assertThat(
@@ -489,6 +512,73 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bConnection = true,
             iValue = R.string.settings_tracing_body_inactive
+        )
+    }
+
+    @Test
+    fun formatTracingContentDescription() {
+        // When tracing is true, bluetooth is true, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_active.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is false, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is false, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is true, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is false, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " +R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is false, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
         )
     }
 
