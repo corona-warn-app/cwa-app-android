@@ -33,11 +33,11 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 31
-        versionName "1.0.4"
+        versionCode 32
+        versionName "1.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-        resConfigs "de", "en"
+        resConfigs "de", "en", "tr"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
@@ -301,4 +301,7 @@ dependencies {
 
     // LOGGING
     implementation 'com.jakewharton.timber:timber:4.7.1@aar'
+
+    // ANIMATIONS
+    implementation "com.airbnb.android:lottie:3.4.1"
 }

@@ -296,6 +296,29 @@ fun formatSettingsTracingIcon(
 }
 
 /**
+ * Formats the settings icon for background priority
+ */
+fun formatSettingsBackgroundPriorityIcon(
+    enabled: Boolean
+): Drawable? = formatDrawable(
+    enabled,
+    R.drawable.ic_settings_background_priority_enabled,
+    R.drawable.ic_settings_background_priority_disabled
+)
+
+/**
+ * Formats the settings icon color for background priority
+ */
+fun formatSettingsBackgroundPriorityIconColor(
+    enabled: Boolean
+): Int =
+    formatColor(
+        enabled,
+        R.color.colorAccentTintIcon,
+        R.color.colorTextSemanticRed
+    )
+
+/**
  * Formats the tracing switch status based on the tracing status
  *
  * @param tracing
@@ -333,17 +356,12 @@ fun formatTracingSwitchEnabled(tracing: Boolean, bluetooth: Boolean, connection:
  * @param connection
  * @return Drawable
  */
-fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, connection: Boolean): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
+fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, connection: Boolean): Int? {
     return when (tracingStatusHelper(tracing, bluetooth, connection)) {
-        TracingStatusHelper.BLUETOOTH ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive)
-        TracingStatusHelper.CONNECTION ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_connection_inactive)
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_active)
-        else ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_inactive)
+        TracingStatusHelper.BLUETOOTH -> R.drawable.ic_settings_tracing_bluetooth_inactive
+        TracingStatusHelper.CONNECTION -> R.drawable.ic_settings_tracing_connection_inactive
+        TracingStatusHelper.TRACING_ACTIVE -> R.raw.ic_settings_tracing_animated
+        else -> R.drawable.ic_settings_tracing_inactive
     }
 }
 
