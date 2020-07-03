@@ -507,7 +507,6 @@
     <string name="settings_reset_dialog_button_cancel">"Abbrechen"</string>
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Zurücksetzen"</string>
-
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Priorisierte Hintergrundaktivität"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
@@ -957,7 +956,6 @@
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die "Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten" und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
-
 
     <!-- ####################################
                Generic Error Messages
