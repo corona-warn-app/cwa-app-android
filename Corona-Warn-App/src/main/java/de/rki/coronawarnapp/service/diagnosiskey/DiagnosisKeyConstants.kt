@@ -66,6 +66,7 @@ object DiagnosisKeyConstants {
     /** Diagnosis key Submission URL built from CDN URL's and REST resources */
     val DIAGNOSIS_KEYS_SUBMISSION_URL = "$VERSIONED_SUBMISSION_CDN_URL/$DIAGNOSIS_KEYS"
 
+    /** Country-Specific Parameter URL built from CDN URL's and REST resources */
     val APPCONFIG_COUNTRY_DOWNLOAD_URL = "$APPCONFIG_DOWNLOAD_URL/$COUNTRY"
 
     /** Country-Specific Parameter URL built from CDN URL's and REST resources */
