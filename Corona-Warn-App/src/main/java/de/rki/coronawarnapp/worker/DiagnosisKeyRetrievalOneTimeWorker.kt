@@ -35,10 +35,10 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
 
         var result = Result.success()
         try {
-            val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
+            val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
             val lastFetch = DateTime(
                 LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                DateTimeZone.getDefault()
+                DateTimeZone.UTC
             )
             if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
                 currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
