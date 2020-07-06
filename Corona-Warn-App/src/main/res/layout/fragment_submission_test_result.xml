@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
         android:contentDescription="@string/submission_test_result_headline"
-        android:setAccessibilityLiveRegion="assertive"
+        android:accessibilityLiveRegion="assertive"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
