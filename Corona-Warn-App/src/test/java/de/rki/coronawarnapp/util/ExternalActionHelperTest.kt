@@ -79,6 +79,21 @@ class ExternalActionHelperTest {
         verify(exactly = 1) { fragment.startActivity(any()) }
     }
 
+    @Test
+    fun disableBatteryOptimizations() {
+        every { context.packageName } returns "package_name"
+        every { context.startActivity(any()) } just Runs
+        ExternalActionHelper.disableBatteryOptimizations(context)
+        verify(exactly = 1) { context.startActivity(any()) }
+    }
+
+    @Test
+    fun toBatteryOptimizationSettings() {
+        every { context.startActivity(any()) } just Runs
+        ExternalActionHelper.toBatteryOptimizationSettings(context)
+        verify(exactly = 1) { context.startActivity(any()) }
+    }
+
     @After
     fun cleanUp() {
         unmockkAll()

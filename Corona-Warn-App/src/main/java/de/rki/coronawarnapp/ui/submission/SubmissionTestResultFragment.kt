@@ -112,9 +112,9 @@ class SubmissionTestResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.uiStateError.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.uiStateError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        })
+        }
     }
 
     override fun onResume() {
