@@ -25,6 +25,9 @@ class SettingsViewModel : ViewModel() {
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
 
+    val isBackgroundPriorityEnabled: LiveData<Boolean> =
+        SettingsRepository.isBackgroundPriorityEnabled
+
     /**
      * Is manual key retrieval enabled
      * Used for "Update" button on the Risk Card and in the Risk Details
@@ -113,5 +116,9 @@ class SettingsViewModel : ViewModel() {
      */
     fun updateManualKeyRetrievalEnabled(value: Boolean) {
         SettingsRepository.updateManualKeyRetrievalEnabled(value)
+    }
+
+    fun refreshBackgroundPriorityEnabled(context: Context) {
+        SettingsRepository.refreshBackgroundPriorityEnabled(context)
     }
 }

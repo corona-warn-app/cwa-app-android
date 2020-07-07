@@ -106,8 +106,13 @@ Website: https://github.com/JakeWharton/timber/
 License: Apache 2.0
 
 Component: Conscrypt
-Licensor: Conscrypt
+Licensor: Google
 Website: https://github.com/google/conscrypt
+License: Apache 2.0
+
+Component: Lottie
+Licensor: Airbnb, Inc.
+Website: http://airbnb.io/lottie
 License: Apache 2.0
 
 --------------------------------------------------------------------------------
@@ -137,7 +142,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 Apache License 2.0 (guava, joda-time, MockK, RootBeer, Zxing, ZXing Android Embedded, Detekt, 
-gson, okhttp, kotlinx.coroutines, Retrofit, Timber)
+gson, okhttp, kotlinx.coroutines, Retrofit, Timber, Conscrypt, Lottie)
 
                                  Apache License
                            Version 2.0, January 2004

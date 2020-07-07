@@ -18,6 +18,8 @@
         android:name="android.permission.INTERNET"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
     <application
         android:name="de.rki.coronawarnapp.CoronaWarnApplication"
         android:allowBackup="false"
