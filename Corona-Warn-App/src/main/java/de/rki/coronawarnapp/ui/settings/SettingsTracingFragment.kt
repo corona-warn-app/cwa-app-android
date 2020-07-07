@@ -21,6 +21,8 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
+import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -92,14 +94,33 @@ class SettingsTracingFragment : Fragment(),
     }
 
     private fun setButtonOnClickListener() {
+        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnClickListener {
-            startStopTracing()
+        switch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (switch.tag != IGNORE_CHANGE_TAG) {
+                startStopTracing()
+            }
+        }
+        row.setOnClickListener {
+            val isTracingEnabled =
+                tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
+            val isBluetoothEnabled =
+                settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
+            val isConnectionEnabled =
+                settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
+            // check if the row is clickable, this adds the switch behaviour
+            val isEnabled = formatTracingSwitchEnabled(
+                isTracingEnabled,
+                isBluetoothEnabled,
+                isConnectionEnabled
+            )
+            if (isEnabled) startStopTracing()
         }
         back.setOnClickListener {
             (activity as MainActivity).goBack()

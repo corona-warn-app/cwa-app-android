@@ -23,8 +23,8 @@ import KeyExportFormat
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.http.requests.RegistrationRequest
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
-import de.rki.coronawarnapp.http.requests.ReqistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
 import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
@@ -155,7 +155,7 @@ class WebRequestBuilder(
     ): Int = withContext(Dispatchers.IO) {
         verificationService.getTestResult(
             SubmissionConstants.TEST_RESULT_URL,
-            "0", ReqistrationRequest(registrationToken)
+            "0", RegistrationRequest(registrationToken)
         ).testResult
     }
 

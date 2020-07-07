@@ -21,8 +21,8 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
-import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_error
 import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_character_error
+import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_error
 
 /**
  * Fragment for TAN entry
@@ -118,7 +118,7 @@ class SubmissionTanFragment : Fragment() {
         binding.submissionTanButtonEnter.setOnClickListener { storeTanAndContinue() }
         binding.submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
 
-        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner) {
             binding.submissionTanSpinner.visibility = when (it) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
@@ -129,11 +129,11 @@ class SubmissionTanFragment : Fragment() {
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
                 )
             }
-        })
+        }
 
-        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner, {
+        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
-        })
+        }
     }
 
     private fun resetError() {

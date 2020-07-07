@@ -282,6 +282,35 @@ fun formatNextUpdate(
 }
 
 /**
+ * Formats the risk card content description of time when diagnosis keys will be updated
+ * from server again when applicable but appends the word button at the end for screen reader accessibility reasons
+ *
+ * @param riskLevelScore
+ * @param isBackgroundJobEnabled
+ * @return
+ */
+fun formatNextUpdateContentDescription(
+    riskLevelScore: Int?,
+    isBackgroundJobEnabled: Boolean?
+): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return if (isBackgroundJobEnabled != true) {
+        ""
+    } else {
+        return when (riskLevelScore) {
+            RiskLevelConstants.UNKNOWN_RISK_INITIAL,
+            RiskLevelConstants.LOW_LEVEL_RISK,
+            RiskLevelConstants.INCREASED_RISK -> appContext.getString(
+                R.string.risk_card_body_next_update
+            ) + " " + appContext.getString(
+                R.string.accessibility_button
+            )
+            else -> ""
+        }
+    }
+}
+
+/**
  * Formats the risk details text display for each risk level
  *
  * @param riskLevelScore
@@ -558,10 +587,10 @@ fun formatButtonUpdateText(
     time: Long
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    if (time <= 0) {
-        return appContext.getString(R.string.risk_card_button_update)
+    return if (time <= 0) {
+        appContext.getString(R.string.risk_card_button_update)
     } else {
         val hmsCooldownTime = time.millisecondsToHMS()
-        return appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+        appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
     }
 }
