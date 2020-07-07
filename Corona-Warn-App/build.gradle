@@ -34,7 +34,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 32
-        versionName "1.0.41"
+        versionName "1.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
