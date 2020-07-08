@@ -47,15 +47,6 @@ object BackgroundWorkHelper {
             .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
     /**
-     * Constraints for diagnosis key periodic work
-     * Do not execute background work if battery on low level.
-     *
-     * @return Constraints
-     */
-    fun getConstraintsForDiagnosisKeyPeriodicBackgroundWork() =
-        Constraints.Builder().setRequiresBatteryNotLow(true).build()
-
-    /**
      * Constraints for diagnosis key one time work
      * Requires battery not low and any network connection
      * Mobile data usage is handled on OS level in application settings
@@ -67,7 +58,6 @@ object BackgroundWorkHelper {
     fun getConstraintsForDiagnosisKeyOneTimeBackgroundWork() =
         Constraints
             .Builder()
-            .setRequiresBatteryNotLow(true)
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 }

@@ -37,7 +37,7 @@ class CachedKeyFileHolderTest {
         every { CoronaWarnApplication.getAppContext() } returns context
         every { KeyCacheRepository.getDateRepository(any()) } returns keyCacheRepository
         mockkObject(CachedKeyFileHolder)
-        coEvery { keyCacheRepository.deleteOutdatedEntries() } just Runs
+        coEvery { keyCacheRepository.deleteOutdatedEntries(any()) } just Runs
     }
 
     /**
@@ -60,7 +60,7 @@ class CachedKeyFileHolderTest {
             coVerifyOrder {
                 CachedKeyFileHolder.asyncFetchFiles(date)
                 CachedKeyFileHolder["getDatesFromServer"]()
-                keyCacheRepository.deleteOutdatedEntries()
+                keyCacheRepository.deleteOutdatedEntries(any())
                 CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
                 keyCacheRepository.getDates()
                 keyCacheRepository.getFilesFromEntries()
