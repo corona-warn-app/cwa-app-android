@@ -1,17 +1,17 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.main.MainFragment
-import org.junit.Assert.assertNotNull
 import org.junit.After
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,47 +23,63 @@ class SubmissionResultPositiveOtherWarningFragmentTest {
     //Create ActivityTestRule
     var activityTestRule: ActivityTestRule<MainActivity?>? = ActivityTestRule(MainActivity::class.java)
     lateinit var activity: MainActivity
+    companion object {
+        private val TAG: String? = SubmissionResultPositiveOtherWarningFragmentTest::class.simpleName
+        private val NULL_ASSERT_MESSAGE: String? = "Button is not null"
+    }
 
     @Before
     //Setup activity before the test
-    fun SetUP() {
+    fun TestEnvironmentSetup() {
         activity = activityTestRule!!.activity!!
     }
 
     /**
      * Positive result test
-     * to be executed in a scenario where test results are positive
+     *
+     * @see SubmissionResultPositiveOtherWarningFragment
      */
     @Test
     fun performPositiveTestResultTest() {
-        // Click on the the button of Positive test card
-        onView(withId(R.id.submission_status_card_positive_button))
-            .check(matches(isDisplayed()))
-            .perform(click())
+        // Load the SubmissionResultPositiveOtherWarningFragment
+        val fragment = SubmissionResultPositiveOtherWarningFragment()
+        activity.supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment, TAG).addToBackStack(TAG).commit();
 
-        // Click to continue next to submit keys
-        onView(withId(R.id.submission_test_result_button_positive_continue))
-            .check(matches(isDisplayed()))
-            .perform(click())
-
-        //Click on the next button to submit tests
-        onView(withId(R.id.submission_positive_other_warning_button_next))
-            .check(matches(isDisplayed()))
-            .perform(click())
-
-        //When there are no keys, an error dialog will be shown. we click on the positive button
-        onView(withId(android.R.id.button1))
-            .check(matches(isDisplayed()))
-            .perform(click());
+        getInstrumentation().waitForIdleSync()
+        checkFragmentRendered(SubmissionResultPositiveOtherWarningFragment())
+                clickButton(R.id.submission_positive_other_warning_button_next)
     }
 
+    /**
+     * Perform assertion and Button Click
+     *
+     * @param Button id
+     * @see assertNotNull
+     */
+    private fun clickButton(id: Int) {
+        assertNotNull(NULL_ASSERT_MESSAGE,activity.findViewById<Button>(id))
+        onView(withId(id)).perform(click())
+    }
+
+    /**
+     * Check if the fragment is loaded
+     * @see assertNotNull
+     */
+    private fun checkFragmentRendered(fragmentToCheck: Fragment) {
+        getInstrumentation().waitForIdleSync()
+        var currentFragment = activity.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        if (currentFragment!!.id === fragmentToCheck.id) {
+            assertNotNull(fragmentToCheck)
+        }
+    }
+
+    /**
+     * Perform final checks here`
+     */
     @After
     fun tearDown() {
-        //Checking if MainFragment is loaded
         getInstrumentation().waitForIdleSync()
-        var f = activity.supportFragmentManager.findFragmentById(R.id.nav_host_fragment);
-        if (f is MainFragment) {
-            assertNotNull(f)
-        }
+        checkFragmentRendered(MainFragment())
     }
 }
