@@ -32,7 +32,9 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 
 ## Known Issues
 
-* The Exposure Notification API is going to block you from successfully testing the Application unless you are whitelisted inside GMS; **Shoutout to @pocmo for working on a demo mode to test unreleased app versions in advance without whitelisting (issue [#321](https://github.com/corona-warn-app/cwa-app-android/issues/321))**, if you want to contribute you can reach out [here](https://github.com/pocmo/cwa-app-android) for the time being - thank you!
+* The Exposure Notification API is going to block you from successfully testing the Application unless you are whitelisted inside GMS, possible solutions include:
+  * [en-i13n project](https://github.com/kbobrowski/en-i13n) which enables you to locally whitelist any application (requires rooted device)
+  * for non-rooted devices - **shoutout to @pocmo for working on a demo mode to test unreleased app versions in advance without whitelisting (issue [#321](https://github.com/corona-warn-app/cwa-app-android/issues/321))**, if you want to contribute you can reach out [here](https://github.com/pocmo/cwa-app-android) for the time being - thank you!
 * The Storage is currently based on Encrypted Shared Preferences and SQL Cipher (SQLite) - this could change in the future
 * Test Coverage is generally low and needs to be improved. We appreciate your help here!
 * In General every TODO comment within the code or the documentation can be regarded as an issue. You are free to tackle the TODOs anytime!
