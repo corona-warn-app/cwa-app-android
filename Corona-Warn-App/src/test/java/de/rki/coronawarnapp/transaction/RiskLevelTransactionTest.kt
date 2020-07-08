@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClass
@@ -149,6 +150,57 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(
             TimeVariables.getMinActivatedTracingTime().plus(1).toLong()
         )
+
+        // background jobs are enabled
+        every { ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext()) } returns true
+
+        runBlocking {
+
+            RiskLevelTransaction.start()
+
+            coVerifyOrder {
+                RiskLevelTransaction.start()
+
+                RiskLevelTransaction["executeCheckTracing"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                RiskLevelTransaction["isValidResult"](testRiskLevel)
+
+                RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                RiskLevelTransaction["executeClose"]()
+            }
+        }
+    }
+
+    /** Test case for [UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL] if keys are outdated and background
+     * jobs are disabled */
+    @Test
+    fun unknownRiskOutdatedResultsManual() {
+
+        val testRiskLevel = UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+
+        val twoHoursAboveMaxStale =
+            TimeUnit.HOURS.toMillis(TimeVariables.getMaxStaleExposureRiskRange().plus(2).toLong())
+
+        // tracing is activated
+        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
+
+        // the last time we fetched keys from the server is above the threshold
+        every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
+            .minus(twoHoursAboveMaxStale)
+
+        // active tracing time is 1h above the threshold
+        every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(
+            TimeVariables.getMinActivatedTracingTime().plus(1).toLong()
+        )
+
+        // background jobs are disabled
+        every { ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext()) } returns false
 
         runBlocking {
 
