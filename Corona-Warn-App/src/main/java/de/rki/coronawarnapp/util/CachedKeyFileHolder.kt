@@ -91,9 +91,11 @@ object CachedKeyFileHolder {
                 )
             }
         } else {
+            val uuidListFromServer = serverDates
+                .map { getURLForDay(it).generateCacheKeyFromString() }
             // queries will be executed after the "query plan" was set
             val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
-            keyCache.deleteOutdatedEntries()
+            keyCache.deleteOutdatedEntries(uuidListFromServer)
             val missingDays = getMissingDaysFromDiff(serverDates)
             if (missingDays.isNotEmpty()) {
                 // we have a date difference
