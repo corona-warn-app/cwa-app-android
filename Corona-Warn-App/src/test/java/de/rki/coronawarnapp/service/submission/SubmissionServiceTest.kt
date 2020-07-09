@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.service.submission
 
-import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
