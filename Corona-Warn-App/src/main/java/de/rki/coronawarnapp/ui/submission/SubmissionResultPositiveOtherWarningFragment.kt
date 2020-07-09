@@ -129,10 +129,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
         submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
-                findNavController().doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
-                )
+                navigateToSubmissionDoneFragment()
             }
         })
     }
