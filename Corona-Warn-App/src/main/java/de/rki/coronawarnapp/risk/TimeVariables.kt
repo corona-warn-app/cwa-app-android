@@ -186,17 +186,17 @@ object TimeVariables {
             .getIntervals()
             .toMutableList()
 
-        // by default the tracing is deactivated
+        // by default the tracing is assumed to be activated
         // if the API is reachable we set the value accordingly 
-        var enIsEnabled = false
+        var enIsDisabled = false
 
         try {
-            enIsEnabled = !InternalExposureNotificationClient.asyncIsEnabled()
+            enIsDisabled = !InternalExposureNotificationClient.asyncIsEnabled()
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
 
-        if (enIsEnabled) {
+        if (enIsDisabled) {
             val current = System.currentTimeMillis()
             var lastTimeTracingWasNotActivated =
                 LocalData.lastNonActiveTracingTimestamp() ?: current

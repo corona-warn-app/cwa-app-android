@@ -227,6 +227,7 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:contentDescription="@{FormatterRiskHelper.formatNextUpdateContentDescription(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled())}"
                     android:text="@{FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled())}"
                     android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintEnd_toEndOf="parent"
