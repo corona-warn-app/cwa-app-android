@@ -126,15 +126,6 @@ class SubmissionServiceTest {
     }
 
     @Test
-    fun submitExposureNoDiagnosisKeyAvailableFails() {
-        runBlocking {
-            val temporaryExposureKeyList = listOf<TemporaryExposureKey>()
-            if(temporaryExposureKeyList.isNotEmpty())
-                SubmissionService.asyncSubmitExposureKeys(listOf())
-        }
-    }
-
-    @Test
     fun deleteRegistrationTokenSucceeds() {
         every { LocalData.registrationToken(null) } just Runs
         every { LocalData.devicePairingSuccessfulTimestamp(0L) } just Runs

@@ -153,12 +153,12 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         )
 
     /**
-     * Navigate to Home Fragment after the Diagnosis Key submission error
+     * Navigate to Submission Done Fragment after the Diagnosis Key submission error
      */
-    private fun navigateToHomeFragment() =
+    private fun navigateToSubmissionDoneFragment() =
         findNavController().doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
-                .actionSubmissionResultPositiveOtherWarningFragmentToMainFragment()
+                .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
         )
 
     private fun initiateWarningOthers() {
@@ -189,7 +189,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         if (keys.isNotEmpty()) {
             submissionViewModel.submitDiagnosisKeys(keys)
         } else {
-            navigateToHomeFragment()
+            navigateToSubmissionDoneFragment()
         }
     }
 

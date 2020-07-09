@@ -626,13 +626,6 @@
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Back"</string>
 
-    <!-- XHED: Dialog title for no diagnosis keys available to submit error -->
-    <string name="submission_no_dialog_diagnosis_key_available_title">"Error"</string>
-    <!-- XMSG: Dialog body for no diagnosis keys available to submit error -->
-    <string name="submission_dialog_no_diagnosis_key_available_paired_body">"No diagnosis key is available. Please try again tomorrow."</string>
-    <!-- XBUT: Positive button for no diagnosis keys available to submit error -->
-    <string name="submission_dialog_no_diagnosis_key_available_paired_button_positive">"Back"</string>
-
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Camera authorization required"</string>

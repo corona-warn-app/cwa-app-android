@@ -9,7 +9,6 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.main.MainFragment
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -80,6 +79,6 @@ class SubmissionResultPositiveOtherWarningFragmentTest {
     @After
     fun tearDown() {
         getInstrumentation().waitForIdleSync()
-        checkFragmentRendered(MainFragment())
+        checkFragmentRendered(SubmissionDoneFragment())
     }
 }
