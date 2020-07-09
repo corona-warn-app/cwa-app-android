@@ -105,7 +105,6 @@ class FormatterSettingsHelperTest {
         assertThat(result, `is`((context.getString(iValue))))
     }
 
-
     private fun formatTracingContentDescriptionBase(
         bTracing: Boolean,
         bBluetooth: Boolean,
@@ -522,7 +521,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
-            sValue = R.string.settings_tracing_body_active.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_active.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is false, bluetooth is false, connection is false
@@ -530,7 +529,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
-            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is true, bluetooth is false, connection is false
@@ -538,7 +537,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
-            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is true, bluetooth is true, connection is false
@@ -546,7 +545,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = false,
-            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is false, bluetooth is true, connection is false
@@ -554,7 +553,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
-            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is false, bluetooth is true, connection is true
@@ -562,7 +561,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
-            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is true, bluetooth is false, connection is true
@@ -570,7 +569,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
-            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is false, bluetooth is false, connection is true
@@ -578,7 +577,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
-            sValue = R.string.settings_tracing_body_inactive.toString() + " " +R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
     }
 

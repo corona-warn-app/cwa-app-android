@@ -55,7 +55,8 @@ fun formatRiskLevelHeadline(riskLevelScore: Int?, isRefreshing: Boolean?): Strin
             RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(R.string.risk_card_low_risk_headline)
             RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 appContext.getString(R.string.risk_card_unknown_risk_headline)
-            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> appContext.getString(R.string.risk_card_unknown_risk_headline)
+            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+                appContext.getString(R.string.risk_card_unknown_risk_headline)
             else -> ""
         }
     }
@@ -75,8 +76,10 @@ fun formatRiskBody(riskLevelScore: Int?): String {
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getString(R.string.risk_card_outdated_risk_body)
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
             appContext.getString(R.string.risk_card_body_tracing_off)
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getString(R.string.risk_card_unknown_risk_body)
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> appContext.getString(R.string.risk_card_outdated_manual_risk_body)
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
+            appContext.getString(R.string.risk_card_unknown_risk_body)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+            appContext.getString(R.string.risk_card_outdated_manual_risk_body)
         else -> ""
     }
 }
