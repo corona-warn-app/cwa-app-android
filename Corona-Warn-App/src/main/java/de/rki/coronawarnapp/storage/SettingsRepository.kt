@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.PowerManagementHelper
 
 /**
  * The Settings Repository maps all setting states from different sources to MutableLiveData.
@@ -25,6 +26,7 @@ object SettingsRepository {
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
+    val isBackgroundPriorityEnabled = MutableLiveData(false)
     val manualKeyRetrievalTime = MutableLiveData<Long>()
 
     /**
@@ -114,5 +116,13 @@ object SettingsRepository {
      */
     fun updateManualKeyRetrievalTime(value: Long) {
         manualKeyRetrievalTime.postValue(value)
+    }
+
+    /**
+     * Refresh the current background priority state.
+     */
+    fun refreshBackgroundPriorityEnabled(context: Context) {
+        isBackgroundPriorityEnabled.value =
+            PowerManagementHelper.isIgnoringBatteryOptimizations(context)
     }
 }

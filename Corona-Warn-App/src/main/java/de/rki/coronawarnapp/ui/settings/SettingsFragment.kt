@@ -60,6 +60,7 @@ class SettingsFragment : Fragment() {
         settingsViewModel.refreshNotificationsEnabled(requireContext())
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
+        settingsViewModel.refreshBackgroundPriorityEnabled(requireContext())
 
         binding.settingsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
@@ -67,6 +68,7 @@ class SettingsFragment : Fragment() {
     private fun setButtonOnClickListener() {
         val tracingRow = binding.settingsTracing.settingsRow
         val notificationRow = binding.settingsNotifications.settingsRow
+        val backgroundPriorityRow = binding.settingsBackgroundPriority.settingsRow
         val resetRow = binding.settingsReset
         val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
@@ -82,6 +84,11 @@ class SettingsFragment : Fragment() {
         notificationRow.setOnClickListener {
             findNavController().doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsNotificationFragment()
+            )
+        }
+        backgroundPriorityRow.setOnClickListener {
+            findNavController().doNavigate(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsBackgroundPriorityFragment()
             )
         }
         goBack.setOnClickListener {
