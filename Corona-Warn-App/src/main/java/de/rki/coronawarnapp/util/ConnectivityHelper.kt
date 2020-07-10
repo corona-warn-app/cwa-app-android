@@ -278,7 +278,6 @@ object ConnectivityHelper {
          */
         abstract fun onLocationUnavailable()
     }
-    
     /**
      * Abstract network state change callback.
      *
