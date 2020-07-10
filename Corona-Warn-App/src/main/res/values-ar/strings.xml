@@ -128,11 +128,15 @@
     ###################################### -->
 
     <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"لا توجد مخالطات حتى الآن"</string>
+    <string name="risk_card_body_contact">"لا توجد مخالطة حتى الآن"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s مخالطة"</item>
         <item quantity="other">"%1$s من المخالطات"</item>
+        <item quantity="zero">"%1$s مخالطة"</item>
+        <item quantity="two">"%1$s مخالطة"</item>
+        <item quantity="few">"%1$s من المخالطات"</item>
+        <item quantity="many">"%1$s من المخالطات"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"%1$s من 14 يومًا نشط"</string>
@@ -149,7 +153,7 @@
     <!-- XBUT: risk card - activate tracing -->
     <string name="risk_card_button_enable_tracing">"تنشيط تسجيل المخالطة"</string>
     <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
-    <string name="risk_card_body_tracing_off">"قم بتنشيط تسجيل المخالطة لتقييم حالة الخطر لديك اليوم."</string>
+    <string name="risk_card_body_tracing_off">"قم بتنشيط تسجيل المخالطة لتقييم مستوى الخطر اليوم."</string>
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">"خطر منخفض"</string>
     <!-- XHED: risk card - increased risk headline -->
@@ -158,6 +162,10 @@
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s يوم منذ آخر تجمُّع"</item>
         <item quantity="other">"%1$s من الأيام منذ آخر تجمُّع"</item>
+        <item quantity="zero">"%1$s يوم منذ آخر تجمُّع"</item>
+        <item quantity="two">"%1$s يوم منذ آخر تجمُّع"</item>
+        <item quantity="few">"%1$s من الأيام منذ آخر تجمُّع"</item>
+        <item quantity="many">"%1$s من الأيام منذ آخر تجمُّع"</item>
     </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">"خطر غير معروف"</string>
@@ -185,7 +193,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"يمكنك أن تجد هنا إجابات الأسئلة المتكررة حول تطبيق Corona-Warn-App. سيتم توجيهك إلى موقع إلكتروني خارجي."</string>
     <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"يمكنك أن تجد هنا إجابات الأسئلة المتكررة حول تطبيق Corona-Warn-App. سيتم توجيهك إلى موقع إلكتروني خارجي."</string>
 
@@ -223,7 +231,7 @@
     <!-- YTXT: App overview body text about risk levels -->
     <string name="main_overview_body_risk">"إذا تعاملت خلال آخر 14 يومًا مع شخص مصاب بمرض كوفيد-19، فسيُقدِّر التطبيق خطر العدوى لك؛ وذلك من خلال قياس مدة المخالطة ومدى اقترابك من المصاب."</string>
     <!-- XHED: App overview subtitle for risk level list -->
-    <string name="main_overview_subtitle_risk_levels">"قد تظهر لك إحدى حالات الخطر التالية:"</string>
+    <string name="main_overview_subtitle_risk_levels">"قد يظهر لك مستوى الخطر التالي:"</string>
     <!-- XTXT: App overview increased risk level -->
     <string name="main_overview_subtitle_increased_risk">"خطر أعلى"</string>
     <!-- XTXT: App overview low risk level -->
@@ -239,7 +247,7 @@
     <!-- XHED: App overview subtitle for glossary key storage -->
     <string name="main_overview_subtitle_glossary_tracing">"سجل المخالطة"</string>
     <!-- YTXT: App overview body for glossary key storage -->
-    <string name="main_overview_body_glossary_tracing">"قائمة بمعرفات عشوائية مؤقتة مستلَمة تُحفَظ مؤقتًا في مخزن نظام التشغيل. تتم قراءة هذه القائمة عند التحقق من المخالطات. وتُحذَف جميع المعرفات العشوائية تلقائيًا بعد 14 يومًا."</string>
+    <string name="main_overview_body_glossary_tracing">"قائمة بمعرفات عشوائية مؤقتة مستلَمة تُحفَظ مؤقتًا في ذاكرة تخزين التشغيل. تُقرأ هذه القائمة عند التحقق من المخالطات، وتُحذَف جميع المعرفات العشوائية تلقائيًا بعد 14 يومًا."</string>
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
     <string name="main_overview_subtitle_glossary_calculation">"التحقق من المخالطة"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
@@ -257,7 +265,7 @@
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"المعرفات العشوائية هي مجموعات مكونة من أحرف وأرقام مُنشأة بشكل عشوائي. يتم تبادل هذه المعرفات بين الأجهزة الموجودة بالقرب. ولا يمكن تعيين المعرفات العشوائية إلى شخص معين كما يتم حذفها تلقائيًا بعد 14 يومًا. يمكن للأشخاص الذين تم تشخيصهم كمصابين بمرض كوفيد-19 أن يختاروا مشاركة معرفاتهم العشوائية في آخر 14 يومًا مع مستخدمي التطبيق الآخرين."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
-    <string name="main_overview_illustration_description">"يعرض كل جهاز محتوى مختلف مرقمًا من 1 إلى 3."</string>
+    <string name="main_overview_illustration_description">"هاتف ذكي يعرض محتوى متنوعًا، مرقمًا من 1 إلى 3."</string>
     <!-- XACT: App main page title -->
     <string name="main_title">"الصفحة الرئيسية لتطبيق Corona-Warn-App."</string>
 
@@ -266,7 +274,7 @@
     ###################################### -->
 
     <!-- XHED: risk details - page title, in toolbar -->
-    <string name="risk_details_title">"حالة الخطر الخاصة بك"</string>
+    <string name="risk_details_title">"مستوى الخطر"</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"التعليمات"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -288,7 +296,7 @@
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"خدمة الطوارئ الطبية العامة على الهاتف رقم 116117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"سلطة الصحة العامة"</string>
+    <string name="risk_details_behavior_increased_body_3">"دائرة الصحة العامة"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"خطر العدوى"</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
@@ -305,6 +313,10 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"لديك خطر أعلى للعدوى لأنك خالطت شخصًا واحدًا على الأقل تم تشخيصه كمصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية طويلة وعن قرب."</item>
         <item quantity="other">"لديك خطر أعلى للعدوى لأنك خالطت شخصًا واحدًا على الأقل تم تشخيصه كمصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية طويلة وعن قرب."</item>
+        <item quantity="zero">"لديك خطر أعلى للعدوى لأنك خالطت شخصًا واحدًا على الأقل تم تشخيصه كمصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية طويلة وعن قرب."</item>
+        <item quantity="two">"لديك خطر أعلى للعدوى لأنك خالطت شخصًا واحدًا على الأقل تم تشخيصه كمصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية طويلة وعن قرب."</item>
+        <item quantity="few">"لديك خطر أعلى للعدوى لأنك خالطت شخصًا واحدًا على الأقل تم تشخيصه كمصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية طويلة وعن قرب."</item>
+        <item quantity="many">"لديك خطر أعلى للعدوى لأنك خالطت شخصًا واحدًا على الأقل تم تشخيصه كمصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية طويلة وعن قرب."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"يتم تقدير خطر العدوى من بيانات تسجيل المخالطة (المدة ومدى الاقتراب) محليًا على جهازك. ولا يمكن الاطلاع على خطر العدوى من جانب أي شخص آخر أو تمريره إليه."</string>
@@ -313,7 +325,7 @@
     <!-- NOTR -->
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
     <!-- XACT: risk details page title -->
-    <string name="risk_details_accessibility_title">"حالة الخطر الخاصة بك"</string>
+    <string name="risk_details_accessibility_title">"مستوى الخطر"</string>
 
     <!-- ####################################
               Onboarding
@@ -338,18 +350,18 @@
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
     <string name="onboarding_subtitle">"مزيد من الحماية لك ولنا جميعًا. يمكننا كسر سلاسل العدوى أسرع بكثير من خلال استخدام تطبيق Corona-Warn-App."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"حوِّل جهازك لنظام للتحذير من فيروس كورونا. احصل على نظرة عامة على حالة الخطر الخاصة بك واعرف إذا ما كنت تواصلت عن قرب مع أي شخص مصاب بمرض كوفيد-19 خلال آخر 14 يومًا."</string>
+    <string name="onboarding_body">"قم بتحويل جهازك إلى نظام للتحذير من فيروس كورونا. ألقِ نظرة عامة على مستوى الخطر الواقع عليك وتعرف على ما إذا كنت قد تواصلت عن قرب مع أي شخص مصاب بمرض كوفيد-19 خلال آخر 14 يومًا."</string>
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">"يسجل التطبيق تجمعات الأفراد بتبادل معرفات عشوائية مشفرة بين أجهزتهم، ولا يتم الوصول إلى أي معلومات شخصية أيًا كانت."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
-    <string name="onboarding_illustration_description">"مجموعة أشخاص يستخدمون أجهزتهم في المدينة جميعًا."</string>
+    <string name="onboarding_illustration_description">"مجموعة أشخاص يستخدمون هواتفهم الذكية حول المدينة."</string>
     <!-- XACT: Onboarding (privacy) page title -->
     <string name="onboarding_privacy_accessibility_title">"صفحة البدء 2 من 5: خصوصية البيانات. يوجد نص طويل. للمتابعة في أي وقت لاحق، استخدم الزر الموجود أعلى الشاشة."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"خصوصية البيانات"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
-    <string name="onboarding_privacy_illustration_description">"إحدى السيدات تستخدم تطبيق Corona-Warn-App على جهازها. القفل الموجود على الشاشة هو رمز للبيانات المشفرة."</string>
+    <string name="onboarding_privacy_illustration_description">"سيدة تستخدم تطبيق Corona-Warn-App على هاتفها الذكي. ترمز أيقونة القفل الموجودة بخلفية الشاشة إلى بيانات مشفرة."</string>
     <!-- XACT: Onboarding (tracing) page title -->
     <string name="onboarding_tracing_accessibility_title">"صفحة البدء 3 من 5: كيفية تمكين تسجيل المخالطة"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
@@ -363,13 +375,13 @@
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"إقرار الموافقة"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"لمعرفة ما إذا كنت قد تواصلت مع شخص مصاب وما إذا كان هناك خطر في تعرضك للإصابة، يجب عليك تمكين ميزة تسجيل المخالطة في التطبيق. من خلال النقر فوق زر \"تمكين\"، توافق على تمكين ميزة تسجيل المخالطة في التطبيق وما يرتبط بها من معالجة للبيانات."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لاستخدام ميزة تسجيل المخالطة في التطبيق، سيتعين عليك تمكين وظيفة تسجيل المخالطة لمرض كوفيد-19 المقدمة من Google على هاتفك الذكي ومنح تطبيق Corona-Warn-App الإذن باستخدام هذه الميزة."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"عند تمكين تسجيل المخالطة، ينشئ هاتفك الذكي المعرفات العشوائية ويرسلها عبر Bluetooth باستمرار، ويمكن لهواتف Android أو Apple الذكية الأخرى الموجودة في منطقتك تلقيها إذا تم تمكين تسجيل المخالطة عليها أيضًا. وبدوره، يتلقى هاتفك الذكي المعرفات العشوائية للهواتف الذكية الأخرى، ويتم تسجيل معرفاتك العشوائية وتلك المتلقاة من الهواتف الذكية الأخرى في سجل المخالطة وتخزينها فيه لمدة 14 يومًا."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لمعرفة خطر العدوى عليك، يقوم التطبيق، عدة مرات في اليوم أو حسب الطلب، بتحميل قائمة بالمعرفات العشوائية لكل المستخدمين الذين أخطروا التطبيق بأنهم مصابون بفيروس كورونا. وتتم مقارنة هذه القائمة، بعد ذلك، بالمعرفات العشوائية المخزنة في سجل المخالطة. في حالة اكتشاف التطبيق أنك قد تواصلت مع مستخدم مصاب، فسيخطرك بذلك ويخبرك بوجود خطر تعرضك للإصابة أيضًا. في هذه الحالة، يتم أيضًا منح التطبيق حق الوصول إلى البيانات الأخرى المسجلة في سجل المخالطة بهاتفك الذكي (تاريخ التواصل ومدته وقوة إشارة Bluetooth الخاصة به)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"تُستخدم قوة إشارة Bluetooth لاستنتاج بُعد المسافة (كلما زادت قوة الإشارة، كانت المسافة أقصر). وبعد ذلك، يحلل التطبيق هذه المعلومات من أجل تقييم احتمالية إصابتك بفيروس كورونا ولتقديم التوصيات إليك بشأن ما يجب فعله بعد ذلك. يتم إجراء هذا التحليل فقط محليًا على هاتفك الذكي. وبخلافك أنت، لن يعرف أي شخص (ولا حتى معهد روبرت كوخ) ما إذا كنت قد تواصلت مع شخص مصاب والخطر الذي تم تحديده لك."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لسحب موافقتك على استخدام ميزة تسجيل المخالطة، يمكنك تعطيل الميزة باستخدام زر التبديل في التطبيق أو حذف التطبيق. وإذا قررت استخدام الميزة مرة أخرى، يمكنك تشغيل الميزة مرة أخرى أو إعادة تثبيت التطبيق. إذا قمت بتعطيل ميزة تسجيل المخالطة، فلن يتحقق التطبيق بعد ذلك مما إذا كنت قد تواصلت مع مستخدم مصاب. وإذا كنت ترغب أيضًا في إيقاف إرسال جهازك للمعرفات العشوائية وتلقيها، يتعين عليك تعطيل ميزة تسجيل المخالطة لمرض كوفيد-19 في إعدادات هاتفك الذكي. الرجاء ملاحظة أنه لن يتم حذف معرفاتك العشوائية وتلك المتلقاة من الهواتف الذكية الأخرى المخزنة في سجل المخالطة من التطبيق. يمكنك فقط حذف البيانات المخزنة في سجل المخالطة في إعدادات الهاتف الذكي نهائيًا."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"يمكنك العثور على إشعار خصوصية التطبيق (بما فيه توضيح لمعالجة البيانات المنفَّذة لميزة تسجيل المخالطة) في القائمة ضمن \"معلومات خصوصية البيانات\"."</string>
+    <string name="onboarding_tracing_body_consent">"لمعرفة ما إذا كنت قد خالطت شخصًا مصابًا بالعدوى، وما إذا كان هناك خطر عدوى بالنسبة لك، يتعين عليك تنشيط خاصية تسجيل المخالطة الموجودة في التطبيق. الموافقة على تنشيط خاصية تسجيل المخالطة، ومعالجة البيانات في هذا السياق، بالنقر على زر: \"تمكين\"."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لكي يمكنك استخدام خاصية تسجيل المخالطة، يتعين عليك أيضًا تنشيط خاصية تسجيل المخالطات المتاحة من جوجل على هاتفك الذكي \"إشعارات التعرض لفيروس كورونا المستجد (كوفيد-19) \"، ومنح اذن لتطبيق Corona-Warn-App لاستخامها."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"عند تنشيط خاصية تسجيل المخالطات يتولى هاتفك الذكي إنشاء وإرسال أرقام تعريف عشوائية عبر Bluetooth بصفة مستمرة، والتي يمكن استقبالها في محيطك من هواتف أبل وأندرويد الذكية الأخرى، التي تكون فيها خاصية تسجيل المخالطات منشطة بالمثل. والعكس صحيح، حيث يستقبل هاتفك الذكي المعرفات العشوائية للهواتف الذكية الأخرى. يتم تسجيل أرقام تعريفك العشوائية والمعرفات العشوائية المستقبلة من الهواتف الذكية الأخرى في سجل المخالطة بخاصية تسجيل المخالطات، وتخزن هناك لمدة 14 يومًا."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"للتعرف على خطر العدوى بالنسبة لك، يستدعي التطبيق عدة مرات يوميًا -أو عند الرغبة- قائمةً بالمعرفات العشوائية لكافة المستخدمين الذين سجلوا إصابتهم بفيروس كورونا في التطبيق. يتم مقارنة هذه القائمة بعد ذلك مع المعرفات العشوائية المخزنة في سجل المخالطة بخاصية تسجيل المخالطات. وعندما يتأكد التطبيق من أنك ربما خالطت مستخدمًا مصابًا بالعدوى، يخطرك التطبيق بأنك خالطت شخصًا مصابًا، وأنه من المحتمل تعرضك لخطر العدوى. في هذه الحالة يحصل التطبيق أيضًا على إذن بالوصول إلى بيانات إضافية مخزنة في سجل المخالطة بخاصية تسجيل المخالطات لهاتفك الذكي (التاريخ، والمدة، وقوة إشارة Bluetooth عند المخالطة)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"يُستدل على البُعد المكاني من قوة إشارة Bluetooth (كلما كانت الإشارة أقوى، كانت المسافة أقل). ثم يقيّم التطبيق هذه البيانات، من أجل تقييم احتمالية اصابتك بفيروس كورونا ، وتقديم التوصيات لك بشأن ما يجب القيام به بعد ذلك. يتم إجراء هذا التقييم حصريًا على هاتفك الذكي. لا يعرف أحدٌ سواك (بما في ذلك معهد روبرت كوخ أيضًا) ما إذا كنت قد خالطت شخصًا مصابًا، وما إذا كان الأمر ينطوي على خطر إصابتك."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لإلغاء موافقتك على خاصية تسجيل المخالطة، يمكنك إلغاء تنشيط الخاصية عبر الشريط الانزلاقي داخل التطبيق أو حذف التطبيق. وإذا كنت ترغب في استخدام خاصية تسجيل المخالطة مجددًا، فيمكنك إعادة تنشيط الشريط الانزلاقي أو تثبيت التطبيق من جديد. عند إلغاء خاصية تسجيل المخالطة، لن يفحص التطبيق ما إذا كنت قد خالطت مستخدمًا مصابًا أم لا. أيضًا لكي توقف إرسال المعرفات العشوائية واستقبالها، يتعين عليك الغاء تنشيط تسجل مخالطة المصابين بمرض كوفيد -19 في إعدادات هاتفك الذكي. يرجى الانتباه إلى أن رموز التعريف العشوائية للهاتف الذكي والهواتف الذكية الأخرى، والمخزنة في سجل المخالطة لن يتم حذفها من التطبيق. لا يمكنك حذف البيانات المخزنة في سجل المخالطة حذفًا نهائيًا إلا من خلال إعدادات هاتفك الذكي."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"تجد تعليمات التطبيق الخاصة بحماية البيانات (بما في ذلك المعلومات حول معالجة البيانات لتسجيل المخالطة) تحت بند القائمة \"معلومات خصوصية البيانات\"."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"تنشيط تسجيل المخالطة"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
     <string name="onboarding_tracing_dialog_headline">"تفويض"</string>
     <!-- YMSI: onboarding(tracing) - dialog about tracing -->
-    <string name="onboarding_tracing_dialog_body">"يعني هذا أن تطبيق Corona-Warn-App لا يمكنه إرسال أو استقبال إشعارات حول حالة خطر مرض كوفيد-19 الخاصة بك. ويمكنك إعادة تنشيط هذه الميزة في أي وقت."</string>
+    <string name="onboarding_tracing_dialog_body">"هذا يعني أن تطبيق Corona-Warn-App لا يمكنه إرسال أو تلقي إشعارات حول مستوى خطر مرض كوفيد-19. يمكنك إلغاء تنشيط هذه الميزة في أي وقت."</string>
     <!-- XBUT: onboarding(tracing) - positive button (right) -->
     <string name="onboarding_tracing_dialog_button_positive">"عدم التنشيط"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
@@ -391,11 +403,11 @@
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"تلقي التحذيرات وتحديد الأخطار"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
-    <string name="onboarding_notifications_subtitle">"يمكن للتطبيق إشعارك تلقائيًا بحالة الخطر الواقع عليك وتحذيرك من حالات العدوى الجديدة من الأشخاص الذين خالطتهم. اسمح للتطبيق الآن بإشعارك."</string>
+    <string name="onboarding_notifications_subtitle">"يمكن للتطبيق إشعارك تلقائيًا بمستوى الخطر الواقع عليك وتحذيرك من حالات العدوى الجديدة من الأشخاص الذين خالطتهم. اسمح للتطبيق الآن بإشعارك."</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
     <string name="onboarding_notifications_body">"ويمكنك بعد ذلك عزل نفسك ذاتيًا لحماية الآخرين ومعرفة مكان إجراء الاختبار."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
-    <string name="onboarding_notifications_illustration_description">"إحدى السيدات تتلقى إشعارًا من تطبيق Corona-Warn-App."</string>
+    <string name="onboarding_notifications_illustration_description">"سيدة تتلقى إشعارًا من تطبيق Corona-Warn-App."</string>
 
     <!-- ####################################
                   Settings
@@ -445,24 +457,28 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"تسجيل المخالطة نشط لمدة يوم واحد.\nلا يمكن أن يكون التحقق من المخالطة موثوقًا به إلا إذا كان تسجيل المخالطة نشطًا دائمًا."</item>
         <item quantity="other">"تسجيل المخالطة نشط لمدة %1$s من الأيام.\nلا يمكن أن يكون التحقق من المخالطة موثوقًا به إلا إذا كان تسجيل المخالطة نشطًا دائمًا."</item>
+        <item quantity="zero">"تسجيل المخالطة نشط لمدة %1$s من الأيام.\nلا يمكن أن يكون التحقق من المخالطة موثوقًا به إلا إذا كان تسجيل المخالطة نشطًا دائمًا."</item>
+        <item quantity="two">"تسجيل المخالطة نشط لمدة %1$s من الأيام.\nلا يمكن أن يكون التحقق من المخالطة موثوقًا به إلا إذا كان تسجيل المخالطة نشطًا دائمًا."</item>
+        <item quantity="few">"تسجيل المخالطة نشط لمدة %1$s من الأيام.\nلا يمكن أن يكون التحقق من المخالطة موثوقًا به إلا إذا كان تسجيل المخالطة نشطًا دائمًا."</item>
+        <item quantity="many">"تسجيل المخالطة نشط لمدة %1$s من الأيام.\nلا يمكن أن يكون التحقق من المخالطة موثوقًا به إلا إذا كان تسجيل المخالطة نشطًا دائمًا."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"قام ثلاثة أشخاص بتنشيط تسجيل المخالطة على أجهزتهم؛ مما سيعمل على تسجيل تجمُّعاتهم مع بعضهم بعضًا."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_inactive">"ألغى شخص واحد تنشيط تسجيل المخالطة على جهازه؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
+    <string name="settings_tracing_illustration_description_inactive">"ألغى شخص تنشيط تسجيل المخالطة على هاتفه الذكي؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_bluetooth_illustration_description_inactive">"أوقف شخص واحد تشغيل Bluetooth على جهازه؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
+    <string name="settings_tracing_bluetooth_illustration_description_inactive">"أوقف شخص تشغيل Bluetooth على هاتفه الذكي؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"أوقف شخص واحد الاتصال بالإنترنت على جهازه؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
+    <string name="settings_tracing_connection_illustration_description_inactive">"قطع شخص الاتصال بالإنترنت على هاتفه الذكي؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"الإشعارات"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"هل تريد تنشيط إشعارات حالة خطر مرض كوفيد-19 الخاصة بك؟"</string>
+    <string name="settings_notifications_headline_active">"هل تريد تنشيط إشعارات مستوى خطر مرض كوفيد-19؟"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">"تم إلغاء تنشيط الإشعارات"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"السماح بالإشعارات التلقائية لحالة خطر مرض كوفيد-19."</string>
+    <string name="settings_notifications_body_description">"السماح بالإشعارات التلقائية لمستوى خطر مرض كوفيد-19."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"حدد المناطق التي تريد استمرار تلقي الإشعارات عنها."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
@@ -478,9 +494,9 @@
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"فتح إعدادات الجهاز"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
-    <string name="settings_notifications_illustration_description_active">"إحدى السيدات تتلقى إشعارًا من تطبيق Corona-Warn-App."</string>
+    <string name="settings_notifications_illustration_description_active">"سيدة تتلقى إشعارًا من تطبيق Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
-    <string name="settings_notifications_illustration_description_inactive">"إحدى السيدات ألغت تنشيط إشعارات تطبيق Corona-Warn-App لديها."</string>
+    <string name="settings_notifications_illustration_description_inactive">"سيدة ألغت تنشيط إشعارات تطبيق Corona-Warn-App."</string>
     <!-- XBUT: settings - go to reset application -->
     <string name="settings_reset_title">"إعادة تعيين التطبيق"</string>
     <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
@@ -498,7 +514,7 @@
     <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
     <string name="settings_reset_button_negative">"إلغاء"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
-    <string name="settings_reset_illustration_description">"أحد الأشخاص يحمل جهازًا يعرض رمزًا يشير إلى إعادة تعيين التطبيق."</string>
+    <string name="settings_reset_illustration_description">"هاتف ذكي يعرض رمزًا يشير إلى إعادة تعيين التطبيق."</string>
     <!-- XHED: settings(reset) - dialog headline -->
     <string name="settings_reset_dialog_headline">"إعادة تعيين التطبيق"</string>
     <!-- XTXT: settings(reset) - dialog content -->
@@ -508,13 +524,13 @@
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"إعادة تعيين"</string>
     <!-- XHED: settings(background priority) - notification page title -->
-    <string name="settings_background_priority_title">"نشاط في الخلفية ذو أولوية"</string>
+    <string name="settings_background_priority_title">"نشاط له أفضلية في الخلفية"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"السماح بتحديثات حالة الخطر تلقائيًا"</string>
+    <string name="settings_background_priority_body_description">"السماح بتحديثات مستوى الخطر تلقائيًا"</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"تشغيل تطبيق Corona-Warn-App في الخلفية"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"يتم تشغيل تطبيق Corona-Warn-App في الخلفية بشكل دائم عند تنشيط نشاط في الخلفية ذو أولوية. وهو ما يمكِّن التطبيق من تحديد حالة الخطر الخاصة بك في أي وقت."</string>
+    <string name="settings_background_priority_body">"يتم تشغيل تطبيق Corona-Warn-App في الخلفية بشكل دائم عند تنشيط نشاط له أفضلية في الخلفية، وهذا يتيح للتطبيق تحديد مستوى الخطر في أي وقت."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
@@ -537,15 +553,15 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"لنكافح فيروس كورونا معًا"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"معهد روبرت كوخ (RKI) هو هيئة مركزية ألمانية معنية بالصحة العامة في الولايات الاتحادية الألمانية. ينشر المعهد تطبيق Corona-Warn-App لصالح الحكومة الاتحادية. ويمثل التطبيق الامتداد الرقمي لإجراءات الصحة العامة المنفَّذة بالفعل: التباعد الاجتماعي والنظافة الشخصية واستخدام أقنعة الوجه."</string>
+    <string name="information_about_body_emphasized">"معهد روبرت كوخ (RKI) هو الهيئة الصحية الاتحادية العامة في ألمانيا. ينشر المعهد تطبيق Corona-Warn-App باسم الحكومة الاتحادية، ويمثل التطبيق الامتداد الرقمي لإجراءات الصحة العامة المنفَّذة بالفعل: التباعد الاجتماعي والنظافة الشخصية واستخدام أقنعة الوجه."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"يمكن لأي شخص يستخدم التطبيق تتبع سلسلة العدوى وكسرها. يحفظ التطبيق التجمُّعات مع الأشخاص الآخرين محليًا على جهازك. ويتم إشعارك عند تجمُّعك مع أشخاص تم تشخيصهم مؤخرًا على أنهم مصابون بمرض كوفيد-19، علمًا أن هويتك وخصوصيتك محميتان دائمًا."</string>
     <!-- XACT: describes illustration -->
-    <string name="information_about_illustration_description">"مجموعة أشخاص يستخدمون أجهزتهم في المدينة جميعًا."</string>
+    <string name="information_about_illustration_description">"مجموعة أشخاص يستخدمون هواتفهم الذكية حول المدينة."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">"خصوصية البيانات"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_privacy_illustration_description">"إحدى السيدات تستخدم تطبيق Corona-Warn-App على جهازها. القفل الموجود على الشاشة هو رمز للبيانات المشفرة."</string>
+    <string name="information_privacy_illustration_description">"سيدة تستخدم تطبيق Corona-Warn-App على هاتفها الذكي. ترمز أيقونة القفل الموجودة بخلفية الشاشة إلى بيانات مشفرة."</string>
     <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_privacy_html_path">"privacy_en.html"</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
@@ -553,7 +569,7 @@
     <!-- XHED: Page headline for terms of use information page -->
     <string name="information_terms_headline">"المحتوى"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_terms_illustration_description">"يحمل شخص ما جهازًا به الكثير من النصوص على الشاشة. بجوار النص توجد علامة صح تمثل رمزًا لقبول شروط الاستخدام."</string>
+    <string name="information_terms_illustration_description">"هاتف ذكي تظهر على شاشته نصوص بخط كبير وبجوارها علامة صح ترمز إلى قبول شروط الاستخدام."</string>
     <!-- XTXT: Path to the full blown terms html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_terms_html_path">"terms_en.html"</string>
     <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
@@ -575,7 +591,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"إذا كان لديك أي استفسارات متعلقة بصحتك، فيُرجى التواصل مع طبيبك الممارس العام أو الخط الساخن لخدمة الطوارئ الطبية، هاتف ‎116 117."</string>
     <!-- XACT: describes illustration -->
-    <string name="information_contact_illustration_description">"شخص يرتدي سماعة رأس أثناء إجراء اتصال."</string>
+    <string name="information_contact_illustration_description">"رجل يرتدي سماعة رأس أثناء إجراء اتصال."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"الأسئلة المتكررة"</string>
     <!-- XACT: accessibility hint -->
@@ -583,7 +599,7 @@
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"الإخطارات القانونية"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_technical_illustration_description">"شخص يحمل جهازًا به الكثير من النصوص على الشاشة. بجوار النص يوجد ميزان يمثل رمزًا للإشعارات القانونية"</string>
+    <string name="information_technical_illustration_description">"هاتف ذكي تظهر على شاشته نصوص بخط كبير وبجوارها ميزان يرمز إلى الإشعارات القانونية."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_technical_html_path">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
@@ -603,7 +619,7 @@
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_legal_illustration_description">"شخص يحمل جهازًا به الكثير من النصوص على الشاشة. بجوار النص يوجد رمز لقسم يمثل بيان النشر."</string>
+    <string name="information_legal_illustration_description">"هاتف ذكي تظهر على شاشته نصوص بخط كبير وبجوارها رمز لقسم يمثل بيان النشر."</string>
 
 
     <!-- ####################################
@@ -709,7 +725,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"نتيجة اختبارك"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"حدثت مشكلة أثناء تقييم اختبارك. يُرجى التواصل مع سلطة الصحة العامة لتعرف ما عليك فعله.\n\nيُرجى حذف الاختبار من تطبيق Corona-Warn-App حتى تتمكن من حفظ رمز نتيجة اختبار جديد هنا عند الحاجة."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"حدثت مشكلة أثناء تقييم اختبارك. يُرجى التواصل مع دائرة الصحة العامة لمعرفة كيفية المتابعة.\n\nيُرجى حذف الاختبار من تطبيق Corona-Warn-App؛ حتى تتمكن من حفظ رمز اختبار جديد فيه، عند الحاجة."</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"حذف الاختبار"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -777,7 +793,7 @@
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"إقرار الموافقة"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"بالنقر على \"قبول\"، فإنك توافق على قيام التطبيق بالاستعلام عن حالة اختبار فيروس كورونا الخاص بك وعرضها في التطبيق. تتوفر هذه الميزة لك إذا استلمت رمز استجابة سريعة (QR) ووافقت على إرسال نتيجة اختبارك إلى نظام خادم التطبيق. وبمجرد قيام معمل الاختبار بتخزين نتيجة اختبارك على الخادم، ستتمكن من رؤية النتيجة في التطبيق. وإذا قمت بتمكين الإشعارات، فستتلقى أيضًا إشعارًا خارج التطبيق يخبرك باستلام نتيجة اختبارك. وبالرغم من ذلك، سيتم عرض نتيجة الاختبار نفسها في التطبيق فقط وذلك لأسباب تتعلق بالخصوصية. يمكنك سحب هذه الموافقة في أي وقت من خلال حذف تسجيل اختبارك في التطبيق. لن يؤثر سحب موافقتك على مشروعية المعالجة قبل سحبها. يمكنك العثور على مزيد من المعلومات في القائمة ضمن \"معلومات خصوصية البيانات\"."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"بالنقر على \"قبول\"، فإنك توافق على السماح للتطبيق بالاستعلام عن حالة فحص فيروس كورونا خاصتك، وعرض الحالة في التطبيق. تتاح لك هذه الخاصية عندما تتلقى رمز استجابة سريعة (QR) وتوافق على السماح بإرسال نتيجة الاختبار إلى نظام السيرفر الخاص بالتطبيق. بمجرد أن يودع معمل الفحوصات نتيجة اختبارك على السيرفر، يمكنك الاطلاع على النتيجة في التطبيق. وإذا كنت قد نشطت خاصية الإشعارات، فستتلقى إشعارًا أيضًا خارج التطبيق بظهور نتيجة الاختبار. نتيجة الاختبار نفسها لا تظهر إلا في التطبيق لأسباب متعلقة بحماية البيانات. يمكنك إلغاء هذه الموافقة في أي وقت عن طريق حذف تسجيل الاختبار في التطبيق. عند إلغاء الموافقة، تظل مشروعية المعالجة حتى تاريخ الإلغاء قائمةً. تجد المزيد من المعلومات تحت بند القائمة \"معلومات خصوصية البيانات\"."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"قبول"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -803,7 +819,7 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"خصوصية البيانات"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"بالنقر على \"قبول\"، فإنك توافق على قيام التطبيق بإرسال نتيجة اختبارك الإيجابية إلى نظام خادم التطبيق وكذلك معرفاتك العشوائية خلال آخر 14 يومًا، وبالتالي يمكن إشعار مستخدمي التطبيق الآخرين، الذين قاموا بتمكين ميزة تسجيل المخالطة، تلقائيًا بأنهم قد يكونون عُرضة لخطر العدوى. لا تحتوي المعرفات العشوائية المرسلة لهذا الغرض على أي معلومات من شأنها الكشف عن هويتك أو شخصك.\n\nإرسال نتيجة اختبارك عبر التطبيق أمر اختياري. لن تتم معاقبتك في حالة عدم إرسال نتيجة الاختبار. ونظرًا لعدم إمكانية التتبع أو التحقق مما إذا كنت تستخدم التطبيق وكيفية استخدامك له، لن يعرف أي شخص غيرك ما إذا كنت أرسلت المعلومات بشأن إصابتك.\n\nويمكنك سحب موافقتك في أي وقت من خلال حذف التطبيق. ولكن لن يؤثر سحب موافقتك على مشروعية المعالجة المنفذة على أساس الموافقة قبل السحب. كما يمكنك العثور على مزيد من المعلومات في القائمة ضمن \"معلومات خصوصية البيانات\"."</string>
+    <string name="submission_positive_other_warning_privacy_body">"بالنقر على \"قبول\"، فإنك توافق على أن يرسل التطبيق نتيجة اختبارك الإيجابية مع أرقام تعريفك العشوائية لآخر 14 يومًا إلى نظام سيرفر التطبيق، حتى يتسنى إخطار غيرك من مستخدمي التطبيق المنشطين لخاصية تسجيل المخالطة أوتوماتيكيًا باحتمالية تعرضهم لخطر العدوى. لا تتضمن المعرفات العشوائية المتداولة أية بيانات تسمح بثغرات يمكن التعرف من خلالها على هويتك أو شخصك.\n\nنشر نتيجة اختبارك عبر التطبيق خطوة اختيارية. إذا لم تنشر نتيجة اختبارك، لن تترتب عليك أية أضرار؛ لأنه لا يمكن لأحد سواك معرفة أو مراقبة ما إذا كنت تستخدم التطبيق، وكيف تستخدمه، وما إذا كنت نشرت إصابتك بالعدوى أم لا.\n\nيمكنك إلغاء موافقتك في أي وقت عن طريق حذف التطبيق. عند إلغاء الموافقة، تظل مشروعية المعالجة بدايةً من الموافقة حتى تاريخ الإلغاء قائمةً. تجد المزيد من المعلومات تحت بند القائمة \"معلومات خصوصية البيانات\"."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"التالي"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -826,7 +842,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"فترة الحجر الصحي عادة ما تكون 14 يومًا. الرجاء ملاحظة أعراضك ومراقبة مدى تطورها."</item>
-        <item>"ستطالبك سلطة الصحة العامة بإنشاء قائمة بالأشخاص الذين تواصلت معهم. يجب أن يتضمن ذلك كل الأشخاص الذين تواصلت معهم عن قرب (أقل من مترين، محادثة وجهًا لوجه) لمدة تزيد عن 15 دقيقة في اليومين السابقين لتطور الأعراض."</item>
+        <item>"ستطالبك دائرة الصحة العامة بإنشاء قائمة بالأشخاص الذين تواصلت معهم. يجب أن يتضمن ذلك كل الأشخاص الذين تواصلت معهم عن قرب (أقل من مترين، محادثة وجهًا لوجه) لمدة تزيد عن 15 دقيقة في اليومين السابقين لتطور الأعراض."</item>
         <item>"الرجاء التفكير بصفة خاصة في الأشخاص الذين لن يتم إشعارهم مباشرة من خلال التطبيق نظرًا لعدم امتلاكهم هاتف ذكي أو عدم قيامهم بتثبيت التطبيق."</item>
         <item>"قد تظل معديًا حتى إن لم تعد تشعر بأي أعراض وكنت تشعر بأنك بحالة جيدة."</item>
     </string-array>
@@ -900,7 +916,7 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"أنت معدٍ. اعزل نفسك عن الأشخاص الآخرين."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"ستتواصل معك سلطة الصحة العامة خلال الأيام القليلة القادمة بالهاتف أو بخطاب."</string>
+    <string name="submission_status_card_positive_result_contact">"ستتواصل معك دائرة الصحة العامة خلال الأيام القليلة القادمة بالهاتف أو بخطاب."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"شارِك معرفاتك العشوائية حتى يمكن تحذير الآخرين."</string>
 
@@ -917,7 +933,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"التقييم غير ممكن"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"نتيجتك غير متوفرة"</string>
+    <string name="test_result_card_status_pending">"النتيجة غير متوفرة حتى الآن"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"معلومات أخرى:"</string>
     <!-- YTXT: Content for further info of test result negative -->
@@ -955,7 +971,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"لا يمكنك القيام بهذا الإجراء. يُرجى الاتصال بالخط الساخن."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
+    <string name="errors_google_update_needed">"تم تثبيت تطبيق Corona-Warn-App بشكل صحيح؛ لكن خدمة \"إشعارات المخالطة لمرض كوفيد-19\" غير متوفرة على نظام تشغيل هاتفك الذكي؛ وهذا يعني أنه لا يمكنك استخدام التطبيق. لمزيد من المعلومات، يرجى الاطلاع على صفحة الأسئلة المتكررة لدينا على: https://www.coronawarn.app/en/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages
