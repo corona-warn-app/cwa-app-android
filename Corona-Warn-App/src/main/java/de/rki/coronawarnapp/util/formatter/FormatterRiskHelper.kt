@@ -10,6 +10,7 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 import java.util.Date
 
@@ -180,7 +181,7 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> {
             if (showDetails) {
-                if (activeTracingDaysInRetentionPeriod < 14) {
+                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
                     appContext.getString(
                         R.string.risk_card_body_saved_days
                     )
@@ -195,7 +196,7 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
             }
         }
         RiskLevelConstants.LOW_LEVEL_RISK ->
-            if (activeTracingDaysInRetentionPeriod < 14) {
+            if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
                 appContext.getString(
                     R.string.risk_card_body_saved_days
                 )
