@@ -180,18 +180,32 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> {
             if (showDetails) {
+                if (activeTracingDaysInRetentionPeriod < 14) {
+                    appContext.getString(
+                        R.string.risk_card_body_saved_days
+                    )
+                        .format(activeTracingDaysInRetentionPeriod)
+                } else {
+                    appContext.getString(
+                        R.string.risk_card_body_saved_days_full
+                    )
+                }
+            } else {
+                ""
+            }
+        }
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            if (activeTracingDaysInRetentionPeriod < 14) {
                 appContext.getString(
                     R.string.risk_card_body_saved_days
                 )
                     .format(activeTracingDaysInRetentionPeriod)
             } else {
-                ""
+                appContext.getString(
+                    R.string.risk_card_body_saved_days_full
+                )
             }
-        }
-        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(
-            R.string.risk_card_body_saved_days
-        )
-            .format(activeTracingDaysInRetentionPeriod)
+
         else -> ""
     }
 }
