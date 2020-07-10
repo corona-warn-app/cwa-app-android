@@ -150,7 +150,8 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         )
 
     /**
-     * Navigate to Submission Done Fragment after the Diagnosis Key submission error
+     * Navigate to submission done Fragment
+     * @see SubmissionDoneFragment
      */
     private fun navigateToSubmissionDoneFragment() =
         findNavController().doNavigate(
