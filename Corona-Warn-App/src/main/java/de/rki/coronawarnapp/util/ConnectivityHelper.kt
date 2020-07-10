@@ -73,7 +73,6 @@ object ConnectivityHelper {
         callback.recevier = null
     }
 
-    // NEW ------------------------------------------------------------------------------------------------------------------------------
     /**
      * Register location state change listener.
      *
@@ -83,8 +82,8 @@ object ConnectivityHelper {
      */
     fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
             val receiver = object : BroadcastReceiver() {
-                  var isGpsEnabled: Boolean = false
-                 var isNetworkEnabled: Boolean = false
+                var isGpsEnabled: Boolean = false
+                var isNetworkEnabled: Boolean = false
 
                 override fun onReceive(context: Context, intent: Intent) {
                     intent.action?.let { act ->
@@ -99,9 +98,7 @@ object ConnectivityHelper {
                             if (isGpsEnabled || isNetworkEnabled) {
                                 callback.onLocationAvailable()
                                 Timber.d("Location enabled")
-                            }
-                            else
-                            {
+                            } else {
                                 callback.onLocationUnavailable()
                                 Timber.d("Location disabled")
                             }
@@ -132,7 +129,6 @@ object ConnectivityHelper {
         context.unregisterReceiver(callback.recevier)
         callback.recevier = null
     }
-    // NEW --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Unregister network state change callback.
@@ -230,10 +226,7 @@ object ConnectivityHelper {
     fun isLocationEnabled(context: Context): Boolean {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return LocationManagerCompat.isLocationEnabled(locationManager)
-
     }
-
-
 
     /**
      * Get network enabled status.
