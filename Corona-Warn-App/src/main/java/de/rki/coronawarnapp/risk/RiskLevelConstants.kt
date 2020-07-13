@@ -6,5 +6,6 @@ object RiskLevelConstants {
     const val LOW_LEVEL_RISK = 2
     const val INCREASED_RISK = 3
     const val UNKNOWN_RISK_OUTDATED_RESULTS = 4
+    const val UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL = 5
     const val UNDETERMINED = 9001
 }
