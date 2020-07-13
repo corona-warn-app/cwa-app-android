@@ -106,7 +106,7 @@ fun formatSwitchContentDescription(subtitle: String, status: String): String = "
  * @param location
  * @return String
  */
-fun formatTracingDescription(tracing: Boolean, bluetooth: Boolean, connection: Boolean, location:Boolean): String {
+fun formatTracingDescription(tracing: Boolean, bluetooth: Boolean, connection: Boolean, location: Boolean): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (tracingStatusHelper(tracing, bluetooth, connection, location)) {
         TracingStatusHelper.CONNECTION ->
@@ -137,7 +137,8 @@ fun formatTracingContentDescription(
     tracing: Boolean,
     bluetooth: Boolean,
     connection: Boolean,
-    location: Boolean): String {
+    location: Boolean
+    ): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (tracingStatusHelper(tracing, bluetooth, connection, location)) {
         TracingStatusHelper.CONNECTION ->
