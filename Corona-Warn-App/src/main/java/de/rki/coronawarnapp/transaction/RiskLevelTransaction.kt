@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
@@ -299,8 +300,16 @@ object RiskLevelTransaction : Transaction() {
             if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
-                return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
-                    Timber.v("diagnosis keys outdated and active tracing time is above threshold")
+                if (ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext())) {
+                    return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
+                        Timber.v("diagnosis keys outdated and active tracing time is above threshold")
+                        Timber.v("manual mode not active (background jobs enabled)")
+                    }
+                } else {
+                    return@executeState UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL.also {
+                        Timber.v("diagnosis keys outdated and active tracing time is above threshold")
+                        Timber.v("manual mode active (background jobs disabled)")
+                    }
                 }
             }
 
