@@ -380,6 +380,12 @@
     <string name="onboarding_tracing_dialog_button_negative">"Back"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
+    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
+    <string name="onboarding_tracing_location_headline">"Allow location use"</string>
+    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
+    <string name="onboarding_tracing_location_body">"Your location is not being accessed. The location permission is required because Google Android requires this for the use of Bluetooth."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_location_button">"Open device settings"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Onboarding page 4 of 5: If you are diagnosed with COVID-19..."</string>
     <!-- XHED: onboarding(test) - about positive tests -->
