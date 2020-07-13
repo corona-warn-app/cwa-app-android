@@ -36,9 +36,10 @@ object TracingStatusHelper {
  * @param tracing
  * @param bluetooth
  * @param connection
+ * @param location
  * @return Int
  */
-fun tracingStatusHelper(tracing: Boolean, bluetooth: Boolean, connection: Boolean): Int {
+fun tracingStatusHelper(tracing: Boolean, bluetooth: Boolean, connection: Boolean, location: Boolean): Int {
     return if (tracing && bluetooth && !connection) {
         TracingStatusHelper.CONNECTION
     } else if (tracing && !bluetooth) {
