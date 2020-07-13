@@ -138,7 +138,7 @@ fun formatTracingContentDescription(
     bluetooth: Boolean,
     connection: Boolean,
     location: Boolean
-    ): String {
+): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (tracingStatusHelper(tracing, bluetooth, connection, location)) {
         TracingStatusHelper.CONNECTION ->
