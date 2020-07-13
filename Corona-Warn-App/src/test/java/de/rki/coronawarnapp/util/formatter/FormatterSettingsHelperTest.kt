@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers
