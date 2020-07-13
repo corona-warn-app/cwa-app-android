@@ -942,6 +942,8 @@
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Your Corona-Warn-App was installed correctly. Unfortunately, COVID-19 Exposure Notifications is currently not available on your device and you cannot use the Corona-Warn-App. Further information is available on our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
+    <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
+    <string name="errors_google_api_error">"Your Corona-Warn-App is working correctly. Unfortunately, you cannot update your risk level at the moment. Your exposure logging is still active and working correctly. Further information is available on our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
