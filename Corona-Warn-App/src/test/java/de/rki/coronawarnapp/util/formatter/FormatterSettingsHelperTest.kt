@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers
@@ -104,6 +105,28 @@ class FormatterSettingsHelperTest {
         assertThat(result, `is`((context.getString(iValue))))
     }
 
+    private fun formatTracingContentDescriptionBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean,
+        sValue: String
+    ) {
+        every { context.getString(R.string.settings_tracing_body_bluetooth_inactive) } returns R.string.settings_tracing_body_bluetooth_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_connection_inactive) } returns R.string.settings_tracing_body_connection_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_active) } returns R.string.settings_tracing_body_active.toString()
+        every { context.getString(R.string.settings_tracing_body_inactive) } returns R.string.settings_tracing_body_inactive.toString()
+        every { context.getString(R.string.accessibility_button) } returns R.string.accessibility_button.toString()
+
+        val result = formatTracingContentDescription(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection
+        )
+        assertThat(
+            result, `is`(sValue)
+        )
+    }
+
     private fun formatNotificationsTitleBase(bValue: Boolean) {
         val result = formatNotificationsTitle(notifications = bValue)
         assertThat(
@@ -184,7 +207,7 @@ class FormatterSettingsHelperTest {
         val result =
             formatTracingIcon(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
         assertThat(
-            result, `is`(CoreMatchers.equalTo(drawable))
+            result, CoreMatchers.isA(Int::class.java)
         )
     }
 
@@ -488,6 +511,73 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bConnection = true,
             iValue = R.string.settings_tracing_body_inactive
+        )
+    }
+
+    @Test
+    fun formatTracingContentDescription() {
+        // When tracing is true, bluetooth is true, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_active.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is false, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is false, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is true, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is false
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is false, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is false, connection is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
     }
 
@@ -853,6 +943,55 @@ class FormatterSettingsHelperTest {
         formatNotificationImageBase(bNotifications = true)
 
         formatNotificationImageBase(bNotifications = false)
+    }
+
+    @Test
+    fun formatSettingsBackgroundPriorityIconColor() {
+        formatSettingsBackgroundPriorityIconColorBase(true, R.color.colorAccentTintIcon)
+        formatSettingsBackgroundPriorityIconColorBase(false, R.color.colorTextSemanticRed)
+    }
+
+    private fun formatSettingsBackgroundPriorityIconColorBase(
+        enabled: Boolean,
+        expectedColor: Int
+    ) {
+        every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
+        every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
+
+        val result =
+            formatSettingsBackgroundPriorityIconColor(enabled)
+        assertThat(
+            result, `is`(context.getColor(expectedColor))
+        )
+    }
+
+    @Test
+    fun formatSettingsBackgroundPriorityIcon() {
+        formatSettingsBackgroundPriorityIconBase(
+            true,
+            R.drawable.ic_settings_background_priority_enabled
+        )
+        formatSettingsBackgroundPriorityIconBase(
+            false,
+            R.drawable.ic_settings_background_priority_disabled
+        )
+    }
+
+    private fun formatSettingsBackgroundPriorityIconBase(
+        enabled: Boolean,
+        expectedDrawable: Int
+    ) {
+        val drawableA = mockk<Drawable>()
+        val drawableB = mockk<Drawable>()
+
+        every { context.getDrawable(R.drawable.ic_settings_background_priority_enabled) } returns drawableA
+        every { context.getDrawable(R.drawable.ic_settings_background_priority_disabled) } returns drawableB
+
+        val result =
+            formatSettingsBackgroundPriorityIcon(enabled)
+        assertThat(
+            result, `is`(context.getDrawable(expectedDrawable))
+        )
     }
 
     @After

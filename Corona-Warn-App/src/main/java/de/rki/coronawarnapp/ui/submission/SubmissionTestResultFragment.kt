@@ -127,6 +127,7 @@ class SubmissionTestResultFragment : Fragment() {
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
             submissionViewModel.refreshDeviceUIState()
+            binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         }
 
         binding.submissionTestResultButtonPendingRemoveTest.setOnClickListener {
