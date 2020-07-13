@@ -40,7 +40,9 @@ object TracingStatusHelper {
  * @return Int
  */
 fun tracingStatusHelper(tracing: Boolean, bluetooth: Boolean, connection: Boolean, location: Boolean): Int {
-    return if (tracing && bluetooth && location && !connection) {
+    return if (tracing && bluetooth && !connection) {
+        TracingStatusHelper.CONNECTION
+    } else if (tracing && location && !connection) {
         TracingStatusHelper.CONNECTION
     } else if (tracing && location && !bluetooth) {
         TracingStatusHelper.BLUETOOTH
