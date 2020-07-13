@@ -130,7 +130,7 @@
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Пока нет контактов"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
-    <plurals name="risk_card_body_contact_value">
+    <plurals name="risk_card_body_contact_value" tools:ignore="MissingQuantity">
         <item quantity="one">"%1$s контакт"</item>
         <item quantity="other">"%1$s контакта(ов)"</item>
     </plurals>
@@ -155,7 +155,7 @@
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Повышенный риск"</string>
     <!-- XTXT: risk card - increased risk days since last contact -->
-    <plurals name="risk_card_increased_risk_body_contact_last">
+    <plurals name="risk_card_increased_risk_body_contact_last" tools:ignore="MissingQuantity">
         <item quantity="one">"%1$s день с последнего контакт"</item>
         <item quantity="other">"%1$s дн. с последнего контакта"</item>
     </plurals>
@@ -302,7 +302,7 @@
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"У Вас низкий риск заражения, поскольку не зарегистрировано контактов с лицами с положительным тестом на COVID-19 или контакты были кратковременными и на большом расстоянии."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
-    <plurals name="risk_details_information_body_increased_risk">
+    <plurals name="risk_details_information_body_increased_risk" tools:ignore="MissingQuantity">
         <item quantity="one">"У Вас повышенный риск заражения, поскольку %1$s день назад Вы имели продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
         <item quantity="other">"У Вас повышенный риск заражения, поскольку %1$s д. назад Вы имели продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
         <item quantity="zero">"У Вас повышенный риск заражения, поскольку %1$s дн. назад Вы имели продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
@@ -444,7 +444,7 @@
     <string name="settings_tracing_status_connection_button">"Открыть настройки устройства"</string>
     <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
     <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Определение контакта  активно в течение одного дня.\nДля надежной проверки контактов функция определения контакта  должна быть активна всегда."</item>
+        <item quantity="one" tools:ignore="ImpliedQuantity">"Определение контакта  активно в течение одного дня.\nДля надежной проверки контактов функция определения контакта  должна быть активна всегда."</item>
         <item quantity="other">"Определение контакта  активно в течение %1$s дн.\nДля надежной проверки контактов функция определения контакта  должна быть активна всегда."</item>
         <item quantity="two">"Определение контакта  активно в течение %1$s дн. Для надежной проверки контактов функция определения контакта  должна быть активна всегда."</item>
         <item quantity="few">"Определение контакта  активно в течение %1$s дн. Для надежной проверки контактов функция определения контакта  должна быть активна всегда."</item>
