@@ -9,13 +9,15 @@ object TracingStatusHelper {
     const val TRACING_INACTIVE = 1
     const val BLUETOOTH = 2
     const val CONNECTION = 3
+    const val LOCATION = 4
 }
 
 /**
  * The following table explains the different stati which can appear in the ui.
- * This follows this prioritization: Tracing, Bluetooth, Connection
+ * This follows this prioritization: Tracing, Bluetooth, Connection, Location
  * Connection will only be relevant in one exact case, Bluetooth is relevant in two different cases,
- * but independently from the Connection status. And in every other case Tracing will be shown.
+ * but independently from the Connection status. And in every other case Tracing will be shown
+ *  except when location is disabled in which case a location related warning will always be shown as it is required for bluetooth tracing.
  *
  * | Tracing | Bluetooth | Connection | Result     |
  * |---------|-----------|------------|------------|
@@ -28,6 +30,8 @@ object TracingStatusHelper {
  * | ON      | OFF       | OFF        | BLUETOOTH  |
  * | ON      | ON        | OFF        | CONNECTION |
  * *circle has to be disabled via another formatter
+ *
+ * NB --- If location is disabled, the status will always show a location related warning, regardless of the other connectivity states.
  *
  * @param tracing
  * @param bluetooth
