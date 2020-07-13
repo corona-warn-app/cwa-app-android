@@ -33,8 +33,9 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 33
-        versionName "1.0.6"
+        versionCode 35
+        versionName "1.2.0"
+        
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
         resConfigs "de", "en", "tr"
@@ -124,13 +125,8 @@ android {
     }
 
     buildFeatures {
-        dataBinding {
-            enabled true
-        }
-
-        viewBinding {
-            enabled true
-        }
+        dataBinding true
+        viewBinding true
     }
 
     compileOptions {

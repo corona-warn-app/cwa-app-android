@@ -173,6 +173,8 @@
     <string name="risk_card_outdated_risk_headline">"Risiko-Ermittlung nicht möglich"</string>
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
+    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
+    <string name="risk_card_outdated_manual_risk_body">Ihre Risiko-Berechnung wurde seit mehr als 48 Stunden nicht aktualisiert. Bitte aktualisieren Sie die Berechnung.</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Prüfung läuft …"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
@@ -964,6 +966,8 @@
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die "Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten" und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
+    <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
+    <string name="errors_google_api_error">"Ihre Corona-Warn-App läuft fehlerfrei. Leider können Sie Ihren Risikostatus im Moment nicht aktualisieren. Ihre Risiko-Ermittlung ist weiterhin aktiv und funktioniert. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
