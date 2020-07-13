@@ -113,6 +113,8 @@ fun formatTracingDescription(tracing: Boolean, bluetooth: Boolean, connection: B
             appContext.getString(R.string.settings_tracing_body_connection_inactive)
         TracingStatusHelper.BLUETOOTH ->
             appContext.getString(R.string.settings_tracing_body_bluetooth_inactive)
+        TracingStatusHelper.LOCATION ->
+            appContext.getString(R.string.settings_tracing_body_inactive_location)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getString(R.string.settings_tracing_body_active)
         TracingStatusHelper.TRACING_INACTIVE ->
