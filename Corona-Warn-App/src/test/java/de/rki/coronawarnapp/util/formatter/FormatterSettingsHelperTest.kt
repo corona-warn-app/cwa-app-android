@@ -505,7 +505,7 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bConnection = false,
             bLocation = true,
-            iValue = R.string.settings_tracing_body_bluetooth_inactive
+            iValue = R.string.settings_tracing_body_connection_inactive
         )
 
         // When tracing is true, bluetooth is true, connection is false, location is true
