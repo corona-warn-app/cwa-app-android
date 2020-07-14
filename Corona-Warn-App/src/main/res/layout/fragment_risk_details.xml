@@ -120,13 +120,14 @@
                 <TextView
                     android:id="@+id/risk_details_behavior_headline"
                     style="@style/headline5"
-                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
-                    android:text="@string/risk_details_headline_behavior"
+                    android:layout_marginTop="28dp"
+                    android:accessibilityHeading="true"
                     android:focusable="true"
+                    android:text="@string/risk_details_headline_behavior"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/risk_details_risk_card" />
 
@@ -179,6 +180,19 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <include
+                    android:id="@+id/risk_details_behavior_increased_risk_3"
+                    layout="@layout/include_risk_details_period_logged_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:visibility="@{FormatterRiskHelper.formatVisibilityBehaviorPeriodLogged(tracingViewModel.riskLevel)}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wrapper"
+                    app:tracingViewModel="@{tracingViewModel}" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/risk_details_body"
                     style="@style/greyBodyBackground"
@@ -186,7 +200,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wrapper">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/risk_details_information_headline"

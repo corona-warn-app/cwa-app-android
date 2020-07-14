@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
+
+        <variable
+            name="riskLevel"
+            type="Integer" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/risk_details_period_logged_body_notice"
+            style="@style/body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:focusable="true"
+            android:text="@string/risk_details_information_body_period_logged"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_body_notice">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/risk_details_behavior_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <de.rki.coronawarnapp.ui.view.CircleProgress
+                    android:id="@+id/risk_details_investigation_period_circle_progress"
+                    android:layout_width="@dimen/spacing_huge"
+                    android:layout_height="@dimen/spacing_huge"
+                    android:importantForAccessibility="no"
+                    app:circleWidth="@dimen/circle_large_width"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:text="@{FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriodLogged(tracingViewModel.riskLevel, tracingViewModel.activeTracingDaysInRetentionPeriod)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/risk_details_behavior_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

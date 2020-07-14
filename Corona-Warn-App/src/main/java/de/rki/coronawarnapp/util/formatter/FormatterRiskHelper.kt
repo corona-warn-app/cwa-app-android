@@ -211,6 +211,29 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     }
 }
 
+/**
+ * Formats the risk card text display of tracing active duration in days depending on risk level
+ * Special case for increased risk as it is then only displayed on risk detail view
+ *
+ * @param riskLevelScore
+ * @param showDetails
+ * @param activeTracingDaysInRetentionPeriod
+ * @return
+ */
+fun formatRiskActiveTracingDaysInRetentionPeriodLogged(
+    riskLevelScore: Int?,
+    activeTracingDaysInRetentionPeriod: Long
+): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    var periodLoggedString :String =""
+      if (riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK || riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
+          periodLoggedString = appContext.getString(
+              R.string.risk_details_information_body_period_logged_assessment
+          ).format(activeTracingDaysInRetentionPeriod)
+      }
+    return periodLoggedString
+}
+
 fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
     DateUtils.getRelativeDateTimeString(
         appContext,
@@ -525,6 +548,16 @@ fun formatVisibilityBehavior(riskLevelScore: Int?): Int =
  */
 fun formatVisibilityBehaviorIncreasedRisk(riskLevelScore: Int?): Int =
     formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK)
+
+/**
+ * Format the risk details include display for suggested behavior depending on risk level
+ * Only applied in special case for increased risk
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatVisibilityBehaviorPeriodLogged(riskLevelScore: Int?): Int =
+    formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK || riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
 
 /**
  * Formats the risk details suggested behavior icon color depending on risk level

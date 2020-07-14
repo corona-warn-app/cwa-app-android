@@ -113,40 +113,18 @@
                         app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <include
                         android:id="@+id/settings_tracing_status_tracing"
-                        android:layout_width="@dimen/match_constraint"
+                        layout="@layout/include_risk_details_period_logged_progress"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_tiny"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         android:focusable="true"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/settings_tracing_status_tracing_body"
-                            style="@style/body2Medium"
-                            android:layout_width="@dimen/match_constraint"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/spacing_small"
-                            android:text="@{FormatterSettingsHelper.formatTracingStatusBody(tracingViewModel.activeTracingDaysInRetentionPeriod)}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/settings_tracing_status_tracing_circle_progress"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <de.rki.coronawarnapp.ui.view.CircleProgress
-                            android:id="@+id/settings_tracing_status_tracing_circle_progress"
-                            android:layout_width="@dimen/spacing_huge"
-                            android:layout_height="@dimen/spacing_huge"
-                            android:importantForAccessibility="no"
-                            app:circleWidth="@dimen/circle_large_width"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tracingViewModel="@{tracingViewModel}"
+                        app:riskLevel="@{tracingViewModel.riskLevel}" />
 
                     <include layout="@layout/merge_guidelines_card" />
 
