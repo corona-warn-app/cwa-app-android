@@ -69,7 +69,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
         setContentDescription()
-        
+
         showOneTimeTracingExplanationDialog()
     }
 
@@ -183,7 +183,6 @@ class MainFragment : Fragment() {
 
         // check if the dialog explaining the tracing time was already shown
         if (!LocalData.tracingExplanationDialogWasShown()) {
-
 
             val activity = this.requireActivity()
 
