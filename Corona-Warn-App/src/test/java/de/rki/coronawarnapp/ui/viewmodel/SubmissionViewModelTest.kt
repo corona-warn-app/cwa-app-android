@@ -16,7 +16,8 @@ import org.junit.Test
 class SubmissionViewModelTest {
     private var viewModel: SubmissionViewModel = SubmissionViewModel()
 
-    @JvmField @Rule
+    @JvmField
+    @Rule
     var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before

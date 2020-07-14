@@ -7,12 +7,18 @@ import org.junit.Test
 class BackgroundWorkHelperTest {
     @Test
     fun getDiagnosisKeyRetrievalPeriodicWorkTimeInterval() {
-        Assert.assertEquals(BackgroundWorkHelper.getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), 120)
+        Assert.assertEquals(
+            BackgroundWorkHelper.getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(),
+            120
+        )
     }
 
     @Test
     fun getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval() {
-        Assert.assertEquals(BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(), 120)
+        Assert.assertEquals(
+            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(),
+            120
+        )
     }
 
     @Test
