@@ -82,7 +82,7 @@ fun formatTracingStatusText(tracing: Boolean, bluetooth: Boolean, connection: Bo
             appContext.getString(R.string.settings_tracing_status_restricted)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getString(R.string.settings_tracing_status_active)
-        TracingStatusHelper.TRACING_INACTIVE, TracingStatusHelper.LOCATION  ->
+        TracingStatusHelper.TRACING_INACTIVE, TracingStatusHelper.LOCATION ->
             appContext.getString(R.string.settings_tracing_status_inactive)
         else -> ""
     }
