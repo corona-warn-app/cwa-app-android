@@ -14,7 +14,10 @@ class ReportingConstantsTest {
         Assert.assertEquals(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, "message")
         Assert.assertEquals(ReportingConstants.ERROR_REPORT_STACK_EXTRA, "stack")
         Assert.assertEquals(ReportingConstants.ERROR_REPORT_CODE_EXTRA, "code")
-        Assert.assertEquals(ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE, "api-exception-code")
+        Assert.assertEquals(
+            ReportingConstants.ERROR_REPORT_API_EXCEPTION_CODE,
+            "api-exception-code"
+        )
         Assert.assertEquals(ReportingConstants.ERROR_REPORT_RES_ID, "res-id")
         Assert.assertEquals(ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED, 17)
         Assert.assertEquals(ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT, 39508)
