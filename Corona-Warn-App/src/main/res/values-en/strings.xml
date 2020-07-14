@@ -293,6 +293,14 @@
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
+    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Period logged"</string>
+    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the last 14 days. During this time, the logging feature on your device was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
