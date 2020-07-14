@@ -82,7 +82,7 @@ fun formatTracingStatusText(tracing: Boolean, bluetooth: Boolean, connection: Bo
             appContext.getString(R.string.settings_tracing_status_restricted)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getString(R.string.settings_tracing_status_active)
-        TracingStatusHelper.TRACING_INACTIVE ->
+        TracingStatusHelper.TRACING_INACTIVE, TracingStatusHelper.LOCATION  ->
             appContext.getString(R.string.settings_tracing_status_inactive)
         else -> ""
     }
@@ -146,6 +146,9 @@ fun formatTracingContentDescription(
                     " " + appContext.getString(R.string.accessibility_button)
         TracingStatusHelper.BLUETOOTH ->
             appContext.getString(R.string.settings_tracing_body_bluetooth_inactive) +
+                    " " + appContext.getString(R.string.accessibility_button)
+        TracingStatusHelper.LOCATION ->
+            appContext.getString(R.string.settings_tracing_body_inactive_location) +
                     " " + appContext.getString(R.string.accessibility_button)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getString(R.string.settings_tracing_body_active) +
@@ -277,7 +280,7 @@ fun formatSettingsTracingIconColor(tracing: Boolean, bluetooth: Boolean, connect
             appContext.getColor(R.color.colorTextPrimary3)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getColor(R.color.colorAccentTintIcon)
-        TracingStatusHelper.TRACING_INACTIVE ->
+        TracingStatusHelper.TRACING_INACTIVE, TracingStatusHelper.LOCATION ->
             appContext.getColor(R.color.colorTextSemanticRed)
         else -> appContext.getColor(R.color.colorTextSemanticRed)
     }
@@ -304,6 +307,8 @@ fun formatSettingsTracingIcon(
         TracingStatusHelper.BLUETOOTH,
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getDrawable(R.drawable.ic_settings_tracing_active_small)
+        TracingStatusHelper.LOCATION ->
+            appContext.getDrawable(R.drawable.ic_settings_location_inactive_small)
         TracingStatusHelper.TRACING_INACTIVE ->
             appContext.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
         else -> appContext.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
@@ -378,6 +383,7 @@ fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, connection: Boolean,
     return when (tracingStatusHelper(tracing, bluetooth, connection, location)) {
         TracingStatusHelper.BLUETOOTH -> R.drawable.ic_settings_tracing_bluetooth_inactive
         TracingStatusHelper.CONNECTION -> R.drawable.ic_settings_tracing_connection_inactive
+        TracingStatusHelper.LOCATION -> R.drawable.ic_settings_location_inactive_small
         TracingStatusHelper.TRACING_ACTIVE -> R.raw.ic_settings_tracing_animated
         else -> R.drawable.ic_settings_tracing_inactive
     }

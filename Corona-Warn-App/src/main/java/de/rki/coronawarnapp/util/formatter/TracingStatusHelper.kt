@@ -48,6 +48,8 @@ fun tracingStatusHelper(tracing: Boolean, bluetooth: Boolean, connection: Boolea
         TracingStatusHelper.BLUETOOTH
     } else if (tracing && !location) {
         TracingStatusHelper.LOCATION
+    } else if (!location) {
+        TracingStatusHelper.LOCATION
     } else if (tracing) {
         TracingStatusHelper.TRACING_ACTIVE
     } else {
