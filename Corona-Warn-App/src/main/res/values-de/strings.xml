@@ -325,6 +325,11 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Ihr Risikostatus"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">Information zur Funktionsweise der Risiko-Ermittlung</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">Weitere Informationen finden Sie in den FAQ.</string>
+
     <!-- ####################################
               Onboarding
     ###################################### -->
