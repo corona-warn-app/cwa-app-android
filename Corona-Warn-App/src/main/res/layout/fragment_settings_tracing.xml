@@ -115,7 +115,7 @@
 
                     <include
                         android:id="@+id/settings_tracing_status_tracing"
-                        layout="@layout/include_risk_details_period_logged_progress"
+                        layout="@layout/include_setting_tracing_period_logged"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"

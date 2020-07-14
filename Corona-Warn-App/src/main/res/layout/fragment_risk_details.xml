@@ -181,7 +181,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
-                    android:id="@+id/risk_details_behavior_increased_risk_3"
+                    android:id="@+id/risk_details_period_logged_card"
                     layout="@layout/include_risk_details_period_logged_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_card">
 
                     <TextView
                         android:id="@+id/risk_details_information_headline"

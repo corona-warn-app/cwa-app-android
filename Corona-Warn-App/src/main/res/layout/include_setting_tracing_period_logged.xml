@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -7,6 +8,10 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
+
+        <variable
+            name="riskLevel"
+            type="Integer" />
 
         <variable
             name="tracingViewModel"
@@ -30,49 +35,24 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/risk_details_period_logged_headline"
-                style="@style/headline5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:focusable="false"
-                android:text="@string/risk_details_headline_period_logged"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/risk_details_period_logged_subtitle"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:focusable="false"
-                android:text="@string/risk_details_subtitle_period_logged"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_headline" />
-
-            <TextView
                 android:id="@+id/risk_details_period_logged_body_notice"
-                style="@style/body1"
+                style="@style/subtitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
                 android:text="@string/risk_details_information_body_period_logged"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_subtitle" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            android:id="@+id/risk_details_period_logged_progress"
+            android:id="@+id/risk_details_behavior_stay_home"
             layout="@layout/include_risk_details_period_logged_progress"
             android:layout_width="0dp"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_height="wrap_content"
-            android:focusable="true"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_layout"

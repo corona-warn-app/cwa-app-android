@@ -225,12 +225,13 @@ fun formatRiskActiveTracingDaysInRetentionPeriodLogged(
     activeTracingDaysInRetentionPeriod: Long
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    var periodLoggedString :String =""
-      if (riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK || riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
-          periodLoggedString = appContext.getString(
-              R.string.risk_details_information_body_period_logged_assessment
-          ).format(activeTracingDaysInRetentionPeriod)
-      }
+    var periodLoggedString = ""
+        if (riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK ||
+            riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
+            periodLoggedString = appContext.getString(
+                R.string.risk_details_information_body_period_logged_assessment
+            ).format(activeTracingDaysInRetentionPeriod)
+        }
     return periodLoggedString
 }
 
