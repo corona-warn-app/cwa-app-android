@@ -60,6 +60,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Register location callback.
+     */
+    private val callbackLocation = object : ConnectivityHelper.LocationCallback() {
+        override fun onLocationAvailable() {
+            settingsViewModel.updateLocationEnabled(true)
+        }
+
+        override fun onLocationUnavailable() {
+            settingsViewModel.updateLocationEnabled(false)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -73,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
+        ConnectivityHelper.registerLocationStatusCallback(this, callbackLocation)
         settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
         scheduleWork()
     }
@@ -84,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         ConnectivityHelper.unregisterNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.unregisterBluetoothStatusCallback(this, callbackBluetooth)
+        ConnectivityHelper.unregisterLocationStatusCallback(this, callbackLocation)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
