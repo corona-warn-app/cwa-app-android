@@ -212,11 +212,10 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
 }
 
 /**
- * Formats the risk card text display of tracing active duration in days depending on risk level
- * Special case for increased risk as it is then only displayed on risk detail view
+ * Formats the risk loggin period card text display of tracing active duration in days depending on risk level
+ * Displayed in case riskLevel is High and Low level
  *
  * @param riskLevelScore
- * @param showDetails
  * @param activeTracingDaysInRetentionPeriod
  * @return
  */
@@ -551,14 +550,16 @@ fun formatVisibilityBehaviorIncreasedRisk(riskLevelScore: Int?): Int =
     formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK)
 
 /**
- * Format the risk details include display for suggested behavior depending on risk level
- * Only applied in special case for increased risk
+ * Format the risk details period logged card display  depending on risk level
+ * applied in case of low and high risk levels
  *
  * @param riskLevelScore
  * @return
  */
 fun formatVisibilityBehaviorPeriodLogged(riskLevelScore: Int?): Int =
-    formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK || riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
+    formatVisibility(
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+                riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
 
 /**
  * Formats the risk details suggested behavior icon color depending on risk level
