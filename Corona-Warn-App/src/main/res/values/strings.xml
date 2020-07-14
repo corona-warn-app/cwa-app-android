@@ -427,6 +427,8 @@
     <string name="settings_tracing_body_active">"Exposure logging active"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Exposure logging stopped"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Location services disabled"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Exposure logging works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. This feature can be deactivated at any time. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity (calculated using signal strength) to other people. Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
