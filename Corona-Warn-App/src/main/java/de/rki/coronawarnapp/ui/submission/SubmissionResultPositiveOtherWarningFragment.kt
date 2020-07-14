@@ -129,10 +129,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
         submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
-                findNavController().doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
-                )
+                navigateToSubmissionDoneFragment()
             }
         })
     }
@@ -150,6 +147,16 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
         findNavController().doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
+        )
+
+    /**
+     * Navigate to submission done Fragment
+     * @see SubmissionDoneFragment
+     */
+    private fun navigateToSubmissionDoneFragment() =
+        findNavController().doNavigate(
+            SubmissionResultPositiveOtherWarningFragmentDirections
+                .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
         )
 
     private fun initiateWarningOthers() {
@@ -177,7 +184,11 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     // InternalExposureNotificationPermissionHelper - callbacks
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
-        submissionViewModel.submitDiagnosisKeys(keys)
+        if (keys.isNotEmpty()) {
+            submissionViewModel.submitDiagnosisKeys(keys)
+        } else {
+            navigateToSubmissionDoneFragment()
+        }
     }
 
     override fun onFailure(exception: Exception?) {

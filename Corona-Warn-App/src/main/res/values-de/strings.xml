@@ -135,6 +135,10 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s Risiko-Begegnung"</item>
         <item quantity="other">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="zero">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="two">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="few">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="many">"%1$s Risiko-Begegnungen"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"%1$s von 14 Tagen aktiv"</string>
@@ -160,6 +164,10 @@
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s Tag seit der letzten Begegnung"</item>
         <item quantity="other">"%1$s Tage seit der letzten Begegnung"</item>
+        <item quantity="zero">"%1$s Tage seit der letzten Begegnung"</item>
+        <item quantity="two">"%1$s Tage seit der letzten Begegnung"</item>
+        <item quantity="few">"%1$s Tage seit der letzten Begegnung"</item>
+        <item quantity="many">"%1$s Tage seit der letzten Begegnung"</item>
     </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">"Unbekanntes Risiko"</string>
@@ -259,7 +267,7 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Zufallscode"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallscodes lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen CWA-Nutzern teilen."</string>
+    <string name="main_overview_body_glossary_keys">"Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallscodes lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen App-Nutzern teilen."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Ein Smartphone zeigt unterschiedliche Inhalte, die von eins bis drei nummeriert sind."</string>
     <!-- XACT: App main page title -->
@@ -309,6 +317,10 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
         <item quantity="other">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="zero">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="two">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="few">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="many">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
@@ -457,6 +469,10 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Die Risiko-Ermittlung ist seit insgesamt einem Tag aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
         <item quantity="other">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
+        <item quantity="zero">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
+        <item quantity="two">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
+        <item quantity="few">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
+        <item quantity="many">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
@@ -486,7 +502,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres COVID-19 Tests"</string>
+    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
@@ -837,9 +853,9 @@
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich ihre Krankheitszeichen entwickeln."</item>
+        <item>"Ihre Quarantänezeit beträgt im Regelfall 14 Tage. Beobachten und erfassen Sie genau, wie sich Ihre Krankheitszeichen entwickeln."</item>
         <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Dabei sollen alle Personen erfasst werden, mit denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten."</item>
-        <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone oder die App haben."</item>
+        <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
         <item>"Auch wenn Sie keine Krankheitszeichen mehr haben und sich wieder gesund fühlen, könnten Sie noch ansteckend sein."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
@@ -967,7 +983,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Diese Aktion ist aktuell leider nicht verfügbar. Bitte kontaktieren Sie die Hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlen Ihrem Smartphone die "Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten" und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
+    <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlt dem Betriebssystem Ihres Smartphones der Dienst „Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten“ und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"Ihre Corona-Warn-App läuft fehlerfrei. Leider können Sie Ihren Risikostatus im Moment nicht aktualisieren. Ihre Risiko-Ermittlung ist weiterhin aktiv und funktioniert. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
 
