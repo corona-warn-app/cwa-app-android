@@ -429,6 +429,8 @@
     <string name="settings_tracing_status_active">"Etkin"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_inactive">"Durduruldu"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Konum hizmetleri devre dışı"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Sınırlı"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
