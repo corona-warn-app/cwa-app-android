@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -20,6 +21,7 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
  * @see ConnectivityHelper
  * @see BackgroundWorkScheduler
  */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG: String? = MainActivity::class.simpleName

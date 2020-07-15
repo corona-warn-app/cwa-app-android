@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
  *
  * @see LocalData
  */
+@AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
     companion object {
         private val TAG: String? = OnboardingActivity::class.simpleName
