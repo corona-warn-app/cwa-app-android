@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,7 +32,11 @@ import java.util.Date
  * @see TracingRepository
  * @see RiskLevelRepository
  */
-class TracingViewModel : ViewModel() {
+class TracingViewModel @ViewModelInject constructor(
+    val tracingRepository: TracingRepository,
+    val retrieveDiagnosisKeysTransaction: RetrieveDiagnosisKeysTransaction,
+    val riskLevelTransaction: RiskLevelTransaction
+) : ViewModel() {
 
     companion object {
         val TAG: String? = TracingViewModel::class.simpleName
@@ -48,10 +53,10 @@ class TracingViewModel : ViewModel() {
 
     // Values from TracingRepository
     val lastTimeDiagnosisKeysFetched: LiveData<Date> =
-        TracingRepository.lastTimeDiagnosisKeysFetched
-    val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
-    val activeTracingDaysInRetentionPeriod = TracingRepository.activeTracingDaysInRetentionPeriod
-    var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
+        tracingRepository.lastTimeDiagnosisKeysFetched
+    val isTracingEnabled: LiveData<Boolean?> = tracingRepository.isTracingEnabled
+    val activeTracingDaysInRetentionPeriod = tracingRepository.activeTracingDaysInRetentionPeriod
+    var isRefreshing: LiveData<Boolean> = tracingRepository.isRefreshing
 
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
@@ -89,10 +94,10 @@ class TracingViewModel : ViewModel() {
                 Timber.v("Background jobs are enabled $isBackgroundJobEnabled")
 
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
-                    TracingRepository.isRefreshing.value = true
+                    tracingRepository.isRefreshing.value = true
 
                     // start the fetching and submitting of the diagnosis keys
-                    RetrieveDiagnosisKeysTransaction.start()
+                    retrieveDiagnosisKeysTransaction.start()
                     refreshLastTimeDiagnosisKeysFetchedDate()
                     TimerHelper.checkManualKeyRetrievalTimer()
                 }
@@ -104,14 +109,14 @@ class TracingViewModel : ViewModel() {
 
             // refresh the risk level
             try {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
             } catch (e: Exception) {
                 e.report(INTERNAL)
             }
 
-            TracingRepository.isRefreshing.value = false
+            tracingRepository.isRefreshing.value = false
         }
     }
 
@@ -121,7 +126,7 @@ class TracingViewModel : ViewModel() {
      * @see TracingRepository
      */
     fun refreshLastTimeDiagnosisKeysFetchedDate() {
-        TracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
+        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
     }
 
     /**
@@ -131,7 +136,7 @@ class TracingViewModel : ViewModel() {
      */
     fun refreshDiagnosisKeys() {
         this.viewModelScope.launch {
-            TracingRepository.refreshDiagnosisKeys()
+            tracingRepository.refreshDiagnosisKeys()
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -143,7 +148,7 @@ class TracingViewModel : ViewModel() {
      */
     fun refreshIsTracingEnabled() {
         viewModelScope.launch {
-            TracingRepository.refreshIsTracingEnabled()
+            tracingRepository.refreshIsTracingEnabled()
         }
     }
 
@@ -178,7 +183,7 @@ class TracingViewModel : ViewModel() {
      */
     fun refreshActiveTracingDaysInRetentionPeriod() {
         viewModelScope.launch {
-            TracingRepository.refreshActiveTracingDaysInRetentionPeriod()
+            tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         }
     }
 

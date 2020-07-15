@@ -83,6 +83,7 @@ import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.UUID
+import javax.inject.Inject
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
@@ -99,6 +100,12 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             return Gson().fromJson(json, listType)
         }
     }
+
+    @Inject
+    lateinit var applicationConfigurationService: ApplicationConfigurationService
+
+    @Inject
+    lateinit var riskLevelTransaction: RiskLevelTransaction
 
     private var myExposureKeysJSON: String? = null
     private var myExposureKeys: List<TemporaryExposureKey>? = mutableListOf()
@@ -218,7 +225,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         button_calculate_risk_level.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 try {
-                    RiskLevelTransaction.start()
+                    riskLevelTransaction.start()
                 } catch (e: TransactionException) {
                     e.report(INTERNAL)
                 }
@@ -372,7 +379,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                         googleFileList,
-                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
+                        applicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token!!
                     )
                     showToast("Provided ${appleKeyList.size} keys to Google API with token $token")

@@ -12,7 +12,10 @@ import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigur
 import de.rki.coronawarnapp.ui.LauncherActivity
 import timber.log.Timber
 
-class UpdateChecker(private val activity: LauncherActivity) {
+class UpdateChecker(
+    private val activity: LauncherActivity,
+    private val applicationConfigurationService: ApplicationConfigurationService
+) {
 
     companion object {
         val TAG: String? = UpdateChecker::class.simpleName
@@ -67,7 +70,7 @@ class UpdateChecker(private val activity: LauncherActivity) {
 
     private suspend fun checkIfUpdatesNeededFromServer(): Boolean {
         val applicationConfigurationFromServer =
-            ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+            applicationConfigurationService.asyncRetrieveApplicationConfiguration()
 
         val minVersionFromServer = applicationConfigurationFromServer.appVersion.android.min
         val minVersionFromServerString =

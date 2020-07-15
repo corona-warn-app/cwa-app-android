@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import timber.log.Timber
@@ -12,8 +14,10 @@ import timber.log.Timber
  * @see BackgroundWorkScheduler
  * @see DiagnosisKeyRetrievalOneTimeWorker
  */
-class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(context, workerParams) {
+class DiagnosisKeyRetrievalPeriodicWorker @WorkerInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     companion object {
         private val TAG: String? = DiagnosisKeyRetrievalPeriodicWorker::class.simpleName

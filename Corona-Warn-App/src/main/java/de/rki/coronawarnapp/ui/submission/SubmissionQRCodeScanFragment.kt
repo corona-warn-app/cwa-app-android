@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -29,6 +30,7 @@ import de.rki.coronawarnapp.util.observeEvent
 /**
  * A simple [Fragment] subclass.
  */
+@AndroidEntryPoint
 class SubmissionQRCodeScanFragment : Fragment() {
 
     companion object {

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.storage.LocalData
@@ -16,8 +18,11 @@ import timber.log.Timber
  *
  * @see BackgroundWorkScheduler
  */
-class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(context, workerParams) {
+class DiagnosisKeyRetrievalOneTimeWorker @WorkerInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters,
+    val retrieveDiagnosisKeysTransaction: RetrieveDiagnosisKeysTransaction
+) : CoroutineWorker(context, workerParams) {
 
     companion object {
         private val TAG: String? = DiagnosisKeyRetrievalOneTimeWorker::class.simpleName
@@ -43,7 +48,7 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
             if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
                 currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
             ) {
-                RetrieveDiagnosisKeysTransaction.start()
+                retrieveDiagnosisKeysTransaction.start()
             }
         } catch (e: Exception) {
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {

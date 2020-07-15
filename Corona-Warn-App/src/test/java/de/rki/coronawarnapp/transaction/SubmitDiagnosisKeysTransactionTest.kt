@@ -2,15 +2,19 @@ package de.rki.coronawarnapp.transaction
 
 import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.http.responses.TanResponse
+import de.rki.coronawarnapp.http.service.SubmissionService
+import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
-import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkAll
@@ -24,27 +28,38 @@ import org.junit.Test
 class SubmitDiagnosisKeysTransactionTest {
     private val authString = "authString"
 
+    private lateinit var submitDiagnosisKeysTransaction: SubmitDiagnosisKeysTransaction
+
+    @MockK
+    private lateinit var submissionService: SubmissionService
+
+    @MockK
+    private lateinit var verificationService: VerificationService
+
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
+
         mockkObject(LocalData)
-        mockkObject(SubmissionService)
         mockkObject(InternalExposureNotificationClient)
-        mockkObject(DiagnosisKeyService)
         every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
-        coEvery { SubmissionService.asyncRequestAuthCode(any()) } returns authString
+        coEvery { verificationService.getTAN(any(), any(), any()) } returns TanResponse(authString)
+
+        submitDiagnosisKeysTransaction =
+            SubmitDiagnosisKeysTransaction(submissionService, verificationService)
     }
 
     @Test
     fun testTransactionNoKeys() {
         coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf()
-        coEvery { DiagnosisKeyService.asyncSubmitKeys(authString, listOf()) } just Runs
+        coEvery { submissionService.submitKeys(any(), authString, any(), any()) } returns mockk()
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start("123", listOf())
+            submitDiagnosisKeysTransaction.start("123", listOf())
 
             coVerifyOrder {
-                DiagnosisKeyService.asyncSubmitKeys(authString, listOf())
-                SubmissionService.submissionSuccessful()
+                submissionService.submitKeys(any(), authString, any(), any())
+                LocalData.numberOfSuccessfulSubmissions(1)
             }
         }
     }
@@ -57,21 +72,28 @@ class SubmitDiagnosisKeysTransactionTest {
             .setRollingStartIntervalNumber(1)
             .setTransmissionRiskLevel(1)
             .build()
-        val testList = slot<List<KeyExportFormat.TemporaryExposureKey>>()
+        val testList = slot<KeyExportFormat.SubmissionPayload>()
         coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf(
             key
         )
-        coEvery { DiagnosisKeyService.asyncSubmitKeys(authString, capture(testList)) } just Runs
+        coEvery {
+            submissionService.submitKeys(
+                any(),
+                authString,
+                any(),
+                capture(testList)
+            )
+        } returns mockk()
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start("123", listOf(key))
+            submitDiagnosisKeysTransaction.start("123", listOf(key))
 
             coVerifyOrder {
-                DiagnosisKeyService.asyncSubmitKeys(authString, any())
-                SubmissionService.submissionSuccessful()
+                submissionService.submitKeys(any(), authString, any(), any())
+                LocalData.numberOfSuccessfulSubmissions(1)
             }
             assertThat(testList.isCaptured, `is`(true))
-            assertThat(testList.captured.size, `is`(1))
+            assertThat(testList.captured.keysList.size, `is`(1))
         }
     }
 

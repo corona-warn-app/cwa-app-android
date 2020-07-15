@@ -29,6 +29,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.spyk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -39,26 +40,31 @@ import java.util.concurrent.TimeUnit
 class RiskLevelTransactionTest {
 
     @MockK
+    lateinit var applicationConfigurationService: ApplicationConfigurationService
+
+    @MockK
     private lateinit var esRepositoryMock: ExposureSummaryRepository
 
     @MockK
     private lateinit var context: Context
+
+    private lateinit var riskLevelTransaction: RiskLevelTransaction
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
         mockkObject(InternalExposureNotificationClient)
-        mockkObject(ApplicationConfigurationService)
         mockkObject(LocalData)
         every { LocalData.lastSuccessfullyCalculatedRiskLevel() } returns UNDETERMINED
         mockkObject(RiskLevelRepository)
-        mockkObject(RiskLevelTransaction)
         mockkObject(TimeVariables)
         mockkObject(ExposureSummaryRepository.Companion)
         mockkObject(RiskLevel.Companion)
         mockkObject(ConnectivityHelper)
         mockkObject(CoronaWarnApplication)
+
+        riskLevelTransaction = spyk(RiskLevelTransaction(applicationConfigurationService))
 
         every { ExposureSummaryRepository.getExposureSummaryRepository() } returns esRepositoryMock
 
@@ -83,17 +89,17 @@ class RiskLevelTransactionTest {
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](testRiskLevel)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -112,20 +118,20 @@ class RiskLevelTransactionTest {
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](testRiskLevel)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -156,23 +162,23 @@ class RiskLevelTransactionTest {
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
-                RiskLevelTransaction["isValidResult"](testRiskLevel)
+                riskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                riskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -204,23 +210,23 @@ class RiskLevelTransactionTest {
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
-                RiskLevelTransaction["isValidResult"](testRiskLevel)
+                riskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                riskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -246,40 +252,40 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(2)
 
         // the risk score of the last exposure summary is above the high min threshold
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
+        coEvery { applicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckAppConnectivity"]()
+                riskLevelTransaction["executeCheckAppConnectivity"]()
 
-                RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
+                riskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
-                RiskLevelTransaction["executeRetrieveExposureSummary"]()
+                riskLevelTransaction["executeRetrieveExposureSummary"]()
 
-                RiskLevelTransaction["executeCheckIncreasedRisk"](
+                riskLevelTransaction["executeCheckIncreasedRisk"](
                     testAppConfig,
                     testExposureSummary
                 )
-                RiskLevelTransaction["isValidResult"](testRiskLevel)
+                riskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -308,43 +314,43 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursBelowMinActiveTracingDuration
 
         // the exposure summary risk score is not below high min score
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
+        coEvery { applicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckAppConnectivity"]()
+                riskLevelTransaction["executeCheckAppConnectivity"]()
 
-                RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
+                riskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
-                RiskLevelTransaction["executeRetrieveExposureSummary"]()
+                riskLevelTransaction["executeRetrieveExposureSummary"]()
 
-                RiskLevelTransaction["executeCheckIncreasedRisk"](
+                riskLevelTransaction["executeCheckIncreasedRisk"](
                     testAppConfig,
                     testExposureSummary
                 )
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialTracingDuration"]()
-                RiskLevelTransaction["isValidResult"](testRiskLevel)
+                riskLevelTransaction["executeCheckUnknownRiskInitialTracingDuration"]()
+                riskLevelTransaction["isValidResult"](testRiskLevel)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -372,43 +378,43 @@ class RiskLevelTransactionTest {
         // the active tracing duration is above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
+        coEvery { applicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
         coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckAppConnectivity"]()
+                riskLevelTransaction["executeCheckAppConnectivity"]()
 
-                RiskLevelTransaction["executeRetrieveApplicationConfiguration"]()
+                riskLevelTransaction["executeRetrieveApplicationConfiguration"]()
 
-                RiskLevelTransaction["executeRetrieveExposureSummary"]()
+                riskLevelTransaction["executeRetrieveExposureSummary"]()
 
-                RiskLevelTransaction["executeCheckIncreasedRisk"](
+                riskLevelTransaction["executeCheckIncreasedRisk"](
                     testAppConfig,
                     testExposureSummary
                 )
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialTracingDuration"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialTracingDuration"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
                 RiskLevelRepository.setRiskLevelScore(testRiskLevel)
-                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }
@@ -437,23 +443,23 @@ class RiskLevelTransactionTest {
 
         runBlocking {
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
 
             coVerifyOrder {
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
 
-                RiskLevelTransaction["executeCheckTracing"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckTracing"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
-                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+                riskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                riskLevelTransaction["isValidResult"](UNDETERMINED)
 
-                RiskLevelTransaction["executeCheckAppConnectivity"]()
+                riskLevelTransaction["executeCheckAppConnectivity"]()
                 RiskLevelRepository.setLastCalculatedRiskLevelAsCurrent()
-                RiskLevelTransaction["executeClose"]()
+                riskLevelTransaction["executeClose"]()
             }
         }
     }

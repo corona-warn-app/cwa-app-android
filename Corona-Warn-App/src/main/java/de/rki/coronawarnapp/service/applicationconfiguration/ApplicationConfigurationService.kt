@@ -1,12 +1,52 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.http.WebRequestBuilder
+import com.google.protobuf.InvalidProtocolBufferException
+import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
+import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
+import de.rki.coronawarnapp.util.ZipHelper.unzip
+import de.rki.coronawarnapp.util.security.VerificationKeys
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-object ApplicationConfigurationService {
+private const val EXPORT_BINARY_FILE_NAME = "export.bin"
+private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
+
+class ApplicationConfigurationService @Inject constructor(
+    val distributionService: DistributionService,
+    val verificationKeys: VerificationKeys
+) {
+
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfiguration {
-        return WebRequestBuilder.getInstance().asyncGetApplicationConfigurationFromServer()
+        return withContext(Dispatchers.IO) {
+            var exportBinary: ByteArray? = null
+            var exportSignature: ByteArray? = null
+
+            distributionService.getApplicationConfiguration(
+                DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL
+            ).byteStream().unzip { entry, entryContent ->
+                if (entry.name == EXPORT_BINARY_FILE_NAME) exportBinary = entryContent.copyOf()
+                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature =
+                    entryContent.copyOf()
+            }
+            if (exportBinary == null || exportSignature == null) {
+                throw ApplicationConfigurationInvalidException()
+            }
+
+            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
+                throw ApplicationConfigurationCorruptException()
+            }
+
+            try {
+                return@withContext ApplicationConfiguration.parseFrom(exportBinary)
+            } catch (e: InvalidProtocolBufferException) {
+                throw ApplicationConfigurationInvalidException()
+            }
+        }
     }
 
     suspend fun asyncRetrieveExposureConfiguration(): ExposureConfiguration =

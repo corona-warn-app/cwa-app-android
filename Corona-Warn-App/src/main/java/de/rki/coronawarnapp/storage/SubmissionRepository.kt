@@ -7,10 +7,13 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import java.util.Date
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object SubmissionRepository {
-    private val TAG: String? = SubmissionRepository::class.simpleName
-
+@Singleton
+class SubmissionRepository @Inject constructor(
+    val submissionService: SubmissionService
+) {
     val testResultReceivedDate = MutableLiveData(Date())
     val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)
 
@@ -34,7 +37,7 @@ object SubmissionRepository {
 
     private suspend fun fetchTestResult(): DeviceUIState {
         try {
-            val testResult = SubmissionService.asyncRequestTestResult()
+            val testResult = submissionService.asyncRequestTestResult()
 
             if (testResult == TestResult.POSITIVE) {
                 LocalData.isAllowedToSubmitDiagnosisKeys(true)

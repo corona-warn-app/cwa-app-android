@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPe
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import java.util.Date
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The Tracing Repository refreshes and triggers all tracing relevant data. Some functions get their
@@ -19,9 +21,14 @@ import java.util.Date
  * @see RetrieveDiagnosisKeysTransaction
  * @see RiskLevelRepository
  */
-object TracingRepository {
 
-    private val TAG: String? = TracingRepository::class.simpleName
+@Singleton
+class TracingRepository @Inject constructor(
+    val retrieveDiagnosisKeysTransaction: RetrieveDiagnosisKeysTransaction,
+    val riskLevelTransaction: RiskLevelTransaction
+) {
+
+    private val tag: String? = TracingRepository::class.simpleName
 
     // public mutable live data
     val lastTimeDiagnosisKeysFetched = MutableLiveData<Date>()
@@ -51,8 +58,8 @@ object TracingRepository {
     suspend fun refreshDiagnosisKeys() {
         isRefreshing.value = true
         try {
-            RetrieveDiagnosisKeysTransaction.start()
-            RiskLevelTransaction.start()
+            retrieveDiagnosisKeysTransaction.start()
+            riskLevelTransaction.start()
         } catch (e: TransactionException) {
             e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
         } catch (e: Exception) {
@@ -76,7 +83,7 @@ object TracingRepository {
             isTracingEnabled.postValue(false)
             e.report(
                 ExceptionCategory.EXPOSURENOTIFICATION,
-                TAG,
+                tag,
                 null
             )
         }

@@ -1,8 +1,12 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
-import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.http.requests.TanRequestBody
+import de.rki.coronawarnapp.http.service.SubmissionService
+import de.rki.coronawarnapp.http.service.VerificationService
+import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
+import de.rki.coronawarnapp.service.submission.SubmissionConstants
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
@@ -10,6 +14,11 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.SUBMIT_KEYS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The SubmitDiagnosisKeysTransaction is used to define an atomic Transaction for Key Reports. Its states allow an
@@ -34,7 +43,11 @@ import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHist
  *
  * @throws de.rki.coronawarnapp.exception.TransactionException An Exception thrown when an error occurs during Transaction Execution
  */
-object SubmitDiagnosisKeysTransaction : Transaction() {
+@Singleton
+class SubmitDiagnosisKeysTransaction @Inject constructor(
+    val submissionService: SubmissionService,
+    val verificationService: VerificationService
+) : Transaction() {
 
     override val TAG: String? = SubmitDiagnosisKeysTransaction::class.simpleName
 
@@ -54,7 +67,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * RETRIEVE TAN
          ****************************************************/
         val authCode = executeState(RETRIEVE_TAN) {
-            SubmissionService.asyncRequestAuthCode(registrationToken)
+            asyncRequestAuthCode(registrationToken)
         }
 
         /****************************************************
@@ -68,17 +81,52 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * SUBMIT KEYS
          ****************************************************/
         executeState(SUBMIT_KEYS) {
-            DiagnosisKeyService.asyncSubmitKeys(authCode, temporaryExposureKeyList)
+            asyncSubmitKeys(authCode, temporaryExposureKeyList)
         }
         /****************************************************
          * STORE SUCCESS
          ****************************************************/
         executeState(STORE_SUCCESS) {
-            SubmissionService.submissionSuccessful()
+            setSubmissionSuccessful()
         }
         /****************************************************
          * CLOSE TRANSACTION
          ****************************************************/
         executeState(CLOSE) {}
+    }
+
+    private suspend fun asyncRequestAuthCode(registrationToken: String): String {
+        return withContext(Dispatchers.IO) {
+            verificationService.getTAN(
+                SubmissionConstants.TAN_REQUEST_URL, "0",
+                TanRequestBody(registrationToken)
+            ).tan
+        }
+    }
+
+    private fun setSubmissionSuccessful() {
+        LocalData.numberOfSuccessfulSubmissions(1)
+    }
+
+    private suspend fun asyncSubmitKeys(
+        authCode: String,
+        keysToReport: List<KeyExportFormat.TemporaryExposureKey>
+    ) {
+        Timber.d("Diagnosis Keys will be submitted.")
+        withContext(Dispatchers.IO) {
+            Timber.d("Writing ${keysToReport.size} Keys to the Submission Payload.")
+            val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
+                .addAllKeys(keysToReport)
+                .build()
+            var fakeHeader = "0"
+            if (false) fakeHeader = Math.random().toInt().toString()
+            submissionService.submitKeys(
+                DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
+                authCode,
+                fakeHeader,
+                submissionPayload
+            )
+            return@withContext
+        }
     }
 }

@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.util.observeEvent
 /**
  * A simple [Fragment] subclass.
  */
+@AndroidEntryPoint
 class SubmissionTestResultFragment : Fragment() {
     companion object {
         private val TAG: String? = SubmissionTanFragment::class.simpleName

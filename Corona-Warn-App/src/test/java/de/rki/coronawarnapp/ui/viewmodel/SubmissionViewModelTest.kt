@@ -1,11 +1,14 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import org.junit.Assert
 import org.junit.Before
@@ -14,7 +17,7 @@ import org.junit.Test
 
 
 class SubmissionViewModelTest {
-    private var viewModel: SubmissionViewModel = SubmissionViewModel()
+    private var viewModel: SubmissionViewModel = SubmissionViewModel(SubmissionRepository(mockk()), SubmissionService(mockk(), mockk()))
 
     @JvmField
     @Rule

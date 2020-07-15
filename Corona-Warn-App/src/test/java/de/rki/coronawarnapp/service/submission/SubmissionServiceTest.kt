@@ -2,13 +2,18 @@ package de.rki.coronawarnapp.service.submission
 
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.http.requests.RegistrationRequest
+import de.rki.coronawarnapp.http.responses.RegistrationTokenResponse
+import de.rki.coronawarnapp.http.responses.TestResultResponse
+import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
+import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -22,11 +27,21 @@ class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
 
+    @MockK
+    private lateinit var submitDiagnosisKeysTransaction: SubmitDiagnosisKeysTransaction
+
+    @MockK
+    private lateinit var verificationService: VerificationService
+
+    private lateinit var submissionService: SubmissionService
+
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
+
         mockkObject(LocalData)
-        mockkObject(WebRequestBuilder)
-        mockkObject(SubmitDiagnosisKeysTransaction)
+
+        submissionService = SubmissionService(submitDiagnosisKeysTransaction, verificationService)
 
         every { LocalData.teletan() } returns null
         every { LocalData.testGUID() } returns null
@@ -36,7 +51,7 @@ class SubmissionServiceTest {
     @Test(expected = NoGUIDOrTANSetException::class)
     fun registerDeviceWithoutTANOrGUIDFails() {
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            submissionService.asyncRegisterDevice()
         }
     }
 
@@ -49,12 +64,15 @@ class SubmissionServiceTest {
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
         coEvery {
-            WebRequestBuilder.getInstance()
-                .asyncGetRegistrationToken(any(), SubmissionConstants.QR_CODE_KEY_TYPE)
-        } returns registrationToken
+            verificationService.getRegistrationToken(
+                any(),
+                any(),
+                match { it.keyType == SubmissionConstants.QR_CODE_KEY_TYPE }
+            )
+        } returns RegistrationTokenResponse(registrationToken)
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            submissionService.asyncRegisterDevice()
         }
 
         verify(exactly = 1) {
@@ -73,12 +91,15 @@ class SubmissionServiceTest {
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
         coEvery {
-            WebRequestBuilder.getInstance()
-                .asyncGetRegistrationToken(any(), SubmissionConstants.TELE_TAN_KEY_TYPE)
-        } returns registrationToken
+            verificationService.getRegistrationToken(
+                any(),
+                any(),
+                match { it.keyType == SubmissionConstants.TELE_TAN_KEY_TYPE }
+            )
+        } returns RegistrationTokenResponse(registrationToken)
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            submissionService.asyncRegisterDevice()
         }
 
         verify(exactly = 1) {
@@ -91,7 +112,7 @@ class SubmissionServiceTest {
     @Test(expected = NoRegistrationTokenSetException::class)
     fun requestTestResultWithoutRegistrationTokenFails() {
         runBlocking {
-            SubmissionService.asyncRequestTestResult()
+            submissionService.asyncRequestTestResult()
         }
     }
 
@@ -99,28 +120,28 @@ class SubmissionServiceTest {
     fun requestTestResultSucceeds() {
         every { LocalData.registrationToken() } returns registrationToken
         coEvery {
-            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
-        } returns TestResult.NEGATIVE.value
+            verificationService.getTestResult(any(), any(), RegistrationRequest(registrationToken))
+        } returns TestResultResponse(TestResult.NEGATIVE.value)
 
         runBlocking {
-            assertThat(SubmissionService.asyncRequestTestResult(), equalTo(TestResult.NEGATIVE))
+            assertThat(submissionService.asyncRequestTestResult(), equalTo(TestResult.NEGATIVE))
         }
     }
 
     @Test(expected = NoRegistrationTokenSetException::class)
     fun submitExposureKeysWithoutRegistrationTokenFails() {
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            submissionService.asyncSubmitExposureKeys(listOf())
         }
     }
 
     @Test
     fun submitExposureKeysSucceeds() {
         every { LocalData.registrationToken() } returns registrationToken
-        coEvery { SubmitDiagnosisKeysTransaction.start(registrationToken, any()) } just Runs
+        coEvery { submitDiagnosisKeysTransaction.start(registrationToken, any()) } just Runs
 
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            submissionService.asyncSubmitExposureKeys(listOf())
         }
     }
 
@@ -129,7 +150,7 @@ class SubmissionServiceTest {
         every { LocalData.registrationToken(null) } just Runs
         every { LocalData.devicePairingSuccessfulTimestamp(0L) } just Runs
 
-        SubmissionService.deleteRegistrationToken()
+        submissionService.deleteRegistrationToken()
 
         verify(exactly = 1) {
             LocalData.registrationToken(null)
@@ -141,13 +162,13 @@ class SubmissionServiceTest {
     fun containsValidGUID() {
         // valid
         assertThat(
-            SubmissionService.containsValidGUID("https://bs-sd.de/covid-19/?$guid"),
+            submissionService.containsValidGUID("https://bs-sd.de/covid-19/?$guid"),
             equalTo(true)
         )
 
         // invalid
         assertThat(
-            SubmissionService.containsValidGUID("https://no-guid-here"),
+            submissionService.containsValidGUID("https://no-guid-here"),
             equalTo(false)
         )
     }
@@ -155,7 +176,7 @@ class SubmissionServiceTest {
     @Test
     fun extractGUID() {
         assertThat(
-            SubmissionService.extractGUID("https://bs-sd.de/covid-19/?$guid"),
+            submissionService.extractGUID("https://bs-sd.de/covid-19/?$guid"),
             equalTo(guid)
         )
     }

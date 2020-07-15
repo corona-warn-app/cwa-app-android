@@ -21,8 +21,6 @@ package de.rki.coronawarnapp.service.diagnosiskey
 
 /**
  * The Diagnosis Key constants are used inside the DiagnosisKeyService
- *
- * @see DiagnosisKeyService
  */
 object DiagnosisKeyConstants {
     /** version resource variable for REST-like Service Calls */

@@ -1,18 +1,25 @@
 package de.rki.coronawarnapp.ui.submission
 
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
-import org.junit.Assert.assertEquals
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 
 class SubmissionTanViewModelTest {
-    private var viewModel: SubmissionTanViewModel = SubmissionTanViewModel()
+
+    @MockK
+    lateinit var submissionRepository: SubmissionRepository
+
+    private lateinit var viewModel: SubmissionTanViewModel
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+        viewModel = SubmissionTanViewModel(submissionRepository)
+    }
 
     @Test
     fun tanFormatValid() {
@@ -29,19 +36,4 @@ class SubmissionTanViewModelTest {
         viewModel.isValidTanFormat.value?.let { assertFalse(it) }
     }
 
-    @Test
-    fun testTanStorage() {
-        val sr = mockk<SubmissionRepository> {
-            every { setTeletan(any()) } just Runs
-        }
-        val tan = "ZWFPC7NG47"
-        sr.setTeletan(tan)
-
-        verify(exactly = 1) {
-            sr.setTeletan(
-                withArg {
-                    assertEquals(it, tan)
-                })
-        }
-    }
 }

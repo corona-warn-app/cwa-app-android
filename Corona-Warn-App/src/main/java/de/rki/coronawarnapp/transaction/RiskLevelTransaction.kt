@@ -39,6 +39,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicReference
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The [RiskLevelTransaction] is used to define an atomic Transaction for the Risk Level Calculation.
@@ -123,7 +125,10 @@ import java.util.concurrent.atomic.AtomicReference
  * @throws de.rki.coronawarnapp.exception.TransactionException An Exception thrown when an error occurs during Transaction Execution
  * @throws de.rki.coronawarnapp.exception.RollbackException An Exception thrown when an error occurs during Rollback of the Transaction
  */
-object RiskLevelTransaction : Transaction() {
+@Singleton
+class RiskLevelTransaction @Inject constructor(
+    val applicationConfigurationService: ApplicationConfigurationService
+) : Transaction() {
 
     override val TAG: String? = RiskLevelTransaction::class.simpleName
 
@@ -487,7 +492,7 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
         withContext(Dispatchers.Default) {
-            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+            return@withContext applicationConfigurationService.asyncRetrieveApplicationConfiguration()
                 .also { Timber.v("configuration from backend: $it") }
         }
 

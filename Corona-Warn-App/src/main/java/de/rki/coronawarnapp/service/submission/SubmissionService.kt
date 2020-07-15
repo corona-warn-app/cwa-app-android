@@ -3,14 +3,25 @@ package de.rki.coronawarnapp.service.submission
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.http.requests.RegistrationRequest
+import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
+import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.QR_CODE_KEY_TYPE
 import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_TYPE
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.util.security.HashHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object SubmissionService {
+@Singleton
+class SubmissionService @Inject constructor(
+    val submitDiagnosisKeysTransaction: SubmitDiagnosisKeysTransaction,
+    val verificationService: VerificationService
+) {
     suspend fun asyncRegisterDevice() {
         val testGUID = LocalData.testGUID()
         val testTAN = LocalData.teletan()
@@ -24,43 +35,29 @@ object SubmissionService {
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
-        val registrationToken =
-            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
-                guid,
-                QR_CODE_KEY_TYPE
-            )
+        val registrationToken = asyncGetRegistrationToken(guid, QR_CODE_KEY_TYPE)
 
         LocalData.registrationToken(registrationToken)
         deleteTestGUID()
     }
 
     private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
-        val registrationToken =
-            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
-                tan,
-                TELE_TAN_KEY_TYPE
-            )
+        val registrationToken = asyncGetRegistrationToken(tan, TELE_TAN_KEY_TYPE)
 
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
     }
 
-    suspend fun asyncRequestAuthCode(registrationToken: String): String {
-        return WebRequestBuilder.getInstance().asyncGetTan(registrationToken)
-    }
-
     suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>) {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        SubmitDiagnosisKeysTransaction.start(registrationToken, keys)
+        submitDiagnosisKeysTransaction.start(registrationToken, keys)
     }
 
     suspend fun asyncRequestTestResult(): TestResult {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        return TestResult.fromInt(
-            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
-        )
+        return TestResult.fromInt(asyncGetTestResult(registrationToken))
     }
 
     fun containsValidGUID(scanResult: String): Boolean {
@@ -88,11 +85,32 @@ object SubmissionService {
         LocalData.devicePairingSuccessfulTimestamp(0L)
     }
 
-    fun submissionSuccessful() {
-        LocalData.numberOfSuccessfulSubmissions(1)
-    }
-
     private fun deleteTeleTAN() {
         LocalData.teletan(null)
+    }
+
+    private suspend fun asyncGetRegistrationToken(
+        key: String,
+        keyType: String
+    ): String = withContext(Dispatchers.IO) {
+        val keyStr = if (keyType == QR_CODE_KEY_TYPE) {
+            HashHelper.hash256(key)
+        } else {
+            key
+        }
+        verificationService.getRegistrationToken(
+            SubmissionConstants.REGISTRATION_TOKEN_URL,
+            "0",
+            RegistrationTokenRequest(keyType, keyStr)
+        ).registrationToken
+    }
+
+    private suspend fun asyncGetTestResult(
+        registrationToken: String
+    ): Int = withContext(Dispatchers.IO) {
+        verificationService.getTestResult(
+            SubmissionConstants.TEST_RESULT_URL,
+            "0", RegistrationRequest(registrationToken)
+        ).testResult
     }
 }

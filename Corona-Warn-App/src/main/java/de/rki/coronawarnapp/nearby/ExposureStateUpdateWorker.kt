@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.nearby
 
 import android.content.Context
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.android.gms.common.api.ApiException
@@ -13,7 +15,11 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import timber.log.Timber
 
-class ExposureStateUpdateWorker(val context: Context, workerParams: WorkerParameters) :
+class ExposureStateUpdateWorker @WorkerInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters,
+    val riskLevelTransaction: RiskLevelTransaction
+) :
     CoroutineWorker(context, workerParams) {
     companion object {
         private val TAG = ExposureStateUpdateWorker::class.simpleName
@@ -34,7 +40,7 @@ class ExposureStateUpdateWorker(val context: Context, workerParams: WorkerParame
                 .insertExposureSummaryEntity(exposureSummary)
             Timber.v("exposure summary state updated: $exposureSummary")
 
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
             Timber.v("risk level calculation triggered")
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)

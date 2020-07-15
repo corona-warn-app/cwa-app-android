@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,10 @@ import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class SubmissionViewModel : ViewModel() {
+class SubmissionViewModel @ViewModelInject constructor(
+    val submissionRepository: SubmissionRepository,
+    val submissionService: SubmissionService
+) : ViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
     private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))
@@ -45,14 +49,14 @@ class SubmissionViewModel : ViewModel() {
     val deviceRegistered get() = LocalData.registrationToken() != null
 
     val testResultReceivedDate: LiveData<Date> =
-        SubmissionRepository.testResultReceivedDate
+        submissionRepository.testResultReceivedDate
     val deviceUiState: LiveData<DeviceUIState> =
-        SubmissionRepository.deviceUIState
+        submissionRepository.deviceUIState
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
             _submissionState.value = ApiRequestState.STARTED
-            SubmissionService.asyncSubmitExposureKeys(keys)
+            submissionService.asyncSubmitExposureKeys(keys)
             _submissionState.value = ApiRequestState.SUCCESS
         } catch (err: CwaWebException) {
             _submissionError.value = Event(err)
@@ -73,7 +77,7 @@ class SubmissionViewModel : ViewModel() {
     fun doDeviceRegistration() = viewModelScope.launch {
         try {
             _registrationState.value = Event(ApiRequestState.STARTED)
-            SubmissionService.asyncRegisterDevice()
+            submissionService.asyncRegisterDevice()
             _registrationState.value = Event(ApiRequestState.SUCCESS)
         } catch (err: CwaWebException) {
             _registrationError.value = Event(err)
@@ -93,15 +97,15 @@ class SubmissionViewModel : ViewModel() {
 
     fun refreshDeviceUIState() =
         executeRequestWithState(
-            SubmissionRepository::refreshUIState,
+            submissionRepository::refreshUIState,
             _uiStateState,
             _uiStateError
         )
 
     fun validateAndStoreTestGUID(scanResult: String) {
-        if (SubmissionService.containsValidGUID(scanResult)) {
-            val guid = SubmissionService.extractGUID(scanResult)
-            SubmissionService.storeTestGUID(guid)
+        if (submissionService.containsValidGUID(scanResult)) {
+            val guid = submissionService.extractGUID(scanResult)
+            submissionService.storeTestGUID(guid)
             _scanStatus.value = Event(ScanStatus.SUCCESS)
         } else {
             _scanStatus.value = Event(ScanStatus.INVALID)
@@ -109,12 +113,12 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun deleteTestGUID() {
-        SubmissionService.deleteTestGUID()
+        submissionService.deleteTestGUID()
     }
 
     fun deregisterTestFromDevice() {
         deleteTestGUID()
-        SubmissionService.deleteRegistrationToken()
+        submissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
     }

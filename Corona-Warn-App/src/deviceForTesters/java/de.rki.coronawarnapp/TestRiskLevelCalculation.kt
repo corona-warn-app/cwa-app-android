@@ -9,12 +9,14 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -45,15 +47,26 @@ import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
+@AndroidEntryPoint
 class TestRiskLevelCalculation : Fragment() {
     companion object {
         val TAG: String? = TestRiskLevelCalculation::class.simpleName
     }
+
+    @Inject
+    lateinit var applicationConfigurationService: ApplicationConfigurationService
+
+    @Inject
+    lateinit var riskLevelTransaction: RiskLevelTransaction
+
+    @Inject
+    lateinit var retrieveDiagnosisKeysTransaction: RetrieveDiagnosisKeysTransaction
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -122,7 +135,7 @@ class TestRiskLevelCalculation : Fragment() {
                         e.report(ExceptionCategory.INTERNAL)
                     }
                 }
-                RiskLevelTransaction.start()
+                riskLevelTransaction.start()
                 Toast.makeText(
                     requireContext(), "Resetted, please fetch diagnosis keys from server again",
                     Toast.LENGTH_SHORT
@@ -157,7 +170,7 @@ class TestRiskLevelCalculation : Fragment() {
 
     private suspend fun retrieveDiagnosisKeys() {
         try {
-            RetrieveDiagnosisKeysTransaction.start()
+            retrieveDiagnosisKeysTransaction.start()
             calculateRiskLevel()
         } catch (e: TransactionException) {
             e.report(ExceptionCategory.INTERNAL)
@@ -220,7 +233,7 @@ class TestRiskLevelCalculation : Fragment() {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                     InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                         googleFileList,
-                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
+                        applicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token
                     )
                     Toast.makeText(
@@ -237,7 +250,7 @@ class TestRiskLevelCalculation : Fragment() {
 
     private suspend fun calculateRiskLevel() {
         try {
-            RiskLevelTransaction.start()
+            riskLevelTransaction.start()
         } catch (e: TransactionException) {
             e.report(ExceptionCategory.INTERNAL)
         }
@@ -251,7 +264,7 @@ class TestRiskLevelCalculation : Fragment() {
                     InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
                 val appConfig =
-                    ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                    applicationConfigurationService.asyncRetrieveApplicationConfiguration()
 
                 val riskLevelScore = RiskLevelCalculation.calculateRiskScore(
                     appConfig.attenuationDuration,

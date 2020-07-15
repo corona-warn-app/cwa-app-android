@@ -21,14 +21,13 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.DAY
-import de.rki.coronawarnapp.util.CachedKeyFileHolder.asyncFetchFiles
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -39,13 +38,23 @@ import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Singleton used for accessing key files via combining cached entries from existing files and new requests.
  * made explicitly with [asyncFetchFiles] in mind
  */
-object CachedKeyFileHolder {
-    private val TAG: String? = CachedKeyFileHolder::class.simpleName
+
+/**
+ * TODO remove before Release
+ */
+private const val LATEST_HOURS_NEEDED = 3
+
+@Singleton
+class CachedKeyFileHolder @Inject constructor(
+    val distributionService: DistributionService
+) {
 
     /**
      * the key cache instance used to store queried dates and hours
@@ -80,8 +89,7 @@ object CachedKeyFileHolder {
                     .map { getURLForHour(currentDate.toServerFormat(), it) }
                     .map { url ->
                         async {
-                            return@async WebRequestBuilder.getInstance()
-                                .asyncGetKeyFilesFromServer(url)
+                            return@async asyncGetKeyFilesFromServer(url)
                         }
                     }.awaitAll()
             } else {
@@ -133,11 +141,6 @@ object CachedKeyFileHolder {
     }
 
     /**
-     * TODO remove before Release
-     */
-    private const val LATEST_HOURS_NEEDED = 3
-
-    /**
      * Calculates the last 3 hours
      * TODO remove before Release
      */
@@ -163,7 +166,7 @@ object CachedKeyFileHolder {
      */
     private suspend fun String.createDayEntryForUrl() = keyCache.createEntry(
         this.generateCacheKeyFromString(),
-        WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
+        asyncGetKeyFilesFromServer(this).toURI(),
         DAY
     )
 
@@ -195,17 +198,43 @@ object CachedKeyFileHolder {
     /**
      * Get all dates from server based as formatted dates
      */
-    private suspend fun getDatesFromServer() =
-        WebRequestBuilder.getInstance().asyncGetDateIndex()
+    private suspend fun getDatesFromServer() = withContext(Dispatchers.IO) {
+        return@withContext distributionService
+            .getDateIndex(DiagnosisKeyConstants.AVAILABLE_DATES_URL).toList()
+    }
 
     /**
      * Get all hours from server based as formatted dates
      */
-    private suspend fun getHoursFromServer(day: Date) =
-        WebRequestBuilder.getInstance().asyncGetHourIndex(day)
+    private suspend fun getHoursFromServer(day: Date) = withContext(Dispatchers.IO) {
+        return@withContext distributionService
+            .getHourIndex(
+                DiagnosisKeyConstants.AVAILABLE_DATES_URL +
+                        "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
+            )
+            .toList()
+    }
 
     /**
      * TODO remove before release
      */
     private fun isLast3HourFetchEnabled(): Boolean = LocalData.last3HoursMode()
+
+    /**
+     * Retrieves Key Files from the Server based on a URL
+     *
+     * @param url the given URL
+     */
+    suspend fun asyncGetKeyFilesFromServer(
+        url: String
+    ): File = withContext(Dispatchers.IO) {
+        val fileName = "${UUID.nameUUIDFromBytes(url.toByteArray())}.zip"
+        val file = File(FileStorageHelper.keyExportDirectory, fileName)
+        file.outputStream().use {
+            Timber.v("Added $url to queue.")
+            distributionService.getKeyFiles(url).byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
+            Timber.v("key file request successful.")
+        }
+        return@withContext file
+    }
 }

@@ -33,14 +33,14 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.RETRIEVE_RISK_SCORE_PARAMS
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.SETUP
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The RetrieveDiagnosisKeysTransaction is used to define an atomic Transaction for Key Retrieval. Its states allow an
@@ -76,7 +76,11 @@ import java.util.concurrent.atomic.AtomicReference
  * @throws de.rki.coronawarnapp.exception.TransactionException An Exception thrown when an error occurs during Transaction Execution
  * @throws de.rki.coronawarnapp.exception.RollbackException An Exception thrown when an error occurs during Rollback of the Transaction
  */
-object RetrieveDiagnosisKeysTransaction : Transaction() {
+@Singleton
+class RetrieveDiagnosisKeysTransaction @Inject constructor(
+    val applicationConfigurationService: ApplicationConfigurationService,
+    val cachedKeyFileHolder: CachedKeyFileHolder
+) : Transaction() {
 
     override val TAG: String? = RetrieveDiagnosisKeysTransaction::class.simpleName
 
@@ -224,7 +228,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      */
     private suspend fun executeRetrieveRiskScoreParams() =
         executeState(RETRIEVE_RISK_SCORE_PARAMS) {
-            ApplicationConfigurationService.asyncRetrieveExposureConfiguration()
+            applicationConfigurationService.asyncRetrieveExposureConfiguration()
         }
 
     /**
@@ -234,7 +238,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         currentDate: Date
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
         FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate)
+        cachedKeyFileHolder.asyncFetchFiles(currentDate)
     }
 
     /**

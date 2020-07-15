@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_char
 /**
  * Fragment for TAN entry
  */
+@AndroidEntryPoint
 class SubmissionTanFragment : Fragment() {
 
     private val viewModel: SubmissionTanViewModel by viewModels()

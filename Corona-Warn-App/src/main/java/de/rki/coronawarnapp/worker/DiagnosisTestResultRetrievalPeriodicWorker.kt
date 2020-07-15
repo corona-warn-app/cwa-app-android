@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.worker
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -19,9 +21,10 @@ import timber.log.Timber
  *
  * @see BackgroundWorkScheduler
  */
-class DiagnosisTestResultRetrievalPeriodicWorker(
-    val context: Context,
-    workerParams: WorkerParameters
+class DiagnosisTestResultRetrievalPeriodicWorker @WorkerInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters,
+    val submissionService: SubmissionService
 ) :
     CoroutineWorker(context, workerParams) {
 
@@ -56,7 +59,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                     System.currentTimeMillis()
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
-                val testResult = SubmissionService.asyncRequestTestResult()
+                val testResult = submissionService.asyncRequestTestResult()
                 initiateNotification(testResult)
             } else {
                 stopWorker()

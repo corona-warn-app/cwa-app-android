@@ -9,6 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
 import de.rki.coronawarnapp.timer.TimerHelper
@@ -28,6 +29,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
  * @see submissionViewModel
  * @see PopupMenu
  */
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     companion object {

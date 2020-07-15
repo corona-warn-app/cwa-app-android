@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -11,6 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.spyk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -29,6 +31,11 @@ class CachedKeyFileHolderTest {
     @MockK
     private lateinit var context: Context
 
+    @MockK
+    private lateinit var distributionService: DistributionService
+
+    private lateinit var cachedKeyFileHolder: CachedKeyFileHolder
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -36,7 +43,9 @@ class CachedKeyFileHolderTest {
         mockkObject(KeyCacheRepository.Companion)
         every { CoronaWarnApplication.getAppContext() } returns context
         every { KeyCacheRepository.getDateRepository(any()) } returns keyCacheRepository
-        mockkObject(CachedKeyFileHolder)
+
+        cachedKeyFileHolder = spyk(CachedKeyFileHolder(distributionService))
+
         coEvery { keyCacheRepository.deleteOutdatedEntries(any()) } just Runs
     }
 
@@ -49,19 +58,19 @@ class CachedKeyFileHolderTest {
 
         coEvery { keyCacheRepository.getDates() } returns listOf()
         coEvery { keyCacheRepository.getFilesFromEntries() } returns listOf()
-        every { CachedKeyFileHolder["isLast3HourFetchEnabled"]() } returns false
-        every { CachedKeyFileHolder["checkForFreeSpace"]() } returns Unit
-        every { CachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
+        every { cachedKeyFileHolder["isLast3HourFetchEnabled"]() } returns false
+        every { cachedKeyFileHolder["checkForFreeSpace"]() } returns Unit
+        every { cachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
 
         runBlocking {
 
-            CachedKeyFileHolder.asyncFetchFiles(date)
+            cachedKeyFileHolder.asyncFetchFiles(date)
 
             coVerifyOrder {
-                CachedKeyFileHolder.asyncFetchFiles(date)
-                CachedKeyFileHolder["getDatesFromServer"]()
+                cachedKeyFileHolder.asyncFetchFiles(date)
+                cachedKeyFileHolder["getDatesFromServer"]()
                 keyCacheRepository.deleteOutdatedEntries(any())
-                CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
+                cachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
                 keyCacheRepository.getDates()
                 keyCacheRepository.getFilesFromEntries()
             }
