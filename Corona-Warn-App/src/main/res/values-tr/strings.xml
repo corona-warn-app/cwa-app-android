@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -135,7 +137,9 @@
         <item quantity="other">"%1$s maruz kalma"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s/14 gündür etkin"</string>
+    <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s etkindi."</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">Maruz kalma günlüğü sürekli etkin</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -291,6 +295,14 @@
     <string name="risk_details_behavior_increased_body_3">"Kamu sağlığı yetkiliniz"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
+    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Dönem günlüğe kaydedildi"</string>
+    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Maruz kalma günlüğü son 14 günü kapsar. Bu süre boyunca cihazınızdaki günlüğe kaydetme özelliği %1$s gün etkindi. Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Riskiniz bu şekilde hesaplandı"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -315,6 +327,10 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Risk Durumunuz"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">Daha fazla bilgi için lütfen SSS sayfamıza bakın.</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">Maruz kalma işlevi hakkında bilgi.</string>
     <!-- ####################################
               Onboarding
     ###################################### -->
