@@ -195,6 +195,8 @@ fun formatTracingIllustrationText(
             appContext.getString(R.string.settings_tracing_connection_illustration_description_inactive)
         TracingStatusHelper.BLUETOOTH ->
             appContext.getString(R.string.settings_tracing_bluetooth_illustration_description_inactive)
+        TracingStatusHelper.LOCATION ->
+            appContext.getString(R.string.settings_tracing_location_illustration_description_inactive)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getString(R.string.settings_tracing_illustration_description_active)
         TracingStatusHelper.TRACING_INACTIVE ->
@@ -424,6 +426,8 @@ fun formatTracingStatusImage(tracing: Boolean, bluetooth: Boolean, connection: B
             appContext.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off)
         TracingStatusHelper.CONNECTION ->
             appContext.getDrawable(R.drawable.ic_settings_illustration_connection_off)
+        TracingStatusHelper.LOCATION ->
+            appContext.getDrawable(R.drawable.ic_settings_illustration_location_off)
         TracingStatusHelper.TRACING_ACTIVE ->
             appContext.getDrawable(R.drawable.ic_illustration_tracing_on)
         else ->
@@ -472,6 +476,30 @@ fun formatTracingStatusVisibilityBluetooth(
             connection,
             location
         ) == TracingStatusHelper.BLUETOOTH
+    )
+
+/**
+ * Change the visibility of the location card based on the tracing status.
+ *
+ * @param tracing
+ * @param bluetooth
+ * @param connection
+ * @param location
+ * @return Int
+ */
+fun formatTracingStatusVisibilityLocation(
+    tracing: Boolean,
+    bluetooth: Boolean,
+    connection: Boolean,
+    location: Boolean
+): Int =
+    formatVisibility(
+        tracingStatusHelper(
+            tracing,
+            bluetooth,
+            connection,
+            location
+        ) == TracingStatusHelper.LOCATION
     )
 
 /**

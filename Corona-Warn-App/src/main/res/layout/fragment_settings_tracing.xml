@@ -86,6 +86,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_switch_row">
 
                     <include
+                        android:id="@+id/settings_tracing_status_location"
+                        layout="@layout/include_tracing_status_card"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityLocation(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                        app:body="@{@string/settings_tracing_status_location_body}"
+                        app:buttonText="@{@string/settings_tracing_status_location_button}"
+                        app:headline="@{@string/settings_tracing_status_location_headline}"
+                        app:icon="@{@drawable/ic_location}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                        app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <include
                         android:id="@+id/settings_tracing_status_bluetooth"
                         layout="@layout/include_tracing_status_card"
                         android:layout_width="@dimen/match_constraint"

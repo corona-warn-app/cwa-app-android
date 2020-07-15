@@ -444,6 +444,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Cihaz Ayarlarını Aç"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">""</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">""</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">""</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"İnternet bağlantısını aç"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Maruz kalma günlüğü, maruz kalmaları hesaplamak için İnternet bağlantısı gerektirir. Lütfen cihazınızın ayarlarında WiFi\'ı veya mobil veriyi açın."</string>
@@ -460,6 +466,8 @@
     <string name="settings_tracing_illustration_description_inactive">"Bir kişi cihazında maruz kalma günlüğünü devre dışı bıraktı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Bir kişi cihazında Bluetooth\'u kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive">""</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Bir kişi cihazında İnternet bağlantısını kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
 

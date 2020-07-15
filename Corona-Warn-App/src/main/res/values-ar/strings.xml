@@ -448,6 +448,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"فتح إعدادات الجهاز"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">""</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">""</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">""</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"فتح الاتصال بالإنترنت"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"يتطلب تسجيل المخالطة اتصالًا بالإنترنت لتقدير المخالطات. يُرجى تشغيل WIFI أو بيانات الهاتف من إعدادات جهازك."</string>
@@ -468,6 +474,8 @@
     <string name="settings_tracing_illustration_description_inactive">"ألغى شخص تنشيط تسجيل المخالطة على هاتفه الذكي؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"أوقف شخص تشغيل Bluetooth على هاتفه الذكي؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive">""</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"قطع شخص الاتصال بالإنترنت على هاتفه الذكي؛ وبالتالي، لم يتم تسجيل تجمُّع مع شخصين آخرين."</string>
 
