@@ -47,7 +47,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            android:id="@+id/risk_details_behavior_stay_home"
             layout="@layout/include_risk_details_period_logged_progress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

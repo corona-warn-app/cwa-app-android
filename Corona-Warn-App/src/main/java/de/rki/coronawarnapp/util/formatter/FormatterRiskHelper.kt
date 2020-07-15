@@ -212,26 +212,19 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
 }
 
 /**
- * Formats the risk loggin period card text display of tracing active duration in days depending on risk level
+ * Formats the risk logged period card text display of tracing active duration in days depending on risk level
  * Displayed in case riskLevel is High and Low level
  *
- * @param riskLevelScore
  * @param activeTracingDaysInRetentionPeriod
  * @return
  */
 fun formatRiskActiveTracingDaysInRetentionPeriodLogged(
-    riskLevelScore: Int?,
     activeTracingDaysInRetentionPeriod: Long
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    var periodLoggedString = ""
-        if (riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK ||
-            riskLevelScore == RiskLevelConstants.INCREASED_RISK) {
-            periodLoggedString = appContext.getString(
-                R.string.risk_details_information_body_period_logged_assessment
-            ).format(activeTracingDaysInRetentionPeriod)
-        }
-    return periodLoggedString
+        return appContext.getString(
+                R.string.risk_details_information_body_period_logged_assessment)
+            .format(activeTracingDaysInRetentionPeriod)
 }
 
 fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
