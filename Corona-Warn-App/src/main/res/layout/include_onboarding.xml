@@ -41,6 +41,18 @@
             name="bodyEmphasized"
             type="String" />
 
+        <variable
+            name="locationIconCard"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="locationHeadlineCard"
+            type="String" />
+
+        <variable
+            name="locationBodyCard"
+            type="String" />
+
     </data>
 
     <ScrollView
@@ -119,18 +131,33 @@
                 tools:text="@string/onboarding_body_emphasized" />
 
             <include
-                android:id="@+id/onboarding_card"
+                android:id="@+id/onboarding_location_card"
                 layout="@layout/include_tracing_status_card"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
+                android:focusable="true"
+                android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
+                app:body="@{locationBodyCard}"
+                app:headline="@{locationHeadlineCard}"
+                app:icon="@{locationIconCard}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_body_emphasized" />
+
+            <include
+                android:id="@+id/onboarding_card"
+                layout="@layout/include_tracing_status_card"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:visibility="@{FormatterHelper.formatVisibilityText(headlineCard)}"
                 app:body="@{bodyCard}"
                 app:headline="@{headlineCard}"
                 android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_body_emphasized" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"

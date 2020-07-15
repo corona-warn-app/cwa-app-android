@@ -378,6 +378,12 @@
     <string name="onboarding_tracing_illustration_description">"Üç kişi cihazlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Etkinleştirme sayfası 4/5: Size COVID-19 tanısı konduysa..."</string>
+    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
+    <string name="onboarding_tracing_location_headline">"Konum kullanımına izin ver"</string>
+    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
+    <string name="onboarding_tracing_location_body">"Konumunuza erişilmiyor. Konum izni gereklidir, çünkü Google Android Bluetooth kullanımı için bunu gerektirir."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_location_button">"Cihaz ayarlarını aç"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"COVID-19 tanısı aldıysanız..."</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
@@ -423,6 +429,8 @@
     <string name="settings_tracing_status_active">"Etkin"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_inactive">"Durduruldu"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Konum hizmetleri devre dışı"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Sınırlı"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
