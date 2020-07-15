@@ -527,14 +527,14 @@
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Reset"</string>
     <!-- XHED: settings(background priority) - notification page title -->
-    <string name="settings_background_priority_title">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_title">"Prioritized Background Activity"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_body_description">"Allow automatic risk status updates"</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
-    <string name="settings_background_priority_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_headline">"Run Corona-Warn-App in Background"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">@string/lorem_ipsum</string>
-    <!-- XACT: settings(background priority) - illustration description -->
+    <string name="settings_background_priority_body">"Corona-Warn-App runs in the background permanently if you activate prioritized background activity. This enables the app to determine your risk status any time."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
