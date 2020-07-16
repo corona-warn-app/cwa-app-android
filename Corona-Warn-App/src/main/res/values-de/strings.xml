@@ -186,7 +186,7 @@
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
-    <string name="risk_card_outdated_manual_risk_body">Ihre Risiko-Berechnung wurde seit mehr als 48 Stunden nicht aktualisiert. Bitte aktualisieren Sie die Berechnung.</string>
+    <string name="risk_card_outdated_manual_risk_body">"Ihr Risikostatus wurde seit mehr als 48 Stunden nicht aktualisiert. Bitte aktualisieren Sie Ihren Risikostatus."</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Prüfung läuft …"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
@@ -410,9 +410,9 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Standort Verwendung erlauben"</string>
+    <string name="onboarding_tracing_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort Erlaubnis wird benötigt, da Google Android diese für die Verwendung von Bluetooth voraussetzt."</string>
+    <string name="onboarding_tracing_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, da Google bzw. Android diese für die Verwendung von Bluetooth voraussetzt."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: Onboarding (test) page title -->
@@ -519,7 +519,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
+    <string name="settings_notifications_subtitle_update_test">"Status Ihres COVID-19 Tests"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
