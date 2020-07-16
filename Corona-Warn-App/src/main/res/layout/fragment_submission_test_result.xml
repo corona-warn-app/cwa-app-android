@@ -14,7 +14,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
         android:contentDescription="@string/submission_test_result_headline"
-        android:accessibilityLiveRegion="assertive"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,7 +40,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
+            android:id="@+id/submission_test_result_card"
             layout="@layout/include_submission_test_result"
+            android:accessibilityLiveRegion="assertive"
+            android:importantForAccessibility="yes"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
             android:layout_marginBottom="@dimen/button_padding_top_bottom"
