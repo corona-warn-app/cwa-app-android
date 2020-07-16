@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -84,6 +86,8 @@
     <string name="accessibility_close">"Kapat"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_logo">"Corona-Warn-App"</string>
+    <!-- XACT: button description for screen readers to be appended at the end of content without focusable subcontent that are explored by touch -->
+    <string name="accessibility_button">"Düğme"</string>
 
     <!-- ####################################
                      Menu
@@ -133,9 +137,15 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s maruz kalma"</item>
         <item quantity="other">"%1$s maruz kalma"</item>
+        <item quantity="zero">"%1$s maruz kalma"</item>
+        <item quantity="two">"%1$s maruz kalma"</item>
+        <item quantity="few">"%1$s maruz kalma"</item>
+        <item quantity="many">"%1$s maruz kalma"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s/14 gündür etkin"</string>
+    <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s etkindi."</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">Maruz kalma günlüğü sürekli etkin</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -158,6 +168,10 @@
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
         <item quantity="other">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
+        <item quantity="zero">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
+        <item quantity="two">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
+        <item quantity="few">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
+        <item quantity="many">"son karşılaşmanın üzerinden %1$s gün geçti"</item>
     </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">"Bilinmeyen Risk"</string>
@@ -171,6 +185,8 @@
     <string name="risk_card_outdated_risk_headline">"Maruz kalma günlüğü oluşturulamıyor"</string>
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
+    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
+    <string name="risk_card_outdated_manual_risk_body">"Risk durumunuz 48 saatten uzun süredir güncellenmedi. Lütfen risk durumunuzu güncelleyin."</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Kontrol devam ediyor…"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
@@ -185,7 +201,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-tuerkisch"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
@@ -202,7 +218,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"İndirme Bağlantısı Gönder"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Koronavirüs ile birlikte mücadele edelim"<xliff:g id="line_break">"\n"</xliff:g>"Ben katıldım, peki ya sen?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Koronavirüs ile birlikte mücadele edelim"<xliff:g id="line_break">"\n"</xliff:g>"Ben katıldım, peki ya sen?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"Https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-tuerkisch"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"Bir erkek, Corona-Warn-App\'i dört farklı kişi ile paylaşıyor."</string>
 
@@ -255,9 +271,9 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Rastgele Kimlikler"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Rastgele Kimlikler, rastgele oluşturulan rakam ve harf kombinasyonlarıdır. Yakın mesafedeki cihazlar arasında değiştirilir. Rastgele Kimlikler belirli bir kişiye atanamaz ve 14 günün sonunda otomatik olarak silinir. COVID-19 tanısı konan kişiler son 14 güne kadar rastgele kimliklerinin uygulamanın diğer kullanıcıları ile paylaşılmasını seçebilir."</string>
+    <string name="main_overview_body_glossary_keys">"Rastgele Kimlikler, rastgele oluşturulan rakam ve harf kombinasyonlarıdır. Yakın mesafedeki cihazlar arasında değiştirilir. Rastgele Kimlikler belirli bir kişiyi izlemek üzere kullanılamaz ve 14 günün sonunda otomatik olarak silinir. COVID-19 tanısı konan kişiler son 14 güne kadar rastgele kimliklerinin uygulamanın diğer kullanıcıları ile paylaşılmasını seçebilir."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
-    <string name="main_overview_illustration_description">"Bir cihaz, 1 ila 3 olarak numaralandırılmış farklı içerikleri gösterir."</string>
+    <string name="main_overview_illustration_description">"Bir akıllı telefon, 1 ila 3 olarak numaralandırılmış farklı içerikleri gösterir."</string>
     <!-- XACT: App main page title -->
     <string name="main_title">"Corona-Warn-App Ana sayfası"</string>
 
@@ -268,7 +284,7 @@
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Risk Durumunuz"</string>
     <!-- XHED: risk details - headline, how a user should act -->
-    <string name="risk_details_headline_behavior">"Yönergeler"</string>
+    <string name="risk_details_headline_behavior">"Talimatlar"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior">"Yapmanız gerekenler"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
@@ -291,6 +307,14 @@
     <string name="risk_details_behavior_increased_body_3">"Kamu sağlığı yetkiliniz"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
+    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Dönem günlüğe kaydedildi"</string>
+    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Maruz kalma günlüğü son 14 günü kapsar. Bu süre boyunca cihazınızdaki günlüğe kaydetme özelliği %1$s gün etkindi. Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Riskiniz bu şekilde hesaplandı"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -305,6 +329,10 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
         <item quantity="other">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
+        <item quantity="zero">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
+        <item quantity="two">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
+        <item quantity="few">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
+        <item quantity="many">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Enfeksiyon riskiniz, cihazınızda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
@@ -315,6 +343,10 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Risk Durumunuz"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">Daha fazla bilgi için lütfen SSS sayfamıza bakın.</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">Maruz kalma işlevi hakkında bilgi.</string>
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -342,14 +374,14 @@
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">"Uygulama kişilerin cihazları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
-    <string name="onboarding_illustration_description">"Bölgedeki bir grup insan cihazlarını kullanıyor."</string>
+    <string name="onboarding_illustration_description">"Bölgedeki bir grup insan akıllı telefonlarını kullanıyor."</string>
     <!-- XACT: Onboarding (privacy) page title -->
     <string name="onboarding_privacy_accessibility_title">"Etkinleştirme sayfası 2/5: Veri Gizliliği. Uzun bir metin yerleştirilecektir. Dilediğiniz zaman devam etmek için ekranın alt kısmındaki düğmeyi kullanın."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Veri Gizliliği"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
-    <string name="onboarding_privacy_illustration_description">"Bir kadın cihazında Corona-Warn-App\'i kullanıyor. Kılıftaki kilit, şifrelenmiş verilerin sembolüdür."</string>
+    <string name="onboarding_privacy_illustration_description">"Bir kadın akıllı telefonunda Corona-Warn-App\'i kullanıyor. Kılıfın arka planındaki kilit, şifrelenmiş verilerin simgesidir."</string>
     <!-- XACT: Onboarding (tracing) page title -->
     <string name="onboarding_tracing_accessibility_title">"Etkinleştirme sayfası 3/5: Maruz Kalma Günlüğünü Etkinleştirme"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
@@ -363,7 +395,7 @@
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Kabul Beyanı"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"Enfekte olan biriyle temas halinde olup olmadığınızı ve sizin de enfeksiyon riski altında olup olmadığınızı öğrenmek için Uygulamanın maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. \"Etkinleştir\" düğmesine dokunarak Uygulamanın maruz kalma günlüğü özelliğini etkinleştirmeyi ve ilişkili verilerin işlenmesini kabul edersiniz."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Uygulamanın maruz kalma günlüğü özelliğini kullanmak için akıllı telefonunuzda Google tarafından sunulan COVID-19\'a Maruz Kalma Günlüğü işlevini etkinleştirmeniz ve Corona-Warn-App\'e bu işlevi kullanma izni vermeniz gerekecektir."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Maruz kalma günlüğü etkinleştirildiğinde akıllı telefonunuz sürekli olarak rastgele kimlikler oluşturur ve bu rastgele kimlikleri maruz kalma günlüğü etkinleştirilmiş olan yakınınızdaki diğer Android veya Apple akıllı telefonlara Bluetooth üzerinden aktarır. Bunun karşılığında akıllı telefonunuz diğer akıllı telefonların rastgele kimliklerini alır. Size ait olan ve diğer akıllı telefonlardan alınan rastgele kimlikler, maruz kalma günlüğüne kaydedilir ve 14 gün süreyle burada saklanır."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Uygulama, enfeksiyon riskinizi belirlemek için koronavirüs enfeksiyonu olduğunu Uygulamada belirten tüm kullanıcıların rastgele kimliklerinin listesini (günde birkaç kez veya talep üzerine) yükler. Ardından bu liste maruz kalma günlüğünde tutulan rastgele kimliklerle karşılaştırılır. Uygulama enfekte olan bir kullanıcı ile temas halinde olabileceğinizi saptadığında bu konuda bilgilendirilirsiniz ve sizin de enfeksiyon riski taşıdığınız belirtilir. Bu durumda Uygulama akıllı telefonunuzun maruz kalma günlüğünde tutulan diğer verilere (tarih, süre ve temas sırasındaki Bluetooth sinyalinin gücü) erişir."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Bluetooth sinyali gücü, fiziksel mesafenin belirlenmesi için kullanılır (sinyal ne kadar güçlü olursa mesafe o kadar kısa olur). Ardından Uygulama, koronavirüs enfeksiyonu olasılığınızı değerlendirmek ve sonraki adımlara yönelik öneriler sunmak üzere bu bilgileri analiz eder. Bu analiz akıllı telefonunuzda yalnızca yerel olarak gerçekleştirilir. Sizin dışınızda hiç kimse (RKI bile) enfekte olan biriyle temas ettiğinizi ve sizin için belirlenen riski bilmez."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Maruz kalma günlüğüne verdiğiniz onayı geri çekmek için Uygulamadaki düğmeyi kullanarak veya Uygulamayı silerek özelliği devre dışı bırakabilirsiniz. Maruz kalma günlüğü özelliğini yeniden kullanmaya karar verirseniz özelliği geri açabilir veya Uygulamayı yeniden yükleyebilirsiniz. Maruz kalma günlüğü özelliğini devre dışı bırakırsanız Uygulama artık enfekte olan bir kullanıcı ile temas halinde olup olmadığınızı kontrol etmez. Cihazınızın rastgele kimlik göndermesini ve almasını durdurmak isterseniz de akıllı telefonunuzun ayarlarında COVID-19\'a Maruz Kalma Günlüğü özelliğini devre dışı bırakmanız gerekir. Size ait olan ve diğer akıllı telefonlardan alınan maruz kalma günlüğündeki rastgele kimliklerin Uygulamada silinmeyeceğini unutmayın. Akıllı telefonunuzun ayarlarında yalnızca maruz kalma günlüğünde tutulan verileri kalıcı olarak silebilirsiniz."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Uygulamanın gizlilik bildirimini (maruz kalma günlüğü özelliği için gerçekleştirilen veri işlemeye ilişkin açıklama dahil) menüde \"Veri Gizliliği Bilgileri\" başlığında bulabilirsiniz."</string>
+    <string name="onboarding_tracing_body_consent">"Enfekte olan biriyle temas halinde olup olmadığınızı ve sizin de enfeksiyon riski altında olup olmadığınızı öğrenmek için Uygulamanın maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. \"Etkinleştir\" düğmesine dokunarak Uygulamanın maruz kalma günlüğü özelliğini etkinleştirmeyi ve ilişkili verilerin işlenmesini kabul edersiniz."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Uygulamanın maruz kalma günlüğü özelliğini kullanmak için akıllı telefonunuzda Google tarafından sunulan COVID-19\'a Maruz Kalma Günlüğü işlevini etkinleştirmeniz ve Corona-Warn-App\'e bu işlevi kullanma izni vermeniz gerekecektir."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Maruz kalma günlüğü etkinleştirildiğinde akıllı telefonunuz sürekli olarak rastgele kimlikler oluşturur ve bu rastgele kimlikleri maruz kalma günlüğü etkinleştirilmiş olan yakınınızdaki diğer Android veya Apple akıllı telefonlara Bluetooth üzerinden aktarır. Bunun karşılığında akıllı telefonunuz diğer akıllı telefonların rastgele kimliklerini alır. Size ait olan ve diğer akıllı telefonlardan alınan rastgele kimlikler, maruz kalma günlüğüne kaydedilir ve 14 gün süreyle burada saklanır."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Uygulama, enfeksiyon riskinizi belirlemek için koronavirüs enfeksiyonu olduğunu Uygulamada belirten tüm kullanıcıların rastgele kimliklerinin listesini (günde birkaç kez veya talep üzerine) yükler. Ardından bu liste maruz kalma günlüğünde tutulan rastgele kimliklerle karşılaştırılır. Uygulama enfekte olan bir kullanıcı ile temas halinde olabileceğinizi saptadığında bu konuda bilgilendirilirsiniz ve sizin de enfeksiyon riski taşıdığınız belirtilir. Bu durumda Uygulama akıllı telefonunuzun maruz kalma günlüğünde tutulan diğer verilere (tarih, süre ve temas sırasındaki Bluetooth sinyalinin gücü) erişir."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Bluetooth sinyal gücü, fiziksel mesafenin belirlenmesi için kullanılır (sinyal ne kadar güçlü olursa mesafe o kadar kısa olur). Ardından Uygulama, koronavirüs enfeksiyonu olasılığınızı değerlendirmek ve sonraki adımlara yönelik öneriler sunmak üzere bu bilgileri analiz eder. Bu analiz akıllı telefonunuzda yalnızca yerel olarak gerçekleştirilir. Sizin dışınızda hiç kimse (RKI bile) enfekte olan biriyle temas ettiğinizi ve sizin için belirlenen riski bilmez."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Maruz kalma günlüğüne verdiğiniz onayı geri çekmek için Uygulamadaki düğmeyi kullanarak veya Uygulamayı silerek özelliği devre dışı bırakabilirsiniz. Maruz kalma günlüğü özelliğini yeniden kullanmaya karar verirseniz özelliği geri açabilir veya Uygulamayı yeniden yükleyebilirsiniz. Maruz kalma günlüğü özelliğini devre dışı bırakırsanız Uygulama artık enfekte olan bir kullanıcı ile temas halinde olup olmadığınızı kontrol etmez. Cihazınızın rastgele kimlik göndermesini ve almasını durdurmak isterseniz de akıllı telefonunuzun ayarlarında COVID-19\'a Maruz Kalma Günlüğü özelliğini devre dışı bırakmanız gerekir. Size ait olan ve diğer akıllı telefonlardan alınan maruz kalma günlüğündeki rastgele kimliklerin Uygulamada silinmeyeceğini unutmayın. Akıllı telefonunuzun ayarlarında yalnızca maruz kalma günlüğünde tutulan verileri kalıcı olarak silebilirsiniz."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Uygulamanın gizlilik bildirimini (maruz kalma günlüğü özelliği için gerçekleştirilen veri işlemeye ilişkin açıklama dahil) menüde \"Veri Gizliliği Bilgileri\" başlığında bulabilirsiniz."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Maruz Kalma Günlüğünü Etkinleştir"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -376,14 +408,14 @@
     <string name="onboarding_tracing_dialog_button_negative">"Geri"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Üç kişi cihazlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
+    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
+    <string name="onboarding_tracing_location_headline">"Konum erişimine izin ver"</string>
+    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
+    <string name="onboarding_tracing_location_body">"Konumunuza erişilemiyor. Bluetooth\'u kullanmak için Google ve/veya Android\'in cihazınızın konumuna erişmesi gerekiyor."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_location_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Etkinleştirme sayfası 4/5: Size COVID-19 tanısı konduysa..."</string>
-    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
-    <string name="onboarding_tracing_location_headline">"Konum kullanımına izin ver"</string>
-    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
-    <string name="onboarding_tracing_location_body">"Konumunuza erişilmiyor. Konum izni gereklidir, çünkü Google Android Bluetooth kullanımı için bunu gerektirir."</string>
-    <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Cihaz ayarlarını aç"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"COVID-19 tanısı aldıysanız..."</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
@@ -453,15 +485,19 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Maruz kalma günlüğü bir gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
         <item quantity="other">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
+        <item quantity="zero">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
+        <item quantity="two">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
+        <item quantity="few">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
+        <item quantity="many">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Üç kişi cihazlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_inactive">"Bir kişi cihazında maruz kalma günlüğünü devre dışı bıraktı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
+    <string name="settings_tracing_illustration_description_inactive">"Bir kişi akıllı telefonunda maruz kalma günlüğünü devre dışı bıraktı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_bluetooth_illustration_description_inactive">"Bir kişi cihazında Bluetooth\'u kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
+    <string name="settings_tracing_bluetooth_illustration_description_inactive">"Bir kişi akıllı telefonunda Bluetooth\'u kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"Bir kişi cihazında İnternet bağlantısını kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
+    <string name="settings_tracing_connection_illustration_description_inactive">"Bir kişi akıllı telefonunda İnternet bağlantısını kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Bildirimler"</string>
@@ -506,7 +542,7 @@
     <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
     <string name="settings_reset_button_negative">"İptal"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
-    <string name="settings_reset_illustration_description">"Bir kişi, uygulamanın sıfırlandığını gösteren sembolün bulunduğu bir cihaz tutuyor."</string>
+    <string name="settings_reset_illustration_description">"Bir kişi, uygulamanın sıfırlandığını gösteren sembolün bulunduğu bir akıllı telefon tutuyor."</string>
     <!-- XHED: settings(reset) - dialog headline -->
     <string name="settings_reset_dialog_headline">"Uygulamayı Sıfırla"</string>
     <!-- XTXT: settings(reset) - dialog content -->
@@ -515,6 +551,22 @@
     <string name="settings_reset_dialog_button_cancel">"İptal"</string>
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Sıfırla"</string>
+    <!-- XHED: settings(background priority) - notification page title -->
+    <string name="settings_background_priority_title">"Önceliklendirilmiş Arka Plan Aktivitesi"</string>
+    <!-- XTXT: settings(background priority) - text in row on settings overview -->
+    <string name="settings_background_priority_body_description">"Otomatik risk durumu güncellemelerinen izin ver"</string>
+    <!-- XHED: settings(background priority) - multiline headline below illustration -->
+    <string name="settings_background_priority_headline">"Corona-Warn-App\'i Arka Planda Çalıştır"</string>
+    <!-- YTXT: settings(background priority) - description text -->
+    <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz Corona-Warn-App sürekli olarak arka planda çalışır. Bu, uygulamanın her an risk durumunuzu belirlemesini sağlar."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
+    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
+    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
+    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
+    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
@@ -529,15 +581,15 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya Federal Cumhuriyeti\'nde kamu sağlığı alanında merkezi kurumdur. RKI, federal hükûmet için Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, daha önce açıklanan kamu sağlığı önlemlerine ilişkin dijital bir uzantı niteliğindedir: sosyal mesafe, hijyen uygulamaları ve yüz maskeleri."</string>
+    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya\'nın federal kamu sağlığı kurumudur. RKI, Federal Hükûmet adına Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, daha önce açıklanan kamu sağlığı önlemlerine ilişkin dijital bir uzantı niteliğindedir: sosyal mesafe, hijyen uygulamaları ve yüz maskeleri."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Uygulamayı kullanan herkes, enfeksiyon zincirlerinin takip edilmesine ve kırılmasına yardımcı olur. Uygulama, diğer kişilerle karşılaşmaları cihazınızda yerel olarak kaydeder. Daha sonra COVID-19 tanısı konan kişilerle karşılaşmışsanız size bildirim gönderilir. Kimliğiniz ve gizliliğiniz daima koruma altındadır."</string>
     <!-- XACT: describes illustration -->
-    <string name="information_about_illustration_description">"Bölgedeki bir grup insan cihazlarını kullanıyor."</string>
+    <string name="information_about_illustration_description">"Bölgedeki bir grup insan akıllı telefonlarını kullanıyor."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">"Veri Gizliliği"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_privacy_illustration_description">"Bir kadın cihazında Corona-Warn-App\'i kullanıyor. Kılıftaki kilit, şifrelenmiş verilerin sembolüdür."</string>
+    <string name="information_privacy_illustration_description">"Bir kadın akıllı telefonunda Corona-Warn-App\'i kullanıyor. Kılıfın arka planındaki kilit, şifrelenmiş verilerin simgesidir."</string>
     <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_privacy_html_path">"privacy_tr.html"</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
@@ -545,7 +597,7 @@
     <!-- XHED: Page headline for terms of use information page -->
     <string name="information_terms_headline">"İçerik"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_terms_illustration_description">"Bir kişi ekranında uzun bir metin olan bir cihaz tutuyor. Metnin yanında kullanım koşullarını kabul ettiğini belirten bir sembol olarak tik işareti bulunuyor."</string>
+    <string name="information_terms_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında kullanım koşullarının kabul edildiğini belirten bir sembol olarak tik işareti bulunuyor."</string>
     <!-- XTXT: Path to the full blown terms html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_terms_html_path">"terms_tr.html"</string>
     <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
@@ -575,7 +627,7 @@
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Yasal Bildirimler"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_technical_illustration_description">"Bir kişi ekranında uzun bir metin olan bir cihaz tutuyor. Metnin yanında yasal bildirimlerin sembolü olarak bir terazi bulunuyor"</string>
+    <string name="information_technical_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında yasal bildirimleri belirten bir terazi bulunuyor."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_technical_html_path">"technical_tr.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
@@ -595,7 +647,7 @@
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_legal_illustration_description">"Bir kişi ekranında uzun bir metin olan bir cihaz tutuyor. Metnin yanında baskıyı belirten bir bölüm sembolü bulunuyor."</string>
+    <string name="information_legal_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında baskıyı temsil eden bir bölüm bulunuyor."</string>
 
 
     <!-- ####################################
@@ -795,7 +847,7 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Veri Gizliliği"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"\"Kabul Et\" seçeneğine dokunduğunuzda, Uygulamanın maruz kalma günlüğü özelliğini etkinleştiren diğer kullanıcılarını enfeksiyon riskine maruz kalmış olabilecekleri konusunda otomatik olarak bilgilendirmesi için Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte Uygulamanın sunucu sistemine göndermesine onay verirsiniz. Bu amaçla aktarılan rastgele kimlikler, kimliğinizi belirlemek üzere kullanılabilecek hiçbir bilgi içermez. \n\nTest sonucunuzu Uygulama üzerinden aktarma seçeneği gönüllülük esasına dayalıdır. Test sonucunuzu aktarmamanız halinde hiçbir cezai işlemle karşılaşmayacaksınız. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı takip etmek ya da kontrol etmek mümkün olmadığından enfekte olduğunuz bilgisini aktardığınızı yalnızca siz bilirsiniz.\n\nUygulamayı silerek dilediğiniz zaman bu onayı geri çekebilirsiniz. Onayınızı geri çekmeniz, onayınızı geri çekmeden önce testi işlemenin hukuki niteliğini etkilemeyecektir. Menüde \"Veri Gizliliği Bilgileri\" başlığında daha fazla bilgiye erişebilirsiniz."</string>
+    <string name="submission_positive_other_warning_privacy_body">"\"Kabul et\" seçeneğine dokunduğunuzda, Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte uygulamanın sunucu sistemine göndermesine izin vermiş olursunuz, bu sayede maruz kalma günlüğünü etkinleştirmiş olan diğer Uygulama kullanıcıları otomatik şekilde bilgilendirilebilir. İletilen rastgele kimlikler, kimliğiniz ya da kişiliğinize ilişkin sonuç çıkartacak hiçbir bilgi içermez. \n\nTest sonucunuzun Uygulama aracılığıyla iletilmesi, isteğe bağlıdır. Test sonucunuzu iletmezseniz size hiçbir dezavantajı olmaz. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı anlayamadığımız ve kontrol edemediğimiz için enfeksiyonu bulaştırıp bulaştırmadığınızı sizden başka kimse öğrenemez.\n\nUygulamayı silerek, onayınızı dilediğinizde geri alabilirsiniz. Onayın geri alınmasıyla, geri almaya kadar yapılmış veri işlemelerin hukuka uygunlukları bu durumdan etkilenmez. \"Veri Gizliliği Bilgileri\" menüsünden diğer bilgilere ulaşabilirsiniz."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Sonraki"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -909,7 +961,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Değerlendirme yapılamaz"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Sonucunuz çıkmadı"</string>
+    <string name="test_result_card_status_pending">"Sonucunuz henüz çıkmadı"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: Content for further info of test result negative -->
@@ -946,6 +998,10 @@
     <string name="errors_communication_with_api">"Google arayüzü ile iletişim sırasında hata oluştu"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"Bu işlemi gerçekleştiremezsiniz. Lütfen yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
+    <string name="errors_google_update_needed">"Corona-Warn-App uygulamanız doğru şekilde yüklendi ancak akıllı telefonunuzun işletim sisteminde \"COVID-19 maruz kalma bildirimleri\" hizmeti yok. Bu, Corona-Warn-App\'i kullanamayacağınız anlamına geliyor. Daha fazla bilgi için lütfen SSS sayfamıza bakın: https://www.coronawarn.app/en/faq/"</string>
+    <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
+    <string name="errors_google_api_error">"Corona-Warn-App doğru şekilde çalışıyor ancak mevcut risk durumunuzu güncelleyemiyoruz. Maruz kalma günlüğü aktif ve doğru şekilde çalışıyor. Daha fazla bilgi için lütfen SSS sayfamıza bakın: https://www.coronawarn.app/en/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
@@ -967,7 +1023,7 @@
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
-    <string name="menu_test_api">"Test API\'si"</string>
+    <string name="menu_test_api">"Test API"</string>
     <!-- NOTR -->
     <string name="menu_test_risk_level">"Test Risk Level"</string>
     <!-- NOTR -->

@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -141,7 +143,9 @@
         <item quantity="many">"%1$s exposures"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s of 14 days active"</string>
+    <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the last 14 days"</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">Exposure logging permanently active</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Encounters have not yet been checked."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -181,6 +185,8 @@
     <string name="risk_card_outdated_risk_headline">"Exposure logging is not possible"</string>
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Your exposure logging could not be updated for more than 24 hours."</string>
+    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
+    <string name="risk_card_outdated_manual_risk_body">"Your risk status has not been updated for more than 48 hours. Please update your risk status."</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Check is running…"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
@@ -301,6 +307,14 @@
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
+    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Period logged"</string>
+    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the last 14 days. During this time, the logging feature on your device was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -329,6 +343,10 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Your Risk Status"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">Information about exposure logging functionality</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">For further information, please see our FAQ page.</string>
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -390,6 +408,12 @@
     <string name="onboarding_tracing_dialog_button_negative">"Back"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
+    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
+    <string name="onboarding_tracing_location_headline">"Allow location access"</string>
+    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
+    <string name="onboarding_tracing_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_location_button">"Open Device Settings"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Onboarding page 4 of 5: If you are diagnosed with COVID-19..."</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -976,6 +1000,8 @@
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 exposure notifications\" service is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
+    <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
+    <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages
