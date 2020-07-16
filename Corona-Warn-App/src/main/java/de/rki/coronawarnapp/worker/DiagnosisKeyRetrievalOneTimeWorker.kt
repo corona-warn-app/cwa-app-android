@@ -31,18 +31,14 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.d("Background job started. Run attempt: $runAttemptCount ")
 
-        if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
-            return Result.failure()
-        }
         var result = Result.success()
         try {
-            val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
+            val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
             val lastFetch = DateTime(
                 LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                DateTimeZone.getDefault()
+                DateTimeZone.UTC
             )
             if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
                 currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
@@ -50,7 +46,11 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
                 RetrieveDiagnosisKeysTransaction.start()
             }
         } catch (e: Exception) {
-            result = Result.retry()
+            if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                return Result.failure()
+            } else {
+                result = Result.retry()
+            }
         }
         return result
     }
