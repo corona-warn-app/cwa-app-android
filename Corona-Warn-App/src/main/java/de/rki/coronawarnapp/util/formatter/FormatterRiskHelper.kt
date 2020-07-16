@@ -10,6 +10,7 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 import java.util.Date
 
@@ -186,20 +187,50 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> {
             if (showDetails) {
+                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
+                    appContext.getString(
+                        R.string.risk_card_body_saved_days
+                    )
+                        .format(activeTracingDaysInRetentionPeriod)
+                } else {
+                    appContext.getString(
+                        R.string.risk_card_body_saved_days_full
+                    )
+                }
+            } else {
+                ""
+            }
+        }
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
                 appContext.getString(
                     R.string.risk_card_body_saved_days
                 )
                     .format(activeTracingDaysInRetentionPeriod)
             } else {
-                ""
+                appContext.getString(
+                    R.string.risk_card_body_saved_days_full
+                )
             }
-        }
-        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(
-            R.string.risk_card_body_saved_days
-        )
-            .format(activeTracingDaysInRetentionPeriod)
+
         else -> ""
     }
+}
+
+/**
+ * Formats the risk logged period card text display of tracing active duration in days depending on risk level
+ * Displayed in case riskLevel is High and Low level
+ *
+ * @param activeTracingDaysInRetentionPeriod
+ * @return
+ */
+fun formatRiskActiveTracingDaysInRetentionPeriodLogged(
+    activeTracingDaysInRetentionPeriod: Long
+): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+        return appContext.getString(
+                R.string.risk_details_information_body_period_logged_assessment)
+            .format(activeTracingDaysInRetentionPeriod)
 }
 
 fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
@@ -546,6 +577,18 @@ fun formatVisibilityBehavior(riskLevelScore: Int?): Int =
  */
 fun formatVisibilityBehaviorIncreasedRisk(riskLevelScore: Int?): Int =
     formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK)
+
+/**
+ * Format the risk details period logged card display  depending on risk level
+ * applied in case of low and high risk levels
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatVisibilityBehaviorPeriodLogged(riskLevelScore: Int?): Int =
+    formatVisibility(
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+                riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
 
 /**
  * Formats the risk details suggested behavior icon color depending on risk level

@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SettingsRepository.isLocationEnabled
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -114,11 +115,14 @@ class SettingsTracingFragment : Fragment(),
                 settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
             val isConnectionEnabled =
                 settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
+            val isLocationEnabled =
+                settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
             // check if the row is clickable, this adds the switch behaviour
             val isEnabled = formatTracingSwitchEnabled(
                 isTracingEnabled,
                 isBluetoothEnabled,
-                isConnectionEnabled
+                isConnectionEnabled,
+                isLocationEnabled
             )
             if (isEnabled) startStopTracing()
         }
