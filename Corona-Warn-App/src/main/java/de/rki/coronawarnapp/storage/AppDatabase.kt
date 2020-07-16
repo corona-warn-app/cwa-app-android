@@ -8,8 +8,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.storage.keycache.KeyCacheDao
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
+import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
+import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.Converters
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import net.sqlcipher.database.SupportFactory
@@ -48,6 +50,9 @@ abstract class AppDatabase : RoomDatabase() {
                 SQLiteDatabase.deleteDatabase(dbFile)
             }
             resetInstance()
+            KeyCacheRepository.resetInstance()
+            TracingIntervalRepository.resetInstance()
+            ExposureSummaryRepository.resetInstance()
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
