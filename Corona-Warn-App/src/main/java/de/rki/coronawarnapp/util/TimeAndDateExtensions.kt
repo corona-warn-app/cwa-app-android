@@ -1,11 +1,14 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import com.google.common.math.DoubleMath.roundToLong
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
+import java.math.RoundingMode
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -37,6 +40,15 @@ object TimeAndDateExtensions {
 
     fun Long.daysToMilliseconds(): Long {
         return this.times(MS_TO_DAYS)
+    }
+
+    fun Long.roundUpMsToDays(): Long {
+        val numberOfDays = this / MS_TO_DAYS.toDouble()
+        Timber.v("Number of days traced: $numberOfDays")
+
+        return roundToLong(numberOfDays, RoundingMode.HALF_UP).also {
+            Timber.v("Rounded number of days to display: $it")
+        }
     }
 
     /**

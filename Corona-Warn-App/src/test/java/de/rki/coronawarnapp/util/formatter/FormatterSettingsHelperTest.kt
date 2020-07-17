@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.hamcrest.CoreMatchers
@@ -71,6 +72,7 @@ class FormatterSettingsHelperTest {
         bTracing: Boolean,
         bBluetooth: Boolean,
         bConnection: Boolean,
+        bLocation: Boolean,
         iValue: Int
     ) {
         every { context.getString(R.string.settings_tracing_status_restricted) } returns R.string.settings_tracing_status_restricted.toString()
@@ -80,7 +82,8 @@ class FormatterSettingsHelperTest {
         val result = formatTracingStatusText(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
         )
         assertThat(result, `is`((context.getString(iValue))))
     }
@@ -89,19 +92,48 @@ class FormatterSettingsHelperTest {
         bTracing: Boolean,
         bBluetooth: Boolean,
         bConnection: Boolean,
+        bLocation: Boolean,
         iValue: Int
     ) {
         every { context.getString(R.string.settings_tracing_body_bluetooth_inactive) } returns R.string.settings_tracing_body_bluetooth_inactive.toString()
         every { context.getString(R.string.settings_tracing_body_connection_inactive) } returns R.string.settings_tracing_body_connection_inactive.toString()
         every { context.getString(R.string.settings_tracing_body_active) } returns R.string.settings_tracing_body_active.toString()
         every { context.getString(R.string.settings_tracing_body_inactive) } returns R.string.settings_tracing_body_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_inactive_location) } returns R.string.settings_tracing_body_inactive_location.toString()
 
         val result = formatTracingDescription(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
+
         )
         assertThat(result, `is`((context.getString(iValue))))
+    }
+
+    private fun formatTracingContentDescriptionBase(
+        bTracing: Boolean,
+        bBluetooth: Boolean,
+        bConnection: Boolean,
+        bLocation: Boolean,
+        sValue: String
+    ) {
+        every { context.getString(R.string.settings_tracing_body_bluetooth_inactive) } returns R.string.settings_tracing_body_bluetooth_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_connection_inactive) } returns R.string.settings_tracing_body_connection_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_active) } returns R.string.settings_tracing_body_active.toString()
+        every { context.getString(R.string.settings_tracing_body_inactive) } returns R.string.settings_tracing_body_inactive.toString()
+        every { context.getString(R.string.settings_tracing_body_inactive_location) } returns R.string.settings_tracing_body_inactive_location.toString()
+        every { context.getString(R.string.accessibility_button) } returns R.string.accessibility_button.toString()
+
+        val result = formatTracingContentDescription(
+            tracing = bTracing,
+            bluetooth = bBluetooth,
+            connection = bConnection,
+            location = bLocation
+        )
+        assertThat(
+            result, `is`(sValue)
+        )
     }
 
     private fun formatNotificationsTitleBase(bValue: Boolean) {
@@ -143,12 +175,14 @@ class FormatterSettingsHelperTest {
         bTracing: Boolean,
         bBluetooth: Boolean,
         bConnection: Boolean,
+        bLocation: Boolean,
         bValue: Boolean
     ) {
         val result = formatTracingSwitch(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
         )
         assertThat(
             result, `is`(bValue)
@@ -159,12 +193,14 @@ class FormatterSettingsHelperTest {
         bTracing: Boolean,
         bBluetooth: Boolean,
         bConnection: Boolean,
+        bLocation: Boolean,
         bValue: Boolean
     ) {
         val result = formatTracingSwitchEnabled(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
         )
         assertThat(
             result, `is`(bValue)
@@ -174,17 +210,18 @@ class FormatterSettingsHelperTest {
     private fun formatTracingIconBase(
         bTracing: Boolean,
         bBluetooth: Boolean,
-        bConnection: Boolean
-    ) {
+        bConnection: Boolean,
+        bLocation: Boolean
+        ) {
         every { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_connection_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_active) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_inactive) } returns drawable
 
         val result =
-            formatTracingIcon(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection)
+            formatTracingIcon(tracing = bTracing, bluetooth = bBluetooth, connection = bConnection, location = bLocation)
         assertThat(
-            result, `is`(CoreMatchers.equalTo(drawable))
+            result, CoreMatchers.isA(Int::class.java)
         )
     }
 
@@ -192,6 +229,7 @@ class FormatterSettingsHelperTest {
         bTracing: Boolean,
         bBluetooth: Boolean,
         bConnection: Boolean,
+        bLocation: Boolean,
         iColor: Int
     ) {
         every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
@@ -200,7 +238,8 @@ class FormatterSettingsHelperTest {
         val result = formatTracingIconColor(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
         )
         assertThat(
             result, `is`(context.getColor(iColor))
@@ -210,8 +249,9 @@ class FormatterSettingsHelperTest {
     private fun formatTracingStatusImageBase(
         bTracing: Boolean,
         bBluetooth: Boolean,
-        bConnection: Boolean
-    ) {
+        bConnection: Boolean,
+        bLocation: Boolean
+        ) {
         every { context.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_connection_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_illustration_tracing_on) } returns drawable
@@ -220,7 +260,8 @@ class FormatterSettingsHelperTest {
         val result = formatTracingStatusImage(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
         )
         assertThat(
             result, `is`(CoreMatchers.equalTo(drawable))
@@ -230,12 +271,14 @@ class FormatterSettingsHelperTest {
     private fun formatTracingStatusConnectionBase(
         bTracing: Boolean,
         bBluetooth: Boolean,
-        bConnection: Boolean
-    ) {
+        bConnection: Boolean,
+        bLocation: Boolean
+        ) {
         val result = formatTracingStatusConnection(
             tracing = bTracing,
             bluetooth = bBluetooth,
-            connection = bConnection
+            connection = bConnection,
+            location = bLocation
         )
         assertThat(true, `is`(result > -1))
     }
@@ -243,13 +286,15 @@ class FormatterSettingsHelperTest {
     private fun formatTracingStatusVisibilityTracingBase(
         bTracing: Boolean,
         bBluetooth: Boolean,
-        bConnection: Boolean
-    ) {
+        bConnection: Boolean,
+        bLocation: Boolean
+        ) {
         val result =
             formatTracingStatusVisibilityTracing(
                 tracing = bTracing,
                 bluetooth = bBluetooth,
-                connection = bConnection
+                connection = bConnection,
+                location = bLocation
             )
         assertThat(true, `is`(result > -1))
     }
@@ -257,13 +302,15 @@ class FormatterSettingsHelperTest {
     private fun formatTracingStatusVisibilityBluetoothBase(
         bTracing: Boolean,
         bBluetooth: Boolean,
-        bConnection: Boolean
-    ) {
+        bConnection: Boolean,
+        bLocation: Boolean
+        ) {
         val result =
             formatTracingStatusVisibilityBluetooth(
                 tracing = bTracing,
                 bluetooth = bBluetooth,
-                connection = bConnection
+                connection = bConnection,
+                location = bLocation
             )
         assertThat(true, `is`(result > -1))
     }
@@ -359,135 +406,262 @@ class FormatterSettingsHelperTest {
 
     @Test
     fun formatTracingStatusText() {
-        // When tracing is true, bluetooth is true, connection is true
+        // When tracing is true, bluetooth is true, connection is true, location is true
         formatTracingStatusBase(
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_status_active
         )
 
-        // When tracing is false, bluetooth is false, connection is false
+        // When tracing is false, bluetooth is false, connection is false, location is false
         formatTracingStatusBase(
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
+            bLocation = false,
             iValue = R.string.settings_tracing_status_inactive
         )
 
-        // When tracing is true, bluetooth is false, connection is false
+        // When tracing is true, bluetooth is false, connection is false, location is true
         formatTracingStatusBase(
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             iValue = R.string.settings_tracing_status_restricted
         )
 
-        // When tracing is true, bluetooth is true, connection is false
+        // When tracing is true, bluetooth is true, connection is false, location is true
         formatTracingStatusBase(
             bTracing = true,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
             iValue = R.string.settings_tracing_status_restricted
         )
 
-        // When tracing is false, bluetooth is true, connection is false
+        // When tracing is false, bluetooth is true, connection is false, location is false
         formatTracingStatusBase(
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
+            bLocation = false,
             iValue = R.string.settings_tracing_status_inactive
         )
 
-        // When tracing is false, bluetooth is true, connection is true
+        // When tracing is false, bluetooth is true, connection is true, location is true
         formatTracingStatusBase(
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_status_inactive
         )
 
-        // When tracing is true, bluetooth is false, connection is true
+        // When tracing is true, bluetooth is false, connection is true, location is true
         formatTracingStatusBase(
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_status_restricted
         )
 
-        // When tracing is false, bluetooth is false, connection is true
+        // When tracing is false, bluetooth is false, connection is true, location is true
         formatTracingStatusBase(
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_status_inactive
         )
     }
 
     @Test
     fun formatTracingDescription() {
-        // When tracing is true, bluetooth is true, connection is true
+        // When tracing is true, bluetooth is true, connection is true, location is true
         formatTracingDescriptionBase(
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_body_active
         )
 
-        // When tracing is false, bluetooth is false, connection is false
+        // When tracing is false, bluetooth is false, connection is false, location is false
         formatTracingDescriptionBase(
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
-            iValue = R.string.settings_tracing_body_inactive
+            bLocation = false,
+            iValue = R.string.settings_tracing_body_inactive_location
         )
 
-        // When tracing is true, bluetooth is false, connection is false
+        // When tracing is true, bluetooth is false, connection is false, location is true
         formatTracingDescriptionBase(
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
-            iValue = R.string.settings_tracing_body_bluetooth_inactive
-        )
-
-        // When tracing is true, bluetooth is true, connection is false
-        formatTracingDescriptionBase(
-            bTracing = true,
-            bBluetooth = true,
-            bConnection = false,
+            bLocation = true,
             iValue = R.string.settings_tracing_body_connection_inactive
         )
 
-        // When tracing is false, bluetooth is true, connection is false
+        // When tracing is true, bluetooth is true, connection is false, location is true
+        formatTracingDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false,
+            bLocation = true,
+            iValue = R.string.settings_tracing_body_connection_inactive
+        )
+
+        // When tracing is false, bluetooth is true, connection is false, location is true
         formatTracingDescriptionBase(
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
             iValue = R.string.settings_tracing_body_inactive
         )
 
-        // When tracing is false, bluetooth is true, connection is true
+        // When tracing is false, bluetooth is true, connection is true, location is true
         formatTracingDescriptionBase(
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_body_inactive
         )
 
-        // When tracing is true, bluetooth is false, connection is true
+        // When tracing is true, bluetooth is false, connection is true, location is true
         formatTracingDescriptionBase(
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_body_bluetooth_inactive
         )
 
-        // When tracing is false, bluetooth is false, connection is true
+        // When tracing is false, bluetooth is false, connection is true, location is true
         formatTracingDescriptionBase(
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             iValue = R.string.settings_tracing_body_inactive
+        )
+
+        // When tracing is true, bluetooth is true, connection is true, location is false
+        formatTracingDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
+            iValue = R.string.settings_tracing_body_inactive_location
+        )
+
+        // When tracing is false, bluetooth is true, connection is true, location is false
+        formatTracingDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
+            iValue = R.string.settings_tracing_body_inactive_location
+        )
+    }
+
+    @Test
+    fun formatTracingContentDescription() {
+        // When tracing is true, bluetooth is true, connection is true, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_active.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is false, connection is false, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = false,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is false, connection is false, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = false,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is true, connection is false, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = false,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is false, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = false,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is true, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is false, connection is true, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = false,
+            bConnection = true,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is false, connection is true, location is true
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = false,
+            bConnection = true,
+            bLocation = true,
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is false, bluetooth is true, connection is true, location is false
+        formatTracingContentDescriptionBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
+            sValue = R.string.settings_tracing_body_inactive_location.toString() + " " + R.string.accessibility_button.toString()
+        )
+
+        // When tracing is true, bluetooth is true, connection is true, location is false
+        formatTracingContentDescriptionBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
+            sValue = R.string.settings_tracing_body_inactive_location.toString() + " " + R.string.accessibility_button.toString()
         )
     }
 
@@ -524,6 +698,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             bValue = true
         )
 
@@ -531,6 +706,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             bValue = false
         )
 
@@ -538,6 +714,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             bValue = false
         )
 
@@ -545,6 +722,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
             bValue = false
         )
 
@@ -552,6 +730,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             bValue = false
         )
 
@@ -559,6 +738,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             bValue = false
         )
 
@@ -566,6 +746,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             bValue = false
         )
 
@@ -573,6 +754,23 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
+            bValue = false
+        )
+
+        formatTracingSwitchBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
+            bValue = false
+        )
+
+        formatTracingSwitchBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
             bValue = false
         )
     }
@@ -584,6 +782,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             bValue = true
         )
 
@@ -591,6 +790,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             bValue = true
         )
 
@@ -598,6 +798,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             bValue = true
         )
 
@@ -605,6 +806,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
             bValue = true
         )
 
@@ -612,6 +814,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             bValue = true
         )
 
@@ -619,6 +822,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             bValue = false
         )
 
@@ -626,6 +830,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             bValue = false
         )
 
@@ -633,27 +838,30 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
             bValue = false
         )
     }
 
     @Test
     fun formatTracingIcon() {
-        formatTracingIconBase(bTracing = true, bBluetooth = true, bConnection = true)
+        formatTracingIconBase(bTracing = true, bBluetooth = true, bConnection = true, bLocation = true)
 
-        formatTracingIconBase(bTracing = false, bBluetooth = false, bConnection = false)
+        formatTracingIconBase(bTracing = false, bBluetooth = false, bConnection = false, bLocation = true)
 
-        formatTracingIconBase(bTracing = false, bBluetooth = false, bConnection = true)
+        formatTracingIconBase(bTracing = false, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingIconBase(bTracing = false, bBluetooth = true, bConnection = false)
+        formatTracingIconBase(bTracing = false, bBluetooth = true, bConnection = false, bLocation = true)
 
-        formatTracingIconBase(bTracing = false, bBluetooth = true, bConnection = true)
+        formatTracingIconBase(bTracing = false, bBluetooth = true, bConnection = true, bLocation = true)
 
-        formatTracingIconBase(bTracing = true, bBluetooth = false, bConnection = false)
+        formatTracingIconBase(bTracing = true, bBluetooth = false, bConnection = false, bLocation = true)
 
-        formatTracingIconBase(bTracing = true, bBluetooth = false, bConnection = true)
+        formatTracingIconBase(bTracing = true, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingIconBase(bTracing = true, bBluetooth = true, bConnection = false)
+        formatTracingIconBase(bTracing = true, bBluetooth = true, bConnection = false, bLocation = true)
+
+        formatTracingIconBase(bTracing = true, bBluetooth = true, bConnection = true, bLocation = false)
     }
 
     @Test
@@ -663,6 +871,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             iColor = R.color.colorAccentTintIcon
         )
 
@@ -670,6 +879,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
 
@@ -677,6 +887,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
 
@@ -684,6 +895,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
 
@@ -691,6 +903,7 @@ class FormatterSettingsHelperTest {
             bTracing = false,
             bBluetooth = true,
             bConnection = true,
+            bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
 
@@ -698,6 +911,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = false,
+            bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
 
@@ -705,6 +919,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = false,
             bConnection = true,
+            bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
 
@@ -712,46 +927,55 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bConnection = false,
+            bLocation = true,
+            iColor = R.color.colorTextSemanticRed
+        )
+
+        formatTracingIconColorBase(
+            bTracing = true,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = false,
             iColor = R.color.colorTextSemanticRed
         )
     }
 
     @Test
     fun formatTracingStatusImage() {
-        formatTracingStatusImageBase(bTracing = true, bBluetooth = true, bConnection = true)
+        formatTracingStatusImageBase(bTracing = true, bBluetooth = true, bConnection = true, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = false, bBluetooth = false, bConnection = false)
+        formatTracingStatusImageBase(bTracing = false, bBluetooth = false, bConnection = false, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = false, bBluetooth = false, bConnection = true)
+        formatTracingStatusImageBase(bTracing = false, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = false, bBluetooth = true, bConnection = false)
+        formatTracingStatusImageBase(bTracing = false, bBluetooth = true, bConnection = false, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = false, bBluetooth = true, bConnection = true)
+        formatTracingStatusImageBase(bTracing = false, bBluetooth = true, bConnection = true, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = true, bBluetooth = false, bConnection = false)
+        formatTracingStatusImageBase(bTracing = true, bBluetooth = false, bConnection = false, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = true, bBluetooth = false, bConnection = true)
+        formatTracingStatusImageBase(bTracing = true, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingStatusImageBase(bTracing = true, bBluetooth = true, bConnection = false)
+        formatTracingStatusImageBase(bTracing = true, bBluetooth = true, bConnection = false, bLocation = true)
     }
 
     @Test
     fun formatTracingStatusConnection() {
-        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = true, bConnection = true)
+        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = true, bConnection = true, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = false, bConnection = false)
+        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = false, bConnection = false, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = false, bConnection = true)
+        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = true, bConnection = false)
+        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = true, bConnection = false, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = true, bConnection = true)
+        formatTracingStatusConnectionBase(bTracing = false, bBluetooth = true, bConnection = true, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = false)
+        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = false, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = true)
+        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = true, bConnection = false)
+        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = true, bConnection = false, bLocation = true)
     }
 
     @Test
@@ -759,42 +983,48 @@ class FormatterSettingsHelperTest {
         formatTracingStatusVisibilityBluetoothBase(
             bTracing = true,
             bBluetooth = true,
-            bConnection = true
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityBluetoothBase(
             bTracing = false,
             bBluetooth = false,
-            bConnection = false
+            bConnection = false,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityBluetoothBase(
             bTracing = false,
             bBluetooth = false,
-            bConnection = true
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityBluetoothBase(
             bTracing = false,
             bBluetooth = true,
-            bConnection = false
+            bConnection = false,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityBluetoothBase(
             bTracing = false,
             bBluetooth = true,
-            bConnection = true
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityBluetoothBase(
             bTracing = true,
             bBluetooth = false,
-            bConnection = false
+            bConnection = false,
+            bLocation = true
         )
 
-        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = true)
+        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = false, bConnection = true, bLocation = true)
 
-        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = true, bConnection = false)
+        formatTracingStatusConnectionBase(bTracing = true, bBluetooth = true, bConnection = false, bLocation = true)
     }
 
     @Test
@@ -802,49 +1032,57 @@ class FormatterSettingsHelperTest {
         formatTracingStatusVisibilityTracingBase(
             bTracing = true,
             bBluetooth = true,
-            bConnection = true
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityTracingBase(
             bTracing = false,
             bBluetooth = false,
-            bConnection = false
+            bConnection = false,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityTracingBase(
             bTracing = false,
             bBluetooth = false,
-            bConnection = true
-        )
-
-        formatTracingStatusVisibilityTracingBase(
-            bTracing = false,
-            bBluetooth = true,
-            bConnection = false
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityTracingBase(
             bTracing = false,
             bBluetooth = true,
-            bConnection = true
+            bConnection = false,
+            bLocation = true
+        )
+
+        formatTracingStatusVisibilityTracingBase(
+            bTracing = false,
+            bBluetooth = true,
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityTracingBase(
             bTracing = true,
             bBluetooth = false,
-            bConnection = false
+            bConnection = false,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityTracingBase(
             bTracing = true,
             bBluetooth = false,
-            bConnection = true
+            bConnection = true,
+            bLocation = true
         )
 
         formatTracingStatusVisibilityTracingBase(
             bTracing = true,
             bBluetooth = true,
-            bConnection = false
+            bConnection = false,
+            bLocation = true
         )
     }
 
@@ -853,6 +1091,55 @@ class FormatterSettingsHelperTest {
         formatNotificationImageBase(bNotifications = true)
 
         formatNotificationImageBase(bNotifications = false)
+    }
+
+    @Test
+    fun formatSettingsBackgroundPriorityIconColor() {
+        formatSettingsBackgroundPriorityIconColorBase(true, R.color.colorAccentTintIcon)
+        formatSettingsBackgroundPriorityIconColorBase(false, R.color.colorTextSemanticRed)
+    }
+
+    private fun formatSettingsBackgroundPriorityIconColorBase(
+        enabled: Boolean,
+        expectedColor: Int
+    ) {
+        every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
+        every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
+
+        val result =
+            formatSettingsBackgroundPriorityIconColor(enabled)
+        assertThat(
+            result, `is`(context.getColor(expectedColor))
+        )
+    }
+
+    @Test
+    fun formatSettingsBackgroundPriorityIcon() {
+        formatSettingsBackgroundPriorityIconBase(
+            true,
+            R.drawable.ic_settings_background_priority_enabled
+        )
+        formatSettingsBackgroundPriorityIconBase(
+            false,
+            R.drawable.ic_settings_background_priority_disabled
+        )
+    }
+
+    private fun formatSettingsBackgroundPriorityIconBase(
+        enabled: Boolean,
+        expectedDrawable: Int
+    ) {
+        val drawableA = mockk<Drawable>()
+        val drawableB = mockk<Drawable>()
+
+        every { context.getDrawable(R.drawable.ic_settings_background_priority_enabled) } returns drawableA
+        every { context.getDrawable(R.drawable.ic_settings_background_priority_disabled) } returns drawableB
+
+        val result =
+            formatSettingsBackgroundPriorityIcon(enabled)
+        assertThat(
+            result, `is`(context.getDrawable(expectedDrawable))
+        )
     }
 
     @After

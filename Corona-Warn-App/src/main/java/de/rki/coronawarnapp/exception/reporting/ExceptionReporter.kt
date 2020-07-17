@@ -6,7 +6,9 @@ import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_API_FAIL
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
+import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -38,6 +40,10 @@ fun Throwable.report(
 
         if (this.statusCode == STATUS_CODE_GOOGLE_UPDATE_NEEDED) {
             errorMessage = R.string.errors_google_update_needed
+        } else if (this.statusCode == STATUS_CODE_REACHED_REQUEST_LIMIT ||
+            this.statusCode == STATUS_CODE_GOOGLE_API_FAIL
+        ) {
+            errorMessage = R.string.errors_google_api_error
         }
 
         intent.putExtra(

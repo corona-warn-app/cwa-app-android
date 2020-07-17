@@ -284,6 +284,34 @@ object LocalData {
             )
         }
 
+    /**
+     * Gets the boolean if the user has seen the explanation dialog for the
+     * risk level tracing days
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if user is onboarded
+     */
+    fun tracingExplanationDialogWasShown(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_risk_days_explanation_shown),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has seen the explanation dialog for the
+     * risk level tracing days
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if onboarding was completed
+     */
+    fun tracingExplanationDialogWasShown(value: Boolean) =
+        getSharedPreferenceInstance().edit(true) {
+            putBoolean(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_risk_days_explanation_shown), value
+            )
+        }
+
     /****************************************************
      * SERVER FETCH DATA
      ****************************************************/

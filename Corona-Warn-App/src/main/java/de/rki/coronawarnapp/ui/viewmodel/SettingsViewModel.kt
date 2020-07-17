@@ -21,9 +21,14 @@ class SettingsViewModel : ViewModel() {
         SettingsRepository.isConnectionEnabled
     val isBluetoothEnabled: LiveData<Boolean> =
         SettingsRepository.isBluetoothEnabled
+    val isLocationEnabled: LiveData<Boolean> =
+        SettingsRepository.isLocationEnabled
 
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
+
+    val isBackgroundPriorityEnabled: LiveData<Boolean> =
+        SettingsRepository.isBackgroundPriorityEnabled
 
     /**
      * Is manual key retrieval enabled
@@ -98,6 +103,15 @@ class SettingsViewModel : ViewModel() {
     }
 
     /**
+     * Update location enabled
+     *
+     * @param value
+     */
+    fun updateLocationEnabled(value: Boolean) {
+        SettingsRepository.updateLocationEnabled(value)
+    }
+
+    /**
      * Update background job enabled
      *
      * @param value
@@ -113,5 +127,9 @@ class SettingsViewModel : ViewModel() {
      */
     fun updateManualKeyRetrievalEnabled(value: Boolean) {
         SettingsRepository.updateManualKeyRetrievalEnabled(value)
+    }
+
+    fun refreshBackgroundPriorityEnabled(context: Context) {
+        SettingsRepository.refreshBackgroundPriorityEnabled(context)
     }
 }
