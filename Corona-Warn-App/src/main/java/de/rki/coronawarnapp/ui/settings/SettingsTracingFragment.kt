@@ -107,8 +107,8 @@ class SettingsTracingFragment : Fragment(),
             if (switch.tag != IGNORE_CHANGE_TAG) {
                 startStopTracing()
                 //focus on the body text after to announce the tracing status for accessibility reasons
-                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-
+                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody.
+                    sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
             }
         }
         row.setOnClickListener {
