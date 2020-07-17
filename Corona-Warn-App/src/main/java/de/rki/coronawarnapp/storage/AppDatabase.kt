@@ -50,6 +50,8 @@ abstract class AppDatabase : RoomDatabase() {
                 SQLiteDatabase.deleteDatabase(dbFile)
             }
             resetInstance()
+
+            // reset also the repo instances
             KeyCacheRepository.resetInstance()
             TracingIntervalRepository.resetInstance()
             ExposureSummaryRepository.resetInstance()
