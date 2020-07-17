@@ -653,7 +653,7 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Hata"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Gönderme işlemi için TAN oluşturulamadı. Lütfen Uygulama Bilgileri → Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"Oluşturulan TAN, gönderme işlemi için geçersiz. Lütfen Uygulama Bilgileri → Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Geri"</string>
 
