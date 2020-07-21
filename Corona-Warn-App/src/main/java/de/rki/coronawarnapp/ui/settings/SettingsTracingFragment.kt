@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.android.synthetic.main.fragment_settings_tracing.view.*
 import kotlinx.coroutines.launch
 
 /**
@@ -106,6 +107,9 @@ class SettingsTracingFragment : Fragment(),
             // Make sure that listener is called by user interaction
             if (switch.tag != IGNORE_CHANGE_TAG) {
                 startStopTracing()
+                // Focus on the body text after to announce the tracing status for accessibility reasons
+                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
             }
         }
         row.setOnClickListener {
