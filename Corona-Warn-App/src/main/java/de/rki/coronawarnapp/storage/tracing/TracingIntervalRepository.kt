@@ -39,6 +39,10 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
                         .also { instance = it }
             }
 
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
+
         fun getDateRepository(context: Context): TracingIntervalRepository {
             return getInstance(
                 AppDatabase.getInstance(context.applicationContext)
