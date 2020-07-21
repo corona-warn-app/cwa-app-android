@@ -37,6 +37,10 @@ class KeyCacheRepository(private val keyCacheDao: KeyCacheDao) {
                         .also { instance = it }
             }
 
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
+
         fun getDateRepository(context: Context): KeyCacheRepository {
             return getInstance(
                 AppDatabase.getInstance(context.applicationContext)

@@ -87,7 +87,7 @@
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_logo">"Corona-Warn-App"</string>
     <!-- XACT: button description for screen readers to be appended at the end of content without focusable subcontent that are explored by touch -->
-    <string name="accessibility_button">"Button"</string>
+    <string name="accessibility_button">"Taste"</string>
 
     <!-- ####################################
                      Menu
@@ -697,7 +697,7 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Fehler"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Es konnte keine Übermittlungs-TAN erstellt werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen → Technische Hotline."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"Die erzeugte Übermittlungs-TAN ist ungültig. Bitte kontaktieren Sie die technische Hotline über App-Informationen → Technische Hotline."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Zurück"</string>
 
