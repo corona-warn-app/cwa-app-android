@@ -101,6 +101,7 @@ class SettingsTracingFragment : Fragment(),
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
+        val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnCheckedChangeListener { _, _ ->
@@ -134,6 +135,9 @@ class SettingsTracingFragment : Fragment(),
             (activity as MainActivity).goBack()
         }
         bluetooth.setOnClickListener {
+            ExternalActionHelper.toMainSettings(requireContext())
+        }
+        location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
         connection.setOnClickListener {
