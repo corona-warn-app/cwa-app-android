@@ -56,6 +56,8 @@ fun formatRiskLevelHeadline(riskLevelScore: Int?, isRefreshing: Boolean?): Strin
             RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(R.string.risk_card_low_risk_headline)
             RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 appContext.getString(R.string.risk_card_unknown_risk_headline)
+            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+                appContext.getString(R.string.risk_card_unknown_risk_headline)
             else -> ""
         }
     }
@@ -75,7 +77,10 @@ fun formatRiskBody(riskLevelScore: Int?): String {
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getString(R.string.risk_card_outdated_risk_body)
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
             appContext.getString(R.string.risk_card_body_tracing_off)
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getString(R.string.risk_card_unknown_risk_body)
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
+            appContext.getString(R.string.risk_card_unknown_risk_body)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+            appContext.getString(R.string.risk_card_outdated_manual_risk_body)
         else -> ""
     }
 }
@@ -96,7 +101,8 @@ fun formatRiskSavedRisk(
     val appContext = CoronaWarnApplication.getAppContext()
     return if (
         riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
-        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ||
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
     ) {
         when (riskLevelScoreLastSuccessfulCalculated) {
             RiskLevelConstants.LOW_LEVEL_RISK,
@@ -264,7 +270,8 @@ fun formatTimeFetched(
             }
         }
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> {
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
             when (riskLevelScoreLastSuccessfulCalculated) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
                 RiskLevelConstants.INCREASED_RISK,
@@ -334,7 +341,8 @@ fun formatNextUpdateContentDescription(
             RiskLevelConstants.INCREASED_RISK -> appContext.getString(
                 R.string.risk_card_body_next_update
             ) + " " + appContext.getString(
-                R.string.accessibility_button)
+                R.string.accessibility_button
+            )
             else -> ""
         }
     }
@@ -611,6 +619,7 @@ fun formatBehaviorIconBackground(riskLevelScore: Int?): Int {
         RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorSemanticHighRisk)
         RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorSemanticLowRisk)
         RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getColor(R.color.colorSemanticNeutralRisk)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> appContext.getColor(R.color.colorSemanticNeutralRisk)
         else -> appContext.getColor(R.color.colorSurface2)
     }
 }
