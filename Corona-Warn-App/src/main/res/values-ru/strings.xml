@@ -437,12 +437,6 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Открыть настройки устройства"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_location_headline">""</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">""</string>
-    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
-    <string name="settings_tracing_status_location_button">""</string>
-    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Установить соединение с Интернетом"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Для расчета контактов функцией определения контакта требуется соединение с Интернетом. Включите Wi-Fi или мобильные данные в настройках устройства."</string>
@@ -462,8 +456,6 @@
     <string name="settings_tracing_illustration_description_inactive">"Один человек деактивировал определение контакта на своем устройстве, то есть его контакты с двумя другими людьми не будут регистрироваться."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Один человек выключил Bluetooth на своем устройстве, то есть его контакты с двумя другими людьми не будут регистрироваться."</string>
-    <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive">""</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Один человек отключил соединение с Интернетом на своем устройстве, то есть его контакты с двумя другими людьми не будут регистрироваться."</string>
 
