@@ -25,6 +25,7 @@ object SettingsRepository {
     val isManualKeyRetrievalEnabled = MutableLiveData(true)
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
+    val isLocationEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
     val isBackgroundPriorityEnabled = MutableLiveData(false)
     val manualKeyRetrievalTime = MutableLiveData<Long>()
@@ -93,6 +94,15 @@ object SettingsRepository {
      */
     fun updateBluetoothEnabled(value: Boolean) {
         isBluetoothEnabled.postValue(value)
+    }
+
+    /**
+     * Refresh global location state to point out that tracing isn't working
+     *
+     * @see ConnectivityHelper
+     */
+    fun updateLocationEnabled(value: Boolean) {
+        isLocationEnabled.postValue(value)
     }
 
     /**

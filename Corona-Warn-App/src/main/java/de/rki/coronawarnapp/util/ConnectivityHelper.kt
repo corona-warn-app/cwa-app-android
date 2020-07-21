@@ -6,11 +6,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import timber.log.Timber
@@ -67,6 +69,63 @@ object ConnectivityHelper {
      * @see [BluetoothCallback]
      */
     fun unregisterBluetoothStatusCallback(context: Context, callback: BluetoothCallback) {
+        context.unregisterReceiver(callback.recevier)
+        callback.recevier = null
+    }
+
+    /**
+     * Register location state change listener.
+     *
+     * @param context the context
+     * @param callback the location state callback
+     *
+     */
+    fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
+            val receiver = object : BroadcastReceiver() {
+                var isGpsEnabled: Boolean = false
+                var isNetworkEnabled: Boolean = false
+
+                override fun onReceive(context: Context, intent: Intent) {
+                    intent.action?.let { act ->
+                        if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
+                            val locationManager =
+                                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                            isGpsEnabled =
+                                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                            isNetworkEnabled =
+                                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+                            if (isGpsEnabled || isNetworkEnabled) {
+                                callback.onLocationAvailable()
+                                Timber.d("Location enabled")
+                            } else {
+                                callback.onLocationUnavailable()
+                                Timber.d("Location disabled")
+                            }
+                        }
+                    }
+                }
+        }
+        callback.recevier = receiver
+        context.registerReceiver(
+            callback.recevier,
+            IntentFilter("android.location.PROVIDERS_CHANGED")
+        )
+        // location state doesn't change when you register
+        if (isLocationEnabled(context))
+            callback.onLocationAvailable()
+        else
+            callback.onLocationUnavailable()
+    }
+
+    /**
+     * Unregister location state change listener.
+     *
+     * @param context the context
+     * @param callback the location state callback
+     *
+     */
+    fun unregisterLocationStatusCallback(context: Context, callback: LocationCallback) {
         context.unregisterReceiver(callback.recevier)
         callback.recevier = null
     }
@@ -159,6 +218,17 @@ object ConnectivityHelper {
     }
 
     /**
+     * Get location enabled status.
+     *
+     * @return current location status
+     *
+     */
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(locationManager)
+    }
+
+    /**
      * Get network enabled status.
      *
      * @return current network status
@@ -190,6 +260,24 @@ object ConnectivityHelper {
         abstract fun onBluetoothUnavailable()
     }
 
+    /**
+     * Abstract location state change callback.
+     *
+     * @see BroadcastReceiver
+     */
+    abstract class LocationCallback {
+        var recevier: BroadcastReceiver? = null
+
+        /**
+         * Called when location is turned on.
+         */
+        abstract fun onLocationAvailable()
+
+        /**
+         * Called when location is turned off.
+         */
+        abstract fun onLocationUnavailable()
+    }
     /**
      * Abstract network state change callback.
      *

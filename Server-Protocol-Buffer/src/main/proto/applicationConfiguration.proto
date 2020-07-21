@@ -67,7 +67,7 @@ message RiskScoreParameters {
         RiskLevel gt_27_le_33_dbm = 5; // 27 < A <= 33 dBm
         RiskLevel gt_15_le_27_dbm = 6; // 15 < A <= 27 dBm
         RiskLevel gt_10_le_15_dbm = 7; // 10 < A <= 15 dBm
-        RiskLevel lt_10_dbm = 8; // A <= 10 dBm, highest risk
+        RiskLevel le_10_dbm = 8; // A <= 10 dBm, highest risk
     }
 }
 

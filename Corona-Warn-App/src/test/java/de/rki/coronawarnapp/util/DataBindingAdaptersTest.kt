@@ -22,6 +22,7 @@ class DataBindingAdaptersTest {
 
     @MockK
     private lateinit var context: Context
+
     @MockK
     private lateinit var drawable: Drawable
 
