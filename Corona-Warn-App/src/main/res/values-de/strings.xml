@@ -344,9 +344,9 @@
     <string name="risk_details_accessibility_title">"Ihr Risikostatus"</string>
 
     <!-- XHED: one time risk explanation dialog title  -->
-    <string name="risk_details_explanation_dialog_title">Information zur Funktionsweise der Risiko-Ermittlung</string>
+    <string name="risk_details_explanation_dialog_title">"Information zur Funktionsweise der Risiko-Ermittlung"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">Weitere Informationen finden Sie in den FAQ.</string>
+    <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
 
     <!-- ####################################
               Onboarding
@@ -519,7 +519,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres COVID-19 Tests"</string>
+    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
@@ -563,11 +563,11 @@
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen.</string>
+    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">Geräte-Einstellungen öffnen</string>
+    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">Priorisierte Hintergrundaktivität ausschalten</string>
+    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
@@ -582,7 +582,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Gemeinsam Corona bekämpfen"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationales Public-Health-Institut veröffentlicht die Corona-Warn-App für die gesamte Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske."</string>
+    <string name="information_about_body_emphasized">"Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationales Public-Health-Institut veröffentlicht die Corona-Warn-App im Auftrag der Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Wer sie nutzt, hilft, Infektionsketten schnell nachzuverfolgen und zu durchbrechen. Die App speichert dezentral – auf Ihrem Smartphone – Begegnungen mit anderen. Sie werden informiert, wenn Sie Begegnungen mit nachweislich infizierten Personen hatten. Ihre Privatsphäre bleibt dabei bestens geschützt."</string>
     <!-- XACT: describes illustration -->

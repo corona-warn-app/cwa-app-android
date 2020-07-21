@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -141,7 +143,9 @@
         <item quantity="many">"%1$s контактов"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Дней активности: %1$s из 14"</string>
+    <string name="risk_card_body_saved_days">"Определение риска активно %1$s из 14 прошедших дней."</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"Определение риска постоянно активно."</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Контакты еще не проверены."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -303,6 +307,14 @@
     <string name="risk_details_behavior_increased_body_3">"Местный орган здравоохранения"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Риск заражения"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Период нахождения в системе"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"Этот период включен в расчет."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Ваш риск заражения можно рассчитать только для периодов активного определения риска, поэтому функция определения должна быть постоянно активной."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Определение риска охватывает последние 14 дней. В течение этого времени функция определения на Вашем устройстве была активна %1$s дн. Приложение автоматически удаляет старые журналы, как только они теряют значение для предотвращения заражения."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Вот как был рассчитан Ваш риск"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -330,6 +342,11 @@
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Ваш статус риска"</string>
+
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">"Информация о функции определения риска"</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"Подробнее см. на странице часто задаваемых вопросов."</string>
 
     <!-- ####################################
               Onboarding
@@ -439,6 +456,8 @@
     <string name="settings_tracing_body_active">"Определение риска активно"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Определение риска остановлено"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Сервис определения местоположения отключен"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Для определения риска Ваше устройство получает по Bluetooth зашифрованные случайные идентификаторы других пользователей и передает Ваш случайный идентификатор на их устройства. Эту функцию можно деактивировать в любое время."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Зашифрованные случайные идентификаторы передают другим людям только информацию о дате, продолжительности и близости (рассчитанной по силе сигнала) контакта. Персональные данные, такие как имя, адрес или местоположение, никогда не регистрируются. Идентификация лица невозможна."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -465,7 +484,7 @@
     <string name="settings_tracing_status_connection_button">"Открыть настройки устройства"</string>
     <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
     <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Определение риска активно в течение %1$s дня.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+        <item quantity="one">"Определение риска активно в течение одного дня.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
         <item quantity="other">"Определение риска активно в течение %1$s дня.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
         <item quantity="zero">"Определение риска активно в течение %1$s дней.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
         <item quantity="two">"Определение риска активно в течение %1$s дней.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
@@ -563,7 +582,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Давайте победим коронавирус вместе"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Институт Роберта Коха (РКИ) — это центральный федеральный институт Германии в области здравоохранения. По запросу федерального правительства РКИ выпустил приложение Corona-Warn-App. Приложение стало цифровым дополнением к уже принятым санитарным мерам: социальной дистанции, гигиене и ношению защитных масок."</string>
+    <string name="information_about_body_emphasized">"Институт Роберта Коха (РКИ) — это центральный федеральный институт Германии в области здравоохранения. По поручению федерального правительства РКИ выпустил приложение Corona-Warn-App. Приложение задумано как цифровое дополнение к уже принятым санитарным мерам: социальной дистанции, гигиене и ношению защитных масок."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Каждый пользователь приложения помогает отслеживать и останавливать передачу инфекции. Приложение регистрирует контакты с другими людьми локально на вашем устройстве. Вы получаете уведомления о контактах с людьми, которые впоследствии получили положительный результат теста на COVID-19. Ваши персональные данные и конфиденциальность надежно защищены."</string>
     <!-- XACT: describes illustration -->

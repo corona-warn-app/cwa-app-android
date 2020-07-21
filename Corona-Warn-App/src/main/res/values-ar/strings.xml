@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -135,13 +137,15 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s مخالطة"</item>
         <item quantity="other">"%1$s من المخالطات"</item>
-        <item quantity="zero">"%1$s مخالطة"</item>
-        <item quantity="two">"%1$s مخالطة"</item>
+        <item quantity="zero">"%1$s من المخالطات"</item>
+        <item quantity="two">"%1$s من المخالطات"</item>
         <item quantity="few">"%1$s من المخالطات"</item>
         <item quantity="many">"%1$s من المخالطات"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s من 14 يومًا نشط"</string>
+    <string name="risk_card_body_saved_days">"تسجيل المخالطة كان نشطًا لمدة %1$s من الأربعة عشر يومًا الماضية."</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"تسجيل المخالطة نشط دائمًا"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"لم يتم فحص التجمُّعات حتى الآن."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -164,8 +168,8 @@
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s يوم منذ آخر تجمُّع"</item>
         <item quantity="other">"%1$s من الأيام منذ آخر تجمُّع"</item>
-        <item quantity="zero">"%1$s يوم منذ آخر تجمُّع"</item>
-        <item quantity="two">"%1$s يوم منذ آخر تجمُّع"</item>
+        <item quantity="zero">"%1$s من الأيام منذ آخر تجمُّع"</item>
+        <item quantity="two">"%1$s من الأيام منذ آخر تجمُّع"</item>
         <item quantity="few">"%1$s من الأيام منذ آخر تجمُّع"</item>
         <item quantity="many">"%1$s من الأيام منذ آخر تجمُّع"</item>
     </plurals>
@@ -271,7 +275,7 @@
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"هاتف ذكي يعرض محتوى متنوعًا، مرقمًا من 1 إلى 3."</string>
     <!-- XACT: App main page title -->
-    <string name="main_title">"الصفحة الرئيسية لتطبيق Corona-Warn-App."</string>
+    <string name="main_title">"الصفحة الرئيسية لتطبيق Corona-Warn-App"</string>
 
     <!-- ####################################
                Risk Details
@@ -303,6 +307,14 @@
     <string name="risk_details_behavior_increased_body_3">"دائرة الصحة العامة"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"خطر العدوى"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_headline_period_logged">"تم تسجيل الفترة"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"هذه الفترة مضمَّنة في الاحتساب."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"يمكن تقدير خطر العدوى بالنسبة إليك فقط للفترات التي كان خلالها تسجيل المخالطة نشطًا. وبالتالي يجب أن تظل ميزة التسجيل نشطة دائمًا."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"يشمل تسجيل المخالطة الأربعة عشر يومًا الماضية. وأثناء هذه الفترة يمكن أن تكون ميزة التسجيل على جهازك نشطة لمدة %1$s من الأيام. يقوم التطبيق تلقائيًا بحذف السجلات الأقدم، مثل تلك التي لم تعد ذات صلة بمنع العدوى."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"هذه هي الطريقة التي كان يتم بها تقدير الخطر الواقع عليك"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -330,6 +342,11 @@
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"مستوى الخطر"</string>
+
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">"معلومات حول وظيفة تسجيل المخالطة"</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"لمزيد من المعلومات، راجع صفحة الأسئلة المتكررة."</string>
 
     <!-- ####################################
               Onboarding
@@ -439,6 +456,8 @@
     <string name="settings_tracing_body_active">"تسجيل المخالطة نشط"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"تسجيل المخالطة توقف"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"خدمة الموقع تم إلغاء تنشيطها"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"يعمل تسجيل المخالطة من خلال تلقي جهازك، عبر Bluetooth، المعرفات العشوائية المشفرة لمستخدمين آخرين وتمرير معرفك العشوائي إلى أجهزتهم. ويمكن إلغاء تنشيط هذه الميزة في أي وقت."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لا تمرر المعرفات العشوائية المشفرة إلا معلومات حول التاريخ والمدة ومدى الاقتراب (يتم التقدير باستخدام قوة الإشارة) إلى الأشخاص الآخرين. ولا يتم أبدًا تسجيل البيانات الشخصية، مثل الاسم والعنوان والموقع، كما لا يمكن تحديد هوية الأفراد."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -488,7 +507,7 @@
     <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
     <string name="settings_notifications_headline_inactive">"تم إلغاء تنشيط الإشعارات"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"السماح بالإشعارات التلقائية لمستوى خطر مرض كوفيد-19."</string>
+    <string name="settings_notifications_body_description">"السماح بالإشعارات التلقائية لمستوى خطر مرض كوفيد-19"</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"حدد المناطق التي تريد استمرار تلقي الإشعارات عنها."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
@@ -563,7 +582,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"لنكافح فيروس كورونا معًا"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"معهد روبرت كوخ (RKI) هو الهيئة الصحية الاتحادية العامة في ألمانيا. ينشر المعهد تطبيق Corona-Warn-App باسم الحكومة الاتحادية، ويمثل التطبيق الامتداد الرقمي لإجراءات الصحة العامة المنفَّذة بالفعل: التباعد الاجتماعي والنظافة الشخصية واستخدام أقنعة الوجه."</string>
+    <string name="information_about_body_emphasized">"معهد روبرت كوخ (RKI) هو الهيئة الصحية الاتحادية العامة في ألمانيا. ينشر المعهد تطبيق Corona-Warn-App بالنيابة عن الحكومة الاتحادية، والتطبيق مصمم كامتداد رقمي لإجراءات الصحة العامة المنفَّذة بالفعل: التباعد الاجتماعي والنظافة الشخصية واستخدام أقنعة الوجه."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"يمكن لأي شخص يستخدم التطبيق تتبع سلسلة العدوى وكسرها. يحفظ التطبيق التجمُّعات مع الأشخاص الآخرين محليًا على جهازك. ويتم إشعارك عند تجمُّعك مع أشخاص تم تشخيصهم مؤخرًا على أنهم مصابون بمرض كوفيد-19، علمًا أن هويتك وخصوصيتك محميتان دائمًا."</string>
     <!-- XACT: describes illustration -->
