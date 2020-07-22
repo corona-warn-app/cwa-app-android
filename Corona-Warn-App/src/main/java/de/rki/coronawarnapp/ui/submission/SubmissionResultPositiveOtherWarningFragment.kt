@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
@@ -186,9 +185,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
         super.onKeySharePermissionGranted(keys)
         if (keys.isNotEmpty()) {
-            if (submissionViewModel.submitDiagnosisKeys(keys) === ApiRequestState.SUCCESS) {
-                BackgroundWorkScheduler.stopWorkScheduler()
-            }
+            submissionViewModel.submitDiagnosisKeys(keys)
         } else {
             navigateToSubmissionDoneFragment()
         }
