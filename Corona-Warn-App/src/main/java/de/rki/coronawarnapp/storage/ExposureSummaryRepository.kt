@@ -14,6 +14,10 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
                 instance ?: ExposureSummaryRepository(exposureSummaryDao).also { instance = it }
             }
 
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
+
         fun getExposureSummaryRepository(): ExposureSummaryRepository {
             return getInstance(
                 AppDatabase.getInstance(CoronaWarnApplication.getAppContext())
