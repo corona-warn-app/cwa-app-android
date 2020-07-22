@@ -11,12 +11,15 @@
         android:required="true" />
     <uses-feature android:name="android.hardware.bluetooth" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:required="true" />
     <uses-permission
         android:name="android.permission.INTERNET"
         android:required="true" />
+
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
         android:name="de.rki.coronawarnapp.CoronaWarnApplication"

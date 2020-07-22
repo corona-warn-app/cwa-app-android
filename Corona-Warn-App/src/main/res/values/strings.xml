@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -84,6 +86,8 @@
     <string name="accessibility_close">"Close"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_logo">"Corona-Warn-App"</string>
+    <!-- XACT: button description for screen readers to be appended at the end of content without focusable subcontent that are explored by touch -->
+    <string name="accessibility_button">"Button"</string>
 
     <!-- ####################################
                      Menu
@@ -128,14 +132,20 @@
     ###################################### -->
 
     <!-- XTXT: risk card - no contact yet -->
-    <string name="risk_card_body_contact">"No exposures up to now"</string>
+    <string name="risk_card_body_contact">"No exposure up to now"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s exposure"</item>
         <item quantity="other">"%1$s exposures"</item>
+        <item quantity="zero">"%1$s exposures"</item>
+        <item quantity="two">"%1$s exposures"</item>
+        <item quantity="few">"%1$s exposures"</item>
+        <item quantity="many">"%1$s exposures"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s of 14 days active"</string>
+    <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the last 14 days"</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">Exposure logging permanently active</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Encounters have not yet been checked."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -158,6 +168,10 @@
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s day since the last encounter"</item>
         <item quantity="other">"%1$s days since the last encounter"</item>
+        <item quantity="zero">"%1$s days since the last encounter"</item>
+        <item quantity="two">"%1$s days since the last encounter"</item>
+        <item quantity="few">"%1$s days since the last encounter"</item>
+        <item quantity="many">"%1$s days since the last encounter"</item>
     </plurals>
     <!-- XHED: risk card - unknown risk headline -->
     <string name="risk_card_unknown_risk_headline">"Unknown Risk"</string>
@@ -171,6 +185,8 @@
     <string name="risk_card_outdated_risk_headline">"Exposure logging is not possible"</string>
     <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
     <string name="risk_card_outdated_risk_body">"Your exposure logging could not be updated for more than 24 hours."</string>
+    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
+    <string name="risk_card_outdated_manual_risk_body">"Your risk status has not been updated for more than 48 hours. Please update your risk status."</string>
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Check is running…"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
@@ -204,7 +220,7 @@
     <!-- YMSG: Message when sharing is executed -->
     <string name="main_share_message">"Fighting coronavirus together"<xliff:g id="line_break">"\n"</xliff:g>"I\'m in on this, you too?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
-    <string name="main_share_illustration_description">"One man is sharing the Corona-Warn-App with four other people."</string>
+    <string name="main_share_illustration_description">"A man shares the Corona-Warn-App with four other persons."</string>
 
     <!-- ####################################
                 Main - Overview
@@ -255,9 +271,9 @@
     <!-- XHED: App overview subtitle for glossary keys -->
     <string name="main_overview_subtitle_glossary_keys">"Random IDs"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exchanged between devices in close proximity. Random IDs cannot be assigned to a specific person and are automatically deleted after 14 days. People diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
+    <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exchanged between devices in close proximity. Random IDs cannot be traced to a specific person and are automatically deleted after 14 days. Persons diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
-    <string name="main_overview_illustration_description">"One device shows different content numbered from 1 to 3."</string>
+    <string name="main_overview_illustration_description">"A smartphone displays various content, numbered 1 to 3."</string>
     <!-- XACT: App main page title -->
     <string name="main_title">"Main page of the Corona-Warn-App"</string>
 
@@ -268,7 +284,7 @@
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Your Risk Status"</string>
     <!-- XHED: risk details - headline, how a user should act -->
-    <string name="risk_details_headline_behavior">"Recommendations"</string>
+    <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior">"This is what you should do"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
@@ -291,6 +307,14 @@
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
+    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Period logged"</string>
+    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the last 14 days. During this time, the logging feature on your device was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -305,6 +329,10 @@
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"You have a higher risk of infection because you were last exposed %1$s day ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
         <item quantity="other">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="zero">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="two">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="few">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="many">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
@@ -315,6 +343,10 @@
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Your Risk Status"</string>
 
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">Information about exposure logging functionality</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">For further information, please see our FAQ page.</string>
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -342,14 +374,14 @@
     <!-- YTXT: onboarding(together) - explain application -->
     <string name="onboarding_body_emphasized">"The app logs encounters between individuals by exchanging encrypted, random IDs between their devices, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
-    <string name="onboarding_illustration_description">"A group of people are all using their devices in town."</string>
+    <string name="onboarding_illustration_description">"A group of persons use their smartphones around town."</string>
     <!-- XACT: Onboarding (privacy) page title -->
     <string name="onboarding_privacy_accessibility_title">"Onboarding page 2 of 5: Data Privacy. A long text follows. To proceed at any time, use the button at the bottom of the screen."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Data Privacy"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
-    <string name="onboarding_privacy_illustration_description">"One of the women is using the Corona-Warn-App on her device. The padlock on the shield is the symbol for encrypted data."</string>
+    <string name="onboarding_privacy_illustration_description">"A woman uses the Corona-Warn-App on her smartphone. An icon showing a padlock on the background of a shield symbolizes encrypted data."</string>
     <!-- XACT: Onboarding (tracing) page title -->
     <string name="onboarding_tracing_accessibility_title">"Onboarding page 3 of 5: How to Enable Exposure Logging"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
@@ -376,6 +408,20 @@
     <string name="onboarding_tracing_dialog_button_negative">"Back"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
+    <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
+    <string name="onboarding_background_fetch_dialog_headline">""</string>
+    <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
+    <string name="onboarding_background_fetch_dialog_body">""</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
+    <string name="onboarding_background_fetch_dialog_button_positive">""</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
+    <string name="onboarding_background_fetch_dialog_button_negative">""</string>
+    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
+    <string name="onboarding_tracing_location_headline">"Allow location access"</string>
+    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
+    <string name="onboarding_tracing_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_location_button">"Open Device Settings"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Onboarding page 4 of 5: If you are diagnosed with COVID-19..."</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -395,7 +441,7 @@
     <!-- YTXT: onboarding(datashare) - explain test -->
     <string name="onboarding_notifications_body">"You can then self-isolate to protect others and find out where you can get tested."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
-    <string name="onboarding_notifications_illustration_description">"One woman receives a notification from her Corona-Warn-App."</string>
+    <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
 
     <!-- ####################################
                   Settings
@@ -414,9 +460,11 @@
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Allow COVID-19 random IDs to be generated and shared."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
-    <string name="settings_tracing_body_active">"Exposure logging active"</string>
+    <string name="settings_tracing_body_active">"Exposure Logging Active"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Exposure logging stopped"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Location services disabled"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Exposure logging works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. This feature can be deactivated at any time. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity (calculated using signal strength) to other people. Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -436,6 +484,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">""</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">""</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">""</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Open Internet connection"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Exposure logging requires an Internet connection to calculate exposures. Please turn on WIFI or mobile data in your device settings."</string>
@@ -445,15 +499,22 @@
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Exposure logging has been active for one day.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
         <item quantity="other">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
+        <item quantity="zero">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
+        <item quantity="two">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
+        <item quantity="few">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
+        <item quantity="many">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_inactive">"One person has deactivated exposure logging on their device, so an encounter with two other people is not logged."</string>
+    <string name="settings_tracing_illustration_description_inactive">"A person has deactivated exposure logging on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_bluetooth_illustration_description_inactive">"One person has turned off Bluetooth on their device, so an encounter with two other people is not logged."</string>
+    <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive">""</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"One person has turned off the Internet connection on their device, so an encounter with two other people is not logged."</string>
+
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Notifications"</string>
@@ -478,9 +539,9 @@
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Open Device Settings"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
-    <string name="settings_notifications_illustration_description_active">"One woman receives a notification from her Corona-Warn-App."</string>
+    <string name="settings_notifications_illustration_description_active">"A woman receives a notification from her Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
-    <string name="settings_notifications_illustration_description_inactive">"One woman has deactivated notifications for her Corona-Warn-App."</string>
+    <string name="settings_notifications_illustration_description_inactive">"A woman has deactivated notifications for her Corona-Warn-App."</string>
     <!-- XBUT: settings - go to reset application -->
     <string name="settings_reset_title">"Reset App"</string>
     <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
@@ -498,7 +559,7 @@
     <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
     <string name="settings_reset_button_negative">"Cancel"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
-    <string name="settings_reset_illustration_description">"One person is holding a device displaying a symbol indicating that the app is being reset."</string>
+    <string name="settings_reset_illustration_description">"A hand holds a smartphone displaying a symbol indicating that the app is being reset."</string>
     <!-- XHED: settings(reset) - dialog headline -->
     <string name="settings_reset_dialog_headline">"Reset App"</string>
     <!-- XTXT: settings(reset) - dialog content -->
@@ -508,21 +569,21 @@
     <!-- XBUT: settings(reset) - dialog confirm -->
     <string name="settings_reset_dialog_button_confirm">"Reset"</string>
     <!-- XHED: settings(background priority) - notification page title -->
-    <string name="settings_background_priority_title">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_title">"Prioritized Background Activity"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_body_description">"Allow automatic risk status updates"</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
-    <string name="settings_background_priority_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_headline">"Run Corona-Warn-App in Background"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">@string/lorem_ipsum</string>
-    <!-- XACT: settings(background priority) - illustration description -->
+    <string name="settings_background_priority_body">"Corona-Warn-App runs in the background permanently if you activate prioritized background activity. This enables the app to determine your risk status any time."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_body">To turn off Prioritized Background Activity, please disable it in your device settings.</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_button">Open Device Settings</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_headline">Turn off Prioritized Background Activity</string>
 
     <!-- ####################################
                App Information
@@ -537,15 +598,15 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Let\'s fight coronavirus together"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"The Robert Koch Institute (RKI) is Germany’s central body for the Federal States of Germany in the field of public health. The RKI is publishing the Corona-Warn-App for the federal government. The app represents the digital extension to the public health measures already introduced: social distancing, hygiene behavior, and face masks."</string>
+    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App in the name of the Federal Government. The app represents the digital extension of public health measures already introduced: social distancing, hygiene, and face masks."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Whoever uses the app helps to trace and break chains of infection. The app saves encounters with other people locally on your device. You are notified if you have encountered people who were later diagnosed with COVID-19. Your identity and privacy are always protected."</string>
     <!-- XACT: describes illustration -->
-    <string name="information_about_illustration_description">"A group of people are all using their devices in town."</string>
+    <string name="information_about_illustration_description">"A group of persons use their smartphones around town."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">"Data Privacy"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_privacy_illustration_description">"One of the women is using the Corona-Warn-App on her device. The padlock on the shield is the symbol for encrypted data."</string>
+    <string name="information_privacy_illustration_description">"A woman uses the Corona-Warn-App on her smartphone. An icon showing a padlock on the background of a shield symbolizes encrypted data."</string>
     <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_privacy_html_path">"privacy_en.html"</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
@@ -553,7 +614,7 @@
     <!-- XHED: Page headline for terms of use information page -->
     <string name="information_terms_headline">"Content"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_terms_illustration_description">"One person is holding a device with a lot of text on the screen. Next to the text is a tick, which is the symbol for accepting the terms of use."</string>
+    <string name="information_terms_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a tick mark symbolizing that the terms of use have been accepted."</string>
     <!-- XTXT: Path to the full blown terms html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_terms_html_path">"terms_en.html"</string>
     <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
@@ -575,7 +636,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the hotline for the medical emergency service, telephone: 116 117."</string>
     <!-- XACT: describes illustration -->
-    <string name="information_contact_illustration_description">"One man is wearing a headset while he is telephoning."</string>
+    <string name="information_contact_illustration_description">"A man wears a headset while making a phone call."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"FAQ"</string>
     <!-- XACT: accessibility hint -->
@@ -583,7 +644,7 @@
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Legal Notices"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_technical_illustration_description">"One person is holding a device with a lot of text on the screen. Next to the text is a balance scale, which is the symbol for legal notices"</string>
+    <string name="information_technical_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a balance scale that symbolizes legal notices."</string>
     <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_technical_html_path">"technical_en.html"</string>
     <!-- XHED: Page title for legal information page, also menu item / button text -->
@@ -603,7 +664,7 @@
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_legal_illustration_description">"One person is holding a device with a lot of text on the screen. Next to the text is a section symbol representing the imprint."</string>
+    <string name="information_legal_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
 
     <!-- ####################################
@@ -636,7 +697,7 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Error"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"A TAN for submission could not be generated. Please contact the technical hotline via App Information → Technical Hotline."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"The generated TAN is invalid for submission. Please contact the technical hotline via App Information → Technical Hotline."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Back"</string>
 
@@ -807,7 +868,7 @@
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Next"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
-    <string name="submission_positive_other_illustration_description">"A device is transmitting an encrypted positive test diagnosis to the system."</string>
+    <string name="submission_positive_other_illustration_description">"A device transmits an encrypted positive test diagnosis to the system."</string>
 
 
     <!-- Submission Done -->
@@ -827,7 +888,7 @@
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Your quarantine period is usually 14 days. Please observe your symptoms and monitor how they develop."</item>
         <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you developed symptoms."</item>
-        <item>"Please think especially about the people who will not be notified directly by the app since they don\'t have a device, or haven\'t installed the app."</item>
+        <item>"Please particularly consider people who will not be notified directly by the app since they don\'t own a smartphone, or haven\'t installed the app."</item>
         <item>"Even when you no longer have any symptoms and you feel well again, you could still be infectious."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
@@ -917,7 +978,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Evaluation is not possible"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Your result is not available"</string>
+    <string name="test_result_card_status_pending">"Your result is not yet available"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Other information:"</string>
     <!-- YTXT: Content for further info of test result negative -->
@@ -949,13 +1010,15 @@
     <!-- XTXT: error dialog - detailed text if device is offline  -->
     <string name="errors_no_network">"You are not connected to the Internet."</string>
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
-    <string name="errors_not_enough_device_storage">"You do not have enough memory available."</string>
+    <string name="errors_not_enough_device_storage">"You do not have sufficient free memory."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
-    <string name="errors_communication_with_api">"Error when communicating with Google API"</string>
+    <string name="errors_communication_with_api">"Error during communication with Google interface"</string>
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Your Corona-Warn-App was installed correctly. Unfortunately, COVID-19 Exposure Notifications is currently not available on your device and you cannot use the Corona-Warn-App. Further information is available on our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
+    <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 exposure notifications\" service is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
+    <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
+    <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
 
     <!-- ####################################
                Generic Error Messages

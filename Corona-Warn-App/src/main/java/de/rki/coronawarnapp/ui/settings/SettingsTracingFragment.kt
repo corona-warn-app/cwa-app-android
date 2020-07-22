@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SettingsRepository.isLocationEnabled
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.android.synthetic.main.fragment_settings_tracing.view.*
 import kotlinx.coroutines.launch
 
 /**
@@ -99,12 +101,16 @@ class SettingsTracingFragment : Fragment(),
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
+        val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnCheckedChangeListener { _, _ ->
             // Make sure that listener is called by user interaction
             if (switch.tag != IGNORE_CHANGE_TAG) {
                 startStopTracing()
+                // Focus on the body text after to announce the tracing status for accessibility reasons
+                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
             }
         }
         row.setOnClickListener {
@@ -114,11 +120,14 @@ class SettingsTracingFragment : Fragment(),
                 settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
             val isConnectionEnabled =
                 settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
+            val isLocationEnabled =
+                settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
             // check if the row is clickable, this adds the switch behaviour
             val isEnabled = formatTracingSwitchEnabled(
                 isTracingEnabled,
                 isBluetoothEnabled,
-                isConnectionEnabled
+                isConnectionEnabled,
+                isLocationEnabled
             )
             if (isEnabled) startStopTracing()
         }
@@ -126,6 +135,9 @@ class SettingsTracingFragment : Fragment(),
             (activity as MainActivity).goBack()
         }
         bluetooth.setOnClickListener {
+            ExternalActionHelper.toMainSettings(requireContext())
+        }
+        location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
         connection.setOnClickListener {

@@ -54,13 +54,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:body="@{@string/settings_tracing_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatSettingsTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
-                    app:icon="@{FormatterSettingsHelper.formatSettingsTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:color="@{FormatterSettingsHelper.formatSettingsTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:icon="@{FormatterSettingsHelper.formatSettingsTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled())}"
+                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:subtitle="@{@string/settings_tracing_title}"
                     app:tracingViewModel="@{tracingViewModel}" />
 
@@ -80,6 +80,22 @@
                     app:subtitle="@{@string/settings_notifications_title}"
                     app:tracingViewModel="@{tracingViewModel}" />
 
+                <include
+                    android:id="@+id/settings_background_priority"
+                    layout="@layout/include_setting_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_background_priority_body_description}"
+                    app:color="@{FormatterSettingsHelper.formatSettingsBackgroundPriorityIconColor(settingsViewModel.isBackgroundPriorityEnabled())}"
+                    app:icon="@{FormatterSettingsHelper.formatSettingsBackgroundPriorityIcon(settingsViewModel.isBackgroundPriorityEnabled())}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_notifications"
+                    app:showDivider="@{true}"
+                    app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isBackgroundPriorityEnabled())}"
+                    app:subtitle="@{@string/settings_background_priority_title}"
+                    app:tracingViewModel="@{tracingViewModel}" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_reset"
                     style="@style/row"
@@ -87,7 +103,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_notifications">
+                    app:layout_constraintTop_toBottomOf="@+id/settings_background_priority">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
