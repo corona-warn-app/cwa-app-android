@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 
 /**
  * This is the setting background priority page. Here the user sees the background priority setting status.
@@ -62,13 +63,18 @@ class SettingsBackgroundPriorityFragment : Fragment() {
         val switchRow = binding.settingsSwitchRowBackgroundPriority.settingsSwitchRow
 
         // enable background priority
-        setOf(switch, switchRow).forEach {
-            it.setOnClickListener {
-                val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
+        switchRow.setOnClickListener {
+            val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
 
-                if (!isPriorityEnabled)
-                    ExternalActionHelper.disableBatteryOptimizations(requireContext())
-            }
+            if (!isPriorityEnabled)
+                ExternalActionHelper.disableBatteryOptimizations(requireContext())
+        }
+
+        switch.setOnCheckedChangeListener { _, _ ->
+            val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
+            // Make sure that listener is called by user interaction
+            if (switch.tag != IGNORE_CHANGE_TAG && !isPriorityEnabled)
+                ExternalActionHelper.disableBatteryOptimizations(requireContext())
         }
 
         // explanatory card
