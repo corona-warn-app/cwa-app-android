@@ -69,6 +69,8 @@
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -141,7 +143,9 @@
         <item quantity="many">"%1$s излагания на риск"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"%1$s от 14 дни активност"</string>
+    <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск беше активно през %1$s от изминалите 14 дни."</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"Няма прекъсване на регистрирането на излагания на риск"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Все още не е извършвана проверка на контактите."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -303,6 +307,14 @@
     <string name="risk_details_behavior_increased_body_3">"Органите за обществено здравеопазване"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Риск от заразяване"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Период на регистриране"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излагания на риск е било активно. Затова тази функция трябва да бъде активирана постоянно."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Регистрирането на излагания на риск покрива последните 14 дни. За този период от време функцията е била активирана на Вашето устройство в продължение на %1$s дни. Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"Ето как е изчислено Вашето ниво на риск"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -318,9 +330,9 @@
         <item quantity="one">"Вашето ниво на риск от заразяване е високо, защото преди %1$s ден сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
         <item quantity="other">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
         <item quantity="zero">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="two">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="few">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="many">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
+        <item quantity="two">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
+        <item quantity="few">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
+        <item quantity="many">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
@@ -330,6 +342,11 @@
     <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
     <!-- XACT: risk details page title -->
     <string name="risk_details_accessibility_title">"Вашият статус на риск"</string>
+
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">"Информация относно функционалността за регистриране на излагания на риск"</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
 
     <!-- ####################################
               Onboarding
@@ -362,7 +379,7 @@
     <!-- XACT: Onboarding (privacy) page title -->
     <string name="onboarding_privacy_accessibility_title">"Въведение - страница 2 от 5 Неприкосновеност на личните данни. Текстът, който следва, е дълъг. За да продължите да четете, използвайте бутона най-отдолу на екрана."</string>
     <!-- XHED: onboarding(privacy) - title -->
-    <string name="onboarding_privacy_headline">"Неприкосновеност на личните данни"</string>
+    <string name="onboarding_privacy_headline">"Неприкосновеност на данните"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">"Жена използва приложението Corona-Warn-App на смартфона си. Икона, изобразяваща катинар на фона на щит символизира криптирането на данните."</string>
@@ -439,6 +456,8 @@
     <string name="settings_tracing_body_active">"Регистрирането на излагания на риск е активно"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"В момента не се извършва регистриране на излагания на риск"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Услугата за споделяне на местоположението е дезактивирана"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Регистрирането на излагания на риск се извършва с помощта на Bluetooth връзка, при която Вашето устройство получава криптираните случайни ИД кодове на други потребители и изпраща до техните устройства Вашите случайни ИД кодове. Функцията може да бъде дезактивирана по всяко време. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Криптираните случайни ИД кодове предават само информация за дата, продължителност и близост на контакта с други лица (изчислена чрез силата на сигнала). Лични данни от типа на име, адрес и местоположение не се записват и идентифицирането на лицата е невъзможно."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -563,7 +582,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Да се преборим с коронавируса заедно"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Институтът „Роберт Кох“ (RKI) е федералният орган за обществено здравеопазване в Германия. Той е издател на приложението Corona-Warn-App по поръчка на федералното правителство. Приложението представлява дигитално продължение на вече въведените мерки за опазване на общественото здраве: социално дистанциране, поддържане на висока хигиена и носене на маски."</string>
+    <string name="information_about_body_emphasized">"Институтът „Роберт Кох“ (RKI) е федералният орган за обществено здравеопазване в Германия. Той е издател на приложението Corona-Warn-App по поръчка на федералното правителство. Приложението е предназначено да бъде дигитално допълнение на вече въведените мерки за опазване на общественото здраве: социално дистанциране, поддържане на висока хигиена и носене на маски."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Всеки, който използва приложението, помага за проследяване и прекъсване на веригите на заразяване. Приложението запазва във Вашето устройство данните за контактите Ви с други хора. Получавате известие, ако сте били в контакт с лица, които впоследствие са били диагностицирани с COVID-19. Вашата самоличност и неприкосновеността на данните Ви са защитени по всяко време."</string>
     <!-- XACT: describes illustration -->
@@ -896,9 +915,9 @@
     <!-- XHED: Page title for the various submission status: unregistered -->
     <string name="submission_status_card_title_unregistered">"Правили ли сте си тест?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Все още няма наличен резултат от теста Ви"</string>
+    <string name="submission_status_card_title_pending">"Все още няма резултат от теста Ви"</string>
     <!-- XHED: Page title for the various submission status: available -->
-    <string name="submission_status_card_title_available">"Резултатът от Вашия тест е наличен"</string>
+    <string name="submission_status_card_title_available">"Резултатът от теста Ви е готов"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Положителен резултат"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
@@ -943,7 +962,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Не може да бъде определен резултат"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Все още няма резултат от Вашия тест"</string>
+    <string name="test_result_card_status_pending">"Все още няма резултат от теста Ви"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Още информация:"</string>
     <!-- YTXT: Content for further info of test result negative -->
