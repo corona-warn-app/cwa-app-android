@@ -477,6 +477,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Cihaz Ayarlarını Aç"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Konum erişimine izin ver"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Konumunuza erişilemiyor. Bluetooth\'u kullanmak için Google ve/veya Android\'in cihazınızın konumuna erişmesi gerekiyor."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Cihaz Ayarlarını Aç"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"İnternet bağlantısını aç"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Maruz kalma günlüğü, maruz kalmaları hesaplamak için İnternet bağlantısı gerektirir. Lütfen cihazınızın ayarlarında WiFi\'ı veya mobil veriyi açın."</string>

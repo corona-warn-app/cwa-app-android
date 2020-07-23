@@ -477,6 +477,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Deschideți Setările dispozitivului"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Permiteți accesul la locație"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Locația dvs. nu poate fi accesată. Google și/sau Android necesită acces la locația dispozitivului dvs. pentru a utiliza Bluetooth-ul."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Deschideți Setările dispozitivului"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Deschideți conexiunea la internet"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Înregistrarea în jurnal a expunerilor necesită conexiunea la internet pentru a calcula expunerile. Porniți rețeaua Wi-Fi sau datele mobile din setările dispozitivului dvs."</string>
