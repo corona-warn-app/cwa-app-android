@@ -477,6 +477,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Към настройките за устройството"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Не може да бъде осъществен достъп до Вашето местоположение. За да използвате Bluetooth, Google и/или Android изискват от Вас да предоставите достъп до местоположението на устройството си."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Към настройките за устройството"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Необходима е връзка с интернет"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Необходима е връзка с интернет за изчисляване на излаганията на риск. Моля, свържете се с Wi-Fi или мобилна мрежа за данни от настройките на устройството си."</string>
@@ -560,14 +566,6 @@
     <string name="settings_background_priority_headline">"Активиране на фонов режим на работа на приложението Corona-Warn-App"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Ако сте активирали приоритетната дейност във фонов режим, приложението Corona-Warn-App работи непрекъснато. Това дава възможност да се определи Вашият статус на риск по всяко време."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
-    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
-    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
-    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
