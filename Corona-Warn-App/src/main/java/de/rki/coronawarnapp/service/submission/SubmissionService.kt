@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.service.submission.SubmissionConstants.TELE_TAN_KEY_
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 object SubmissionService {
     suspend fun asyncRegisterDevice() {
@@ -89,6 +90,7 @@ object SubmissionService {
     }
 
     fun submissionSuccessful() {
+        BackgroundWorkScheduler.stopWorkScheduler()
         LocalData.numberOfSuccessfulSubmissions(1)
     }
 
