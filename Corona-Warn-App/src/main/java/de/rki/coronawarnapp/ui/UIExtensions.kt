@@ -11,7 +11,6 @@ import androidx.navigation.NavDirections
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
 /**
  * Extends NavController to prevent navigation error when the user clicks on two buttons at almost
  * the exact time.
