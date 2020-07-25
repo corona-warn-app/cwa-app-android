@@ -78,24 +78,34 @@ object TimeAndDateExtensions {
         return TimeUnit.MILLISECONDS.toDays(millionSeconds)
     }
 
-    private fun isDifferentDay(currentTime: Instant, referenceDate: Date,
-                               timeZone: DateTimeZone): Boolean {
+    private fun doesQuotaResetAtMidnightUTC(): Boolean {
+        return QUOTA_RESET_AT_MIDNIGHT_UTC
+    }
+
+    private fun doesQuotaResetAtMidnightLocalTime(): Boolean {
+        return QUOTA_RESET_AT_MIDNIGHT_LOCAL_TIME
+    }
+
+    private fun isDifferentDay(
+        currentTime: Instant,
+        referenceDate: Date,
+        timeZone: DateTimeZone
+    ): Boolean {
         val currentDateInTimeZone = DateTime(currentTime, timeZone)
         val referenceDateInTimeZone = DateTime(referenceDate, timeZone)
         return currentDateInTimeZone.withTimeAtStartOfDay() !=
                 referenceDateInTimeZone.withTimeAtStartOfDay()
     }
 
-    fun calculateIfCurrentTimeIsNewDay(referenceDate: Date?): Boolean {
+    fun calculateIfGivenTimeIsNewDay(now: Instant, referenceDate: Date?): Boolean {
         return if (referenceDate == null) {
             true
         } else {
-            val now = Instant.now()
             var isNewDay = true
-            if (QUOTA_RESET_AT_MIDNIGHT_UTC) {
+            if (doesQuotaResetAtMidnightUTC()) {
                 isNewDay = isNewDay && isDifferentDay(now, referenceDate, DateTimeZone.UTC)
             }
-            if (QUOTA_RESET_AT_MIDNIGHT_LOCAL_TIME) {
+            if (doesQuotaResetAtMidnightLocalTime()) {
                 isNewDay = isNewDay && isDifferentDay(now, referenceDate, DateTimeZone.getDefault())
             }
             isNewDay

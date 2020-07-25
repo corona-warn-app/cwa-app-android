@@ -17,8 +17,6 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import kotlinx.coroutines.launch
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
@@ -66,7 +64,7 @@ class TracingViewModel : ViewModel() {
 
                 // check if the keys were not already retrieved today
                 val keysWereNotRetrievedToday = TimeAndDateExtensions
-                    .calculateIfCurrentTimeIsNewDay(
+                    .calculateIfGivenTimeIsNewDay(Instant.now(),
                         LocalData.lastTimeDiagnosisKeysFromServerFetch())
 
                 // check if the network is enabled to make the server fetch
