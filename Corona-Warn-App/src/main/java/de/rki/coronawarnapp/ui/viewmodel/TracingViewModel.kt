@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -63,17 +64,10 @@ class TracingViewModel : ViewModel() {
         viewModelScope.launch {
             try {
 
-                // get the current date and the date the diagnosis keys were fetched the last time
-                val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
-                val lastFetch = DateTime(
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                    DateTimeZone.UTC
-                )
-
                 // check if the keys were not already retrieved today
-                val keysWereNotRetrievedToday =
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+                val keysWereNotRetrievedToday = TimeAndDateExtensions
+                    .calculateIfCurrentTimeIsNewDay(
+                        LocalData.lastTimeDiagnosisKeysFromServerFetch())
 
                 // check if the network is enabled to make the server fetch
                 val isNetworkEnabled =

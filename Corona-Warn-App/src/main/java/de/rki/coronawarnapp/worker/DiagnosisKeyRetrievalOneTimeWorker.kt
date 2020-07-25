@@ -5,9 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import timber.log.Timber
 
 /**
@@ -35,14 +33,9 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
 
         var result = Result.success()
         try {
-            val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
-            val lastFetch = DateTime(
-                LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                DateTimeZone.UTC
-            )
-            if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
-            ) {
+            val keysWereNotRetrievedToday = TimeAndDateExtensions.calculateIfCurrentTimeIsNewDay(
+                LocalData.lastTimeDiagnosisKeysFromServerFetch())
+            if (keysWereNotRetrievedToday) {
                 RetrieveDiagnosisKeysTransaction.start()
             }
         } catch (e: Exception) {

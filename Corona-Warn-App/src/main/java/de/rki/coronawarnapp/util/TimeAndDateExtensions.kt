@@ -17,6 +17,8 @@ object TimeAndDateExtensions {
     private const val MS_TO_DAYS = (1000 * 60 * 60 * 24)
     private const val MS_TO_HOURS = (1000 * 60 * 60)
     private const val MS_TO_SECONDS = 1000
+    private const val QUOTA_RESET_AT_MIDNIGHT_UTC = true
+    private const val QUOTA_RESET_AT_MIDNIGHT_LOCAL_TIME = false
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -74,5 +76,29 @@ object TimeAndDateExtensions {
     fun calculateDays(firstDate: Long, secondDate: Long): Long {
         val millionSeconds = secondDate - firstDate
         return TimeUnit.MILLISECONDS.toDays(millionSeconds)
+    }
+
+    private fun isDifferentDay(currentTime: Instant, referenceDate: Date,
+                               timeZone: DateTimeZone): Boolean {
+        val currentDateInTimeZone = DateTime(currentTime, timeZone)
+        val referenceDateInTimeZone = DateTime(referenceDate, timeZone)
+        return currentDateInTimeZone.withTimeAtStartOfDay() !=
+                referenceDateInTimeZone.withTimeAtStartOfDay()
+    }
+
+    fun calculateIfCurrentTimeIsNewDay(referenceDate: Date?): Boolean {
+        return if (referenceDate == null) {
+            true
+        } else {
+            val now = Instant.now()
+            var isNewDay = true
+            if (QUOTA_RESET_AT_MIDNIGHT_UTC) {
+                isNewDay = isNewDay && isDifferentDay(now, referenceDate, DateTimeZone.UTC)
+            }
+            if (QUOTA_RESET_AT_MIDNIGHT_LOCAL_TIME) {
+                isNewDay = isNewDay && isDifferentDay(now, referenceDate, DateTimeZone.getDefault())
+            }
+            isNewDay
+        }
     }
 }
