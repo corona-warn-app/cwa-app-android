@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
@@ -37,8 +38,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
     }
 
     private val viewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentSubmissionQrCodeScanBinding? = null
-    private val binding: FragmentSubmissionQrCodeScanBinding get() = _binding!!
+    private var binding: FragmentSubmissionQrCodeScanBinding by viewLifecycle()
     private var showsPermissionDialog = false
 
     override fun onCreateView(
@@ -46,7 +46,7 @@ class SubmissionQRCodeScanFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
+        binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -57,11 +57,6 @@ class SubmissionQRCodeScanFragment : Fragment() {
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle { decodeCallback(it) }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {

@@ -116,8 +116,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
 
     // Data and View binding
-    private var _binding: FragmentTestForAPIBinding? = null
-    private val binding: FragmentTestForAPIBinding get() = _binding!!
+    private var binding: FragmentTestForAPIBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -126,7 +125,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     ): View? {
 
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentTestForAPIBinding.inflate(inflater)
+        binding = FragmentTestForAPIBinding.inflate(inflater)
 
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
@@ -136,11 +135,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         // Inflate the layout for this fragment
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

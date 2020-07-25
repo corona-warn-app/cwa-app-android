@@ -16,8 +16,8 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SettingsRepository.isLocationEnabled
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.android.synthetic.main.fragment_settings_tracing.view.*
 import kotlinx.coroutines.launch
 
 /**
@@ -45,8 +44,7 @@ class SettingsTracingFragment : Fragment(),
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentSettingsTracingBinding? = null
-    private val binding: FragmentSettingsTracingBinding get() = _binding!!
+    private var binding: FragmentSettingsTracingBinding by viewLifecycle()
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
@@ -55,16 +53,11 @@ class SettingsTracingFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSettingsTracingBinding.inflate(inflater)
+        binding = FragmentSettingsTracingBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

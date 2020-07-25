@@ -58,8 +58,7 @@ class TestRiskLevelCalculation : Fragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentTestRiskLevelCalculationBinding? = null
-    private val binding: FragmentTestRiskLevelCalculationBinding get() = _binding!!
+    private var binding: FragmentTestRiskLevelCalculationBinding by viewLifecycle()
 
     // reference to the client from the Google framework with the given application context
     private val exposureNotificationClient by lazy {
@@ -71,17 +70,12 @@ class TestRiskLevelCalculation : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
+        binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

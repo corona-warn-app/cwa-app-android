@@ -234,7 +234,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.work:work-runtime-ktx:2.3.4'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'android.arch.lifecycle:extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
 
     // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }

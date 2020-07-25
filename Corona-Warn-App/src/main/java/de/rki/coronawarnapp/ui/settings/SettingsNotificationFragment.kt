@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
@@ -28,23 +29,17 @@ class SettingsNotificationFragment : Fragment() {
     }
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentSettingsNotificationsBinding? = null
-    private val binding: FragmentSettingsNotificationsBinding get() = _binding!!
+    private var binding: FragmentSettingsNotificationsBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSettingsNotificationsBinding.inflate(inflater)
+        binding = FragmentSettingsNotificationsBinding.inflate(inflater)
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

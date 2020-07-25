@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 
@@ -28,24 +29,18 @@ class SettingsFragment : Fragment() {
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentSettingsBinding? = null
-    private val binding: FragmentSettingsBinding get() = _binding!!
+    private var binding: FragmentSettingsBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSettingsBinding.inflate(inflater)
+        binding = FragmentSettingsBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
