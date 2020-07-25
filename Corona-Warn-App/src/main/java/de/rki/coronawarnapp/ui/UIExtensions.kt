@@ -53,7 +53,7 @@ fun <T> Fragment.viewLifecycle(): ReadWriteProperty<Fragment, T> {
             thisRef: Fragment,
             property: KProperty<*>
         ): T {
-            return this.binding ?: error("Binding called before onCreateView or after onDestroyView.")
+            return this.binding ?: error("Called before onCreateView or after onDestroyView.")
         }
 
         override fun setValue(
