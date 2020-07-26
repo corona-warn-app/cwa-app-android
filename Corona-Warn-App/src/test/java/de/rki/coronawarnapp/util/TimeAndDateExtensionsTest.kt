@@ -49,75 +49,39 @@ class TimeAndDateExtensionsTest {
         MatcherAssert.assertThat(result, CoreMatchers.`is`(TimeUnit.MILLISECONDS.toDays(lSecondDate - lFirstDate)))
     }
 
+    private fun assertNewDay(nowDateIso: String, referenceDateIso: String, isNewDay: Boolean) {
+        val now = Instant.parse(nowDateIso)
+        val reference = Instant.parse(referenceDateIso).toDate()
+
+        val result = calculateIfGivenTimeIsNewDay(now, reference)
+        MatcherAssert.assertThat(result, CoreMatchers.`is`(isNewDay))
+    }
+
     @Test
     fun calculateIfGivenTimeIsNewDayTest() {
         // only local time
         every { TimeAndDateExtensions["doesQuotaResetAtMidnightUTC"]() } returns false
         every { TimeAndDateExtensions["doesQuotaResetAtMidnightLocalTime"]() } returns true
 
-        run {
-            val now = Instant.parse("2020-01-02T01:00:00.00+02")
-            val reference = Instant.parse("2020-01-01T15:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(true))
-        }
+        assertNewDay("2020-01-02T01:00:00.00+02", "2020-01-01T15:00:00.00+02", true)
+        assertNewDay("2020-01-02T03:00:00.00+02", "2020-01-01T15:00:00.00+02", true)
+        assertNewDay("2020-01-02T03:00:00.00+02", "2020-01-02T01:00:00.00+02", false)
 
         // only UTC time
         every { TimeAndDateExtensions["doesQuotaResetAtMidnightUTC"]() } returns true
         every { TimeAndDateExtensions["doesQuotaResetAtMidnightLocalTime"]() } returns false
 
-        run {
-            val now = Instant.parse("2020-01-02T01:00:00.00+02")
-            val reference = Instant.parse("2020-01-01T15:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(false))
-        }
-
-        run {
-            val now = Instant.parse("2020-01-02T03:00:00.00+02")
-            val reference = Instant.parse("2020-01-01T15:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(true))
-        }
-
-        run {
-            val now = Instant.parse("2020-01-02T03:00:00.00+02")
-            val reference = Instant.parse("2020-01-02T01:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(true))
-        }
+        assertNewDay("2020-01-02T01:00:00.00+02", "2020-01-01T15:00:00.00+02", false)
+        assertNewDay("2020-01-02T03:00:00.00+02", "2020-01-01T15:00:00.00+02", true)
+        assertNewDay("2020-01-02T03:00:00.00+02", "2020-01-02T01:00:00.00+02", true)
 
         // both UTC and local time
         every { TimeAndDateExtensions["doesQuotaResetAtMidnightUTC"]() } returns true
         every { TimeAndDateExtensions["doesQuotaResetAtMidnightLocalTime"]() } returns true
 
-        run {
-            val now = Instant.parse("2020-01-02T01:00:00.00+02")
-            val reference = Instant.parse("2020-01-01T15:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(false))
-        }
-
-        run {
-            val now = Instant.parse("2020-01-02T03:00:00.00+02")
-            val reference = Instant.parse("2020-01-01T15:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(true))
-        }
-
-        run {
-            val now = Instant.parse("2020-01-02T03:00:00.00+02")
-            val reference = Instant.parse("2020-01-02T01:00:00.00+02").toDate()
-
-            val result = calculateIfGivenTimeIsNewDay(now, reference)
-            MatcherAssert.assertThat(result, CoreMatchers.`is`(false))
-        }
+        assertNewDay("2020-01-02T01:00:00.00+02", "2020-01-01T15:00:00.00+02", false)
+        assertNewDay("2020-01-02T03:00:00.00+02", "2020-01-01T15:00:00.00+02", true)
+        assertNewDay("2020-01-02T03:00:00.00+02", "2020-01-02T01:00:00.00+02", false)
     }
 
     @After
