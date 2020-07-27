@@ -32,6 +32,8 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      */
     override suspend fun doWork(): Result {
         Timber.d("Background job started. Run attempt: $runAttemptCount ")
+        BackgroundWorkHelper.sendDebugNotification(
+            "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount ")
 
         var result = Result.success()
         try {
@@ -47,11 +49,19 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
             }
         } catch (e: Exception) {
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+
+                BackgroundWorkHelper.sendDebugNotification(
+                    "KeyOneTime Executing: Failure", "KeyOneTime failed with $runAttemptCount attempts")
+
                 return Result.failure()
             } else {
                 result = Result.retry()
             }
         }
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "KeyOneTime Executing: End", "KeyOneTime result: $result ")
+
         return result
     }
 }

@@ -212,7 +212,7 @@ class FormatterSettingsHelperTest {
         bBluetooth: Boolean,
         bConnection: Boolean,
         bLocation: Boolean
-        ) {
+    ) {
         every { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_connection_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_active) } returns drawable
@@ -251,7 +251,7 @@ class FormatterSettingsHelperTest {
         bBluetooth: Boolean,
         bConnection: Boolean,
         bLocation: Boolean
-        ) {
+    ) {
         every { context.getDrawable(R.drawable.ic_settings_illustration_bluetooth_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_illustration_connection_off) } returns drawable
         every { context.getDrawable(R.drawable.ic_illustration_tracing_on) } returns drawable
@@ -273,7 +273,7 @@ class FormatterSettingsHelperTest {
         bBluetooth: Boolean,
         bConnection: Boolean,
         bLocation: Boolean
-        ) {
+    ) {
         val result = formatTracingStatusConnection(
             tracing = bTracing,
             bluetooth = bBluetooth,
@@ -288,7 +288,7 @@ class FormatterSettingsHelperTest {
         bBluetooth: Boolean,
         bConnection: Boolean,
         bLocation: Boolean
-        ) {
+    ) {
         val result =
             formatTracingStatusVisibilityTracing(
                 tracing = bTracing,
@@ -304,7 +304,7 @@ class FormatterSettingsHelperTest {
         bBluetooth: Boolean,
         bConnection: Boolean,
         bLocation: Boolean
-        ) {
+    ) {
         val result =
             formatTracingStatusVisibilityBluetooth(
                 tracing = bTracing,
