@@ -1018,7 +1018,7 @@
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 exposure notifications\" service is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
-    <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
+    <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages
