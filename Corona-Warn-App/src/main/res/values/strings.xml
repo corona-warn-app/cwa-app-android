@@ -410,13 +410,13 @@
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
     <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
-    <string name="onboarding_background_fetch_dialog_headline">""</string>
+    <string name="onboarding_background_fetch_dialog_headline">"Background Update switched off"</string>
     <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
-    <string name="onboarding_background_fetch_dialog_body">""</string>
+    <string name="onboarding_background_fetch_dialog_body">"You have switched off the background update for Corona-Warn-App. If you do not switch on the background update, you can update your risk status manually. You can always switch on background updates in your system settings. "</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
-    <string name="onboarding_background_fetch_dialog_button_positive">""</string>
+    <string name="onboarding_background_fetch_dialog_button_positive">"Open Device Settings"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
-    <string name="onboarding_background_fetch_dialog_button_negative">""</string>
+    <string name="onboarding_background_fetch_dialog_button_negative">"Start exposure logging manually"</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Allow location access"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
@@ -485,11 +485,11 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_location_headline">""</string>
+    <string name="settings_tracing_status_location_headline">"Allow location access"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">""</string>
+    <string name="settings_tracing_status_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
-    <string name="settings_tracing_status_location_button">""</string>
+    <string name="settings_tracing_status_location_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Open Internet connection"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
@@ -577,7 +577,7 @@
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Corona-Warn-App runs in the background permanently if you activate prioritized background activity. This enables the app to determine your risk status any time."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_illustration_description">""</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">To turn off Prioritized Background Activity, please disable it in your device settings.</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
