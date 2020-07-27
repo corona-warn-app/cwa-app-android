@@ -12,6 +12,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import android.os.PowerManager
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -182,6 +183,22 @@ object ConnectivityHelper {
                 null
             )
         }
+    }
+
+    /**
+     * For API level 28+ check if energy saver mode is enabled
+     * Else always return false
+     *
+     * @param context the context
+     *
+     * @return Boolean
+     *
+     * @see isEnergySaverEnabled
+     */
+    fun isEnergySaverEnabled(context: Context): Boolean {
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        Timber.d("Power Saving mode is: "+powerManager.isPowerSaveMode)
+        return powerManager.isPowerSaveMode
     }
 
     /**

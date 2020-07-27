@@ -135,7 +135,7 @@
     <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s Risiko-Begegnung"</item>
+        <item quantity="one">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
         <item quantity="other">"%1$s Risiko-Begegnungen"</item>
         <item quantity="zero">"%1$s Risiko-Begegnungen"</item>
         <item quantity="two">"%1$s Risiko-Begegnungen"</item>
@@ -415,6 +415,14 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"Geräteeinstellungen öffnen"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Risiko-Ermittlung manuell starten"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy saving header text -->
+    <string name="onboarding_energy_saving_dialog_headline">"temp battery saver"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy saving -->
+    <string name="onboarding_energy_saving_dialog_body">"temp battery saver."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy saving, open device settings -->
+    <string name="onboarding_energy_saving_dialog_button_positive">"yes"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy saving, continue in app -->
+    <string name="onboarding_energy_saving_dialog_button_negative">"no"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->

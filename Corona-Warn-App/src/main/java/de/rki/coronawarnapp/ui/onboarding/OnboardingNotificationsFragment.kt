@@ -57,6 +57,7 @@ class OnboardingNotificationsFragment : Fragment() {
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
             checkForBackgroundJobDisabled()
+            checkForEnergySavingEnabled()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
@@ -71,7 +72,37 @@ class OnboardingNotificationsFragment : Fragment() {
         }
     }
 
+    private fun checkForEnergySavingEnabled() {
+        if (ConnectivityHelper.isEnergySaverEnabled(requireActivity())) {
+            showEnergySavingEnabledForBackground()
+        } else {
+            navigateToMain()
+        }
+    }
+
     private fun showBackgroundJobDisabledNotification() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_background_fetch_dialog_headline,
+            R.string.onboarding_background_fetch_dialog_body,
+            R.string.onboarding_background_fetch_dialog_button_positive,
+            R.string.onboarding_background_fetch_dialog_button_negative,
+            false,
+            {
+                val intent = Intent(
+                    ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", requireContext().packageName, null)
+                )
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            },
+            {
+                navigateToMain()
+            })
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun showEnergySavingEnabledForBackground() {
         val dialog = DialogHelper.DialogInstance(
             requireActivity(),
             R.string.onboarding_background_fetch_dialog_headline,
