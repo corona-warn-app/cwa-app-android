@@ -143,9 +143,9 @@
         <item quantity="many">"%1$s exposures"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the last 14 days"</string>
+    <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">Exposure logging permanently active</string>
+    <string name="risk_card_body_saved_days_full">"Exposure logging permanently active"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Encounters have not yet been checked."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -314,7 +314,7 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the last 14 days. During this time, the logging feature on your device was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
+    <string name="risk_details_information_body_period_logged_assessment">"Exposure logging covers the past 14 days. During this time, the logging feature on your device was active for %1$s days. The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated"</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
@@ -344,9 +344,10 @@
     <string name="risk_details_accessibility_title">"Your Risk Status"</string>
 
     <!-- XHED: one time risk explanation dialog title  -->
-    <string name="risk_details_explanation_dialog_title">Information about exposure logging functionality</string>
+    <string name="risk_details_explanation_dialog_title">"Information about exposure logging functionality"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">For further information, please see our FAQ page.</string>
+    <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
+
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -456,7 +457,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Exposure logging stopped"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Location services disabled"</string>
+    <string name="settings_tracing_body_inactive_location">"Location service deactivated"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Exposure logging works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. This feature can be deactivated at any time. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity (calculated using signal strength) to other people. Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -475,6 +476,12 @@
     <string name="settings_tracing_status_bluetooth_body">"Bluetooth must be turned on for exposure logging in order to log encounters. Please turn on Bluetooth in your device settings."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Open Device Settings"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Allow location access"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Open Internet connection"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
@@ -559,14 +566,12 @@
     <string name="settings_background_priority_headline">"Run Corona-Warn-App in Background"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Corona-Warn-App runs in the background permanently if you activate prioritized background activity. This enables the app to determine your risk status any time."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_body">To turn off Prioritized Background Activity, please disable it in your device settings.</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_button">Open Device Settings</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_headline">Turn off Prioritized Background Activity</string>
 
     <!-- ####################################
                App Information
@@ -581,7 +586,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Let\'s fight coronavirus together"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App in the name of the Federal Government. The app represents the digital extension of public health measures already introduced: social distancing, hygiene, and face masks."</string>
+    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App on behalf of the Federal Government. The app is intended as a digital complement to public health measures already introduced: social distancing, hygiene, and face masks."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Whoever uses the app helps to trace and break chains of infection. The app saves encounters with other people locally on your device. You are notified if you have encountered people who were later diagnosed with COVID-19. Your identity and privacy are always protected."</string>
     <!-- XACT: describes illustration -->

@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -42,6 +43,8 @@ class SubmitDiagnosisKeysTransactionTest {
 
         mockkObject(LocalData)
         mockkObject(InternalExposureNotificationClient)
+        mockkObject(BackgroundWorkScheduler)
+        every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
         every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
         coEvery { verificationService.getTAN(any(), any(), any()) } returns TanResponse(authString)
 

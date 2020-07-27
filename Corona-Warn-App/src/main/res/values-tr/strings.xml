@@ -145,7 +145,7 @@
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s etkindi."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">Maruz kalma günlüğü sürekli etkin</string>
+    <string name="risk_card_body_saved_days_full">"Maruz kalma günlüğü sürekli etkin"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -201,7 +201,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-tuerkisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
@@ -344,9 +344,10 @@
     <string name="risk_details_accessibility_title">"Risk Durumunuz"</string>
 
     <!-- XHED: one time risk explanation dialog title  -->
-    <string name="risk_details_explanation_dialog_title">Daha fazla bilgi için lütfen SSS sayfamıza bakın.</string>
+    <string name="risk_details_explanation_dialog_title">"Maruz kalma günlüğü işlevi hakkında bilgi"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">Maruz kalma işlevi hakkında bilgi.</string>
+    <string name="risk_details_explanation_dialog_faq_body">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -455,14 +456,14 @@
     <string name="settings_tracing_body_active">"Maruz Kalma Günlüğü Etkin"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Maruz kalma günlüğü durduruldu"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Konum hizmeti devre dışı bırakıldı"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Maruz kalma günlüğü, cihazınızın Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimliği diğer kullanıcıların cihazlarına aktarmasıyla çalışır. Bu özellik dilediğiniz zaman devre dışı bırakılabilir. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Şifrelenmiş rastgele kimlikler yalnızca tarih, süre ve yakınlık (sinyal gücü kullanılarak hesaplanır) hakkındaki bilgileri aktarır. Ad, adres, konum gibi kişisel veriler asla kaydedilmez. Kişilerin kimliği belirlenemez."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Etkin"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_inactive">"Durduruldu"</string>
-    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Konum hizmetleri devre dışı"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Sınırlı"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
@@ -475,6 +476,12 @@
     <string name="settings_tracing_status_bluetooth_body">"Karşılaşmaların günlüğe kaydedilmesi amacıyla Bluetooth\'un maruz kalma günlüğü için açılması gerekir. Lütfen cihaz ayarlarınızda Bluetooth\'u açın."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Cihaz Ayarlarını Aç"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Konum erişimine izin ver"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Konumunuza erişilemiyor. Bluetooth\'u kullanmak için Google ve/veya Android\'in cihazınızın konumuna erişmesi gerekiyor."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Cihaz Ayarlarını Aç"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"İnternet bağlantısını aç"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
@@ -559,14 +566,12 @@
     <string name="settings_background_priority_headline">"Corona-Warn-App\'i Arka Planda Çalıştır"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz Corona-Warn-App sürekli olarak arka planda çalışır. Bu, uygulamanın her an risk durumunuzu belirlemesini sağlar."</string>
-    <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_body">Önceliklendirilmiş Arka Plan Aktivitesini kapatmak için cihazınızın ayarlarından özelliği devre dışı bırakın.</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_button">Cihaz Ayarlarını Aç</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_headline">Önceliklendirilmiş Arka Plan Aktivitesini Kapat</string>
 
     <!-- ####################################
                App Information
@@ -581,7 +586,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya\'nın federal kamu sağlığı kurumudur. RKI, Federal Hükûmet adına Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, daha önce açıklanan kamu sağlığı önlemlerine ilişkin dijital bir uzantı niteliğindedir: sosyal mesafe, hijyen uygulamaları ve yüz maskeleri."</string>
+    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya\'nın federal kamu sağlığı kurumudur. RKI, Federal Hükûmet adına Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, daha önce açıklanan kamu sağlığı önlemlerine ilişkin dijital bir tamamlayıcı niteliğindedir: sosyal mesafe, hijyen uygulamaları ve yüz maskeleri."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Uygulamayı kullanan herkes, enfeksiyon zincirlerinin takip edilmesine ve kırılmasına yardımcı olur. Uygulama, diğer kişilerle karşılaşmaları cihazınızda yerel olarak kaydeder. Daha sonra COVID-19 tanısı konan kişilerle karşılaşmışsanız size bildirim gönderilir. Kimliğiniz ve gizliliğiniz daima koruma altındadır."</string>
     <!-- XACT: describes illustration -->
@@ -680,7 +685,7 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Hata"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Gönderme işlemi için TAN oluşturulamadı. Lütfen Uygulama Bilgileri → Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"Oluşturulan TAN, gönderme işlemi için geçersiz. Lütfen Uygulama Bilgileri → Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Geri"</string>
 

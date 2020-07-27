@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.SUBMIT_KEYS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -105,6 +106,7 @@ class SubmitDiagnosisKeysTransaction @Inject constructor(
     }
 
     private fun setSubmissionSuccessful() {
+        BackgroundWorkScheduler.stopWorkScheduler()
         LocalData.numberOfSuccessfulSubmissions(1)
     }
 
