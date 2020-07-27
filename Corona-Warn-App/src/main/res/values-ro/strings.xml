@@ -407,6 +407,14 @@
     <string name="onboarding_tracing_dialog_button_positive">"Nu activați"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
     <string name="onboarding_tracing_dialog_button_negative">"Înapoi"</string>
+    <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
+    <string name="onboarding_background_fetch_dialog_headline">"Actualizări în fundal dezactivate"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
+    <string name="onboarding_background_fetch_dialog_body">"Ați dezactivat actualizările în fundal pentru aplicația Corona-Warn. Activați actualizările în fundal pentru a utiliza înregistrarea automată în jurnal a expunerilor. Dacă nu activați actualizările în fundal, puteți porni doar manual din aplicație înregistrarea în jurnal a expunerilor. Puteți activa actualizările în fundal pentru aplicație din setările dispozitivului dvs."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
+    <string name="onboarding_background_fetch_dialog_button_positive">"Deschideți Setările dispozitivului"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
+    <string name="onboarding_background_fetch_dialog_button_negative">"Porniți manual înregistrarea în jurnal a expunerilor"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Trei persoane și-au activat pe dispozitiv înregistrarea în jurnal a expunerilor, ceea ce va duce la înregistrarea întâlnirilor lor."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -477,6 +485,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Deschideți Setările dispozitivului"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Permiteți accesul la locație"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Locația dvs. nu poate fi accesată. Google și/sau Android necesită acces la locația dispozitivului dvs. pentru a utiliza Bluetooth-ul."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Deschideți Setările dispozitivului"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Deschideți conexiunea la internet"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Înregistrarea în jurnal a expunerilor necesită conexiunea la internet pentru a calcula expunerile. Porniți rețeaua Wi-Fi sau datele mobile din setările dispozitivului dvs."</string>
@@ -497,6 +511,8 @@
     <string name="settings_tracing_illustration_description_inactive">"O persoană și-a dezactivat de pe smartphone înregistrarea în jurnal a expunerilor și, prin urmare, întâlnirea cu alte două persoane nu este înregistrată."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"O persoană și-a oprit Bluetooth-ul pe smartphone și, prin urmare, întâlnirea cu alte două persoane nu este înregistrată."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive"/>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"O persoană și-a oprit Internetul pe smartphone și, prin urmare, întâlnirea cu alte două persoane nu este înregistrată."</string>
 
@@ -561,13 +577,13 @@
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Aplicația Corona-Warn rulează permanent în fundal dacă activați Activitate în fundal cu prioritate. Aceasta permite aplicației să determine starea riscului dvs. în orice moment."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_body">"Dacă doriți să dezactivați activitatea în fundal cu prioritate, vă rugăm să faceți acest lucru din setările dispozitivului."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_button">"Deschideți Setările dispozitivului"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_headline">"Dezactivați activitatea în fundal cu prioritate"</string>
 
     <!-- ####################################
                App Information
@@ -681,7 +697,7 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Eroare"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Un cod TAN de transmis nu a putut fi generat. Contactați hotline-ul tehnic accesând Informații aplicație -&gt; Hotline tehnic."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"Codul TAN generat este nevalabil pentru transmitere. Contactați hotline-ul tehnic accesând Informații aplicație → Hotline tehnic."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Înapoi"</string>
 

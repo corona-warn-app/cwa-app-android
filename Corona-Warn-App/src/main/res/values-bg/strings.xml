@@ -407,6 +407,14 @@
     <string name="onboarding_tracing_dialog_button_positive">"Да не се активира"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
     <string name="onboarding_tracing_dialog_button_negative">"Назад"</string>
+    <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
+    <string name="onboarding_background_fetch_dialog_headline">"Фоновите актуализации са дезактивирани"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
+    <string name="onboarding_background_fetch_dialog_body">"Дезактивирали сте фоновите актуализации за приложението Corona-Warn-App. Моля, активирайте ги, за да използвате автоматичното регистриране на излагания на риск. Ако не го направите, регистрирането на излаганията може да бъде стартирано само ръчно от приложението. Може да активирате фоновите актуализации за приложението от настройките на Вашето устройство."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
+    <string name="onboarding_background_fetch_dialog_button_positive">"Към настройките за устройството"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
+    <string name="onboarding_background_fetch_dialog_button_negative">"Ръчно стартиране на регистрирането на излагания на риск"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Трима души са активирали регистрирането на излагания на риск и контактите им един с друг ще бъдат записани."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -477,6 +485,12 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Към настройките за устройството"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Не може да бъде осъществен достъп до Вашето местоположение. За да използвате Bluetooth, Google и/или Android изискват от Вас да предоставите достъп до местоположението на устройството си."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Към настройките за устройството"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Необходима е връзка с интернет"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Необходима е връзка с интернет за изчисляване на излаганията на риск. Моля, свържете се с Wi-Fi или мобилна мрежа за данни от настройките на устройството си."</string>
@@ -497,6 +511,8 @@
     <string name="settings_tracing_illustration_description_inactive">"Контакт между трима души, един от които е с дезактивирано проследяване на контактите."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Контакт между трима души, един от които е с изключена функция Bluetooth."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive"/>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Контакт между трима души, един от които няма връзка с интернет."</string>
 
@@ -561,13 +577,13 @@
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Ако сте активирали приоритетната дейност във фонов режим, приложението Corona-Warn-App работи непрекъснато. Това дава възможност да се определи Вашият статус на риск по всяко време."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_body">"Можете да дезактивирате приоритетната дейност във фонов режим от настройките на устройството."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_button">"Към настройките за устройството"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">@string/lorem_ipsum</string>
+    <string name="settings_background_priority_card_headline">"Дезактивиране на приоритетната дейност във фонов режим"</string>
 
     <!-- ####################################
                App Information
@@ -681,7 +697,7 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Грешка"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Не беше генериран ТАН код за изпращане. Моля, обадете се на горещата линия за технически въпроси, която можете да намерите в раздел „Информация за приложението“."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"Генерираният ТАН код е невалиден. Моля, обадете се на горещата линия за технически въпроси от раздел „Информация за приложението“."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Назад"</string>
 
