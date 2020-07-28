@@ -13,8 +13,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
@@ -57,7 +59,7 @@ class OnboardingNotificationsFragment : Fragment() {
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
             checkForBackgroundJobDisabled()
-            checkForEnergySavingEnabled()
+            //checkForEnergySavingEnabled()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
@@ -105,21 +107,21 @@ class OnboardingNotificationsFragment : Fragment() {
     private fun showEnergySavingEnabledForBackground() {
         val dialog = DialogHelper.DialogInstance(
             requireActivity(),
-            R.string.onboarding_background_fetch_dialog_headline,
-            R.string.onboarding_background_fetch_dialog_body,
-            R.string.onboarding_background_fetch_dialog_button_positive,
-            R.string.onboarding_background_fetch_dialog_button_negative,
+            R.string.onboarding_energy_saving_dialog_headline,
+            R.string.onboarding_energy_saving_dialog_body,
+            R.string.onboarding_energy_saving_dialog_button_positive,
+            R.string.onboarding_energy_saving_dialog_button_negative,
             false,
             {
-                val intent = Intent(
-                    ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.fromParts("package", requireContext().packageName, null)
-                )
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                // go to battery saver
+                ExternalActionHelper.toBatterySaverSettings(requireContext())
+                LocalData.energySavingExplanationDialogWasShown(true)
+
             },
             {
-                navigateToMain()
+                // keep battery saver enabled
+                LocalData.energySavingExplanationDialogWasShown(true)
+
             })
         DialogHelper.showDialog(dialog)
     }

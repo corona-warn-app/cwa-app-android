@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import kotlinx.coroutines.Dispatchers
@@ -71,6 +75,7 @@ class MainFragment : Fragment() {
         setContentDescription()
 
         showOneTimeTracingExplanationDialog()
+        showEnergySavingExplanationDialog()
     }
 
     override fun onResume() {
@@ -214,6 +219,40 @@ class MainFragment : Fragment() {
                             },
                             {}
                         ))
+                }
+            }
+        }
+    }
+
+
+    private fun showEnergySavingExplanationDialog() {
+
+        // check if the dialog explaining the effects of energy saver mode were already shown and if energy saver is enabled
+        if (!LocalData.energySavingExplanationDialogWasShown() && ConnectivityHelper.isEnergySaverEnabled(requireActivity())) {
+            lifecycleScope.launch {
+
+                withContext(Dispatchers.Main) {
+
+                    val dialog = DialogHelper.DialogInstance(
+                        requireActivity(),
+                        R.string.onboarding_energy_saving_dialog_headline,
+                        R.string.onboarding_energy_saving_dialog_body,
+                        R.string.onboarding_energy_saving_dialog_button_positive,
+                        R.string.onboarding_energy_saving_dialog_button_negative,
+                        false,
+                        {
+                            // go to battery saver
+                            ExternalActionHelper.toBatterySaverSettings(requireContext())
+                            LocalData.energySavingExplanationDialogWasShown(true)
+
+                        },
+                        {
+                            // keep battery saver enabled
+                            LocalData.energySavingExplanationDialogWasShown(true)
+
+                        })
+                    DialogHelper.showDialog(dialog)
+
                 }
             }
         }

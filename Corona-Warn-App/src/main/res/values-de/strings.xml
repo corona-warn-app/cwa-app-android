@@ -416,13 +416,13 @@
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Risiko-Ermittlung manuell starten"</string>
     <!-- XACT: onboarding(tracing) - dialog about energy saving header text -->
-    <string name="onboarding_energy_saving_dialog_headline">"temp battery saver"</string>
+    <string name="onboarding_energy_saving_dialog_headline">"Priorisierte Hintergrundaktivität erlauben"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy saving -->
-    <string name="onboarding_energy_saving_dialog_body">"temp battery saver."</string>
+    <string name="onboarding_energy_saving_dialog_body">"Schalten Sie die Optimierung des Akku-Verbrauchs aus, damit die App jederzeit Ihren Risikostatus im Hintergrund ermitteln kann (empfohlen). Wenn Sie diese Einstellung nicht machen, kann die Risiko-Ermittlung nur manuell in der App angestoßen werden."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy saving, open device settings -->
-    <string name="onboarding_energy_saving_dialog_button_positive">"yes"</string>
+    <string name="onboarding_energy_saving_dialog_button_positive">"Optimierung ausschalten"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy saving, continue in app -->
-    <string name="onboarding_energy_saving_dialog_button_negative">"no"</string>
+    <string name="onboarding_energy_saving_dialog_button_negative">"Einstellungen beibehalten"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
