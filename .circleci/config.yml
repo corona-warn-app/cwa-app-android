@@ -70,7 +70,7 @@ jobs:
             echo "key_password=$key_password" >> "./gradle.properties"
       - run:
           name: Quick Build
-          command: ./gradlew quickBuild
+          command: ./gradlew quickBuildTest
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
