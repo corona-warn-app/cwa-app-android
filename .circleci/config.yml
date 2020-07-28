@@ -88,6 +88,9 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+      - store_artifacts:
+          path: Corona-Warn-App/build/outputs/apk
+          destination: apk
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - run:
