@@ -465,7 +465,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Înregistrarea în jurnal a expunerilor a fost oprită"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Serviciul de localizare a fost dezactivat"</string>
+    <string name="settings_tracing_body_inactive_location">"Serviciile de localizare au fost dezactivate"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Înregistrarea în jurnal a expunerilor funcționează astfel: dispozitivul dvs. primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori și transmite propriul dvs. ID aleatoriu către dispozitivele acestora. Această caracteristică poate fi oricând dezactivată. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (calculate utilizând intensitatea semnalului). Datele personale, precum numele, adresa și locația nu sunt înregistrate niciodată. Nu se pot identifica persoanele individuale."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -1018,7 +1018,7 @@
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Aplicația dvs. Corona-Warn este instalată corect, dar serviciul „Notificări privind expunerea la COVID-19” nu este disponibil în sistemul de operare al smartphone-ului dvs. Aceasta înseamnă că nu puteți utiliza aplicația Corona-Warn. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
-    <string name="errors_google_api_error">"Aplicația Corona-Warn funcționează corect, dar nu putem actualiza starea curentă a riscului dvs. Înregistrare în jurnal a expunerilor rămâne activă și funcționează corect. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: https://www.coronawarn.app/en/faq/ \n"</string>
+    <string name="errors_google_api_error">"Aplicația Corona-Warn funcționează corect, dar nu putem actualiza starea curentă a riscului dvs. Înregistrarea în jurnal a expunerilor rămâne activă și funcționează corect. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente: https://www.coronawarn.app/en/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages

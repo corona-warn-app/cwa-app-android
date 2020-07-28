@@ -465,7 +465,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"В момента не се извършва регистриране на излагания на риск"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Услугата за споделяне на местоположението е дезактивирана"</string>
+    <string name="settings_tracing_body_inactive_location">"Услугите за споделяне на местоположението са дезактивирани"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Регистрирането на излагания на риск се извършва с помощта на Bluetooth връзка, при която Вашето устройство получава криптираните случайни ИД кодове на други потребители и изпраща до техните устройства Вашите случайни ИД кодове. Функцията може да бъде дезактивирана по всяко време. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Криптираните случайни ИД кодове предават само информация за дата, продължителност и близост на контакта с други лица (изчислена чрез силата на сигнала). Лични данни от типа на име, адрес и местоположение не се записват и идентифицирането на лицата е невъзможно."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -1018,7 +1018,7 @@
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Вашето Corona-Warn-App приложение е инсталирано правилно, но услугата “известия за излагания на риск от заразяване с COVID-19” не се предлага за операционната система на Вашия смартфон. Това означава, че не можете да използвате приложението Corona-Warn-App. Повече информация може да намерите в страницата „ЧЗВ“ на адрес: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
-    <string name="errors_google_api_error">"Приложението Corona-Warn-App работи правилно, но не можем да актуализираме Вашия статус на риск. Регистрирането на излагания на риск все още е активно и функционира правилно. За повече информация посетете страницата „ЧЗВ“ на адрес: https://www.coronawarn.app/en/faq/ \n"</string>
+    <string name="errors_google_api_error">"Приложението Corona-Warn-App работи правилно, но не можем да актуализираме Вашия статус на риск. Регистрирането на излагания на риск все още е активно и функционира правилно. За повече информация посетете страницата „ЧЗВ“ на адрес: https://www.coronawarn.app/en/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages

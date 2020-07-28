@@ -1,0 +1,1087 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+               Preference Keys
+    ######################################
+    TODO: Check what is needed -->
+
+    <!-- NOTR -->
+    <string name="preference_name"><xliff:g id="preference">"shared_preferences_cwa"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_onboarding_completed"><xliff:g id="preference">"preference_onboarding_completed"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_tracing"><xliff:g id="preference">"preference_tracing"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_timestamp_diagnosis_keys_fetch"><xliff:g id="preference">"preference_timestamp_diagnosis_keys_fetch"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_timestamp_manual_diagnosis_keys_retrieval"><xliff:g id="preference">"preference_timestamp_manual_diagnosis_keys_retrieval"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_string_google_api_token"><xliff:g id="preference">"preference_m_string_google_api_token"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_notifications_enabled"><xliff:g id="preference">"preference_notifications_enabled"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_notifications_risk_enabled"><xliff:g id="preference">"preference_notifications_risk_enabled"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_notifications_test_enabled"><xliff:g id="preference">"preference_notifications_test_enabled"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_background_job_allowed"><xliff:g id="preference">"preference_background_job_enabled"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_mobile_data_allowed"><xliff:g id="preference">"preference_mobile_data_enabled"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_registration_token"><xliff:g id="preference">"preference_registration_token"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_device_pairing_successful_time"><xliff:g id="preference">"preference_device_pairing_successful_time"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_initial_tracing_activation_time"><xliff:g id="preference">"preference_initial_tracing_activation_time"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_initial_result_received_time"><xliff:g id="preference">"preference_initial_result_received_time"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_level_score"><xliff:g id="preference">"preference_risk_level_score"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_level_score_successful"><xliff:g id="preference">"preference_risk_level_score_successful"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_timestamp_risk_level_calculation"><xliff:g id="preference">"preference_timestamp_risk_level_calculation"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_test_guid"><xliff:g id="preference">"preference_test_guid"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_is_allowed_to_submit_diagnosis_keys"><xliff:g id="preference">"preference_is_allowed_to_submit_diagnosis_keys"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_auth_code"><xliff:g id="preference">"preference_auth_code"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_database_password"><xliff:g id="preference">"preference_database_password"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_total_non_active_tracing"><xliff:g id="preference">"preference_total_non_active_tracing"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_last_non_active_tracing_timestamp"><xliff:g id="preference">"preference_last_non_active_tracing_timestamp"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_last_three_hours_from_server"><xliff:g id="preference">"preference_last_three_hours_from_server"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
+
+    <!-- ####################################
+                     Generics
+    ###################################### -->
+
+    <!-- XACT: back description for screen readers -->
+    <string name="accessibility_back">"Назад"</string>
+    <!-- XACT: next description for screen readers -->
+    <string name="accessibility_next">"Дальше"</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_menu">"Меню"</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_close">"Закрыть"</string>
+    <!-- XACT: menu description for screen readers -->
+    <string name="accessibility_logo">"Приложение Corona-Warn-App"</string>
+    <!-- XACT: button description for screen readers to be appended at the end of content without focusable subcontent that are explored by touch -->
+    <string name="accessibility_button">"Кнопка"</string>
+
+    <!-- ####################################
+                     Menu
+    ###################################### -->
+
+    <!-- XMIT: application overview -->
+    <string name="menu_help">"Обзор"</string>
+    <!-- XMIT: application information -->
+    <string name="menu_information">"Информация о приложении"</string>
+    <!-- XMIT: application settings -->
+    <string name="menu_settings">"Настройки"</string>
+
+    <!-- ####################################
+               Notification
+    ###################################### -->
+    <!-- NOTR -->
+    <string name="notification_channel_id"><xliff:g id="notification_channel_id">"de.rki.coronawarnapp.notification.exposureNotificationChannelId"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="notification_id"><xliff:g id="notification_id">"1"</xliff:g></string>
+    <!-- XTXT: Notification channel name for os settings -->
+    <string name="notification_name">"Приложение Corona-Warn-App"</string>
+    <!-- XTXT: Notification channel description for os settings -->
+    <string name="notification_description">"Уведомления от Corona-Warn-App"</string>
+    <!-- XHED: Notification title -->
+    <string name="notification_headline">"Приложение Corona-Warn-App"</string>
+    <!-- XTXT: Notification body -->
+    <string name="notification_body">"Есть новые сообщения от приложения Corona-Warn-App."</string>
+
+    <!-- ####################################
+              App Auto Update
+    ###################################### -->
+
+    <!-- XHED: App Auto Update dialog title -->
+    <string name="update_dialog_title">"Доступно обновление"</string>
+    <!-- XTXT: App Auto Update dialog message -->
+    <string name="update_dialog_message">"Для дальнейшего использования приложения Corona-Warn-App установите последнее обновление."</string>
+    <!-- XBUT: App Auto Update button -->
+    <string name="update_dialog_button">"Обновить"</string>
+
+    <!-- ####################################
+                  Risk Card
+    ###################################### -->
+
+    <!-- XTXT: risk card - no contact yet -->
+    <string name="risk_card_body_contact">"Пока нет контактов"</string>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value">
+        <item quantity="one">"%1$s контакт"</item>
+        <item quantity="other">"%1$s контакта"</item>
+        <item quantity="zero">"%1$s контактов"</item>
+        <item quantity="two">"%1$s контакта"</item>
+        <item quantity="few">"%1$s контакта"</item>
+        <item quantity="many">"%1$s контактов"</item>
+    </plurals>
+    <!-- XTXT: risk card - tracing active for x out of 14 days -->
+    <string name="risk_card_body_saved_days">"Определение риска активно %1$s из 14 прошедших дней."</string>
+    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
+    <string name="risk_card_body_saved_days_full">"Определение риска постоянно активно."</string>
+    <!-- XTXT; risk card - no update done yet -->
+    <string name="risk_card_body_not_yet_fetched">"Контакты еще не проверены."</string>
+    <!-- XTXT: risk card - last successful update -->
+    <string name="risk_card_body_time_fetched">"Обновлено: %1$s"</string>
+    <!-- XTXT: risk card - next update -->
+    <string name="risk_card_body_next_update">"Обновляется ежедневно"</string>
+    <!-- XBUT: risk card - update risk -->
+    <string name="risk_card_button_update">"Обновить"</string>
+    <!-- XBUT: risk card - update risk with time display -->
+    <string name="risk_card_button_cooldown">"Обновление через %1$s"</string>
+    <!-- XBUT: risk card - activate tracing -->
+    <string name="risk_card_button_enable_tracing">"Активировать определение риска"</string>
+    <!-- XTXT: risk card - tracing is off, user should activate to get an updated risk level -->
+    <string name="risk_card_body_tracing_off">"Активируйте определение риска, чтобы оценить свой статус риска сегодня."</string>
+    <!-- XHED: risk card - low risk headline -->
+    <string name="risk_card_low_risk_headline">"Низкий риск"</string>
+    <!-- XHED: risk card - increased risk headline -->
+    <string name="risk_card_increased_risk_headline">"Повышенный риск"</string>
+    <!-- XTXT: risk card - increased risk days since last contact -->
+    <plurals name="risk_card_increased_risk_body_contact_last">
+        <item quantity="one">"%1$s день с последнего контакта"</item>
+        <item quantity="other">"%1$s дня с последнего контакта"</item>
+        <item quantity="zero">"%1$s дней с последнего контакта"</item>
+        <item quantity="two">"%1$s дня с последнего контакта"</item>
+        <item quantity="few">"%1$s дня с последнего контакта"</item>
+        <item quantity="many">"%1$s дней с последнего контакта"</item>
+    </plurals>
+    <!-- XHED: risk card - unknown risk headline -->
+    <string name="risk_card_unknown_risk_headline">"Неизвестный риск"</string>
+    <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
+    <string name="risk_card_unknown_risk_body">"С момента активации определения риска не прошло достаточно времени, чтобы рассчитать Ваш риск заражения."</string>
+    <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
+    <string name="risk_card_no_calculation_possible_headline">"Определение риска остановлено"</string>
+    <!-- XTXT: risk card - last successfully calculated risk level -->
+    <string name="risk_card_no_calculation_possible_body_saved_risk">"Последнее определение риска:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
+    <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
+    <string name="risk_card_outdated_risk_headline">"Определение риска невозможно"</string>
+    <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
+    <string name="risk_card_outdated_risk_body">"Не удается обновить определение риска более 24 часов."</string>
+    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
+    <string name="risk_card_outdated_manual_risk_body">"Ваш статус риска не обновлялся более 48 часов: обновите свой статус риска."</string>
+    <!-- XHED: risk card - loading headline, update is ongoing -->
+    <string name="risk_card_loading_headline">"Проверка выполняется..."</string>
+    <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
+    <string name="risk_card_loading_body">"Текущие данные выгружаются и проверяются. Это может занять несколько минут."</string>
+
+    <!-- ####################################
+                    Main
+    ###################################### -->
+
+    <!-- XHED: main, FAQ -->
+    <string name="main_about_headline">"Часто задаваемые вопросы"</string>
+    <!-- XTXT: main, explains faq on card -->
+    <string name="main_about_body">"Здесь Вы найдете ответы на часто задаваемые вопросы о приложении Corona-Warn-App. Вы будете переадресованы на внешний веб-сайт."</string>
+    <!-- XTXT: FAQ link, should be translated  -->
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <!-- XACT: Opens external webpage -->
+    <string name="hint_external_webpage">"Здесь Вы найдете ответы на часто задаваемые вопросы о приложении Corona-Warn-App. Вы будете переадресованы на внешний веб-сайт."</string>
+
+    <!-- ####################################
+               Main - Share
+    ###################################### -->
+
+    <!-- XHED: Share app link page title -->
+    <string name="main_share_title">"Поделиться Corona-Warn-App"</string>
+    <!-- XHED: Share app link page subtitle -->
+    <string name="main_share_headline">"Давайте победим коронавирус вместе"</string>
+    <!-- YTXT: Share app link page body -->
+    <string name="main_share_body">"Чем больше пользователей приложения, тем быстрее мы сможем остановить передачу инфекции. Предложите своим родным и друзьям выгрузить приложение."</string>
+    <!-- XBUT: Share app link page button -->
+    <string name="main_share_button">"Отправить ссылку для выгрузки"</string>
+    <!-- YMSG: Message when sharing is executed -->
+    <string name="main_share_message">"Победим коронавирус вместе"<xliff:g id="line_break">"\n"</xliff:g>"Я участвую, а ты?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
+    <!-- XACT: main (share) - illustraction description, explanation image -->
+    <string name="main_share_illustration_description">"Человек делится приложением Corona-Warn-App с четырьмя другими людьми."</string>
+
+    <!-- ####################################
+                Main - Overview
+    ###################################### -->
+
+    <!-- XHED: App overview page title -->
+    <string name="main_overview_title">"Обзор"</string>
+    <!-- XACT: main overview page title -->
+    <string name="main_overview_accessibility_title">"Обзор"</string>
+    <!-- XHED: App overview subtitle for tracing explanation-->
+    <string name="main_overview_subtitle_tracing">"Определение риска"</string>
+    <!-- YTXT: App overview body text about tracing -->
+    <string name="main_overview_body_tracing">"Определение риска - одна из трех основных функций приложения. Когда она активирована, регистрируются контакты с устройствами других людей. Вам не нужно ничего делать."</string>
+    <!-- XHED: App overview subtitle for risk explanation -->
+    <string name="main_overview_subtitle_risk">"Риск заражения"</string>
+    <!-- YTXT: App overview body text about risk levels -->
+    <string name="main_overview_body_risk">"Если Вы в течение последних 14 дней контактировали с лицом с положительным тестом на COVID-19, приложение рассчитает Ваш риск заражения. Для этого оцениваются продолжительность и близость контакта."</string>
+    <!-- XHED: App overview subtitle for risk level list -->
+    <string name="main_overview_subtitle_risk_levels">"Статус риска может иметь следующие значения:"</string>
+    <!-- XTXT: App overview increased risk level -->
+    <string name="main_overview_subtitle_increased_risk">"Повышенный риск"</string>
+    <!-- XTXT: App overview low risk level -->
+    <string name="main_overview_subtitle_low_risk">"Низкий риск"</string>
+    <!-- XTXT: App overview unknown risk level -->
+    <string name="main_overview_subtitle_unknown_risk">"Неизвестный риск"</string>
+    <!-- XHED: App overview subtitle for test procedure explanation -->
+    <string name="main_overview_headline_test">"Уведомление других пользователей"</string>
+    <!-- YTXT: App overview body text about rest procedure -->
+    <string name="main_overview_body_test">"Еще одна из основных функций - регистрация Вашего теста и получение результата. Если у Вас положительный текст на COVID-19, Вы можете уведомить других людей и остановить передачу инфекции."</string>
+    <!-- XHED: App overview headline for glossary -->
+    <string name="main_overview_headline_glossary">"Терминология:"</string>
+    <!-- XHED: App overview subtitle for glossary key storage -->
+    <string name="main_overview_subtitle_glossary_tracing">"Журнал контактов"</string>
+    <!-- YTXT: App overview body for glossary key storage -->
+    <string name="main_overview_body_glossary_tracing">"Список полученных и случайных идентификаторов, временно сохраненных в хранилище операционной системы. Этот список считывается при проверке контактов. Все случайные идентификаторы автоматически удаляются через 14 дней."</string>
+    <!-- XHED: App overview subtitle for glossary risk calculation  -->
+    <string name="main_overview_subtitle_glossary_calculation">"Проверка контактов"</string>
+    <!-- YTXT: App overview body for glossary risk calculation -->
+    <string name="main_overview_body_glossary_calculation">"Данные журнала контактов вызываются и синхронизируются с зарегистрированными заражениями других пользователей. Проверка контактов выполняется автоматически с интервалом около двух часов."</string>
+    <!-- XHED: App overview subtitle for glossary contact  -->
+    <string name="main_overview_subtitle_glossary_contact">"Контакты"</string>
+    <!-- YTXT: App overview body for glossary contact -->
+    <string name="main_overview_body_glossary_contact">"Продолжительные и близкие контакты с лицами с положительным тестом на COVID-19."</string>
+    <!-- XHED: App overview subtitle for glossary notifications -->
+    <string name="main_overview_subtitle_glossary_notification">"Уведомление о контакте"</string>
+    <!-- YTXT: App overview body for glossary notifications -->
+    <string name="main_overview_body_glossary_notification">"Отображение уведомлений в приложении Corona-Warn-App."</string>
+    <!-- XHED: App overview subtitle for glossary keys -->
+    <string name="main_overview_subtitle_glossary_keys">"Случайные идентификаторы"</string>
+    <!-- YTXT: App overview body for glossary keys -->
+    <string name="main_overview_body_glossary_keys">"Случайные идентификаторы представляют собой комбинации цифр и букв, генерируемые произвольно. Они передаются между устройствами в непосредственной близости. По случайным идентификаторам нельзя отследить конкретных лиц. Они автоматически удаляются через 14 дней. Лица с положительным тестом на COVID-19 могут по желанию поделиться своими случайными идентификаторами за срок до 14 дней с другими пользователями приложения."</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image -->
+    <string name="main_overview_illustration_description">"На смартфоне отображается разное содержимое, пронумерованное от 1 до 3."</string>
+    <!-- XACT: App main page title -->
+    <string name="main_title">"Главная страница приложения Corona-Warn-App"</string>
+
+    <!-- ####################################
+               Risk Details
+    ###################################### -->
+
+    <!-- XHED: risk details - page title, in toolbar -->
+    <string name="risk_details_title">"Ваш статус риска"</string>
+    <!-- XHED: risk details - headline, how a user should act -->
+    <string name="risk_details_headline_behavior">"Инструкции"</string>
+    <!-- XHED: risk details - multiline headline, bold, how to act correct -->
+    <string name="risk_details_subtitle_behavior">"Вот что Вам нужно сделать"</string>
+    <!-- XMSG: risk details - go/stay home, something like a bullet point -->
+    <string name="risk_details_behavior_body_stay_home">"По возможности возвращайтесь домой и оставайтесь дома."</string>
+    <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
+    <string name="risk_details_behavior_body_contact_doctor">"Контакты для вопросов о симптомах, доступности тестирования и самоизоляции:"</string>
+    <!-- XMSG: risk details - wash your hands, something like a bullet point -->
+    <string name="risk_details_behavior_body_wash_hands">"Регулярно мойте руки."</string>
+    <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
+    <string name="risk_details_behavior_body_wear_mask">"Носите защитную маску при контактах с другими людьми."</string>
+    <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
+    <string name="risk_details_behavior_body_stay_away">"Соблюдайте расстояние не менее 1,5 м от других людей."</string>
+    <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
+    <string name="risk_details_behavior_body_cough_sneeze">"Во время чихания и кашля прикрывайте рот сгибом локтя или салфеткой."</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point -->
+    <string name="risk_details_behavior_increased_body_1">"Ваш врач общей практики"</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
+    <string name="risk_details_behavior_increased_body_2">"Скорая помощь (тел. 116117)"</string>
+    <!-- XMSG: risk details - public health department, bullet point -->
+    <string name="risk_details_behavior_increased_body_3">"Местный орган здравоохранения"</string>
+    <!-- XHED: risk details - infection risk headline, below behaviors -->
+    <string name="risk_details_headline_infection_risk">"Риск заражения"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_headline_period_logged">"Период нахождения в системе"</string>
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
+    <string name="risk_details_subtitle_period_logged">"Этот период включен в расчет."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged">"Ваш риск заражения можно рассчитать только для периодов активного определения риска, поэтому функция определения должна быть постоянно активной."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
+    <string name="risk_details_information_body_period_logged_assessment">"Определение риска охватывает последние 14 дней. В течение этого времени функция определения на Вашем устройстве была активна %1$s дн. Приложение автоматически удаляет старые журналы, как только они теряют значение для предотвращения заражения."</string>
+    <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
+    <string name="risk_details_subtitle_infection_risk_past">"Вот как был рассчитан Ваш риск"</string>
+    <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
+    <string name="risk_details_subtitle_infection_risk">"Вот как рассчитывается Ваш риск"</string>
+    <!-- XMSG: risk details - risk couldn't be calculated tracing wasn't enabled long enough, below behaviors -->
+    <string name="risk_details_information_body_unknown_risk">"С момента активации определения риска не прошло достаточно времени, чтобы рассчитать Ваш риск заражения."</string>
+    <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
+    <string name="risk_details_information_body_outdated_risk">"Не удается обновить определение риска более 24 часов."</string>
+    <!-- YTXT: risk details - low risk explanation text -->
+    <string name="risk_details_information_body_low_risk">"У Вас низкий риск заражения, поскольку не зарегистрировано контактов с лицами с положительным тестом на COVID-19 или контакты были кратковременными и на большом расстоянии."</string>
+    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
+    <plurals name="risk_details_information_body_increased_risk">
+        <item quantity="one">"У Вас повышенный риск заражения, поскольку %1$s день назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
+        <item quantity="other">"У Вас повышенный риск заражения, поскольку %1$s дня назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
+        <item quantity="zero">"У Вас повышенный риск заражения, поскольку %1$s дней назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
+        <item quantity="two">"У Вас повышенный риск заражения, поскольку %1$s дня назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
+        <item quantity="few">"У Вас повышенный риск заражения, поскольку %1$s дня назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
+        <item quantity="many">"У Вас повышенный риск заражения, поскольку %1$s дней назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
+    </plurals>
+    <!-- YTXT: risk details - risk calculation explanation -->
+    <string name="risk_details_information_body_notice">"Ваш риск заражения рассчитывается по локальным данным определения риска (продолжительности и близости) на Вашем устройстве. Данные риска заражения не показываются и не передаются другим лицам."</string>
+    <!-- NOTR -->
+    <string name="risk_details_button_update">@string/risk_card_button_update</string>
+    <!-- NOTR -->
+    <string name="risk_details_button_enable_tracing">@string/risk_card_button_enable_tracing</string>
+    <!-- XACT: risk details page title -->
+    <string name="risk_details_accessibility_title">"Ваш статус риска"</string>
+
+    <!-- XHED: one time risk explanation dialog title  -->
+    <string name="risk_details_explanation_dialog_title">"Информация о функции определения риска"</string>
+    <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
+    <string name="risk_details_explanation_dialog_faq_body">"Подробнее см. на странице часто задаваемых вопросов."</string>
+
+    <!-- ####################################
+              Onboarding
+    ###################################### -->
+
+    <!-- XBUT: onboarding - forward and deny -->
+    <string name="onboarding_button_disable">"Не активировать"</string>
+    <!-- XBUT: onboarding - forward and allow -->
+    <string name="onboarding_button_enable">"Активировать"</string>
+    <!-- XBUT: onboarding - back and cancel -->
+    <string name="onboarding_button_cancel">"Отменить"</string>
+    <!-- XBUT: onboarding - next -->
+    <string name="onboarding_button_next">"Дальше"</string>
+    <!-- XBUT: onboarding - start -->
+    <string name="onboarding_button_start">"Давайте начнем"</string>
+    <!-- XTXT: onboarding - back description for screen reader -->
+    <string name="onboarding_button_back_description">"Назад"</string>
+    <!-- XACT: Onboarding (together) page title -->
+    <string name="onboarding_onboarding_accessibility_title">"Страница адаптации 1 из 5. Победим коронавирус вместе"</string>
+    <!-- XHED: onboarding(together) - fight corona -->
+    <string name="onboarding_headline">"Давайте победим коронавирус вместе"</string>
+    <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
+    <string name="onboarding_subtitle">"Более надежная защита для Вас и для всех нас. Приложение Corona-Warn-App поможет быстрее остановить передачу инфекции."</string>
+    <!-- YTXT: onboarding(together) - inform about the app -->
+    <string name="onboarding_body">"Сделайте из Вашего устройства систему  предупреждения о коронавирусе. Просматривайте Ваш статус риска и определяйте, были ли у Вас близкие контакты с лицами с положительным тестом на COVID-19 за последние 14 дней."</string>
+    <!-- YTXT: onboarding(together) - explain application -->
+    <string name="onboarding_body_emphasized">"Контакты людей регистрируются в приложении путем обмена зашифрованными случайными идентификаторами между  устройствами без доступа к каким-либо персональным данным."</string>
+    <!-- XACT: onboarding(together) - illustraction description, header image -->
+    <string name="onboarding_illustration_description">"Группа людей использует свои смартфоны в городе."</string>
+    <!-- XACT: Onboarding (privacy) page title -->
+    <string name="onboarding_privacy_accessibility_title">"Страница адаптации 2 из 5. Конфиденциальность данных. Далее идет подробный текст. Для продолжения нажмите кнопку внизу экрана."</string>
+    <!-- XHED: onboarding(privacy) - title -->
+    <string name="onboarding_privacy_headline">"Конфиденциальность данных"</string>
+
+    <!-- XACT: onboarding(privacy) - illustraction description, header image -->
+    <string name="onboarding_privacy_illustration_description">"На смартфоне одной женщины установлено приложение Corona-Warn-App. Значок замка на фоне щита указывает на шифрование данных."</string>
+    <!-- XACT: Onboarding (tracing) page title -->
+    <string name="onboarding_tracing_accessibility_title">"Страница адаптации 3 из 5. Активация определения риска"</string>
+    <!-- XHED: onboarding(tracing) - how to enable tracing -->
+    <string name="onboarding_tracing_headline">"Как активировать определение риска"</string>
+    <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
+    <string name="onboarding_tracing_subtitle">"Чтобы узнать, есть ли у Вас риск заражения, нужно активировать функцию определения риска."</string>
+    <!-- YTXT: onboarding(tracing) - explain tracing -->
+    <string name="onboarding_tracing_body">"Для определения риска Ваше устройство получает по Bluetooth зашифрованные случайные идентификаторы других пользователей и передает Ваш случайный идентификатор на их устройства. Эту функцию можно деактивировать в любое время."</string>
+    <!-- YTXT: onboarding(tracing) - explain tracing -->
+    <string name="onboarding_tracing_body_emphasized">"Зашифрованные случайные идентификаторы передают другим людям только информацию о дате, продолжительности и близости (по силе сигнала) контакта. Персональные данные, такие как имя, адрес или местоположение, никогда не регистрируются. Идентификация лица невозможна."</string>
+    <!-- XHED: onboarding(tracing) - headline for consent information -->
+    <string name="onboarding_tracing_headline_consent">"Заявление о согласии"</string>
+    <!-- YTXT: onboarding(tracing) - body for consent information -->
+    <string name="onboarding_tracing_body_consent">"Чтобы узнать, был ли у Вас контакт с инфицированным лицом и есть ли риск заражения, Вам необходимо активировать в Приложении функцию \"Определение риска\". Вы даете свое согласие на активацию определения риска и соответствующую обработку данных, нажав \"Активировать определение риска\"."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Для использования функции определения риска Вам также необходимо активировать на своем смартфоне разработанную компанией Google функцию записи контактов „COVID-19: отслеживание контактов“ и разрешить допуск к мобильному приложению Corona-Warn-App."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"При активации функции записи контактов Ваш смартфон автоматически генерирует и посылает через Bluetooth случайные коды, которые могут быть получены другими смартфонами Apple и Android вблизи от Вас, в которых также активирована функция записи контактов. В свою очередь, Ваш смартфон получает случайные коды других смартфонов. Ваши собственные и полученные с других смартфонов случайные коды хранятся в течение 14 дней в журнале контактов функции «COVID-19: отслеживание контактов»."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Для определения Вашего риска заражения Приложение загружает в течение дня, неоднократно или по запросу, список случайных кодов всех пользователей, которые сообщили через Приложение о своем подтвержденном диагнозе. Затем данный список сравнивается со списком случайных кодов, сохраненных в журнале контактов функции записи контактов. Если при этом Приложение зафиксирует возможный контакт с инфицированным пользователем, Приложение уведомит Вас о контакте с инфицированным лицом и о риске заражения. В этом случае Приложение получит доступ к остальным данным, сохраненным в журнале контактов функции «COVID-19: отслеживание контактов» Вашего смартфона (дата, длительность контакта и сила сигнала Bluetooth)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Сила сигнала Bluetooth помогает определить расстояние (чем сильнее сигнал, тем меньше расстояние). Приложение обрабатывает эти данные для того, чтобы оценить для Вас риск заражения коронавирусом и предоставить Вам рекомендации для дальнейших действий. Данная обработка данных осуществляется исключительно локально на Вашем смартфоне. Никто (в том числе ИРК), кроме Вас, не узнает о том, находились ли Вы в контакте с инфицированным лицом и каким был результат оценки риска заражения."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Чтобы отозвать свое согласие на определение риска, Вы можете деактивировать эту функцию в Приложении, нажав на ползунок, или удалить Приложение. Если Вы хотите снова использовать определение степени риска, активируйте заново ползунок или снова установите Приложение. При отключении функции определения риска Приложение больше не проверяет, был ли у Вас контакт с инфицированным пользователем. Чтобы остановить отправку и получение случайных кодов, Вам необходимо отключить в настройках Вашего смартфона функцию «COVID-19: отслеживание контактов». Обратите внимание, что Ваши и сторонние случайные коды, сохраненные в журнале контактов функции «COVID-19: отслеживание контактов» не удаляются в Приложении. Сохраненные данные в журнале контактов функции «COVID-19: отслеживание контактов» Вы можете удалить на долгосрочный период только в настройках смартфона."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Политика конфиденциальности Приложения (в том числе информация об обработке данных для определения степени риска) доступна в пункте меню «Информация о конфиденциальности данных»."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_button_next">"Активировать определение риска"</string>
+    <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
+    <string name="onboarding_tracing_dialog_headline">"Авторизация"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about tracing -->
+    <string name="onboarding_tracing_dialog_body">"Это означает, что приложение Corona-Warn-App не может отправлять и получать уведомления о Вашем статусе риска заражения COVID-19. Вы можете деактивировать эту функцию в любое время."</string>
+    <!-- XBUT: onboarding(tracing) - positive button (right) -->
+    <string name="onboarding_tracing_dialog_button_positive">"Не активировать"</string>
+    <!-- XBUT: onboarding(tracing) - negative button (right) -->
+    <string name="onboarding_tracing_dialog_button_negative">"Назад"</string>
+    <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
+    <string name="onboarding_background_fetch_dialog_headline">"Обновление в фоновом режиме отключено"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
+    <string name="onboarding_background_fetch_dialog_body">"Вы отключили обновление приложения Corona-Warn-App в фоновом режиме. Включите обновление в фоновом режиме для использования автоматического определения риска. При отключенном обновлении в фоновом режиме определение риска можно запустить только вручную. Активировать обновление в фоновом режиме можно в настройках своего устройства."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
+    <string name="onboarding_background_fetch_dialog_button_positive">"Открыть настройки устройства"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
+    <string name="onboarding_background_fetch_dialog_button_negative">"Запустить определение риска вручную"</string>
+    <!-- XACT: onboarding(tracing) - illustraction description, header image -->
+    <string name="onboarding_tracing_illustration_description">"Три человека активировали определение риска на своих устройствах, то есть их контакты друг с другом будут регистрироваться."</string>
+    <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
+    <string name="onboarding_tracing_location_headline">"Разрешить доступ к местоположению"</string>
+    <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
+    <string name="onboarding_tracing_location_body">"Доступ к Вашему местоположению невозможен. Чтобы использовать Bluetooth, Google и/или Android требуется доступ к местоположению Вашего устройства."</string>
+    <!-- XBUT: onboarding(tracing) - button enable tracing -->
+    <string name="onboarding_tracing_location_button">"Открыть настройки устройства"</string>
+    <!-- XACT: Onboarding (test) page title -->
+    <string name="onboarding_test_accessibility_title">"Страница адаптации 4 из 5. Если у Вас положительный тест на COVID-19..."</string>
+    <!-- XHED: onboarding(test) - about positive tests -->
+    <string name="onboarding_test_headline">"Если у Вас положительный тест на COVID-19..."</string>
+    <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
+    <string name="onboarding_test_subtitle">"…Укажите это в приложении Corona-Warn-App. Предоставление результата Вашего теста является добровольным и безопасным. Просим Вас об этом ради здоровья других людей."</string>
+    <!-- YTXT: onboarding(test) - explain test -->
+    <string name="onboarding_test_body">"Ваше уведомление шифруется для защиты и обрабатывается на безопасном сервере. Людям, от которых Ваше устройство получило зашифрованные случайные идентификаторы, отправляется предупреждение вместе с рекомендуемыми действиями."</string>
+    <!-- XACT: onboarding(test) - illustraction description, header image -->
+    <string name="onboarding_test_illustration_description">"Зашифрованная информация о положительном тесте передается в систему, и другим пользователям отправляются предупреждения."</string>
+    <!-- XACT: Onboarding (datashare) page title -->
+    <string name="onboarding_notifications_accessibility_title">"Страница адаптации 5 из 5. Получение предупреждений и определение риска"</string>
+    <!-- XHED: onboarding(datashare) - about positive tests -->
+    <string name="onboarding_notifications_headline">"Получение предупреждений и определение риска"</string>
+    <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
+    <string name="onboarding_notifications_subtitle">"Приложение может автоматически уведомлять о Вашем статусе риска и предупреждать о новых инфицированных людях среди Ваших контактов. Разрешите приложению уведомлять Вас."</string>
+    <!-- YTXT: onboarding(datashare) - explain test -->
+    <string name="onboarding_notifications_body">"Тогда Вы сможете самоизолироваться для защиты окружающих и узнать, где сдать тест."</string>
+    <!-- XACT: onboarding(notifications) - illustraction description, header image -->
+    <string name="onboarding_notifications_illustration_description">"Женщина получает уведомление от приложения Corona-Warn-App."</string>
+
+    <!-- ####################################
+                  Settings
+    ###################################### -->
+
+    <!-- XHED: settings - settings overview page title -->
+    <string name="settings_title">"Настройки"</string>
+    <!-- XTXT: settings - on, like a label next to a setting -->
+    <string name="settings_on">"Вкл."</string>
+    <!-- XTXT: settings - off, like a label next to a setting -->
+    <string name="settings_off">"Выкл."</string>
+    <!-- XHED: settings(tracing) - page title -->
+    <string name="settings_tracing_title">"Определение риска"</string>
+    <!-- XHED: settings(tracing) - headline bellow illustration -->
+    <string name="settings_tracing_headline">"Вот как работает определение риска"</string>
+    <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
+    <string name="settings_tracing_body_description">"Разрешите генерацию и предоставление случайных идентификаторов COVID-19."</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, active -->
+    <string name="settings_tracing_body_active">"Определение риска активно"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
+    <string name="settings_tracing_body_inactive">"Определение риска остановлено"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
+    <string name="settings_tracing_body_inactive_location">"Сервисы определения местоположения отключены"</string>
+    <!-- YTXT: settings(tracing) - explains tracings -->
+    <string name="settings_tracing_body_text">"Для определения риска Ваше устройство получает по Bluetooth зашифрованные случайные идентификаторы других пользователей и передает Ваш случайный идентификатор на их устройства. Эту функцию можно деактивировать в любое время."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Зашифрованные случайные идентификаторы передают другим людям только информацию о дате, продолжительности и близости (рассчитанной по силе сигнала) контакта. Персональные данные, такие как имя, адрес или местоположение, никогда не регистрируются. Идентификация лица невозможна."</string>
+    <!-- XTXT: settings(tracing) - status next to switch under title -->
+    <string name="settings_tracing_status_active">"Активно"</string>
+    <!-- XTXT: settings(tracing) - status next to switch under title -->
+    <string name="settings_tracing_status_inactive">"Остановлено"</string>
+    <!-- XTXT: settings(tracing) - status next to switch under title -->
+    <string name="settings_tracing_status_restricted">"Ограничено"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
+    <string name="settings_tracing_body_connection_inactive">"Нет соединения с Интернетом"</string>
+    <!-- XTXT: settings(tracing) - shows status under header in home, no bluetooth -->
+    <string name="settings_tracing_body_bluetooth_inactive">"Bluetooth выключен"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_bluetooth_headline">"Включить Bluetooth"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if bluetooth is disabled -->
+    <string name="settings_tracing_status_bluetooth_body">"Bluetooth нужно включить для регистрации контактов функцией определения риска. Включите Bluetooth в настройках вашего устройства."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
+    <string name="settings_tracing_status_bluetooth_button">"Открыть настройки устройства"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_location_headline">"Разрешить доступ к местоположению"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
+    <string name="settings_tracing_status_location_body">"Доступ к Вашему местоположению невозможен. Чтобы использовать Bluetooth, Google и/или Android требуется доступ к местоположению Вашего устройства."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
+    <string name="settings_tracing_status_location_button">"Открыть настройки устройства"</string>
+    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
+    <string name="settings_tracing_status_connection_headline">"Установить соединение с Интернетом"</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
+    <string name="settings_tracing_status_connection_body">"Для расчета контактов функцией определения риска требуется соединение с Интернетом. Включите Wi-Fi или мобильные данные в настройках устройства."</string>
+    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
+    <string name="settings_tracing_status_connection_button">"Открыть настройки устройства"</string>
+    <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
+    <plurals name="settings_tracing_status_body_active">
+        <item quantity="one">"Определение риска активно в течение одного дня.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+        <item quantity="other">"Определение риска активно в течение %1$s дня.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+        <item quantity="zero">"Определение риска активно в течение %1$s дней.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+        <item quantity="two">"Определение риска активно в течение %1$s дней.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+        <item quantity="few">"Определение риска активно в течение %1$s дней.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+        <item quantity="many">"Определение риска активно в течение %1$s дней.\nДля надежной проверки контактов функция определения риска должна быть активна всегда."</item>
+    </plurals>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_illustration_description_active">"Три человека активировали определение риска на своих устройствах, то есть их контакты друг с другом будут регистрироваться."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_illustration_description_inactive">"Человек деактивировал определение риска на своем смартфоне, то есть его контакты с двумя другими людьми не будут регистрироваться."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_bluetooth_illustration_description_inactive">"Человек выключил Bluetooth на своем смартфоне, то есть его контакты с двумя другими людьми не будут регистрироваться."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive"/>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_connection_illustration_description_inactive">"Человек отключил соединение с Интернетом на своем смартфоне, то есть его контакты с двумя другими людьми не будут регистрироваться."</string>
+
+    <!-- XHED: settings(notification) - notification page title -->
+    <string name="settings_notifications_title">"Уведомления"</string>
+    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
+    <string name="settings_notifications_headline_active">"Активировать уведомления о Вашем статусе риска заражения COVID-19?"</string>
+    <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
+    <string name="settings_notifications_headline_inactive">"Уведомления деактивированы"</string>
+    <!-- XTXT: settings(notification) - text in row on settings overview -->
+    <string name="settings_notifications_body_description">"Разрешить автоматические уведомления о статусе риска заражения COVID-19"</string>
+    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
+    <string name="settings_notifications_body_active">"Укажите уведомления, которые Вы хотите получать."</string>
+    <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
+    <string name="settings_notifications_body_inactive">"Чтобы активировать уведомления, нужно разрешить уведомления от приложения Corona-Warn-App в настройках Вашего устройства."</string>
+    <!-- XHED: settings(notification) - card headline -->
+    <string name="settings_notifications_headline_card">"Активировать уведомления"</string>
+    <!-- XHED: settings - notification headline on settings overview -->
+    <string name="settings_notifications_subtitle_notification">"Уведомления"</string>
+    <!-- XTXT: settings(notification) - next to a switch -->
+    <string name="settings_notifications_subtitle_update_risk">"Ваш риск заражения изменился"</string>
+    <!-- XTXT: settings(notification) - next to a switch -->
+    <string name="settings_notifications_subtitle_update_test">"Статус Вашего теста на COVID-19"</string>
+    <!-- XBUT: settings(notification) - go to operating settings -->
+    <string name="settings_notifications_button_open_settings">"Открыть настройки устройства"</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
+    <string name="settings_notifications_illustration_description_active">"Женщина получает уведомление от приложения Corona-Warn-App."</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
+    <string name="settings_notifications_illustration_description_inactive">"Женщина деактивировала уведомления от приложения Corona-Warn-App."</string>
+    <!-- XBUT: settings - go to reset application -->
+    <string name="settings_reset_title">"Сбросить приложение"</string>
+    <!-- XTXT: settings(reset) - explains the user what do expect when he navigates to reset -->
+    <string name="settings_reset_body_description">"Удалить все Ваши данные в приложении."</string>
+    <!-- XHED: settings(reset) - multiline headline below illustration -->
+    <string name="settings_reset_headline">"Действительно сбросить приложение?"</string>
+    <!-- XTXT: settings(reset) - explains the consequences -->
+    <string name="settings_reset_body">"Вы больше не будете получать уведомления о контактах и не сможете предупреждать других пользователей."</string>
+    <!-- XHED: settings(reset) - on card, explains user to go to the operating system settings -->
+    <string name="settings_reset_headline_keys">"Удалить журнал "<xliff:g id="line_break">"\n"</xliff:g>"контактов"</string>
+    <!-- XTXT: settings(reset) - on card -->
+    <string name="settings_reset_body_keys">"Журнал контактов удаляется отдельно в настройках Вашего устройства."</string>
+    <!-- XBUT: settings(reset) - triggers reset -->
+    <string name="settings_reset_button_positive">"Сбросить приложение"</string>
+    <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
+    <string name="settings_reset_button_negative">"Отменить"</string>
+    <!-- XACT: main (overview) - illustraction description, explanation image -->
+    <string name="settings_reset_illustration_description">"Рука держит смартфон, на котором отображается значок выполняемого сброса приложения."</string>
+    <!-- XHED: settings(reset) - dialog headline -->
+    <string name="settings_reset_dialog_headline">"Сбросить приложение"</string>
+    <!-- XTXT: settings(reset) - dialog content -->
+    <string name="settings_reset_dialog_body">"Вы больше не будете получать уведомления о контактах и не сможете предупреждать других пользователей. Это действие нельзя отменить."</string>
+    <!-- XBUT: settings(reset) - dialog cancel -->
+    <string name="settings_reset_dialog_button_cancel">"Отменить"</string>
+    <!-- XBUT: settings(reset) - dialog confirm -->
+    <string name="settings_reset_dialog_button_confirm">"Сброс"</string>
+    <!-- XHED: settings(background priority) - notification page title -->
+    <string name="settings_background_priority_title">"Приоритетная фоновая активность"</string>
+    <!-- XTXT: settings(background priority) - text in row on settings overview -->
+    <string name="settings_background_priority_body_description">"Разрешить автоматические обновления статуса риска"</string>
+    <!-- XHED: settings(background priority) - multiline headline below illustration -->
+    <string name="settings_background_priority_headline">"Запускать Corona-Warn-App в фоновом режиме"</string>
+    <!-- YTXT: settings(background priority) - description text -->
+    <string name="settings_background_priority_body">"Приложение Corona-Warn-App всегда работает в фоновом режиме, если активировать приоритетную фоновую активность. Это позволяет приложению определять Ваш статус риска в любое время."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
+    <string name="settings_background_priority_illustration_description"/>
+    <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
+    <string name="settings_background_priority_card_body">"Чтобы отключить приоритетную фоновую активность, деактивируйте ее в нстройках устройства."</string>
+    <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
+    <string name="settings_background_priority_card_button">"Открыть настройки устройства"</string>
+    <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
+    <string name="settings_background_priority_card_headline">"Отключить приоритетную фоновую активность"</string>
+
+    <!-- ####################################
+               App Information
+    ###################################### -->
+
+    <!-- XHED: Page title for menu information page -->
+    <string name="information_title">"Информация о приложении"</string>
+    <!-- XTXT: Version information text -->
+    <string name="information_version">"Версия: %1s"</string>
+    <!-- XHED: Page title for about information page, also menu item / button text -->
+    <string name="information_about_title">"О приложении"</string>
+    <!-- XHED: Subtitle for about information page -->
+    <string name="information_about_headline">"Давайте победим коронавирус вместе"</string>
+    <!-- YTXT: Body text for about information page -->
+    <string name="information_about_body_emphasized">"Институт Роберта Коха (РКИ) — это центральный федеральный институт Германии в области здравоохранения. По поручению федерального правительства РКИ выпустил приложение Corona-Warn-App. Приложение задумано как цифровое дополнение к уже принятым санитарным мерам: социальной дистанции, гигиене и ношению защитных масок."</string>
+    <!-- YTXT: Body text for about information page -->
+    <string name="information_about_body">"Каждый пользователь приложения помогает отслеживать и останавливать передачу инфекции. Приложение регистрирует контакты с другими людьми локально на вашем устройстве. Вы получаете уведомления о контактах с людьми, которые впоследствии получили положительный результат теста на COVID-19. Ваши персональные данные и конфиденциальность надежно защищены."</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_about_illustration_description">"Группа людей использует свои смартфоны в городе."</string>
+    <!-- XHED: Page title for privacy information page, also menu item / button text -->
+    <string name="information_privacy_title">"Конфиденциальность данных"</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_privacy_illustration_description">"На смартфоне одной женщины установлено приложение Corona-Warn-App. Значок замка на фоне щита указывает на шифрование данных."</string>
+    <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_privacy_html_path">"privacy_ru.html"</string>
+    <!-- XHED: Page title for terms of use information page, also menu item / button text -->
+    <string name="information_terms_title">"Условия использования"</string>
+    <!-- XHED: Page headline for terms of use information page -->
+    <string name="information_terms_headline">"Содержимое"</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_terms_illustration_description">"Рука держит смартфон с длинным текстом на экране. Рядом с текстом отображается галочка, символизирующая принятия условий использования."</string>
+    <!-- XTXT: Path to the full blown terms html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_terms_html_path">"terms_ru.html"</string>
+    <!-- XHED: Page title for technical contact and hotline information page, also menu item / button text -->
+    <string name="information_contact_title">"Горячая линия по техническим вопросам"</string>
+    <!-- XHED: Subtitle for technical contact and hotline information page -->
+    <string name="information_contact_headline">"Чем мы можем Вам помочь?"</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="information_contact_body">"По техническим вопросам о приложении Corona-Warn-App обращайтесь на нашу горячую линию."</string>
+    <!-- XHED: Subtitle for technical contact and hotline information page -->
+    <string name="information_contact_subtitle_phone">"Горячая линия по техническим вопросам:"</string>
+    <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
+    <string name="information_contact_button_phone">"+49 800 7540001"</string>
+    <!-- XBUT: CAUTION - ONLY UPDATE THE NUMBER IF NEEDED, ONLY NUMBERS AND NO SPECIAL CHARACTERS EXCEPT "+" and "space" ALLOWED IN THIS FIELD; -->
+    <string name="information_contact_phone_call_number">"+49 800 7540001"</string>
+    <!-- XTXT: Body text for technical contact and hotline information page -->
+    <string name="information_contact_body_phone">"Наша служба поддержки всегда готова помочь."</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="information_contact_body_open">"Языки: немецкий, английский, турецкий\nЧасы работы:"<xliff:g id="line_break">"\n"</xliff:g>"пн-сб, 7:00-22:00"<xliff:g id="line_break">"\n(кроме государственных праздников)"</xliff:g><xliff:g id="line_break">"\nВсе звонки бесплатны."</xliff:g></string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="information_contact_body_other">"По всем медицинским вопросам обращайтесь к вашему врачу общей практики или в скорую помощь по телефону: 116 117."</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_contact_illustration_description">"Человек совершает телефонный звонок с использованием гарнитуры."</string>
+    <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
+    <string name="information_help_title">"Часто задаваемые вопросы"</string>
+    <!-- XACT: accessibility hint -->
+    <string name="information_help_title_accessibility">"Часто задаваемые вопросы. Вы будете переадресованы на внешний веб-сайт."</string>
+    <!-- XHED: Page title for technical information page, also menu item / button text -->
+    <string name="information_technical_title">"Правовые уведомления"</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_technical_illustration_description">"Рука держит смартфон с длинным текстом на экране. Рядом с текстом отображается значок весов, представляющий правовые уведомления."</string>
+    <!-- XTXT: Path to the full blown legal html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
+    <string name="information_technical_html_path">"technical_ru.html"</string>
+    <!-- XHED: Page title for legal information page, also menu item / button text -->
+    <string name="information_legal_title">"Правовая информация"</string>
+    <!-- XHED: Headline for legal information page, publisher section -->
+    <string name="information_legal_headline_publisher">"Опубликовано"</string>
+    <!-- YTXT: subtitle for legal information page, publisher section -->
+    <string name="information_legal_subtitle_publisher">"(ответственность согласно § 5 п. 1 TMG, § 55 п. 1 RStV, DS-GVO, BDSG)"</string>
+    <!-- YTXT: body for legal information page, publisher section -->
+    <string name="information_legal_body_publisher">"Институт Роберта Коха"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin (Германия)"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"в лице его президента"</string>
+    <!-- XHED: Headline for legal information page, contact section -->
+    <string name="information_legal_headline_contact">"Контакты"</string>
+    <!-- YTXT: subtitle for legal information page, contact section -->
+    <string name="information_legal_subtitle_contact">"Эл. почта: CoronaWarnApp@rki.de"<xliff:g id="line_break">"\n"</xliff:g>"Тел.: +49 30 18754 5100"</string>
+    <!-- XHED: Headline for legal information page, tax section -->
+    <string name="information_legal_headline_taxid">"ИНН"</string>
+    <!-- YTXT: subtitle for legal information page, tax section -->
+    <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
+    <!-- XACT: describes illustration -->
+    <string name="information_legal_illustration_description">"Рука держит смартфон с длинным текстом на экране. Рядом с текстом отображается значок параграфа, представляющий правовую информацию."</string>
+
+
+    <!-- ####################################
+             Submission
+    ###################################### -->
+
+    <!-- XHED: Dialog title for generic web request error -->
+    <string name="submission_error_dialog_web_generic_error_title">"Ошибка"</string>
+    <!-- XMSG: Dialog body for generic web request network error with status code -->
+    <string name="submission_error_dialog_web_generic_network_error_body">"Не удалось установить соединение (%1$d). Повторите попытку."</string>
+    <!-- XMSG: Dialog body for generic web request error without status code -->
+    <string name="submission_error_dialog_web_generic_error_body">"Не удалось установить соединение. Повторите попытку."</string>
+    <!-- XBUT: Positive button for generic web request error -->
+    <string name="submission_error_dialog_web_generic_error_button_positive">"Назад"</string>
+
+    <!-- XHED: Dialog title for already paired test error -->
+    <string name="submission_error_dialog_web_test_paired_title">"Ошибка"</string>
+    <!-- XMSG: Dialog body for already paired test error -->
+    <string name="submission_error_dialog_web_test_paired_body">"QR-код/TAN недействителен или уже использовался. Повторите попытку или обратитесь на горячую линию по техническим вопросам по пути: Информация о приложении -&gt; Горячая линия по техническим вопросам."</string>
+    <!-- XBUT: Positive button for already paired test error -->
+    <string name="submission_error_dialog_web_test_paired_button_positive">"Назад"</string>
+
+    <!-- XHED: Dialog title for could not create submission tan -->
+    <string name="submission_error_dialog_web_paring_invalid_title">"Ошибка"</string>
+    <!-- XMSG: Dialog body for could not create submission tan -->
+    <string name="submission_error_dialog_web_paring_invalid_body">"Не удалось сгенерировать TAN для отправки. Обратитесь на горячую линию по техническим вопросам по пути: Информация о приложении -&gt; Горячая линия по техническим вопросам."</string>
+    <!-- XBUT: Positive button for could not create submission tan -->
+    <string name="submission_error_dialog_web_paring_invalid_button_positive">"Назад"</string>
+
+    <!-- XHED: Dialog title for submission tan invalid -->
+    <string name="submission_error_dialog_web_tan_invalid_title">"Ошибка"</string>
+    <!-- XMSG: Dialog body for submission tan invalid -->
+    <string name="submission_error_dialog_web_tan_invalid_body">"Сгенерированный TAN не действителен для отправки. Обратитесь на горячую линию по техническим вопросам, выбрав: Информация о приложении → Горячая линия по техническим вопросам."</string>
+    <!-- XBUT: Positive button for submission tan invalid -->
+    <string name="submission_error_dialog_web_tan_invalid_button_positive">"Назад"</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Требуется разрешение на доступ к камере"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Разрешить приложению использовать камеру для сканирования QR-кода."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"Разрешить"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Не разрешать"</string>
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission denied  -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Требуется доступ к камере"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Откройте системные настройки и разрешите приложению использовать камеру для сканирования QR-кода."</string>
+    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
+    <string name="submission_qr_code_scan_permission_denied_dialog_button">"ОК"</string>
+
+    <!-- QR Code Scan Invalid Dialog -->
+    <!-- XHED: Dialog headline for invalid QR code  -->
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"Неверный QR-код"</string>
+    <!-- YTXT: Dialog Body text for invalid QR code -->
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Неверный QR-код. Повторите попытку."</string>
+    <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
+    <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Повторите попытку."</string>
+    <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
+    <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Отменить"</string>
+
+    <!-- QR Code Scan Screen -->
+    <string name="submission_qr_code_scan_title">"Наведите рамку на QR-код."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="submission_qr_code_scan_body">"Наведите рамку на QR-код."</string>
+
+    <!-- Submission Test Result -->
+    <!-- XHED: Page headline for test result  -->
+    <string name="submission_test_result_headline">"Результат теста"</string>
+    <!-- XHED: Page subheadline for test result  -->
+    <string name="submission_test_result_subtitle">"Как это работает:"</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_heading">"Тест успешно добавлен."</string>
+    <!-- YTXT: Body text for for results next steps  -->
+    <string name="submission_test_result_steps_added_body">"Ваш тест сохранен в приложении Corona-Warn-App."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_heading">"Результат теста еще не доступен"</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_body">"Ваш результат теста еще не доступен."</string>
+    <!-- XBUT: test result pending : refresh button -->
+    <string name="submission_test_result_pending_refresh_button">"Обновить"</string>
+    <!-- XBUT: test result pending : remove the test button -->
+    <string name="submission_test_result_pending_remove_test_button">"Удалить тест"</string>
+    <!-- XHED: Page headline for negative test result next steps  -->
+    <string name="submission_test_result_negative_steps_negative_heading">"Ваш результат теста"</string>
+    <!-- YTXT: Body text for next steps section of test negative result -->
+    <string name="submission_test_result_negative_steps_negative_body">"Лабораторное исследование не показало инфицирования коронавирусом SARS-CoV-2.\n\nУдалите тест из приложения Corona-Warn-App, чтобы здесь можно было сохранить новый код теста."</string>
+    <!-- XBUT: negative test result : remove the test button -->
+    <string name="submission_test_result_negative_remove_test_button">"Удалить тест"</string>
+    <!-- XHED: Page headline for positive test result screen  -->
+    <string name="submission_test_result_positive_steps_positive_heading">"Ваш результат теста"</string>
+    <!-- YTXT: Body text for next steps section of test positive result-->
+    <string name="submission_test_result_positive_steps_positive_body">"Ваш результат теста положительный."</string>
+    <!-- XHED: Page headline for other warnings screen  -->
+    <string name="submission_test_result_positive_steps_warning_others_heading">"Предупреждение других людей"</string>
+    <!-- YTXT: Body text for for other warnings screen-->
+    <string name="submission_test_result_positive_steps_warning_others_body">"Предоставьте ваши случайные идентификаторы за последние 14 дней, чтобы защитить других людей и остановить передачу инфекции."</string>
+    <!-- XBUT: positive test result : continue button -->
+    <string name="submission_test_result_positive_continue_button">"Дальше"</string>
+    <!-- XHED: Page headline for invalid test result screen  -->
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Ваш результат теста"</string>
+    <!-- YTXT: Body text for next steps section of invalid test result-->
+    <string name="submission_test_result_invalid_steps_invalid_body">"При анализе вашего теста возникла проблема. Обратитесь в местный орган здравоохранения за дальнейшими рекомендациями.\n\nУдалите тест из приложения Corona-Warn-App, чтобы здесь можно было сохранить новый код теста."</string>
+    <!-- XBUT: invalid test result : remove the test button -->
+    <string name="submission_test_result_invalid_remove_test_button">"Удалить тест"</string>
+    <!-- XHED: Dialog title for tracing required dailog  -->
+    <string name="submission_test_result_dialog_tracing_required_title">"Требуется определение риска"</string>
+    <!-- YTXT: Dialog text for tracing required dialog-->
+    <string name="submission_test_result_dialog_tracing_required_message">"Активируйте определение риска, чтобы предупредить других людей"</string>
+    <!-- XBUT: tracing required : OK button -->
+    <string name="submission_test_result_dialog_tracing_required_button">"ОК"</string>
+    <!-- XHED: Dialog title for test removal  -->
+    <string name="submission_test_result_dialog_remove_test_title">"Удалить тест?"</string>
+    <!-- YTXT: Dialog text for test removal -->
+    <string name="submission_test_result_dialog_remove_test_message">"Тест будет безвозвратно удален из приложения Corona-Warn-App без возможности повторного добавления. Это действие нельзя отменить."</string>
+    <!-- XBUT: Positive button for test removal -->
+    <string name="submission_test_result_dialog_remove_test_button_positive">"Удалить"</string>
+    <!-- XBUT: Negative button for test removal -->
+    <string name="submission_test_result_dialog_remove_test_button_negative">"Отменить"</string>
+    <!-- XHED: Title for test result card positive -->
+    <string name="submission_test_result_card_positive_title">"Положительный тест на SARS-CoV-2"</string>
+    <!-- YTXT: Body text for test result card positive -->
+    <string name="submission_test_result_card_positive_body">"Ваш тест на вирус SARS-CoV-2 положительный."</string>
+
+    <!-- Submission Tan -->
+    <!-- XHED: Page title for TAN submission pge -->
+    <string name="submission_tan_title">"Ввод TAN"</string>
+    <!-- YTXT: Body text for the tan submission page -->
+    <string name="submission_tan_body">"Введите полученный 10-значный TAN."</string>
+    <!-- XBUT: Submit TAN button -->
+    <string name="submission_tan_button_text">"Дальше"</string>
+    <!-- XACT: Submission Tan page title -->
+    <string name="submission_tan_accessibility_title">"Ввод TAN"</string>
+    <!-- YTXT: Error text for the tan submission page -->
+    <string name="submission_tan_error">"Неверный TAN, проверьте введенные данные."</string>
+    <!-- YTXT: Error text for the tan submission page (wrong characters) -->
+    <string name="submission_tan_character_error">"Неверно, проверьте введенные данные."</string>
+
+    <!-- Submission Intro -->
+    <!-- XHED: Page title for menu at the start of the submission process  -->
+    <string name="submission_intro_title">"Вы сдали тест?"</string>
+    <!-- XHED: Page headline for menu the at start of the submission process  -->
+    <string name="submission_intro_headline">"Вот как работает приложение Corona-Warn-App"</string>
+    <!-- YTXT: submission introduction text -->
+    <string name="submission_intro_text">"Чтобы приложение работало, нам нужна поддержка людей с положительным тестом на COVID-19.\n\nПоскольку передаются только зашифрованные случайные идентификаторы, сохраняется анонимность. Вы можете выполнить следующие действия:"</string>
+    <!-- XBUT: Submission introduction next button-->
+    <string name="submission_intro_button_next">"Дальше"</string>
+    <!-- XACT: Submission intro - illustration description, explanation image -->
+    <string name="submission_intro_illustration_description">"Зашифрованная информация о положительном тесте передается в систему, и другим пользователям отправляются предупреждения."</string>
+    <!-- YTXT: submission introduction bullet points -->
+    <string-array name="submission_intro_bullet_points">
+        <item>"Если у Вас положительный тест на COVID-19, Вы можете уведомить других людей."</item>
+        <item>"Если Вы получили TAN для положительного теста, можете зарегистрировать свой тест по нему."</item>
+        <item>"Если у Вас нет TAN, Вы можете запросить его по телефону."</item>
+    </string-array>
+    <!-- XACT: Submission Intro page title -->
+    <string name="submission_intro_accessibility_title">"Вы сдали тест? Вот как работает приложение Corona-Warn-App"</string>
+
+    <!-- Dispatcher -->
+    <!-- XHED: Page headline for dispatcher menu  -->
+    <string name="submission_dispatcher_headline">"Выбор"</string>
+    <!-- XHED: Page subheadline for dispatcher menu  -->
+    <string name="submission_dispatcher_subheadline">"Какая информация есть у Вас?"</string>
+    <!-- YTXT: Dispatcher text for QR code option -->
+    <string name="submission_dispatcher_card_qr">"Документ с QR-кодом"</string>
+    <!-- YTXT: Body text for QR code dispatcher option -->
+    <string name="submission_dispatcher_qr_card_text">"Отсканируйте QR-код из документа, чтобы зарегистрировать Ваш тест."</string>
+    <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
+    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Заявление о согласии"</string>
+    <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"Нажав на «Принимаю», Вы соглашаетесь с тем, что Приложение вправе узнавать о статусе Вашего теста на коронавирус и высвечивать его в Приложении. Эта функция доступна, если Вы получили QR-код и дали свое согласие на передачу результатов теста в серверную систему Приложения. После того как тестирующая лаборатория разместит результаты теста на сервере, Вы сможете увидеть их в Приложении. Если Вы активировали уведомления, Вас проинформируют о получении результатов теста и вне Приложения. Сам же результат теста, тем не менее, будет показан только в Приложении, в целях обеспечения конфиденциальности. Вы можете в любое время отозвать данное согласие, удалив в Приложении регистрирование теста. Отзыв согласия не затрагивает правомерность обработки, осуществлявшейся до него. Дальнейшую информацию см. в пункте меню «Информация о конфиденциальности данных»."</string>
+    <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
+    <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Принимаю"</string>
+    <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
+    <string name="submission_dispatcher_qr_privacy_dialog_button_negative">"Не принимаю"</string>
+    <!-- YTXT: Dispatcher text for TAN code option -->
+    <string name="submission_dispatcher_card_tan_code">"TAN"</string>
+    <!-- YTXT: Body text for TAN code dispatcher option -->
+    <string name="submission_dispatcher_tan_code_card_text">"Чтобы зарегистрировать Ваш тест, введите TAN вручную."</string>
+    <!-- YTXT: Dispatcher text for TELE-TAN option -->
+    <string name="submission_dispatcher_card_tan_tele">"Запросить TAN"</string>
+    <!-- YTXT: Body text for TELE_TAN dispatcher option -->
+    <string name="submission_dispatcher_tan_tele_card_text">"Позвоните нам, если у Вас положительный тест на COVID-19."</string>
+    <!-- XACT: Dispatcher Tan page title -->
+    <string name="submission_dispatcher_accessibility_title">"Какая информация есть у Вас?"</string>
+
+    <!-- Submission Positive Other Warning -->
+    <!-- XHED: Page title for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_title">"Предупреждение других людей"</string>
+    <!-- XHED: Page headline for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_headline">"Помогите всем нам!"</string>
+    <!-- YTXT: Body text for the positive result additional warning page-->
+    <string name="submission_positive_other_warning_body">"Далее Вы можете разрешить приложению Corona-Warn-App предоставление ваших случайных идентификаторов за последние 14 дней другим людям. Так Вы предупредите их и поможете остановить передачу инфекции.\n\nПоскольку передаются только обезличенные случайные идентификаторы, Ваша анонимность сохраняется."</string>
+    <!-- XHED: Title for the privacy card-->
+    <string name="submission_positive_other_warning_privacy_title">"Конфиденциальность данных"</string>
+    <!-- YTXT: Body text for the privacy card-->
+    <string name="submission_positive_other_warning_privacy_body">"Нажав на «Принимаю», Вы выражаете свое согласие на передачу Приложением положительного результата Вашего теста вместе с Вашими случайными кодами за последние 14 дней в серверную систему Приложения, чтобы другие пользователи Приложения с активированной функцией определения риска были автоматически проинформированы о том, что они могли быть подвержены риску заражения. Передаваемые случайные коды не содержат никакой информации, которая бы раскрыла Вашу личность.\n\nПередача Вашего результата теста через Приложение является добровольной. Если Вы не передадите результат своего теста, никакого наказания не последует. Ввиду того, что невозможно проследить и проконтролировать, пользуетесь ли Вы Приложением и как Вы это делаете, никто, кроме Вас, не будет знать, передали ли Вы информацию об инфицировании.\n\nВы можете в любое время отозвать свое согласие, удалив Приложение. Отзыв согласия не затрагивает правомерность обработки, осуществлявшейся до момента отзыва. Дальнейшую информацию см. в пункте меню «Информация о конфиденциальности данных»."</string>
+    <!-- XBUT: other warning continue button -->
+    <string name="submission_positive_other_warning_button">"Дальше"</string>
+    <!-- XACT: other warning - illustration description, explanation image -->
+    <string name="submission_positive_other_illustration_description">"Устройство передает зашифрованную информацию о положительном тесте в систему."</string>
+
+
+    <!-- Submission Done -->
+    <!-- XHED: Page title for completed submission page -->
+    <string name="submission_done_title">"Спасибо!"</string>
+    <!-- YTXT: Body text for completed submission page -->
+    <string name="submission_done_body">"Ваш вклад очень ценен. Благодарим за поддержку. Теперь другие люди получат предупреждение и смогут принять необходимые меры."</string>
+    <!-- XHED: Page subtitle for completed submission page -->
+    <string name="submission_done_subtitle">"Внимание!"</string>
+    <!-- YTXT: text after submission: contagious -->
+    <string name="submission_done_contagious">"Вы заразны."</string>
+    <!-- YTXT: text after submission: isolate -->
+    <string name="submission_done_isolate">"Изолируйтесь от других людей."</string>
+    <!-- XHED: Title for further info -->
+    <string name="submission_done_further_info_title">"Дополнительная информация:"</string>
+    <!-- YTXT: submission done further info bullet points -->
+    <string-array name="submission_done_further_info_bullet_points">
+        <item>"Карантин обычно длится 14 дней. Наблюдайте за симптомами и их развитием."</item>
+        <item>"Ваш местный орган здравоохранения попросит Вас составить список людей, с которыми Вы контактировали. Вам нужно указать всех людей, с которыми у Вас были близкие контакты (личное общение на расстоянии менее 2 м) дольше 15 мин в последние два дня до появления у Вас симптомов."</item>
+        <item>"Особенно важно вспомнить людей, которые не будут уведомлены приложением, так как у них нет установленного приложения или даже смартфона."</item>
+        <item>"Даже если у Вас больше нет симптомов и Вы чувствуете себя хорошо, Вы еще можете быть заразны."</item>
+    </string-array>
+    <!-- XBUT: submission finished button -->
+    <string name="submission_done_button_done">"Готово"</string>
+    <!-- XACT: submission finished - illustration description, explanation image -->
+    <string name="submission_done_illustration_description">"Группа людей радуется, потому что кто-то поделился результатом теста."</string>
+
+    <!-- Submission Contact -->
+    <!-- XHED: Page title for contact page in submission flow -->
+    <string name="submission_contact_title">"Запросить TAN"</string>
+    <!-- XHED: Page headline for contact page in submission flow -->
+    <string name="submission_contact_headline">"Как это работает:"</string>
+    <!-- YTXT: Body text for contact page in submission flow-->
+    <string name="submission_contact_body">"Для запроса TAN просим Вас подготовить результат теста (если есть) и Ваш номер телефона."</string>
+    <!-- XBUT: submission contact call button -->
+    <string name="submission_contact_button_call">"Позвонить"</string>
+    <!-- XBUT: submission contact enter tan button -->
+    <string name="submission_contact_button_enter">"Ввести TAN"</string>
+    <!-- YTXT: Body text for step 1 of contact page -->
+    <string name="submission_contact_step_1_body">"Позвоните на горячую линию и запросите TAN:"</string>
+    <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
+    <string name="submission_contact_number_display">"+49 800 7540002"</string>
+    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
+    <string name="submission_contact_number_dial">"+49 800 7540002"</string>
+    <!-- YTXT: Body text for step 2 of contact page-->
+    <string name="submission_contact_step_2_body">"Чтобы зарегистрировать тест, введите TAN в приложении."</string>
+    <!-- YTXT: Body text for operating hours in contact page-->
+    <string name="submission_contact_operating_hours_body">"Языки: \nнемецкий, английский, турецкий\n\nЧасы работы:\nпн-вс, круглосуточно\n\nВсе звонки бесплатны."</string>
+
+    <!-- XACT: Submission contact page title -->
+    <string name="submission_contact_accessibility_title">"Позвонить на горячую линию и запросить TAN"</string>
+    <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
+    <string name="submission_contact_step_1_content">"Первый шаг - это звонок на горячую линию для запроса TAN. Телефон горячей линии: +49 800 7540002. Она работает с 8:00 до 22:00 с понедельника по пятницу и с 10:00 до 22:00 в субботу и воскресенье. Все звонки бесплатны."</string>
+    <!-- XACT: Content Description for submission contact step 2 -->
+    <string name="submission_contact_step_2_content">"Второй шаг - регистрация Вашего теста в приложении по полученному TAN."</string>
+
+    <!-- Submission Status Card -->
+    <!-- XHED: Page title for the various submission status: fetching -->
+    <string name="submission_status_card_title_fetching">"Данные вызываются..."</string>
+    <!-- XHED: Page title for the various submission status: unregistered -->
+    <string name="submission_status_card_title_unregistered">"Вы сдали тест?"</string>
+    <!-- XHED: Page title for the various submission status: pending -->
+    <string name="submission_status_card_title_pending">"Ваш результат еще не доступен"</string>
+    <!-- XHED: Page title for the various submission status: available -->
+    <string name="submission_status_card_title_available">"Ваш результат доступен"</string>
+    <!-- XHED: Page title for the various submission status: positive -->
+    <string name="submission_status_card_title_positive">"Положительный тест"</string>
+    <!-- XHED: Subtitle for the submission status card: invalid -->
+    <string name="submission_status_card_subtitle_invalid">"Недействительный тест"</string>
+    <!-- XHED: Subtitle for the submission status card: negative -->
+    <string name="submission_status_card_subtitle_negative">"Отрицательный тест"</string>
+    <!-- YTXT: Body text for submission status: fetching -->
+    <string name="submission_status_card_body_fetching">"Ваш результат обновляется"</string>
+    <!-- YTXT: Body text for submission status: unregistered -->
+    <string name="submission_status_card_body_unregistered">"Уведомьте других людей, чтобы остановить передачу инфекции."</string>
+    <!-- YTXT: Body text for submission status: pending -->
+    <string name="submission_status_card_body_pending">"Анализ вашего теста еще не завершен."</string>
+    <!-- YTXT: Body text for submission status: invalid -->
+    <string name="submission_status_card_body_invalid">"Не удалось проанализировать ваш тест."</string>
+    <!-- YTXT: Body text for submission status: positive -->
+    <string name="submission_status_card_body_positive">"Ваш тест на SARS-CoV-2 положительный."</string>
+    <!-- YTXT: Body text for submission status: negative -->
+    <string name="submission_status_card_body_negative">"Ваш тест на SARS-CoV-2 отрицательный."</string>
+    <!-- XBUT: submission status card unregistered button -->
+    <string name="submission_status_card_button_unregistered">"Узнать больше и помочь"</string>
+    <!-- XBUT: submission status card show results button -->
+    <string name="submission_status_card_button_show_results">"Просмотреть тест"</string>
+    <!-- XHED: submission status card positive result subtitle -->
+    <string name="submission_status_card_positive_result_subtitle">"Внимание!"</string>
+    <!-- YTXT: text for contagious card -->
+    <string name="submission_status_card_positive_result_contagious">"Вы заразны. Изолируйтесь от других людей."</string>
+    <!-- YTXT: text for contact card -->
+    <string name="submission_status_card_positive_result_contact">"Ваш местный орган здравоохранения свяжется с Вами в ближайшие дни по телефону или почте."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_share">"Поделитесь Вашими случайными идентификаторами, чтобы предупредить других людей."</string>
+
+    <!-- Test Result Card -->
+    <string name="test_result_card_headline">"Ваш диагноз:"</string>
+    <!-- YTXT: virus name text -->
+    <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
+    <!-- YTXT: registered at text -->
+    <string name="test_result_card_registered_at_text">"Зарегистрировано %s"</string>
+    <!-- YTXT: negative status text -->
+    <string name="test_result_card_status_negative">"Отрицательный"</string>
+    <!-- YTXT: positive status text -->
+    <string name="test_result_card_status_positive">"Положительный"</string>
+    <!-- YTXT: invalid status text -->
+    <string name="test_result_card_status_invalid">"Анализ невозможен"</string>
+    <!-- YTXT: pending status text -->
+    <string name="test_result_card_status_pending">"Ваш результат пока не доступен"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_title">"Дополнительная информация:"</string>
+    <!-- YTXT: Content for further info of test result negative -->
+    <string-array name="test_result_card_negative_further_info_bullet_points">
+        <item>"Все еще плохо себя чувствуете? Если Вам плохо и/или симптомы ухудшились, обратитесь к Вашему врачу общей практики."</item>
+        <item>"Оставайтесь дома до выздоровления. Заражение коронавирусом (SARS-CoV-2) в ослабленном состоянии из-за другой инфекции может привести к серьезным осложнениям."</item>
+        <item>"Не ходите на работу, если Вы плохо себя чувствуете, чтобы не ставить под угрозу здоровье других людей. Если симптомы ухудшились, сдайте тест на SARS-CoV-2."</item>
+    </string-array>
+
+    <!-- ####################################
+          Button Tooltips for Accessibility
+    ###################################### -->
+    <!-- XACT: back button-->
+    <string name="button_back">"На предыдущую страницу"</string>
+    <!-- XACT: proceed button-->
+    <string name="button_proceed">"Кнопка \"Продолжить\""</string>
+    <!-- XACT: share button-->
+    <string name="button_share">"Поделиться"</string>
+    <!-- XACT: menu button-->
+    <string name="button_menu">"Меню"</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility button strings, e.g. "Zurück Taste", "Taste" is the default used by android in german -->
+    <string name="suffix_button">"Кнопка"</string>
+    <!-- XACT: Accessibility needs a suffix to strings, to reduce the amount of manual translations this string is appended to accessibility content description strings for images, e.g. "Eine Gruppe von... Bild" -->
+    <string name="suffix_image">"Изображение"</string>
+
+    <!-- ####################################
+               Business Error Messages
+        ###################################### -->
+    <!-- XTXT: error dialog - detailed text if device is offline  -->
+    <string name="errors_no_network">"Нет соединения с Интернетом."</string>
+    <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
+    <string name="errors_not_enough_device_storage">"Недостаточно свободного места в памяти."</string>
+    <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
+    <string name="errors_communication_with_api">"Ошибка связи с интерфейсом Google"</string>
+    <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
+    <string name="errors_external_action">"Невозможно выполнить это действие. Обратитесь на горячую линию."</string>
+    <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
+    <string name="errors_google_update_needed">"Приложение Corona-Warn-App правильно установлено, но сервис уведомления о контактах с лицами, инфицированными COVID-19 недоступен в операционной системе Вашего смартфона. Это означает, что Вы не можете использовать Corona-Warn-App. Подробнее см. на странице часто задаваемых вопросов: https://www.coronawarn.app/en/faq/"</string>
+    <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
+    <string name="errors_google_api_error">"Приложение Corona-Warn-App выполняется корректно, но мы не можем обновить Ваш текущий статус риска. Определение риска остается активным и выполняется корректно. Подробнее см. на странице часто задаваемых вопросов: https://www.coronawarn.app/en/faq/"</string>
+
+    <!-- ####################################
+               Generic Error Messages
+        ###################################### -->
+    <!-- XHED: error dialog - headline -->
+    <string name="errors_generic_headline">"Что-то пошло не так."</string>
+    <!-- XTXT: error dialog - short text for error reason -->
+    <string name="errors_generic_details_headline">"Причина"</string>
+    <!-- XBUT: error dialog - button close -->
+    <string name="errors_generic_button_positive">"ОК"</string>
+    <!-- XBUT: error dialog - button show details -->
+    <string name="errors_generic_button_negative">"Сведения"</string>
+    <!-- XTXT: error dialog - text when no error description is available  -->
+    <string name="errors_generic_text_unknown_error_cause">"Неизвестная ошибка."</string>
+
+    <!-- ####################################
+           Just for Development
+    ###################################### -->
+    <!-- NOTR -->
+    <string name="lorem_ipsum">"Lorem Ipsum"</string>
+    <!-- NOTR -->
+    <string name="menu_test_api">"Test API"</string>
+    <!-- NOTR -->
+    <string name="menu_test_risk_level">"Test Risk Level"</string>
+    <!-- NOTR -->
+    <string name="menu_test_notification">"Test Notification"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_start">"Start (Broadcast/Receive Bluetooth)"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_get_exposure_keys">"Get Exposure keys (my keys history from api)"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_share_my_keys">"Share my keys via Email"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_show_qr_code">"Show QR Code"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_submit_keys">"Submit keys to Server"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
+    <!-- NOTR -->
+    <string name="test_api_switch_last_three_hours_from_server">"Last 3 Hours Mode"</string>
+    <!-- NOTR -->
+    <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
+    <!-- NOTR -->
+    <string name="test_api_exposure_summary_headline">"Exposure summary"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_daysSinceLastExposure">"Days since last exposure: %1$s"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_attenuation">"Attenuation Durations in Minutes: %1$s"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_summation_risk">"Summation Risk Score: %1$s"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_matchedKeyCount">"Matched key count: %1$s"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_maximumRiskScore">"Maximum risk score %1$s"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
+    <!-- NOTR -->
+    <string name="test_api_body_other_keys">"Other key"</string>
+    <!-- NOTR -->
+    <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+
+</resources>

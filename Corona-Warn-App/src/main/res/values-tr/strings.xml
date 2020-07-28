@@ -143,7 +143,7 @@
         <item quantity="many">"%1$s maruz kalma"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s etkindi."</string>
+    <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s gün etkindi."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
     <string name="risk_card_body_saved_days_full">"Maruz kalma günlüğü sürekli etkin"</string>
     <!-- XTXT; risk card - no update done yet -->
@@ -201,7 +201,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-tuerkisch"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
@@ -307,9 +307,9 @@
     <string name="risk_details_behavior_increased_body_3">"Kamu sağlığı yetkiliniz"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
-    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_headline_period_logged">"Dönem günlüğe kaydedildi"</string>
-    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir."</string>
@@ -465,7 +465,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Maruz kalma günlüğü durduruldu"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Konum hizmeti devre dışı bırakıldı"</string>
+    <string name="settings_tracing_body_inactive_location">"Konum hizmetleri devre dışı bırakıldı"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Maruz kalma günlüğü, cihazınızın Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimliği diğer kullanıcıların cihazlarına aktarmasıyla çalışır. Bu özellik dilediğiniz zaman devre dışı bırakılabilir. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Şifrelenmiş rastgele kimlikler yalnızca tarih, süre ve yakınlık (sinyal gücü kullanılarak hesaplanır) hakkındaki bilgileri aktarır. Ad, adres, konum gibi kişisel veriler asla kaydedilmez. Kişilerin kimliği belirlenemez."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -1018,7 +1018,7 @@
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Corona-Warn-App uygulamanız doğru şekilde yüklendi ancak akıllı telefonunuzun işletim sisteminde \"COVID-19 maruz kalma bildirimleri\" hizmeti yok. Bu, Corona-Warn-App\'i kullanamayacağınız anlamına geliyor. Daha fazla bilgi için lütfen SSS sayfamıza bakın: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
-    <string name="errors_google_api_error">"Corona-Warn-App doğru şekilde çalışıyor ancak mevcut risk durumunuzu güncelleyemiyoruz. Maruz kalma günlüğü aktif ve doğru şekilde çalışıyor. Daha fazla bilgi için lütfen SSS sayfamıza bakın: https://www.coronawarn.app/en/faq/ \n"</string>
+    <string name="errors_google_api_error">"Corona-Warn-App doğru şekilde çalışıyor ancak mevcut risk durumunuzu güncelleyemiyoruz. Maruz kalma günlüğü aktif ve doğru şekilde çalışıyor. Daha fazla bilgi için lütfen SSS sayfamıza bakın: https://www.coronawarn.app/en/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages
