@@ -407,6 +407,14 @@
     <string name="onboarding_tracing_dialog_button_positive">"Etkinleştirme"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
     <string name="onboarding_tracing_dialog_button_negative">"Geri"</string>
+    <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
+    <string name="onboarding_background_fetch_dialog_headline">"Arka plan güncellemeleri devre dışı bırakıldı"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
+    <string name="onboarding_background_fetch_dialog_body">"Corona-Warn-App için arka plan güncellemelerini devre dışı bıraktınız. Otomatik maruz kalma günlüğü özelliğini kullanmak için lütfen arka plan güncellemelerini etkinleştirin. Arka plan güncellemelerini etkinleştirmezseniz maruz kalma günlüğü özelliğini yalnızca uygulamadan manüel olarak başlatabilirsiniz. Uygulamanın arka plan güncellemelerini cihazınızın ayarlarından etkinleştirebilirsiniz."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
+    <string name="onboarding_background_fetch_dialog_button_positive">"Cihaz Ayarlarını Aç"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
+    <string name="onboarding_background_fetch_dialog_button_negative">"Maruz Kalma Günlüğünü Manüel Olarak Başlat"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Üç kişi cihazlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -504,6 +512,8 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Bir kişi akıllı telefonunda Bluetooth\'u kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive"/>
+    <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Bir kişi akıllı telefonunda İnternet bağlantısını kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
@@ -566,12 +576,14 @@
     <string name="settings_background_priority_headline">"Corona-Warn-App\'i Arka Planda Çalıştır"</string>
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz Corona-Warn-App sürekli olarak arka planda çalışır. Bu, uygulamanın her an risk durumunuzu belirlemesini sağlar."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
+    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">Önceliklendirilmiş Arka Plan Aktivitesini kapatmak için cihazınızın ayarlarından özelliği devre dışı bırakın.</string>
+    <string name="settings_background_priority_card_body">"Önceliklendirilmiş arka plan aktivitesini devre dışı bırakmak için cihazınızın ayarlarından özelliği devre dışı bırakın."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">Cihaz Ayarlarını Aç</string>
+    <string name="settings_background_priority_card_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">Önceliklendirilmiş Arka Plan Aktivitesini Kapat</string>
+    <string name="settings_background_priority_card_headline">"Önceliklendirilmiş arka plan aktivitesini devre dışı bırak"</string>
 
     <!-- ####################################
                App Information
