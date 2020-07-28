@@ -98,7 +98,7 @@ android {
             dimension "version"
             buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
             resValue "string", "app_name", "CWA TEST"
-            applicationIdSuffix '.dev'
+            applicationIdSuffix '.test'
 
             def environmentPropertiesFile = project.rootProject.file('environment.properties')
             if (environmentPropertiesFile.exists()) {
@@ -121,6 +121,19 @@ android {
                 if (PUB_KEYS_SIGNATURE_VERIFICATION)
                     buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
             }
+            def keystore = project.rootProject.file('$keystore_filename')
+            if (keystore.exists()) {
+                signingConfigs {
+                    forTesters {
+                        storeFile keystore
+                        storePassword '$keystore_password'
+                        keyAlias '$key_alias'
+                        keyPassword '$key_password'
+                    }
+                }
+                signingConfig signingConfigs.forTesters
+            }
+
         }
     }
 
