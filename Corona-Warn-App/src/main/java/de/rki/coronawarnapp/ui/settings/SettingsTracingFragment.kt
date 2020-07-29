@@ -162,8 +162,7 @@ class SettingsTracingFragment : Fragment(),
                         // activated during onboarding
                         showConsentDialog()
                         // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
-                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity()))
-                        {
+                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
                             showManualCheckingRequiredDialog()
                         }
                     }
