@@ -51,6 +51,9 @@ jobs:
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
+      - restore-build-cache
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
           name: Download Keystore
           command: |
@@ -61,6 +64,7 @@ jobs:
       - run:
           name: Prepare Gradle For Signing
           command: |
+            echo "" >> "./gradle.properties"
             echo "keystore_filename=$keystore_filename" >> "./gradle.properties"
             echo "keystore_password=$keystore_password" >> "./gradle.properties"
             echo "key_alias=$key_alias" >> "./gradle.properties"
@@ -71,6 +75,11 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-build-cache
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
