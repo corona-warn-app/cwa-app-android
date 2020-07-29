@@ -221,7 +221,6 @@ class MainFragment : Fragment() {
         }
     }
 
-
     private fun showEnergyOptimizedExplanationDialog() {
 
         // check if the dialog explaining the effects of energy saver mode were already shown and if energy saver is enabled
@@ -241,15 +240,12 @@ class MainFragment : Fragment() {
                             // go to battery optimization
                             ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
                             LocalData.energyOptimizedExplanationDialogWasShown(true)
-
                         },
                         {
                             // keep battery optimization enabled
                             LocalData.energyOptimizedExplanationDialogWasShown(true)
-
                         })
                     DialogHelper.showDialog(dialog)
-
                 }
             }
         }
