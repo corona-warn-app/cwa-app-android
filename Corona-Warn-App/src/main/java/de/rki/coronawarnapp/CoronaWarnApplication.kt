@@ -43,7 +43,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         fun getAppContext(): Context =
             instance.applicationContext
 
-        val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
+        const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver
