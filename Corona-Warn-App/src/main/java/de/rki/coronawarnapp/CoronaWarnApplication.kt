@@ -13,13 +13,11 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
-import de.rki.coronawarnapp.worker.DiagnosisKeyRetrievalOneTimeWorker
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -62,11 +60,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         BackgroundWorkHelper.sendDebugNotification(
             "Application onCreate", "App was woken up"
         )
-        val workManager = WorkManager.getInstance(this.applicationContext)
-        workManager.enqueue(
-            OneTimeWorkRequest.Builder(DiagnosisKeyRetrievalOneTimeWorker::class.java)
-                .build()
-        )
+        BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
     }
 
     /**

@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
 import timber.log.Timber
-import java.lang.StringBuilder
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 
