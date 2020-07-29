@@ -185,8 +185,7 @@ class SettingsTracingFragment : Fragment(),
             R.string.onboarding_manual_required_dialog_body,
             R.string.onboarding_manual_required_dialog_button,
             null,
-            false,
-            {
+            false, {
                 // close dialog
             }
         )
@@ -200,8 +199,7 @@ class SettingsTracingFragment : Fragment(),
             R.string.onboarding_tracing_body_consent,
             R.string.onboarding_button_enable,
             R.string.onboarding_button_cancel,
-            true,
-            {
+            true, {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }, {
                 tracingViewModel.refreshIsTracingEnabled()

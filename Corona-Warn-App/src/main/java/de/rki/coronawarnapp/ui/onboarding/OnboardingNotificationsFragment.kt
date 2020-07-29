@@ -89,19 +89,16 @@ class OnboardingNotificationsFragment : Fragment() {
             R.string.onboarding_background_fetch_dialog_body,
             R.string.onboarding_background_fetch_dialog_button_positive,
             R.string.onboarding_background_fetch_dialog_button_negative,
-            false,
-            {
+            false, {
                 val intent = Intent(
                     ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.fromParts("package", requireContext().packageName, null)
                 )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
-
                 // show battery optimization system dialog after background processing dialog
                 checkForEnergyOptimizedEnabled()
-            },
-            {
+            }, {
                 // declined, show additional dialog explaining manual risk calculation
                 showManualCheckingRequiredDialog()
             })
@@ -115,14 +112,12 @@ class OnboardingNotificationsFragment : Fragment() {
             R.string.onboarding_energy_optimized_dialog_body,
             R.string.onboarding_energy_optimized_dialog_button_positive,
             R.string.onboarding_energy_optimized_dialog_button_negative,
-            false,
-            {
+            false, {
                 // go to battery optimization
                 ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
                 LocalData.energyOptimizedExplanationDialogWasShown(true)
                 navigateToMain()
-            },
-            {
+            }, {
                 // keep battery optimization enabled
                 LocalData.energyOptimizedExplanationDialogWasShown(true)
                 showManualCheckingRequiredDialog()
@@ -137,8 +132,7 @@ class OnboardingNotificationsFragment : Fragment() {
             R.string.onboarding_manual_required_dialog_body,
             R.string.onboarding_manual_required_dialog_button,
             null,
-            false,
-            {
+            false, {
                 navigateToMain()
             }
         )

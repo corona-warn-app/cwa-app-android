@@ -417,12 +417,6 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"Open Device Settings"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Start Exposure Logging Manually"</string>
-    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
-    <string name="onboarding_manual_required_dialog_headline">""</string>
-    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">""</string>
-    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
-    <string name="onboarding_manual_required_dialog_button">"Ok"</string>
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">""</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
@@ -431,6 +425,12 @@
     <string name="onboarding_energy_optimized_dialog_button_positive">""</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
     <string name="onboarding_energy_optimized_dialog_button_negative">""</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">""</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">""</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"Ok"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
