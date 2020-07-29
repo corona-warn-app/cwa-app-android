@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.PowerManagementHelper
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
@@ -70,13 +71,13 @@ class OnboardingNotificationsFragment : Fragment() {
         if (!ConnectivityHelper.isBackgroundJobEnabled(requireActivity())) {
             showBackgroundJobDisabledNotification()
         } else {
-            navigateToMain()
+            checkForEnergyOptimizedEnabled()
         }
     }
 
-    private fun checkForEnergySavingEnabled() {
-        if (ConnectivityHelper.isEnergySaverEnabled(requireActivity())) {
-            showEnergySavingEnabledForBackground()
+    private fun checkForEnergyOptimizedEnabled() {
+        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+            showEnergyOptimizedEnabledForBackground()
         } else {
             navigateToMain()
         }
@@ -97,32 +98,56 @@ class OnboardingNotificationsFragment : Fragment() {
                 )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+
+                // show battery optimization system dialog after background processing dialog
+                checkForEnergyOptimizedEnabled()
             },
             {
-                navigateToMain()
+                // declined, show additional dialog explaining manual risk calculation
+                showManualCheckingRequiredDialog()
+
             })
         DialogHelper.showDialog(dialog)
     }
 
-    private fun showEnergySavingEnabledForBackground() {
+    private fun showEnergyOptimizedEnabledForBackground() {
         val dialog = DialogHelper.DialogInstance(
             requireActivity(),
-            R.string.onboarding_energy_saving_dialog_headline,
-            R.string.onboarding_energy_saving_dialog_body,
-            R.string.onboarding_energy_saving_dialog_button_positive,
-            R.string.onboarding_energy_saving_dialog_button_negative,
+            R.string.onboarding_energy_optimized_dialog_headline,
+            R.string.onboarding_energy_optimized_dialog_body,
+            R.string.onboarding_energy_optimized_dialog_button_positive,
+            R.string.onboarding_energy_optimized_dialog_button_negative,
             false,
             {
-                // go to battery saver
-                ExternalActionHelper.toBatterySaverSettings(requireContext())
-                LocalData.energySavingExplanationDialogWasShown(true)
+                // go to battery optimization
+                ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
+                LocalData.energyOptimizedExplanationDialogWasShown(true)
+                navigateToMain()
 
             },
             {
-                // keep battery saver enabled
-                LocalData.energySavingExplanationDialogWasShown(true)
+                // keep battery optimization enabled
+                LocalData.energyOptimizedExplanationDialogWasShown(true)
+                //HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                showManualCheckingRequiredDialog()
+                navigateToMain()
 
             })
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun showManualCheckingRequiredDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_manual_required_dialog_headline,
+            R.string.onboarding_manual_required_dialog_body,
+            R.string.onboarding_manual_required_dialog_button,
+            null,
+            false,
+            {
+                navigateToMain()
+            }
+        )
         DialogHelper.showDialog(dialog)
     }
 

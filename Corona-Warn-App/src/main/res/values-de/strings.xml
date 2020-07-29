@@ -415,14 +415,20 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"Geräteeinstellungen öffnen"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Risiko-Ermittlung manuell starten"</string>
-    <!-- XACT: onboarding(tracing) - dialog about energy saving header text -->
-    <string name="onboarding_energy_saving_dialog_headline">"Priorisierte Hintergrundaktivität erlauben"</string>
-    <!-- YMSI: onboarding(tracing) - dialog about energy saving -->
-    <string name="onboarding_energy_saving_dialog_body">"Schalten Sie die Optimierung des Akku-Verbrauchs aus, damit die App jederzeit Ihren Risikostatus im Hintergrund ermitteln kann (empfohlen). Wenn Sie diese Einstellung nicht machen, kann die Risiko-Ermittlung nur manuell in der App angestoßen werden."</string>
-    <!-- XBUT: onboarding(tracing) - dialog about energy saving, open device settings -->
-    <string name="onboarding_energy_saving_dialog_button_positive">"Optimierung ausschalten"</string>
-    <!-- XBUT: onboarding(tracing) - dialog about energy saving, continue in app -->
-    <string name="onboarding_energy_saving_dialog_button_negative">"Einstellungen beibehalten"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
+    <string name="onboarding_energy_optimized_dialog_headline">"Priorisierte Hintergrundaktivität erlauben"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
+    <string name="onboarding_energy_optimized_dialog_body">"Schalten Sie die Optimierung des Akku-Verbrauchs aus, damit die App jederzeit Ihren Risikostatus im Hintergrund ermitteln kann (empfohlen). Wenn Sie diese Einstellung nicht machen, kann die Risiko Berechnung nur manuell in der App angestoßen werden."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
+    <string name="onboarding_energy_optimized_dialog_button_positive">"Optimierung ausschalten"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
+    <string name="onboarding_energy_optimized_dialog_button_negative">"Einstellungen beibehalten"</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">"Priorisierte Hintergrundaktivität deaktiviert"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">"Beachten Sie, dass Sie ohne Aktivierung der priorisierten Hintergrundaktivität die App einmal am Tag aufrufen müssen, damit Ihr Risikostatus aktualisiert wird. \n\n Sie können die priorisierte Hintergrundaktivität jederzeit in Ihren Einstellungen aktivieren."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"Ok"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->

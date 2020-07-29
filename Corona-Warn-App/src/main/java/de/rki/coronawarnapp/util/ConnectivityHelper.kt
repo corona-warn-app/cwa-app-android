@@ -185,21 +185,6 @@ object ConnectivityHelper {
         }
     }
 
-    /**
-     * For API level 28+ check if energy saver mode is enabled
-     * Else always return false
-     *
-     * @param context the context
-     *
-     * @return Boolean
-     *
-     * @see isEnergySaverEnabled
-     */
-    fun isEnergySaverEnabled(context: Context): Boolean {
-        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        Timber.d("Power Saving mode is: "+powerManager.isPowerSaveMode)
-        return powerManager.isPowerSaveMode
-    }
 
     /**
      * For API level 28+ check if background is restricted

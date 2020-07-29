@@ -334,9 +334,9 @@ object LocalData {
      *
      * @return boolean if user has seen the energy saving explanation dialog
      */
-    fun energySavingExplanationDialogWasShown(): Boolean = getSharedPreferenceInstance().getBoolean(
+    fun energyOptimizedExplanationDialogWasShown(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_energy_saving_explanation_shown),
+            .getString(R.string.preference_energy_optimized_explanation_shown),
         false
     )
 
@@ -346,11 +346,11 @@ object LocalData {
      *
      * @param value boolean if onboarding in relation to energy saving was completed
      */
-    fun energySavingExplanationDialogWasShown(value: Boolean) =
+    fun energyOptimizedExplanationDialogWasShown(value: Boolean) =
         getSharedPreferenceInstance().edit(true) {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_energy_saving_explanation_shown), value
+                    .getString(R.string.preference_energy_optimized_explanation_shown), value
             )
         }
 

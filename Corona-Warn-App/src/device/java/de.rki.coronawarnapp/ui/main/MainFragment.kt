@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.PowerManagementHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -75,7 +76,7 @@ class MainFragment : Fragment() {
         setContentDescription()
 
         showOneTimeTracingExplanationDialog()
-        showEnergySavingExplanationDialog()
+        showEnergyOptimizedExplanationDialog()
     }
 
     override fun onResume() {
@@ -225,30 +226,30 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun showEnergySavingExplanationDialog() {
+    private fun showEnergyOptimizedExplanationDialog() {
 
         // check if the dialog explaining the effects of energy saver mode were already shown and if energy saver is enabled
-        if (!LocalData.energySavingExplanationDialogWasShown() && ConnectivityHelper.isEnergySaverEnabled(requireActivity())) {
+        if (!LocalData.energyOptimizedExplanationDialogWasShown() && !PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
             lifecycleScope.launch {
 
                 withContext(Dispatchers.Main) {
 
                     val dialog = DialogHelper.DialogInstance(
                         requireActivity(),
-                        R.string.onboarding_energy_saving_dialog_headline,
-                        R.string.onboarding_energy_saving_dialog_body,
-                        R.string.onboarding_energy_saving_dialog_button_positive,
-                        R.string.onboarding_energy_saving_dialog_button_negative,
+                        R.string.onboarding_energy_optimized_dialog_headline,
+                        R.string.onboarding_energy_optimized_dialog_body,
+                        R.string.onboarding_energy_optimized_dialog_button_positive,
+                        R.string.onboarding_energy_optimized_dialog_button_negative,
                         false,
                         {
-                            // go to battery saver
-                            ExternalActionHelper.toBatterySaverSettings(requireContext())
-                            LocalData.energySavingExplanationDialogWasShown(true)
+                            // go to battery optimization
+                            ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
+                            LocalData.energyOptimizedExplanationDialogWasShown(true)
 
                         },
                         {
-                            // keep battery saver enabled
-                            LocalData.energySavingExplanationDialogWasShown(true)
+                            // keep battery optimization enabled
+                            LocalData.energyOptimizedExplanationDialogWasShown(true)
 
                         })
                     DialogHelper.showDialog(dialog)
