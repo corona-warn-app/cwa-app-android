@@ -171,24 +171,6 @@ class FormatterRiskHelperTest {
         )
     }
 
-    private fun formatNextUpdateContentDescriptionBase(
-        iRiskLevelScore: Int?,
-        bIsBackgroundJobEnabled: Boolean?,
-        sValue: String
-    ) {
-        every { context.getString(R.string.risk_card_body_next_update) } returns R.string.risk_card_body_next_update.toString()
-        every { context.getString(R.string.accessibility_button) } returns R.string.accessibility_button.toString()
-
-        val result =
-            formatNextUpdateContentDescription(
-                riskLevelScore = iRiskLevelScore,
-                isBackgroundJobEnabled = bIsBackgroundJobEnabled
-            )
-        assertThat(
-            result, `is`(sValue)
-        )
-    }
-
     private fun formatRiskDetailsRiskLevelBodyBase(
         iRiskLevelScore: Int?,
         iDaysSinceLastExposure: Int?,
