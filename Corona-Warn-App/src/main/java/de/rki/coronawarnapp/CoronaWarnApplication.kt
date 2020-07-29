@@ -7,17 +7,20 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.PowerManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -60,7 +63,18 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         BackgroundWorkHelper.sendDebugNotification(
             "Application onCreate", "App was woken up"
         )
-        BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
+        val wakeLock: PowerManager.WakeLock =
+            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyApp::MyWakelockTag").apply {
+                    acquire(10 * 60 * 1000L /*10 minutes*/)
+                }
+            }
+
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
+            RetrieveDiagnosisKeysTransaction.startWithConstraints()
+        }
+
+        wakeLock.release()
     }
 
     /**
