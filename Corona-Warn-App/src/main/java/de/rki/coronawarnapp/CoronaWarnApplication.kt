@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
@@ -41,6 +42,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         fun getAppContext(): Context =
             instance.applicationContext
+
+        val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver
@@ -63,18 +66,29 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         BackgroundWorkHelper.sendDebugNotification(
             "Application onCreate", "App was woken up"
         )
-        val wakeLock: PowerManager.WakeLock =
-            (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-                newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyApp::MyWakelockTag").apply {
-                    acquire(10 * 60 * 1000L /*10 minutes*/)
+        if (ConnectivityHelper.isBackgroundJobEnabled(applicationContext))
+            ProcessLifecycleOwner.get().lifecycleScope.launch {
+                val wakeLock: PowerManager.WakeLock =
+                    (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                        newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG).apply {
+                            acquire(TEN_MINUTE_TIMEOUT_IN_MS)
+                        }
+                    }
+                try {
+                    BackgroundWorkHelper.sendDebugNotification(
+                        "Automatic mode is on", "Check if we have downloaded keys already today"
+                    )
+                    RetrieveDiagnosisKeysTransaction.startWithConstraints()
+                } catch (e: Exception) {
+                    BackgroundWorkHelper.sendDebugNotification(
+                        "RetrieveDiagnosisKeysTransaction failed",
+                        e.localizedMessage ?: "Unknown exception occurred in onCreate"
+                    )
+                    wakeLock.release()
                 }
+
+                wakeLock.release()
             }
-
-        ProcessLifecycleOwner.get().lifecycleScope.launch {
-            RetrieveDiagnosisKeysTransaction.startWithConstraints()
-        }
-
-        wakeLock.release()
     }
 
     /**
