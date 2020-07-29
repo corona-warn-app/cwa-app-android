@@ -23,8 +23,8 @@ import KeyExportFormat
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
-import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
 import de.rki.coronawarnapp.http.requests.RegistrationRequest
+import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
 import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
@@ -134,6 +134,18 @@ class WebRequestBuilder(
             }
         }
 
+    suspend fun asyncFakeGetRegistrationToken(
+        key: String,
+        keyType: String,
+        requestPadding: String
+    ) = withContext(Dispatchers.IO) {
+        verificationService.getRegistrationToken(
+            SubmissionConstants.REGISTRATION_TOKEN_URL,
+            "1",
+            RegistrationTokenRequest(keyType, key, requestPadding)
+        )
+    }
+
     suspend fun asyncGetRegistrationToken(
         key: String,
         keyType: String
@@ -150,41 +162,82 @@ class WebRequestBuilder(
         ).registrationToken
     }
 
+    suspend fun asyncFakeGetTestResult(
+        registrationToken: String,
+        requestPadding: String
+    ): Int = withContext(Dispatchers.IO) {
+        verificationService.getTestResult(
+            SubmissionConstants.TEST_RESULT_URL,
+            "1",
+            RegistrationRequest(registrationToken, requestPadding)
+        ).testResult
+    }
+
     suspend fun asyncGetTestResult(
         registrationToken: String
     ): Int = withContext(Dispatchers.IO) {
         verificationService.getTestResult(
             SubmissionConstants.TEST_RESULT_URL,
-            "0", RegistrationRequest(registrationToken)
+            "0",
+            RegistrationRequest(registrationToken)
         ).testResult
+    }
+
+    suspend fun asyncFakeGetTan(
+        registrationToken: String,
+        requestPadding: String
+    ) = withContext(Dispatchers.IO) {
+        verificationService.getTAN(
+            SubmissionConstants.TAN_REQUEST_URL,
+            "1",
+            TanRequestBody(
+                registrationToken,
+                requestPadding
+            )
+        )
     }
 
     suspend fun asyncGetTan(
         registrationToken: String
     ): String = withContext(Dispatchers.IO) {
         verificationService.getTAN(
-            SubmissionConstants.TAN_REQUEST_URL, "0",
+            SubmissionConstants.TAN_REQUEST_URL,
+            "0",
             TanRequestBody(
                 registrationToken
             )
         ).tan
     }
 
-    suspend fun asyncSubmitKeysToServer(
+    suspend fun asyncFakeSubmitKeysToServer(
         authCode: String,
-        faked: Boolean,
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
         Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .build()
-        var fakeHeader = "0"
-        if (faked) fakeHeader = Math.random().toInt().toString()
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
-            fakeHeader,
+            "1",
+            submissionPayload
+        )
+        return@withContext
+    }
+
+    suspend fun asyncSubmitKeysToServer(
+        authCode: String,
+        keyList: List<KeyExportFormat.TemporaryExposureKey>
+    ) = withContext(Dispatchers.IO) {
+        Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
+        val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
+            .addAllKeys(keyList)
+            .build()
+        submissionService.submitKeys(
+            DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
+            authCode,
+            "0",
             submissionPayload
         )
         return@withContext

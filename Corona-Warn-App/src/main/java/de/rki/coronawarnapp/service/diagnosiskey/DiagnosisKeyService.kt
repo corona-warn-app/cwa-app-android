@@ -53,7 +53,6 @@ object DiagnosisKeyService {
         Timber.d("Diagnosis Keys will be submitted.")
         WebRequestBuilder.getInstance().asyncSubmitKeysToServer(
             authCode,
-            false,
             keysToReport
         )
     }
