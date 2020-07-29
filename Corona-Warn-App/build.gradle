@@ -127,9 +127,9 @@ android {
                     signingConfigs {
                         forTesters {
                             storeFile keystore
-                            storePassword '$keystore_password'
-                            keyAlias '$key_alias'
-                            keyPassword '$key_password'
+                            storePassword "$keystore_password"
+                            keyAlias "$key_alias"
+                            keyPassword "$key_password"
                         }
                     }
                     signingConfig signingConfigs.forTesters
