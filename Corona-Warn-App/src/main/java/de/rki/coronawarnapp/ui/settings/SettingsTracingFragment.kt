@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.SettingsRepository.isLocationEnabled
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -25,7 +24,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.android.synthetic.main.fragment_settings_tracing.view.*
 import kotlinx.coroutines.launch
 
 /**
