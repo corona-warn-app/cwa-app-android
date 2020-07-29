@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TanRequestBody(
     @SerializedName("registrationToken")
-    val registrationToken: String
+    val registrationToken: String,
+    @SerializedName("requestPadding")
+    val requestPadding: String
 )

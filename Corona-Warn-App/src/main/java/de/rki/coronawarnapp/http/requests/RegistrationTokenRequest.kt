@@ -6,5 +6,7 @@ data class RegistrationTokenRequest(
     @SerializedName("keyType")
     val keyType: String,
     @SerializedName("key")
-    val key: String
+    val key: String,
+    @SerializedName("requestPadding")
+    val requestPadding: String
 )
