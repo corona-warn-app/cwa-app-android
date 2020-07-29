@@ -465,7 +465,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Risiko-Ermittlung gestoppt"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Ortungsdienste deaktiviert"</string>
+    <string name="settings_tracing_body_inactive_location">"Standortdienste deaktiviert"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert, indem Ihr Handy per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -485,9 +485,9 @@
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
     <string name="settings_tracing_status_bluetooth_button">"Geräte-Einstellungen öffnen"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_location_headline">"Standort Verwendung erlauben"</string>
+    <string name="settings_tracing_status_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort Erlaubnis wird benötigt, da Google Android diese für die Verwendung von Bluetooth voraussetzt."</string>
+    <string name="settings_tracing_status_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, da Google bzw. Android diese für die Verwendung von Bluetooth voraussetzt."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Geräte-Einstellungen öffnen"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -512,7 +512,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Eine Person hat Bluetooth auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive">""</string>
+    <string name="settings_tracing_location_illustration_description_inactive"/>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Eine Person hat die Internetverbindung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
 
@@ -575,15 +575,15 @@
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Corona-Warn-App im Hintergrund ausführen"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität anschalten, wird die Corona-Warn-App dauerhaft im Hintergrund ausgeführt. So kann die App jederzeit Ihren Risikostatus ermitteln."</string>
+    <string name="settings_background_priority_body">"Wenn Sie die priorisierte Hintergrundaktivität anschalten, wird die Corona-Warn-App dauerhaft im Hintergrund ausgeführt. So kann die App jederzeit Ihren Risikostatus ermitteln."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"></string>
+    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen.</string>
+    <string name="settings_background_priority_card_body">"Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">Geräte-Einstellungen öffnen</string>
+    <string name="settings_background_priority_card_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">Priorisierte Hintergrundaktivität ausschalten</string>
+    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ausschalten"</string>
 
     <!-- ####################################
                App Information
@@ -1018,7 +1018,7 @@
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Ihre Corona-Warn-App ist korrekt installiert. Leider fehlt dem Betriebssystem Ihres Smartphones der Dienst „Benachrichtigungen zu möglicher Begegnung mit COVID-19-Infizierten“ und Sie können die Corona-Warn-App nicht nutzen. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
-    <string name="errors_google_api_error">"Ihre Corona-Warn-App läuft fehlerfrei. Leider können Sie Ihren Risikostatus im Moment nicht aktualisieren. Ihre Risiko-Ermittlung ist weiterhin aktiv und funktioniert. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/ \n"</string>
+    <string name="errors_google_api_error">"Ihre Corona-Warn-App läuft fehlerfrei. Leider können Sie Ihren Risikostatus im Moment nicht aktualisieren. Ihre Risiko-Ermittlung ist weiterhin aktiv und funktioniert. Weitere Informationen finden Sie in unseren FAQ: https://www.coronawarn.app/de/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages
