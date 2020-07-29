@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
+import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
@@ -136,21 +137,26 @@ class WebRequestBuilder(
 
     suspend fun asyncFakeGetRegistrationToken(
         key: String,
-        keyType: String,
+        keyType: KeyType,
         requestPadding: String
     ) = withContext(Dispatchers.IO) {
+        val keyStr = if (keyType == KeyType.GUID) {
+            SecurityHelper.hash256(key)
+        } else {
+            key
+        }
         verificationService.getRegistrationToken(
             SubmissionConstants.REGISTRATION_TOKEN_URL,
             "1",
-            RegistrationTokenRequest(keyType, key, requestPadding)
-        )
+            RegistrationTokenRequest(keyType.name, keyStr, requestPadding)
+        ).registrationToken
     }
 
     suspend fun asyncGetRegistrationToken(
         key: String,
-        keyType: String
+        keyType: KeyType
     ): String = withContext(Dispatchers.IO) {
-        val keyStr = if (keyType == SubmissionConstants.QR_CODE_KEY_TYPE) {
+        val keyStr = if (keyType == KeyType.GUID) {
             SecurityHelper.hash256(key)
         } else {
             key
@@ -158,7 +164,7 @@ class WebRequestBuilder(
         verificationService.getRegistrationToken(
             SubmissionConstants.REGISTRATION_TOKEN_URL,
             "0",
-            RegistrationTokenRequest(keyType, keyStr)
+            RegistrationTokenRequest(keyType.name, keyStr)
         ).registrationToken
     }
 
@@ -194,7 +200,7 @@ class WebRequestBuilder(
                 registrationToken,
                 requestPadding
             )
-        )
+        ).tan
     }
 
     suspend fun asyncGetTan(

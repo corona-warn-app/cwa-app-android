@@ -50,7 +50,7 @@ class SubmissionServiceTest {
 
         coEvery {
             WebRequestBuilder.getInstance()
-                .asyncGetRegistrationToken(any(), SubmissionConstants.QR_CODE_KEY_TYPE)
+                .asyncGetRegistrationToken(any(), KeyType.GUID)
         } returns registrationToken
 
         runBlocking {
@@ -74,7 +74,7 @@ class SubmissionServiceTest {
 
         coEvery {
             WebRequestBuilder.getInstance()
-                .asyncGetRegistrationToken(any(), SubmissionConstants.TELE_TAN_KEY_TYPE)
+                .asyncGetRegistrationToken(any(), KeyType.TELETAN)
         } returns registrationToken
 
         runBlocking {

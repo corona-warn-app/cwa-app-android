@@ -7,8 +7,10 @@ class SubmissionConstantsTest {
 
     @Test
     fun allSubmissionConstants() {
-        Assert.assertEquals(SubmissionConstants.QR_CODE_KEY_TYPE, "GUID")
-        Assert.assertEquals(SubmissionConstants.TELE_TAN_KEY_TYPE, "TELETAN")
+        // TODO: Should we really keep these now?
+        Assert.assertEquals(KeyType.GUID.name, "GUID")
+        Assert.assertEquals(KeyType.TELETAN.name, "TELETAN")
+
         Assert.assertEquals(SubmissionConstants.REGISTRATION_TOKEN_URL, "version/v1/registrationToken")
         Assert.assertEquals(SubmissionConstants.TEST_RESULT_URL, "version/v1/testresult")
         Assert.assertEquals(SubmissionConstants.TAN_REQUEST_URL, "version/v1/tan")
