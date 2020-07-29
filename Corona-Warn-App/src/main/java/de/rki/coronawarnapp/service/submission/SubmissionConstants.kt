@@ -23,3 +23,7 @@ object SubmissionConstants {
 
     const val SERVER_ERROR_CODE_400 = 400
 }
+
+enum class KeyType {
+    GUID, TELETAN;
+}

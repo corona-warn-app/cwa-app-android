@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
+import de.rki.coronawarnapp.http.playbook.Playbook
+import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN
+import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN_AND_SUBMIT_KEYS
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.SUBMIT_KEYS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
 
@@ -38,24 +38,27 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = SubmitDiagnosisKeysTransaction::class.simpleName
 
+    val playbook: Playbook = PlaybookImpl()
+
     /** possible transaction states */
     private enum class SubmitDiagnosisKeysTransactionState :
         TransactionState {
-        RETRIEVE_TAN,
+//        RETRIEVE_TAN,
         RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY,
-        SUBMIT_KEYS,
+//        SUBMIT_KEYS,
+        RETRIEVE_TAN_AND_SUBMIT_KEYS,
         STORE_SUCCESS,
         CLOSE
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(registrationToken: String, keys: List<TemporaryExposureKey>) = lockAndExecuteUnique {
-        /****************************************************
-         * RETRIEVE TAN
-         ****************************************************/
-        val authCode = executeState(RETRIEVE_TAN) {
-            SubmissionService.asyncRequestAuthCode(registrationToken)
-        }
+//        /****************************************************
+//         * RETRIEVE TAN
+//         ****************************************************/
+//        val authCode = executeState(RETRIEVE_TAN) {
+//            SubmissionService.asyncRequestAuthCode(registrationToken)
+//        }
 
         /****************************************************
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
@@ -64,12 +67,20 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
                 keys.limitKeyCount()
                 .transformKeyHistoryToExternalFormat()
         }
+//        /****************************************************
+//         * SUBMIT KEYS
+//         ****************************************************/
+//        executeState(SUBMIT_KEYS) {
+//            DiagnosisKeyService.asyncSubmitKeys(authCode, temporaryExposureKeyList)
+//        }
+
         /****************************************************
-         * SUBMIT KEYS
+         * RETRIEVE TAN & SUBMIT KEYS
          ****************************************************/
-        executeState(SUBMIT_KEYS) {
-            DiagnosisKeyService.asyncSubmitKeys(authCode, temporaryExposureKeyList)
+        executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
+            playbook.submission(registrationToken, temporaryExposureKeyList)
         }
+
         /****************************************************
          * STORE SUCCESS
          ****************************************************/
