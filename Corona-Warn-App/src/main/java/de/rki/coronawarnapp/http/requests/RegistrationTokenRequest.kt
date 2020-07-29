@@ -8,5 +8,5 @@ data class RegistrationTokenRequest(
     @SerializedName("key")
     val key: String,
     @SerializedName("requestPadding")
-    val requestPadding: String
+    val requestPadding: String? = null
 )

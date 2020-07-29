@@ -6,5 +6,5 @@ data class TanRequestBody(
     @SerializedName("registrationToken")
     val registrationToken: String,
     @SerializedName("requestPadding")
-    val requestPadding: String
+    val requestPadding: String? = null
 )
