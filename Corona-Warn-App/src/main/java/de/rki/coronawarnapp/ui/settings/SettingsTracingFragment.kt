@@ -188,7 +188,7 @@ class SettingsTracingFragment : Fragment(),
             null,
             false,
             {
-                //close dialog
+                // close dialog
             }
         )
         DialogHelper.showDialog(dialog)

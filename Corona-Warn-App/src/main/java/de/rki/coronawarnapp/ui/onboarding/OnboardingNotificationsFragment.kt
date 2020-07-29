@@ -60,7 +60,6 @@ class OnboardingNotificationsFragment : Fragment() {
     private fun setButtonOnClickListener() {
         binding.onboardingButtonNext.setOnClickListener {
             checkForBackgroundJobDisabled()
-            //checkForEnergySavingEnabled()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             (activity as OnboardingActivity).goBack()
@@ -105,7 +104,6 @@ class OnboardingNotificationsFragment : Fragment() {
             {
                 // declined, show additional dialog explaining manual risk calculation
                 showManualCheckingRequiredDialog()
-
             })
         DialogHelper.showDialog(dialog)
     }
@@ -123,7 +121,6 @@ class OnboardingNotificationsFragment : Fragment() {
                 ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
                 LocalData.energyOptimizedExplanationDialogWasShown(true)
                 navigateToMain()
-
             },
             {
                 // keep battery optimization enabled
