@@ -12,7 +12,6 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import android.os.PowerManager
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -184,7 +183,6 @@ object ConnectivityHelper {
             )
         }
     }
-
 
     /**
      * For API level 28+ check if background is restricted
