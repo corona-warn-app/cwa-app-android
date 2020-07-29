@@ -128,10 +128,7 @@ class OnboardingNotificationsFragment : Fragment() {
             {
                 // keep battery optimization enabled
                 LocalData.energyOptimizedExplanationDialogWasShown(true)
-                //HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 showManualCheckingRequiredDialog()
-                navigateToMain()
-
             })
         DialogHelper.showDialog(dialog)
     }

@@ -153,12 +153,6 @@ class SettingsTracingFragment : Fragment(),
                     BackgroundWorkScheduler.stopWorkScheduler()
                 } else {
                     // tracing was already activated
-                    // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
-                    if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity()))
-                    {
-                        showManualCheckingRequiredDialog()
-                    }
-
                     if (LocalData.initialTracingActivationTimestamp() != null) {
                         internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
                     } else {
@@ -166,6 +160,11 @@ class SettingsTracingFragment : Fragment(),
                         // ask for consent via dialog for initial tracing activation when tracing was not
                         // activated during onboarding
                         showConsentDialog()
+                        // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
+                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity()))
+                        {
+                            showManualCheckingRequiredDialog()
+                        }
                     }
                 }
             } catch (exception: Exception) {
