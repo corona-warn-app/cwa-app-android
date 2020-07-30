@@ -73,6 +73,30 @@ object LocalData {
                 .getString(R.string.preference_onboarding_completed_timestamp), value
         )
     }
+
+    /**
+     * Gets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_check_done),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_check_done), value
+        )
+    }
     /****************************************************
      * TRACING DATA
      ****************************************************/
@@ -325,32 +349,6 @@ object LocalData {
             putBoolean(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_risk_days_explanation_shown), value
-            )
-        }
-
-    /**
-     * Gets the boolean if the user has seen the energy saving explanation dialog
-     * from the EncryptedSharedPrefs
-     *
-     * @return boolean if user has seen the energy saving explanation dialog
-     */
-    fun energyOptimizedExplanationDialogWasShown(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_energy_optimized_explanation_shown),
-        false
-    )
-
-    /**
-     * Sets the boolean if the user has seen the energy saving explanation dialog
-     * from the EncryptedSharedPrefs
-     *
-     * @param value boolean if onboarding in relation to energy saving was completed
-     */
-    fun energyOptimizedExplanationDialogWasShown(value: Boolean) =
-        getSharedPreferenceInstance().edit(true) {
-            putBoolean(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_energy_optimized_explanation_shown), value
             )
         }
 
