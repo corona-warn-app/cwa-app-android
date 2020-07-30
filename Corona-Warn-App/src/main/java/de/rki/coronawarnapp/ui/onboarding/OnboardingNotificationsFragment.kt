@@ -13,8 +13,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.PowerManagementHelper
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
@@ -67,6 +70,14 @@ class OnboardingNotificationsFragment : Fragment() {
         if (!ConnectivityHelper.isBackgroundJobEnabled(requireActivity())) {
             showBackgroundJobDisabledNotification()
         } else {
+            checkForEnergyOptimizedEnabled()
+        }
+    }
+
+    private fun checkForEnergyOptimizedEnabled() {
+        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+            showEnergyOptimizedEnabledForBackground()
+        } else {
             navigateToMain()
         }
     }
@@ -78,18 +89,53 @@ class OnboardingNotificationsFragment : Fragment() {
             R.string.onboarding_background_fetch_dialog_body,
             R.string.onboarding_background_fetch_dialog_button_positive,
             R.string.onboarding_background_fetch_dialog_button_negative,
-            false,
-            {
+            false, {
                 val intent = Intent(
                     ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.fromParts("package", requireContext().packageName, null)
                 )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
-            },
-            {
-                navigateToMain()
+                // show battery optimization system dialog after background processing dialog
+                checkForEnergyOptimizedEnabled()
+            }, {
+                // declined, show additional dialog explaining manual risk calculation
+                showManualCheckingRequiredDialog()
             })
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun showEnergyOptimizedEnabledForBackground() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_energy_optimized_dialog_headline,
+            R.string.onboarding_energy_optimized_dialog_body,
+            R.string.onboarding_energy_optimized_dialog_button_positive,
+            R.string.onboarding_energy_optimized_dialog_button_negative,
+            false, {
+                // go to battery optimization
+                ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
+                LocalData.energyOptimizedExplanationDialogWasShown(true)
+                navigateToMain()
+            }, {
+                // keep battery optimization enabled
+                LocalData.energyOptimizedExplanationDialogWasShown(true)
+                showManualCheckingRequiredDialog()
+            })
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun showManualCheckingRequiredDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_manual_required_dialog_headline,
+            R.string.onboarding_manual_required_dialog_body,
+            R.string.onboarding_manual_required_dialog_button,
+            null,
+            false, {
+                navigateToMain()
+            }
+        )
         DialogHelper.showDialog(dialog)
     }
 
