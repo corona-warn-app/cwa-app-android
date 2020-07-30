@@ -75,8 +75,6 @@
     <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_energy_optimized_explanation_shown"><xliff:g id="preference">"preference_energy_optimized_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
                      Generics

@@ -107,11 +107,9 @@ class MainActivity : AppCompatActivity() {
             R.string.onboarding_energy_optimized_dialog_button_negative,
             false, {
                 // go to battery optimization
-                ExternalActionHelper.toBatteryOptimizationSettings(this)
-                LocalData.energyOptimizedExplanationDialogWasShown(true)
+                ExternalActionHelper.disableBatteryOptimizations(this)
             }, {
                 // keep battery optimization enabled
-                LocalData.energyOptimizedExplanationDialogWasShown(true)
                 showManualCheckingRequiredDialog()
             })
         DialogHelper.showDialog(dialog)
@@ -161,7 +159,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkShouldDisplayBackgroundWarning() {
         if (!LocalData.isBackgroundCheckDone()) {
             LocalData.isBackgroundCheckDone(true)
-            if (!ConnectivityHelper.isBackgroundJobEnabled(this)) {
+            if (ConnectivityHelper.isBackgroundRestricted(this)) {
                 showBackgroundJobDisabledNotification()
             } else {
                 checkForEnergyOptimizedEnabled()
