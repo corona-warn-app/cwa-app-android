@@ -189,7 +189,6 @@ class MainFragment : Fragment() {
         // check if the dialog explaining the tracing time was already shown
         if (!LocalData.tracingExplanationDialogWasShown()) {
 
-
             val activity = this.requireActivity()
 
             lifecycleScope.launch {
