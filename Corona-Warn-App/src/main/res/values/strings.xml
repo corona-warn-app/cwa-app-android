@@ -72,6 +72,8 @@
     <!-- NOTR -->
     <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
     <!-- NOTR -->
+    <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
+    <!-- NOTR -->
     <string name="preference_energy_optimized_explanation_shown"><xliff:g id="preference">"preference_energy_optimized_explanation_shown"</xliff:g></string>
 
     <!-- ####################################
@@ -1099,5 +1101,7 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+    <!-- NOTR -->
+    <string name="test_api_switch_background_notifications">"Background Notifications"</string>
 
 </resources>

@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/submission_test_result_card"
+            android:id="@+id/submission_test_result_content"
             layout="@layout/include_submission_test_result"
             android:accessibilityLiveRegion="assertive"
             android:importantForAccessibility="yes"
