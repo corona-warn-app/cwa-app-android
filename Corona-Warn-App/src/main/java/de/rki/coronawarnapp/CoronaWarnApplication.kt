@@ -66,8 +66,11 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         BackgroundWorkHelper.sendDebugNotification(
             "Application onCreate", "App was woken up"
         )
+        // Only do this if the background jobs are enabled
         if (ConnectivityHelper.isBackgroundJobEnabled(applicationContext))
             ProcessLifecycleOwner.get().lifecycleScope.launch {
+                // we want a wakelock as the OS does not handle this for us like in the background
+                // job execution
                 val wakeLock: PowerManager.WakeLock =
                     (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
                         newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG).apply {
