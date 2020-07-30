@@ -496,7 +496,7 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bConnection = false,
             bLocation = false,
-            iValue = R.string.settings_tracing_body_inactive_location
+            iValue = R.string.settings_tracing_body_inactive
         )
 
         // When tracing is true, bluetooth is false, connection is false, location is true
@@ -505,7 +505,7 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bConnection = false,
             bLocation = true,
-            iValue = R.string.settings_tracing_body_connection_inactive
+            iValue = R.string.settings_tracing_body_bluetooth_inactive
         )
 
         // When tracing is true, bluetooth is true, connection is false, location is true
@@ -568,7 +568,7 @@ class FormatterSettingsHelperTest {
             bBluetooth = true,
             bConnection = true,
             bLocation = false,
-            iValue = R.string.settings_tracing_body_inactive_location
+            iValue = R.string.settings_tracing_body_inactive
         )
     }
 
@@ -598,7 +598,7 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bConnection = false,
             bLocation = true,
-            sValue = R.string.settings_tracing_body_connection_inactive.toString() + " " + R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_bluetooth_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is true, bluetooth is true, connection is false, location is true
@@ -652,7 +652,7 @@ class FormatterSettingsHelperTest {
             bBluetooth = true,
             bConnection = true,
             bLocation = false,
-            sValue = R.string.settings_tracing_body_inactive_location.toString() + " " + R.string.accessibility_button.toString()
+            sValue = R.string.settings_tracing_body_inactive.toString() + " " + R.string.accessibility_button.toString()
         )
 
         // When tracing is true, bluetooth is true, connection is true, location is false
