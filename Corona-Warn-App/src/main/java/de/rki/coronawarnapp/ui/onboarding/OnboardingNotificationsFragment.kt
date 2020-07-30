@@ -95,6 +95,9 @@ class OnboardingNotificationsFragment : Fragment() {
                     Uri.fromParts("package", requireContext().packageName, null)
                 )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                navigateToMain()
+
                 startActivity(intent)
                 // show battery optimization system dialog after background processing dialog
                 checkForEnergyOptimizedEnabled()
