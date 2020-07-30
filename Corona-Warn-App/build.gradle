@@ -249,6 +249,7 @@ dependencies {
         exclude group: 'com.google.protobuf'
     }
     testImplementation "io.mockk:mockk:1.10.0"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.8.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 object SubmissionService {
 
-    val playbook: Playbook = PlaybookImpl()
+    val playbook: Playbook = PlaybookImpl(WebRequestBuilder.getInstance())
     val backgroundNoise = BackgroundNoise()
 
     suspend fun asyncRegisterDevice() {

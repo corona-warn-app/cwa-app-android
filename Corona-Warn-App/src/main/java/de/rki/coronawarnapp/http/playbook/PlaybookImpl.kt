@@ -5,37 +5,33 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.util.formatter.TestResult
 
-class PlaybookImpl : Playbook {
+class PlaybookImpl(
+    private val webRequestBuilder: WebRequestBuilder
+) : Playbook {
+
     override suspend fun initialRegistration(key: String, keyType: KeyType): String {
         // real registration
-        val registrationToken =
-            WebRequestBuilder.getInstance().asyncGetRegistrationToken(key, keyType)
+        val registrationToken = webRequestBuilder.asyncGetRegistrationToken(key, keyType)
+
         // fake test result
-        WebRequestBuilder.getInstance().asyncFakeGetTestResult(registrationToken, "?????????")
-        // fake auth code
-        // TODO: Proper request padding
-        val fakeAuthCode =
-            WebRequestBuilder.getInstance().asyncFakeGetTan(registrationToken, "?????????")
+        webRequestBuilder.asyncFakeGetTestResult()
+
         // fake submission
-        // TODO: Generate fake keys
-        WebRequestBuilder.getInstance().asyncFakeSubmitKeysToServer(fakeAuthCode, listOf())
+        webRequestBuilder.asyncFakeSubmitKeysToServer()
+
         return registrationToken
     }
 
     override suspend fun testResult(registrationToken: String): TestResult {
-        // fake registration
-        // TODO: Decision about fake key type and padding
-        val fakeRegistrationToken = WebRequestBuilder.getInstance()
-            .asyncFakeGetRegistrationToken("0123456789", KeyType.TELETAN, "?????????")
         // real test result
-        val testResult = WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
-        // fake auth code
-        // TODO: Proper request padding
-        val fakeAuthCode =
-            WebRequestBuilder.getInstance().asyncFakeGetTan(fakeRegistrationToken, "?????????")
+        val testResult = webRequestBuilder.asyncGetTestResult(registrationToken)
+
+        // fake registration
+        webRequestBuilder.asyncFakeGetRegistrationToken()
+
         // fake submission
-        // TODO: Generate fake keys
-        WebRequestBuilder.getInstance().asyncFakeSubmitKeysToServer(fakeAuthCode, listOf())
+        webRequestBuilder.asyncFakeSubmitKeysToServer()
+
         return TestResult.fromInt(testResult)
     }
 
@@ -43,32 +39,24 @@ class PlaybookImpl : Playbook {
         registrationToken: String,
         keys: List<KeyExportFormat.TemporaryExposureKey>
     ) {
-        // fake registration
-        // TODO: Decision about fake key type and padding
-        val fakeRegistrationToken = WebRequestBuilder.getInstance()
-            .asyncFakeGetRegistrationToken("0123456789", KeyType.TELETAN, "?????????")
-        // fake test result
-        // TODO: Proper request padding
-        WebRequestBuilder.getInstance().asyncFakeGetTestResult(fakeRegistrationToken, "?????????")
         // real auth code
-        val authCode = WebRequestBuilder.getInstance().asyncGetTan(registrationToken)
+        val authCode = webRequestBuilder.asyncGetTan(registrationToken)
+
+        // fake registration
+        webRequestBuilder.asyncFakeGetRegistrationToken()
+
         // real submission
-        WebRequestBuilder.getInstance().asyncFakeSubmitKeysToServer(authCode, keys)
+        webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
     }
 
     override suspend fun dummy() {
         // fake registration
-        // TODO: Decision about fake key type and padding
-        val fakeRegistrationToken = WebRequestBuilder.getInstance()
-            .asyncFakeGetRegistrationToken("0123456789", KeyType.TELETAN, "?????????")
+        webRequestBuilder.asyncFakeGetRegistrationToken()
+
         // fake test result
-        WebRequestBuilder.getInstance().asyncFakeGetTestResult(fakeRegistrationToken, "?????????")
-        // fake auth code
-        // TODO: Proper request padding
-        val fakeAuthCode =
-            WebRequestBuilder.getInstance().asyncFakeGetTan(fakeRegistrationToken, "?????????")
+        webRequestBuilder.asyncFakeGetTestResult()
+
         // fake submission
-        // TODO: Generate fake keys
-        WebRequestBuilder.getInstance().asyncFakeSubmitKeysToServer(fakeAuthCode, listOf())
+        webRequestBuilder.asyncFakeSubmitKeysToServer()
     }
 }

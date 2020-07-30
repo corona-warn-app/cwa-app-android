@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.Playbook
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -38,7 +39,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
 
     override val TAG: String? = SubmitDiagnosisKeysTransaction::class.simpleName
 
-    val playbook: Playbook = PlaybookImpl()
+    val playbook: Playbook = PlaybookImpl(WebRequestBuilder.getInstance())
 
     /** possible transaction states */
     private enum class SubmitDiagnosisKeysTransactionState :
