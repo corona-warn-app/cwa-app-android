@@ -2,14 +2,20 @@ package de.rki.coronawarnapp.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.PowerManagementHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 /**
@@ -89,6 +95,78 @@ class MainActivity : AppCompatActivity() {
         ConnectivityHelper.registerLocationStatusCallback(this, callbackLocation)
         settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
         scheduleWork()
+        checkShouldDisplayBackgroundWarning()
+    }
+
+    private fun showEnergyOptimizedEnabledForBackground() {
+        val dialog = DialogHelper.DialogInstance(
+            this,
+            R.string.onboarding_energy_optimized_dialog_headline,
+            R.string.onboarding_energy_optimized_dialog_body,
+            R.string.onboarding_energy_optimized_dialog_button_positive,
+            R.string.onboarding_energy_optimized_dialog_button_negative,
+            false, {
+                // go to battery optimization
+                ExternalActionHelper.toBatteryOptimizationSettings(this)
+                LocalData.energyOptimizedExplanationDialogWasShown(true)
+            }, {
+                // keep battery optimization enabled
+                LocalData.energyOptimizedExplanationDialogWasShown(true)
+                showManualCheckingRequiredDialog()
+            })
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun checkForEnergyOptimizedEnabled() {
+        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(this)) {
+            showEnergyOptimizedEnabledForBackground()
+        }
+    }
+
+    private fun showManualCheckingRequiredDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            this,
+            R.string.onboarding_manual_required_dialog_headline,
+            R.string.onboarding_manual_required_dialog_body,
+            R.string.onboarding_manual_required_dialog_button,
+            null,
+            false
+        )
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun showBackgroundJobDisabledNotification() {
+        val dialog = DialogHelper.DialogInstance(
+            this,
+            R.string.onboarding_background_fetch_dialog_headline,
+            R.string.onboarding_background_fetch_dialog_body,
+            R.string.onboarding_background_fetch_dialog_button_positive,
+            R.string.onboarding_background_fetch_dialog_button_negative,
+            false, {
+                val intent = Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.fromParts("package", packageName, null)
+                )
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                // show battery optimization system dialog after background processing dialog
+                checkForEnergyOptimizedEnabled()
+            }, {
+                // declined, show additional dialog explaining manual risk calculation
+                showManualCheckingRequiredDialog()
+            })
+        DialogHelper.showDialog(dialog)
+    }
+
+    private fun checkShouldDisplayBackgroundWarning() {
+        if (!LocalData.isBackgroundCheckDone()) {
+            LocalData.isBackgroundCheckDone(true)
+            if (!ConnectivityHelper.isBackgroundJobEnabled(this)) {
+                showBackgroundJobDisabledNotification()
+            } else {
+                checkForEnergyOptimizedEnabled()
+            }
+        }
     }
 
     /**
