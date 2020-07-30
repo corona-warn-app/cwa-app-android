@@ -694,6 +694,19 @@ object LocalData {
             .getString(R.string.preference_last_three_hours_from_server), false
     )
 
+    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_notification),
+            value
+        )
+    }
+
+    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_background_notification), false
+    )
+
     /****************************************************
      * ENCRYPTED SHARED PREFERENCES HANDLING
      ****************************************************/
