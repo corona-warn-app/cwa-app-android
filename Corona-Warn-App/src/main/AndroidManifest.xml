@@ -21,6 +21,8 @@
 
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name="de.rki.coronawarnapp.CoronaWarnApplication"
         android:allowBackup="false"
@@ -30,6 +32,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove" />
 
         <receiver
             android:name=".receiver.ExposureStateUpdateReceiver"
