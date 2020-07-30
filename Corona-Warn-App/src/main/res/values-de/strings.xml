@@ -135,7 +135,7 @@
     <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="one">"%1$s Risiko-Begegnung"</item>
         <item quantity="other">"%1$s Risiko-Begegnungen"</item>
         <item quantity="zero">"%1$s Risiko-Begegnungen"</item>
         <item quantity="two">"%1$s Risiko-Begegnungen"</item>
