@@ -13,7 +13,7 @@ object TracingStatusHelper {
 }
 
 /**
- * The following table explains the different static which can appear in the ui.
+ * The following code decides in which state the ui has to be in.
  * This follows this prioritization: Tracing, Location, Bluetooth, Connection
  *
  * @param tracing
