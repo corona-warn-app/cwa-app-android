@@ -328,6 +328,32 @@ object LocalData {
             )
         }
 
+    /**
+     * Gets the boolean if the user has seen the energy saving explanation dialog
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if user has seen the energy saving explanation dialog
+     */
+    fun energyOptimizedExplanationDialogWasShown(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_energy_optimized_explanation_shown),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has seen the energy saving explanation dialog
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if onboarding in relation to energy saving was completed
+     */
+    fun energyOptimizedExplanationDialogWasShown(value: Boolean) =
+        getSharedPreferenceInstance().edit(true) {
+            putBoolean(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_energy_optimized_explanation_shown), value
+            )
+        }
+
     /****************************************************
      * SERVER FETCH DATA
      ****************************************************/
@@ -666,6 +692,19 @@ object LocalData {
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext()
             .getString(R.string.preference_last_three_hours_from_server), false
+    )
+
+    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_notification),
+            value
+        )
+    }
+
+    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_background_notification), false
     )
 
     /****************************************************
