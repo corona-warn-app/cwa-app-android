@@ -197,7 +197,7 @@ object ConnectivityHelper {
     fun isBackgroundJobEnabled(context: Context): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            !activityManager.isBackgroundRestricted
+            !activityManager.isBackgroundRestricted && PowerManagementHelper.isIgnoringBatteryOptimizations(context)
         } else true
     }
 
