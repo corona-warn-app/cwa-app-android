@@ -32,11 +32,13 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG
      * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORKER_TAG
      * @see BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG
+     * @see BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORKER_TAG
      */
     enum class WorkTag(val tag: String) {
         DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER(BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG),
         DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORKER_TAG),
-        DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG)
+        DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG),
+        BACKGROUND_NOISE_PERIODIC_WORKER(BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORKER_TAG)
     }
 
     /**
@@ -47,11 +49,13 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORK_NAME
      * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORK_NAME
      * @see BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME
+     * @see BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORKER_NAME
      */
     enum class WorkType(val uniqueName: String) {
         DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK(BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORK_NAME),
         DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORK_NAME),
-        DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME)
+        DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME),
+        BACKGROUND_NOISE_PERIODIC_WORKER(BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORKER_NAME)
     }
 
     /**
@@ -155,6 +159,15 @@ object BackgroundWorkScheduler {
     }
 
     /**
+     * Schedule diagnosis key one time work
+     *
+     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     */
+    fun scheduleBackgroundNoisePeriodicWork() {
+        WorkType.BACKGROUND_NOISE_PERIODIC_WORKER.start()
+    }
+
+    /**
      * Enqueue operation for work type defined in WorkType enum class
      *
      * @return Operation
@@ -165,6 +178,7 @@ object BackgroundWorkScheduler {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK -> enqueueDiagnosisKeyBackgroundPeriodicWork()
         WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK -> enqueueDiagnosisKeyBackgroundOneTimeWork()
         WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER -> enqueueDiagnosisTestResultBackgroundPeriodicWork()
+        WorkType.BACKGROUND_NOISE_PERIODIC_WORKER -> enqueueBackgroundNoisePeriodicWork()
     }
 
     /**
@@ -210,6 +224,22 @@ object BackgroundWorkScheduler {
             ExistingPeriodicWorkPolicy.REPLACE,
             buildDiagnosisTestResultRetrievalPeriodicWork()
         ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER) }
+
+    /**
+     * Enqueue diagnosis Test Result periodic
+     * Show a Notification when new Test Results are in.
+     * Replace with new if older work exists.
+     *
+     * @return Operation
+     *
+     * @see WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER
+     */
+    private fun enqueueBackgroundNoisePeriodicWork() =
+        workManager.enqueueUniquePeriodicWork(
+            WorkType.BACKGROUND_NOISE_PERIODIC_WORKER.uniqueName,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            buildBackgroundNoisePeriodicWork()
+        ).also { it.logOperationSchedule(WorkType.BACKGROUND_NOISE_PERIODIC_WORKER) }
 
     /**
      * Build diagnosis key periodic work request
@@ -277,9 +307,36 @@ object BackgroundWorkScheduler {
      */
     private fun buildDiagnosisTestResultRetrievalPeriodicWork() =
         PeriodicWorkRequestBuilder<DiagnosisTestResultRetrievalPeriodicWorker>(
-            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
+            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(),
+            TimeUnit.MINUTES
         )
             .addTag(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)
+            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
+            .setInitialDelay(
+                BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY,
+                TimeUnit.SECONDS
+            ).setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                BackgroundConstants.KIND_DELAY,
+                TimeUnit.MINUTES
+            )
+            .build()
+
+    /**
+     * Build diagnosis Test Result periodic work request
+     * Set "kind delay" for accessibility reason.
+     *
+     * @return PeriodicWorkRequest
+     *
+     * @see WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER
+     * @see BackgroundConstants.KIND_DELAY
+     */
+    private fun buildBackgroundNoisePeriodicWork() =
+        PeriodicWorkRequestBuilder<BackgroundNoisePeriodicWorker>(
+            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(),
+            TimeUnit.MINUTES
+        )
+            .addTag(WorkTag.BACKGROUND_NOISE_PERIODIC_WORKER.tag)
             .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
             .setInitialDelay(
                 BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY,

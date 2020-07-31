@@ -25,6 +25,11 @@ object BackgroundConstants {
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG = "DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER"
 
     /**
+     * Tag for background noise playbook periodic work
+     */
+    const val BACKGROUND_NOISE_PERIODIC_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
+
+    /**
      * Unique name for diagnosis key retrieval one time work
      */
     const val DIAGNOSIS_KEY_ONE_TIME_WORK_NAME = "DiagnosisKeyBackgroundOneTimeWork"
@@ -38,6 +43,11 @@ object BackgroundConstants {
      * Unique name for diagnosis test result retrieval periodic work
      */
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME = "DiagnosisTestResultBackgroundPeriodicWork"
+
+    /**
+     * Unique name for background noise playbook periodic work
+     */
+    const val BACKGROUND_NOISE_PERIODIC_WORKER_NAME = "BackgroundNoisePeriodicWork"
 
     /**
      * Total minutes in one day

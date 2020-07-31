@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.http.playbook
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -29,8 +30,8 @@ class BackgroundNoise(
 
         // schedule worker
         // inside worker, call playbook.dummy()
-
-        TODO("")
+        // TODO: Proper schedule timings
+        BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 
     private suspend fun runDummyPlaybook() {
