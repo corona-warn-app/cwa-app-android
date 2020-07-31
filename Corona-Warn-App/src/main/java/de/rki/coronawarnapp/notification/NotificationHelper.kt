@@ -94,13 +94,26 @@ object NotificationHelper {
      *
      * @see NotificationCompat.VISIBILITY_PUBLIC
      */
-    private fun buildNotification(title: String, content: String, visibility: Int): Notification? {
+    private fun buildNotification(
+        title: String,
+        content: String,
+        visibility: Int,
+        expandableLongText: Boolean = false
+    ): Notification? {
         val builder = NotificationCompat.Builder(CoronaWarnApplication.getAppContext(), channelId)
             .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setVisibility(visibility)
             .setContentIntent(createPendingIntentToMainActivity())
             .setAutoCancel(true)
+
+        if (expandableLongText) {
+            builder
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(content)
+                )
+        }
 
         if (title.isNotEmpty()) {
             builder.setContentTitle(title)
@@ -142,8 +155,14 @@ object NotificationHelper {
      * @param content: String
      * @param visibility: Int
      */
-    fun sendNotification(title: String, content: String, visibility: Int) {
-        val notification = buildNotification(title, content, visibility) ?: return
+    fun sendNotification(
+        title: String,
+        content: String,
+        visibility: Int,
+        expandableLongText: Boolean = false
+    ) {
+        val notification =
+            buildNotification(title, content, visibility, expandableLongText) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
             notify(Random.nextInt(), notification)
         }

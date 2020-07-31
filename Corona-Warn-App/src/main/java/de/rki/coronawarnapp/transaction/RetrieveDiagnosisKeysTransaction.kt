@@ -128,7 +128,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
         ) {
             BackgroundWorkHelper.sendDebugNotification(
-                "Start RetrieveDiagnosisKeysTransaction", "No keys fetched today yet"
+                "Start RetrieveDiagnosisKeysTransaction",
+                "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
             )
             start()
         }
