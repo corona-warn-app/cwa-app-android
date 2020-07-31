@@ -74,6 +74,6 @@ object BackgroundWorkHelper {
      */
     fun sendDebugNotification(title: String, content: String) {
         if (!LocalData.backgroundNotification()) return
-        NotificationHelper.sendNotification(title, content, NotificationCompat.PRIORITY_HIGH)
+        NotificationHelper.sendNotification(title, content, NotificationCompat.PRIORITY_HIGH, true)
     }
 }

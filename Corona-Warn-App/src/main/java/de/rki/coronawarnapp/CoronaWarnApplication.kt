@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.PowerManager
 import androidx.lifecycle.Lifecycle
@@ -21,10 +22,12 @@ import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
+import java.util.UUID
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks, Configuration.Provider {
@@ -73,10 +76,25 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
                 // job execution
                 val wakeLock: PowerManager.WakeLock =
                     (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-                        newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG).apply {
+                        newWakeLock(
+                            PowerManager.PARTIAL_WAKE_LOCK,
+                            TAG + "-WAKE-" + UUID.randomUUID().toString()
+                        ).apply {
                             acquire(TEN_MINUTE_TIMEOUT_IN_MS)
                         }
                     }
+
+                // we keep a wifi lock to wake up the wifi connection in case the device is dozing
+                val wifiLock: WifiManager.WifiLock =
+                    (getSystemService(Context.WIFI_SERVICE) as WifiManager).run {
+                        createWifiLock(
+                            WifiManager.WIFI_MODE_FULL_HIGH_PERF,
+                            TAG + "-WIFI-" + UUID.randomUUID().toString()
+                        ).apply {
+                            acquire()
+                        }
+                    }
+
                 try {
                     BackgroundWorkHelper.sendDebugNotification(
                         "Automatic mode is on", "Check if we have downloaded keys already today"
@@ -85,12 +103,16 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
                 } catch (e: Exception) {
                     BackgroundWorkHelper.sendDebugNotification(
                         "RetrieveDiagnosisKeysTransaction failed",
-                        e.localizedMessage ?: "Unknown exception occurred in onCreate"
+                        (e.localizedMessage
+                            ?: "Unknown exception occurred in onCreate") + "\n\n" + (e.cause
+                            ?: "Cause is unknown").toString()
                     )
-                    wakeLock.release()
+                    // retry the key retrieval in case of an error with a scheduled work
+                    BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
                 }
 
-                wakeLock.release()
+                if (wifiLock.isHeld) wifiLock.release()
+                if (wakeLock.isHeld) wakeLock.release()
             }
     }
 

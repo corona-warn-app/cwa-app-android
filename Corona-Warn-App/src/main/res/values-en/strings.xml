@@ -73,6 +73,8 @@
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -137,12 +139,12 @@
     <string name="risk_card_body_contact">"No exposure up to now"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s exposure"</item>
-        <item quantity="other">"%1$s exposures"</item>
-        <item quantity="zero">"%1$s exposures"</item>
-        <item quantity="two">"%1$s exposures"</item>
-        <item quantity="few">"%1$s exposures"</item>
-        <item quantity="many">"%1$s exposures"</item>
+        <item quantity="one">"%1$s exposure with low risk"</item>
+        <item quantity="other">"%1$s exposures with low risk"</item>
+        <item quantity="zero">"No exposure up to now"</item>
+        <item quantity="two">"%1$s exposures with low risk"</item>
+        <item quantity="few">"%1$s exposures with low risk"</item>
+        <item quantity="many">"%1$s exposures with low risk"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days."</string>
@@ -309,9 +311,9 @@
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
-    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_headline_period_logged">"Period logged"</string>
-    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
@@ -417,6 +419,20 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"Open Device Settings"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Start Exposure Logging Manually"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
+    <string name="onboarding_energy_optimized_dialog_headline">"Allow prioritized background activity"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
+    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your device\'s battery life.\n\nIf you do not allow this setting, you will have to manually update your risk status in the App."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
+    <string name="onboarding_energy_optimized_dialog_button_positive">"Allow"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
+    <string name="onboarding_energy_optimized_dialog_button_negative">"Do Not Allow"</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">"Prioritized background activity disabled"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you will have to open the App once a day to update your risk status manually.\n\nYou can disable prioritized background activity in your settings any time. "</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -467,9 +483,9 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Exposure logging stopped"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Location service deactivated"</string>
+    <string name="settings_tracing_body_inactive_location">"Location services deactivated"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Exposure logging works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. This feature can be deactivated at any time. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity (calculated using signal strength) to other people. Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
+    <string name="settings_tracing_body_text">"You have to activate the exposure logging feature to identify whether you are at risk of infection. Risk identification works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. You can disable this feature any time."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity to other persons (calculated by signal strength). Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Active"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -814,7 +830,7 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">"This is how the Corona-Warn-App works"</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who were diagnosed with COVID-19.\n\nSince only encrypted random IDs are exchanged, you remain anonymous. You can now proceed as follows:"</string>
+    <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who were diagnosed with COVID-19.\n\nSince only encrypted random IDs are exchanged, you will remain anonymous. You can now proceed as follows:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
@@ -862,7 +878,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Please help all of us!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Next, you can make sure that the Corona-Warn-App shares your random IDs of the last 14 days with others. By doing this, you can warn other people and help to break the infection chain.\n\nSince only impersonal random IDs are transmitted, your identity remains anonymous."</string>
+    <string name="submission_positive_other_warning_body">"Next, you can make sure that the Corona-Warn-App shares your random IDs of the last 14 days with others. By doing this, you can warn other people and help to break the infection chain.\n\nSince only impersonal random IDs are transmitted, your identity will remain anonymous."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Data Privacy"</string>
     <!-- YTXT: Body text for the privacy card-->
@@ -1085,5 +1101,7 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+    <!-- NOTR -->
+    <string name="test_api_switch_background_notifications">"Background Notifications"</string>
 
 </resources>
