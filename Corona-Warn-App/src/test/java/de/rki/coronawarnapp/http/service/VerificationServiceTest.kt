@@ -1,12 +1,11 @@
-package de.rki.coronawarnapp.http
+package de.rki.coronawarnapp.http.service
 
 import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.util.newWebRequestBuilder
+import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.RecordedRequest
-import okio.utf8Size
 import org.junit.Assert
 import org.junit.Test
 
@@ -60,15 +59,10 @@ class VerificationServiceTest {
         requests.zipWithNext().forEach { (a, b) ->
             Assert.assertEquals(
                 "Header size mismatch: ",
-                a.requestHeaderSize(),
-                b.requestHeaderSize()
+                a.headerSizeIgnoringContentLength(),
+                b.headerSizeIgnoringContentLength()
             )
             Assert.assertEquals("Body size mismatch:", a.bodySize, b.bodySize)
         }
     }
 }
-
-private fun RecordedRequest.requestHeader() =
-    listOf(this.requestLine).plus(this.headers.toString()).joinToString("\n")
-
-private fun RecordedRequest.requestHeaderSize() = requestHeader().utf8Size()

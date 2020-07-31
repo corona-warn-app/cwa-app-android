@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun doBackgroundNoiseCheck() {
         lifecycleScope.launch {
-            BackgroundNoise.foregroundScheduleCheck()
+            BackgroundNoise.getInstance().foregroundScheduleCheck()
         }
     }
 

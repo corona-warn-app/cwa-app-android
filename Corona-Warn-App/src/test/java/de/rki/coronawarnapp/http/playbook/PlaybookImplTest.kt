@@ -7,6 +7,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
 class PlaybookImplTest {
@@ -81,6 +82,22 @@ class PlaybookImplTest {
         assertThat(server.takeRequest().path, Matchers.startsWith("/verification/"))
         assertThat(server.takeRequest().path, Matchers.startsWith("/verification/"))
         assertThat(server.takeRequest().path, Matchers.startsWith("/submission/"))
+    }
+
+    @Test
+    fun shouldIgnoreFailuresForDummyRequests(): Unit = runBlocking {
+        val server = MockWebServer()
+        server.start()
+
+        val expectedRegistrationToken = "token"
+        server.enqueue(MockResponse().setBody("""{"registrationToken":"$expectedRegistrationToken"}"""))
+        server.enqueue(MockResponse().setResponseCode(500))
+        server.enqueue(MockResponse().setResponseCode(500))
+
+        val registrationToken = PlaybookImpl(server.newWebRequestBuilder())
+            .initialRegistration("key", KeyType.GUID)
+
+        assertThat(registrationToken, equalTo(expectedRegistrationToken))
     }
 
 }
