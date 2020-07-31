@@ -12,6 +12,8 @@
     <!-- NOTR -->
     <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
     <!-- NOTR -->
+    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
+    <!-- NOTR -->
     <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
@@ -135,12 +137,12 @@
     <string name="risk_card_body_contact">"لا توجد مخالطة حتى الآن"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s مخالطة"</item>
-        <item quantity="other">"%1$s من المخالطات"</item>
-        <item quantity="zero">"%1$s من المخالطات"</item>
-        <item quantity="two">"%1$s من المخالطات"</item>
-        <item quantity="few">"%1$s من المخالطات"</item>
-        <item quantity="many">"%1$s من المخالطات"</item>
+        <item quantity="one">"%1$s مخالطة بخطر منخفض"</item>
+        <item quantity="other">"%1$s من المخالطات بخطر منخفض"</item>
+        <item quantity="zero">"لا توجد مخالطة حتى الآن"</item>
+        <item quantity="two">"%1$s مخالطة بخطر منخفض"</item>
+        <item quantity="few">"%1$s من المخالطات بخطر منخفض"</item>
+        <item quantity="many">"%1$s من المخالطات بخطر منخفض"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"تسجيل المخالطة كان نشطًا لمدة %1$s من الأربعة عشر يومًا الماضية."</string>
@@ -415,6 +417,20 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"فتح إعدادات الجهاز"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"بدء تسجيل المخالطة يدويًا"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
+    <string name="onboarding_energy_optimized_dialog_headline">"السماح بنشاط له أفضلية في الخلفية"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
+    <string name="onboarding_energy_optimized_dialog_body">"قم بتمكين النشاط الذي له أفضلية في الخلفية للسماح للتطبيق بتحديد مستوى الخطر الواقع عليك في الخلفية في أي وقت (مستحسَن). يؤدي ذلك إلى تعطيل زيادة عمر البطارية لتطبيق Corona-Warn-App فقط، ولا نتوقع أن يؤدي إلى انخفاض ملحوظ في عمر بطارية جهازك.\nإذا لم تسمح بهذا الإعداد، فسيتعين عليك تحديث مستوى الخطر في التطبيق يدويًا."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
+    <string name="onboarding_energy_optimized_dialog_button_positive">"السماح"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
+    <string name="onboarding_energy_optimized_dialog_button_negative">"عدم السماح"</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">"النشاط الذي له أفضلية في الخلفية معطَّل"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">"يرجى العلم أنه مع تعطيل النشاط الذي له أفضلية في الخلفية، سيتعين عليك فتح التطبيق مرة واحدة يوميًا لتحديث مستوى الخطر يدويًا.\n\nيمكنك تعطيل النشاط الذي له أفضلية في الخلفية من إعداداتك في أي وقت. "</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"موافق"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"قام ثلاثة أشخاص بتنشيط تسجيل المخالطة على أجهزتهم؛ مما سيعمل على تسجيل تجمُّعاتهم مع بعضهم بعضًا."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -467,7 +483,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"خدمات الموقع تم إلغاء تنشيطها"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"يعمل تسجيل المخالطة من خلال تلقي جهازك، عبر Bluetooth، المعرفات العشوائية المشفرة لمستخدمين آخرين وتمرير معرفك العشوائي إلى أجهزتهم. ويمكن إلغاء تنشيط هذه الميزة في أي وقت."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لا تمرر المعرفات العشوائية المشفرة إلا معلومات حول التاريخ والمدة ومدى الاقتراب (يتم التقدير باستخدام قوة الإشارة) إلى الأشخاص الآخرين. ولا يتم أبدًا تسجيل البيانات الشخصية، مثل الاسم والعنوان والموقع، كما لا يمكن تحديد هوية الأفراد."</string>
+    <string name="settings_tracing_body_text">"يتعين عليك تنشيط ميزة تسجيل المخالطة لتحديد ما إذا كنت معرضًا لخطر العدوى أم لا، ويعمل تحديد خطر العدوى من خلال تلقي جهازك، عبر Bluetooth، المعرفات العشوائية المشفرة لمستخدمين آخرين وتمرير معرفك العشوائي إلى أجهزتهم. ويمكنك تعطيل هذه الميزة في أي وقت."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"لا تمرر المعرفات العشوائية المشفرة إلا معلومات حول التاريخ والمدة ومدى الاقتراب من الأشخاص الآخرين (يتم التقدير باستخدام قوة الإشارة). ولا يتم أبدًا تسجيل البيانات الشخصية، مثل الاسم والعنوان والموقع، كما لا يمكن تحديد هوية الأفراد."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"نشط"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -812,7 +828,7 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">"هذه هي طريقة عمل تطبيق Corona-Warn-App"</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"ليعمل التطبيق بشكل جيد، نثق في دعم الأشخاص المصابين بمرض كوفيد-19 لنا.\n\nبما أنه لا يتم تبادل إلا المعرفات العشوائية المشفرة، ستظل هويتك غير معروفة. يمكنك الآن المتابعة كما يلي:"</string>
+    <string name="submission_intro_text">"حتى يعمل التطبيق جيدًا، نعتمد على دعم الأشخاص المصابين بمرض كوفيد-19 لنا.\n\nبما أنه لا يتم تبادل إلا المعرفات العشوائية المشفرة، ستظل هويتك غير معروفة. يمكنك الآن المتابعة كما يلي:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"التالي"</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->

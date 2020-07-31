@@ -12,6 +12,8 @@
     <!-- NOTR -->
     <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
     <!-- NOTR -->
+    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
+    <!-- NOTR -->
     <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
@@ -137,7 +139,7 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s контакт"</item>
         <item quantity="other">"%1$s контакта"</item>
-        <item quantity="zero">"%1$s контактов"</item>
+        <item quantity="zero">"Пока нет контактов"</item>
         <item quantity="two">"%1$s контакта"</item>
         <item quantity="few">"%1$s контакта"</item>
         <item quantity="many">"%1$s контактов"</item>
@@ -415,6 +417,20 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"Открыть настройки устройства"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Запустить определение риска вручную"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
+    <string name="onboarding_energy_optimized_dialog_headline">"Разрешить приоритетную фоновую активность"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
+    <string name="onboarding_energy_optimized_dialog_body">"Включите приоритетную фоновую активность, чтобы разрешить приложению влюбое время определять Ваш статус риска в фоновом режиме (рекомендуется). Такая настройка отключает оптимизацию расхода заряда аккумулятора только для приложения Corona-Warn-App. Мы не предполагаем, что это может существенно снизить расход Вашего аккумулятора.\n\nПри отказе от данной настройки Вам придется отновлять в приложении свой статус риска вручную."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
+    <string name="onboarding_energy_optimized_dialog_button_positive">"Разрешить"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
+    <string name="onboarding_energy_optimized_dialog_button_negative">"Не разрешать"</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">"Приоритетная фоновая активность отключена"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">"Обратите внимание, что при отключении приоритетной фоновой активности Вам нужно будет раз в день открывать приложение, чтобы определить свой статус риска вручную.\n\nВы в любое время можете отключить приоритетную фоновую активность в настройках. "</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"ОК"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Три человека активировали определение риска на своих устройствах, то есть их контакты друг с другом будут регистрироваться."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -467,7 +483,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Сервисы определения местоположения отключены"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Для определения риска Ваше устройство получает по Bluetooth зашифрованные случайные идентификаторы других пользователей и передает Ваш случайный идентификатор на их устройства. Эту функцию можно деактивировать в любое время."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Зашифрованные случайные идентификаторы передают другим людям только информацию о дате, продолжительности и близости (рассчитанной по силе сигнала) контакта. Персональные данные, такие как имя, адрес или местоположение, никогда не регистрируются. Идентификация лица невозможна."</string>
+    <string name="settings_tracing_body_text">"Чтобы определить наличие риска заражения включите функцию определения риска. Для идентификации риска Ваше устройство должно получать по Bluetooth зашифрованные случайные идентификаторы других пользователей и передавать Ваш случайный идентификатор на их устройства. Эту функцию можно в любое время отключить."<xliff:g id="line_break"/>"\n"<xliff:g id="line_break"/>"\nЗашифрованные случайные идентификаторы передают другим людям только информацию о дате, продолжительности и близости (рассчитанной по силе сигнала) контакта. Персональные данные, например имя, адрес или местоположение, никогда не регистрируются. Персональная идентификация невозможна."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Активно"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -812,7 +828,7 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">"Вот как работает приложение Corona-Warn-App"</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Чтобы приложение работало, нам нужна поддержка людей с положительным тестом на COVID-19.\n\nПоскольку передаются только зашифрованные случайные идентификаторы, сохраняется анонимность. Вы можете выполнить следующие действия:"</string>
+    <string name="submission_intro_text">"Чтобы приложение работало, нам нужна поддержка людей с положительным тестом на COVID-19.\n\nПоскольку передаются только зашифрованные случайные идентификаторы, анонимность будет сохранена. Вы можете выполнить следующие действия:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Дальше"</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
