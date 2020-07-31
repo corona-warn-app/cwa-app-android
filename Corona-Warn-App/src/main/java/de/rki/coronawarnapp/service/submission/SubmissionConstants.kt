@@ -37,6 +37,10 @@ object SubmissionConstants {
     const val PADDING_LENGTH_BODY_TAN_FAKE = 70
 
     const val probabilityToExecutePlaybookWhenOpenApp = 1f
+    const val minNumberOfSequentialPlaybooks = 1
+    const val maxNumberOfSequentialPlaybooks = 2
+    const val minDelayBetweenSequentialPlaybooks = 5
+    const val maxDelayBetweenSequentialPlaybooks = 20
 }
 
 enum class KeyType {

@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.http.playbook
 
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
-import kotlinx.coroutines.runBlocking
+import de.rki.coronawarnapp.storage.LocalData
+import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 object BackgroundNoise {
@@ -18,11 +19,23 @@ object BackgroundNoise {
         TODO("")
     }
 
-    fun foregroundScheduleCheck() {
-        val chance = Random.nextFloat() * 100
-        if (chance < SubmissionConstants.probabilityToExecutePlaybookWhenOpenApp) {
-            runBlocking {
-                playbook.dummy()
+    private suspend fun runDummyPlaybook() {
+        val runsToExecute =
+            (SubmissionConstants.minNumberOfSequentialPlaybooks..SubmissionConstants.maxNumberOfSequentialPlaybooks).random()
+
+        repeat(runsToExecute) {
+            val secondsToWaitBetweenPlaybooks =
+                (SubmissionConstants.minDelayBetweenSequentialPlaybooks..SubmissionConstants.maxDelayBetweenSequentialPlaybooks).random()
+            playbook.dummy()
+            delay(secondsToWaitBetweenPlaybooks * 1000L)
+        }
+    }
+
+    suspend fun foregroundScheduleCheck() {
+        if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
+            val chance = Random.nextFloat() * 100
+            if (chance < SubmissionConstants.probabilityToExecutePlaybookWhenOpenApp) {
+                runDummyPlaybook()
             }
         }
     }
