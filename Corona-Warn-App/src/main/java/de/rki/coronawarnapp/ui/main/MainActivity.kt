@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         ConnectivityHelper.registerLocationStatusCallback(this, callbackLocation)
         settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
         scheduleWork()
-        BackgroundNoise.foregroundScheduleCheck()
+        BackgroundNoise.getInstance().foregroundScheduleCheck()
     }
 
     /**

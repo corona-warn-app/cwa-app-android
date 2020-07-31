@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
-import de.rki.coronawarnapp.http.playbook.Playbook
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
@@ -13,8 +12,6 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 
 object SubmissionService {
-
-    val playbook: Playbook = PlaybookImpl(WebRequestBuilder.getInstance())
 
     suspend fun asyncRegisterDevice() {
         val testGUID = LocalData.testGUID()
@@ -26,11 +23,11 @@ object SubmissionService {
             else -> throw NoGUIDOrTANSetException()
         }
         LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
-        BackgroundNoise.scheduleDummyPattern()
+        BackgroundNoise.getInstance().scheduleDummyPattern()
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
-        val registrationToken = playbook.initialRegistration(guid, KeyType.GUID)
+        val registrationToken = PlaybookImpl(WebRequestBuilder.getInstance()).initialRegistration(guid, KeyType.GUID)
 //        WebRequestBuilder.getInstance().asyncGetRegistrationToken(
 //            guid,
 //            QR_CODE_KEY_TYPE
@@ -41,7 +38,7 @@ object SubmissionService {
     }
 
     private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
-        val registrationToken = playbook.initialRegistration(tan, KeyType.TELETAN)
+        val registrationToken = PlaybookImpl(WebRequestBuilder.getInstance()).initialRegistration(tan, KeyType.TELETAN)
 //            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
 //                tan,
 //                TELE_TAN_KEY_TYPE
@@ -49,10 +46,6 @@ object SubmissionService {
 
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
-    }
-
-    suspend fun asyncRequestAuthCode(registrationToken: String): String {
-        return WebRequestBuilder.getInstance().asyncGetTan(registrationToken)
     }
 
     suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>) {
@@ -65,7 +58,7 @@ object SubmissionService {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
 
-        return playbook.testResult(registrationToken)
+        return PlaybookImpl(WebRequestBuilder.getInstance()).testResult(registrationToken)
 //        return TestResult.fromInt(
 //            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
 //        )

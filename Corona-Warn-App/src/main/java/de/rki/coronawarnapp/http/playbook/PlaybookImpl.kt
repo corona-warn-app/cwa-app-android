@@ -47,7 +47,7 @@ class PlaybookImpl(
         ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
 
         // real submission
-        ignoreExceptions { webRequestBuilder.asyncSubmitKeysToServer(authCode, keys) }
+        webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
     }
 
     override suspend fun dummy() {
