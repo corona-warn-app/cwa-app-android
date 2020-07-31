@@ -36,6 +36,10 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -113,6 +117,23 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
+
+    suspend fun startWithConstraints() {
+        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val lastFetch = DateTime(
+            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+            DateTimeZone.UTC
+        )
+        if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+        ) {
+            BackgroundWorkHelper.sendDebugNotification(
+                "Start RetrieveDiagnosisKeysTransaction",
+                "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
+            )
+            start()
+        }
+    }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start() = lockAndExecuteUnique {

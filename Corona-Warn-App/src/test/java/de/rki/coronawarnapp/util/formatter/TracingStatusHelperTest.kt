@@ -51,7 +51,7 @@ class TracingStatusHelperTest {
     @Test
     fun testConnectionInactiveWhenTracingOffBluetoothOnConnectionOnLocationOff() {
         val result = tracingStatusHelper(tracing = false, bluetooth = true, connection = true, location = false)
-        assertThat(result, `is`((TracingStatusHelper.LOCATION)))
+        assertThat(result, `is`((TracingStatusHelper.TRACING_INACTIVE)))
     }
 
     @Test
