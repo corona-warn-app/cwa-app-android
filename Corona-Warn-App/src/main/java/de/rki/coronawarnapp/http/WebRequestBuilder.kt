@@ -20,6 +20,7 @@
 package de.rki.coronawarnapp.http
 
 import KeyExportFormat
+import com.google.protobuf.ByteString
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
@@ -135,19 +136,6 @@ class WebRequestBuilder(
             }
         }
 
-    suspend fun asyncFakeGetRegistrationToken() = withContext(Dispatchers.IO) {
-        verificationService.getRegistrationToken(
-            SubmissionConstants.REGISTRATION_TOKEN_URL,
-            "1",
-            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
-            RegistrationTokenRequest(
-                requestPadding = requestPadding(
-                    SubmissionConstants.PADDING_LENGTH_BODY_REGISTRATION_TOKEN_FAKE
-                )
-            )
-        )
-    }
-
     suspend fun asyncGetRegistrationToken(
         key: String,
         keyType: KeyType
@@ -171,17 +159,17 @@ class WebRequestBuilder(
         ).registrationToken
     }
 
-    suspend fun asyncFakeGetTestResult() {
-        withContext(Dispatchers.IO) {
-            verificationService.getTestResult(
-                SubmissionConstants.TEST_RESULT_URL,
-                "1",
-                requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_TEST_RESULT),
-                RegistrationRequest(
-                    requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TEST_RESULT_FAKE)
+    suspend fun asyncFakeGetRegistrationToken() = withContext(Dispatchers.IO) {
+        verificationService.getRegistrationToken(
+            SubmissionConstants.REGISTRATION_TOKEN_URL,
+            "1",
+            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
+            RegistrationTokenRequest(
+                requestPadding = requestPadding(
+                    SubmissionConstants.PADDING_LENGTH_BODY_REGISTRATION_TOKEN_FAKE
                 )
             )
-        }
+        )
     }
 
     suspend fun asyncGetTestResult(
@@ -198,12 +186,14 @@ class WebRequestBuilder(
         ).testResult
     }
 
-    suspend fun asyncFakeGetTan() = withContext(Dispatchers.IO) {
-        verificationService.getTAN(
-            SubmissionConstants.TAN_REQUEST_URL,
+    suspend fun asyncFakeGetTestResult() = withContext(Dispatchers.IO) {
+        verificationService.getTestResult(
+            SubmissionConstants.TEST_RESULT_URL,
             "1",
-            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_TAN),
-            TanRequestBody(requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TAN_FAKE))
+            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_TEST_RESULT),
+            RegistrationRequest(
+                requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TEST_RESULT_FAKE)
+            )
         )
     }
 
@@ -221,17 +211,13 @@ class WebRequestBuilder(
         ).tan
     }
 
-    suspend fun asyncFakeSubmitKeysToServer() = withContext(Dispatchers.IO) {
-        val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
-            .addAllKeys(listOf())
-            .build()
-        submissionService.submitKeys(
-            DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
-            "",
+    suspend fun asyncFakeGetTan() = withContext(Dispatchers.IO) {
+        verificationService.getTAN(
+            SubmissionConstants.TAN_REQUEST_URL,
             "1",
-            submissionPayload
+            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_TAN),
+            TanRequestBody(requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TAN_FAKE))
         )
-        return@withContext
     }
 
     suspend fun asyncSubmitKeysToServer(
@@ -246,9 +232,33 @@ class WebRequestBuilder(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
             "0",
+            null,
             submissionPayload
         )
         return@withContext
+    }
+
+    suspend fun asyncFakeSubmitKeysToServer() = withContext(Dispatchers.IO) {
+
+        val fakeKeys = generateSequence {
+            KeyExportFormat.TemporaryExposureKey.newBuilder()
+                .setKeyData(ByteString.copyFromUtf8("x".repeat(32)))
+                .setRollingStartIntervalNumber(0)
+                .setTransmissionRiskLevel(0)
+                .setRollingPeriod(0)
+                .build()
+        }.take(14)
+
+        val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
+            .addAllKeys(fakeKeys.toList())
+            .build()
+        submissionService.submitKeys(
+            DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
+            null,
+            "1",
+            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
+            submissionPayload
+        )
     }
 
     private fun requestPadding(length: Int): String? = if (length == 0)

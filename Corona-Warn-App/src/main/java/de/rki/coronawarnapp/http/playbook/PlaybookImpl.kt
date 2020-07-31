@@ -4,6 +4,7 @@ import KeyExportFormat
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.util.formatter.TestResult
+import timber.log.Timber
 
 class PlaybookImpl(
     private val webRequestBuilder: WebRequestBuilder
@@ -14,10 +15,10 @@ class PlaybookImpl(
         val registrationToken = webRequestBuilder.asyncGetRegistrationToken(key, keyType)
 
         // fake test result
-        webRequestBuilder.asyncFakeGetTestResult()
+        ignoreExceptions { webRequestBuilder.asyncFakeGetTestResult() }
 
         // fake submission
-        webRequestBuilder.asyncFakeSubmitKeysToServer()
+        ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
 
         return registrationToken
     }
@@ -27,10 +28,10 @@ class PlaybookImpl(
         val testResult = webRequestBuilder.asyncGetTestResult(registrationToken)
 
         // fake registration
-        webRequestBuilder.asyncFakeGetRegistrationToken()
+        ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
 
         // fake submission
-        webRequestBuilder.asyncFakeSubmitKeysToServer()
+        ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
 
         return TestResult.fromInt(testResult)
     }
@@ -43,20 +44,28 @@ class PlaybookImpl(
         val authCode = webRequestBuilder.asyncGetTan(registrationToken)
 
         // fake registration
-        webRequestBuilder.asyncFakeGetRegistrationToken()
+        ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
 
         // real submission
-        webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
+        ignoreExceptions { webRequestBuilder.asyncSubmitKeysToServer(authCode, keys) }
     }
 
     override suspend fun dummy() {
         // fake registration
-        webRequestBuilder.asyncFakeGetRegistrationToken()
+        ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
 
         // fake test result
-        webRequestBuilder.asyncFakeGetTestResult()
+        ignoreExceptions { webRequestBuilder.asyncFakeGetTestResult() }
 
         // fake submission
-        webRequestBuilder.asyncFakeSubmitKeysToServer()
+        ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
+    }
+
+    private suspend fun ignoreExceptions(body: suspend () -> Unit) {
+        try {
+            body.invoke()
+        } catch (e: Exception) {
+            Timber.d(e, "Ignoring dummy request exception")
+        }
     }
 }
