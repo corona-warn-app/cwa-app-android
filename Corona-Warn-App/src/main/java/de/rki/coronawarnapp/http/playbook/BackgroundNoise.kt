@@ -1,6 +1,12 @@
 package de.rki.coronawarnapp.http.playbook
 
-class BackgroundNoise {
+import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.service.submission.SubmissionConstants
+import kotlinx.coroutines.runBlocking
+import kotlin.random.Random
+
+object BackgroundNoise {
+    private val playbook: Playbook = PlaybookImpl(WebRequestBuilder.getInstance())
 
     fun scheduleDummyPattern() {
         // The mobile application must implement a frequent schedule to repeat this communication pattern for a period of at least 14 days.
@@ -10,5 +16,14 @@ class BackgroundNoise {
         // inside worker, call playbook.dummy()
 
         TODO("")
+    }
+
+    fun foregroundScheduleCheck() {
+        val chance = Random.nextFloat() * 100
+        if (chance < SubmissionConstants.probabilityToExecutePlaybookWhenOpenApp) {
+            runBlocking {
+                playbook.dummy()
+            }
+        }
     }
 }

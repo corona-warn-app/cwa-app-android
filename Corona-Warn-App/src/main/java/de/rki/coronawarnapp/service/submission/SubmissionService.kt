@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 object SubmissionService {
 
     val playbook: Playbook = PlaybookImpl(WebRequestBuilder.getInstance())
-    val backgroundNoise = BackgroundNoise()
 
     suspend fun asyncRegisterDevice() {
         val testGUID = LocalData.testGUID()
@@ -27,7 +26,7 @@ object SubmissionService {
             else -> throw NoGUIDOrTANSetException()
         }
         LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
-        backgroundNoise.scheduleDummyPattern()
+        BackgroundNoise.scheduleDummyPattern()
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {

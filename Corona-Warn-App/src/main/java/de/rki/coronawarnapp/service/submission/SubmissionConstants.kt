@@ -35,6 +35,8 @@ object SubmissionConstants {
     const val PADDING_LENGTH_HEADER_TAN = 15
     const val PADDING_LENGTH_BODY_TAN = 11
     const val PADDING_LENGTH_BODY_TAN_FAKE = 70
+
+    const val probabilityToExecutePlaybookWhenOpenApp = 1f
 }
 
 enum class KeyType {
