@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
 import kotlinx.coroutines.delay
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 class BackgroundNoise(
@@ -34,13 +35,17 @@ class BackgroundNoise(
 
     private suspend fun runDummyPlaybook() {
         val runsToExecute =
-            (SubmissionConstants.minNumberOfSequentialPlaybooks..SubmissionConstants.maxNumberOfSequentialPlaybooks).random()
+            (SubmissionConstants.minNumberOfSequentialPlaybooks
+                    ..SubmissionConstants.maxNumberOfSequentialPlaybooks
+                    ).random()
 
         repeat(runsToExecute) {
             val secondsToWaitBetweenPlaybooks =
-                (SubmissionConstants.minDelayBetweenSequentialPlaybooks..SubmissionConstants.maxDelayBetweenSequentialPlaybooks).random()
+                (SubmissionConstants.minDelayBetweenSequentialPlaybooks
+                        ..SubmissionConstants.maxDelayBetweenSequentialPlaybooks
+                        ).random()
             playbook.dummy()
-            delay(secondsToWaitBetweenPlaybooks * 1000L)
+            delay(TimeUnit.SECONDS.toMillis(secondsToWaitBetweenPlaybooks))
         }
     }
 
