@@ -34,18 +34,20 @@ class BackgroundNoise(
         BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 
-    private suspend fun runDummyPlaybook() {
-        val runsToExecute =
-            (SubmissionConstants.minNumberOfSequentialPlaybooks
-                    ..SubmissionConstants.maxNumberOfSequentialPlaybooks
-                    ).random()
+    suspend fun runDummyPlaybook() {
+        val runsToExecute = Random.nextInt(
+            SubmissionConstants.minNumberOfSequentialPlaybooks,
+            SubmissionConstants.maxNumberOfSequentialPlaybooks + 1
+        )
 
         repeat(runsToExecute) {
-            val secondsToWaitBetweenPlaybooks =
-                (SubmissionConstants.minDelayBetweenSequentialPlaybooks
-                        ..SubmissionConstants.maxDelayBetweenSequentialPlaybooks
-                        ).random()
+            val secondsToWaitBetweenPlaybooks = Random.nextLong(
+                SubmissionConstants.minDelayBetweenSequentialPlaybooks,
+                SubmissionConstants.maxDelayBetweenSequentialPlaybooks + 1
+            )
+
             playbook.dummy()
+
             delay(TimeUnit.SECONDS.toMillis(secondsToWaitBetweenPlaybooks))
         }
     }
