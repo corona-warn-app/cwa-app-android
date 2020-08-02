@@ -38,24 +38,26 @@ class BackgroundNoisePeriodicWorker(
             DateTimeZone.UTC
         )
 
+        var result = Result.success()
+
         // Check if the numberOfDaysToRunPlaybook are over
         if (initialPairingDate.plusDays(SubmissionConstants.numberOfDaysToRunPlaybook).isBeforeNow) {
             stopWorker()
-            return Result.success()
+            return result
         }
 
         try {
             BackgroundNoise.getInstance().runDummyPlaybook()
         } catch (e: Exception) {
             // TODO: Should we even retry here?
-            return if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+            result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Result.failure()
             } else {
                 Result.retry()
             }
         }
 
-        return Result.success()
+        return result
     }
 
     private fun stopWorker() {
