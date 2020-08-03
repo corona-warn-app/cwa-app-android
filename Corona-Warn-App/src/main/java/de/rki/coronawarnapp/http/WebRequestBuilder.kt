@@ -232,26 +232,17 @@ class WebRequestBuilder(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
             "0",
-            null,
+            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_SUBMISSION),
             submissionPayload
         )
         return@withContext
     }
 
     suspend fun asyncFakeSubmitKeysToServer() = withContext(Dispatchers.IO) {
-
-        val fakeKeys = generateSequence {
-            KeyExportFormat.TemporaryExposureKey.newBuilder()
-                .setKeyData(ByteString.copyFromUtf8("x".repeat(32)))
-                .setRollingStartIntervalNumber(0)
-                .setTransmissionRiskLevel(0)
-                .setRollingPeriod(0)
-                .build()
-        }.take(14)
-
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
-            .addAllKeys(fakeKeys.toList())
+            .setPadding(ByteString.copyFromUtf8("x".repeat(32).repeat(14))) // TODO key size
             .build()
+
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             null,

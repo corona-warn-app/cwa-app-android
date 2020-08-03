@@ -37,7 +37,8 @@ object SubmissionConstants {
     const val PADDING_LENGTH_BODY_TAN_FAKE = 70
 
     // padding submission
-    const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 42
+    const val PADDING_LENGTH_HEADER_SUBMISSION = 1
+    const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 60
 
     const val probabilityToExecutePlaybookWhenOpenApp = 1f
     const val minNumberOfSequentialPlaybooks = 1

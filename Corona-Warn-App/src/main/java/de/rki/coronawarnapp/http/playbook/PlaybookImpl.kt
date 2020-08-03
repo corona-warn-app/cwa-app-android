@@ -12,7 +12,8 @@ class PlaybookImpl(
 
     override suspend fun initialRegistration(key: String, keyType: KeyType): String {
         // real registration
-        val registrationToken = webRequestBuilder.asyncGetRegistrationToken(key, keyType)
+        val (registrationToken, exception) =
+            executeCapturingExceptions { webRequestBuilder.asyncGetRegistrationToken(key, keyType) }
 
         // fake test result
         ignoreExceptions { webRequestBuilder.asyncFakeGetTestResult() }
@@ -20,12 +21,13 @@ class PlaybookImpl(
         // fake submission
         ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
 
-        return registrationToken
+        return registrationToken ?: propagateException(exception)
     }
 
     override suspend fun testResult(registrationToken: String): TestResult {
         // real test result
-        val testResult = webRequestBuilder.asyncGetTestResult(registrationToken)
+        val (testResult, exception) =
+            executeCapturingExceptions { webRequestBuilder.asyncGetTestResult(registrationToken) }
 
         // fake registration
         ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
@@ -33,7 +35,8 @@ class PlaybookImpl(
         // fake submission
         ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
 
-        return TestResult.fromInt(testResult)
+        return testResult?.let { TestResult.fromInt(it) }
+            ?: propagateException(exception)
     }
 
     override suspend fun submission(
@@ -41,13 +44,22 @@ class PlaybookImpl(
         keys: List<KeyExportFormat.TemporaryExposureKey>
     ) {
         // real auth code
-        val authCode = webRequestBuilder.asyncGetTan(registrationToken)
+        val (authCode, exception) = executeCapturingExceptions {
+            webRequestBuilder.asyncGetTan(
+                registrationToken
+            )
+        }
 
         // fake registration
         ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
 
         // real submission
-        webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
+        if (authCode != null) {
+            webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
+        } else {
+            webRequestBuilder.asyncFakeSubmitKeysToServer()
+            propagateException(exception)
+        }
     }
 
     override suspend fun dummy() {
@@ -67,5 +79,18 @@ class PlaybookImpl(
         } catch (e: Exception) {
             Timber.d(e, "Ignoring dummy request exception")
         }
+    }
+
+    private suspend fun <T> executeCapturingExceptions(body: suspend () -> T): Pair<T?, Exception?> {
+        return try {
+            val result = body.invoke()
+            result to null
+        } catch (e: Exception) {
+            null to e
+        }
+    }
+
+    private fun propagateException(exception: Exception?): Nothing {
+        throw exception ?: IllegalStateException()
     }
 }
