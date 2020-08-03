@@ -15,7 +15,7 @@ Also, be sure to check our documentation first: https://github.com/corona-warn-a
 ## Avoid duplicates
 * [ ] Bug is not mentioned in the [FAQ](https://www.coronawarn.app/en/faq/)
 * [ ] Bug is specific for Android only, for general issues / questions that apply to iOS and Android please raise them in the [documentation repository](https://github.com/corona-warn-app/cwa-documentation)
-* [ ] Bug is not already reported in another issue
+* [ ] Bug is not already reported in another issue or the [CWA-Wishlist](https://github.com/corona-warn-app/cwa-wishlist)
 
 ## Describe the bug
 
