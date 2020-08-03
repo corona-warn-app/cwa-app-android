@@ -209,10 +209,8 @@ object ConnectivityHelper {
      *
      * @see isBackgroundRestricted
      */
-    fun isBackgroundJobEnabled(context: Context): Boolean {
-        return !isBackgroundRestricted(context) && PowerManagementHelper.isIgnoringBatteryOptimizations(
-            context
-        )
+    fun autoModeEnabled(context: Context): Boolean {
+        return !isBackgroundRestricted(context) || PowerManagementHelper.isIgnoringBatteryOptimizations(context)
     }
 
     /**

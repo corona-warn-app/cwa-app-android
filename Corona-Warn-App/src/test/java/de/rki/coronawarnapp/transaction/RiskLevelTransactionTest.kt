@@ -152,7 +152,7 @@ class RiskLevelTransactionTest {
         )
 
         // background jobs are enabled
-        every { ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext()) } returns true
+        every { ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext()) } returns true
 
         runBlocking {
 
@@ -200,7 +200,7 @@ class RiskLevelTransactionTest {
         )
 
         // background jobs are disabled
-        every { ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext()) } returns false
+        every { ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext()) } returns false
 
         runBlocking {
 
