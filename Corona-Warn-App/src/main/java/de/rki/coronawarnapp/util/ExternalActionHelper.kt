@@ -184,4 +184,17 @@ object ExternalActionHelper {
             )
         }
     }
+
+    fun toBatterySaverSettings(context: Context) {
+        try {
+            val intent = Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS)
+            context.startActivity(intent)
+        } catch (exception: Exception) {
+            // catch generic exception on settings navigation
+            // most likely due to device / rom specific intent issue
+            ExternalActionException(exception).report(
+                ExceptionCategory.UI
+            )
+        }
+    }
 }

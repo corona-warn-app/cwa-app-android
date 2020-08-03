@@ -12,6 +12,8 @@
     <!-- NOTR -->
     <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
     <!-- NOTR -->
+    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
+    <!-- NOTR -->
     <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
@@ -135,12 +137,12 @@
     <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s Risiko-Begegnung"</item>
-        <item quantity="other">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="zero">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="two">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="few">"%1$s Risiko-Begegnungen"</item>
-        <item quantity="many">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="one">"%1$s Risiko-Begegnung mit niedrigem Risiko"</item>
+        <item quantity="other">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="zero">"Bisher keine Risiko-Begegnungen"</item>
+        <item quantity="two">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="few">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="many">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
     </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Risiko-Ermittlung war für %1$s der letzten 14 Tage aktiv"</string>
@@ -415,6 +417,20 @@
     <string name="onboarding_background_fetch_dialog_button_positive">"Geräteeinstellungen öffnen"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Risiko-Ermittlung manuell starten"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
+    <string name="onboarding_energy_optimized_dialog_headline">"Priorisierte Hintergrundaktivität erlauben"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
+    <string name="onboarding_energy_optimized_dialog_body">"Erlauben Sie die priorisierte Hintergrundaktivität, damit die App jederzeit Ihren Risikostatus im Hintergrund ermitteln kann (empfohlen). Damit wird die Optimierung des Akku-Verbrauchs ausschließlich für die Corona-Warn-App deaktiviert. Ein stark erhöhter Akku-Verbrauch ist hierbei nicht zu erwarten. \n\nWenn Sie diese Einstellung nicht erlauben, müssen Sie Ihren Risikostatus manuell in der App aktualisieren."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
+    <string name="onboarding_energy_optimized_dialog_button_positive">"Erlauben"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
+    <string name="onboarding_energy_optimized_dialog_button_negative">"Nicht erlauben"</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">"Priorisierte Hintergrundaktivität deaktiviert"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">"Beachten Sie, dass Sie ohne Aktivierung der priorisierten Hintergrundaktivität die App einmal am Tag aufrufen müssen, um Ihren Risikostatus manuell aktualisieren zu können. \n\nSie können die priorisierte Hintergrundaktivität jederzeit in Ihren Einstellungen aktivieren. "</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"Ok"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
