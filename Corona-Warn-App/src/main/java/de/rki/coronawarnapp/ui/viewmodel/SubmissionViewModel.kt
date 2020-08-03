@@ -52,7 +52,7 @@ class SubmissionViewModel : ViewModel() {
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
             _submissionState.value = ApiRequestState.STARTED
-            SubmissionService.asyncSubmitExposureKeys(keys)
+            SubmissionService.asyncSubmitExposureKeys(this, keys)
             _submissionState.value = ApiRequestState.SUCCESS
         } catch (err: CwaWebException) {
             _submissionError.value = Event(err)
@@ -73,7 +73,7 @@ class SubmissionViewModel : ViewModel() {
     fun doDeviceRegistration() = viewModelScope.launch {
         try {
             _registrationState.value = Event(ApiRequestState.STARTED)
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDevice(viewModelScope)
             _registrationState.value = Event(ApiRequestState.SUCCESS)
         } catch (err: CwaWebException) {
             _registrationError.value = Event(err)
@@ -91,12 +91,20 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun refreshDeviceUIState() =
-        executeRequestWithState(
-            SubmissionRepository::refreshUIState,
-            _uiStateState,
-            _uiStateError
-        )
+    fun refreshDeviceUIState() {
+        _uiStateState.value = ApiRequestState.STARTED
+        viewModelScope.launch {
+            try {
+                SubmissionRepository.refreshUIState(this)
+                _uiStateState.value = ApiRequestState.SUCCESS
+            } catch (err: CwaWebException) {
+                _uiStateError.value = Event(err)
+                _uiStateState.value = ApiRequestState.FAILED
+            } catch (err: Exception) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+        }
+    }
 
     fun validateAndStoreTestGUID(scanResult: String) {
         if (SubmissionService.containsValidGUID(scanResult)) {
@@ -117,24 +125,5 @@ class SubmissionViewModel : ViewModel() {
         SubmissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
-    }
-
-    private fun executeRequestWithState(
-        apiRequest: suspend () -> Unit,
-        state: MutableLiveData<ApiRequestState>,
-        exceptionLiveData: MutableLiveData<Event<CwaWebException>>? = null
-    ) {
-        state.value = ApiRequestState.STARTED
-        viewModelScope.launch {
-            try {
-                apiRequest()
-                state.value = ApiRequestState.SUCCESS
-            } catch (err: CwaWebException) {
-                exceptionLiveData?.value = Event(err)
-                state.value = ApiRequestState.FAILED
-            } catch (err: Exception) {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-        }
     }
 }

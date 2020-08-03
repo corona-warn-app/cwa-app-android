@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.http.service
 
 import de.rki.coronawarnapp.service.submission.KeyType
-import de.rki.coronawarnapp.util.newWebRequestBuilder
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
+import de.rki.coronawarnapp.util.newWebRequestBuilder
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Assert
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 
 
@@ -56,13 +57,13 @@ class VerificationServiceTest {
         )
 
         // ensure all request have same size (header & body)
+        requests.forEach { assertThat(it.bodySize, equalTo(1000L)) }
+
         requests.zipWithNext().forEach { (a, b) ->
-            Assert.assertEquals(
-                "Header size mismatch: ",
+            assertThat(
                 a.headerSizeIgnoringContentLength(),
-                b.headerSizeIgnoringContentLength()
+                equalTo(b.headerSizeIgnoringContentLength())
             )
-            Assert.assertEquals("Body size mismatch:", a.bodySize, b.bodySize)
         }
     }
 }

@@ -15,12 +15,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
@@ -30,6 +33,8 @@ class SubmissionServiceTest {
 
     @MockK
     private lateinit var backgroundNoise: BackgroundNoise
+
+    val pausedCoroutineScope = TestCoroutineScope().also { it.pauseDispatcher() }
 
     @Before
     fun setUp() {
@@ -51,7 +56,7 @@ class SubmissionServiceTest {
     @Test(expected = NoGUIDOrTANSetException::class)
     fun registerDeviceWithoutTANOrGUIDFails() {
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDevice(pausedCoroutineScope)
         }
     }
 
@@ -69,7 +74,7 @@ class SubmissionServiceTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDevice(pausedCoroutineScope)
         }
 
         verify(exactly = 1) {
@@ -94,7 +99,7 @@ class SubmissionServiceTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDevice(pausedCoroutineScope)
         }
 
         verify(exactly = 1) {
@@ -108,7 +113,7 @@ class SubmissionServiceTest {
     @Test(expected = NoRegistrationTokenSetException::class)
     fun requestTestResultWithoutRegistrationTokenFails() {
         runBlocking {
-            SubmissionService.asyncRequestTestResult()
+            SubmissionService.asyncRequestTestResult(pausedCoroutineScope)
         }
     }
 
@@ -118,24 +123,33 @@ class SubmissionServiceTest {
         coEvery { webRequestBuilder.asyncGetTestResult(registrationToken) } returns TestResult.NEGATIVE.value
 
         runBlocking {
-            assertThat(SubmissionService.asyncRequestTestResult(), equalTo(TestResult.NEGATIVE))
+            assertThat(
+                SubmissionService.asyncRequestTestResult(pausedCoroutineScope),
+                equalTo(TestResult.NEGATIVE)
+            )
         }
     }
 
     @Test(expected = NoRegistrationTokenSetException::class)
     fun submitExposureKeysWithoutRegistrationTokenFails() {
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            SubmissionService.asyncSubmitExposureKeys(pausedCoroutineScope, listOf())
         }
     }
 
     @Test
     fun submitExposureKeysSucceeds() {
         every { LocalData.registrationToken() } returns registrationToken
-        coEvery { SubmitDiagnosisKeysTransaction.start(registrationToken, any()) } just Runs
+        coEvery {
+            SubmitDiagnosisKeysTransaction.start(
+                pausedCoroutineScope,
+                registrationToken,
+                any()
+            )
+        } just Runs
 
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            SubmissionService.asyncSubmitExposureKeys(pausedCoroutineScope, listOf())
         }
     }
 

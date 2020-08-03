@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.http.playbook
 import de.rki.coronawarnapp.exception.http.InternalServerErrorException
 import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.util.newWebRequestBuilder
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineScope
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.MatcherAssert.assertThat
@@ -12,7 +14,10 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.fail
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class PlaybookImplTest {
+
+    val pausedCoroutineScope = TestCoroutineScope().also { it.pauseDispatcher() }
 
     @Test
     fun hasRequestPattern_initialRegistration(): Unit = runBlocking {
@@ -23,7 +28,9 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        repeat(10) { server.enqueue(MockResponse().setBody("{}")) }
+
+        PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
             .initialRegistration("9A3B578UMG", KeyType.TELETAN)
 
         // ensure request order is 2x verification and 1x submission
@@ -39,7 +46,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
             .submission("token", listOf())
 
         // ensure request order is 2x verification and 1x submission
@@ -55,7 +62,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
             .testResult("token")
 
         // ensure request order is 2x verification and 1x submission
@@ -71,7 +78,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
             .dummy()
 
         // ensure request order is 2x verification and 1x submission
@@ -88,7 +95,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setResponseCode(500))
         server.enqueue(MockResponse().setResponseCode(500))
 
-        val registrationToken = PlaybookImpl(server.newWebRequestBuilder())
+        val registrationToken = PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
             .initialRegistration("key", KeyType.GUID)
 
         assertThat(registrationToken, equalTo(expectedRegistrationToken))
@@ -105,7 +112,7 @@ class PlaybookImplTest {
 
         try {
 
-            PlaybookImpl(server.newWebRequestBuilder())
+            PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
                 .initialRegistration("9A3B578UMG", KeyType.TELETAN)
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {
@@ -127,7 +134,7 @@ class PlaybookImplTest {
 
         try {
 
-            PlaybookImpl(server.newWebRequestBuilder())
+            PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
                 .testResult("token")
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {
@@ -147,7 +154,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
 
         try {
-            PlaybookImpl(server.newWebRequestBuilder())
+            PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
                 .submission("token", listOf())
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {

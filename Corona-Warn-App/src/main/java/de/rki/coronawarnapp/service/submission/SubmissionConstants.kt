@@ -21,20 +21,22 @@ object SubmissionConstants {
     const val SERVER_ERROR_CODE_400 = 400
 
     // padding registration token
-    const val PADDING_LENGTH_HEADER_REGISTRATION_TOKEN = 1
-    const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_FAKE = 70
-    const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_TELETAN = 31
-    const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_GUID = 0
+    private const val VERIFICATION_BODY_FILL = 889
+
+    const val PADDING_LENGTH_HEADER_REGISTRATION_TOKEN = 0
+    const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_FAKE = 90 + VERIFICATION_BODY_FILL
+    const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_TELETAN = 51 + VERIFICATION_BODY_FILL
+    const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_GUID = 0 + VERIFICATION_BODY_FILL
 
     // padding test result
-    const val PADDING_LENGTH_HEADER_TEST_RESULT = 8
-    const val PADDING_LENGTH_BODY_TEST_RESULT_FAKE = 70
-    const val PADDING_LENGTH_BODY_TEST_RESULT = 11
+    const val PADDING_LENGTH_HEADER_TEST_RESULT = 7
+    const val PADDING_LENGTH_BODY_TEST_RESULT_FAKE = 90 + VERIFICATION_BODY_FILL
+    const val PADDING_LENGTH_BODY_TEST_RESULT = 31 + VERIFICATION_BODY_FILL
 
     // padding tan
-    const val PADDING_LENGTH_HEADER_TAN = 15
-    const val PADDING_LENGTH_BODY_TAN = 11
-    const val PADDING_LENGTH_BODY_TAN_FAKE = 70
+    const val PADDING_LENGTH_HEADER_TAN = 14
+    const val PADDING_LENGTH_BODY_TAN = 31 + VERIFICATION_BODY_FILL
+    const val PADDING_LENGTH_BODY_TAN_FAKE = 90 + VERIFICATION_BODY_FILL
 
     // padding submission
     const val PADDING_LENGTH_HEADER_SUBMISSION = 1
@@ -42,9 +44,9 @@ object SubmissionConstants {
 
     const val probabilityToExecutePlaybookWhenOpenApp = 1f
     const val minNumberOfSequentialPlaybooks = 1
-    const val maxNumberOfSequentialPlaybooks = 2
-    const val minDelayBetweenSequentialPlaybooks = 5L
-    const val maxDelayBetweenSequentialPlaybooks = 20L
+    const val maxNumberOfSequentialPlaybooks = 3
+    const val minDelayBetweenSequentialPlaybooks = 5
+    const val maxDelayBetweenSequentialPlaybooks = 10
     const val numberOfDaysToRunPlaybook = 16
 }
 

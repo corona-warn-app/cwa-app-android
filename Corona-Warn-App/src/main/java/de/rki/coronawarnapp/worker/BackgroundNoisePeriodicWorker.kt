@@ -3,10 +3,12 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.http.playbook.BackgroundNoise
+import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
+import kotlinx.coroutines.coroutineScope
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
@@ -32,7 +34,7 @@ class BackgroundNoisePeriodicWorker(
      *
      * @see SubmissionConstants.numberOfDaysToRunPlaybook
      */
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
         val initialPairingDate = DateTime(
             LocalData.devicePairingSuccessfulTimestamp(),
             DateTimeZone.UTC
@@ -43,11 +45,12 @@ class BackgroundNoisePeriodicWorker(
         // Check if the numberOfDaysToRunPlaybook are over
         if (initialPairingDate.plusDays(SubmissionConstants.numberOfDaysToRunPlaybook).isBeforeNow) {
             stopWorker()
-            return result
+            return@coroutineScope result
         }
 
         try {
-            BackgroundNoise.getInstance().runDummyPlaybook()
+            PlaybookImpl(WebRequestBuilder.getInstance(), this)
+                .dummy()
         } catch (e: Exception) {
             // TODO: Should we even retry here?
             result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
@@ -57,7 +60,7 @@ class BackgroundNoisePeriodicWorker(
             }
         }
 
-        return result
+        return@coroutineScope result
     }
 
     private fun stopWorker() {

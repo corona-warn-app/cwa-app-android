@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
+import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 
 /**
@@ -40,7 +41,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      * @see LocalData.isTestResultNotificationSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      */
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
 
         Timber.d("Background job started. Run attempt: $runAttemptCount")
         BackgroundWorkHelper.sendDebugNotification(
@@ -53,7 +54,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                 "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts")
 
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
-            return Result.failure()
+            return@coroutineScope Result.failure()
         }
         var result = Result.success()
         try {
@@ -62,7 +63,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                     System.currentTimeMillis()
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
-                val testResult = SubmissionService.asyncRequestTestResult()
+                val testResult = SubmissionService.asyncRequestTestResult(this)
                 initiateNotification(testResult)
             } else {
                 stopWorker()
@@ -74,7 +75,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
         BackgroundWorkHelper.sendDebugNotification(
             "TestResult Executing: End", "TestResult result: $result ")
 
-        return result
+        return@coroutineScope result
     }
 
     /**

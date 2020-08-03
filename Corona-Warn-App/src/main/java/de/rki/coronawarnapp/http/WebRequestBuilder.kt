@@ -252,8 +252,5 @@ class WebRequestBuilder(
         )
     }
 
-    private fun requestPadding(length: Int): String? = if (length == 0)
-        null
-    else
-        "x".repeat(length)
+    private fun requestPadding(length: Int): String = "x".repeat(length)
 }
