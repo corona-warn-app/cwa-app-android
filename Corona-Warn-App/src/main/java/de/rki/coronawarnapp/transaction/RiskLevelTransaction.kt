@@ -300,7 +300,7 @@ object RiskLevelTransaction : Transaction() {
             if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
-                if (ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext())) {
+                if (ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())) {
                     return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
                         Timber.v("diagnosis keys outdated and active tracing time is above threshold")
                         Timber.v("manual mode not active (background jobs enabled)")

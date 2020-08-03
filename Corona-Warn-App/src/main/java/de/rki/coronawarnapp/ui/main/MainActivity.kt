@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
         ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
         ConnectivityHelper.registerLocationStatusCallback(this, callbackLocation)
-        settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.isBackgroundJobEnabled(this))
+        settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.autoModeEnabled(this))
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
     }
@@ -150,8 +150,7 @@ class MainActivity : AppCompatActivity() {
                 // show battery optimization system dialog after background processing dialog
                 checkForEnergyOptimizedEnabled()
             }, {
-                // declined, show additional dialog explaining manual risk calculation
-                showManualCheckingRequiredDialog()
+                // declined
             })
         DialogHelper.showDialog(dialog)
     }

@@ -70,7 +70,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             "Application onCreate", "App was woken up"
         )
         // Only do this if the background jobs are enabled
-        if (ConnectivityHelper.isBackgroundJobEnabled(applicationContext))
+        if (ConnectivityHelper.autoModeEnabled(applicationContext))
             ProcessLifecycleOwner.get().lifecycleScope.launch {
                 // we want a wakelock as the OS does not handle this for us like in the background
                 // job execution
