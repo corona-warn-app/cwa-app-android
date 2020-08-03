@@ -144,6 +144,15 @@
         <item quantity="few">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
         <item quantity="many">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
     </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
+        <item quantity="one">"%1$s Risiko-Begegnung"</item>
+        <item quantity="other">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="zero">"Bisher keine Risiko-Begegnungen"</item>
+        <item quantity="two">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="few">"%1$s Risiko-Begegnungen"</item>
+        <item quantity="many">"%1$s Risiko-Begegnungen"</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Risiko-Ermittlung war für %1$s der letzten 14 Tage aktiv"</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->

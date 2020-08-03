@@ -146,6 +146,15 @@
         <item quantity="few">"%1$s exposures with low risk"</item>
         <item quantity="many">"%1$s exposures with low risk"</item>
     </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
+        <item quantity="one">"%1$s exposure"</item>
+        <item quantity="other">"%1$s exposures"</item>
+        <item quantity="zero">"No exposure up to now"</item>
+        <item quantity="two">"%1$s exposures"</item>
+        <item quantity="few">"%1$s exposures"</item>
+        <item quantity="many">"%1$s exposures"</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
