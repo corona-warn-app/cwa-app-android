@@ -44,7 +44,6 @@ object SubmissionConstants {
     const val maxNumberOfSequentialPlaybooks = 2
     const val minDelayBetweenSequentialPlaybooks = 5L
     const val maxDelayBetweenSequentialPlaybooks = 20L
-    const val numberOfDaysToRunPlaybook = 16
 }
 
 enum class KeyType {

@@ -30,6 +30,11 @@ object BackgroundConstants {
     const val BACKGROUND_NOISE_PERIODIC_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
 
     /**
+     * Tag for background noise playbook one time work
+     */
+    const val BACKGROUND_NOISE_ONE_TIME_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
+
+    /**
      * Unique name for diagnosis key retrieval one time work
      */
     const val DIAGNOSIS_KEY_ONE_TIME_WORK_NAME = "DiagnosisKeyBackgroundOneTimeWork"
@@ -47,7 +52,12 @@ object BackgroundConstants {
     /**
      * Unique name for background noise playbook periodic work
      */
-    const val BACKGROUND_NOISE_PERIODIC_WORKER_NAME = "BackgroundNoisePeriodicWork"
+    const val BACKGROUND_NOISE_PERIODIC_WORK_NAME = "BackgroundNoisePeriodicWork"
+
+    /**
+     * Unique name for background noise playbook one time work
+     */
+    const val BACKGROUND_NOISE_ONE_TIME_WORK_NAME = "BackgroundNoiseOneTimeWork"
 
     /**
      * Total minutes in one day
@@ -104,4 +114,25 @@ object BackgroundConstants {
      * @see TimeUnit.MINUTES
      */
     const val BACKOFF_INITIAL_DELAY = 8L
+
+    /**
+     * The minimum time in hours to wait between playbook executions
+     *
+     * @see TimeUnit.HOURS
+     */
+    const val MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 4L
+
+    /**
+     * The maximum time in hours to wait between playbook executions
+     *
+     * @see TimeUnit.HOURS
+     */
+    const val MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 12L
+
+    /**
+     * The total time in days to run the playbook
+     *
+     * @see TimeUnit.DAYS
+     */
+    const val NUMBER_OF_DAYS_TO_RUN_PLAYBOOK = 16
 }

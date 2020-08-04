@@ -3,12 +3,11 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.http.playbook.BackgroundNoise
-import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import timber.log.Timber
 
 /**
  * Periodic background noise worker
@@ -30,37 +29,36 @@ class BackgroundNoisePeriodicWorker(
      *
      * @return Result
      *
-     * @see SubmissionConstants.numberOfDaysToRunPlaybook
+     * @see BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK
      */
     override suspend fun doWork(): Result {
-        val initialPairingDate = DateTime(
-            LocalData.devicePairingSuccessfulTimestamp(),
-            DateTimeZone.UTC
-        )
+        Timber.d("Background job started. Run attempt: $runAttemptCount")
 
         var result = Result.success()
-
-        // Check if the numberOfDaysToRunPlaybook are over
-        if (initialPairingDate.plusDays(SubmissionConstants.numberOfDaysToRunPlaybook).isBeforeNow) {
-            stopWorker()
-            return result
-        }
-
         try {
-            BackgroundNoise.getInstance().runDummyPlaybook()
+            val initialPairingDate = DateTime(
+                LocalData.devicePairingSuccessfulTimestamp(),
+                DateTimeZone.UTC
+            )
+
+            // Check if the numberOfDaysToRunPlaybook are over
+            if (initialPairingDate.plusDays(BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK).isBeforeNow) {
+                stopWorker()
+                return result
+            }
+
+            BackgroundWorkScheduler.scheduleBackgroundNoiseOneTimeWork()
         } catch (e: Exception) {
-            // TODO: Should we even retry here?
-            result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                Result.failure()
+            if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                return Result.failure()
             } else {
-                Result.retry()
+                result = Result.retry()
             }
         }
-
         return result
     }
 
     private fun stopWorker() {
-        BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORKER.stop()
+        BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORK.stop()
     }
 }
