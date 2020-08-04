@@ -49,7 +49,7 @@ object SubmissionConstants {
     const val maxDelayBetweenSequentialPlaybooks = 10
 
     const val minKeyCountForSubmission = 14
-    const val fakeKeySize = (1 * 32 /* key data*/) + (3 * 4 /* 3x int32*/)
+    const val fakeKeySize = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
 }
 
 enum class KeyType {
