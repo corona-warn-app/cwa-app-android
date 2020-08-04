@@ -49,10 +49,10 @@ class BackgroundNoisePeriodicWorker(
 
             BackgroundWorkScheduler.scheduleBackgroundNoiseOneTimeWork()
         } catch (e: Exception) {
-            if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                return Result.failure()
+            result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                Result.failure()
             } else {
-                result = Result.retry()
+                Result.retry()
             }
         }
         return result

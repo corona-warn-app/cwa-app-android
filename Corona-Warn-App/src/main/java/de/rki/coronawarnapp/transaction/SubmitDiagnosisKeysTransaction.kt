@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * The SubmitDiagnosisKeysTransaction is used to define an atomic Transaction for Key Reports. Its states allow an
@@ -41,23 +42,18 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     /** possible transaction states */
     private enum class SubmitDiagnosisKeysTransactionState :
         TransactionState {
-//        RETRIEVE_TAN,
         RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY,
-//        SUBMIT_KEYS,
         RETRIEVE_TAN_AND_SUBMIT_KEYS,
         STORE_SUCCESS,
         CLOSE
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start(registrationToken: String, keys: List<TemporaryExposureKey>) = lockAndExecuteUnique {
-//        /****************************************************
-//         * RETRIEVE TAN
-//         ****************************************************/
-//        val authCode = executeState(RETRIEVE_TAN) {
-//            SubmissionService.asyncRequestAuthCode(registrationToken)
-//        }
-
+    suspend fun start(
+        coroutineScope: CoroutineScope,
+        registrationToken: String,
+        keys: List<TemporaryExposureKey>
+    ) = lockAndExecuteUnique {
         /****************************************************
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
          ****************************************************/
@@ -65,20 +61,15 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
                 keys.limitKeyCount()
                 .transformKeyHistoryToExternalFormat()
         }
-//        /****************************************************
-//         * SUBMIT KEYS
-//         ****************************************************/
-//        executeState(SUBMIT_KEYS) {
-//            DiagnosisKeyService.asyncSubmitKeys(authCode, temporaryExposureKeyList)
-//        }
-
         /****************************************************
          * RETRIEVE TAN & SUBMIT KEYS
          ****************************************************/
         executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
-            PlaybookImpl(WebRequestBuilder.getInstance()).submission(registrationToken, temporaryExposureKeyList)
+            PlaybookImpl(WebRequestBuilder.getInstance(), coroutineScope).submission(
+                registrationToken,
+                temporaryExposureKeyList
+            )
         }
-
         /****************************************************
          * STORE SUCCESS
          ****************************************************/

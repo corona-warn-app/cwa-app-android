@@ -1,6 +1,13 @@
 package de.rki.coronawarnapp.worker
 
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.Operation
+import androidx.work.WorkManager
+import androidx.work.WorkInfo
+import androidx.work.BackoffPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.OneTimeWorkRequestBuilder
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
@@ -69,6 +76,8 @@ object BackgroundWorkScheduler {
      * @see isWorkActive
      */
     fun startWorkScheduler() {
+        val notificationBody = StringBuilder()
+        notificationBody.append("Jobs starting: ")
         if (LocalData.numberOfSuccessfulSubmissions() > 0) return
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         logWorkActiveStatus(
@@ -77,13 +86,17 @@ object BackgroundWorkScheduler {
         )
         if (!isPeriodicWorkActive) {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
+            notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
         if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
             LocalData.registrationToken() != null && !LocalData.isTestResultNotificationSent()
         ) {
             WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
             LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
+            notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
         }
+        BackgroundWorkHelper.sendDebugNotification(
+            "Background Job Starting", notificationBody.toString())
     }
 
     /**
@@ -135,6 +148,8 @@ object BackgroundWorkScheduler {
             workManager.cancelAllWorkByTag(workTag.tag)
                 .also { it.logOperationCancelByTag(workTag) }
         }
+        BackgroundWorkHelper.sendDebugNotification(
+            "All Background Jobs Stopped", "All Background Jobs Stopped")
     }
 
     /**
@@ -399,6 +414,8 @@ object BackgroundWorkScheduler {
     private fun Operation.logOperationSchedule(workType: WorkType) =
         this.result.addListener({
             Timber.d("${workType.uniqueName} completed.")
+            BackgroundWorkHelper.sendDebugNotification(
+                "Background Job Started", "${workType.uniqueName} scheduled")
         }, { it.run() })
             .also { if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} scheduled.") }
 
@@ -408,6 +425,8 @@ object BackgroundWorkScheduler {
     private fun Operation.logOperationCancelByTag(workTag: WorkTag) =
         this.result.addListener({
             Timber.d("All work with tag ${workTag.tag} canceled.")
+            BackgroundWorkHelper.sendDebugNotification(
+                "Background Job canceled", "${workTag.tag} canceled")
         }, { it.run() })
             .also { if (BuildConfig.DEBUG) Timber.d("Canceling all work with tag ${workTag.tag}") }
 

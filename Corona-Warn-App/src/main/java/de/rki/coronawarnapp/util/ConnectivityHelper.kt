@@ -191,14 +191,26 @@ object ConnectivityHelper {
      * @param context the context
      *
      * @return Boolean
+     */
+    fun isBackgroundRestricted(context: Context): Boolean {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            activityManager.isBackgroundRestricted
+        } else false
+    }
+
+    /**
+     * Background jobs are enabled only if the battery optimization is enabled and
+     * the background activity is not restricted
+     *
+     * @param context the context
+     *
+     * @return Boolean
      *
      * @see isBackgroundRestricted
      */
-    fun isBackgroundJobEnabled(context: Context): Boolean {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            !activityManager.isBackgroundRestricted
-        } else true
+    fun autoModeEnabled(context: Context): Boolean {
+        return !isBackgroundRestricted(context) || PowerManagementHelper.isIgnoringBatteryOptimizations(context)
     }
 
     /**

@@ -45,6 +45,7 @@ import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
+import kotlin.math.max
 
 class WebRequestBuilder(
     private val distributionService: DistributionService,
@@ -225,33 +226,32 @@ class WebRequestBuilder(
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
         Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
+
+        val fakeKeyCount = max(SubmissionConstants.minKeyCountForSubmission - keyList.size, 0)
+        val fakeKeyPadding = requestPadding(SubmissionConstants.fakeKeySize * fakeKeyCount)
+
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
+            .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .build()
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
             "0",
-            null,
+            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_SUBMISSION),
             submissionPayload
         )
         return@withContext
     }
 
     suspend fun asyncFakeSubmitKeysToServer() = withContext(Dispatchers.IO) {
-
-        val fakeKeys = generateSequence {
-            KeyExportFormat.TemporaryExposureKey.newBuilder()
-                .setKeyData(ByteString.copyFromUtf8("x".repeat(32)))
-                .setRollingStartIntervalNumber(0)
-                .setTransmissionRiskLevel(0)
-                .setRollingPeriod(0)
-                .build()
-        }.take(14)
+        val fakeKeyPadding =
+            requestPadding(SubmissionConstants.fakeKeySize * SubmissionConstants.minKeyCountForSubmission)
 
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
-            .addAllKeys(fakeKeys.toList())
+            .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .build()
+
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             null,
@@ -261,8 +261,10 @@ class WebRequestBuilder(
         )
     }
 
-    private fun requestPadding(length: Int): String? = if (length == 0)
-        null
-    else
-        "x".repeat(length)
+    private fun requestPadding(length: Int): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
 }

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
+import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 
 /**
@@ -40,14 +41,20 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      * @see LocalData.isTestResultNotificationSent
      * @see LocalData.initialPollingForTestResultTimeStamp
      */
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
 
         Timber.d("Background job started. Run attempt: $runAttemptCount")
+        BackgroundWorkHelper.sendDebugNotification(
+            "TestResult Executing: Start", "TestResult started. Run attempt: $runAttemptCount ")
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
             Timber.d("Background job failed after $runAttemptCount attempts. Rescheduling")
+
+            BackgroundWorkHelper.sendDebugNotification(
+                "TestResult Executing: Failure", "TestResult failed with $runAttemptCount attempts")
+
             BackgroundWorkScheduler.scheduleDiagnosisKeyPeriodicWork()
-            return Result.failure()
+            return@coroutineScope Result.failure()
         }
         var result = Result.success()
         try {
@@ -56,7 +63,7 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
                     System.currentTimeMillis()
                 ) < BackgroundConstants.POLLING_VALIDITY_MAX_DAYS
             ) {
-                val testResult = SubmissionService.asyncRequestTestResult()
+                val testResult = SubmissionService.asyncRequestTestResult(this)
                 initiateNotification(testResult)
             } else {
                 stopWorker()
@@ -64,7 +71,11 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
         } catch (e: Exception) {
             result = Result.retry()
         }
-        return result
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "TestResult Executing: End", "TestResult result: $result ")
+
+        return@coroutineScope result
     }
 
     /**
@@ -100,10 +111,12 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      *
      * @see LocalData.initialPollingForTestResultTimeStamp
      * @see BackgroundWorkScheduler.stop
-
      */
     private fun stopWorker() {
         LocalData.initialPollingForTestResultTimeStamp(0L)
         BackgroundWorkScheduler.WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.stop()
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "TestResult Stopped", "TestResult Stopped")
     }
 }

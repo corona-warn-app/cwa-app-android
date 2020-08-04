@@ -4,20 +4,17 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.delay
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
 import kotlin.random.Random
 
-class BackgroundNoise(
-    private val playbook: Playbook
-) {
+class BackgroundNoise {
     companion object {
         @Volatile
         private var instance: BackgroundNoise? = null
 
         fun getInstance(): BackgroundNoise {
             return instance ?: synchronized(this) {
-                instance ?: BackgroundNoise(PlaybookImpl(WebRequestBuilder.getInstance())).also {
+                instance ?: BackgroundNoise().also {
                     instance = it
                 }
             }
@@ -34,29 +31,12 @@ class BackgroundNoise(
         BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 
-    suspend fun runDummyPlaybook() {
-        val runsToExecute = Random.nextInt(
-            SubmissionConstants.minNumberOfSequentialPlaybooks,
-            SubmissionConstants.maxNumberOfSequentialPlaybooks + 1
-        )
-
-        repeat(runsToExecute) {
-            val secondsToWaitBetweenPlaybooks = Random.nextLong(
-                SubmissionConstants.minDelayBetweenSequentialPlaybooks,
-                SubmissionConstants.maxDelayBetweenSequentialPlaybooks + 1
-            )
-
-            playbook.dummy()
-
-            delay(TimeUnit.SECONDS.toMillis(secondsToWaitBetweenPlaybooks))
-        }
-    }
-
-    suspend fun foregroundScheduleCheck() {
+    suspend fun foregroundScheduleCheck(coroutineScope: CoroutineScope) {
         if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
             val chance = Random.nextFloat() * 100
             if (chance < SubmissionConstants.probabilityToExecutePlaybookWhenOpenApp) {
-                runDummyPlaybook()
+                PlaybookImpl(WebRequestBuilder.getInstance(), coroutineScope)
+                    .dummy()
             }
         }
     }

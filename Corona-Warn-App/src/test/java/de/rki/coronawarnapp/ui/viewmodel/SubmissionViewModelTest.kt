@@ -16,7 +16,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 class SubmissionViewModelTest {
     private var viewModel: SubmissionViewModel = SubmissionViewModel()
 
@@ -58,6 +57,5 @@ class SubmissionViewModelTest {
         // invalid guid
         viewModel.validateAndStoreTestGUID("https://no-guid-here")
         viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.INVALID, it) }
-
     }
 }
