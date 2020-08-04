@@ -129,7 +129,17 @@ fun formatRiskContact(riskLevelScore: Int?, matchedKeysCount: Int?): String {
     val resources = appContext.resources
     val contacts = matchedKeysCount ?: 0
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK,
+        RiskLevelConstants.INCREASED_RISK -> {
+            if (matchedKeysCount == 0) {
+                appContext.getString(R.string.risk_card_body_contact)
+            } else {
+                resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value_high_risk,
+                    contacts,
+                    contacts
+                )
+            }
+        }
         RiskLevelConstants.LOW_LEVEL_RISK -> {
             if (matchedKeysCount == 0) {
                 appContext.getString(R.string.risk_card_body_contact)
