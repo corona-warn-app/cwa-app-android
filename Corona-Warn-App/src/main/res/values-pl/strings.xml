@@ -339,7 +339,7 @@
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dzień temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
-        <item quantity="other">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dnia temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="other">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
         <item quantity="zero">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
         <item quantity="two">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
         <item quantity="few">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>

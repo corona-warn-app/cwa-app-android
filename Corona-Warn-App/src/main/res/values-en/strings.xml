@@ -338,12 +338,12 @@
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s day ago."</item>
-        <item quantity="other">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
-        <item quantity="zero">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
-        <item quantity="two">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
-        <item quantity="few">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
-        <item quantity="many">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
+        <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s day ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="other">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="zero">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="two">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="few">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="many">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Therefore, your risk of infection has been ranked as increased. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else. When you get home, please also avoid close contact with members of your family or household."</string>
