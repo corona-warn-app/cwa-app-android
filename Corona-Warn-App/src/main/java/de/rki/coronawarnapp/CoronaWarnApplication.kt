@@ -16,9 +16,11 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
+import androidx.work.WorkManager
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
@@ -30,7 +32,7 @@ import java.security.Security
 import java.util.UUID
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
-    Application.ActivityLifecycleCallbacks, Configuration.Provider {
+    Application.ActivityLifecycleCallbacks {
 
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
@@ -54,6 +56,12 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        val configuration = Configuration.Builder()
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
+        WorkManager.initialize(this, configuration)
+
         NotificationHelper.createNotificationChannel()
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
@@ -70,7 +78,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             "Application onCreate", "App was woken up"
         )
         // Only do this if the background jobs are enabled
-        if (ConnectivityHelper.autoModeEnabled(applicationContext))
+        if (ConnectivityHelper.autoModeEnabled(applicationContext)) {
             ProcessLifecycleOwner.get().lifecycleScope.launch {
                 // we want a wakelock as the OS does not handle this for us like in the background
                 // job execution
@@ -114,6 +122,11 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
                 if (wifiLock.isHeld) wifiLock.release()
                 if (wakeLock.isHeld) wakeLock.release()
             }
+
+            // if the user is onboarded we will schedule period background jobs
+            // in case the app was force stopped and woken up again by the Google WakeUpService
+            if (LocalData.onboardingCompletedTimestamp() != null) BackgroundWorkScheduler.startWorkScheduler()
+        }
     }
 
     /**
@@ -167,9 +180,4 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
-
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
-            .setMinimumLoggingLevel(android.util.Log.DEBUG)
-            .build()
 }
