@@ -45,6 +45,7 @@ import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
+import kotlin.math.max
 
 class WebRequestBuilder(
     private val distributionService: DistributionService,
@@ -225,8 +226,13 @@ class WebRequestBuilder(
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
         Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
+
+        val fakeKeyCount = max(SubmissionConstants.minKeyCountForSubmission - keyList.size, 0)
+        val fakeKeyPadding = requestPadding(SubmissionConstants.fakeKeySize * fakeKeyCount)
+
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
+            .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .build()
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
@@ -239,8 +245,11 @@ class WebRequestBuilder(
     }
 
     suspend fun asyncFakeSubmitKeysToServer() = withContext(Dispatchers.IO) {
+        val fakeKeyPadding =
+            requestPadding(SubmissionConstants.fakeKeySize * SubmissionConstants.minKeyCountForSubmission)
+
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
-            .setPadding(ByteString.copyFromUtf8("x".repeat(32).repeat(14))) // TODO key size
+            .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .build()
 
         submissionService.submitKeys(
@@ -252,5 +261,10 @@ class WebRequestBuilder(
         )
     }
 
-    private fun requestPadding(length: Int): String = "x".repeat(length)
+    private fun requestPadding(length: Int): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
 }

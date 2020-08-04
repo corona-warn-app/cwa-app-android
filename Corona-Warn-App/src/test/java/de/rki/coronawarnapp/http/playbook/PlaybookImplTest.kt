@@ -28,8 +28,6 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        repeat(10) { server.enqueue(MockResponse().setBody("{}")) }
-
         PlaybookImpl(server.newWebRequestBuilder(), pausedCoroutineScope)
             .initialRegistration("9A3B578UMG", KeyType.TELETAN)
 

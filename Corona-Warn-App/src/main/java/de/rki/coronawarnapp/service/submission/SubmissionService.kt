@@ -33,10 +33,6 @@ object SubmissionService {
                 guid,
                 KeyType.GUID
             )
-//        WebRequestBuilder.getInstance().asyncGetRegistrationToken(
-//            guid,
-//            QR_CODE_KEY_TYPE
-//        )
 
         LocalData.registrationToken(registrationToken)
         deleteTestGUID()
@@ -48,10 +44,6 @@ object SubmissionService {
                 tan,
                 KeyType.TELETAN
             )
-//            WebRequestBuilder.getInstance().asyncGetRegistrationToken(
-//                tan,
-//                TELE_TAN_KEY_TYPE
-//            )
 
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
@@ -68,9 +60,6 @@ object SubmissionService {
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
 
         return PlaybookImpl(WebRequestBuilder.getInstance(), coroutineScope).testResult(registrationToken)
-//        return TestResult.fromInt(
-//            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
-//        )
     }
 
     fun containsValidGUID(scanResult: String): Boolean {

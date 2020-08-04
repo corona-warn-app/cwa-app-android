@@ -42,9 +42,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     /** possible transaction states */
     private enum class SubmitDiagnosisKeysTransactionState :
         TransactionState {
-//        RETRIEVE_TAN,
         RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY,
-//        SUBMIT_KEYS,
         RETRIEVE_TAN_AND_SUBMIT_KEYS,
         STORE_SUCCESS,
         CLOSE
@@ -56,13 +54,6 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         registrationToken: String,
         keys: List<TemporaryExposureKey>
     ) = lockAndExecuteUnique {
-//        /****************************************************
-//         * RETRIEVE TAN
-//         ****************************************************/
-//        val authCode = executeState(RETRIEVE_TAN) {
-//            SubmissionService.asyncRequestAuthCode(registrationToken)
-//        }
-
         /****************************************************
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
          ****************************************************/
@@ -70,13 +61,6 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
                 keys.limitKeyCount()
                 .transformKeyHistoryToExternalFormat()
         }
-//        /****************************************************
-//         * SUBMIT KEYS
-//         ****************************************************/
-//        executeState(SUBMIT_KEYS) {
-//            DiagnosisKeyService.asyncSubmitKeys(authCode, temporaryExposureKeyList)
-//        }
-
         /****************************************************
          * RETRIEVE TAN & SUBMIT KEYS
          ****************************************************/
@@ -86,7 +70,6 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
                 temporaryExposureKeyList
             )
         }
-
         /****************************************************
          * STORE SUCCESS
          ****************************************************/
