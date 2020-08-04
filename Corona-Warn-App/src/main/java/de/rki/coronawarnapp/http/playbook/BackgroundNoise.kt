@@ -27,7 +27,6 @@ class BackgroundNoise {
 
         // schedule worker
         // inside worker, call playbook.dummy()
-        // TODO: Proper schedule timings
         BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 

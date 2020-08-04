@@ -50,7 +50,6 @@ object BackgroundWorkHelper {
         BackgroundConstants.DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY
             .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
-
     /**
      * Get background noise one time work delay
      * The periodic job is already delayed by MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import kotlinx.coroutines.coroutineScope
 
@@ -45,5 +44,4 @@ class BackgroundNoiseOneTimeWorker(
 
         return@coroutineScope result
     }
-
 }
