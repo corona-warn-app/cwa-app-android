@@ -176,7 +176,7 @@
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">"Low Risk"</string>
     <!-- XHED: risk card - increased risk headline -->
-    <string name="risk_card_increased_risk_headline">"Higher Risk"</string>
+    <string name="risk_card_increased_risk_headline">"Increased Risk"</string>
     <!-- XTXT: risk card - increased risk days since last contact -->
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s day since the last encounter"</item>
@@ -254,7 +254,7 @@
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"The following risk status can be shown:"</string>
     <!-- XTXT: App overview increased risk level -->
-    <string name="main_overview_subtitle_increased_risk">"Higher Risk"</string>
+    <string name="main_overview_subtitle_increased_risk">"Increased Risk"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Low Risk"</string>
     <!-- XTXT: App overview unknown risk level -->
@@ -276,7 +276,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -340,12 +340,12 @@
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s day ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="other">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="zero">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="two">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="few">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="many">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="one">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s day ago."</item>
+        <item quantity="other">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
+        <item quantity="zero">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
+        <item quantity="two">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
+        <item quantity="few">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
+        <item quantity="many">"You have an increased risk of infection because you last encountered a person diagnosed with COVID-19 for an extended period of time and in close proximity %1$s days ago."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Therefore, your risk of infection has been ranked as increased. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else. When you get home, please also avoid close contact with members of your family or household."</string>
@@ -431,7 +431,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Allow prioritized background activity"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your device\'s battery life.\n\nIf you do not allow this setting, you will have to manually update your risk status in the App."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your device\'s battery life.\n\nIf you do not allow this setting, we recommend you to open the App manually at least once every 24 hours."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Allow"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -439,7 +439,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Prioritized background activity disabled"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you will have to open the App once a day to update your risk status manually.\n\nYou can disable prioritized background activity in your settings any time. "</string>
+    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you have to open the App manually at least once every 24 hours to update your risk status.\n\nYou can enable prioritized background activity in your settings any time."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
