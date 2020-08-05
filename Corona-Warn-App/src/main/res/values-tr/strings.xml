@@ -144,6 +144,15 @@
         <item quantity="few">"%1$s kez düşük riskli maruz kalma"</item>
         <item quantity="many">"%1$s kez düşük riskli maruz kalma"</item>
     </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
+        <item quantity="one">"%1$s maruz kalma"</item>
+        <item quantity="other">"%1$s maruz kalma"</item>
+        <item quantity="zero">"Şu ana dek hiçbir maruz kalma yok"</item>
+        <item quantity="two">"%1$s maruz kalma"</item>
+        <item quantity="few">"%1$s maruz kalma"</item>
+        <item quantity="many">"%1$s maruz kalma"</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s gün etkindi."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -337,7 +346,7 @@
         <item quantity="many">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
-    <string name="risk_details_information_body_notice">"Enfeksiyon riskiniz, cihazınızda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
+    <string name="risk_details_information_body_notice">"Bu nedenle enfeksiyon riskiniz artmış olarak derecelendirilmiştir.\nEnfeksiyon riskiniz, cihazınızda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz. Eve gittiğinizde lütfen aile fertleriniz veya ev arkadaşlarınızla yakın temastan kaçının."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -420,7 +429,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Önceliklendirilmiş arka plan aktivitesine izin ver"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Uygulamanın sürekli olarak arka planda risk durumunuzu belirlemesine izin vermek için önceliklendirilmiş arka plan aktivitesine izin verin (önerilir). Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır. Bu işlem sonunda cihazınızın pil ömründe kayda değer bir azalma yaşanması beklenmemektedir.\n\nBu ayara izin vermek istemiyorsanız risk durumunuzu Uygulamada manüel olarak güncellemeniz gerekir."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Uygulamanın sürekli olarak arka planda risk durumunuzu belirlemesine izin vermek için önceliklendirilmiş arka plan aktivitesine izin verin (önerilir). Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır. Bu işlem sonunda cihazınızın pil ömründe kayda değer bir azalma yaşanması beklenmemektedir.\n\nBu ayara izin vermek istemiyorsanız en fazla 24 saatlik aralıklarla Uygulamayı manüel olarak açmanızı öneririz."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"İzin Ver"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -428,7 +437,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Önceliklendirilmiş arka plan aktivitesi devre dışı"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Önceliklendirilmiş arka plan aktivitesi devre dışı bırakıldığında Uygulamayı günde bir kez açarak risk durumunuzu manüel olarak güncellemeniz gerekeceğini lütfen unutmayın.\n\nÖnceliklendirilmiş arka plan aktivitesini dilediğiniz zaman ayarlarınızdan devre dışı bırakabilirsiniz. "</string>
+    <string name="onboarding_manual_required_dialog_body">"Önceliklendirilmiş arka plan aktivitesi devre dışı bırakıldığında risk durumunuzu güncellemek için Uygulamayı en fazla 24 saatlik aralıklarla manüel olarak açmanız gerekir.\n\nÖnceliklendirilmiş arka plan aktivitesini dilediğiniz zaman ayarlarınızdan etkinleştirebilirsiniz."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"Tamam"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->

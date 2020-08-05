@@ -144,6 +144,15 @@
         <item quantity="few">"%1$s излагания на нисък риск"</item>
         <item quantity="many">"%1$s излагания на нисък риск"</item>
     </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
+        <item quantity="one">"%1$s излагане на риск"</item>
+        <item quantity="other">"%1$s излагания на риск"</item>
+        <item quantity="zero">"До момента няма излагане на риск"</item>
+        <item quantity="two">"%1$s излагания на риск"</item>
+        <item quantity="few">"%1$s излагания на риск"</item>
+        <item quantity="many">"%1$s излагания на риск"</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск е било активно през %1$s от изминалите 14 дни."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -265,7 +274,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Излагания на риск"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Контакти с по-голяма продължителност и близост до лица, диагностицирани с COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Продължителни и близки контакти с лица, диагностицирани с COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Известия за излагане на риск"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -329,15 +338,15 @@
     <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с COVID-19, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"Вашето ниво на риск от заразяване е високо, защото преди %1$s ден сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="other">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="zero">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="two">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="few">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
-        <item quantity="many">"Вашето ниво на риск от заразяване е високо, защото преди %1$s дни сте се намирали в непосредствена близост до поне едно лице, заразено с COVID-19, в продължение на относително дълъг от период от време."</item>
+        <item quantity="one">"Изложени сте на повишен риск от заразяване, защото преди %1$s ден сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
+        <item quantity="other">"Изложени сте на повишен риск от заразяване, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
+        <item quantity="zero">"Изложени сте на повишен риск от заразяване, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
+        <item quantity="two">"Изложени сте на повишен риск от заразяване, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
+        <item quantity="few">"Изложени сте на повишен риск от заразяване, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
+        <item quantity="many">"Изложени сте на повишен риск от заразяване, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
-    <string name="risk_details_information_body_notice">"Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
+    <string name="risk_details_information_body_notice">"Това е причината да определим Вашия риск от заразяване като повишен. Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск. Когато се приберете у дома, избягвайте близките контакти с членовете на домакинството си."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -420,7 +429,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Разрешаване на приоритетната работа във фонов режим"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Активирайте приоритетната работа във фонов режим, за да позволите на приложението да определя рисковете, на които сте изложени, по всяко време като работи на заден план (препоръчително). Това ще изключи оптимицацията на потребление на батерия само за приложението Corona-Warn-App. Не очакваме това да доведе до значително по-бързо изтощаване на батерията на вашето устройство.\n\nАко не разрешите тази настройка, трябва ръчно да обновявате статуса си на риск от заразяване от приложението."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Активирайте приоритетната работа във фонов режим, за да позволите на приложението да определя рисковете, на които сте изложени, по всяко време като работи на заден план (препоръчително). Това ще изключи оптимизацията на потребление на батерия само за приложението Corona-Warn-App. Не очакваме това да доведе до значително по-бързо изтощаване на батерията на вашето устройство.\n\nАко не разрешите тази настройка, препоръчваме да отваряте приложението ръчно поне веднъж на всеки 24 часа."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Разрешавам"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -428,7 +437,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Приоритетната работа във фонов режим е дезактивирана"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Моля, имайте предвид, че ако приоритетната работа във фонов режим е дезактивирана, трябва да отваряте приложението веднъж дневно и да актуализирате ръчно статуса си на риск от заразяване.\n\nМожете по всяко време да дезактивирате приоритетната работа във фонов режим от настройките. "</string>
+    <string name="onboarding_manual_required_dialog_body">"Моля, имайте предвид, че ако приоритетната работа във фонов режим е дезактивирана, трябва да отваряте приложението поне веднъж на всеки 24 часа, за да актуализирате ръчно статуса си на риск от заразяване.\n\nПо всяко време можете да активирате приоритетната работа във фонов режим от настройките."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->

@@ -144,6 +144,15 @@
         <item quantity="few">"%1$s narażenia z niskim ryzykiem"</item>
         <item quantity="many">"%1$s narażeń z niskim ryzykiem"</item>
     </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
+        <item quantity="one">"%1$s narażenie"</item>
+        <item quantity="other">"%1$s narażenia"</item>
+        <item quantity="zero">"Brak narażenia do tej pory"</item>
+        <item quantity="two">"%1$s narażenia"</item>
+        <item quantity="few">"%1$s narażenia"</item>
+        <item quantity="many">"%1$s narażeń"</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"Rejestrowanie narażenia było aktywne przez %1$s z ostatnich 14 dni."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -329,15 +338,15 @@
     <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano COVID-19, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dzień temu byłeś(-aś) narażony na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
-        <item quantity="other">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dnia temu byłeś(-aś) narażony na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
-        <item quantity="zero">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
-        <item quantity="two">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
-        <item quantity="few">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
-        <item quantity="many">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dzień temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="other">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="zero">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="two">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="few">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
+        <item quantity="many">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
-    <string name="risk_details_information_body_notice">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
+    <string name="risk_details_information_body_notice">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone.\nRyzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -420,7 +429,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Zezwól na priorytetowe działanie w tle"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Włącz priorytetowe działanie w tle, aby aplikacja mogła w dowolnym momencie ustalić Twój status ryzyka w tle (zalecane). Powoduje to wyłączenie optymalizacji żywotności baterii tylko dla aplikacji Corona-Warn-App. Nie przewidujemy w takim przypadku znacznego spadku żywotności baterii urządzenia.\n\nJeśli nie zezwolisz na to ustawienie, aktualizacja statusu ryzyka będzie musiała być wykonywana w aplikacji ręcznie."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Włącz priorytetowe działanie w tle, aby aplikacja mogła w dowolnym momencie ustalić Twój status ryzyka w tle (zalecane). Powoduje to wyłączenie optymalizacji żywotności baterii tylko dla aplikacji Corona-Warn-App. Nie przewidujemy w takim przypadku znacznego spadku żywotności baterii urządzenia.\n\nJeśli nie chcesz zezwolić na to ustawienie, zalecamy otwieranie aplikacji ręcznie co najmniej raz na dobę."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Zezwól"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -428,7 +437,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Priorytetowe działanie w tle zostało wyłączone"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Pamiętaj, że w przypadku wyłączenia priorytetowego działania w tle konieczne jest otwieranie aplikacji raz dziennie w celu ręcznej aktualizacji statusu ryzyka.\n\nPriorytetowe działanie w tle można wyłączyć w ustawieniach w dowolnym momencie. "</string>
+    <string name="onboarding_manual_required_dialog_body">"Pamiętaj, że w przypadku wyłączenia priorytetowego działania w tle konieczne jest otwieranie aplikacji co najmniej raz na dobę w celu aktualizacji statusu ryzyka.\n\nPriorytetowe działanie w tle można wyłączyć w ustawieniach w dowolnym momencie."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->

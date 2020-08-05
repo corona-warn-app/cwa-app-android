@@ -144,6 +144,15 @@
         <item quantity="few">"%1$s expuneri cu risc redus"</item>
         <item quantity="many">"%1$s expuneri cu risc redus"</item>
     </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
+        <item quantity="one">"%1$s expunere"</item>
+        <item quantity="other">"%1$s de expuneri"</item>
+        <item quantity="zero">"Nicio expunere până acum"</item>
+        <item quantity="two">"%1$s expuneri"</item>
+        <item quantity="few">"%1$s expuneri"</item>
+        <item quantity="many">"%1$s expuneri"</item>
+    </plurals>
     <!-- XTXT: risk card - tracing active for x out of 14 days -->
     <string name="risk_card_body_saved_days">"În ultimele 14 zile, înregistrarea în jurnal a expunerilor a fost activă timp de %1$s zile."</string>
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
@@ -165,7 +174,7 @@
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">"Risc redus"</string>
     <!-- XHED: risk card - increased risk headline -->
-    <string name="risk_card_increased_risk_headline">"Risc mai mare"</string>
+    <string name="risk_card_increased_risk_headline">"Risc crescut"</string>
     <!-- XTXT: risk card - increased risk days since last contact -->
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s zi de la ultima întâlnire"</item>
@@ -243,7 +252,7 @@
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Poate fi afișată următoarea stare a riscului:"</string>
     <!-- XTXT: App overview increased risk level -->
-    <string name="main_overview_subtitle_increased_risk">"Risc mai mare"</string>
+    <string name="main_overview_subtitle_increased_risk">"Risc crescut"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Risc redus"</string>
     <!-- XTXT: App overview unknown risk level -->
@@ -265,7 +274,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Expuneri"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Întâlniri de o durată mai lungă și în strânsă proximitate cu persoane diagnosticate cu COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Întâlniri de o durată lungă și în strânsă proximitate cu o persoană diagnosticată cu COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Notificarea de expunere"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -337,7 +346,7 @@
         <item quantity="many">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu COVID-19."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
-    <string name="risk_details_information_body_notice">"Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe dispozitivul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
+    <string name="risk_details_information_body_notice">"Prin urmare, riscul dvs. de infectare a fost clasificat ca fiind crescut. Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe dispozitivul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane. Când ajungeți acasă, evitați contactul strâns cu membrii familiei sau cu cei din gospodăria dvs."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -420,7 +429,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Permiteți activitatea în fundal cu prioritate"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Activați activitatea în fundal cu prioritate pentru a-i permite aplicației să vă determine starea de risc în fundal în orice moment (setare recomandată). Această opțiune dezactivează optimizarea vieții bateriei doar pentru aplicația Corona-Warn. Nu ne așteptăm ca aceasta să cauzeze o reducere semnificativă a duratei de viață a bateriei.\n\nDacă nu permiteți această setare, va trebui să actualizați manual starea riscului dvs. în aplicație."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Activați activitatea în fundal cu prioritate pentru a-i permite aplicației să vă determine starea de risc în fundal în orice moment (setare recomandată). Această opțiune dezactivează optimizarea vieții bateriei doar pentru aplicația Corona-Warn. Nu ne așteptăm ca aceasta să cauzeze o reducere semnificativă a duratei de viață a bateriei.\n\nDacă nu permiteți această setare, vă recomandăm să deschideți manual aplicația cel puțin o dată la 24 de ore."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Permiteți"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -428,7 +437,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Activitatea în fundal cu prioritate este dezactivată"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Vă rugăm să rețineți că, având dezactivată activitatea în fundal cu prioritate, va trebui să deschideți aplicația o dată pe zi pentru a actualiza manual starea riscului dvs.\n\nPuteți oricând dezactiva activitatea în fundal cu prioritate din setările dispozitivului. "</string>
+    <string name="onboarding_manual_required_dialog_body">"Vă rugăm să rețineți că, având dezactivată activitatea în fundal cu prioritate, va trebui să deschideți manual aplicația cel puțin o dată la 24 de ore pentru a actualiza starea riscului dvs.\n\nPuteți oricând activa activitatea în fundal cu prioritate din setările dispozitivului."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
