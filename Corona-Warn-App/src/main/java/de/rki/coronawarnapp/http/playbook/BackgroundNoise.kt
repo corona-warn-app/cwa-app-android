@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.CoroutineScope
 import kotlin.random.Random
 
 class BackgroundNoise {
@@ -25,11 +24,11 @@ class BackgroundNoise {
         BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 
-    suspend fun foregroundScheduleCheck(coroutineScope: CoroutineScope) {
+    suspend fun foregroundScheduleCheck() {
         if (LocalData.isAllowedToSubmitDiagnosisKeys() == true) {
             val chance = Random.nextFloat() * 100
             if (chance < SubmissionConstants.probabilityToExecutePlaybookWhenOpenApp) {
-                PlaybookImpl(WebRequestBuilder.getInstance(), coroutineScope)
+                PlaybookImpl(WebRequestBuilder.getInstance())
                     .dummy()
             }
         }

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
-import kotlinx.coroutines.CoroutineScope
 
 /**
  * The SubmitDiagnosisKeysTransaction is used to define an atomic Transaction for Key Reports. Its states allow an
@@ -50,7 +49,6 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
-        coroutineScope: CoroutineScope,
         registrationToken: String,
         keys: List<TemporaryExposureKey>
     ) = lockAndExecuteUnique {
@@ -65,7 +63,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * RETRIEVE TAN & SUBMIT KEYS
          ****************************************************/
         executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
-            PlaybookImpl(WebRequestBuilder.getInstance(), coroutineScope).submission(
+            PlaybookImpl(WebRequestBuilder.getInstance()).submission(
                 registrationToken,
                 temporaryExposureKeyList
             )

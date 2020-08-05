@@ -18,16 +18,13 @@ import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkAll
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class SubmitDiagnosisKeysTransactionTest {
 
     @MockK
@@ -35,8 +32,6 @@ class SubmitDiagnosisKeysTransactionTest {
 
     @MockK
     private lateinit var backgroundNoise: BackgroundNoise
-
-    val pausedCoroutineScope = TestCoroutineScope().also { it.pauseDispatcher() }
 
     private val authString = "authString"
     private val registrationToken = "123"
@@ -66,7 +61,7 @@ class SubmitDiagnosisKeysTransactionTest {
         coEvery { webRequestBuilder.asyncSubmitKeysToServer(authString, listOf()) } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start(pausedCoroutineScope, registrationToken, listOf())
+            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf())
 
             coVerifyOrder {
                 webRequestBuilder.asyncSubmitKeysToServer(authString, listOf())
@@ -92,7 +87,7 @@ class SubmitDiagnosisKeysTransactionTest {
         } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start(pausedCoroutineScope, registrationToken, listOf(key))
+            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key))
 
             coVerifyOrder {
                 webRequestBuilder.asyncSubmitKeysToServer(authString, any())

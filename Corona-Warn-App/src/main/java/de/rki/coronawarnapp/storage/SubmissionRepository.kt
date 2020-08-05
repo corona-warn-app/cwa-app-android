@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.CoroutineScope
 import java.util.Date
 
 object SubmissionRepository {
@@ -15,7 +14,7 @@ object SubmissionRepository {
     val testResultReceivedDate = MutableLiveData(Date())
     val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)
 
-    suspend fun refreshUIState(coroutineScope: CoroutineScope) {
+    suspend fun refreshUIState() {
         var uiState = DeviceUIState.UNPAIRED
 
         if (LocalData.numberOfSuccessfulSubmissions() == 1) {
@@ -26,16 +25,16 @@ object SubmissionRepository {
                     LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
                         DeviceUIState.PAIRED_POSITIVE
                     }
-                    else -> fetchTestResult(coroutineScope)
+                    else -> fetchTestResult()
                 }
             }
         }
         deviceUIState.value = uiState
     }
 
-    private suspend fun fetchTestResult(coroutineScope: CoroutineScope): DeviceUIState {
+    private suspend fun fetchTestResult(): DeviceUIState {
         try {
-            val testResult = SubmissionService.asyncRequestTestResult(coroutineScope)
+            val testResult = SubmissionService.asyncRequestTestResult()
 
             if (testResult == TestResult.POSITIVE) {
                 LocalData.isAllowedToSubmitDiagnosisKeys(true)

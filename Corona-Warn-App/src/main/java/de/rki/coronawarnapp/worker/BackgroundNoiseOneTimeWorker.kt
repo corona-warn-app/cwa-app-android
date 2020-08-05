@@ -5,7 +5,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
-import kotlinx.coroutines.coroutineScope
 
 /**
  * One time background noise worker
@@ -27,11 +26,11 @@ class BackgroundNoiseOneTimeWorker(
      *
      * @return Result
      */
-    override suspend fun doWork(): Result = coroutineScope {
+    override suspend fun doWork(): Result {
         var result = Result.success()
 
         try {
-            PlaybookImpl(WebRequestBuilder.getInstance(), this)
+            PlaybookImpl(WebRequestBuilder.getInstance())
                 .dummy()
         } catch (e: Exception) {
             // TODO: Should we even retry here?
@@ -42,6 +41,6 @@ class BackgroundNoiseOneTimeWorker(
             }
         }
 
-        return@coroutineScope result
+        return result
     }
 }

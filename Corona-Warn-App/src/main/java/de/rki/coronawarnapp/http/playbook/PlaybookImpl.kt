@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.util.formatter.TestResult
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -14,11 +15,11 @@ import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 class PlaybookImpl(
-    private val webRequestBuilder: WebRequestBuilder,
-    private val coroutineScope: CoroutineScope
+    private val webRequestBuilder: WebRequestBuilder
 ) : Playbook {
 
     private val uid = UUID.randomUUID().toString()
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     override suspend fun initialRegistration(key: String, keyType: KeyType): String {
         Timber.i("[$uid] New Initial Registration Playbook")
