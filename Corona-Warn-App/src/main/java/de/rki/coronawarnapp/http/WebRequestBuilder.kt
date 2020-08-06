@@ -219,7 +219,7 @@ class WebRequestBuilder(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
             "0",
-            requestPadding(0),
+            SubmissionConstants.EMPTY_HEADER,
             submissionPayload
         )
         return@withContext
@@ -239,7 +239,7 @@ class WebRequestBuilder(
 
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
-            "",
+            SubmissionConstants.EMPTY_HEADER,
             "1",
             requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
             submissionPayload

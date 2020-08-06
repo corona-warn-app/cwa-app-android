@@ -20,6 +20,8 @@ object SubmissionConstants {
 
     const val SERVER_ERROR_CODE_400 = 400
 
+    const val EMPTY_HEADER = ""
+
     // padding registration token
     private const val VERIFICATION_BODY_FILL = 139
 
