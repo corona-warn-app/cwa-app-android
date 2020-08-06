@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.worker
 
+import androidx.core.app.NotificationCompat
 import androidx.work.Constraints
 import androidx.work.NetworkType
+import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
 
 /**
  * Singleton class for background work helper functions
@@ -60,4 +63,17 @@ object BackgroundWorkHelper {
             .Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
+
+    /**
+     * Send debug notification to check background jobs execution
+     *
+     * @param title: String
+     * @param content: String
+     *
+     * @see LocalData.backgroundNotification()
+     */
+    fun sendDebugNotification(title: String, content: String) {
+        if (!LocalData.backgroundNotification()) return
+        NotificationHelper.sendNotification(title, content, NotificationCompat.PRIORITY_HIGH, true)
+    }
 }

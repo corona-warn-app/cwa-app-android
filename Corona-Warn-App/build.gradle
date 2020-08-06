@@ -33,11 +33,12 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 34
-        versionName "1.1.1"
+        versionCode 35
+        versionName "1.2.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-        resConfigs "de", "en", "tr"
+        resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
         buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
@@ -124,13 +125,8 @@ android {
     }
 
     buildFeatures {
-        dataBinding {
-            enabled true
-        }
-
-        viewBinding {
-            enabled true
-        }
+        dataBinding true
+        viewBinding true
     }
 
     compileOptions {
@@ -247,6 +243,7 @@ dependencies {
 
     // TESTING
     testImplementation 'junit:junit:4.13'
+    testImplementation "android.arch.core:core-testing:1.1.1"
     testImplementation "org.mockito:mockito-core:3.3.3"
     testImplementation('org.robolectric:robolectric:4.3.1') {
         exclude group: 'com.google.protobuf'
@@ -269,7 +266,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-basement:17.3.0'
     implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
     implementation 'com.google.android.gms:play-services-tasks:17.1.0'
-    api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.2-eap.aar'])
+    api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.3-eap.aar'])
 
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyService
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
@@ -30,6 +31,8 @@ class SubmitDiagnosisKeysTransactionTest {
         mockkObject(SubmissionService)
         mockkObject(InternalExposureNotificationClient)
         mockkObject(DiagnosisKeyService)
+        mockkObject(BackgroundWorkScheduler)
+        every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
         every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
         coEvery { SubmissionService.asyncRequestAuthCode(any()) } returns authString
     }

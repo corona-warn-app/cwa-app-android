@@ -73,6 +73,30 @@ object LocalData {
                 .getString(R.string.preference_onboarding_completed_timestamp), value
         )
     }
+
+    /**
+     * Gets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_check_done),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_check_done), value
+        )
+    }
     /****************************************************
      * TRACING DATA
      ****************************************************/
@@ -666,6 +690,19 @@ object LocalData {
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext()
             .getString(R.string.preference_last_three_hours_from_server), false
+    )
+
+    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_notification),
+            value
+        )
+    }
+
+    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_background_notification), false
     )
 
     /****************************************************
