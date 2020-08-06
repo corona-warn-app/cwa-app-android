@@ -32,23 +32,15 @@ class VerificationServiceTest {
         webRequestBuilder.asyncGetRegistrationToken(teletanExample, KeyType.TELETAN)
 
         server.enqueue(MockResponse().setBody("{}"))
-        webRequestBuilder.asyncFakeGetRegistrationToken()
-
-        server.enqueue(MockResponse().setBody("{}"))
         webRequestBuilder.asyncGetTestResult(registrationTokenExample)
-
-        server.enqueue(MockResponse().setBody("{}"))
-        webRequestBuilder.asyncFakeGetTestResult()
 
         server.enqueue(MockResponse().setBody("{}"))
         webRequestBuilder.asyncGetTan(registrationTokenExample)
 
         server.enqueue(MockResponse().setBody("{}"))
-        webRequestBuilder.asyncFakeGetTan()
+        webRequestBuilder.asyncFakeVerification()
 
         val requests = listOf(
-            server.takeRequest(),
-            server.takeRequest(),
             server.takeRequest(),
             server.takeRequest(),
             server.takeRequest(),
@@ -57,7 +49,7 @@ class VerificationServiceTest {
         )
 
         // ensure all request have same size (header & body)
-        requests.forEach { assertThat(it.bodySize, equalTo(1000L)) }
+        requests.forEach { assertThat(it.bodySize, equalTo(250L)) }
 
         requests.zipWithNext().forEach { (a, b) ->
             assertThat(

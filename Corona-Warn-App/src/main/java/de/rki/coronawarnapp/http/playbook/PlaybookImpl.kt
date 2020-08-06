@@ -28,11 +28,11 @@ class PlaybookImpl(
         val (registrationToken, exception) =
             executeCapturingExceptions { webRequestBuilder.asyncGetRegistrationToken(key, keyType) }
 
-        // fake test result
-        ignoreExceptions { webRequestBuilder.asyncFakeGetTestResult() }
+        // fake verification
+        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
 
         // fake submission
-        ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
+        ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
@@ -46,11 +46,11 @@ class PlaybookImpl(
         val (testResult, exception) =
             executeCapturingExceptions { webRequestBuilder.asyncGetTestResult(registrationToken) }
 
-        // fake registration
-        ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
+        // fake verification
+        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
 
         // fake submission
-        ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
+        ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
@@ -71,29 +71,29 @@ class PlaybookImpl(
             )
         }
 
-        // fake registration
-        ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
+        // fake verification
+        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
 
         // real submission
         if (authCode != null) {
             webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
             coroutineScope.launch { followUpPlaybooks() }
         } else {
-            webRequestBuilder.asyncFakeSubmitKeysToServer()
+            webRequestBuilder.asyncFakeSubmission()
             coroutineScope.launch { followUpPlaybooks() }
             propagateException(exception)
         }
     }
 
     private suspend fun dummy(launchFollowUp: Boolean) {
-        // fake registration
-        ignoreExceptions { webRequestBuilder.asyncFakeGetRegistrationToken() }
+        // fake verification
+        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
 
-        // fake test result
-        ignoreExceptions { webRequestBuilder.asyncFakeGetTestResult() }
+        // fake verification
+        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
 
         // fake submission
-        ignoreExceptions { webRequestBuilder.asyncFakeSubmitKeysToServer() }
+        ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
 
         if (launchFollowUp)
             coroutineScope.launch { followUpPlaybooks() }

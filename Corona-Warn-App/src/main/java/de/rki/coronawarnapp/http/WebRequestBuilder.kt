@@ -160,19 +160,6 @@ class WebRequestBuilder(
         ).registrationToken
     }
 
-    suspend fun asyncFakeGetRegistrationToken() = withContext(Dispatchers.IO) {
-        verificationService.getRegistrationToken(
-            SubmissionConstants.REGISTRATION_TOKEN_URL,
-            "1",
-            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
-            RegistrationTokenRequest(
-                requestPadding = requestPadding(
-                    SubmissionConstants.PADDING_LENGTH_BODY_REGISTRATION_TOKEN_FAKE
-                )
-            )
-        )
-    }
-
     suspend fun asyncGetTestResult(
         registrationToken: String
     ): Int = withContext(Dispatchers.IO) {
@@ -185,17 +172,6 @@ class WebRequestBuilder(
                 requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TEST_RESULT)
             )
         ).testResult
-    }
-
-    suspend fun asyncFakeGetTestResult() = withContext(Dispatchers.IO) {
-        verificationService.getTestResult(
-            SubmissionConstants.TEST_RESULT_URL,
-            "1",
-            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_TEST_RESULT),
-            RegistrationRequest(
-                requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TEST_RESULT_FAKE)
-            )
-        )
     }
 
     suspend fun asyncGetTan(
@@ -212,12 +188,15 @@ class WebRequestBuilder(
         ).tan
     }
 
-    suspend fun asyncFakeGetTan() = withContext(Dispatchers.IO) {
+    suspend fun asyncFakeVerification() = withContext(Dispatchers.IO) {
         verificationService.getTAN(
             SubmissionConstants.TAN_REQUEST_URL,
             "1",
             requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_TAN),
-            TanRequestBody(requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TAN_FAKE))
+            TanRequestBody(
+                registrationToken = SubmissionConstants.DUMMY_REGISTRATION_TOKEN,
+                requestPadding = requestPadding(SubmissionConstants.PADDING_LENGTH_BODY_TAN_FAKE)
+            )
         )
     }
 
@@ -227,7 +206,9 @@ class WebRequestBuilder(
     ) = withContext(Dispatchers.IO) {
         Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
 
-        val fakeKeyCount = max(SubmissionConstants.minKeyCountForSubmission - keyList.size, 0)
+        val randomAdditions = 0 // prepare for random addition of keys
+        val fakeKeyCount =
+            max(SubmissionConstants.minKeyCountForSubmission + randomAdditions - keyList.size, 0)
         val fakeKeyPadding = requestPadding(SubmissionConstants.fakeKeySize * fakeKeyCount)
 
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
@@ -238,15 +219,19 @@ class WebRequestBuilder(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
             authCode,
             "0",
-            requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_SUBMISSION),
+            requestPadding(0),
             submissionPayload
         )
         return@withContext
     }
 
-    suspend fun asyncFakeSubmitKeysToServer() = withContext(Dispatchers.IO) {
+    suspend fun asyncFakeSubmission() = withContext(Dispatchers.IO) {
+
+        val randomAdditions = 0 // prepare for random addition of keys
+        val fakeKeyCount = SubmissionConstants.minKeyCountForSubmission + randomAdditions
+
         val fakeKeyPadding =
-            requestPadding(SubmissionConstants.fakeKeySize * SubmissionConstants.minKeyCountForSubmission)
+            requestPadding(SubmissionConstants.fakeKeySize * fakeKeyCount)
 
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
@@ -254,7 +239,7 @@ class WebRequestBuilder(
 
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,
-            null,
+            "",
             "1",
             requestPadding(SubmissionConstants.PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
             submissionPayload

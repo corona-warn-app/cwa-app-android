@@ -25,7 +25,7 @@ class SubmissionServiceTest {
         webRequestBuilder.asyncSubmitKeysToServer(authCodeExample, listOf())
 
         server.enqueue(MockResponse().setBody("{}"))
-        webRequestBuilder.asyncFakeSubmitKeysToServer()
+        webRequestBuilder.asyncFakeSubmission()
 
         val requests = listOf(
             server.takeRequest(),

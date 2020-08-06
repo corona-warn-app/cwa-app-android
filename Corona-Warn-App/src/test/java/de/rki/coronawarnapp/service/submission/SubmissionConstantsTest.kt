@@ -20,5 +20,11 @@ class SubmissionConstantsTest {
         Assert.assertEquals(SubmissionConstants.GUID_SEPARATOR, '?')
 
         Assert.assertEquals(SubmissionConstants.SERVER_ERROR_CODE_400, 400)
+
+        // dummy token passes server verification
+        Assert.assertTrue(
+            Regex("^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}\$")
+                .matches(SubmissionConstants.DUMMY_REGISTRATION_TOKEN)
+        )
     }
 }
