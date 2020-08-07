@@ -31,9 +31,7 @@ import de.rki.coronawarnapp.exception.CwaSecurityException
 import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
-import de.rki.coronawarnapp.util.security.SecurityConstants.DIGEST_ALGORITHM
 import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
-import java.security.MessageDigest
 import java.security.SecureRandom
 
 /**
@@ -109,11 +107,6 @@ object SecurityHelper {
         secureRandom.nextBytes(password)
         return password
     }
-
-    fun hash256(input: String): String = MessageDigest
-        .getInstance(DIGEST_ALGORITHM)
-        .digest(input.toByteArray())
-        .fold("", { str, it -> str + "%02x".format(it) })
 
     fun <T> withSecurityCatch(doInCatch: () -> T) = try {
         doInCatch.invoke()
