@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
 
@@ -115,6 +117,23 @@ class SubmissionTestResultFragment : Fragment() {
         submissionViewModel.uiStateError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
+
+        submissionViewModel.deviceUiState.observe(viewLifecycleOwner, Observer { uiState ->
+            if (uiState == DeviceUIState.PAIRED_REDEEMED) {
+                showRedeemedTokenWarningDialog()
+            }
+        })
+    }
+
+    private fun showRedeemedTokenWarningDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_error_dialog_web_tan_redeemed_title,
+            R.string.submission_error_dialog_web_tan_redeemed_body,
+            R.string.submission_error_dialog_web_tan_redeemed_button_positive
+        )
+
+        DialogHelper.showDialog(dialog)
     }
 
     override fun onResume() {

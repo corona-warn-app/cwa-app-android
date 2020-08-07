@@ -58,6 +58,7 @@ object SubmissionRepository {
                 TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
                 TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
                 TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
+                TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
             }
         } catch (err: NoRegistrationTokenSetException) {
             return DeviceUIState.UNPAIRED
