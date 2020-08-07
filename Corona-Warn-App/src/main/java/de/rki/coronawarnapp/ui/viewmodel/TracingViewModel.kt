@@ -158,8 +158,11 @@ class TracingViewModel : ViewModel() {
     fun refreshExposureSummary() {
         viewModelScope.launch {
             try {
-                ExposureSummaryRepository.getExposureSummaryRepository()
-                    .getLatestExposureSummary()
+                val token = LocalData.googleApiToken()
+                if (token != null) {
+                    ExposureSummaryRepository.getExposureSummaryRepository()
+                        .getLatestExposureSummary(token)
+                }
                 Timber.v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(
