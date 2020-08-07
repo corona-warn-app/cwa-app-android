@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.storage
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 
 class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryDao) {
     companion object {
@@ -46,13 +47,12 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
             ExposureSummaryRepository.daysSinceLastExposure.postValue(daysSinceLastExposure)
         }
 
-    suspend fun getLatestExposureSummary() = exposureSummaryDao
-        .getLatestExposureSummary()
-        ?.convertToExposureSummary()
-        .also {
-            matchedKeyCount.postValue(it?.matchedKeyCount)
-            daysSinceLastExposure.postValue(it?.daysSinceLastExposure)
-        }
+    suspend fun getLatestExposureSummary(token: String) =
+        InternalExposureNotificationClient.asyncGetExposureSummary(token)
+            .also {
+                matchedKeyCount.postValue(it.matchedKeyCount)
+                daysSinceLastExposure.postValue(it.daysSinceLastExposure)
+            }
 
     private fun ExposureSummaryEntity.convertToExposureSummary() =
         ExposureSummary.ExposureSummaryBuilder()
