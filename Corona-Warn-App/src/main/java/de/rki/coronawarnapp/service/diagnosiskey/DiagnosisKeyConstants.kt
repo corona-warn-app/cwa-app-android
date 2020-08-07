@@ -20,9 +20,7 @@
 package de.rki.coronawarnapp.service.diagnosiskey
 
 /**
- * The Diagnosis Key constants are used inside the DiagnosisKeyService
- *
- * @see DiagnosisKeyService
+ * The Diagnosis Key constants
  */
 object DiagnosisKeyConstants {
     /** version resource variable for REST-like Service Calls */
@@ -51,10 +49,10 @@ object DiagnosisKeyConstants {
     private var CURRENT_COUNTRY = "DE"
 
     /** Distribution URL built from CDN URL's and REST resources */
-    private var VERSIONED_DISTRIBUTION_CDN_URL = "/$VERSION/$CURRENT_VERSION"
+    private var VERSIONED_DISTRIBUTION_CDN_URL = "$VERSION/$CURRENT_VERSION"
 
     /** Submission URL built from CDN URL's and REST resources */
-    private var VERSIONED_SUBMISSION_CDN_URL = "/$VERSION/$CURRENT_VERSION"
+    private var VERSIONED_SUBMISSION_CDN_URL = "$VERSION/$CURRENT_VERSION"
 
     /** Parameter Download URL built from CDN URL's and REST resources */
     private val PARAMETERS_DOWNLOAD_URL = "$VERSIONED_DISTRIBUTION_CDN_URL/$PARAMETERS"
