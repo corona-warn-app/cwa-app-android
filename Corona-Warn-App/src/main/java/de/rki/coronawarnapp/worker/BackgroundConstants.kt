@@ -25,6 +25,16 @@ object BackgroundConstants {
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG = "DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER"
 
     /**
+     * Tag for background noise playbook periodic work
+     */
+    const val BACKGROUND_NOISE_PERIODIC_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
+
+    /**
+     * Tag for background noise playbook one time work
+     */
+    const val BACKGROUND_NOISE_ONE_TIME_WORKER_TAG = "BACKGROUND_NOISE_PERIODIC_WORKER"
+
+    /**
      * Unique name for diagnosis key retrieval one time work
      */
     const val DIAGNOSIS_KEY_ONE_TIME_WORK_NAME = "DiagnosisKeyBackgroundOneTimeWork"
@@ -40,6 +50,16 @@ object BackgroundConstants {
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME = "DiagnosisTestResultBackgroundPeriodicWork"
 
     /**
+     * Unique name for background noise playbook periodic work
+     */
+    const val BACKGROUND_NOISE_PERIODIC_WORK_NAME = "BackgroundNoisePeriodicWork"
+
+    /**
+     * Unique name for background noise playbook one time work
+     */
+    const val BACKGROUND_NOISE_ONE_TIME_WORK_NAME = "BackgroundNoiseOneTimeWork"
+
+    /**
      * Total minutes in one day
      */
     const val MINUTES_IN_DAY = 1440
@@ -48,7 +68,7 @@ object BackgroundConstants {
      * Total tries count for diagnosis key retrieval per day
      * Internal requirement
      */
-    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 1
+    const val DIAGNOSIS_KEY_RETRIEVAL_TRIES_PER_DAY = 12
 
     /**
      * Maximum tries count for diagnosis key retrieval per day
@@ -77,41 +97,9 @@ object BackgroundConstants {
     const val DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY = 10L
 
     /**
-     * Minimum initial delay in minutes for diagnosis key retrieval one time work
-     *
-     * @see DiagnosisKeyRetrievalTimeCalculator.getPossibleSchedulingTimes
-     * @see TimeUnit.MINUTES
-     */
-    const val DIAGNOSIS_KEY_RETRIEVAL_MIN_DELAY = 0
-
-    /**
-     * Maximum initial delay in minutes for diagnosis key retrieval one time work
-     *
-     * @see DiagnosisKeyRetrievalTimeCalculator.getPossibleSchedulingTimes
-     * @see TimeUnit.MINUTES
-     */
-    const val DIAGNOSIS_KEY_RETRIEVAL_MAX_DELAY = 59
-
-    /**
-     * Time schedule start in minutes of day
-     * 07:00 = 420 minutes passed midnight
-     *
-     * @see TimeUnit.MINUTES
-     */
-    const val TIME_RANGE_MIN = 420
-
-    /**
-     * Time schedule stop in minutes of day
-     * 23:59 = 1439 minutes passed midnight
-     *
-     * @see TimeUnit.MINUTES
-     */
-    const val TIME_RANGE_MAX = 1439
-
-    /**
      * Retries before work would set as FAILED
      */
-    const val WORKER_RETRY_COUNT_THRESHOLD = 3
+    const val WORKER_RETRY_COUNT_THRESHOLD = 2
 
     /**
      * The maximum validity in days for keeping Background polling active
@@ -119,4 +107,32 @@ object BackgroundConstants {
      * @see TimeUnit.DAYS
      */
     const val POLLING_VALIDITY_MAX_DAYS = 21
+
+    /**
+     * Backoff initial delay
+     *
+     * @see TimeUnit.MINUTES
+     */
+    const val BACKOFF_INITIAL_DELAY = 8L
+
+    /**
+     * The minimum time in hours to wait between playbook executions
+     *
+     * @see TimeUnit.HOURS
+     */
+    const val MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 4L
+
+    /**
+     * The maximum time in hours to wait between playbook executions
+     *
+     * @see TimeUnit.HOURS
+     */
+    const val MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 12L
+
+    /**
+     * The total time in days to run the playbook
+     *
+     * @see TimeUnit.DAYS
+     */
+    const val NUMBER_OF_DAYS_TO_RUN_PLAYBOOK = 16
 }

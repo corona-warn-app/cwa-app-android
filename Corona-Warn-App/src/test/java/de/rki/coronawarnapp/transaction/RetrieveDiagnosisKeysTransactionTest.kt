@@ -19,6 +19,7 @@ import org.junit.Test
 import java.io.File
 import java.nio.file.Paths
 import java.util.Date
+import java.util.UUID
 
 /**
  * RetrieveDiagnosisKeysTransaction test.
@@ -44,6 +45,7 @@ class RetrieveDiagnosisKeysTransactionTest {
         every { LocalData.googleApiToken(any()) } just Runs
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch(any()) } just Runs
+        every { LocalData.googleApiToken() } returns UUID.randomUUID().toString()
     }
 
     @Test

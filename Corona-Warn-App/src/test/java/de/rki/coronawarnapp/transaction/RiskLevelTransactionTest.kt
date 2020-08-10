@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClass
@@ -33,6 +34,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class RiskLevelTransactionTest {
@@ -67,6 +69,7 @@ class RiskLevelTransactionTest {
         every { RiskLevel.riskLevelChangedBetweenLowAndHigh(any(), any()) } returns false
         every { LocalData.lastTimeRiskLevelCalculation() } returns System.currentTimeMillis()
         every { LocalData.lastTimeRiskLevelCalculation(any()) } just Runs
+        every { LocalData.googleApiToken() } returns UUID.randomUUID().toString()
         every { ConnectivityHelper.isNetworkEnabled(any()) } returns true
         every { CoronaWarnApplication.getAppContext() } returns context
     }
@@ -150,6 +153,57 @@ class RiskLevelTransactionTest {
             TimeVariables.getMinActivatedTracingTime().plus(1).toLong()
         )
 
+        // background jobs are enabled
+        every { ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext()) } returns true
+
+        runBlocking {
+
+            RiskLevelTransaction.start()
+
+            coVerifyOrder {
+                RiskLevelTransaction.start()
+
+                RiskLevelTransaction["executeCheckTracing"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskInitialNoKeys"]()
+                RiskLevelTransaction["isValidResult"](UNDETERMINED)
+
+                RiskLevelTransaction["executeCheckUnknownRiskOutdatedResults"]()
+                RiskLevelTransaction["isValidResult"](testRiskLevel)
+
+                RiskLevelRepository.setRiskLevelScore(testRiskLevel)
+                RiskLevelTransaction["executeRiskLevelCalculationDateUpdate"]()
+                RiskLevelTransaction["executeClose"]()
+            }
+        }
+    }
+
+    /** Test case for [UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL] if keys are outdated and background
+     * jobs are disabled */
+    @Test
+    fun unknownRiskOutdatedResultsManual() {
+
+        val testRiskLevel = UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+
+        val twoHoursAboveMaxStale =
+            TimeUnit.HOURS.toMillis(TimeVariables.getMaxStaleExposureRiskRange().plus(2).toLong())
+
+        // tracing is activated
+        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
+
+        // the last time we fetched keys from the server is above the threshold
+        every { TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() } returns System.currentTimeMillis()
+            .minus(twoHoursAboveMaxStale)
+
+        // active tracing time is 1h above the threshold
+        every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(
+            TimeVariables.getMinActivatedTracingTime().plus(1).toLong()
+        )
+
+        // background jobs are disabled
+        every { ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext()) } returns false
+
         runBlocking {
 
             RiskLevelTransaction.start()
@@ -195,7 +249,7 @@ class RiskLevelTransactionTest {
 
         // the risk score of the last exposure summary is above the high min threshold
         coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
-        coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
+        coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns testExposureSummary
 
         runBlocking {
 
@@ -257,7 +311,7 @@ class RiskLevelTransactionTest {
 
         // the exposure summary risk score is not below high min score
         coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
-        coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
+        coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns testExposureSummary
 
         runBlocking {
 
@@ -321,7 +375,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
         coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
-        coEvery { esRepositoryMock.getLatestExposureSummary() } returns testExposureSummary
+        coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns testExposureSummary
 
         runBlocking {
 

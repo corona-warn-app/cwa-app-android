@@ -11,12 +11,12 @@ object ProtoFormatConverterExtensions {
     private const val DEFAULT_TRANSMISSION_RISK_LEVEL = 1
     private const val TRANSMISSION_RISK_DAY_0 = 5
     private const val TRANSMISSION_RISK_DAY_1 = 6
-    private const val TRANSMISSION_RISK_DAY_2 = 7
+    private const val TRANSMISSION_RISK_DAY_2 = 8
     private const val TRANSMISSION_RISK_DAY_3 = 8
-    private const val TRANSMISSION_RISK_DAY_4 = 7
+    private const val TRANSMISSION_RISK_DAY_4 = 8
     private const val TRANSMISSION_RISK_DAY_5 = 5
     private const val TRANSMISSION_RISK_DAY_6 = 3
-    private const val TRANSMISSION_RISK_DAY_7 = 2
+    private const val TRANSMISSION_RISK_DAY_7 = 1
     private val DEFAULT_TRANSMISSION_RISK_VECTOR = intArrayOf(
         TRANSMISSION_RISK_DAY_0,
         TRANSMISSION_RISK_DAY_1,
@@ -30,12 +30,12 @@ object ProtoFormatConverterExtensions {
     private const val MAXIMUM_KEYS = 14
 
     fun List<TemporaryExposureKey>.limitKeyCount() =
-        this.sortedWith(compareBy { it.rollingStartIntervalNumber }).asReversed().take(MAXIMUM_KEYS)
+        this.sortedWith(compareByDescending { it.rollingStartIntervalNumber }).take(MAXIMUM_KEYS)
 
     fun List<TemporaryExposureKey>.transformKeyHistoryToExternalFormat() =
-        this.sortedWith(compareBy { it.rollingStartIntervalNumber })
+        this.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
             .mapIndexed { index, it ->
-                // The earliest key we receive is from yesterday (i.e. 1 day ago),
+                // The latest key we receive is from yesterday (i.e. 1 day ago),
                 // thus we need use index+1
                 val riskValue =
                     if (index + 1 <= DEFAULT_TRANSMISSION_RISK_VECTOR.lastIndex)

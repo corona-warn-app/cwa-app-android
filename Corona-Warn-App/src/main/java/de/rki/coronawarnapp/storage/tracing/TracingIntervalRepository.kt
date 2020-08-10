@@ -39,6 +39,10 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
                         .also { instance = it }
             }
 
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
+
         fun getDateRepository(context: Context): TracingIntervalRepository {
             return getInstance(
                 AppDatabase.getInstance(context.applicationContext)
@@ -49,7 +53,7 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
 
     suspend fun createInterval(from: Long, to: Long) {
         Timber.v("Insert Tracing Interval $from, $to")
-        if (to < from) throw IllegalArgumentException("to cannot be after or equal from")
+        if (to < from) throw IllegalArgumentException("to cannot be before from")
         tracingIntervalDao.insertInterval(TracingIntervalEntity().apply {
             this.from = from
             this.to = to

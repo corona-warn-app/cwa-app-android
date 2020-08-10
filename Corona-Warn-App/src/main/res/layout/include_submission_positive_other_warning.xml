@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,8 +20,7 @@
                 android:id="@+id/submission_positive_other_warning_hero_illustration"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/submission_positive_other_illustration_description"
-                android:importantForAccessibility="no"
+                android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/submission_positive_other_illustration_description)}"
                 android:src="@drawable/ic_submission_illustration_other_warning"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

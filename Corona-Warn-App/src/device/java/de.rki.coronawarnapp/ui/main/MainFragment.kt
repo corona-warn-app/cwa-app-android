@@ -8,15 +8,22 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainBinding
+import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -62,6 +69,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
         setContentDescription()
+
+        showOneTimeTracingExplanationDialog()
     }
 
     override fun onResume() {
@@ -168,5 +177,45 @@ class MainFragment : Fragment() {
             }
         }
         popup.show()
+    }
+
+    private fun showOneTimeTracingExplanationDialog() {
+
+        // check if the dialog explaining the tracing time was already shown
+        if (!LocalData.tracingExplanationDialogWasShown()) {
+
+            val activity = this.requireActivity()
+
+            lifecycleScope.launch {
+
+                // get all text strings and the current active tracing time
+                val infoPeriodLogged =
+                    getString(R.string.risk_details_information_body_period_logged)
+                val infoPeriodLoggedAssessment =
+                    getString(
+                        R.string.risk_details_information_body_period_logged_assessment,
+                        (TimeVariables.getActiveTracingDaysInRetentionPeriod()).toString()
+                    )
+                val infoFAQ = getString(R.string.risk_details_explanation_dialog_faq_body)
+
+                withContext(Dispatchers.Main) {
+
+                    // display the dialog
+                    DialogHelper.showDialog(
+                        DialogHelper.DialogInstance(
+                            activity,
+                            getString(R.string.risk_details_explanation_dialog_title),
+                            "$infoPeriodLogged\n\n$infoPeriodLoggedAssessment\n\n$infoFAQ",
+                            getString(R.string.errors_generic_button_positive),
+                            null,
+                            null,
+                            {
+                                LocalData.tracingExplanationDialogWasShown(true)
+                            },
+                            {}
+                        ))
+                }
+            }
+        }
     }
 }

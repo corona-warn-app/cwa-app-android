@@ -14,11 +14,11 @@ import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_APP_CONNECTIVITY
@@ -299,8 +299,16 @@ object RiskLevelTransaction : Transaction() {
             if (timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
             ) {
-                return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
-                    Timber.v("diagnosis keys outdated and active tracing time is above threshold")
+                if (ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())) {
+                    return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
+                        Timber.v("diagnosis keys outdated and active tracing time is above threshold")
+                        Timber.v("manual mode not active (background jobs enabled)")
+                    }
+                } else {
+                    return@executeState UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL.also {
+                        Timber.v("diagnosis keys outdated and active tracing time is above threshold")
+                        Timber.v("manual mode active (background jobs disabled)")
+                    }
                 }
             }
 
@@ -346,9 +354,9 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun executeRetrieveExposureSummary(): ExposureSummary =
         executeState(RETRIEVE_EXPOSURE_SUMMARY) {
-            val lastExposureSummary = getLastExposureSummary() ?: getNewExposureSummary()
+            val exposureSummary = getNewExposureSummary()
 
-            return@executeState lastExposureSummary.also {
+            return@executeState exposureSummary.also {
                 Timber.v(TAG, "$transactionId - get the exposure summary for further calculation")
             }
         }
@@ -458,20 +466,6 @@ object RiskLevelTransaction : Transaction() {
     }
 
     /**
-     * Returns the last stored ExposureSummary from the storage.
-     * The ExposureSummary will be updated in the [de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver]
-     * once the BroadcastReceiver is triggered from the Google Exposure Notification API
-     *
-     * @return exposure summary from Google Exposure Notification API
-     */
-    private suspend fun getLastExposureSummary(): ExposureSummary? {
-        return ExposureSummaryRepository.getExposureSummaryRepository()
-            .getLatestExposureSummary().also {
-                Timber.v("used exposure summary for the risk level calculation: $it")
-            }
-    }
-
-    /**
      * Make a call to the backend to retrieve the current application configuration values
      *
      * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
@@ -530,9 +524,6 @@ object RiskLevelTransaction : Transaction() {
 
         val exposureSummary =
             InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
-
-        ExposureSummaryRepository.getExposureSummaryRepository()
-            .insertExposureSummaryEntity(exposureSummary)
 
         return exposureSummary.also {
             Timber.v("$transactionId - generated new exposure summary with $googleToken")

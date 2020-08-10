@@ -31,6 +31,16 @@ object RiskLevelRepository {
     }
 
     /**
+     * Resets the data in the [RiskLevelRepository]
+     *
+     * @see de.rki.coronawarnapp.util.DataRetentionHelper
+     *
+     */
+    fun reset() {
+        riskLevelScore.postValue(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
+    }
+
+    /**
      * Set the current risk level from the last calculated risk level.
      * This is necessary if the app has no connectivity and the risk level transaction
      * fails.

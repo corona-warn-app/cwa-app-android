@@ -54,7 +54,7 @@ object ApplicationConfigurationService {
                 this.exposureConfig.attenuation.gt27Le33DbmValue,
                 this.exposureConfig.attenuation.gt15Le27DbmValue,
                 this.exposureConfig.attenuation.gt10Le15DbmValue,
-                this.exposureConfig.attenuation.lt10DbmValue
+                this.exposureConfig.attenuation.le10DbmValue
             )
             .setMinimumRiskScore(this.minRiskScore)
             .setDurationAtAttenuationThresholds(

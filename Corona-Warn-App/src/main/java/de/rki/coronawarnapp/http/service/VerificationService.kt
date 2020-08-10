@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.http.service
 
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
-import de.rki.coronawarnapp.http.requests.ReqistrationRequest
+import de.rki.coronawarnapp.http.requests.RegistrationRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
 import de.rki.coronawarnapp.http.responses.RegistrationTokenResponse
 import de.rki.coronawarnapp.http.responses.TanResponse
@@ -17,6 +17,7 @@ interface VerificationService {
     suspend fun getRegistrationToken(
         @Url url: String,
         @Header("cwa-fake") fake: String,
+        @Header("cwa-header-padding") headerPadding: String?,
         @Body requestBody: RegistrationTokenRequest
     ): RegistrationTokenResponse
 
@@ -24,13 +25,15 @@ interface VerificationService {
     suspend fun getTestResult(
         @Url url: String,
         @Header("cwa-fake") fake: String,
-        @Body request: ReqistrationRequest
+        @Header("cwa-header-padding") headerPadding: String?,
+        @Body request: RegistrationRequest
     ): TestResultResponse
 
     @POST
     suspend fun getTAN(
         @Url url: String,
         @Header("cwa-fake") fake: String,
+        @Header("cwa-header-padding") headerPadding: String?,
         @Body requestBody: TanRequestBody
     ): TanResponse
 }

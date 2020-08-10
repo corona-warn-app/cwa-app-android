@@ -21,7 +21,7 @@ package de.rki.coronawarnapp.storage.keycache
 
 import android.content.Context
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.FileStorageHelper.isOutdated
+import timber.log.Timber
 import java.io.File
 import java.net.URI
 
@@ -36,6 +36,10 @@ class KeyCacheRepository(private val keyCacheDao: KeyCacheDao) {
                     ?: KeyCacheRepository(keyCacheDao)
                         .also { instance = it }
             }
+
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
 
         fun getDateRepository(context: Context): KeyCacheRepository {
             return getInstance(
@@ -58,13 +62,16 @@ class KeyCacheRepository(private val keyCacheDao: KeyCacheDao) {
         }
     )
 
-    suspend fun deleteOutdatedEntries() = keyCacheDao.getAllEntries().forEach {
-        val file = File(it.path)
-        if (file.isOutdated() || !file.exists()) {
-            deleteFileForEntry(it)
-            keyCacheDao.deleteEntry(it)
+    suspend fun deleteOutdatedEntries(validEntries: List<String>) =
+        keyCacheDao.getAllEntries().forEach {
+            Timber.v("valid entries for cache from server: $validEntries")
+            val file = File(it.path)
+            if (!validEntries.contains(it.id) || !file.exists()) {
+                Timber.w("${it.id} will be deleted from the cache")
+                deleteFileForEntry(it)
+                keyCacheDao.deleteEntry(it)
+            }
         }
-    }
 
     private fun deleteFileForEntry(entry: KeyCacheEntity) = File(entry.path).delete()
 

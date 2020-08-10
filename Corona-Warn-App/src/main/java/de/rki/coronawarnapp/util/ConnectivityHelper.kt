@@ -6,11 +6,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import timber.log.Timber
@@ -59,7 +61,7 @@ object ConnectivityHelper {
     }
 
     /**
-     * Register bluetooth state change listener.
+     * Unregister bluetooth state change listener.
      *
      * @param context the context
      * @param callback the bluetooth state callback
@@ -67,6 +69,63 @@ object ConnectivityHelper {
      * @see [BluetoothCallback]
      */
     fun unregisterBluetoothStatusCallback(context: Context, callback: BluetoothCallback) {
+        context.unregisterReceiver(callback.recevier)
+        callback.recevier = null
+    }
+
+    /**
+     * Register location state change listener.
+     *
+     * @param context the context
+     * @param callback the location state callback
+     *
+     */
+    fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
+            val receiver = object : BroadcastReceiver() {
+                var isGpsEnabled: Boolean = false
+                var isNetworkEnabled: Boolean = false
+
+                override fun onReceive(context: Context, intent: Intent) {
+                    intent.action?.let { act ->
+                        if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
+                            val locationManager =
+                                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                            isGpsEnabled =
+                                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                            isNetworkEnabled =
+                                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+                            if (isGpsEnabled || isNetworkEnabled) {
+                                callback.onLocationAvailable()
+                                Timber.d("Location enabled")
+                            } else {
+                                callback.onLocationUnavailable()
+                                Timber.d("Location disabled")
+                            }
+                        }
+                    }
+                }
+        }
+        callback.recevier = receiver
+        context.registerReceiver(
+            callback.recevier,
+            IntentFilter("android.location.PROVIDERS_CHANGED")
+        )
+        // location state doesn't change when you register
+        if (isLocationEnabled(context))
+            callback.onLocationAvailable()
+        else
+            callback.onLocationUnavailable()
+    }
+
+    /**
+     * Unregister location state change listener.
+     *
+     * @param context the context
+     * @param callback the location state callback
+     *
+     */
+    fun unregisterLocationStatusCallback(context: Context, callback: LocationCallback) {
         context.unregisterReceiver(callback.recevier)
         callback.recevier = null
     }
@@ -132,14 +191,26 @@ object ConnectivityHelper {
      * @param context the context
      *
      * @return Boolean
+     */
+    fun isBackgroundRestricted(context: Context): Boolean {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            activityManager.isBackgroundRestricted
+        } else false
+    }
+
+    /**
+     * Background jobs are enabled only if the battery optimization is enabled and
+     * the background activity is not restricted
+     *
+     * @param context the context
+     *
+     * @return Boolean
      *
      * @see isBackgroundRestricted
      */
-    fun isBackgroundJobEnabled(context: Context): Boolean {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            return !activityManager.isBackgroundRestricted
-        } else return true
+    fun autoModeEnabled(context: Context): Boolean {
+        return !isBackgroundRestricted(context) || PowerManagementHelper.isIgnoringBatteryOptimizations(context)
     }
 
     /**
@@ -156,6 +227,17 @@ object ConnectivityHelper {
             return false
         }
         return bAdapter.isEnabled
+    }
+
+    /**
+     * Get location enabled status.
+     *
+     * @return current location status
+     *
+     */
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(locationManager)
     }
 
     /**
@@ -190,6 +272,24 @@ object ConnectivityHelper {
         abstract fun onBluetoothUnavailable()
     }
 
+    /**
+     * Abstract location state change callback.
+     *
+     * @see BroadcastReceiver
+     */
+    abstract class LocationCallback {
+        var recevier: BroadcastReceiver? = null
+
+        /**
+         * Called when location is turned on.
+         */
+        abstract fun onLocationAvailable()
+
+        /**
+         * Called when location is turned off.
+         */
+        abstract fun onLocationUnavailable()
+    }
     /**
      * Abstract network state change callback.
      *

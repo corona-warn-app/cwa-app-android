@@ -73,6 +73,30 @@ object LocalData {
                 .getString(R.string.preference_onboarding_completed_timestamp), value
         )
     }
+
+    /**
+     * Gets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_check_done),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_check_done), value
+        )
+    }
     /****************************************************
      * TRACING DATA
      ****************************************************/
@@ -300,6 +324,34 @@ object LocalData {
             )
         }
 
+    /**
+     * Gets the boolean if the user has seen the explanation dialog for the
+     * risk level tracing days
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if user is onboarded
+     */
+    fun tracingExplanationDialogWasShown(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_risk_days_explanation_shown),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has seen the explanation dialog for the
+     * risk level tracing days
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if onboarding was completed
+     */
+    fun tracingExplanationDialogWasShown(value: Boolean) =
+        getSharedPreferenceInstance().edit(true) {
+            putBoolean(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_risk_days_explanation_shown), value
+            )
+        }
+
     /****************************************************
      * SERVER FETCH DATA
      ****************************************************/
@@ -512,7 +564,7 @@ object LocalData {
         }
     }
 
-    fun inititalTestResultReceivedTimestamp(value: Long) =
+    fun initialTestResultReceivedTimestamp(value: Long) =
         getSharedPreferenceInstance().edit(true) {
             putLong(
                 CoronaWarnApplication.getAppContext()
@@ -521,7 +573,7 @@ object LocalData {
             )
         }
 
-    fun inititalTestResultReceivedTimestamp(): Long? {
+    fun initialTestResultReceivedTimestamp(): Long? {
         val timestamp = getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_initial_result_received_time),
@@ -638,6 +690,19 @@ object LocalData {
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext()
             .getString(R.string.preference_last_three_hours_from_server), false
+    )
+
+    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_notification),
+            value
+        )
+    }
+
+    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_background_notification), false
     )
 
     /****************************************************

@@ -36,6 +36,10 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -114,8 +118,35 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    suspend fun startWithConstraints() {
+        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val lastFetch = DateTime(
+            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+            DateTimeZone.UTC
+        )
+        if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+        ) {
+            BackgroundWorkHelper.sendDebugNotification(
+                "Start RetrieveDiagnosisKeysTransaction",
+                "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
+            )
+            start()
+        }
+    }
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start() = lockAndExecuteUnique {
+        /**
+         * Handles the case when the ENClient got disabled but the Transaction is still scheduled
+         * in a background job. Also it acts as a failure catch in case the orchestration code did
+         * not check in before.
+         */
+        if (!InternalExposureNotificationClient.asyncIsEnabled()) {
+            Timber.w("EN is not enabled, skipping RetrieveDiagnosisKeys")
+            executeClose()
+            return@lockAndExecuteUnique
+        }
         /****************************************************
          * INIT TRANSACTION
          ****************************************************/
@@ -193,8 +224,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the INIT Transaction State
      */
     private suspend fun executeSetup() = executeState(SETUP) {
-        if (!InternalExposureNotificationClient.asyncIsEnabled())
-            throw IllegalStateException("The Exposure Notification Framework must be active, check your tracing status")
         lastFetchDateForRollback.set(LocalData.lastTimeDiagnosisKeysFromServerFetch())
         val currentDate = Date(System.currentTimeMillis())
         Timber.d("using $currentDate as current date in Transaction.")
@@ -205,6 +234,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the TOKEN Transaction State
      */
     private suspend fun executeToken() = executeState(TOKEN) {
+        googleAPITokenForRollback.set(LocalData.googleApiToken())
         val tempToken = UUID.randomUUID().toString()
         LocalData.googleApiToken(tempToken)
         return@executeState tempToken

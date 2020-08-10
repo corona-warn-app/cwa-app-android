@@ -10,6 +10,7 @@ import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 import java.util.Date
 
@@ -55,6 +56,8 @@ fun formatRiskLevelHeadline(riskLevelScore: Int?, isRefreshing: Boolean?): Strin
             RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(R.string.risk_card_low_risk_headline)
             RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 appContext.getString(R.string.risk_card_unknown_risk_headline)
+            RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+                appContext.getString(R.string.risk_card_unknown_risk_headline)
             else -> ""
         }
     }
@@ -74,7 +77,10 @@ fun formatRiskBody(riskLevelScore: Int?): String {
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> appContext.getString(R.string.risk_card_outdated_risk_body)
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
             appContext.getString(R.string.risk_card_body_tracing_off)
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getString(R.string.risk_card_unknown_risk_body)
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
+            appContext.getString(R.string.risk_card_unknown_risk_body)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
+            appContext.getString(R.string.risk_card_outdated_manual_risk_body)
         else -> ""
     }
 }
@@ -95,7 +101,8 @@ fun formatRiskSavedRisk(
     val appContext = CoronaWarnApplication.getAppContext()
     return if (
         riskLevelScore == RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ||
-        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ||
+        riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
     ) {
         when (riskLevelScoreLastSuccessfulCalculated) {
             RiskLevelConstants.LOW_LEVEL_RISK,
@@ -122,7 +129,17 @@ fun formatRiskContact(riskLevelScore: Int?, matchedKeysCount: Int?): String {
     val resources = appContext.resources
     val contacts = matchedKeysCount ?: 0
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK,
+        RiskLevelConstants.INCREASED_RISK -> {
+            if (matchedKeysCount == 0) {
+                appContext.getString(R.string.risk_card_body_contact)
+            } else {
+                resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value_high_risk,
+                    contacts,
+                    contacts
+                )
+            }
+        }
         RiskLevelConstants.LOW_LEVEL_RISK -> {
             if (matchedKeysCount == 0) {
                 appContext.getString(R.string.risk_card_body_contact)
@@ -180,20 +197,50 @@ fun formatRiskActiveTracingDaysInRetentionPeriod(
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> {
             if (showDetails) {
+                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
+                    appContext.getString(
+                        R.string.risk_card_body_saved_days
+                    )
+                        .format(activeTracingDaysInRetentionPeriod)
+                } else {
+                    appContext.getString(
+                        R.string.risk_card_body_saved_days_full
+                    )
+                }
+            } else {
+                ""
+            }
+        }
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
                 appContext.getString(
                     R.string.risk_card_body_saved_days
                 )
                     .format(activeTracingDaysInRetentionPeriod)
             } else {
-                ""
+                appContext.getString(
+                    R.string.risk_card_body_saved_days_full
+                )
             }
-        }
-        RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getString(
-            R.string.risk_card_body_saved_days
-        )
-            .format(activeTracingDaysInRetentionPeriod)
+
         else -> ""
     }
+}
+
+/**
+ * Formats the risk logged period card text display of tracing active duration in days depending on risk level
+ * Displayed in case riskLevel is High and Low level
+ *
+ * @param activeTracingDaysInRetentionPeriod
+ * @return
+ */
+fun formatRiskActiveTracingDaysInRetentionPeriodLogged(
+    activeTracingDaysInRetentionPeriod: Long
+): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+        return appContext.getString(
+                R.string.risk_details_information_body_period_logged_assessment)
+            .format(activeTracingDaysInRetentionPeriod)
 }
 
 fun formatRelativeDateTimeString(appContext: Context, date: Date): CharSequence? =
@@ -233,7 +280,8 @@ fun formatTimeFetched(
             }
         }
         RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> {
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
             when (riskLevelScoreLastSuccessfulCalculated) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
                 RiskLevelConstants.INCREASED_RISK,
@@ -275,6 +323,35 @@ fun formatNextUpdate(
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> appContext.getString(
                 R.string.risk_card_body_next_update
+            )
+            else -> ""
+        }
+    }
+}
+
+/**
+ * Formats the risk card content description of time when diagnosis keys will be updated
+ * from server again when applicable but appends the word button at the end for screen reader accessibility reasons
+ *
+ * @param riskLevelScore
+ * @param isBackgroundJobEnabled
+ * @return
+ */
+fun formatNextUpdateContentDescription(
+    riskLevelScore: Int?,
+    isBackgroundJobEnabled: Boolean?
+): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return if (isBackgroundJobEnabled != true) {
+        ""
+    } else {
+        return when (riskLevelScore) {
+            RiskLevelConstants.UNKNOWN_RISK_INITIAL,
+            RiskLevelConstants.LOW_LEVEL_RISK,
+            RiskLevelConstants.INCREASED_RISK -> appContext.getString(
+                R.string.risk_card_body_next_update
+            ) + " " + appContext.getString(
+                R.string.accessibility_button
             )
             else -> ""
         }
@@ -512,6 +589,18 @@ fun formatVisibilityBehaviorIncreasedRisk(riskLevelScore: Int?): Int =
     formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK)
 
 /**
+ * Format the risk details period logged card display  depending on risk level
+ * applied in case of low and high risk levels
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatVisibilityBehaviorPeriodLogged(riskLevelScore: Int?): Int =
+    formatVisibility(
+        riskLevelScore == RiskLevelConstants.INCREASED_RISK ||
+                riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
+
+/**
  * Formats the risk details suggested behavior icon color depending on risk level
  * This special handling is required due to light / dark mode differences and switches
  * between colored / light / dark background
@@ -540,6 +629,7 @@ fun formatBehaviorIconBackground(riskLevelScore: Int?): Int {
         RiskLevelConstants.INCREASED_RISK -> appContext.getColor(R.color.colorSemanticHighRisk)
         RiskLevelConstants.LOW_LEVEL_RISK -> appContext.getColor(R.color.colorSemanticLowRisk)
         RiskLevelConstants.UNKNOWN_RISK_INITIAL -> appContext.getColor(R.color.colorSemanticNeutralRisk)
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> appContext.getColor(R.color.colorSemanticNeutralRisk)
         else -> appContext.getColor(R.color.colorSurface2)
     }
 }
@@ -558,10 +648,10 @@ fun formatButtonUpdateText(
     time: Long
 ): String {
     val appContext = CoronaWarnApplication.getAppContext()
-    if (time <= 0) {
-        return appContext.getString(R.string.risk_card_button_update)
+    return if (time <= 0) {
+        appContext.getString(R.string.risk_card_button_update)
     } else {
         val hmsCooldownTime = time.millisecondsToHMS()
-        return appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
+        appContext.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
     }
 }

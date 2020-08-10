@@ -40,11 +40,11 @@ object SubmissionRepository {
                 LocalData.isAllowedToSubmitDiagnosisKeys(true)
             }
 
-            val initialTestResultReceivedTimestamp = LocalData.inititalTestResultReceivedTimestamp()
+            val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
 
             if (initialTestResultReceivedTimestamp == null) {
                 val currentTime = System.currentTimeMillis()
-                LocalData.inititalTestResultReceivedTimestamp(currentTime)
+                LocalData.initialTestResultReceivedTimestamp(currentTime)
                 testResultReceivedDate.value = Date(currentTime)
                 if (testResult == TestResult.PENDING) {
                     BackgroundWorkScheduler.startWorkScheduler()
@@ -58,6 +58,7 @@ object SubmissionRepository {
                 TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
                 TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
                 TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
+                TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
             }
         } catch (err: NoRegistrationTokenSetException) {
             return DeviceUIState.UNPAIRED

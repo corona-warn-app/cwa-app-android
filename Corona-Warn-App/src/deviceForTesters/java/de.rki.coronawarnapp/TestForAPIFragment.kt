@@ -68,14 +68,18 @@ import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_maximumRiskScore
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_googlePlayServices_version
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_latest_key_date
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_my_keys
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.qr_code_viewpager
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_background_notifications
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_my_keys
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
@@ -128,7 +132,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
 
-        // set thte lifecycleowner for LiveData
+        // set the lifecycleowner for LiveData
         binding.lifecycleOwner = this
 
         // Inflate the layout for this fragment
@@ -156,6 +160,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
 
+        getExposureKeys()
+
         qrPager = qr_code_viewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
@@ -174,6 +180,14 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
             showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
             LocalData.last3HoursMode(isLast3HoursModeEnabled)
+        }
+
+        val backgroundNotificationSwitch = test_api_switch_background_notifications as Switch
+        backgroundNotificationSwitch.isChecked = LocalData.backgroundNotification()
+        backgroundNotificationSwitch.setOnClickListener {
+            val isBackgroundNotificationsActive = backgroundNotificationSwitch.isChecked
+            showToast("Background Notifications are activated: $isBackgroundNotificationsActive")
+            LocalData.backgroundNotification(isBackgroundNotificationsActive)
         }
 
         button_api_get_check_exposure.setOnClickListener {
@@ -267,7 +281,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         super.onResume()
 
         updateExposureSummaryDisplay(null)
-        getExposureKeys()
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -437,6 +450,13 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         )
         label_my_keys.text = myKeysLabelAndCount
         text_my_keys.text = myExposureKeysJSON
+
+        myKeys?.maxBy { it.rollingStartIntervalNumber }?.rollingStartIntervalNumber?.toLong()?.let {
+            val ms = it * 60L * 10L * 1000L
+            val dateString = DateTime(ms, DateTimeZone.UTC)
+
+            label_latest_key_date.text = "Latest key is from: $dateString"
+        }
     }
 
     private fun showToast(message: String) {
@@ -453,8 +473,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     override fun onKeySharePermissionGranted(keys: List<TemporaryExposureKey>) {
-        myExposureKeysJSON =
-            keysToJson(keys)
+        myExposureKeysJSON = keysToJson(keys)
         myExposureKeys = keys
         qrPagerAdapter.notifyDataSetChanged()
 

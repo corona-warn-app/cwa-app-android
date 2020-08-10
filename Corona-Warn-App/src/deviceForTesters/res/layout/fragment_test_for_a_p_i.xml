@@ -33,6 +33,14 @@
                 android:text="@string/test_api_switch_last_three_hours_from_server"
                 android:theme="@style/switchBase" />
 
+            <Switch
+                android:id="@+id/test_api_switch_background_notifications"
+                style="@style/body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_api_switch_background_notifications"
+                android:theme="@style/switchBase" />
+
             <TextView
                 android:id="@+id/label_exposure_summary"
                 style="@style/headline6"
@@ -105,10 +113,16 @@
                 android:text="@string/test_api_body_my_keys" />
 
             <TextView
+                android:id="@+id/label_latest_key_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Latest key is from: -" />
+
+            <TextView
                 android:id="@+id/text_my_keys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Your keys will be diplayed here"
+                android:hint="Your keys will be displayed here"
                 android:lines="5"
                 android:visibility="gone" />
 

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
-import java.util.concurrent.TimeUnit
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
 
 object TimeVariables {
 
@@ -186,17 +186,17 @@ object TimeVariables {
             .getIntervals()
             .toMutableList()
 
-        // by default the tracing is deactivated
+        // by default the tracing is assumed to be activated
         // if the API is reachable we set the value accordingly 
-        var enIsEnabled = false
+        var enIsDisabled = false
 
         try {
-            enIsEnabled = !InternalExposureNotificationClient.asyncIsEnabled()
+            enIsDisabled = !InternalExposureNotificationClient.asyncIsEnabled()
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
 
-        if (enIsEnabled) {
+        if (enIsDisabled) {
             val current = System.currentTimeMillis()
             var lastTimeTracingWasNotActivated =
                 LocalData.lastNonActiveTracingTimestamp() ?: current
@@ -211,7 +211,8 @@ object TimeVariables {
         val finalTracingMS = tracingActiveMS - inactiveTracingIntervals
             .map { it.second - it.first }
             .sum()
-        return TimeUnit.MILLISECONDS.toDays(finalTracingMS)
+
+        return finalTracingMS.roundUpMsToDays()
     }
 
     /****************************************************

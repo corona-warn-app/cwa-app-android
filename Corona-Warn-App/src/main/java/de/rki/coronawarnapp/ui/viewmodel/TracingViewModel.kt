@@ -3,15 +3,22 @@ package de.rki.coronawarnapp.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
 
@@ -47,7 +54,7 @@ class TracingViewModel : ViewModel() {
     var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
 
     /**
-     * Launches the RiskLevelTransaction in the viewModel scope
+     * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
      *
      * @see RiskLevelTransaction
      * @see RiskLevelRepository
@@ -55,10 +62,56 @@ class TracingViewModel : ViewModel() {
     fun refreshRiskLevel() {
         viewModelScope.launch {
             try {
+
+                // get the current date and the date the diagnosis keys were fetched the last time
+                val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+                val lastFetch = DateTime(
+                    LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+                    DateTimeZone.UTC
+                )
+
+                // check if the keys were not already retrieved today
+                val keysWereNotRetrievedToday =
+                    LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+
+                // check if the network is enabled to make the server fetch
+                val isNetworkEnabled =
+                    ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+
+                // only fetch the diagnosis keys if background jobs are enabled, so that in manual
+                // model the keys are only fetched on button press of the user
+                val isBackgroundJobEnabled =
+                    ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
+
+                Timber.v("Keys were not retrieved today $keysWereNotRetrievedToday")
+                Timber.v("Network is enabled $isNetworkEnabled")
+                Timber.v("Background jobs are enabled $isBackgroundJobEnabled")
+
+                if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
+                    TracingRepository.isRefreshing.value = true
+
+                    // start the fetching and submitting of the diagnosis keys
+                    RetrieveDiagnosisKeysTransaction.start()
+                    refreshLastTimeDiagnosisKeysFetchedDate()
+                    TimerHelper.checkManualKeyRetrievalTimer()
+                }
+            } catch (e: TransactionException) {
+                e.cause?.report(INTERNAL)
+            } catch (e: Exception) {
+                e.report(INTERNAL)
+            }
+
+            // refresh the risk level
+            try {
                 RiskLevelTransaction.start()
             } catch (e: TransactionException) {
                 e.cause?.report(INTERNAL)
+            } catch (e: Exception) {
+                e.report(INTERNAL)
             }
+
+            TracingRepository.isRefreshing.value = false
         }
     }
 
@@ -105,8 +158,11 @@ class TracingViewModel : ViewModel() {
     fun refreshExposureSummary() {
         viewModelScope.launch {
             try {
-                ExposureSummaryRepository.getExposureSummaryRepository()
-                    .getLatestExposureSummary()
+                val token = LocalData.googleApiToken()
+                if (token != null) {
+                    ExposureSummaryRepository.getExposureSummaryRepository()
+                        .getLatestExposureSummary(token)
+                }
                 Timber.v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(

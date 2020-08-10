@@ -21,6 +21,9 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
+import de.rki.coronawarnapp.util.PowerManagementHelper
+import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -89,23 +92,51 @@ class SettingsTracingFragment : Fragment(),
 
     override fun onFailure(exception: Exception?) {
         tracingViewModel.refreshIsTracingEnabled()
-        exception?.report(ExceptionCategory.EXPOSURENOTIFICATION)
     }
 
     private fun setButtonOnClickListener() {
+        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
+        val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnClickListener {
-            startStopTracing()
+        switch.setOnCheckedChangeListener { _, _ ->
+            // Make sure that listener is called by user interaction
+            if (switch.tag != IGNORE_CHANGE_TAG) {
+                startStopTracing()
+                // Focus on the body text after to announce the tracing status for accessibility reasons
+                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+            }
+        }
+        row.setOnClickListener {
+            val isTracingEnabled =
+                tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
+            val isBluetoothEnabled =
+                settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
+            val isConnectionEnabled =
+                settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
+            val isLocationEnabled =
+                settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
+            // check if the row is clickable, this adds the switch behaviour
+            val isEnabled = formatTracingSwitchEnabled(
+                isTracingEnabled,
+                isBluetoothEnabled,
+                isConnectionEnabled,
+                isLocationEnabled
+            )
+            if (isEnabled) startStopTracing()
         }
         back.setOnClickListener {
             (activity as MainActivity).goBack()
         }
         bluetooth.setOnClickListener {
+            ExternalActionHelper.toMainSettings(requireContext())
+        }
+        location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
         connection.setOnClickListener {
@@ -130,6 +161,10 @@ class SettingsTracingFragment : Fragment(),
                         // ask for consent via dialog for initial tracing activation when tracing was not
                         // activated during onboarding
                         showConsentDialog()
+                        // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
+                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+                            showManualCheckingRequiredDialog()
+                        }
                     }
                 }
             } catch (exception: Exception) {
@@ -143,6 +178,20 @@ class SettingsTracingFragment : Fragment(),
         }
     }
 
+    private fun showManualCheckingRequiredDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_manual_required_dialog_headline,
+            R.string.onboarding_manual_required_dialog_body,
+            R.string.onboarding_manual_required_dialog_button,
+            null,
+            false, {
+                // close dialog
+            }
+        )
+        DialogHelper.showDialog(dialog)
+    }
+
     private fun showConsentDialog() {
         val dialog = DialogHelper.DialogInstance(
             requireActivity(),
@@ -150,8 +199,7 @@ class SettingsTracingFragment : Fragment(),
             R.string.onboarding_tracing_body_consent,
             R.string.onboarding_button_enable,
             R.string.onboarding_button_cancel,
-            true,
-            {
+            true, {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }, {
                 tracingViewModel.refreshIsTracingEnabled()

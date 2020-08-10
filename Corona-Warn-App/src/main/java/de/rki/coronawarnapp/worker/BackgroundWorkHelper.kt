@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.worker
 
+import androidx.core.app.NotificationCompat
 import androidx.work.Constraints
 import androidx.work.NetworkType
+import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
+import kotlin.random.Random
 
 /**
  * Singleton class for background work helper functions
@@ -47,13 +51,20 @@ object BackgroundWorkHelper {
             .coerceAtMost(BackgroundConstants.GOOGLE_API_MAX_CALLS_PER_DAY)
 
     /**
-     * Constraints for diagnosis key periodic work
-     * Do not execute background work if battery on low level.
+     * Get background noise one time work delay
+     * The periodic job is already delayed by MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+     * so we only need to delay further by the difference between min and max.
      *
-     * @return Constraints
+     * @return Long
+     *
+     * @see BackgroundConstants.MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+     * @see BackgroundConstants.MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
      */
-    fun getConstraintsForDiagnosisKeyPeriodicBackgroundWork() =
-        Constraints.Builder().setRequiresBatteryNotLow(true).build()
+    fun getBackgroundNoiseOneTimeWorkDelay() = Random.nextLong(
+        0,
+        BackgroundConstants.MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION -
+                BackgroundConstants.MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION
+    )
 
     /**
      * Constraints for diagnosis key one time work
@@ -67,7 +78,19 @@ object BackgroundWorkHelper {
     fun getConstraintsForDiagnosisKeyOneTimeBackgroundWork() =
         Constraints
             .Builder()
-            .setRequiresBatteryNotLow(true)
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
+
+    /**
+     * Send debug notification to check background jobs execution
+     *
+     * @param title: String
+     * @param content: String
+     *
+     * @see LocalData.backgroundNotification()
+     */
+    fun sendDebugNotification(title: String, content: String) {
+        if (!LocalData.backgroundNotification()) return
+        NotificationHelper.sendNotification(title, content, NotificationCompat.PRIORITY_HIGH, true)
+    }
 }
