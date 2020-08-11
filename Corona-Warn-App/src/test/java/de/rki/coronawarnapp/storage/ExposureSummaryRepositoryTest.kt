@@ -32,6 +32,7 @@ class ExposureSummaryRepositoryTest {
 
         mockkObject(InternalExposureNotificationClient)
         coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns buildSummary()
+        coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
 
         coEvery { dao.getExposureSummaryEntities() } returns listOf()
         coEvery { dao.getLatestExposureSummary() } returns null
