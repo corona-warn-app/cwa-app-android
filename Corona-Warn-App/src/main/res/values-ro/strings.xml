@@ -726,6 +726,13 @@
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Înapoi"</string>
 
+    <!-- XHED: Dialog title for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_title">"Testul are erori"</string>
+    <!-- XMSG: Dialog body for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_body">"A apărut o problemă la evaluarea testului dvs. Codul dvs. QR a expirat deja."</string>
+    <!-- XBUT: Positive button for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
+
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
     <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Este necesară autorizația pentru camera foto"</string>
