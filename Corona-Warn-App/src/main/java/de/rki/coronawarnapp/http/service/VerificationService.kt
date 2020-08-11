@@ -17,6 +17,7 @@ interface VerificationService {
     suspend fun getRegistrationToken(
         @Url url: String,
         @Header("cwa-fake") fake: String,
+        @Header("cwa-header-padding") headerPadding: String?,
         @Body requestBody: RegistrationTokenRequest
     ): RegistrationTokenResponse
 
@@ -24,6 +25,7 @@ interface VerificationService {
     suspend fun getTestResult(
         @Url url: String,
         @Header("cwa-fake") fake: String,
+        @Header("cwa-header-padding") headerPadding: String?,
         @Body request: RegistrationRequest
     ): TestResultResponse
 
@@ -31,6 +33,7 @@ interface VerificationService {
     suspend fun getTAN(
         @Url url: String,
         @Header("cwa-fake") fake: String,
+        @Header("cwa-header-padding") headerPadding: String?,
         @Body requestBody: TanRequestBody
     ): TanResponse
 }

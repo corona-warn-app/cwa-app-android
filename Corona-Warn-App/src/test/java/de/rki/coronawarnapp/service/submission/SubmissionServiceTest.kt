@@ -3,12 +3,15 @@ package de.rki.coronawarnapp.service.submission
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
+import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -22,11 +25,23 @@ class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
 
+    @MockK
+    private lateinit var webRequestBuilder: WebRequestBuilder
+
+    @MockK
+    private lateinit var backgroundNoise: BackgroundNoise
+
     @Before
     fun setUp() {
-        mockkObject(LocalData)
-        mockkObject(WebRequestBuilder)
+        MockKAnnotations.init(this)
+        mockkObject(WebRequestBuilder.Companion)
+        every { WebRequestBuilder.getInstance() } returns webRequestBuilder
+
+        mockkObject(BackgroundNoise.Companion)
+        every { BackgroundNoise.getInstance() } returns backgroundNoise
+
         mockkObject(SubmitDiagnosisKeysTransaction)
+        mockkObject(LocalData)
 
         every { LocalData.teletan() } returns null
         every { LocalData.testGUID() } returns null
@@ -49,9 +64,9 @@ class SubmissionServiceTest {
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
         coEvery {
-            WebRequestBuilder.getInstance()
-                .asyncGetRegistrationToken(any(), SubmissionConstants.QR_CODE_KEY_TYPE)
+            webRequestBuilder.asyncGetRegistrationToken(any(), KeyType.GUID)
         } returns registrationToken
+        every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
             SubmissionService.asyncRegisterDevice()
@@ -61,6 +76,7 @@ class SubmissionServiceTest {
             LocalData.registrationToken(registrationToken)
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.testGUID(null)
+            backgroundNoise.scheduleDummyPattern()
         }
     }
 
@@ -73,9 +89,9 @@ class SubmissionServiceTest {
         every { LocalData.devicePairingSuccessfulTimestamp(any()) } just Runs
 
         coEvery {
-            WebRequestBuilder.getInstance()
-                .asyncGetRegistrationToken(any(), SubmissionConstants.TELE_TAN_KEY_TYPE)
+            webRequestBuilder.asyncGetRegistrationToken(any(), KeyType.TELETAN)
         } returns registrationToken
+        every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
             SubmissionService.asyncRegisterDevice()
@@ -85,6 +101,7 @@ class SubmissionServiceTest {
             LocalData.registrationToken(registrationToken)
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.teletan(null)
+            backgroundNoise.scheduleDummyPattern()
         }
     }
 
@@ -98,9 +115,7 @@ class SubmissionServiceTest {
     @Test
     fun requestTestResultSucceeds() {
         every { LocalData.registrationToken() } returns registrationToken
-        coEvery {
-            WebRequestBuilder.getInstance().asyncGetTestResult(registrationToken)
-        } returns TestResult.NEGATIVE.value
+        coEvery { webRequestBuilder.asyncGetTestResult(registrationToken) } returns TestResult.NEGATIVE.value
 
         runBlocking {
             assertThat(SubmissionService.asyncRequestTestResult(), equalTo(TestResult.NEGATIVE))

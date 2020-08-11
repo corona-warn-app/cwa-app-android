@@ -11,8 +11,9 @@ interface SubmissionService {
     @POST
     suspend fun submitKeys(
         @Url url: String,
-        @Header("cwa-authorization") authCode: String,
+        @Header("cwa-authorization") authCode: String?,
         @Header("cwa-fake") fake: String,
+        @Header("cwa-header-padding") headerPadding: String?,
         @Body requestBody: KeyExportFormat.SubmissionPayload
     ): ResponseBody
 }

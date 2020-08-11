@@ -51,7 +51,7 @@ The following channels are available for discussions, feedback, and support requ
 | Type                     | Channel                                                |
 | ------------------------ | ------------------------------------------------------ |
 | **General Discussion**   | <a href="https://github.com/corona-warn-app/cwa-documentation/issues/new/choose" title="General Discussion"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-documentation/question.svg?style=flat-square"></a> </a>   |
-| **Feature Requests**    | <a href="https://github.com/corona-warn-app/cwa-whishlist/issues/new/choose" title="Create Feature Request"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-wishlist?style=flat-square"></a>  |
+| **Feature Requests**    | <a href="https://github.com/corona-warn-app/cwa-wishlist/issues/new/choose" title="Create Feature Request"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-wishlist?style=flat-square"></a>  |
 | **Concept Feedback**    | <a href="https://github.com/corona-warn-app/cwa-documentation/issues/new/choose" title="Open Concept Feedback"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-documentation/architecture.svg?style=flat-square"></a>  |
 | **Android App Issue**    | <a href="https://github.com/corona-warn-app/cwa-app-android/issues/new/choose" title="Open Android Issue"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-app-android?style=flat-square"></a>  |
 | **Backend Issue**    | <a href="https://github.com/corona-warn-app/cwa-server/issues/new/choose" title="Open Backend Issue"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-server?style=flat-square"></a>  |

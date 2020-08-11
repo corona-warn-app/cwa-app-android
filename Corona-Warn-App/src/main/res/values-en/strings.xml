@@ -73,8 +73,6 @@
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -176,7 +174,7 @@
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">"Low Risk"</string>
     <!-- XHED: risk card - increased risk headline -->
-    <string name="risk_card_increased_risk_headline">"Higher Risk"</string>
+    <string name="risk_card_increased_risk_headline">"Increased Risk"</string>
     <!-- XTXT: risk card - increased risk days since last contact -->
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s day since the last encounter"</item>
@@ -254,7 +252,7 @@
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"The following risk status can be shown:"</string>
     <!-- XTXT: App overview increased risk level -->
-    <string name="main_overview_subtitle_increased_risk">"Higher Risk"</string>
+    <string name="main_overview_subtitle_increased_risk">"Increased Risk"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Low Risk"</string>
     <!-- XTXT: App overview unknown risk level -->
@@ -276,7 +274,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -431,7 +429,7 @@
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
     <string name="onboarding_energy_optimized_dialog_headline">"Allow prioritized background activity"</string>
     <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
-    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your device\'s battery life.\n\nIf you do not allow this setting, you will have to manually update your risk status in the App."</string>
+    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your device\'s battery life.\n\nIf you do not allow this setting, we recommend you to open the App manually at least once every 24 hours."</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
     <string name="onboarding_energy_optimized_dialog_button_positive">"Allow"</string>
     <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
@@ -439,7 +437,7 @@
     <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
     <string name="onboarding_manual_required_dialog_headline">"Prioritized background activity disabled"</string>
     <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
-    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you will have to open the App once a day to update your risk status manually.\n\nYou can disable prioritized background activity in your settings any time. "</string>
+    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you have to open the App manually at least once every 24 hours to update your risk status.\n\nYou can enable prioritized background activity in your settings any time."</string>
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
@@ -727,6 +725,13 @@
     <string name="submission_error_dialog_web_tan_invalid_body">"The generated TAN is invalid for submission. Please contact the technical hotline via App Information → Technical Hotline."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Back"</string>
+
+    <!-- XHED: Dialog title for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_title">"Test has errors"</string>
+    <!-- XMSG: Dialog body for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_body">"There was a problem evaluating your test. Your QR code has already expired."</string>
+    <!-- XBUT: Positive button for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
@@ -1110,7 +1115,5 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
-    <!-- NOTR -->
-    <string name="test_api_switch_background_notifications">"Background Notifications"</string>
 
 </resources>
