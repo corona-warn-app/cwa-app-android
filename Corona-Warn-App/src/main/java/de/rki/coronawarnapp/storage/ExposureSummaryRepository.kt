@@ -47,12 +47,14 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
             ExposureSummaryRepository.daysSinceLastExposure.postValue(daysSinceLastExposure)
         }
 
-    suspend fun getLatestExposureSummary(token: String) =
-        InternalExposureNotificationClient.asyncGetExposureSummary(token)
-            .also {
-                matchedKeyCount.postValue(it.matchedKeyCount)
-                daysSinceLastExposure.postValue(it.daysSinceLastExposure)
-            }
+    suspend fun getLatestExposureSummary(token: String) {
+        if (InternalExposureNotificationClient.asyncIsEnabled())
+            InternalExposureNotificationClient.asyncGetExposureSummary(token)
+                .also {
+                    matchedKeyCount.postValue(it.matchedKeyCount)
+                    daysSinceLastExposure.postValue(it.daysSinceLastExposure)
+                }
+    }
 
     private fun ExposureSummaryEntity.convertToExposureSummary() =
         ExposureSummary.ExposureSummaryBuilder()
