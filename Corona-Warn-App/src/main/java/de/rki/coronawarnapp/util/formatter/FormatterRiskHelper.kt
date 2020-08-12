@@ -398,11 +398,9 @@ fun formatRiskDetailsRiskLevelBodyNotice(riskLevelScore: Int?): String {
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK ->
             resources.getString(R.string.risk_details_information_body_notice_increased)
-        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-        RiskLevelConstants.LOW_LEVEL_RISK,
-        RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
-            appContext.getString(R.string.risk_details_information_body_notice)
-        else -> ""
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            resources.getString(R.string.risk_details_information_body_notice_low)
+        else -> appContext.getString(R.string.risk_details_information_body_notice)
     }
 }
 
