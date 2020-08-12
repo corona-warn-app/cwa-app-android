@@ -386,6 +386,24 @@ fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: 
     }
 }
 
+/**
+ * Formats the risk details text display for each risk level for the body notice
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatRiskDetailsRiskLevelBodyNotice(riskLevelScore: Int?): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    val resources = appContext.resources
+    return when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK ->
+            resources.getString(R.string.risk_details_information_body_notice_increased)
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            resources.getString(R.string.risk_details_information_body_notice_low)
+        else -> appContext.getString(R.string.risk_details_information_body_notice)
+    }
+}
+
 /*Styler*/
 
 /**

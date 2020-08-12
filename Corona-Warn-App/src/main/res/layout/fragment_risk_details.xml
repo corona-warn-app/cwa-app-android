@@ -245,7 +245,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:text="@string/risk_details_information_body_notice"
+                        android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelBodyNotice(tracingViewModel.riskLevel)}"
                         android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
