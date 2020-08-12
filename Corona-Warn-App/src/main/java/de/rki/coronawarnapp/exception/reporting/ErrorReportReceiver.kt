@@ -49,7 +49,7 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
                 ErrorCodes.REPORTED_EXCEPTION_UNKNOWN_PROBLEM.code
             )
 
-            message += "($apiStatusCode)"
+            message += " ($apiStatusCode)"
         }
 
         val errorTitle = context.resources.getString(R.string.errors_generic_details_headline)
