@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="de.rki.coronawarnapp.util.formatter.FormatterInformationLegalHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,8 +23,9 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:autoLink="all"
+                android:clickable="true"
                 android:focusable="true"
+                android:linksClickable="true"
                 android:text="@string/information_legal_subtitle_contact_form"
                 android:textColorLink="@color/colorTextTint"
                 android:visibility="@{FormatterInformationLegalHelper.formatContactForm(true)}"
@@ -29,31 +33,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/information_legal_contact_form_en"
+                android:id="@+id/information_legal_contact_form_non_en_de"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:autoLink="all"
+                android:clickable="true"
                 android:focusable="true"
-                android:text="@string/information_legal_subtitle_contact_form_in_en"
+                android:linksClickable="true"
+                android:text="@string/information_legal_subtitle_contact_form_non_en_de"
                 android:textColorLink="@color/colorTextTint"
                 android:visibility="@{FormatterInformationLegalHelper.formatContactForm(false)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/information_legal_contact_form" />
 
-            <TextView
-                android:id="@+id/information_legal_contact_form_de"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:autoLink="all"
-                android:focusable="true"
-                android:text="@string/information_legal_subtitle_contact_form_in_de"
-                android:textColorLink="@color/colorTextTint"
-                android:visibility="@{FormatterInformationLegalHelper.formatContactForm(false)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/information_legal_contact_form_en" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
