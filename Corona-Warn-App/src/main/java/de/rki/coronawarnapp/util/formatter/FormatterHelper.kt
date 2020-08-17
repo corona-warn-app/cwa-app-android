@@ -3,6 +3,7 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Spanned
 import android.view.View
 import androidx.core.text.HtmlCompat
@@ -66,6 +67,14 @@ fun formatVisibility(value: Boolean): Int {
  */
 fun formatVisibilityIcon(drawable: Any?): Int? {
     return if (drawable != null) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
+fun formatVisibilityIconByAndroidVersion(drawable: Any?): Int? {
+    return if (Build.VERSION.SDK_INT < 30 && drawable != null) {
         View.VISIBLE
     } else {
         View.GONE
