@@ -120,19 +120,19 @@ object BackgroundConstants {
      *
      * @see TimeUnit.HOURS
      */
-    const val MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 4L
+    const val MIN_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 0L
 
     /**
      * The maximum time in hours to wait between playbook executions
      *
      * @see TimeUnit.HOURS
      */
-    const val MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 12L
+    const val MAX_HOURS_TO_NEXT_BACKGROUND_NOISE_EXECUTION = 0L
 
     /**
      * The total time in days to run the playbook
      *
      * @see TimeUnit.DAYS
      */
-    const val NUMBER_OF_DAYS_TO_RUN_PLAYBOOK = 16
+    const val NUMBER_OF_DAYS_TO_RUN_PLAYBOOK = 0
 }
