@@ -41,11 +41,11 @@ object SubmissionConstants {
 
     const val PADDING_LENGTH_HEADER_SUBMISSION_FAKE = 36
 
-    const val probabilityToExecutePlaybookWhenOpenApp = 1f
+    const val probabilityToExecutePlaybookWhenOpenApp = 0f
     const val minNumberOfSequentialPlaybooks = 1
-    const val maxNumberOfSequentialPlaybooks = 3
-    const val minDelayBetweenSequentialPlaybooks = 5
-    const val maxDelayBetweenSequentialPlaybooks = 10
+    const val maxNumberOfSequentialPlaybooks = 1
+    const val minDelayBetweenSequentialPlaybooks = 0
+    const val maxDelayBetweenSequentialPlaybooks = 0
 
     const val minKeyCountForSubmission = 14
     const val fakeKeySize = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
