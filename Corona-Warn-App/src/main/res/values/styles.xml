@@ -133,6 +133,11 @@
         <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
+    <style name="cardTracingDesc">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
+
     <style name="cardGrey">
         <item name="android:background">@drawable/card_dark</item>
     </style>
@@ -207,6 +212,10 @@
 
     <style name="iconStable">
         <item name="android:tint">@color/colorStableLight</item>
+    </style>
+
+    <style name="iconOnboarding">
+        <item name="android:tint">@color/colorStableMedium</item>
     </style>
 
     <!-- ####################################

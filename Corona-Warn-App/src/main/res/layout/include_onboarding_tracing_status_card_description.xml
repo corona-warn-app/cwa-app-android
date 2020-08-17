@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="headline"
+            type="String" />
+
+        <variable
+            name="body"
+            type="String" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tracing_status_card"
+        style="@style/cardTracingDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tracing_status_card_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/tracing_status_card_header_icon"
+                style="@style/iconOnboarding"
+                android:layout_width="@dimen/icon_size_main_card_end"
+                android:layout_height="@dimen/icon_size_main_card_end"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:background="@drawable/circle_gray_white"
+                android:focusable="false"
+                android:importantForAccessibility="no"
+                android:src="@{icon}"
+                android:visibility="@{FormatterHelper.formatVisibilityIconByAndroidVersion(icon)}"
+                app:layout_constraintBottom_toBottomOf="@id/tracing_status_card_header_headline"
+                app:layout_constraintEnd_toStartOf="@id/tracing_status_card_header_headline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tracing_status_card_header_headline"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:accessibilityHeading="true"
+                android:contentDescription="@{headline}"
+                android:text="@{headline}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tracing_status_card_header_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tracing_status_card_body_information_desc"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@{body}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tracing_status_card_header_icon"
+                app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header_headline" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
