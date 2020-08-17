@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.http.playbook
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.worker.BackgroundConstants
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlin.random.Random
 
@@ -21,7 +22,8 @@ class BackgroundNoise {
     }
 
     fun scheduleDummyPattern() {
-        BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
+        if (BackgroundConstants.NUMBER_OF_DAYS_TO_RUN_PLAYBOOK > 0)
+            BackgroundWorkScheduler.scheduleBackgroundNoisePeriodicWork()
     }
 
     suspend fun foregroundScheduleCheck() {
