@@ -12,6 +12,7 @@
         tools:context="de.rki.coronawarnapp.ui.onboarding.OnboardingFragment">
 
         <include
+            android:id="@+id/onboarding_include"
             layout="@layout/include_onboarding"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -20,6 +21,7 @@
             app:body="@{@string/onboarding_body}"
             app:bodyEmphasized="@{@string/onboarding_body_emphasized}"
             app:headline="@{@string/onboarding_headline}"
+            app:easyLanguageText="@{@string/onboarding_tracing_easy_language_explanation}"
             app:illustration="@{@drawable/ic_illustration_together}"
             app:illustrationDescription="@{@string/onboarding_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"

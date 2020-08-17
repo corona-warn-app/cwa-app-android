@@ -53,6 +53,10 @@
             name="locationBodyCard"
             type="String" />
 
+        <variable
+            name="easyLanguageText"
+            type="String" />
+
     </data>
 
     <ScrollView
@@ -130,6 +134,23 @@
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body"
                 tools:text="@string/onboarding_body_emphasized" />
 
+            <TextView
+                android:id="@+id/onboarding_easy_language"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:clickable="true"
+                android:focusable="true"
+                android:linksClickable="true"
+                android:textColorLink="@color/colorTextTint"
+                android:text="@string/onboarding_tracing_easy_language_explanation"
+                android:visibility="@{FormatterHelper.formatVisibilityText(easyLanguageText)}"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
+                tools:text="@string/onboarding_tracing_easy_language_explanation" />
+
             <include
                 android:id="@+id/onboarding_location_card"
                 layout="@layout/include_tracing_status_card"
@@ -143,7 +164,7 @@
                 app:icon="@{locationIconCard}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_body_emphasized" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language" />
 
             <include
                 android:id="@+id/onboarding_card"
