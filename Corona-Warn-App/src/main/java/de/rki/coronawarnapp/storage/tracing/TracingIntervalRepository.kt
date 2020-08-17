@@ -64,6 +64,7 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
         val retentionTimestamp = System.currentTimeMillis() - TimeVariables.getDefaultRetentionPeriodInMS()
         tracingIntervalDao.deleteOutdatedIntervals(retentionTimestamp)
 
+
         return tracingIntervalDao
             .getAllIntervals()
             .map { Pair(maxOf(it.from, retentionTimestamp), it.to) }
