@@ -88,6 +88,7 @@ object SubmissionService {
 
     fun submissionSuccessful() {
         BackgroundWorkScheduler.stopWorkScheduler()
+        LocalData.numberOfSuccessfulSubmissions(1)
     }
 
     private fun deleteTeleTAN() {

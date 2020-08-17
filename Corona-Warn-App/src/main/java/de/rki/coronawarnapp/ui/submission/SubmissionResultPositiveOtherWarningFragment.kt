@@ -188,7 +188,6 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             submissionViewModel.submitDiagnosisKeys(keys)
         } else {
             submissionViewModel.submitWithNoDiagnosisKeys()
-            SubmissionService.submissionSuccessful()
             navigateToSubmissionDoneFragment()
         }
     }
