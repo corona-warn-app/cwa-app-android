@@ -11,13 +11,13 @@ import java.util.Locale
  * @param isContactFormView
  * @return
  */
-fun formatVisibilityLanguageBased(defaultLanguageEnglishOrGerman: Boolean?, isContactFormView: Boolean?): Int {
-    if (defaultLanguageEnglishOrGerman!!) {
-        return if (isContactFormView!!) {
+fun formatVisibilityLanguageBased(defaultLanguageEnglishOrGerman: Boolean, isContactFormView: Boolean?): Int {
+    if (defaultLanguageEnglishOrGerman) {
+        return if (isContactFormView == true) {
             View.VISIBLE
         } else View.GONE
     }
-    return if (!isContactFormView!!) {
+    return if (isContactFormView == false) {
         View.VISIBLE
     } else View.GONE
 }
