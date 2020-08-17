@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import kotlin.random.Random
 
 class PlaybookImpl(
     private val webRequestBuilder: WebRequestBuilder
@@ -102,17 +101,17 @@ class PlaybookImpl(
     override suspend fun dummy() = dummy(true)
 
     private suspend fun followUpPlaybooks() {
-        val runsToExecute = Random.nextInt(
-            SubmissionConstants.minNumberOfSequentialPlaybooks,
-            SubmissionConstants.maxNumberOfSequentialPlaybooks
-        )
+        val runsToExecute = IntRange(
+            SubmissionConstants.minNumberOfSequentialPlaybooks - 1 /* one was already executed */,
+            SubmissionConstants.maxNumberOfSequentialPlaybooks - 1 /* one was already executed */
+        ).random()
         Timber.i("[$uid] Follow Up: launching $runsToExecute follow up playbooks")
 
         repeat(runsToExecute) {
-            val executionDelay = Random.nextInt(
+            val executionDelay = IntRange(
                 SubmissionConstants.minDelayBetweenSequentialPlaybooks,
                 SubmissionConstants.maxDelayBetweenSequentialPlaybooks
-            )
+            ).random()
             Timber.i("[$uid] Follow Up: (${it + 1}/$runsToExecute) waiting $executionDelay[s]...")
             delay(TimeUnit.SECONDS.toMillis(executionDelay.toLong()))
 
