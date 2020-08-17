@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
-import java.time.Instant
 
 object TimeVariables {
 
