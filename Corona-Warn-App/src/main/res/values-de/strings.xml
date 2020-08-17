@@ -303,7 +303,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Für Fragen zu auftretenden Symptomen, Testmöglichkeiten und weiteren Isolationsmaßnahmen, wenden Sie sich bitte an eine der folgenden Stellen:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Waschen Sie Ihre Hände regelmäßig."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Waschen Sie Ihre Hände regelmäßig mit Seife für 20 Sekunden."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Tragen Sie einen Mund-Nasen-Schutz bei Begegnungen mit anderen Personen."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
