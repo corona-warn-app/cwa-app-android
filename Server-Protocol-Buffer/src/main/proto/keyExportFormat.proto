@@ -29,6 +29,7 @@ message SignatureInfo {
 
 message SubmissionPayload {
     repeated TemporaryExposureKey keys = 1;
+    optional bytes padding = 2;
 }
 
 message TemporaryExposureKey {
