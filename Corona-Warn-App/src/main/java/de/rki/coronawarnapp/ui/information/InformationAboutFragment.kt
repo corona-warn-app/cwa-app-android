@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.information
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,12 @@ class InformationAboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setLinks()
+    }
+
+    private fun setLinks() {
+        binding.informationAboutEasyLanguage
+            .movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onResume() {
