@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -114,8 +113,7 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun submitWithNoDiagnosisKeys() {
-        BackgroundWorkScheduler.stopWorkScheduler()
-        LocalData.numberOfSuccessfulSubmissions(1)
+        SubmissionService.submissionSuccessful()
     }
 
     fun deregisterTestFromDevice() {
