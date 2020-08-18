@@ -39,6 +39,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun resetInstance() = synchronized(this) {
             instance = null
         }
