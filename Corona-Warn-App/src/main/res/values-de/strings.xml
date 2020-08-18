@@ -765,9 +765,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code nicht korrekt"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist nicht korrekt. Bitte versuchen Sie es erneut."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Erneut versuchen"</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
