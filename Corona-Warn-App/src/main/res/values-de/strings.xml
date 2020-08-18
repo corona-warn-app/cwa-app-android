@@ -163,6 +163,8 @@
     <string name="risk_card_body_time_fetched">"Aktualisiert: %1$s"</string>
     <!-- XTXT: risk card - next update -->
     <string name="risk_card_body_next_update">"Tägliche Aktualisierung"</string>
+    <!-- XTXT: risk card - hint to open the app daily -->
+    <string name="risk_card_body_open_daily">"Hinweis: Bitte öffnen Sie die App täglich, um den Risikostatus zu aktualisieren."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Aktualisieren"</string>
     <!-- XBUT: risk card - update risk with time display -->
