@@ -35,7 +35,6 @@ object SubmissionRepository {
     private suspend fun fetchTestResult(): DeviceUIState {
         try {
             val testResult = SubmissionService.asyncRequestTestResult()
-
             if (testResult == TestResult.POSITIVE) {
                 LocalData.isAllowedToSubmitDiagnosisKeys(true)
             }

@@ -115,7 +115,6 @@ class PlaybookImplTest {
         assertRequestPattern(server)
     }
 
-
     @Test
     fun hasRequestPatternWhenRealRequestFails_testResult(): Unit = runBlocking {
         val server = MockWebServer()
@@ -162,5 +161,4 @@ class PlaybookImplTest {
         assertThat(server.takeRequest().path, Matchers.startsWith("/verification/"))
         assertThat(server.takeRequest().path, Matchers.startsWith("/submission/"))
     }
-
 }
