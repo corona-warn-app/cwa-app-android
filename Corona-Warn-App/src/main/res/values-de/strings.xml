@@ -163,6 +163,8 @@
     <string name="risk_card_body_time_fetched">"Aktualisiert: %1$s"</string>
     <!-- XTXT: risk card - next update -->
     <string name="risk_card_body_next_update">"Tägliche Aktualisierung"</string>
+    <!-- XTXT: risk card - hint to open the app daily -->
+    <string name="risk_card_body_open_daily">"Hinweis: Bitte öffnen Sie die App täglich, um den Risikostatus zu aktualisieren."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Aktualisieren"</string>
     <!-- XBUT: risk card - update risk with time display -->
@@ -338,12 +340,12 @@
     <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitpunkt und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="other">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitpunkt und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="zero">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitpunkt und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="two">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitpunkt und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="few">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitpunkt und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="many">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitpunkt und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="other">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="zero">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="two">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="few">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
+        <item quantity="many">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
@@ -763,9 +765,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code nicht korrekt"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist nicht korrekt. Bitte versuchen Sie es erneut."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Erneut versuchen"</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -822,9 +824,9 @@
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Test entfernen?"</string>
+    <string name="submission_test_result_dialog_remove_test_title">"Test kann nur einmal gescannt werden"</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Der Test wird endgültig aus der Corona-Warn-App entfernt und kann nicht wieder hinzugefügt werden. Dieser Vorgang kann nicht widerrufen werden."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test entfernen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der App. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Entfernen"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -944,7 +946,7 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Info zum Ablauf:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit."</string>
+    <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie in Ihrem Play Store herunterladen."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Anrufen"</string>
     <!-- XBUT: submission contact enter tan button -->

@@ -165,6 +165,8 @@
     <string name="risk_card_body_time_fetched">"Updated: %1$s"</string>
     <!-- XTXT: risk card - next update -->
     <string name="risk_card_body_next_update">"Updated daily"</string>
+    <!-- XTXT: risk card - hint to open the app daily -->
+    <string name="risk_card_body_open_daily">"Note: Please open the app daily to update your risk status."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Update"</string>
     <!-- XBUT: risk card - update risk with time display -->
@@ -276,7 +278,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -305,7 +307,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"If you have questions about symptoms, testing availability, or self-isolation, please contact one of the following:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for 20 seconds."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
@@ -411,7 +413,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration and proximity (using signal strength) to other people. Personal data such as name, address, location is never recorded. Individuals cannot be identified."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
-    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
+    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"App Information in Simplified Language and Sign Language"</a></string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Declaration of Consent"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
@@ -691,11 +693,11 @@
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"Contact"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
-    <string name="information_legal_subtitle_contact">"E-Mail: CoronaWarnApp@rki.de"</string>
+    <string name="information_legal_subtitle_contact">"E-mail: CoronaWarnApp@rki.de"</string>
     <!-- YTXT: subtitle for legal information page, open contact form -->
-    <string name="information_legal_subtitle_contact_form"><a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">Contact Form</a></string>
+    <string name="information_legal_subtitle_contact_form"><a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"Contact Form"</a></string>
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
-    <string name="information_legal_subtitle_contact_form_non_en_de">Contact Form in <a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">English</a> or <a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">German</a></string>
+    <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
     <string name="information_legal_headline_taxid">"VAT identification number"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
@@ -765,9 +767,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"Incorrect QR code"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR code is invalid"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is not correct. Please try again."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Please try again."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -814,7 +816,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Your Test Result"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the public health authority to find out how to proceed.\n\nPlease delete the test from your Corona-Warn-App so that you will be able to save a new test code there, if necessary."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the test center or laboratory involved to find out how to proceed.\n\nPlease delete the test from your Corona-Warn-App so that you will be able to save a new test code there, if necessary."</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Delete Test"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -824,9 +826,9 @@
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Delete the test?"</string>
+    <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"The test will be permanently deleted from the Corona-Warn-App and cannot be added again. This procedure cannot be undone."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"If you delete the test, you can no longer retrieve your test result. You receive your test result from the test center or laboratory, independently of the app. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Remove"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -946,7 +948,7 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"How this works:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"Please keep your test result (if available) and your phone number ready to request a TAN."</string>
+    <string name="submission_contact_body">"Please keep your test result (if available) and your phone number ready to request a TAN.\n\nPeople with hearing impairments can use Tess Relay services (interpreting between German written language and sign language) to contact the phone hotline. You can download the software from Google Play."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Call"</string>
     <!-- XBUT: submission contact enter tan button -->
