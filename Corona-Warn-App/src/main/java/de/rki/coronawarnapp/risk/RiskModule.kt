@@ -16,7 +16,7 @@ abstract class RiskModule {
     ): RiskLevelCalculation
 
     @Binds
-    abstract fun bindRiskScoreValidation(
-        riskScoreValidationImpl: RiskScoreAnalysisImpl
+    abstract fun bindRiskScoreAnalysis(
+        riskScoreAnalysisImpl: RiskScoreAnalysisImpl
     ): RiskScoreAnalysis
 }
