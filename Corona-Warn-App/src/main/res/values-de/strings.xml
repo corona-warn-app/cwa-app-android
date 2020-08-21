@@ -606,9 +606,9 @@
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
     <string name="settings_background_priority_body_description">"Erlauben Sie die automatische Aktualisierung Ihres Risikostatus."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
-    <string name="settings_background_priority_headline">"Corona-Warn-App im Hintergrund ausführen"</string>
+    <string name="settings_background_priority_headline">"Risikostatus immer automatisch aktualisieren"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"Wenn Sie die priorisierte Hintergrundaktivität anschalten, wird die Corona-Warn-App dauerhaft im Hintergrund ausgeführt. So kann die App jederzeit Ihren Risikostatus ermitteln."</string>
+    <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität einschalten, kann die App Ihren Risikostatus immer automatisch prüfen. Damit wird die Optimierung des Akku-Verbrauchs ausschließlich für die Corona-Warn-App deaktiviert."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
