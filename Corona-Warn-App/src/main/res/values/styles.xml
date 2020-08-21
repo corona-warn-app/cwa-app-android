@@ -206,11 +206,11 @@
     </style>
 
     <style name="headline6Sixteen" parent="@style/TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textColor">@color/colorTextEmphasizedButton</item>
+        <item name="android:textColor">@color/colorTextSixteenWhite</item>
     </style>
 
     <style name="subtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorTextEmphasizedButton</item>
+        <item name="android:textColor">@color/colorTextSixteenWhite</item>
     </style>
 
     <!-- ####################################
