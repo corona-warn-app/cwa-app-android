@@ -57,6 +57,10 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         super.onCreate()
         instance = this
 
+        if (CWADebug.isDebugBuildOrMode) {
+            System.setProperty("kotlinx.coroutines.debug", "on")
+        }
+
         val configuration = Configuration.Builder()
             .setMinimumLoggingLevel(android.util.Log.DEBUG)
             .build()
