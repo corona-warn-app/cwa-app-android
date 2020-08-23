@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import dagger.hilt.android.AndroidEntryPoint
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
@@ -30,7 +30,6 @@ import kotlinx.coroutines.launch
  * @see ConnectivityHelper
  * @see BackgroundWorkScheduler
  */
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG: String? = MainActivity::class.simpleName
@@ -85,6 +84,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (applicationContext as CoronaWarnApplication).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)

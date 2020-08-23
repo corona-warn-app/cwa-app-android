@@ -13,12 +13,16 @@ import androidx.lifecycle.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import dagger.hilt.android.HiltAndroidApp
+import dagger.Component
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.ui.LauncherActivity
+import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -28,7 +32,6 @@ import timber.log.Timber
 import java.security.Security
 import java.util.*
 
-@HiltAndroidApp
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
 
@@ -51,9 +54,15 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     private lateinit var errorReceiver: ErrorReportReceiver
 
+    private lateinit var component: ApplicationComponent
+
+    val appComponent: ApplicationComponent
+        get() = component
+
     override fun onCreate() {
         super.onCreate()
         instance = this
+        component = DaggerApplicationComponent.create()
 
         val configuration = Configuration.Builder()
             .setMinimumLoggingLevel(android.util.Log.DEBUG)
@@ -178,4 +187,11 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
+}
+
+@Component(modules = [RiskModule::class])
+interface ApplicationComponent {
+    fun inject(mainActivity: MainActivity)
+    fun inject(onboardingActivity: OnboardingActivity)
+    fun inject(launcherActivity: LauncherActivity)
 }
