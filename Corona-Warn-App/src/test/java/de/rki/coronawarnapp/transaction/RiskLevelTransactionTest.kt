@@ -5,7 +5,13 @@ import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
-import de.rki.coronawarnapp.risk.RiskLevel.*
+import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
+import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
+import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
+import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
@@ -17,14 +23,21 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class RiskLevelTransactionTest {
@@ -453,8 +466,8 @@ class RiskLevelTransactionTest {
     @Test
     fun test_getRiskLevel() {
 
-        //if risk score is within defined level threshold
-        //expected: INCREASED_RISK
+        // if risk score is within defined level threshold
+        // expected: INCREASED_RISK
 
         val testAppConfig = buildTestAppConfig()
         Assert.assertEquals(
@@ -563,5 +576,4 @@ class RiskLevelTransactionTest {
             .setAttenuationDurations(intArray)
             .build()
     }
-
 }

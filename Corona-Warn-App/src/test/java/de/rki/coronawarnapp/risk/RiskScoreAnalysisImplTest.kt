@@ -9,15 +9,14 @@ class RiskScoreAnalysisImplTest {
     fun test_withinDefinedLevelThreshold() {
         val instance = RiskScoreAnalysisImpl()
 
-        //positive
+        // positive
         Assert.assertTrue(instance.withinDefinedLevelThreshold(2.0, 1, 3))
 
-        //negative
+        // negative
         Assert.assertFalse(instance.withinDefinedLevelThreshold(4.0, 1, 3))
 
-        //edge cases
+        // edge cases
         Assert.assertTrue(instance.withinDefinedLevelThreshold(1.0, 1, 3))
         Assert.assertTrue(instance.withinDefinedLevelThreshold(3.0, 1, 3))
     }
-
 }
