@@ -13,7 +13,6 @@ class RiskLevelCalculationImpl @Inject constructor() : RiskLevelCalculation {
         private var TAG = RiskLevelCalculationImpl::class.simpleName
 
         private const val DECIMAL_MULTIPLIER = 100
-
     }
 
     override fun calculateRiskScore(

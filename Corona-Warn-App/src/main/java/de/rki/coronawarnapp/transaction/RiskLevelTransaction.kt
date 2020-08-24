@@ -129,14 +129,14 @@ object RiskLevelTransaction : Transaction() {
 
     override val TAG: String? = RiskLevelTransaction::class.simpleName
 
-    //@Inject lateinit var riskLevelCalculation: RiskLevelCalculation
-    //TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
-    //Injecting here will break Test
+    // @Inject lateinit var riskLevelCalculation: RiskLevelCalculation
+    // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
+    // Injecting here will break Test
     private val riskLevelCalculation: RiskLevelCalculation = RiskLevelCalculationImpl()
 
-    //@Inject lateinit var riskScoreAnalysis: RiskScoreAnalysis
-    //TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
-    //Injecting here will break Test
+    // @Inject lateinit var riskScoreAnalysis: RiskScoreAnalysis
+    // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
+    // Injecting here will break Test
     private val riskScoreAnalysis: RiskScoreAnalysis = RiskScoreAnalysisImpl()
 
     /** possible transaction states */
@@ -573,5 +573,4 @@ object RiskLevelTransaction : Transaction() {
             LocalData.lastTimeRiskLevelCalculation(currentDate)
         }
     }
-
 }

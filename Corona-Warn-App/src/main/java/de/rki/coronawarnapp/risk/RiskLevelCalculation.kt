@@ -9,5 +9,4 @@ interface RiskLevelCalculation {
         attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double
-
 }

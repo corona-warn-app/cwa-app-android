@@ -7,5 +7,4 @@ interface RiskScoreAnalysis {
         min: Int,
         max: Int
     ): Boolean
-
 }
