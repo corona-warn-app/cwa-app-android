@@ -9,7 +9,11 @@ import android.content.pm.ActivityInfo
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.PowerManager
-import androidx.lifecycle.*
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import androidx.work.WorkManager
@@ -30,7 +34,7 @@ import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
-import java.util.*
+import java.util.UUID
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
