@@ -4,8 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.round
 
+@Singleton
 class RiskLevelCalculationImpl @Inject constructor() : RiskLevelCalculation {
 
     companion object {

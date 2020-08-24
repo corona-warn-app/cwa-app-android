@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
-import de.rki.coronawarnapp.CoronaWarnApplication
+import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -31,8 +31,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as CoronaWarnApplication).appComponent.inject(this)
-
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
     }

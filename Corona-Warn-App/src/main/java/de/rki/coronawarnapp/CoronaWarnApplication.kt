@@ -9,25 +9,25 @@ import android.content.pm.ActivityInfo
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.os.PowerManager
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
-import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.ui.LauncherActivity
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -35,9 +35,10 @@ import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
 import java.util.UUID
+import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
-    Application.ActivityLifecycleCallbacks {
+    Application.ActivityLifecycleCallbacks, HasAndroidInjector {
 
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
@@ -58,15 +59,17 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     private lateinit var errorReceiver: ErrorReportReceiver
 
-    private lateinit var component: ApplicationComponent
+    @Inject
+    lateinit var component: ApplicationComponent
 
-    val appComponent: ApplicationComponent
-        get() = component
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
+        AppInjector.init(this)
+
         super.onCreate()
         instance = this
-        component = DaggerApplicationComponent.create()
 
         val configuration = Configuration.Builder()
             .setMinimumLoggingLevel(android.util.Log.DEBUG)
@@ -191,11 +194,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
-}
 
-@Component(modules = [RiskModule::class])
-interface ApplicationComponent {
-    fun inject(mainActivity: MainActivity)
-    fun inject(onboardingActivity: OnboardingActivity)
-    fun inject(launcherActivity: LauncherActivity)
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import de.rki.coronawarnapp.CoronaWarnApplication
+import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
@@ -18,8 +18,7 @@ class LauncherActivity : AppCompatActivity() {
     private lateinit var updateChecker: UpdateChecker
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as CoronaWarnApplication).appComponent.inject(this)
-
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
     }
 
