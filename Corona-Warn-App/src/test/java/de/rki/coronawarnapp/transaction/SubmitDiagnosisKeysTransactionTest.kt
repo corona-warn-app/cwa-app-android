@@ -39,7 +39,7 @@ class SubmitDiagnosisKeysTransactionTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        
+
         mockkObject(WebRequestBuilder.Companion)
         every { WebRequestBuilder.getInstance() } returns webRequestBuilder
 
