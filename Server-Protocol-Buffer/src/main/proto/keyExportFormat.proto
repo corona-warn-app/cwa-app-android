@@ -27,9 +27,22 @@ message SignatureInfo {
     optional string signature_algorithm = 5;
 }
 
+enum ReportType {
+  UNKNOWN = 0;  // Never returned by the client API.
+  CONFIRMED_TEST = 1;
+  CONFIRMED_CLINICAL_DIAGNOSIS = 2;
+  SELF_REPORT = 3;
+  RECURSIVE = 4;  // Reserved for future use.
+  REVOKED = 5;  // Used to revoke a key, never returned by client API.
+}
+
 message SubmissionPayload {
-    repeated TemporaryExposureKey keys = 1;
-    optional bytes padding = 2;
+  repeated TemporaryExposureKey keys = 1;
+  optional bytes padding = 2;
+  repeated string visitedCountries = 3;
+  optional string origin = 4;
+  optional ReportType reportType = 5 [default = CONFIRMED_CLINICAL_DIAGNOSIS];
+  optional bool consentToFederation = 6;
 }
 
 message TemporaryExposureKey {
