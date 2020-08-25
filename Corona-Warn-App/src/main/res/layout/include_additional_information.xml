@@ -4,16 +4,6 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
-
-        <import type="android.view.View" />
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
         <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
@@ -45,55 +35,54 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tracing_status_card_header_headline_card"
+                android:id="@+id/additional_information_headline_card"
                 style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:accessibilityHeading="true"
-                android:contentDescription="@{headline}"
                 android:paddingBottom="@dimen/spacing_normal"
-                android:text="@{headline}"
+                android:text="@{@string/additional_information_header_title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <include
-                android:id="@+id/tracing_status_card_notification_info_short"
-                layout="@layout/include_onboarding_tracing_status_list_row"
+                android:id="@+id/additional_information_notifications_info_short"
+                layout="@layout/include_additional_information_list_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                app:body="@{@string/risk_details_behavior_body_stay_home}"
-                app:icon="@{@drawable/ic_risk_details_home}"
+                app:body="@{@string/additional_information_notifications_info_short_body}"
+                app:icon="@{@drawable/ic_additional_info_notification}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header_headline_card" />
+                app:layout_constraintTop_toBottomOf="@+id/additional_information_headline_card" />
 
             <include
-                android:id="@+id/tracing_status_card_background_info_short"
-                layout="@layout/include_onboarding_tracing_status_list_row"
+                android:id="@+id/additional_information_location_info_short"
+                layout="@layout/include_additional_information_list_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="false"
-                app:body="@{@string/risk_details_behavior_body_stay_away}"
-                app:icon="@{@drawable/ic_risk_details_distance}"
+                app:body="@{@string/additional_information_location_info_short_body}"
+                app:icon="@{@drawable/ic_additional_info_location}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tracing_status_card_notification_info_short" />
+                app:layout_constraintTop_toBottomOf="@id/additional_information_notifications_info_short" />
 
             <include
-                android:id="@+id/tracing_status_card_location_info_short"
-                layout="@layout/include_onboarding_tracing_status_list_row"
+                android:id="@+id/additional_information_background_info_short"
+                layout="@layout/include_additional_information_list_row"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="false"
-                app:body="@{@string/risk_details_behavior_body_stay_away}"
-                app:icon="@{@drawable/ic_risk_details_distance}"
+                app:body="@{@string/additional_information_background_info_short_body}"
+                app:icon="@{@drawable/ic_additional_info_background}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tracing_status_card_background_info_short" />
+                app:layout_constraintTop_toBottomOf="@id/additional_information_location_info_short" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -133,8 +133,8 @@
         <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
-    <style name="cardTracingDesc">
-        <item name="android:padding">@dimen/card_padding</item>
+    <style name="additionalInfoLong">
+        <item name="android:padding">@dimen/additional_info_long_padding</item>
         <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
@@ -214,8 +214,8 @@
         <item name="android:tint">@color/colorStableLight</item>
     </style>
 
-    <style name="iconOnboarding">
-        <item name="android:tint">@color/colorStableMedium</item>
+    <style name="iconAdditionalInformation">
+        <item name="android:tint">@color/additionalInformationIconColor</item>
     </style>
 
     <!-- ####################################

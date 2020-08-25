@@ -22,7 +22,7 @@
         android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/onboarding_tracing_status_list_icon"
+            android:id="@+id/additional_information_list_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle_gray"
@@ -31,8 +31,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/tracing_status_card_header_icon"
-                style="@style/iconOnboarding"
+                android:id="@+id/additional_information_header_icon"
+                style="@style/iconAdditionalInformation"
                 android:layout_width="@dimen/icon_size_main_card_end"
                 android:layout_height="@dimen/icon_size_main_card_end"
                 android:focusable="false"
@@ -40,7 +40,6 @@
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tracing_status_card_header_headline"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,7 +51,7 @@
             android:text="@{body}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/onboarding_tracing_status_list_icon"
+            app:layout_constraintStart_toEndOf="@+id/additional_information_list_icon"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

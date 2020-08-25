@@ -93,6 +93,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration"
                 tools:text="@string/onboarding_headline" />
 
+            <include
+                android:id="@+id/onboarding_location_card_list"
+                layout="@layout/include_additional_information"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
+                app:body="@{locationBodyCard}"
+                app:headline="@{locationHeadlineCard}"
+                app:icon="@{locationIconCard}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_headline" />
+
             <TextView
                 android:id="@+id/onboarding_subtitle"
                 style="@style/subtitle"
@@ -104,7 +119,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_list"
                 tools:text="@string/onboarding_subtitle" />
 
             <TextView
@@ -151,63 +166,63 @@
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
                 tools:text="@string/onboarding_tracing_easy_language_explanation" />
 
+            <!--            <include-->
+            <!--                android:id="@+id/onboarding_location_card_list"-->
+            <!--                layout="@layout/include_additional_information"-->
+            <!--                android:layout_width="@dimen/match_constraint"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/spacing_normal"-->
+            <!--                android:focusable="true"-->
+            <!--                android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"-->
+            <!--                app:body="@{locationBodyCard}"-->
+            <!--                app:headline="@{locationHeadlineCard}"-->
+            <!--                app:icon="@{locationIconCard}"-->
+            <!--                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language" />-->
+
             <include
-                android:id="@+id/onboarding_location_card_list"
-                layout="@layout/include_onboarding_tracing_status_card"
+                android:id="@+id/additional_information_notification_info_long"
+                layout="@layout/include_additional_information_long"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
-                app:body="@{locationBodyCard}"
-                app:headline="@{locationHeadlineCard}"
-                app:icon="@{locationIconCard}"
+                app:body="@{@string/additional_information_notifications_info_long_body}"
+                app:headline="@{@string/additional_information_notifications_info_long_title}"
+                app:icon="@{@drawable/ic_additional_info_notification}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language" />
 
             <include
-                android:id="@+id/onboarding_location_card_list_desc"
-                layout="@layout/include_onboarding_tracing_status_card_description"
+                android:id="@+id/additional_information_location_info_long"
+                layout="@layout/include_additional_information_long"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
-                app:body="@{locationBodyCard}"
-                app:headline="@{locationHeadlineCard}"
-                app:icon="@{@drawable/ic_risk_details_home}"
+                app:body="@{@string/additional_information_location_info_long_body}"
+                app:headline="@{@string/additional_information_location_info_long_title}"
+                app:icon="@{@drawable/ic_additional_info_location}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_list" />
+                app:layout_constraintTop_toBottomOf="@+id/additional_information_notification_info_long" />
 
             <include
-                android:id="@+id/onboarding_location_card_list_desc_notif"
-                layout="@layout/include_onboarding_tracing_status_card_description"
+                android:id="@+id/additional_information_background_info_long"
+                layout="@layout/include_additional_information_long"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
-                app:body="@{locationBodyCard}"
-                app:headline="@{locationHeadlineCard}"
-                app:icon="@{@drawable/ic_risk_details_home}"
+                app:body="@{@string/additional_information_background_info_long_body}"
+                app:headline="@{@string/additional_information_background_info_long_title}"
+                app:icon="@{@drawable/ic_additional_info_background}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_list_desc" />
-
-            <include
-                android:id="@+id/onboarding_location_card_list_desc_geo"
-                layout="@layout/include_onboarding_tracing_status_card_description"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
-                app:body="@{locationBodyCard}"
-                app:headline="@{locationHeadlineCard}"
-                app:icon="@{@drawable/ic_risk_details_home}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_list_desc_notif" />
+                app:layout_constraintTop_toBottomOf="@+id/additional_information_location_info_long" />
 
             <include
                 android:id="@+id/onboarding_card"
@@ -221,7 +236,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_list_desc_geo" />
+                app:layout_constraintTop_toBottomOf="@+id/additional_information_background_info_long" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"

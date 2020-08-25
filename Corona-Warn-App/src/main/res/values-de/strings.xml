@@ -474,6 +474,26 @@
     <string name="onboarding_notifications_body">"Auf diese Weise können Sie sich zum Schutz Ihrer Mitmenschen in Isolation begeben und sich nach entsprechender Abklärung testen lassen."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_header_title">"Folgende Berechtigungen werden angefordert:"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_notifications_info_short_body">"Benachrichtigungen"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_location_info_short_body">"Standort Verwendung"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_background_info_short_body">"Priorisierte Hintergrundaktivität"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_notifications_info_long_title">"Benachrichtigungen"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_location_info_long_title">"Standort Verwendung"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_background_info_long_title">"Priorisierte Hintergrundaktivität"</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_notifications_info_long_body">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla posuere tincidunt aliquam."</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_location_info_long_body">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla posuere tincidunt aliquam."</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_background_info_long_body">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla posuere tincidunt aliquam."</string>
 
     <!-- ####################################
                   Settings

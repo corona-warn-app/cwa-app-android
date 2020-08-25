@@ -45,6 +45,9 @@
     <!-- Tan Input -->
     <color name="tanInputBackground">#1A17191A</color>
 
+    <!-- Additional information icon color -->
+    <color name="additionalInformationIconColor">#5D6E80</color>
+
     <!-- Stable Colors -->
     <color name="colorStableDark">#000000</color>
     <color name="colorStableMedium">#4D17191A</color>

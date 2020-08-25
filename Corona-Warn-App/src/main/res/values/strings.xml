@@ -476,6 +476,26 @@
     <string name="onboarding_notifications_body">"You can then self-isolate to protect others and find out where you can get tested."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_header_title">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_notifications_info_short_body">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_location_info_short_body">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_background_info_short_body">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_notifications_info_long_title">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_location_info_long_title">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_background_info_long_title">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_notifications_info_long_body">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_location_info_long_body">""</string>
+    <!-- XBUT: onboarding - additional information -->
+    <string name="additional_information_background_info_long_body">""</string>
 
     <!-- ####################################
                   Settings

@@ -58,6 +58,9 @@
     <dimen name="card_padding">@dimen/spacing_normal</dimen>
     <dimen name="card_divider">1dp</dimen>
 
+    <!-- additional_info -->
+    <dimen name="additional_info_long_padding">@dimen/spacing_small</dimen>
+
     <!-- general -->
     <dimen name="radius_button">@dimen/spacing_tiny</dimen>
     <dimen name="radius_card">4dp</dimen>
