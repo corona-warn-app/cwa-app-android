@@ -58,13 +58,20 @@ class SubmitDiagnosisKeysTransactionTest {
     @Test
     fun testTransactionNoKeys() {
         coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf()
-        coEvery { webRequestBuilder.asyncSubmitKeysToServer(authString, listOf()) } just Runs
+        coEvery {
+            webRequestBuilder.asyncSubmitKeysToServer(
+                authString,
+                any(),
+                any(),
+                any()
+            )
+        } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf())
+            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), false, listOf())
 
             coVerifyOrder {
-                webRequestBuilder.asyncSubmitKeysToServer(authString, listOf())
+                webRequestBuilder.asyncSubmitKeysToServer(authString, listOf(), false, listOf())
                 SubmissionService.submissionSuccessful()
             }
         }
@@ -83,14 +90,19 @@ class SubmitDiagnosisKeysTransactionTest {
             key
         )
         coEvery {
-            webRequestBuilder.asyncSubmitKeysToServer(authString, capture(testList))
+            webRequestBuilder.asyncSubmitKeysToServer(
+                authString,
+                listOf(),
+                false,
+                capture(testList)
+            )
         } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key))
+            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), false, listOf(key))
 
             coVerifyOrder {
-                webRequestBuilder.asyncSubmitKeysToServer(authString, any())
+                webRequestBuilder.asyncSubmitKeysToServer(authString, any(), any(), any())
                 SubmissionService.submissionSuccessful()
             }
             assertThat(testList.isCaptured, `is`(true))

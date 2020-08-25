@@ -125,17 +125,24 @@ class SubmissionServiceTest {
     @Test(expected = NoRegistrationTokenSetException::class)
     fun submitExposureKeysWithoutRegistrationTokenFails() {
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            SubmissionService.asyncSubmitExposureKeys(listOf(), false, listOf())
         }
     }
 
     @Test
     fun submitExposureKeysSucceeds() {
         every { LocalData.registrationToken() } returns registrationToken
-        coEvery { SubmitDiagnosisKeysTransaction.start(registrationToken, any()) } just Runs
+        coEvery {
+            SubmitDiagnosisKeysTransaction.start(
+                registrationToken,
+                any(),
+                any(),
+                any()
+            )
+        } just Runs
 
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            SubmissionService.asyncSubmitExposureKeys(listOf(), false, listOf())
         }
     }
 

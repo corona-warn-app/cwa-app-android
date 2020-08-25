@@ -59,6 +59,8 @@ class PlaybookImpl(
 
     override suspend fun submission(
         registrationToken: String,
+        visitedCountries: List<String>,
+        consentToFederation: Boolean,
         keys: List<KeyExportFormat.TemporaryExposureKey>
     ) {
         Timber.i("[$uid] New Submission Playbook")
@@ -75,7 +77,12 @@ class PlaybookImpl(
 
         // real submission
         if (authCode != null) {
-            webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
+            webRequestBuilder.asyncSubmitKeysToServer(
+                authCode,
+                visitedCountries,
+                consentToFederation,
+                keys
+            )
             coroutineScope.launch { followUpPlaybooks() }
         } else {
             webRequestBuilder.asyncFakeSubmission()

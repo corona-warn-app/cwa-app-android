@@ -22,6 +22,8 @@ interface Playbook {
 
     suspend fun submission(
         registrationToken: String,
+        visitedCountries: List<String>,
+        consentToFederation: Boolean,
         keys: List<KeyExportFormat.TemporaryExposureKey>
     )
 

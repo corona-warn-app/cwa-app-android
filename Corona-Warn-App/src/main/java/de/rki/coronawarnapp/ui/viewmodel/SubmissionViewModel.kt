@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.RequiredParameterNotSetException
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -48,11 +49,26 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.testResultReceivedDate
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
+    val visitedCountries: LiveData<List<String>> =
+        SubmissionRepository.visitedCountries
+    val consentToFederation: LiveData<Boolean> =
+        SubmissionRepository.consentToFederation
+
+    private fun <T> notNullGuard(value: T?): T {
+        if (value == null) {
+            throw RequiredParameterNotSetException()
+        }
+        return value
+    }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
             _submissionState.value = ApiRequestState.STARTED
-            SubmissionService.asyncSubmitExposureKeys(keys)
+            SubmissionService.asyncSubmitExposureKeys(
+                notNullGuard(visitedCountries.value),
+                notNullGuard(consentToFederation.value),
+                keys
+            )
             _submissionState.value = ApiRequestState.SUCCESS
         } catch (err: CwaWebException) {
             _submissionError.value = Event(err)
@@ -121,6 +137,14 @@ class SubmissionViewModel : ViewModel() {
         SubmissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
+    }
+
+    fun setVisitedCountries(countries: List<String>) {
+        SubmissionRepository.setVisitedCountries(countries)
+    }
+
+    fun setConsentToFederation(consent: Boolean) {
+        SubmissionRepository.setConsentToFederation(consent)
     }
 
     private fun executeRequestWithState(

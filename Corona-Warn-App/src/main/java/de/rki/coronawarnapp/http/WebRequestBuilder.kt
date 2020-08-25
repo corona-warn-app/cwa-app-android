@@ -202,6 +202,8 @@ class WebRequestBuilder(
 
     suspend fun asyncSubmitKeysToServer(
         authCode: String,
+        visitedCountries: List<String>,
+        consentToFederation: Boolean,
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
         Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
@@ -214,6 +216,8 @@ class WebRequestBuilder(
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .addAllVisitedCountries(visitedCountries)
+            .setConsentToFederation(consentToFederation)
             .build()
         submissionService.submitKeys(
             DiagnosisKeyConstants.DIAGNOSIS_KEYS_SUBMISSION_URL,

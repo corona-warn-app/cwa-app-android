@@ -40,7 +40,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
 
         PlaybookImpl(server.newWebRequestBuilder())
-            .submission("token", listOf())
+            .submission("token", listOf(), false, listOf())
 
         // ensure request order is 2x verification and 1x submission
         assertRequestPattern(server)
@@ -147,7 +147,7 @@ class PlaybookImplTest {
 
         try {
             PlaybookImpl(server.newWebRequestBuilder())
-                .submission("token", listOf())
+                .submission("token", listOf(), false, listOf())
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {
         }

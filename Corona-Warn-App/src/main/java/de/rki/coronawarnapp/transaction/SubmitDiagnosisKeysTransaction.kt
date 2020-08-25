@@ -50,6 +50,8 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         registrationToken: String,
+        visitedCountries: List<String>,
+        consentToFederation: Boolean,
         keys: List<TemporaryExposureKey>
     ) = lockAndExecuteUnique {
         /****************************************************
@@ -65,6 +67,8 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
             PlaybookImpl(WebRequestBuilder.getInstance()).submission(
                 registrationToken,
+                visitedCountries,
+                consentToFederation,
                 temporaryExposureKeyList
             )
         }
