@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
+import java.io.IOException
 import java.util.UUID
 
 class DeviceStorageTest : BaseIOTest() {
@@ -173,6 +174,34 @@ class DeviceStorageTest : BaseIOTest() {
             isSpaceAvailable = false,
             freeBytes = defaultFreeSpace,
             totalBytes = defaultTotalSpace
+        )
+    }
+
+    @Test
+    fun `check private storage space, error case`() {
+        every { storageManager.getUuidForPath(privateDataDir) } throws IOException("uh oh")
+
+        val deviceStorage = buildInstance()
+
+        deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
+            path = privateDataDir,
+            isSpaceAvailable = true,
+            freeBytes = -1L,
+            totalBytes = -1L
+        )
+    }
+
+    @Test
+    fun `check private storage space, sub API26, error case`() {
+        every { statsFsProvider.createStats(privateDataDir) } throws IOException("uh oh")
+
+        val deviceStorage = buildInstance(level = legacyApiLevel)
+
+        deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
+            path = privateDataDir,
+            isSpaceAvailable = true,
+            freeBytes = -1L,
+            totalBytes = -1L
         )
     }
 }
