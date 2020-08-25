@@ -44,9 +44,9 @@
             <TextView
                 android:id="@+id/label_exposure_summary"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="@string/test_api_exposure_summary_headline" />
 
             <TextView
@@ -106,10 +106,10 @@
             <TextView
                 android:id="@+id/label_my_keys"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
                 android:text="@string/test_api_body_my_keys" />
 
             <TextView
@@ -134,9 +134,9 @@
             <TextView
                 android:id="@+id/label_other_keys"
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="@string/test_api_body_other_keys" />
 
             <TextView
@@ -225,24 +225,59 @@
                 android:text="Get Active Tracing Duration in Retention Period" />
 
             <TextView
-                style="@style/headline4"
-                android:accessibilityHeading="true"
+                android:id="@+id/label_country_filter"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
+                android:text="@string/test_api_country_settings_heading" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_country_codes_editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9" />
+
+                <Button
+                    android:id="@+id/button_filter_country_codes"
+                    style="@style/buttonPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="Apply"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/label_country_code_filter_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/test_api_country_filter_status">
+
+            </TextView>
+
+            <TextView
+                style="@style/headline4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="headline4" />
 
             <TextView
                 style="@style/headline5"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="headline5" />
 
             <TextView
                 style="@style/headline6"
-                android:accessibilityHeading="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
                 android:text="headline6" />
 
             <TextView

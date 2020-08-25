@@ -78,10 +78,24 @@ class WebRequestBuilder(
         }
     }
 
-    suspend fun asyncGetDateIndex(): List<String> = withContext(Dispatchers.IO) {
-        return@withContext distributionService
-            .getDateIndex(DiagnosisKeyConstants.AVAILABLE_DATES_URL).toList()
-    }
+    /**
+     * Gets the country index which is then filtered by given filter param or if param not set
+     * DiagnosisKeyConstants.COUNTRIES will be used for filtering
+     * @param filter (array of country codes) used to filter
+     * only wanted countries of the country index (case insensitive)
+     */
+    suspend fun asyncGetCountryIndex(
+        filter: List<String> = DiagnosisKeyConstants.COUNTRIES
+    ): List<String> =
+        withContext(Dispatchers.IO) {
+            return@withContext distributionService
+                .getDateIndex(DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL)
+                .filter {
+                    filter.map { c -> c.toUpperCase() }
+                        .contains(it.toUpperCase())
+                }
+                .toList()
+        }
 
     suspend fun asyncGetHourIndex(day: Date): List<String> = withContext(Dispatchers.IO) {
         return@withContext distributionService
@@ -89,6 +103,16 @@ class WebRequestBuilder(
                 DiagnosisKeyConstants.AVAILABLE_DATES_URL +
                         "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
             )
+            .toList()
+    }
+
+    /**
+     * Get the date index based on the given country
+     * @param country the country where the date index should be requested
+     */
+    suspend fun asyncGetDateIndex(country: String): List<String> = withContext(Dispatchers.IO) {
+        return@withContext distributionService
+            .getDateIndex("${DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL}/$country/${DiagnosisKeyConstants.DATE}")
             .toList()
     }
 

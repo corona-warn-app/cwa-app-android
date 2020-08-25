@@ -1143,5 +1143,7 @@
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
     <!-- NOTR -->
     <string name="test_api_switch_background_notifications">"Background Notifications"</string>
+    <string name="test_api_country_filter_status">Country filter applied for: \n%1$s</string>
+    <string name="test_api_country_settings_heading">Country Settings</string>
 
 </resources>

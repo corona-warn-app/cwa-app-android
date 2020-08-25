@@ -8,6 +8,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.Toast
@@ -41,6 +42,7 @@ import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
+import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -48,33 +50,9 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.util.KeyFileHelper
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_enter_other_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_check_exposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_exposure_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_scan_qr_code
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_share_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_submit_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_test_start
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_calculate_risk_level
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_clear_db
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_insert_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_retrieve_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_duration_in_retention_period
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_intervals
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_attenuation
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_daysSinceLastExposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_matchedKeyCount
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_maximumRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_googlePlayServices_version
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_latest_key_date
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.qr_code_viewpager
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_background_notifications
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_scanned_key
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -83,7 +61,7 @@ import org.joda.time.DateTimeZone
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
-import java.util.UUID
+import java.util.*
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
@@ -165,6 +143,15 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         qrPager = qr_code_viewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
+
+
+        // Update Country UI element states
+        (input_country_codes_editText as EditText).setText(
+            DiagnosisKeyConstants.COUNTRIES.joinToString(
+                ","
+            )
+        )
+        updateCountryStatusLabel()
 
         button_api_test_start.setOnClickListener {
             start()
@@ -275,12 +262,41 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
             }
         }
+
+        button_filter_country_codes.setOnClickListener {
+            // Get user input country codes
+            val rawCountryCodes = (input_country_codes_editText as EditText).text.toString()
+
+            // Country codes can be seperated by space or ,
+            val countryCodes = rawCountryCodes.split(',', ' ')
+
+            // DiagnosisKeyConstants.COUNTRIES is used in @see WebRequestBuilder to filter
+            // countries out of the full countries index of the server (response)
+            DiagnosisKeyConstants.COUNTRIES = countryCodes.filter { it.isNotEmpty() }
+
+            // Trigger asyncFetchFiles which will use all Countries defined in
+            // DiagnosisKeyConstants.COUNTRIES
+            val currentDate = Date(System.currentTimeMillis())
+            lifecycleScope.launch {
+                CachedKeyFileHolder.asyncFetchFiles(currentDate)
+                updateCountryStatusLabel()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
         updateExposureSummaryDisplay(null)
+    }
+
+    /**
+     * Updates the Label for country filter
+     */
+    private fun updateCountryStatusLabel() {
+        label_country_code_filter_status.text =
+            getString(R.string.test_api_country_filter_status,
+                DiagnosisKeyConstants.COUNTRIES.joinToString(", "))
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
