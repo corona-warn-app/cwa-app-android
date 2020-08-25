@@ -107,10 +107,10 @@ class TestRiskLevelCalculation : Fragment() {
             tracingViewModel.viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     try {
-                        // Database Reset
-                        AppDatabase.getInstance(requireContext()).clearAllTables()
-                        // Delete Database Instance
+                        // Preference reset
                         SecurityHelper.resetSharedPrefs()
+                        // Database Reset
+                        AppDatabase.reset(requireContext())
                         // Export File Reset
                         FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
 
@@ -124,7 +124,7 @@ class TestRiskLevelCalculation : Fragment() {
                 }
                 RiskLevelTransaction.start()
                 Toast.makeText(
-                    requireContext(), "Resetted, please fetch diagnosis keys from server again",
+                    requireContext(), "Reset done, please fetch diagnosis keys from server again",
                     Toast.LENGTH_SHORT
                 ).show()
             }
