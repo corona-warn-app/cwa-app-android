@@ -72,14 +72,6 @@ fun formatVisibilityIcon(drawable: Any?): Int? {
     }
 }
 
-// fun formatVisibilityIconByAndroidVersion(drawable: Any?): Int? {
-//    return if (Build.VERSION.SDK_INT < 30 && drawable != null) {
-//        View.VISIBLE
-//    } else {
-//        View.GONE
-//    }
-// }
-
 /**
  * Formats visibility of item depending on flag provided
  * Flag is inverted
