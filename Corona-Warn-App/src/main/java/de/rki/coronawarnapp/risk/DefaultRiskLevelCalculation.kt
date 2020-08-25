@@ -8,11 +8,11 @@ import javax.inject.Singleton
 import kotlin.math.round
 
 @Singleton
-class RiskLevelCalculationImpl @Inject constructor() : RiskLevelCalculation {
+class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
 
     companion object {
 
-        private var TAG = RiskLevelCalculationImpl::class.simpleName
+        private var TAG = DefaultRiskLevelCalculation::class.simpleName
 
         private const val DECIMAL_MULTIPLIER = 100
     }

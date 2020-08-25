@@ -3,11 +3,11 @@ package de.rki.coronawarnapp.risk
 import org.junit.Assert
 import org.junit.Test
 
-class RiskScoreAnalysisImplTest {
+class DefaultRiskScoreAnalysisTest {
 
     @Test
     fun test_withinDefinedLevelThreshold() {
-        val instance = RiskScoreAnalysisImpl()
+        val instance = DefaultRiskScoreAnalysis()
 
         // positive
         Assert.assertTrue(instance.withinDefinedLevelThreshold(2.0, 1, 3))

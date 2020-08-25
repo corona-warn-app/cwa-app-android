@@ -10,7 +10,7 @@ class RiskLevelCalculationTest {
     @Test
     fun calculateRiskScoreZero() {
         val riskScore =
-            RiskLevelCalculationImpl().calculateRiskScore(
+            DefaultRiskLevelCalculation().calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(0, 0, 0, 0)
             )
@@ -21,7 +21,7 @@ class RiskLevelCalculationTest {
     @Test
     fun calculateRiskScoreLow() {
         val riskScore =
-            RiskLevelCalculationImpl().calculateRiskScore(
+            DefaultRiskLevelCalculation().calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(156, 10, 10, 10)
             )
@@ -32,7 +32,7 @@ class RiskLevelCalculationTest {
     @Test
     fun calculateRiskScoreMid() {
         val riskScore =
-            RiskLevelCalculationImpl().calculateRiskScore(
+            DefaultRiskLevelCalculation().calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(256, 15, 15, 15)
             )
@@ -43,7 +43,7 @@ class RiskLevelCalculationTest {
     @Test
     fun calculateRiskScoreHigh() {
         val riskScore =
-            RiskLevelCalculationImpl().calculateRiskScore(
+            DefaultRiskLevelCalculation().calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(512, 30, 30, 30)
             )
@@ -54,7 +54,7 @@ class RiskLevelCalculationTest {
     @Test
     fun calculateRiskScoreMax() {
         val riskScore =
-            RiskLevelCalculationImpl().calculateRiskScore(
+            DefaultRiskLevelCalculation().calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(4096, 30, 30, 30)
             )
@@ -65,7 +65,7 @@ class RiskLevelCalculationTest {
     @Test
     fun calculateRiskScoreCapped() {
         val riskScore =
-            RiskLevelCalculationImpl().calculateRiskScore(
+            DefaultRiskLevelCalculation().calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(4096, 45, 45, 45)
             )

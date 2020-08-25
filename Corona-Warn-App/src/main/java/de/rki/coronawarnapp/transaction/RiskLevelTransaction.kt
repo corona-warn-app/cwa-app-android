@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
-import de.rki.coronawarnapp.risk.RiskLevelCalculationImpl
+import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
-import de.rki.coronawarnapp.risk.RiskScoreAnalysisImpl
+import de.rki.coronawarnapp.risk.DefaultRiskScoreAnalysis
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
@@ -132,12 +132,12 @@ object RiskLevelTransaction : Transaction() {
     // @Inject lateinit var riskLevelCalculation: RiskLevelCalculation
     // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
     // Injecting here will break Test
-    private val riskLevelCalculation: RiskLevelCalculation = RiskLevelCalculationImpl()
+    private val riskLevelCalculation: RiskLevelCalculation = DefaultRiskLevelCalculation()
 
     // @Inject lateinit var riskScoreAnalysis: RiskScoreAnalysis
     // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
     // Injecting here will break Test
-    private val riskScoreAnalysis: RiskScoreAnalysis = RiskScoreAnalysisImpl()
+    private val riskScoreAnalysis: RiskScoreAnalysis = DefaultRiskScoreAnalysis()
 
     /** possible transaction states */
     private enum class RiskLevelTransactionState : TransactionState {
