@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -70,6 +71,8 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         super.onCreate()
         instance = this
+
+        if (CWADebug.isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
         val configuration = Configuration.Builder()
             .setMinimumLoggingLevel(android.util.Log.DEBUG)
