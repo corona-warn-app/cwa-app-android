@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import de.rki.coronawarnapp.util.PowerManagementHelper
+import de.rki.coronawarnapp.util.device.DefaultPowerManagement
 
 /**
  * The Settings Repository maps all setting states from different sources to MutableLiveData.
@@ -17,6 +17,11 @@ import de.rki.coronawarnapp.util.PowerManagementHelper
 object SettingsRepository {
 
     private val TAG: String? = SettingsRepository::class.simpleName
+
+    // TODO convert to class, then inject
+    // @Inject
+    // lateinit var powerManagement: PowerManagement
+    var powerManagement = DefaultPowerManagement()
 
     // public mutable live data
     val isNotificationsEnabled = MutableLiveData(true)
@@ -133,6 +138,6 @@ object SettingsRepository {
      */
     fun refreshBackgroundPriorityEnabled(context: Context) {
         isBackgroundPriorityEnabled.value =
-            PowerManagementHelper.isIgnoringBatteryOptimizations(context)
+            powerManagement.isIgnoringBatteryOptimizations(context)
     }
 }

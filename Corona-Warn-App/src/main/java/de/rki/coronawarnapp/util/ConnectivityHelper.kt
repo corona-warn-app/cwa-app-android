@@ -15,6 +15,7 @@ import android.os.Build
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.device.DefaultPowerManagement
 import timber.log.Timber
 
 /**
@@ -22,6 +23,11 @@ import timber.log.Timber
  */
 object ConnectivityHelper {
     private val TAG: String? = ConnectivityHelper::class.simpleName
+
+    // TODO convert to class, then inject
+    // @Inject
+    // lateinit var powerManagement: PowerManagement
+    var powerManagement = DefaultPowerManagement()
 
     /**
      * Register bluetooth state change listener.
@@ -210,7 +216,7 @@ object ConnectivityHelper {
      * @see isBackgroundRestricted
      */
     fun autoModeEnabled(context: Context): Boolean {
-        return !isBackgroundRestricted(context) || PowerManagementHelper.isIgnoringBatteryOptimizations(context)
+        return !isBackgroundRestricted(context) || powerManagement.isIgnoringBatteryOptimizations(context)
     }
 
     /**

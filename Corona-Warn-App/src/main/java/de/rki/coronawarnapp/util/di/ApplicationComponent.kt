@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.ui.ActivityBinder
+import de.rki.coronawarnapp.util.UtilModule
 import javax.inject.Singleton
 
 @Singleton
@@ -18,7 +19,8 @@ import javax.inject.Singleton
         ReceiverBinder::class,
         ServiceBinder::class,
         ActivityBinder::class,
-        RiskModule::class
+        RiskModule::class,
+        UtilModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

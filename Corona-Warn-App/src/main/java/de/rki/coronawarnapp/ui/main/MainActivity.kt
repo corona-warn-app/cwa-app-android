@@ -18,9 +18,10 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.PowerManagementHelper
+import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * This activity holds all the fragments (except onboarding) and also registers a listener for
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     private lateinit var settingsViewModel: SettingsViewModel
+
+    @Inject
+    lateinit var powerManagement: PowerManagement
 
     /**
      * Register connection callback.
@@ -128,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForEnergyOptimizedEnabled() {
-        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(this)) {
+        if (!powerManagement.isIgnoringBatteryOptimizations(this)) {
             showEnergyOptimizedEnabledForBackground()
         }
     }
