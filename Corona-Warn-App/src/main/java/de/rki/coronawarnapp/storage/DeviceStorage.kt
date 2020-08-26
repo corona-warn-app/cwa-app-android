@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.ApiLevel
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 import java.util.UUID
 
 // TODO Add inject when #1069 is merged
@@ -72,32 +73,41 @@ class DeviceStorage constructor(
         )
     }
 
-    private fun checkSpace(path: File, requiredBytes: Long = -1L): CheckResult =
+    @WorkerThread
+    @Throws(IOException::class)
+    private fun checkSpace(path: File, requiredBytes: Long = -1L): CheckResult {
         try {
-            val result = if (apiLevel.hasAPILevel(Build.VERSION_CODES.O)) {
-                requestStorageAPI26Plus(path, requiredBytes)
+            Timber.tag(TAG).v("checkSpace(path=%s, requiredBytes=%d)", path, requiredBytes)
+            val result: CheckResult = if (apiLevel.hasAPILevel(Build.VERSION_CODES.O)) {
+                try {
+                    requestStorageAPI26Plus(path, requiredBytes)
+                } catch (e: Exception) {
+                    Timber.tag(TAG).e(e, "requestStorageAPI26Plus() failed")
+                    requestStorageLegacy(path, requiredBytes)
+                }
             } else {
                 requestStorageLegacy(path, requiredBytes)
             }
+
             Timber.tag(TAG).d("Requested %d from %s: %s", requiredBytes, path, result)
-            result
+            return result
         } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Failed to request %d on %s", requiredBytes, path)
-            // Android storage is a fickle beast
-            // If the space request fails, it's possible that the write attempt will still succeed
-            CheckResult(path, true, -1L, -1L)
+            throw IOException("checkSpace(path=$path, requiredBytes=$requiredBytes) FAILED", e)
+                .also { Timber.tag(TAG).e(it) }
         }
+    }
 
     /**
      * Returns an **[CheckResult]** telling you how much private storage is available to us
      * Pass **[requiredBytes]** if we should attempt to free space if not enough is available.
      * This may cause the system to delete caches to free space.
-     * If there are any errors you'll get a result with **[CheckResult.isSpaceAvailable]**,
-     * but **[CheckResult.freeBytes]** == -1L
      *
      * Don't call this on the UI thread as the operation may block due to IO.
+     *
+     * @throws IOException if storage check or allocation fails.
      */
     @WorkerThread
+    @Throws(IOException::class)
     fun checkSpacePrivateStorage(requiredBytes: Long = -1L): CheckResult =
         checkSpace(privateStorage, requiredBytes)
 

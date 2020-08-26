@@ -7,6 +7,7 @@ import android.os.StatFs
 import android.os.storage.StorageManager
 import de.rki.coronawarnapp.util.ApiLevel
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -178,7 +179,7 @@ class DeviceStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `check private storage space, error case`() {
+    fun `check private storage space, fallback in error case`() {
         every { storageManager.getUuidForPath(privateDataDir) } throws IOException("uh oh")
 
         val deviceStorage = buildInstance()
@@ -186,22 +187,19 @@ class DeviceStorageTest : BaseIOTest() {
         deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
             path = privateDataDir,
             isSpaceAvailable = true,
-            freeBytes = -1L,
-            totalBytes = -1L
+            freeBytes = defaultFreeSpace,
+            totalBytes = defaultTotalSpace
         )
+
+        verify { statsFsProvider.createStats(privateDataDir) }
     }
 
     @Test
-    fun `check private storage space, sub API26, error case`() {
+    fun `check private storage space, sub API26, error case has no fallback`() {
         every { statsFsProvider.createStats(privateDataDir) } throws IOException("uh oh")
 
         val deviceStorage = buildInstance(level = legacyApiLevel)
 
-        deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = -1L,
-            totalBytes = -1L
-        )
+        shouldThrow<IOException> { deviceStorage.checkSpacePrivateStorage() }
     }
 }
