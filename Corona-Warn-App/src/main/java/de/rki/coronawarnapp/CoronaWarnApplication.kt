@@ -17,6 +17,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import androidx.work.WorkManager
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -24,6 +27,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -31,9 +36,10 @@ import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
 import java.util.UUID
+import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
-    Application.ActivityLifecycleCallbacks {
+    Application.ActivityLifecycleCallbacks, HasAndroidInjector {
 
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
@@ -54,7 +60,15 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     private lateinit var errorReceiver: ErrorReportReceiver
 
+    @Inject
+    lateinit var component: ApplicationComponent
+
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
     override fun onCreate() {
+        AppInjector.init(this)
+
         super.onCreate()
         instance = this
 
@@ -183,4 +197,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }
