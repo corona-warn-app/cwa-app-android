@@ -55,6 +55,8 @@ class TestRiskLevelCalculation : Fragment() {
         val TAG: String? = TestRiskLevelCalculation::class.simpleName
     }
 
+    val x: Int = "A"
+
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
