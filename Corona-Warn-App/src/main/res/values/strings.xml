@@ -480,6 +480,16 @@
     <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
 
     <!-- ####################################
+              Onboarding sixteen include
+    ###################################### -->
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_title_text">""</string>
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_description_text">""</string>
+
+    <!-- ####################################
                   Settings
     ###################################### -->
 

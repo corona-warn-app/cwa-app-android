@@ -478,6 +478,17 @@
     <string name="onboarding_notifications_illustration_description">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
 
     <!-- ####################################
+             Onboarding sixteen include
+   ###################################### -->
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_title_text">"App Nutzung ab 16 Jahren"</string>
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_description_text">"Die App richtet sich an Personen, die sich in Deutschland aufhalten und mindestens 16 Jahre alt sind."</string>
+
+
+    <!-- ####################################
                   Settings
     ###################################### -->
 
