@@ -37,7 +37,7 @@ android {
         versionName "1.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        
+
         resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -142,6 +142,9 @@ android {
     }
 
     testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
@@ -205,10 +208,10 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     ]
 
     def classPaths = [
-        "**/intermediates/classes/deviceRelease/**",
-        "**/intermediates/javac/deviceRelease/*/classes/**", // Android Gradle Plugin 3.2.x support.
-        "**/intermediates/javac/deviceRelease/classes/**", // Android Gradle Plugin 3.4 and 3.5 support.
-        "**/tmp/kotlin-classes/deviceRelease/**"
+            "**/intermediates/classes/deviceRelease/**",
+            "**/intermediates/javac/deviceRelease/*/classes/**", // Android Gradle Plugin 3.2.x support.
+            "**/intermediates/javac/deviceRelease/classes/**", // Android Gradle Plugin 3.4 and 3.5 support.
+            "**/tmp/kotlin-classes/deviceRelease/**"
     ]
 
     def debugTree = fileTree(dir: "$buildDir", includes: classPaths, excludes: excludes)
@@ -237,21 +240,40 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'androidx.annotation:annotation:1.1.0'
 
+    // DAGGER
+    implementation 'com.google.dagger:dagger:2.28.1'
+    implementation 'com.google.dagger:dagger-android:2.28.1'
+    implementation 'com.google.dagger:dagger-android-support:2.28.1'
+    kapt 'com.google.dagger:dagger-compiler:2.28.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.28.1'
+
     // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
     implementation 'com.google.zxing:core:3.3.0'
 
-    // TESTING
-    testImplementation 'junit:junit:4.13'
+    // Testing
     testImplementation "android.arch.core:core-testing:1.1.1"
-    testImplementation "org.mockito:mockito-core:3.3.3"
     testImplementation('org.robolectric:robolectric:4.3.1') {
         exclude group: 'com.google.protobuf'
     }
     testImplementation "io.mockk:mockk:1.10.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.8.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
+
+    // Testing - jUnit4
+    testImplementation 'junit:junit:4.13'
+    testImplementation "org.junit.vintage:junit-vintage-engine:5.6.2"
+
+    // Testing - jUnit5
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.2"
+    testImplementation "io.kotest:kotest-runner-junit5:4.2.0"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
+    testImplementation "io.kotest:kotest-property-jvm:4.2.0"
+
+    // Testing - Instrumentation
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
