@@ -237,6 +237,13 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'androidx.annotation:annotation:1.1.0'
 
+    // DAGGER
+    implementation 'com.google.dagger:dagger:2.28.1'
+    implementation 'com.google.dagger:dagger-android:2.28.1'
+    implementation 'com.google.dagger:dagger-android-support:2.28.1'
+    kapt 'com.google.dagger:dagger-compiler:2.28.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.28.1'
+
     // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
