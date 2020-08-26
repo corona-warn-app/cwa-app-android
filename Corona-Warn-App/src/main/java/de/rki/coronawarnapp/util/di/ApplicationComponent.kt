@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.ui.ActivityBinder
-import de.rki.coronawarnapp.util.AndroidModule
 import javax.inject.Singleton
 
 @Singleton

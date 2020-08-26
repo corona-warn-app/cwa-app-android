@@ -7,15 +7,17 @@ import android.os.Build
 import android.os.storage.StorageManager
 import android.text.format.Formatter
 import androidx.annotation.WorkerThread
+import dagger.Reusable
 import de.rki.coronawarnapp.util.ApiLevel
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.util.UUID
+import javax.inject.Inject
 
-// TODO Add inject when #1069 is merged
-class DeviceStorage constructor(
+@Reusable
+class DeviceStorage @Inject constructor(
     private val context: Context,
     private val apiLevel: ApiLevel,
     private val statsFsProvider: StatsFsProvider

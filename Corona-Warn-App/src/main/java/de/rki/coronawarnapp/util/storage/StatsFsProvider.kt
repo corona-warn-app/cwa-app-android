@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.util.storage
 
 import android.os.StatFs
+import dagger.Reusable
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
-// TODO Add inject when #1069 is merged
-class StatsFsProvider {
+@Reusable
+class StatsFsProvider @Inject constructor() {
 
     fun createStats(path: File): StatFs {
         Timber.tag(TAG).v("createStats(path=%s)", path)
