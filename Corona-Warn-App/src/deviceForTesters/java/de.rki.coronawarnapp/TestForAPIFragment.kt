@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
@@ -48,6 +49,7 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
@@ -282,6 +284,14 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 updateCountryStatusLabel()
             }
         }
+
+        button_retrieve_diagnosis_keys_and_calc_risk_level.setOnClickListener {
+            lifecycleScope.launch {
+                val repeatCount =
+                    (input_measure_risk_key_repeat_count as EditText).text.toString().toInt()
+                measureRiskLevelAndKeyRetrieval(repeatCount)
+            }
+        }
     }
 
     override fun onResume() {
@@ -290,13 +300,61 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         updateExposureSummaryDisplay(null)
     }
 
+    private suspend fun measureRiskLevelAndKeyRetrieval(times: Int) {
+        var result = StringBuilder()
+            .append("Result: \n")
+            .append("#\t Download \t Key Calc \t File # \t Key #\n")
+
+        repeat(times) { index ->
+            try {
+                // get count of country dates
+                var fileCount = WebRequestBuilder.getInstance().asyncGetCountryIndex().flatMap {
+                    WebRequestBuilder.getInstance().asyncGetDateIndex(it)
+                }.size
+
+                var keyFileDownloadStart: Long = -1
+                var keyFileCount: Int = -1
+                var keyFileDownloadDuration: Long = -1
+
+                // start diagnostic key transaction with callback to get duration of Download
+                RetrieveDiagnosisKeysTransaction.start(
+                    onKeyFilesStarted = {
+                        Timber.v("MEASURE [Diagnostic Key Files] #${index} started")
+                        keyFileDownloadStart = System.currentTimeMillis()
+                    },
+                    onKeyFilesFinished = {
+                        Timber.v("MEASURE [Diagnostic Key Files] #${index} finished.")
+                        keyFileDownloadDuration = System.currentTimeMillis() - keyFileDownloadStart
+                        keyFileCount = it
+                    })
+
+                // start risk level calculation and get duration
+                val calculationStart = System.currentTimeMillis()
+                RiskLevelTransaction.start()
+                val calculationDuration = System.currentTimeMillis() - calculationStart
+
+                // build result entry for current iteration with all gathered data
+                result.append(
+                    "${index + 1}. \t $keyFileDownloadDuration ms " +
+                            "\t\t $calculationDuration ms \t\t $fileCount \t\t $keyFileCount\n"
+                )
+                
+                label_test_api_measure_calc_key_status.text = result.toString()
+            } catch (e: TransactionException) {
+                e.report(ExceptionCategory.INTERNAL)
+            }
+        }
+    }
+
     /**
      * Updates the Label for country filter
      */
     private fun updateCountryStatusLabel() {
         label_country_code_filter_status.text =
-            getString(R.string.test_api_country_filter_status,
-                DiagnosisKeyConstants.COUNTRIES.joinToString(", "))
+            getString(
+                R.string.test_api_country_filter_status,
+                DiagnosisKeyConstants.COUNTRIES.joinToString(", ")
+            )
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->

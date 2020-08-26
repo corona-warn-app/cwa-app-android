@@ -235,7 +235,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <EditText
                     android:id="@+id/input_country_codes_editText"
@@ -249,8 +250,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:text="Apply"/>
+                    android:text="Apply" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/label_country_code_filter_status"
                 android:layout_width="match_parent"
@@ -258,6 +260,47 @@
                 android:text="@string/test_api_country_filter_status">
 
             </TextView>
+
+            <TextView
+                android:id="@+id/label_test_api_measure"
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
+                android:text="Statistics" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_retrieve_diagnosis_keys_and_calc_risk_level"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    android:layout_weight="1"
+                    android:text="Measure: Calculate Risk Level / Key Retrieval" />
+
+                <EditText
+                    android:id="@+id/input_measure_risk_key_repeat_count"
+                    android:layout_width="98dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:text="1" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/label_test_api_measure_calc_key_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Result: "/>
 
             <TextView
                 style="@style/headline4"

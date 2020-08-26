@@ -20,6 +20,7 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -136,7 +137,13 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecuteUnique {
+    suspend fun start(
+        onKeyFilesStarted: (() -> Unit)? = null,
+        onKeyFilesFinished: ((keyFiles: Int) -> Unit)? = null
+    ) = lockAndExecuteUnique {
+
+        val fireEvent = BuildConfig.FLAVOR != "device"
+
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
          * in a background job. Also it acts as a failure catch in case the orchestration code did
@@ -165,6 +172,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
+        if (fireEvent) {
+            if (onKeyFilesStarted != null) {
+                onKeyFilesStarted()
+            }
+        }
+
         val keyFiles = executeFetchKeyFilesFromServer(currentDate)
 
         if (keyFiles.isNotEmpty()) {
@@ -175,10 +188,18 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         } else {
             Timber.tag(TAG).w("no key files, skipping submission to internal API.")
         }
+
+        if (fireEvent) {
+            if (onKeyFilesFinished != null) {
+                onKeyFilesFinished(keyFiles.size)
+            }
+        }
+
         /****************************************************
          * Fetch Date Update
          ****************************************************/
         executeFetchDateUpdate(currentDate)
+
         /****************************************************
          * CLOSE TRANSACTION
          ****************************************************/
