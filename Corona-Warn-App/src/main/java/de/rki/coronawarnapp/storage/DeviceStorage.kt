@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Build
 import android.os.storage.StorageManager
 import android.text.format.Formatter
+import androidx.annotation.WorkerThread
 import de.rki.coronawarnapp.util.ApiLevel
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
 import timber.log.Timber
@@ -93,7 +94,10 @@ class DeviceStorage constructor(
      * This may cause the system to delete caches to free space.
      * If there are any errors you'll get a result with **[CheckResult.isSpaceAvailable]**,
      * but **[CheckResult.freeBytes]** == -1L
+     *
+     * Don't call this on the UI thread as the operation may block due to IO.
      */
+    @WorkerThread
     fun checkSpacePrivateStorage(requiredBytes: Long = -1L): CheckResult =
         checkSpace(privateStorage, requiredBytes)
 
