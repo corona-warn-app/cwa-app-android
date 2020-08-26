@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.di
 
 import android.app.Application
 import android.content.Context
