@@ -10,6 +10,5 @@ class ApiLevel constructor(val currentLevel: Int = Build.VERSION.SDK_INT) {
     @Inject
     constructor() : this(Build.VERSION.SDK_INT)
 
-
     fun hasAPILevel(level: Int): Boolean = currentLevel >= level
 }
