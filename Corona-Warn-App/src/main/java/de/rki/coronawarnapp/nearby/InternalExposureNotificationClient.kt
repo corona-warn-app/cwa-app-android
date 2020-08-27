@@ -160,4 +160,11 @@ object InternalExposureNotificationClient {
                     cont.resumeWithException(it)
                 }
         }
+
+    /**
+     * Indicates if device supports scanning without location service
+     *
+     * @return
+     */
+    fun deviceSupportsLocationlessScanning() = exposureNotificationClient.deviceSupportsLocationlessScanning()
 }
