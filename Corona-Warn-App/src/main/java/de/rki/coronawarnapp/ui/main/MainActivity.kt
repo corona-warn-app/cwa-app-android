@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.PowerManagementHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * This activity holds all the fragments (except onboarding) and also registers a listener for
@@ -79,7 +81,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onLocationUnavailable() {
-            settingsViewModel.updateLocationEnabled(false)
+            val canIgnoreLocationEnabled = InternalExposureNotificationClient.deviceSupportsLocationlessScanning()
+            settingsViewModel.updateLocationEnabled(canIgnoreLocationEnabled)
+            Timber.d("Location unavailable but can be ignored? $canIgnoreLocationEnabled")
         }
     }
 
