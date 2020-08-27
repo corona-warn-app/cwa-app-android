@@ -17,12 +17,14 @@ import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
 fun formatVisibilityLanguageBased(
     isContactFormView: Boolean?
 ): Int {
-    if (!InformationLegalPresentation(DefaultSystemInfoProvider(CoronaWarnApplication.getAppContext())).showBackupLinkToContactForm) {
-        return if (isContactFormView == true) {
+    InformationLegalPresentation(DefaultSystemInfoProvider(CoronaWarnApplication.getAppContext())).apply {
+        if (!showBackupLinkToContactForm) {
+            return if (isContactFormView == true) {
+                View.VISIBLE
+            } else View.GONE
+        }
+        return if (isContactFormView == false) {
             View.VISIBLE
         } else View.GONE
     }
-    return if (isContactFormView == false) {
-        View.VISIBLE
-    } else View.GONE
 }
