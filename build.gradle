@@ -47,7 +47,7 @@ subprojects {
     }
 
     ktlint {
-        debug = true
+        debug = false
         ignoreFailures = false
         coloredOutput = false
     }
