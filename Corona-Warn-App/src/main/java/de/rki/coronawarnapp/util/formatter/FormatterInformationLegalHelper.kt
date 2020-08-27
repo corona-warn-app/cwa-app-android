@@ -1,9 +1,10 @@
 @file:JvmName("FormatterInformationLegalHelper")
 
 package de.rki.coronawarnapp.util.formatter
-import android.content.res.Resources
-import android.os.Build
+
 import android.view.View
+import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.device.DefaultSystemInfoProvider
 import java.util.Locale
 
 /**
@@ -14,7 +15,10 @@ import java.util.Locale
  * @return
  */
 
-fun formatVisibilityLanguageBased(defaultLanguageEnglishOrGerman: Boolean, isContactFormView: Boolean?): Int {
+fun formatVisibilityLanguageBased(
+    defaultLanguageEnglishOrGerman: Boolean,
+    isContactFormView: Boolean?
+): Int {
     if (defaultLanguageEnglishOrGerman) {
         return if (isContactFormView == true) {
             View.VISIBLE
@@ -33,37 +37,10 @@ fun formatVisibilityLanguageBased(defaultLanguageEnglishOrGerman: Boolean, isCon
  * @return
  */
 fun formatContactForm(isContactFormView: Boolean?): Int {
-    var locale: Locale = getSysLocale()
-    return formatVisibilityLanguageBased(
-        locale.language == Locale.ENGLISH.language ||
-                locale.language == Locale.GERMAN.language, isContactFormView)
-}
-
-/**
- * Returns the device Locale
- * @see Locale
- *
- * @return
- */
-fun getSysLocale(): Locale {
-    return if (hasAndroidNOrHigher()) {
-        @Suppress("NewApi")
-        Resources.getSystem().configuration.locales[0]
-    } else {
-        @Suppress("DEPRECATION")
-        Resources.getSystem().configuration.locale
+    DefaultSystemInfoProvider(CoronaWarnApplication.getAppContext()).locale.also {
+        return formatVisibilityLanguageBased(
+            it.language == Locale.ENGLISH.language ||
+                    it.language == Locale.GERMAN.language, isContactFormView
+        )
     }
-}
-
-/**
- * checks if the Android version is N (API version 24) or higher
- * Returns boolean value
- *
- * @return
- */
-fun hasAndroidNOrHigher(): Boolean {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        return true
-    }
-    return false
 }

@@ -7,7 +7,7 @@ import android.widget.TextView
 
 fun TextView.convertToHyperlink(url: String) {
     setText(
-        SpannableString(text).apply {setSpan(URLSpan(url),0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)},
+        SpannableString(text).apply { setSpan(URLSpan(url), 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE) },
         TextView.BufferType.SPANNABLE
     )
 }
