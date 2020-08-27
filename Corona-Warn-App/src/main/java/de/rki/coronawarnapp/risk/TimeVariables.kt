@@ -181,13 +181,17 @@ object TimeVariables {
     suspend fun getActiveTracingDaysInRetentionPeriod(): Long {
         // the active tracing time during the retention period - all non active tracing times
         val tracingActiveMS = getTimeRangeFromRetentionPeriod()
+        val retentionPeriodInMS = getDefaultRetentionPeriodInMS()
+        val lastNonActiveTracingTimestamp = LocalData.lastNonActiveTracingTimestamp()
+        val current = System.currentTimeMillis()
+        val retentionTimestamp = current - retentionPeriodInMS
         val inactiveTracingIntervals = TracingIntervalRepository
             .getDateRepository(CoronaWarnApplication.getAppContext())
             .getIntervals()
             .toMutableList()
 
         // by default the tracing is assumed to be activated
-        // if the API is reachable we set the value accordingly 
+        // if the API is reachable we set the value accordingly
         val enIsDisabled = try {
             !InternalExposureNotificationClient.asyncIsEnabled()
         } catch (e: ApiException) {
@@ -195,21 +199,23 @@ object TimeVariables {
             false
         }
 
-        if (enIsDisabled) {
-            val current = System.currentTimeMillis()
-            val lastTimeTracingWasNotActivated = minOf(
-                LocalData.lastNonActiveTracingTimestamp() ?: current,
-                current - tracingActiveMS
-            )
-
+        // lastNonActiveTracingTimestamp could be null when en is disabled
+        // it only gets updated when you turn the en back on
+        // if en is disabled and lastNonActiveTracingTimestamp != null, only then we add a pair to
+        // the inactive intervals list to account for the time of inactivity between the last time
+        // en was not active and now.
+        if (enIsDisabled && lastNonActiveTracingTimestamp != null) {
+            val lastTimeTracingWasNotActivated = LocalData.lastNonActiveTracingTimestamp() ?: current
             inactiveTracingIntervals.add(Pair(lastTimeTracingWasNotActivated, current))
         }
-
-        val finalTracingMS = tracingActiveMS - inactiveTracingIntervals
-            .map { it.second - it.first }
+        val inactiveTracingMS = inactiveTracingIntervals
+            .map { it.second - maxOf(it.first, retentionTimestamp) }
             .sum()
 
-        return finalTracingMS.roundUpMsToDays()
+        // because we delete periods that are past 14 days but tracingActiveMS counts from first
+        // ever activation, there are edge cases where tracingActiveMS gets to be > 14 days
+        val daysEnWasActiveInTwoWeeks = (minOf(tracingActiveMS, retentionPeriodInMS) - inactiveTracingMS).roundUpMsToDays()
+        return daysEnWasActiveInTwoWeeks
     }
 
     /****************************************************
