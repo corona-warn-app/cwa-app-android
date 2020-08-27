@@ -22,6 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
+import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -43,8 +44,12 @@ class ServiceFactory {
      */
     private val mInterceptors: List<Interceptor> = listOf(
         WebSecurityVerificationInterceptor(),
-        HttpLoggingInterceptor().also {
-            if (BuildConfig.DEBUG) it.setLevel(HttpLoggingInterceptor.Level.BODY)
+        HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Timber.tag("OkHttp").v(message)
+            }
+        }).apply {
+            if (BuildConfig.DEBUG) setLevel(HttpLoggingInterceptor.Level.BODY)
         },
         RetryInterceptor(),
         HttpErrorParser()

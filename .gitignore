@@ -6,4 +6,6 @@
 /captures
 .externalNativeBuild
 .cxx
-/.idea/
+/.idea/**/*
+!/.idea/codeStyles/
+!/.idea/codeStyles/**/*

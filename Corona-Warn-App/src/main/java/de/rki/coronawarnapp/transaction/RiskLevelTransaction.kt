@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
+import de.rki.coronawarnapp.risk.DefaultRiskScoreAnalysis
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
@@ -16,6 +18,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
+import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -125,6 +128,16 @@ import java.util.concurrent.atomic.AtomicReference
 object RiskLevelTransaction : Transaction() {
 
     override val TAG: String? = RiskLevelTransaction::class.simpleName
+
+    // @Inject lateinit var riskLevelCalculation: RiskLevelCalculation
+    // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
+    // Injecting here will break Test
+    private val riskLevelCalculation: RiskLevelCalculation = DefaultRiskLevelCalculation()
+
+    // @Inject lateinit var riskScoreAnalysis: RiskScoreAnalysis
+    // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
+    // Injecting here will break Test
+    private val riskScoreAnalysis: RiskScoreAnalysis = DefaultRiskScoreAnalysis()
 
     /** possible transaction states */
     private enum class RiskLevelTransactionState : TransactionState {
@@ -261,7 +274,7 @@ object RiskLevelTransaction : Transaction() {
         val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
         if (!isTracingEnabled) return@executeState NO_CALCULATION_POSSIBLE_TRACING_OFF
 
-        Timber.v("$transactionId - TRACING_NOT_ACTIVE_RISK not applicable")
+        Timber.tag(TAG).v("$transactionId - TRACING_NOT_ACTIVE_RISK not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -274,10 +287,12 @@ object RiskLevelTransaction : Transaction() {
         // if there was no key retrieval before, we return no calculation state
         TimeVariables.getLastTimeDiagnosisKeysFromServerFetch()
             ?: return@executeState UNKNOWN_RISK_INITIAL.also {
-                Timber.v("$transactionId - no last time diagnosis keys from server fetch timestamp was found")
+                Timber.tag(TAG).v(
+                    "$transactionId - no last time diagnosis keys from server fetch timestamp was found"
+                )
             }
 
-        Timber.v("$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
+        Timber.tag(TAG).v("$transactionId - CHECK_UNKNOWN_RISK_INITIAL_NO_KEYS not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -301,18 +316,22 @@ object RiskLevelTransaction : Transaction() {
             ) {
                 if (ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())) {
                     return@executeState UNKNOWN_RISK_OUTDATED_RESULTS.also {
-                        Timber.v("diagnosis keys outdated and active tracing time is above threshold")
-                        Timber.v("manual mode not active (background jobs enabled)")
+                        Timber.tag(TAG).v(
+                            "diagnosis keys outdated and active tracing time is above threshold"
+                        )
+                        Timber.tag(TAG).v("manual mode not active (background jobs enabled)")
                     }
                 } else {
                     return@executeState UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL.also {
-                        Timber.v("diagnosis keys outdated and active tracing time is above threshold")
-                        Timber.v("manual mode active (background jobs disabled)")
+                        Timber.tag(TAG).v(
+                            "diagnosis keys outdated and active tracing time is above threshold"
+                        )
+                        Timber.tag(TAG).v("manual mode active (background jobs disabled)")
                     }
                 }
             }
 
-            Timber.v("$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
+            Timber.tag(TAG).v("$transactionId - CHECK_UNKNOWN_RISK_OUTDATED not applicable")
             return@executeState UNDETERMINED
         }
 
@@ -345,7 +364,7 @@ object RiskLevelTransaction : Transaction() {
         executeState(RETRIEVE_APPLICATION_CONFIG) {
             return@executeState getApplicationConfiguration()
                 .also {
-                    Timber.v(TAG, "$transactionId - retrieved configuration from backend")
+                    Timber.tag(TAG).v("$transactionId - retrieved configuration from backend")
                 }
         }
 
@@ -357,7 +376,9 @@ object RiskLevelTransaction : Transaction() {
             val exposureSummary = getNewExposureSummary()
 
             return@executeState exposureSummary.also {
-                Timber.v(TAG, "$transactionId - get the exposure summary for further calculation")
+                Timber.tag(TAG).v(
+                    "$transactionId - get the exposure summary for further calculation"
+                )
             }
         }
 
@@ -374,37 +395,58 @@ object RiskLevelTransaction : Transaction() {
             // values provided by the Google API
             val attenuationParameters = appConfig.attenuationDuration
 
-            // calculate the risk score based on the values collected by the Google EN API and
-            // the backend configuration
-            val riskScore = RiskLevelCalculation.calculateRiskScore(
-                attenuationParameters,
-                exposureSummary
-            ).also {
-                Timber.v(TAG, "calculated risk with the given config: $it")
-            }
-
             // these are the defined risk classes. They will divide the calculated
             // risk score into the low and increased risk
             val riskScoreClassification = appConfig.riskScoreClasses
 
-            // get the high risk score class
-            val highRiskScoreClass =
-                riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
-                    ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
-
-            // if the calculated risk score is above the defined level threshold we return the high level risk score
-            if (riskScore >= highRiskScoreClass.min && riskScore <= highRiskScoreClass.max) {
-                Timber.v("$riskScore is above the defined min value ${highRiskScoreClass.min}")
-                return@executeState INCREASED_RISK
-            } else if (riskScore > highRiskScoreClass.max) {
-                throw RiskLevelCalculationException(
-                    IllegalStateException("risk score is above the max threshold for score class")
-                )
-            }
-
-            Timber.v("$transactionId - INCREASED_RISK not applicable")
-            return@executeState UNDETERMINED
+            return@executeState getRiskLevel(
+                riskLevelCalculation,
+                riskScoreAnalysis,
+                attenuationParameters,
+                exposureSummary,
+                riskScoreClassification
+            )
         }
+
+    fun getRiskLevel(
+        riskLevelCalculation: RiskLevelCalculation,
+        riskScoreAnalysis: RiskScoreAnalysis,
+        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        exposureSummary: ExposureSummary,
+        riskScoreClassification: ApplicationConfigurationOuterClass.RiskScoreClassification
+    ): RiskLevel {
+        // calculate the risk score based on the values collected by the Google EN API and
+        // the backend configuration
+        val riskScore = riskLevelCalculation.calculateRiskScore(
+            attenuationParameters,
+            exposureSummary
+        ).also {
+            Timber.tag(TAG).v("calculated risk with the given config: $it")
+        }
+
+        // get the high risk score class
+        val highRiskScoreClass =
+            riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
+                ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
+
+        // if the calculated risk score is above the defined level threshold we return the high level risk score
+        if (riskScoreAnalysis.withinDefinedLevelThreshold(
+                riskScore,
+                highRiskScoreClass.min,
+                highRiskScoreClass.max
+            )
+        ) {
+            Timber.tag(TAG).v("$riskScore is above the defined min value ${highRiskScoreClass.min}")
+            return INCREASED_RISK
+        } else if (riskScore > highRiskScoreClass.max) {
+            throw RiskLevelCalculationException(
+                IllegalStateException("risk score is above the max threshold for score class")
+            )
+        }
+
+        Timber.tag(TAG).v("$transactionId - INCREASED_RISK not applicable")
+        return UNDETERMINED
+    }
 
     /**
      * Executes the [CHECK_UNKNOWN_RISK_INITIAL_TRACING_DURATION] Transaction State
@@ -414,11 +456,11 @@ object RiskLevelTransaction : Transaction() {
     ) {
         // if the active tracing duration is not above the defined threshold we return no calculation state
         if (!isActiveTracingTimeAboveThreshold()) {
-            Timber.v("$transactionId - active tracing time is not enough")
+            Timber.tag(TAG).v("$transactionId - active tracing time is not enough")
             return@executeState UNKNOWN_RISK_INITIAL
         }
 
-        Timber.v("$transactionId - UNKNOWN_RISK_INITIAL not applicable")
+        Timber.tag(TAG).v("$transactionId - UNKNOWN_RISK_INITIAL not applicable")
         return@executeState UNDETERMINED
     }
 
@@ -427,7 +469,7 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun executeUpdateRiskLevelScore(riskLevel: RiskLevel) =
         executeState(UPDATE_RISK_LEVEL) {
-            Timber.v("$transactionId - update the risk level with $riskLevel")
+            Timber.tag(TAG).v("$transactionId - update the risk level with $riskLevel")
             updateRiskLevelScore(riskLevel)
         }
 
@@ -435,7 +477,7 @@ object RiskLevelTransaction : Transaction() {
      * Executes the [CLOSE] Transaction State
      */
     private suspend fun executeClose() = executeState(CLOSE) {
-        Timber.v("$transactionId - transaction will close")
+        Timber.tag(TAG).v("$transactionId - transaction will close")
         lastCalculatedRiskLevelScoreForRollback.set(null)
         lastCalculatedRiskLevelDate.set(null)
     }
@@ -454,7 +496,9 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun isValidResult(riskLevel: RiskLevel): Boolean {
         if (riskLevel != UNDETERMINED) {
-            Timber.v("$transactionId - $riskLevel was determined by the transaction. UPDATE and CLOSE will be called")
+            Timber.tag(TAG).d(
+                "$transactionId - $riskLevel was determined by the transaction. UPDATE and CLOSE will be called"
+            )
             lastCalculatedRiskLevelScoreForRollback.set(RiskLevelRepository.getLastCalculatedScore())
             executeUpdateRiskLevelScore(riskLevel)
             lastCalculatedRiskLevelDate.set(LocalData.lastTimeRiskLevelCalculation())
@@ -473,7 +517,7 @@ object RiskLevelTransaction : Transaction() {
     private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
         withContext(Dispatchers.Default) {
             return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                .also { Timber.v("configuration from backend: $it") }
+                .also { Timber.tag(TAG).d("configuration from backend: $it") }
         }
 
     /**
@@ -489,7 +533,7 @@ object RiskLevelTransaction : Transaction() {
         val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
 
         return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-            Timber.v(
+            Timber.tag(TAG).v(
                 "active tracing time ($activeTracingDurationInHours h) is above threshold " +
                         "($durationTracingIsActiveThreshold h): $it"
             )
@@ -526,7 +570,7 @@ object RiskLevelTransaction : Transaction() {
             InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
         return exposureSummary.also {
-            Timber.v("$transactionId - generated new exposure summary with $googleToken")
+            Timber.tag(TAG).v("$transactionId - generated new exposure summary with $googleToken")
         }
     }
 
