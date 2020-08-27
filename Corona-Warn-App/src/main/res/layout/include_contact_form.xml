@@ -26,7 +26,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:linksClickable="true"
-                android:text="@string/information_legal_subtitle_contact_form"
+                android:text="@string/information_legal_subtitle_contact_label"
                 android:textColorLink="@color/colorTextTint"
                 android:visibility="@{FormatterInformationLegalHelper.formatContactForm(true)}"
                 app:layout_constraintStart_toStartOf="parent"
