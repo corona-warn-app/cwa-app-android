@@ -214,8 +214,7 @@ object TimeVariables {
 
         // because we delete periods that are past 14 days but tracingActiveMS counts from first
         // ever activation, there are edge cases where tracingActiveMS gets to be > 14 days
-        val daysEnWasActiveInTwoWeeks = (minOf(tracingActiveMS, retentionPeriodInMS) - inactiveTracingMS).roundUpMsToDays()
-        return daysEnWasActiveInTwoWeeks
+        return (minOf(tracingActiveMS, retentionPeriodInMS) - inactiveTracingMS).roundUpMsToDays()
     }
 
     /****************************************************
