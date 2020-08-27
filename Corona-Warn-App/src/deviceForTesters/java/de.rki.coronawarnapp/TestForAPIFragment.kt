@@ -300,22 +300,34 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         updateExposureSummaryDisplay(null)
     }
 
-    private suspend fun measureRiskLevelAndKeyRetrieval(times: Int) {
-        var result = StringBuilder()
+    /**
+     * Calls the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction and measures them.
+     * Results are displayed using a label
+     * @param callCount defines how often the transactions should be called (each call will be
+     * measured separately)
+     */
+    private suspend fun measureRiskLevelAndKeyRetrieval(callCount: Int) {
+        val countries = DiagnosisKeyConstants.COUNTRIES
+        var resultInfo = StringBuilder()
             .append("Result: \n")
+            .append("Using countries: ${countries.joinToString(",")}\n")
             .append("#\t Download \t Key Calc \t File # \t Key #\n")
 
-        repeat(times) { index ->
+        repeat(callCount) { index ->
+
+            // get count of all country dates
+            var fileCount =
+                WebRequestBuilder.getInstance()
+                    .asyncGetCountryIndex(countries)
+                    .flatMap {
+                        WebRequestBuilder.getInstance().asyncGetDateIndex(it)
+                    }.size
+
+            var keyFileDownloadStart: Long = -1
+            var keyFileCount: Int = -1
+            var keyFileDownloadDuration: Long = -1
+
             try {
-                // get count of country dates
-                var fileCount = WebRequestBuilder.getInstance().asyncGetCountryIndex().flatMap {
-                    WebRequestBuilder.getInstance().asyncGetDateIndex(it)
-                }.size
-
-                var keyFileDownloadStart: Long = -1
-                var keyFileCount: Int = -1
-                var keyFileDownloadDuration: Long = -1
-
                 // start diagnostic key transaction with callback to get duration of Download
                 RetrieveDiagnosisKeysTransaction.start(
                     onKeyFilesStarted = {
@@ -326,23 +338,29 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                         Timber.v("MEASURE [Diagnostic Key Files] #${index} finished.")
                         keyFileDownloadDuration = System.currentTimeMillis() - keyFileDownloadStart
                         keyFileCount = it
-                    })
-
-                // start risk level calculation and get duration
-                val calculationStart = System.currentTimeMillis()
-                RiskLevelTransaction.start()
-                val calculationDuration = System.currentTimeMillis() - calculationStart
-
-                // build result entry for current iteration with all gathered data
-                result.append(
-                    "${index + 1}. \t $keyFileDownloadDuration ms " +
-                            "\t\t $calculationDuration ms \t\t $fileCount \t\t $keyFileCount\n"
+                    }
                 )
-                
-                label_test_api_measure_calc_key_status.text = result.toString()
             } catch (e: TransactionException) {
                 e.report(ExceptionCategory.INTERNAL)
             }
+
+            val calculationStart = System.currentTimeMillis()
+            var calculationDuration: Long = -1
+            try {
+                // start risk level calculation and get duration
+                RiskLevelTransaction.start()
+                calculationDuration = System.currentTimeMillis() - calculationStart
+            } catch (e: TransactionException) {
+                e.report(ExceptionCategory.INTERNAL)
+            }
+
+            // build result entry for current iteration with all gathered data
+            resultInfo.append(
+                "${index + 1}. \t $keyFileDownloadDuration ms " +
+                        "\t\t $calculationDuration ms \t\t $fileCount \t\t $keyFileCount\n"
+            )
+
+            label_test_api_measure_calc_key_status.text = resultInfo.toString()
         }
     }
 
