@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -118,6 +119,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    private val transactionScope: RetrieveDiagnosisCoroutineScope by lazy {
+        AppInjector.component.transRetrieveKeysInjection.transactionScope
+    }
+
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
@@ -136,7 +141,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecuteUnique {
+    suspend fun start() = lockAndExecute(unique = true, scope = transactionScope) {
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
          * in a background job. Also it acts as a failure catch in case the orchestration code did
@@ -145,7 +150,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         if (!InternalExposureNotificationClient.asyncIsEnabled()) {
             Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
             executeClose()
-            return@lockAndExecuteUnique
+            return@lockAndExecute
         }
         /****************************************************
          * INIT TRANSACTION

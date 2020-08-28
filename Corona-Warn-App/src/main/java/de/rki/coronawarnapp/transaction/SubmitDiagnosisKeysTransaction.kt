@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
+import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * The SubmitDiagnosisKeysTransaction is used to define an atomic Transaction for Key Reports. Its states allow an
@@ -47,16 +48,20 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         CLOSE
     }
 
+    private val transactionScope: SubmitDiagnosisCoroutineScope by lazy {
+        AppInjector.component.transSubmitDiagnosisInjection.transactionScope
+    }
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         registrationToken: String,
         keys: List<TemporaryExposureKey>
-    ) = lockAndExecuteUnique {
+    ) = lockAndExecute(unique = true, scope = transactionScope) {
         /****************************************************
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
          ****************************************************/
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
-                keys.limitKeyCount()
+            keys.limitKeyCount()
                 .transformKeyHistoryToExternalFormat()
         }
         /****************************************************

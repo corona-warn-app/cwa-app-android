@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.transaction.Transaction.InternalTransactionStates.INIT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -57,7 +58,7 @@ abstract class Transaction {
             TimeVariables.getTransactionTimeout()
     }
 
-    @Suppress("VariableNaming") // Done as the Convention is TAG for every class
+    @Suppress("VariableNaming", "PropertyName") // Done as the Convention is TAG for every class
     abstract val TAG: String?
 
     /**
@@ -174,26 +175,6 @@ abstract class Transaction {
         executeState(Dispatchers.Default, state, block)
 
     /**
-     * Executes the transaction as Unique. This results in the next execution being omitted in case of a race towards
-     * the lock. Please see [lockAndExecute] for more details
-     *
-     * @param T Optional Return Type in case the Transaction should return a value from the coroutine.
-     * @param block the suspending function that should be used to execute the transaction.
-     */
-    protected suspend fun <T> lockAndExecuteUnique(block: suspend CoroutineScope.() -> T) =
-        lockAndExecute(true, block)
-
-    /**
-     * Executes the transaction as non-unique. This results in the next execution being queued in case of a race towards
-     * the lock. Please see [lockAndExecute] for more details
-     *
-     * @param T Optional Return Type in case the Transaction should return a value from the coroutine.
-     * @param block the suspending function that should be used to execute the transaction.
-     */
-    protected suspend fun <T> lockAndExecute(block: suspend CoroutineScope.() -> T) =
-        lockAndExecute(false, block)
-
-    /**
      * Attempts to go into the internal lock context (mutual exclusion coroutine) and executes the given suspending
      * function. Standard Logging is executed to inform about the transaction status.
      * The Lock will run under the Timeout defined under TRANSACTION_TIMEOUT_MS. If the coroutine executed during this
@@ -206,35 +187,47 @@ abstract class Transaction {
      *
      * In an error scenario, during the handling of the transaction error, a rollback will be executed on best-effort basis.
      *
-     * @param T Optional Return Type in case the Transaction should return a value from the coroutine.
+     * @param unique Executes the transaction as Unique. This results in the next execution being omitted in case of a race towards the lock.
      * @param block the suspending function that should be used to execute the transaction.
      * @throws TransactionException the exception that wraps around any error that occurs inside the lock.
      *
      * @see executeState
      * @see executedStatesStack
      */
-    private suspend fun <T> lockAndExecute(unique: Boolean, block: suspend CoroutineScope.() -> T) {
+    suspend fun lockAndExecute(
+        unique: Boolean = false,
+        scope: CoroutineScope,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
         if (unique && internalMutualExclusionLock.isLocked) {
-            val runningString = "TRANSACTION WITH ID $transactionId ALREADY RUNNING " +
-                    "($currentTransactionState) AS UNIQUE, SKIPPING EXECUTION."
-            Timber.tag(TAG).w(runningString)
+            Timber.tag(TAG).w(
+                "TRANSACTION WITH ID %s ALREADY RUNNING (%s) AS UNIQUE, SKIPPING EXECUTION.",
+                transactionId, currentTransactionState
+            )
             return
         }
-        try {
-            return internalMutualExclusionLock.withLock {
+
+        val deferred = scope.async {
+            internalMutualExclusionLock.withLock {
                 executeState(INIT) { transactionId.set(UUID.randomUUID()) }
-                measureTimeMillis {
+
+                val duration = measureTimeMillis {
                     withTimeout(TRANSACTION_TIMEOUT_MS) {
                         block.invoke(this)
                     }
-                }.also {
-                    val completedString =
-                        "TRANSACTION $transactionId COMPLETED (${System.currentTimeMillis()}) " +
-                                "in $it ms, STATES EXECUTED: ${getExecutedStates()}"
-                    Timber.tag(TAG).i(completedString)
                 }
+
+                Timber.tag(TAG).i(
+                    "TRANSACTION %s COMPLETED (%d) in %d ms, STATES EXECUTED: %s",
+                    transactionId, System.currentTimeMillis(), duration, getExecutedStates()
+                )
+
                 resetExecutedStateStack()
             }
+        }
+
+        try {
+            deferred.await()
         } catch (e: Exception) {
             handleTransactionError(e)
         }
@@ -253,14 +246,18 @@ abstract class Transaction {
      * @param error the error that lead to an error case in the transaction that cannot be handled inside the
      * transaction but has to be caught from the exception caller
      */
-    protected open suspend fun handleTransactionError(error: Throwable?): Nothing {
-        rollback()
-        resetExecutedStateStack()
-        throw TransactionException(
+    protected open suspend fun handleTransactionError(error: Throwable): Nothing {
+        val wrap = TransactionException(
             transactionId.get(),
             currentTransactionState.toString(),
             error
         )
+        Timber.tag(TAG).e(wrap)
+
+        rollback()
+        resetExecutedStateStack()
+
+        throw wrap
     }
 
     /**
@@ -285,10 +282,12 @@ abstract class Transaction {
      * @param error the error that lead to an error case in the rollback
      */
     protected open fun handleRollbackError(error: Throwable?): Nothing {
-        throw RollbackException(
+        val wrap = RollbackException(
             transactionId.get(),
             currentTransactionState.toString(),
             error
         )
+        Timber.tag(TAG).e(wrap)
+        throw wrap
     }
 }
