@@ -106,5 +106,4 @@ workflows:
           filters:
             branches:
               only:
-                - staging-pipeline-test
                 - /RC\/.*/
