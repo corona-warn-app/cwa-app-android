@@ -67,14 +67,17 @@ object CachedKeyFileHolder {
      * @param currentDate the current date - if this is adjusted by the calendar, the cache is affected.
      * @return list of all files from both the cache and the diff query
      */
-    suspend fun asyncFetchFiles(currentDate: Date): List<File> = withContext(Dispatchers.IO) {
+    suspend fun asyncFetchFiles(
+        currentDate: Date,
+        countries: List<String>
+    ): List<File> = withContext(Dispatchers.IO) {
         // Initiate key-cache folder needed for saving downloaded key files
         FileStorageHelper.initializeExportSubDirectory()
 
         checkForFreeSpace()
 
         // Build pair of country to date <Country, Date[]>
-        val serverDates = getCountriesFromServer().map { Pair(it, getDatesFromServer(it)) }
+        val serverDates = getCountriesFromServer(countries).map { Pair(it, getDatesFromServer(it)) }
 
         // TODO remove last3HourFetch before Release
         if (BuildConfig.FLAVOR != "device" && isLast3HourFetchEnabled()) {
@@ -144,9 +147,11 @@ object CachedKeyFileHolder {
                                 )
                             }
                         }
-                        .map { url -> async {
-                            url.createDayEntryForUrl()
-                        } }
+                        .map { url ->
+                            async {
+                                url.createDayEntryForUrl()
+                            }
+                        }
                 )
             }
 
@@ -266,8 +271,8 @@ object CachedKeyFileHolder {
     /**
      * Get all countries from the server
      */
-    private suspend fun getCountriesFromServer() =
-        WebRequestBuilder.getInstance().asyncGetCountryIndex()
+    private suspend fun getCountriesFromServer(countries: List<String>) =
+        WebRequestBuilder.getInstance().asyncGetCountryIndex(countries)
 
     /**
      * TODO remove before release

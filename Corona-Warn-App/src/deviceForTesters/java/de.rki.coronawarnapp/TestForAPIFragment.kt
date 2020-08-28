@@ -36,14 +36,12 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.receiver.ExposureStateUpdateReceiver
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -101,6 +99,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private var _binding: FragmentTestForAPIBinding? = null
     private val binding: FragmentTestForAPIBinding get() = _binding!!
 
+    private var lastSetCountries: List<String>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -148,13 +148,20 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         qrPager.adapter = qrPagerAdapter
 
 
-        // Update Country UI element states
-        (input_country_codes_editText as EditText).setText(
-            DiagnosisKeyConstants.COUNTRIES.joinToString(
-                ","
+        // Load countries from App config and update Country UI element states
+        lifecycleScope.launch {
+            lastSetCountries =
+                ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                    .countryCodesList
+
+            (input_country_codes_editText as EditText).setText(
+                lastSetCountries?.joinToString(
+                    ","
+                )
             )
-        )
-        updateCountryStatusLabel()
+
+            updateCountryStatusLabel()
+        }
 
         button_api_test_start.setOnClickListener {
             start()
@@ -270,18 +277,15 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             // Get user input country codes
             val rawCountryCodes = (input_country_codes_editText as EditText).text.toString()
 
-            // Country codes can be seperated by space or ,
-            val countryCodes = rawCountryCodes.split(',', ' ')
+            // Country codes can be separated by space or ,
+            var countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
 
-            // DiagnosisKeyConstants.COUNTRIES is used in @see WebRequestBuilder to filter
-            // countries out of the full countries index of the server (response)
-            DiagnosisKeyConstants.COUNTRIES = countryCodes.filter { it.isNotEmpty() }
+            lastSetCountries = countryCodes
 
-            // Trigger asyncFetchFiles which will use all Countries defined in
-            // DiagnosisKeyConstants.COUNTRIES
+            // Trigger asyncFetchFiles which will use all Countries passed as parameter
             val currentDate = Date(System.currentTimeMillis())
             lifecycleScope.launch {
-                CachedKeyFileHolder.asyncFetchFiles(currentDate)
+                CachedKeyFileHolder.asyncFetchFiles(currentDate, countryCodes)
                 updateCountryStatusLabel()
             }
         }
@@ -308,74 +312,48 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
      * measured separately)
      */
     private suspend fun measureRiskLevelAndKeyRetrieval(callCount: Int) {
-        val countries = DiagnosisKeyConstants.COUNTRIES
+        val countries = lastSetCountries
 
         var resultInfo = StringBuilder()
             .append(
                 "MEASUREMENT Running for Countries:\n " +
-                        "${countries.joinToString(", ")}\n\n"
+                        "${countries?.joinToString(", ")}\n\n"
             )
             .append("Result: \n\n")
-            .append("#\t Download \t Key Calc \t File # \t Key #\n")
+            .append("#\t Combined \t Download \t Key Calc \t File #\n")
 
         label_test_api_measure_calc_key_status.text = resultInfo.toString()
 
-        val webRequestBuilder = WebRequestBuilder.getInstance()
         repeat(callCount) { index ->
-
-            // get count of all country dates
-            var fileCount = webRequestBuilder.asyncGetCountryIndex(countries)
-                .flatMap {
-                    webRequestBuilder.asyncGetDateIndex(it)
-                }.size
-
-            /**
-             * MEASUREMENT OF DIAGNOSTIC KEY RETRIEVAL
-             */
-            var keyFileDownloadStart: Long = -1
+            var keyRetrievalError = ""
             var keyFileCount: Int = -1
             var keyFileDownloadDuration: Long = -1
-            var keyRetrievalError = ""
+
             try {
-                // start diagnostic key transaction with callback to get duration of Download
-                RetrieveDiagnosisKeysTransaction.start(
-                    onKeyFilesStarted = {
-                        Timber.v("MEASURE [Diagnostic Key Files] #${index} started")
-                        keyFileDownloadStart = System.currentTimeMillis()
-                    },
-                    onKeyFilesFinished = {
-                        Timber.v("MEASURE [Diagnostic Key Files] #${index} finished")
-                        keyFileDownloadDuration = System.currentTimeMillis() - keyFileDownloadStart
-                        keyFileCount = it
-                    }
-                )
+                measureDiagnosticKeyRetrieval("#$index") { duration, keyCount ->
+                    keyFileCount = keyCount
+                    keyFileDownloadDuration = duration
+                }
             } catch (e: TransactionException) {
-                e.report(ExceptionCategory.INTERNAL)
                 keyRetrievalError = e.message.toString()
             }
 
-            /**
-             * MEASUREMENT OF RISK CALCULATION
-             */
             var calculationDuration: Long = -1
-            val calculationError = ""
+            var calculationError = ""
+
             try {
-                Timber.v("MEASURE [Risk Level Calculation] #${index} started")
-                // start risk level calculation and get duration
-                measureTimeMillis {
-                    RiskLevelTransaction.start()
-                }.also {
-                    Timber.v("MEASURE [Risk Level Calculation] #${index} finished")
+                measureKeyCalculation("#$index") {
                     calculationDuration = it
                 }
             } catch (e: TransactionException) {
-                e.report(ExceptionCategory.INTERNAL)
+                calculationError = e.message.toString()
             }
 
             // build result entry for current iteration with all gathered data
             resultInfo.append(
-                "${index + 1}. \t $keyFileDownloadDuration ms " +
-                        "\t\t $calculationDuration ms \t\t $fileCount \t\t $keyFileCount\n"
+                "${index + 1}. \t ${calculationDuration + keyFileDownloadDuration} ms \t\t " +
+                        "$keyFileDownloadDuration ms " +
+                        "\t\t $calculationDuration ms \t\t $keyFileCount\n"
             )
 
             if (keyRetrievalError.isNotEmpty()) {
@@ -386,8 +364,48 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 resultInfo.append("Calculation Error: $calculationError\n")
             }
 
-
             label_test_api_measure_calc_key_status.text = resultInfo.toString()
+        }
+    }
+
+    private suspend fun measureKeyCalculation(label: String, finished: (duration: Long) -> Unit) {
+        try {
+            Timber.v("MEASURE [Risk Level Calculation] $label started")
+            // start risk level calculation and get duration
+            measureTimeMillis {
+                RiskLevelTransaction.start()
+            }.also {
+                Timber.v("MEASURE [Risk Level Calculation] $label finished")
+                finished(it)
+            }
+        } catch (e: TransactionException) {
+            e.report(ExceptionCategory.INTERNAL)
+            throw e
+        }
+    }
+
+    private suspend fun measureDiagnosticKeyRetrieval(
+        label: String,
+        finished: (duration: Long, keyCount: Int) -> Unit
+    ) {
+        var keyFileDownloadStart: Long = -1
+
+        try {
+            RetrieveDiagnosisKeysTransaction.onKeyFilesStarted = {
+                Timber.v("MEASURE [Diagnostic Key Files] $label started")
+                keyFileDownloadStart = System.currentTimeMillis()
+            }
+
+            RetrieveDiagnosisKeysTransaction.onKeyFilesFinished = {
+                Timber.v("MEASURE [Diagnostic Key Files] $label finished")
+                val duration = System.currentTimeMillis() - keyFileDownloadStart
+                finished(duration, it)
+            }
+            // start diagnostic key transaction
+            RetrieveDiagnosisKeysTransaction.start(lastSetCountries)
+        } catch (e: TransactionException) {
+            e.report(ExceptionCategory.INTERNAL)
+            throw e
         }
     }
 
@@ -398,7 +416,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         label_country_code_filter_status.text =
             getString(
                 R.string.test_api_country_filter_status,
-                DiagnosisKeyConstants.COUNTRIES.joinToString(", ")
+                lastSetCountries?.joinToString(", ")
             )
     }
 

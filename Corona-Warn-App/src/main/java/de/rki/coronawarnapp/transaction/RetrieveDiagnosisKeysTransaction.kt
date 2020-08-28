@@ -20,7 +20,6 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -36,6 +35,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
@@ -119,6 +119,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    var onKeyFilesStarted: (() -> Unit)? = null
+    var onKeyFilesFinished: ((keyCount: Int) -> Unit)? = null
+
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
@@ -136,17 +139,13 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
     }
 
-    //TODO: Refactoring -> Make debugging callbacks part of class, not method
-    //onKeyFilesStarted: (() -> Unit)? = null,
-    //        onKeyFilesFinished: ((keyFiles: Int) -> Unit)? = null
-
-    /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
+    /** initiates the transaction. This suspend function guarantees a successful transaction once completed.
+     * @param countries defines which countries (country codes) should be used. If not filled the
+     * country codes will be loaded from the ApplicationConfigurationService
+     */
     suspend fun start(
-        onKeyFilesStarted: (() -> Unit)? = null,
-        onKeyFilesFinished: ((keyFiles: Int) -> Unit)? = null
+        requestedCountries: List<String>? = null
     ) = lockAndExecuteUnique {
-
-        val fireEvent = BuildConfig.FLAVOR != "device"
 
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
@@ -176,11 +175,19 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
-        if (fireEvent) {
+        if (CWADebug.isDebugBuildOrMode) {
             onKeyFilesStarted?.invoke()
+            onKeyFilesStarted = null
         }
 
-        val keyFiles = executeFetchKeyFilesFromServer(currentDate)
+        val countries = requestedCountries ?: ApplicationConfigurationService
+            .asyncRetrieveApplicationConfiguration()
+            .countryCodesList
+
+        val keyFiles = executeFetchKeyFilesFromServer(
+            currentDate,
+            countries
+        )
 
         if (keyFiles.isNotEmpty()) {
             /****************************************************
@@ -191,8 +198,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             Timber.tag(TAG).w("no key files, skipping submission to internal API.")
         }
 
-        if (fireEvent) {
+        if (CWADebug.isDebugBuildOrMode) {
             onKeyFilesFinished?.invoke(keyFiles.size)
+            onKeyFilesFinished = null
         }
 
         /****************************************************
@@ -273,10 +281,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date
+        currentDate: Date,
+        countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
         FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate)
+        CachedKeyFileHolder.asyncFetchFiles(currentDate, countries)
     }
 
     /**

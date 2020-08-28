@@ -55,10 +55,10 @@ class CachedKeyFileHolderTest {
 
         runBlocking {
 
-            CachedKeyFileHolder.asyncFetchFiles(date)
+            CachedKeyFileHolder.asyncFetchFiles(date, listOf("DE"))
 
             coVerifyOrder {
-                CachedKeyFileHolder.asyncFetchFiles(date)
+                CachedKeyFileHolder.asyncFetchFiles(date, listOf("DE"))
                 CachedKeyFileHolder["getDatesFromServer"]()
                 keyCacheRepository.deleteOutdatedEntries(any())
                 CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())

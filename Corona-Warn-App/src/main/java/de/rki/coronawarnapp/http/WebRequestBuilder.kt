@@ -81,12 +81,11 @@ class WebRequestBuilder(
 
     /**
      * Gets the country index which is then filtered by given filter param or if param not set
-     * DiagnosisKeyConstants.COUNTRIES will be used for filtering
      * @param filter (array of country codes) used to filter
      * only wanted countries of the country index (case insensitive)
      */
     suspend fun asyncGetCountryIndex(
-        filter: List<String> = DiagnosisKeyConstants.COUNTRIES
+        filter: List<String>
     ): List<String> =
         withContext(Dispatchers.IO) {
             return@withContext distributionService
