@@ -141,6 +141,9 @@ class FormatterHelperTest {
         // Check formatColor when value true
         formatColorBase(bValue = true, iColor = 1)
 
+        // Check formatColor when value true
+        formatColorBase(bValue = true, iColor = 1)
+
         // Check formatColor when value false
         formatColorBase(bValue = false, iColor = 2)
     }
