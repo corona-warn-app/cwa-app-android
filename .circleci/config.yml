@@ -101,8 +101,10 @@ workflows:
             branches:
               ignore:
                 - staging-pipeline-test
+                - /RC\/.*/
       - quickBuildReleaseWithTestsAndChecksAndSign:
           filters:
             branches:
               only:
                 - staging-pipeline-test
+                - /RC\/.*/
