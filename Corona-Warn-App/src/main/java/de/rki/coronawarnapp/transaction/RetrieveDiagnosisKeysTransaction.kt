@@ -136,6 +136,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
     }
 
+    //TODO: Refactoring -> Make debugging callbacks part of class, not method
+    //onKeyFilesStarted: (() -> Unit)? = null,
+    //        onKeyFilesFinished: ((keyFiles: Int) -> Unit)? = null
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         onKeyFilesStarted: (() -> Unit)? = null,
@@ -173,9 +177,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
          * FILES FROM WEB REQUESTS
          ****************************************************/
         if (fireEvent) {
-            if (onKeyFilesStarted != null) {
-                onKeyFilesStarted()
-            }
+            onKeyFilesStarted?.invoke()
         }
 
         val keyFiles = executeFetchKeyFilesFromServer(currentDate)
@@ -190,9 +192,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
 
         if (fireEvent) {
-            if (onKeyFilesFinished != null) {
-                onKeyFilesFinished(keyFiles.size)
-            }
+            onKeyFilesFinished?.invoke(keyFiles.size)
         }
 
         /****************************************************

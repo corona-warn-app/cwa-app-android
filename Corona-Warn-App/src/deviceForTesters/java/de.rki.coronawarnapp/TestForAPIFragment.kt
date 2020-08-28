@@ -64,6 +64,7 @@ import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
@@ -308,25 +309,33 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
      */
     private suspend fun measureRiskLevelAndKeyRetrieval(callCount: Int) {
         val countries = DiagnosisKeyConstants.COUNTRIES
+
         var resultInfo = StringBuilder()
-            .append("Result: \n")
-            .append("Using countries: ${countries.joinToString(",")}\n")
+            .append(
+                "MEASUREMENT Running for Countries:\n " +
+                        "${countries.joinToString(", ")}\n\n"
+            )
+            .append("Result: \n\n")
             .append("#\t Download \t Key Calc \t File # \t Key #\n")
 
+        label_test_api_measure_calc_key_status.text = resultInfo.toString()
+
+        val webRequestBuilder = WebRequestBuilder.getInstance()
         repeat(callCount) { index ->
 
             // get count of all country dates
-            var fileCount =
-                WebRequestBuilder.getInstance()
-                    .asyncGetCountryIndex(countries)
-                    .flatMap {
-                        WebRequestBuilder.getInstance().asyncGetDateIndex(it)
-                    }.size
+            var fileCount = webRequestBuilder.asyncGetCountryIndex(countries)
+                .flatMap {
+                    webRequestBuilder.asyncGetDateIndex(it)
+                }.size
 
+            /**
+             * MEASUREMENT OF DIAGNOSTIC KEY RETRIEVAL
+             */
             var keyFileDownloadStart: Long = -1
             var keyFileCount: Int = -1
             var keyFileDownloadDuration: Long = -1
-
+            var keyRetrievalError = ""
             try {
                 // start diagnostic key transaction with callback to get duration of Download
                 RetrieveDiagnosisKeysTransaction.start(
@@ -335,21 +344,30 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                         keyFileDownloadStart = System.currentTimeMillis()
                     },
                     onKeyFilesFinished = {
-                        Timber.v("MEASURE [Diagnostic Key Files] #${index} finished.")
+                        Timber.v("MEASURE [Diagnostic Key Files] #${index} finished")
                         keyFileDownloadDuration = System.currentTimeMillis() - keyFileDownloadStart
                         keyFileCount = it
                     }
                 )
             } catch (e: TransactionException) {
                 e.report(ExceptionCategory.INTERNAL)
+                keyRetrievalError = e.message.toString()
             }
 
-            val calculationStart = System.currentTimeMillis()
+            /**
+             * MEASUREMENT OF RISK CALCULATION
+             */
             var calculationDuration: Long = -1
+            val calculationError = ""
             try {
+                Timber.v("MEASURE [Risk Level Calculation] #${index} started")
                 // start risk level calculation and get duration
-                RiskLevelTransaction.start()
-                calculationDuration = System.currentTimeMillis() - calculationStart
+                measureTimeMillis {
+                    RiskLevelTransaction.start()
+                }.also {
+                    Timber.v("MEASURE [Risk Level Calculation] #${index} finished")
+                    calculationDuration = it
+                }
             } catch (e: TransactionException) {
                 e.report(ExceptionCategory.INTERNAL)
             }
@@ -359,6 +377,15 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 "${index + 1}. \t $keyFileDownloadDuration ms " +
                         "\t\t $calculationDuration ms \t\t $fileCount \t\t $keyFileCount\n"
             )
+
+            if (keyRetrievalError.isNotEmpty()) {
+                resultInfo.append("Key Retrieval Error: $keyRetrievalError\n")
+            }
+
+            if (calculationError.isNotEmpty()) {
+                resultInfo.append("Calculation Error: $calculationError\n")
+            }
+
 
             label_test_api_measure_calc_key_status.text = resultInfo.toString()
         }

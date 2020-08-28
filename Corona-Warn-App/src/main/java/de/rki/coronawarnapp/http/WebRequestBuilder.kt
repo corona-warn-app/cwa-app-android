@@ -44,6 +44,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 import kotlin.math.max
 
@@ -91,8 +92,8 @@ class WebRequestBuilder(
             return@withContext distributionService
                 .getDateIndex(DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL)
                 .filter {
-                    filter.map { c -> c.toUpperCase() }
-                        .contains(it.toUpperCase())
+                    filter.map { c -> c.toUpperCase(Locale.ROOT) }
+                        .contains(it.toUpperCase(Locale.ROOT))
                 }
                 .toList()
         }

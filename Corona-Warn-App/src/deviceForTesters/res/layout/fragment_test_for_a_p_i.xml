@@ -235,8 +235,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/input_country_codes_editText"
