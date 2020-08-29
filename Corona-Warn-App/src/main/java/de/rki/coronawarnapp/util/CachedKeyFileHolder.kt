@@ -44,6 +44,7 @@ import java.util.UUID
  * Singleton used for accessing key files via combining cached entries from existing files and new requests.
  * made explicitly with [asyncFetchFiles] in mind
  */
+@SuppressWarnings("LongMethod")
 object CachedKeyFileHolder {
     private val TAG: String? = CachedKeyFileHolder::class.simpleName
 
