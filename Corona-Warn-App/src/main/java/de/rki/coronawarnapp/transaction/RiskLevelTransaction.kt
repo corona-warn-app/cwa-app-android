@@ -185,7 +185,7 @@ object RiskLevelTransaction : Transaction() {
     /** atomic reference for the rollback value for date of last risk level calculation */
     private val lastCalculatedRiskLevelDate = AtomicReference<Long>()
 
-    private val transactionScope: RiskLevelCoroutineScope by lazy {
+    private val transactionScope: TransactionCoroutineScope by lazy {
         AppInjector.component.transRiskLevelInjection.transactionScope
     }
 

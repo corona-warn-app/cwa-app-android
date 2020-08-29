@@ -46,7 +46,7 @@ class SubmitDiagnosisKeysTransactionTest {
         mockkObject(AppInjector)
         val appComponent = mockk<ApplicationComponent>().apply {
             every { transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
-                SubmitDiagnosisCoroutineScope()
+                TransactionCoroutineScope()
             )
         }
         every { AppInjector.component } returns appComponent

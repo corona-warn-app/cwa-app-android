@@ -58,7 +58,7 @@ class RiskLevelTransactionTest {
         mockkObject(AppInjector)
         val appComponent = mockk<ApplicationComponent>().apply {
             every { transRiskLevelInjection } returns RiskLevelInjectionHelper(
-                RiskLevelCoroutineScope()
+                TransactionCoroutineScope()
             )
         }
         every { AppInjector.component } returns appComponent

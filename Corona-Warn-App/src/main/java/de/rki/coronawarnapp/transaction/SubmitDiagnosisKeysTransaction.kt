@@ -48,7 +48,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         CLOSE
     }
 
-    private val transactionScope: SubmitDiagnosisCoroutineScope by lazy {
+    private val transactionScope: TransactionCoroutineScope by lazy {
         AppInjector.component.transSubmitDiagnosisInjection.transactionScope
     }
 

@@ -119,7 +119,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
-    private val transactionScope: RetrieveDiagnosisCoroutineScope by lazy {
+    private val transactionScope: TransactionCoroutineScope by lazy {
         AppInjector.component.transRetrieveKeysInjection.transactionScope
     }
 

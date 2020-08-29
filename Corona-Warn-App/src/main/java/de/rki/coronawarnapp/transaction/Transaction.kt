@@ -199,6 +199,7 @@ abstract class Transaction {
         scope: CoroutineScope,
         block: suspend CoroutineScope.() -> Unit
     ) {
+
         if (unique && internalMutualExclusionLock.isLocked) {
             Timber.tag(TAG).w(
                 "TRANSACTION WITH ID %s ALREADY RUNNING (%s) AS UNIQUE, SKIPPING EXECUTION.",
@@ -226,10 +227,12 @@ abstract class Transaction {
             }
         }
 
-        try {
-            deferred.await()
-        } catch (e: Exception) {
-            handleTransactionError(e)
+        withContext(scope.coroutineContext) {
+            try {
+                deferred.await()
+            } catch (e: Exception) {
+                handleTransactionError(e)
+            }
         }
     }
 

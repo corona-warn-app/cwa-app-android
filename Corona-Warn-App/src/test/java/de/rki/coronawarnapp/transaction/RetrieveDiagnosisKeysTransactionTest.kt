@@ -33,7 +33,7 @@ class RetrieveDiagnosisKeysTransactionTest {
         mockkObject(AppInjector)
         val appComponent = mockk<ApplicationComponent>().apply {
             every { transRetrieveKeysInjection } returns RetrieveDiagnosisInjectionHelper(
-                RetrieveDiagnosisCoroutineScope()
+                TransactionCoroutineScope()
             )
         }
         every { AppInjector.component } returns appComponent
