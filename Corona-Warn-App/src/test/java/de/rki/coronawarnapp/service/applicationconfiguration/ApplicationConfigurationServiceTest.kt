@@ -32,6 +32,8 @@ class ApplicationConfigurationServiceTest : BaseTest() {
 
         every { appConfigBuilder.addAllCountryCodes(any()) } returns appConfigBuilder
 
+        every { appConfigBuilder.clearCountryCodes() } returns appConfigBuilder
+
         every { appConfigBuilder.build() } returns appConfig
 
         coEvery { requestBuilder.asyncGetApplicationConfigurationFromServer() } returns appConfig
@@ -39,7 +41,7 @@ class ApplicationConfigurationServiceTest : BaseTest() {
         every { WebRequestBuilder.getInstance() } returns requestBuilder
 
         runBlocking {
-            val config = ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+            ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
             verify(exactly = 1) { appConfigBuilder.addAllCountryCodes(any()) }
         }
 
@@ -48,7 +50,7 @@ class ApplicationConfigurationServiceTest : BaseTest() {
         CWADebug.isDebugBuildOrMode shouldBe false
 
         runBlocking {
-            val config = ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+            ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
             verify(exactly = 1) { appConfigBuilder.addAllCountryCodes(any()) }
         }
     }

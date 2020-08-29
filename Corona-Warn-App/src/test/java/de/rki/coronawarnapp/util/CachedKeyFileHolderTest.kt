@@ -16,6 +16,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.io.File
 import java.util.Date
 
 /**
@@ -46,22 +47,28 @@ class CachedKeyFileHolderTest {
     @Test
     fun testAsyncFetchFiles() {
         val date = Date()
+        val countries = listOf("DE")
+        val country = "DE"
 
         coEvery { keyCacheRepository.getDates() } returns listOf()
         coEvery { keyCacheRepository.getFilesFromEntries() } returns listOf()
         every { CachedKeyFileHolder["isLast3HourFetchEnabled"]() } returns false
         every { CachedKeyFileHolder["checkForFreeSpace"]() } returns Unit
-        every { CachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
+        every { CachedKeyFileHolder["getDatesFromServer"](country) } returns arrayListOf<String>()
+
+        every { CoronaWarnApplication.getAppContext().cacheDir } returns File("./")
+        every { CachedKeyFileHolder["getCountriesFromServer"](countries) } returns countries
 
         runBlocking {
 
-            CachedKeyFileHolder.asyncFetchFiles(date, listOf("DE"))
+            CachedKeyFileHolder.asyncFetchFiles(date, countries)
 
             coVerifyOrder {
-                CachedKeyFileHolder.asyncFetchFiles(date, listOf("DE"))
-                CachedKeyFileHolder["getDatesFromServer"]()
+                CachedKeyFileHolder.asyncFetchFiles(date, countries)
+                CachedKeyFileHolder["getCountriesFromServer"](countries)
+                CachedKeyFileHolder["getDatesFromServer"](country)
                 keyCacheRepository.deleteOutdatedEntries(any())
-                CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
+                CachedKeyFileHolder["getMissingDaysFromDiff"](listOf(Pair(country, listOf<String>() )))
                 keyCacheRepository.getDates()
                 keyCacheRepository.getFilesFromEntries()
             }

@@ -61,7 +61,8 @@ import org.joda.time.DateTimeZone
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
-import java.util.*
+import java.util.Date
+import java.util.UUID
 import kotlin.system.measureTimeMillis
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
@@ -146,7 +147,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         qrPager = qr_code_viewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
-
 
         // Load countries from App config and update Country UI element states
         lifecycleScope.launch {

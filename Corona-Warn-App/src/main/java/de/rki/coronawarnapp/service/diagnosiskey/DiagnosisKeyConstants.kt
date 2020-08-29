@@ -74,7 +74,6 @@ object DiagnosisKeyConstants {
     val COUNTRY_APPCONFIG_DOWNLOAD_URL =
         "$APPCONFIG_COUNTRY_DOWNLOAD_URL/$CURRENT_COUNTRY/app_config"
 
-
     /** Dynamic URL to be able to specify which country should be used
      * instead of $CURRENT_COUNTRY
      **/
