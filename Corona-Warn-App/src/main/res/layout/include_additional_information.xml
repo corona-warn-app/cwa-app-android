@@ -9,10 +9,6 @@
             type="android.graphics.drawable.Drawable" />
 
         <variable
-            name="headline"
-            type="String" />
-
-        <variable
             name="body"
             type="String" />
 
