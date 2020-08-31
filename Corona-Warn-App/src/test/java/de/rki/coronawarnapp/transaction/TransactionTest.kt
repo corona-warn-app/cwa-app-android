@@ -2,14 +2,22 @@ package de.rki.coronawarnapp.transaction
 
 import de.rki.coronawarnapp.exception.RollbackException
 import de.rki.coronawarnapp.exception.TransactionException
+import de.rki.coronawarnapp.risk.TimeVariables
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
+import io.kotest.matchers.types.beInstanceOf
 import io.mockk.clearAllMocks
 import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockkObject
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.IOException
@@ -19,11 +27,17 @@ class TransactionTest : BaseTest() {
 
     private val testScope = TestCoroutineScope()
 
+    @BeforeEach
+    fun setup() {
+        mockkObject(TimeVariables)
+    }
+
     @AfterEach
     fun tearDown() {
         clearAllMocks()
     }
 
+    @Suppress("UNREACHABLE_CODE")
     private class TestTransaction(
         val errorOnRollBack: Exception? = null
     ) : Transaction() {
@@ -76,5 +90,21 @@ class TransactionTest : BaseTest() {
         coVerify { testTransaction.handleTransactionError(ofType<IOException>()) }
         coVerify { testTransaction.rollback() }
         coVerify { testTransaction.handleRollbackError(ofType<IllegalAccessException>()) }
+    }
+
+    @Test
+    fun `transactions can timeout`() {
+        // TODO use a test scope and advance time
+        every { TimeVariables.getTransactionTimeout() } returns 0L
+
+        val testTransaction = TestTransaction()
+        val exception = shouldThrow<TransactionException> {
+            runBlocking {
+                testTransaction.lockAndExecute(scope = testScope) {
+                    delay(2000)
+                }
+            }
+        }
+        exception.cause should beInstanceOf<TimeoutCancellationException>()
     }
 }

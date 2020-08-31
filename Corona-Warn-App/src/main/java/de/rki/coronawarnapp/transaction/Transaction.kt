@@ -54,8 +54,8 @@ abstract class Transaction {
          * Transaction Timeout in Milliseconds, used to cancel any Transactions that run into never ending execution
          * (e.g. due to a coroutine not being cancelled properly or an exception leading to unchecked behavior)
          */
-        private val TRANSACTION_TIMEOUT_MS =
-            TimeVariables.getTransactionTimeout()
+        private val TRANSACTION_TIMEOUT_MS: Long
+            get() = TimeVariables.getTransactionTimeout()
     }
 
     @Suppress("VariableNaming", "PropertyName") // Done as the Convention is TAG for every class
