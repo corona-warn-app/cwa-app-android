@@ -133,6 +133,23 @@
         <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
+    <style name="targetDeButtonNotPressed">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
+
+    <style name="targetDeButtonPressed">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/colorInterBtnPressed</item>
+    </style>
+
+    <style name="targetDe">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:background">@drawable/card</item>
+    </style>
+
     <style name="cardGrey">
         <item name="android:background">@drawable/card_dark</item>
     </style>

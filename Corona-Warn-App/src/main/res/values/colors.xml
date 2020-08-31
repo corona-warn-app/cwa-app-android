@@ -52,4 +52,10 @@
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
 
+    <!-- pressed button Interoperability -->
+    <color name="colorInterBtnPressed">#5D6E80</color>
+    <color name="colorInterBtnNotPressed">#F5F5F5</color>
+    <color name="colorTextInterBtnPressed">#FFFFFF</color>
+    <color name="colorTextInterBtnNotPressed">#000000</color>
+
 </resources>

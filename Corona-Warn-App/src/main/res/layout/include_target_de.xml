@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tracing_status_card"
+        style="@style/targetDe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tracing_status_card_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tracing_status_card_header_headline"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:accessibilityHeading="true"
+                android:contentDescription="@{@string/target_de_text_subtitle}"
+                android:text="@{@string/target_de_text_subtitle}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tracing_status_card_btn_1"
+            style="@style/targetDeButtonNotPressed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header">
+
+            <TextView
+                android:id="@+id/tracing_status_card_body"
+                style="@style/headline6"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:text="@{@string/target_de_text_btn1}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tracing_status_card_btn_2"
+            style="@style/targetDeButtonNotPressed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_btn_1">
+
+            <TextView
+                android:id="@+id/tracing_status_card_btn_2_body"
+                style="@style/headline6"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:text="@{@string/target_de_text_btn2}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tracing_status_card_btn_3"
+            style="@style/targetDeButtonNotPressed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_btn_2">
+
+            <TextView
+                android:id="@+id/target_de_not_sure"
+                style="@style/headline6"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:text="@{@string/target_de_text_btn3}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tracing_status_card_body_notice"
+            style="@style/subtitle"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@{@string/target_de_text_notice}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_btn_3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

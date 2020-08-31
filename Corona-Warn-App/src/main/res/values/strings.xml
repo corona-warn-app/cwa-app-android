@@ -367,6 +367,19 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
 
+
+    <!-- ####################################
+              Target de
+    ###################################### -->
+
+    <!-- XBUT: onboarding - forward and deny -->
+    <string name="target_de_text_subtitle">"Haben Sie sich in den letzten 14 Tagen außerhalb von Deutschland aufgehalten?"</string>
+    <string name="target_de_text_notice">"Ihre Angabe dient lediglich der Optimierung des Datenvolumens."</string>
+    <string name="target_de_text_btn1">"Ja"</string>
+    <string name="target_de_text_btn2">"Nein"</string>
+    <string name="target_de_text_btn3">"Keine Angabe"</string>
+    <string name="target_de_text_next">"WEITER"</string>
+    <string name="target_de_text_back">"Europaweit warnen"</string>
     <!-- ####################################
               Onboarding
     ###################################### -->
