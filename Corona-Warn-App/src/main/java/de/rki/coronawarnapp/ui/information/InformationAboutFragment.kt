@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.ui.information
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationAboutBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 
@@ -43,7 +45,11 @@ class InformationAboutFragment : Fragment() {
 
     private fun setLinks() {
         binding.informationAboutEasyLanguage
-            .movementMethod = LinkMovementMethod.getInstance()
+            .setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url)))
+            startActivity(browserIntent)
+        }
     }
 
     override fun onResume() {
