@@ -120,7 +120,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
     var onKeyFilesStarted: (() -> Unit)? = null
-    var onKeyFilesFinished: ((keyCount: Int) -> Unit)? = null
+    var onKeyFilesFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
 
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
@@ -199,7 +199,13 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
 
         if (CWADebug.isDebugBuildOrMode) {
-            onKeyFilesFinished?.invoke(keyFiles.size)
+            var totalFileSize: Long = 0
+            keyFiles.also {
+                it.forEach { file ->
+                    totalFileSize += file.length()
+                }
+            }
+            onKeyFilesFinished?.invoke(keyFiles.size, totalFileSize / (1024 *1024))
             onKeyFilesFinished = null
         }
 

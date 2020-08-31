@@ -320,7 +320,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                         "${countries?.joinToString(", ")}\n\n"
             )
             .append("Result: \n\n")
-            .append("#\t Combined \t Download \t Key Calc \t File #\n")
+            .append("#\t Combined \t Download \t Key Calc \t File # \t Files size\n")
 
         label_test_api_measure_calc_key_status.text = resultInfo.toString()
 
@@ -328,11 +328,13 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             var keyRetrievalError = ""
             var keyFileCount: Int = -1
             var keyFileDownloadDuration: Long = -1
+            var keyFilesSize: Long = -1
 
             try {
-                measureDiagnosticKeyRetrieval("#$index") { duration, keyCount ->
+                measureDiagnosticKeyRetrieval("#$index") { duration, keyCount, totalFileSize ->
                     keyFileCount = keyCount
                     keyFileDownloadDuration = duration
+                    keyFilesSize = totalFileSize
                 }
             } catch (e: TransactionException) {
                 keyRetrievalError = e.message.toString()
@@ -353,7 +355,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             resultInfo.append(
                 "${index + 1}. \t ${calculationDuration + keyFileDownloadDuration} ms \t\t " +
                         "$keyFileDownloadDuration ms " +
-                        "\t\t $calculationDuration ms \t\t $keyFileCount\n"
+                        "\t\t $calculationDuration ms \t\t $keyFileCount \t\t $keyFilesSize MB\n"
             )
 
             if (keyRetrievalError.isNotEmpty()) {
@@ -386,7 +388,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
     private suspend fun measureDiagnosticKeyRetrieval(
         label: String,
-        finished: (duration: Long, keyCount: Int) -> Unit
+        finished: (duration: Long, keyCount: Int, fileSize: Long) -> Unit
     ) {
         var keyFileDownloadStart: Long = -1
 
@@ -396,10 +398,10 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 keyFileDownloadStart = System.currentTimeMillis()
             }
 
-            RetrieveDiagnosisKeysTransaction.onKeyFilesFinished = {
+            RetrieveDiagnosisKeysTransaction.onKeyFilesFinished = { count, size ->
                 Timber.v("MEASURE [Diagnostic Key Files] $label finished")
                 val duration = System.currentTimeMillis() - keyFileDownloadStart
-                finished(duration, it)
+                finished(duration, count, size)
             }
             // start diagnostic key transaction
             RetrieveDiagnosisKeysTransaction.start(lastSetCountries)
