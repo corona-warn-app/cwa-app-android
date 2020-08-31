@@ -16,6 +16,7 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,8 +25,6 @@ import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class TransactionTest : BaseTest() {
-
-    private val testScope = TestCoroutineScope()
 
     @BeforeEach
     fun setup() {
@@ -59,6 +58,7 @@ class TransactionTest : BaseTest() {
 
     @Test
     fun `transaction error handler is called`() {
+        val testScope = TestCoroutineScope()
         val testTransaction = spyk(TestTransaction())
         shouldThrow<TransactionException> {
             runBlocking {
@@ -74,6 +74,7 @@ class TransactionTest : BaseTest() {
 
     @Test
     fun `rollback error handler is called`() {
+        val testScope = TestCoroutineScope()
         val testTransaction = spyk(
             TestTransaction(
                 errorOnRollBack = IllegalAccessException()
@@ -94,14 +95,17 @@ class TransactionTest : BaseTest() {
 
     @Test
     fun `transactions can timeout`() {
-        // TODO use a test scope and advance time
+        /**
+         * TODO use runBlockingTest & advanceTime, which currently does not work
+         * https://github.com/Kotlin/kotlinx.coroutines/issues/1204
+         */
         every { TimeVariables.getTransactionTimeout() } returns 0L
 
         val testTransaction = TestTransaction()
         val exception = shouldThrow<TransactionException> {
-            runBlocking {
-                testTransaction.lockAndExecute(scope = testScope) {
-                    delay(2000)
+            runBlockingTest {
+                testTransaction.lockAndExecute(scope = this) {
+                    delay(TimeVariables.getTransactionTimeout())
                 }
             }
         }
