@@ -119,10 +119,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
     suspend fun startWithConstraints() {
-        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
         val lastFetch = DateTime(
             LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
+            DateTimeZone.getDefault()
         )
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
