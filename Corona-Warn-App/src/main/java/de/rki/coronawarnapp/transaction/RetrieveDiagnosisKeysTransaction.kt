@@ -200,12 +200,13 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
         if (CWADebug.isDebugBuildOrMode) {
             var totalFileSize: Long = 0
+            val fileSizeUnit = (1024 * 1024)
             keyFiles.also {
                 it.forEach { file ->
                     totalFileSize += file.length()
                 }
             }
-            onKeyFilesFinished?.invoke(keyFiles.size, totalFileSize / (1024 *1024))
+            onKeyFilesFinished?.invoke(keyFiles.size, totalFileSize / fileSizeUnit)
             onKeyFilesFinished = null
         }
 
