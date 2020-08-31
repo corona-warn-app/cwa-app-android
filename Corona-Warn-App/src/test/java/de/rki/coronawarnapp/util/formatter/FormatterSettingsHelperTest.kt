@@ -398,7 +398,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bLocation = true,
-            iValue = R.string.settings_tracing_status_restricted
+            iValue = R.string.settings_tracing_status_active
         )
 
         // When tracing is false, bluetooth is true, location is false
@@ -666,7 +666,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bLocation = true,
-            bValue = false
+            bValue = true
         )
 
         formatTracingSwitchBase(
@@ -740,7 +740,7 @@ class FormatterSettingsHelperTest {
             bTracing = true,
             bBluetooth = true,
             bLocation = true,
-            bValue = false
+            bValue = true
         )
     }
 
@@ -813,13 +813,6 @@ class FormatterSettingsHelperTest {
         formatTracingIconColorBase(
             bTracing = true,
             bBluetooth = false,
-            bLocation = true,
-            iColor = R.color.colorTextSemanticRed
-        )
-
-        formatTracingIconColorBase(
-            bTracing = true,
-            bBluetooth = true,
             bLocation = true,
             iColor = R.color.colorTextSemanticRed
         )
