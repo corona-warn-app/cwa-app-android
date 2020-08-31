@@ -361,7 +361,7 @@ fun formatTracingSwitchEnabled(tracing: Boolean, bluetooth: Boolean, location: B
  * @param location
  * @return Drawable
  */
-fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean,  location: Boolean): Int? {
+fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, location: Boolean): Int? {
     return when (tracingStatusHelper(tracing, bluetooth, location)) {
         TracingStatusHelper.BLUETOOTH -> R.drawable.ic_settings_tracing_bluetooth_inactive
         TracingStatusHelper.LOCATION -> R.drawable.ic_settings_location_inactive_small
@@ -409,7 +409,6 @@ fun formatTracingStatusImage(tracing: Boolean, bluetooth: Boolean, location: Boo
             appContext.getDrawable(R.drawable.ic_settings_illustration_tracing_off)
     }
 }
-
 
 /**
  * Change the visibility of the bluetooth card based on the tracing status.

@@ -135,7 +135,6 @@ class SettingsTracingFragment : Fragment(),
         location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
-
     }
 
     private fun startStopTracing() {
