@@ -166,21 +166,6 @@
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
                 tools:text="@string/onboarding_tracing_easy_language_explanation" />
 
-            <!--            <include-->
-            <!--                android:id="@+id/onboarding_location_card_list"-->
-            <!--                layout="@layout/include_additional_information"-->
-            <!--                android:layout_width="@dimen/match_constraint"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/spacing_normal"-->
-            <!--                android:focusable="true"-->
-            <!--                android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"-->
-            <!--                app:body="@{locationBodyCard}"-->
-            <!--                app:headline="@{locationHeadlineCard}"-->
-            <!--                app:icon="@{locationIconCard}"-->
-            <!--                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language" />-->
-
             <include
                 android:id="@+id/additional_information_notification_info_long"
                 layout="@layout/include_additional_information_long"
@@ -225,6 +210,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/additional_information_location_info_long" />
 
             <include
+                android:id="@+id/onboarding_location_card_16_years"
+                layout="@layout/include_16_years"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:focusable="true"
+                android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
+                app:body="@{@string/sixteen_description_text}"
+                app:headline="@{@string/sixteen_title_text}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card" />
+
+            <include
                 android:id="@+id/onboarding_card"
                 layout="@layout/include_tracing_status_card"
                 android:layout_width="@dimen/match_constraint"
@@ -236,7 +235,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/additional_information_background_info_long" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_16_years" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"

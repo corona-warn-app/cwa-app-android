@@ -119,10 +119,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
     suspend fun startWithConstraints() {
-        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
         val lastFetch = DateTime(
             LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
+            DateTimeZone.getDefault()
         )
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
@@ -143,7 +143,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
          * not check in before.
          */
         if (!InternalExposureNotificationClient.asyncIsEnabled()) {
-            Timber.w("EN is not enabled, skipping RetrieveDiagnosisKeys")
+            Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
             executeClose()
             return@lockAndExecuteUnique
         }
@@ -173,7 +173,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
              ****************************************************/
             executeAPISubmission(token, keyFiles, exposureConfiguration)
         } else {
-            Timber.w("no key files, skipping submission to internal API.")
+            Timber.tag(TAG).w("no key files, skipping submission to internal API.")
         }
         /****************************************************
          * Fetch Date Update
@@ -205,17 +205,17 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     private fun rollbackSetup() {
-        Timber.v("rollback $SETUP")
+        Timber.tag(TAG).v("rollback $SETUP")
         LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback.get())
     }
 
     private fun rollbackToken() {
-        Timber.v("rollback $TOKEN")
+        Timber.tag(TAG).v("rollback $TOKEN")
         LocalData.googleApiToken(googleAPITokenForRollback.get())
     }
 
     private suspend fun rollbackFilesFromWebRequests() {
-        Timber.v("rollback $FILES_FROM_WEB_REQUESTS")
+        Timber.tag(TAG).v("rollback $FILES_FROM_WEB_REQUESTS")
         KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
             .clear()
     }
@@ -226,7 +226,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private suspend fun executeSetup() = executeState(SETUP) {
         lastFetchDateForRollback.set(LocalData.lastTimeDiagnosisKeysFromServerFetch())
         val currentDate = Date(System.currentTimeMillis())
-        Timber.d("using $currentDate as current date in Transaction.")
+        Timber.tag(TAG).d("using $currentDate as current date in Transaction.")
         currentDate
     }
 
@@ -270,14 +270,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        exportFiles.forEach { batch ->
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                listOf(batch),
-                exposureConfiguration,
-                token
-            )
-        }
-        Timber.d("Diagnosis Keys provided successfully, Token: $token")
+        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+            exportFiles,
+            exposureConfiguration,
+            token
+        )
+        Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 
     /**

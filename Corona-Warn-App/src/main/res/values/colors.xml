@@ -19,6 +19,7 @@
     <color name="colorTextPrimary2">#9917191A</color>
     <color name="colorTextPrimary3">#4D17191A</color>
     <color name="colorTextEmphasizedButton">#FFFFFF</color>
+    <color name="colorTextSixteenWhite">#FFFFFF</color>
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">#5D6E80</color>
