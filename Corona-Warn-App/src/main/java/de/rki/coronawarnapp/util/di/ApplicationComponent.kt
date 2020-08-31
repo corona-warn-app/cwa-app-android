@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.ui.ActivityBinder
-import de.rki.coronawarnapp.util.AndroidModule
+import de.rki.coronawarnapp.util.device.DeviceModule
 import javax.inject.Singleton
 
 @Singleton
@@ -19,6 +19,7 @@ import javax.inject.Singleton
         ReceiverBinder::class,
         ServiceBinder::class,
         ActivityBinder::class,
+        DeviceModule::class,
         RiskModule::class
     ]
 )

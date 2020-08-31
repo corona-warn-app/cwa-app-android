@@ -91,7 +91,7 @@ abstract class Transaction {
     private fun setState(state: TransactionState) =
         currentTransactionState.set(state)
             .also {
-                Timber.d("$transactionId - STATE CHANGE: ${currentTransactionState.get()}")
+                Timber.tag(TAG).d("$transactionId - STATE CHANGE: ${currentTransactionState.get()}")
             }
 
     /**
@@ -217,7 +217,7 @@ abstract class Transaction {
         if (unique && internalMutualExclusionLock.isLocked) {
             val runningString = "TRANSACTION WITH ID $transactionId ALREADY RUNNING " +
                     "($currentTransactionState) AS UNIQUE, SKIPPING EXECUTION."
-            Timber.w(runningString)
+            Timber.tag(TAG).w(runningString)
             return
         }
         try {
@@ -231,7 +231,7 @@ abstract class Transaction {
                     val completedString =
                         "TRANSACTION $transactionId COMPLETED (${System.currentTimeMillis()}) " +
                                 "in $it ms, STATES EXECUTED: ${getExecutedStates()}"
-                    Timber.i(completedString)
+                    Timber.tag(TAG).i(completedString)
                 }
                 resetExecutedStateStack()
             }
@@ -274,7 +274,7 @@ abstract class Transaction {
      * @throws RollbackException throws a rollback exception when handleRollbackError() is called
      */
     protected open suspend fun rollback() {
-        if (BuildConfig.DEBUG) Timber.d("Initiate Rollback")
+        if (BuildConfig.DEBUG) Timber.tag(TAG).d("Initiate Rollback")
     }
 
     /**

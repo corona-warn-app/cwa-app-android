@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.mockk.MockKAnnotations
@@ -24,6 +25,7 @@ import org.junit.Test
 class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
+    private val testResult = TestResult.PENDING
 
     @MockK
     private lateinit var webRequestBuilder: WebRequestBuilder
@@ -42,6 +44,9 @@ class SubmissionServiceTest {
 
         mockkObject(SubmitDiagnosisKeysTransaction)
         mockkObject(LocalData)
+
+        mockkObject(SubmissionRepository)
+        every { SubmissionRepository.updateTestResult(any()) } just Runs
 
         every { LocalData.teletan() } returns null
         every { LocalData.testGUID() } returns null
@@ -66,6 +71,8 @@ class SubmissionServiceTest {
         coEvery {
             webRequestBuilder.asyncGetRegistrationToken(any(), KeyType.GUID)
         } returns registrationToken
+        coEvery { webRequestBuilder.asyncGetTestResult(registrationToken) } returns testResult.value
+
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
@@ -77,6 +84,7 @@ class SubmissionServiceTest {
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.testGUID(null)
             backgroundNoise.scheduleDummyPattern()
+            SubmissionRepository.updateTestResult(testResult)
         }
     }
 
@@ -91,6 +99,8 @@ class SubmissionServiceTest {
         coEvery {
             webRequestBuilder.asyncGetRegistrationToken(any(), KeyType.TELETAN)
         } returns registrationToken
+        coEvery { webRequestBuilder.asyncGetTestResult(registrationToken) } returns testResult.value
+
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
@@ -102,6 +112,7 @@ class SubmissionServiceTest {
             LocalData.devicePairingSuccessfulTimestamp(any())
             LocalData.teletan(null)
             backgroundNoise.scheduleDummyPattern()
+            SubmissionRepository.updateTestResult(testResult)
         }
     }
 
