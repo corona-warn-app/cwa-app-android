@@ -16,7 +16,6 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -103,7 +102,7 @@ class TransactionTest : BaseTest() {
 
         val testTransaction = TestTransaction()
         val exception = shouldThrow<TransactionException> {
-            runBlockingTest {
+            runBlocking {
                 testTransaction.lockAndExecute(scope = this) {
                     delay(TimeVariables.getTransactionTimeout())
                 }
