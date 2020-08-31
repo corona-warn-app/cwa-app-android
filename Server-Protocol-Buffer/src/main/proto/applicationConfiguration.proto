@@ -13,7 +13,7 @@ message ApplicationConfiguration {
 
     ApplicationVersionConfiguration appVersion = 5;
 
-    repeated string countryCodes = 6;
+    repeated string supportedCountries = 6;
 }
 
 message RiskScoreParameters {

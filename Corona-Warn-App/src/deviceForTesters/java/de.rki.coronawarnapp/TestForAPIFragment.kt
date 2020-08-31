@@ -152,7 +152,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         lifecycleScope.launch {
             lastSetCountries =
                 ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                    .countryCodesList
+                    .supportedCountriesList
 
             (input_country_codes_editText as EditText).setText(
                 lastSetCountries?.joinToString(

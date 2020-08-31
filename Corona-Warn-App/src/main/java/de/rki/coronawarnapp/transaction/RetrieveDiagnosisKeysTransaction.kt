@@ -182,7 +182,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
         val countries = requestedCountries ?: ApplicationConfigurationService
             .asyncRetrieveApplicationConfiguration()
-            .countryCodesList
+            .supportedCountriesList
 
         val keyFiles = executeFetchKeyFilesFromServer(
             currentDate,

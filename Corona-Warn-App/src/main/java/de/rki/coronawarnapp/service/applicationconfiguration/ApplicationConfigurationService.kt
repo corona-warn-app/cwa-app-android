@@ -11,8 +11,8 @@ object ApplicationConfigurationService {
             return if (CWADebug.isDebugBuildOrMode) {
                 // TODO: THIS IS A MOCK -> Remove after Backend is providing this information.
                 it.toBuilder()
-                    .clearCountryCodes()
-                    .addAllCountryCodes(
+                    .clearSupportedCountries()
+                    .addAllSupportedCountries(
                         listOf(
                             "DE", "UK", "FR", "IT", "SP", "PL", "RO", "NL",
                             "BE", "CZ", "EL", "SE", "PT", "HU", "AT", "CH", "BG", "DK", "FI", "SK",

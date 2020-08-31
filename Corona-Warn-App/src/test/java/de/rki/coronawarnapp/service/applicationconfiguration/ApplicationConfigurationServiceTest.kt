@@ -30,9 +30,9 @@ class ApplicationConfigurationServiceTest : BaseTest() {
 
         every { appConfig.toBuilder() } returns appConfigBuilder
 
-        every { appConfigBuilder.addAllCountryCodes(any()) } returns appConfigBuilder
+        every { appConfigBuilder.addAllSupportedCountries(any()) } returns appConfigBuilder
 
-        every { appConfigBuilder.clearCountryCodes() } returns appConfigBuilder
+        every { appConfigBuilder.clearSupportedCountries() } returns appConfigBuilder
 
         every { appConfigBuilder.build() } returns appConfig
 
@@ -42,7 +42,7 @@ class ApplicationConfigurationServiceTest : BaseTest() {
 
         runBlocking {
             ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-            verify(exactly = 1) { appConfigBuilder.addAllCountryCodes(any()) }
+            verify(exactly = 1) { appConfigBuilder.addAllSupportedCountries(any()) }
         }
 
         every { CWADebug.isDebugBuildOrMode } returns false
@@ -51,7 +51,7 @@ class ApplicationConfigurationServiceTest : BaseTest() {
 
         runBlocking {
             ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-            verify(exactly = 1) { appConfigBuilder.addAllCountryCodes(any()) }
+            verify(exactly = 1) { appConfigBuilder.addAllSupportedCountries(any()) }
         }
     }
 }
