@@ -8,7 +8,6 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert
 import org.junit.Test
 
-
 class SubmissionServiceTest {
 
     @Test

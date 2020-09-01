@@ -163,6 +163,8 @@
     <string name="risk_card_body_time_fetched">"Актуализирано: %1$s"</string>
     <!-- XTXT: risk card - next update -->
     <string name="risk_card_body_next_update">"Ежедневно актуализиране"</string>
+    <!-- XTXT: risk card - hint to open the app daily -->
+    <string name="risk_card_body_open_daily">"Бележка: Моля, отваряйте приложението всеки ден, за да актуализирате своя статус на риск."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Актуализиране"</string>
     <!-- XBUT: risk card - update risk with time display -->
@@ -274,7 +276,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Излагания на риск"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Контакти с по-голяма продължителност и близост до лица, диагностицирани с COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Продължителни и близки контакти с лица, диагностицирани с COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Известия за излагане на риск"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -303,7 +305,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси относно симптомите, възможностите за тестване или самоизолацията, се обърнете към:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Мийте ръцете си редовно."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Мийте редовно ръцете си със сапун в продължение на 20 сек."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Носете маска при контакт с други хора."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
@@ -403,11 +405,13 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Как да активирате регистрирането на излагания на риск"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"За да установите дали за Вас съществува риск от заразяване, трябва да активирате функцията за регистриране на излагания на риск."</string>
+    <string name="onboarding_tracing_subtitle">"За да установите дали сте застрашени от заразяване, трябва да активирате функцията за регистриране на излагания на риск."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Регистрирането на излагания на риск се извършва с помощта на Bluetooth връзка, при която Вашето устройство получава криптираните случайни ИД кодове на други потребители и изпраща до техните устройства Вашите случайни ИД кодове. Функцията може да бъде дезактивирана по всяко време."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"Криптираните случайни ИД кодове предават само информация за дата, продължителност и близост на контакта с други лица (посредством силата на сигнала). Лични данни от типа на име, адрес и местоположение не се записват и идентифицирането на лицата е невъзможно."</string>
+    <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
+    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация за приложението на опростен и жестомимичен език."</a></string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Поверителност"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
@@ -564,7 +568,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_risk">"Промяна на Вашия риск от заразяване"</string>
     <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Статус на Вашия тест за COVID-19"</string>
+    <string name="settings_notifications_subtitle_update_test">"Наличие на резултат от Ваш тест за COVID-19"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
     <string name="settings_notifications_button_open_settings">"Към настройките за устройството"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
@@ -687,7 +691,9 @@
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"Контакт"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
-    <string name="information_legal_subtitle_contact">"Имейл: CoronaWarnApp@rki.de"<xliff:g id="line_break">"\n"</xliff:g>"Телефон: +49 30 18754 5100"</string>
+    <string name="information_legal_subtitle_contact">"Имейл: CoronaWarnApp@rki.de"</string>
+    <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
+    <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
     <string name="information_legal_headline_taxid">"Идентификационен номер за ДДС"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
@@ -757,9 +763,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"Неправилен QR код"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"Невалиден QR код"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е неправилен. Моля, опитайте отново по-късно."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на друг смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза COVID-19, службата за обществено осигуряване ще Ви уведоми за това."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Моля, опитайте отново."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -772,7 +778,7 @@
 
     <!-- Submission Test Result -->
     <!-- XHED: Page headline for test result  -->
-    <string name="submission_test_result_headline">"Резултат от теста"</string>
+    <string name="submission_test_result_headline">"Резултат от тест"</string>
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Как работи:"</string>
     <!-- XHED: Page headline for results next steps  -->
@@ -806,7 +812,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Резултатът от Вашия тест"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се с местната служба за обществено здравеопазване (Gesundheitsamt), за да получите информация какво трябва да направите.\n\nМоля, изтрийте теста от Вашето Corona-Warn-App приложение, за да можете да запазите нов код на тест, ако е необходимо."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво трябва да направите.\n\nМоля, изтрийте теста от Вашето Corona-Warn-App приложение, за да можете да запазите нов код на тест, ако е необходимо."</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -816,9 +822,9 @@
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Да се изтрие ли тестът?"</string>
+    <string name="submission_test_result_dialog_remove_test_title">"Тестът може да се сканира само веднъж."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Тестът ще бъде изтрит безвъзвратно от приложението Corona-Warn-App и няма да може да бъде добавен отново. Действието не може да бъде отменено."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Ако изтриете теста, повече няма да можете да извлечете данните за резултата си. Ще получите резултата си от център за тестване или лаборатория, независимо от приложението. Ако Ви бъде поставена диагноза COVID-19, службата за обществено осигуряване ще Ви уведоми за това."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Изтриване"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -938,11 +944,11 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Как работи:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"За да заявите ТАН код, подгответе резултата от своя тест (ако е наличен) и телефонния си номер."</string>
+    <string name="submission_contact_body">"За да заявите ТАН код, подгответе резултата от своя тест (ако е наличен) и телефонния си номер.\n\nЛицата със слухови нарушения могат да използват релейните услуги Tess (за превод между писмен немски и жестомимичен език), за да се обаждат на горещата телефонна линия. Може да изтеглите приложението от Google Play."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Обаждане"</string>
     <!-- XBUT: submission contact enter tan button -->
-    <string name="submission_contact_button_enter">"Въведете ТАН код"</string>
+    <string name="submission_contact_button_enter">"Въвеждане на ТАН"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Обадете се на горещата линия и поискайте ТАН код:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->

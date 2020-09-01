@@ -91,9 +91,9 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun refreshDeviceUIState() =
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) =
         executeRequestWithState(
-            SubmissionRepository::refreshUIState,
+            { SubmissionRepository.refreshUIState(refreshTestResult) },
             _uiStateState,
             _uiStateError
         )
@@ -110,6 +110,10 @@ class SubmissionViewModel : ViewModel() {
 
     fun deleteTestGUID() {
         SubmissionService.deleteTestGUID()
+    }
+
+    fun submitWithNoDiagnosisKeys() {
+        SubmissionService.submissionSuccessful()
     }
 
     fun deregisterTestFromDevice() {
