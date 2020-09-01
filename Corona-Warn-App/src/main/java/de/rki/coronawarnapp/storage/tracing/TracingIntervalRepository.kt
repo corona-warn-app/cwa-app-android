@@ -66,7 +66,7 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
 
         return tracingIntervalDao
             .getAllIntervals()
-            .map { Pair(maxOf(it.from, retentionTimestamp), it.to) }
+            .map { Pair(it.from, it.to) }
             .also { Timber.d("Intervals: $it") }
     }
 }

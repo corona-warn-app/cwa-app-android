@@ -133,6 +133,13 @@
         <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
+    <style name="SixteenInclude">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:background">@drawable/card</item>
+        <item name="android:backgroundTint">@color/colorSemanticNeutralRisk</item>
+        <item name="android:textColor">@color/colorStableLight</item>
+    </style>
+
     <style name="targetDeButtonNotPressed">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
@@ -213,6 +220,14 @@
 
     <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">
         <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="headline6Sixteen" parent="@style/TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/colorTextSixteenWhite</item>
+    </style>
+
+    <style name="subtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextSixteenWhite</item>
     </style>
 
     <!-- ####################################
