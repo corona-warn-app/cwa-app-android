@@ -3,8 +3,10 @@ package de.rki.coronawarnapp.storage
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
+import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import de.rki.coronawarnapp.util.PowerManagementHelper
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The Settings Repository maps all setting states from different sources to MutableLiveData.
@@ -14,9 +16,11 @@ import de.rki.coronawarnapp.util.PowerManagementHelper
  *
  * @see LocalData
  */
-object SettingsRepository {
-
-    private val TAG: String? = SettingsRepository::class.simpleName
+@Singleton
+class SettingsRepository @Inject constructor(
+    private val context: Context,
+    private val backgroundPrioritization: BackgroundPrioritization
+) {
 
     // public mutable live data
     val isNotificationsEnabled = MutableLiveData(true)
@@ -35,7 +39,7 @@ object SettingsRepository {
      *
      * @see LocalData
      */
-    fun refreshNotificationsEnabled(context: Context) {
+    fun refreshNotificationsEnabled() {
         isNotificationsEnabled.value =
             NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
@@ -131,8 +135,7 @@ object SettingsRepository {
     /**
      * Refresh the current background priority state.
      */
-    fun refreshBackgroundPriorityEnabled(context: Context) {
-        isBackgroundPriorityEnabled.value =
-            PowerManagementHelper.isIgnoringBatteryOptimizations(context)
+    fun refreshBackgroundPriorityEnabled() {
+        isBackgroundPriorityEnabled.value = backgroundPrioritization.isBackgroundActivityPrioritized
     }
 }

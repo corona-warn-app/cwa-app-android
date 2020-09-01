@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
-import de.rki.coronawarnapp.util.PowerManagementHelper
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -155,7 +154,8 @@ class SettingsTracingFragment : Fragment(),
                         // activated during onboarding
                         showConsentDialog()
                         // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
-                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+                        val activity = requireActivity() as MainActivity
+                        if (!activity.backgroundPrioritization.isBackgroundActivityPrioritized) {
                             showManualCheckingRequiredDialog()
                         }
                     }
