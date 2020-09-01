@@ -115,7 +115,7 @@ class SettingsViewModel : ViewModel() {
     /**
      * Update background job enabled
      *
-     * @param valuewarte
+     * @param value
      */
     fun updateBackgroundJobEnabled(value: Boolean) {
         settingsRepository.updateBackgroundJobEnabled(value)
