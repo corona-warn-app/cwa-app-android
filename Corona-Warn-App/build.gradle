@@ -252,6 +252,9 @@ dependencies {
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
     implementation 'com.google.zxing:core:3.3.0'
 
+    //ENA
+    implementation files('libs\\play-services-nearby-exposurenotification-1.6.1-eap.aar')
+
     // Testing
     testImplementation "android.arch.core:core-testing:1.1.1"
     testImplementation('org.robolectric:robolectric:4.3.1') {
@@ -260,6 +263,7 @@ dependencies {
     testImplementation "io.mockk:mockk:1.10.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.8.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
 
     // Testing - jUnit4
     testImplementation 'junit:junit:4.13'
@@ -290,7 +294,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-basement:17.3.0'
     implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
     implementation 'com.google.android.gms:play-services-tasks:17.1.0'
-    api fileTree(dir: 'libs', include: ['play-services-nearby-18.0.3-eap.aar'])
 
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
