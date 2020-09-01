@@ -99,7 +99,6 @@ class SettingsTracingFragment : Fragment(),
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
-        val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
@@ -117,15 +116,12 @@ class SettingsTracingFragment : Fragment(),
                 tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
             val isBluetoothEnabled =
                 settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
-            val isConnectionEnabled =
-                settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
             val isLocationEnabled =
                 settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
             // check if the row is clickable, this adds the switch behaviour
             val isEnabled = formatTracingSwitchEnabled(
                 isTracingEnabled,
                 isBluetoothEnabled,
-                isConnectionEnabled,
                 isLocationEnabled
             )
             if (isEnabled) startStopTracing()
@@ -138,9 +134,6 @@ class SettingsTracingFragment : Fragment(),
         }
         location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
-        }
-        connection.setOnClickListener {
-            ExternalActionHelper.toConnections(requireContext())
         }
     }
 
