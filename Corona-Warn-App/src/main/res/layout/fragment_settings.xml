@@ -54,13 +54,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:body="@{@string/settings_tracing_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatSettingsTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
-                    app:icon="@{FormatterSettingsHelper.formatSettingsTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:color="@{FormatterSettingsHelper.formatSettingsTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(),settingsViewModel.isLocationEnabled())}"
+                    app:icon="@{FormatterSettingsHelper.formatSettingsTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:subtitle="@{@string/settings_tracing_title}"
                     app:tracingViewModel="@{tracingViewModel}" />
 

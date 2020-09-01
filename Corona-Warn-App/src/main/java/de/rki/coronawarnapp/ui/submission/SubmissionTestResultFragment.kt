@@ -37,6 +37,8 @@ class SubmissionTestResultFragment : Fragment() {
     private var _binding: FragmentSubmissionTestResultBinding? = null
     private val binding: FragmentSubmissionTestResultBinding get() = _binding!!
 
+    private var skipInitialTestResultRefresh = false
+
     // Overrides default back behaviour
     private val backCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
@@ -59,6 +61,10 @@ class SubmissionTestResultFragment : Fragment() {
         // registers callback when the os level back is pressed
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         // Inflate the layout for this fragment
+
+        skipInitialTestResultRefresh =
+            arguments?.getBoolean("skipInitialTestResultRefresh") ?: false
+
         return binding.root
     }
 
@@ -139,8 +145,10 @@ class SubmissionTestResultFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        submissionViewModel.refreshDeviceUIState()
+        submissionViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
         tracingViewModel.refreshIsTracingEnabled()
+
+        skipInitialTestResultRefresh = false
     }
 
     private fun setButtonOnClickListener() {
