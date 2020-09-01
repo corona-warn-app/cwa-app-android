@@ -57,10 +57,10 @@ class SettingsFragment : Fragment() {
         super.onResume()
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
-        settingsViewModel.refreshNotificationsEnabled(requireContext())
+        settingsViewModel.refreshNotificationsEnabled()
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
-        settingsViewModel.refreshBackgroundPriorityEnabled(requireContext())
+        settingsViewModel.refreshBackgroundPriorityEnabled()
 
         binding.settingsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
