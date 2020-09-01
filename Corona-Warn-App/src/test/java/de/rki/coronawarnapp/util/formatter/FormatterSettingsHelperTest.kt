@@ -201,7 +201,6 @@ class FormatterSettingsHelperTest {
         bLocation: Boolean
     ) {
         every { context.getDrawable(R.drawable.ic_settings_tracing_bluetooth_inactive) } returns drawable
-        every { context.getDrawable(R.drawable.ic_settings_tracing_connection_inactive) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_active) } returns drawable
         every { context.getDrawable(R.drawable.ic_settings_tracing_inactive) } returns drawable
 
