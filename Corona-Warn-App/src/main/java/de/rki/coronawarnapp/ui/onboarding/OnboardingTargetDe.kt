@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -41,7 +42,7 @@ class OnboardingTargetDe : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.onboardingButtonNext.setOnClickListener {
+        binding.onboardingTargetDeButtonNext.setOnClickListener {
             findNavController().doNavigate(
                 OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
             )
@@ -51,45 +52,98 @@ class OnboardingTargetDe : Fragment() {
 
 
     private fun setButtonOnClickListener() {
-        binding.targetDe.targetDeNotSure.setOnClickListener {
-            showCancelDialog()
+        binding.targetDe.targetDeVerify.setOnClickListener {
+            showVerifyDialog()
         }
-        binding.targetDe.tracingStatusCardBtn1.setOnClickListener {
-            val constraintLayout = binding.targetDe.tracingStatusCardBtn1
-            changeState(constraintLayout)
+
+        binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            (activity as OnboardingActivity).goBack()
         }
-        binding.targetDe.tracingStatusCardBtn2.setOnClickListener {
-            val constraintLayout = binding.targetDe.tracingStatusCardBtn2
-            changeState(constraintLayout)
+
+        binding.targetDe.targetDeBtnApply.setOnClickListener {
+            val constraintLayout = binding.targetDe.targetDeBtnApply
+            val textView = binding.targetDe.targetDeBtnApply.target_de_apply
+            val initStateLayout: Array<ConstraintLayout> =
+                arrayOf(binding.targetDe.targetDeBtnReject, binding.targetDe.targetDeBtnVerify)
+            val initStateTextView: Array<TextView> = arrayOf(
+                binding.targetDe.targetDeBtnReject.target_de_reject,
+                binding.targetDe.targetDeBtnVerify.target_de_verify
+            )
+
+            changeState(constraintLayout, textView, initStateLayout, initStateTextView)
+        }
+
+        binding.targetDe.targetDeBtnReject.setOnClickListener {
+            val constraintLayout = binding.targetDe.targetDeBtnReject
+            val textView = binding.targetDe.targetDeBtnReject.target_de_reject
+            val initStateLayout: Array<ConstraintLayout> =
+                arrayOf(binding.targetDe.targetDeBtnApply, binding.targetDe.targetDeBtnVerify)
+            val initStateTextView: Array<TextView> = arrayOf(
+                binding.targetDe.targetDeBtnApply.target_de_apply,
+                binding.targetDe.targetDeBtnVerify.target_de_verify
+            )
+
+            changeState(constraintLayout, textView, initStateLayout, initStateTextView)
         }
     }
 
-    private fun changeState(constraintLayout: ConstraintLayout) {
+    private fun changeState(
+        constraintLayout: ConstraintLayout,
+        textView: TextView,
+        initStateLayout: Array<ConstraintLayout>,
+        initStateText: Array<TextView>
+    ) {
         val context = constraintLayout.context
         var color = context.getColorStateList(R.color.colorInterBtnNotPressed)
         var textColor = context.getColor(R.color.colorTextInterBtnNotPressed)
+        var bNextBtnValue = false
+
         if (constraintLayout.backgroundTintList === color) {
             color = context.getColorStateList(R.color.colorInterBtnPressed)
             textColor = context.getColor(R.color.colorTextInterBtnPressed)
+            initStateLayout.forEach { entry ->
+                entry.backgroundTintList =
+                    context.getColorStateList(R.color.colorInterBtnNotPressed)
+            }
+            initStateText.forEach { entry ->
+                entry.setTextColor(context.getColor(R.color.colorTextInterBtnNotPressed))
+            }
+            bNextBtnValue = true
         }
 
+        enableNextButton(bNextBtnValue)
         constraintLayout.backgroundTintList = color
-        constraintLayout.tracing_status_card_body.setTextColor(textColor)
-
-
+        textView.setTextColor(textColor)
     }
 
-    private fun showCancelDialog() {
+    private fun applyDialog() {
+        val constraintLayout = binding.targetDe.targetDeBtnVerify
+        val textView = binding.targetDe.targetDeBtnVerify.target_de_verify
+        val initStateLayout: Array<ConstraintLayout> =
+            arrayOf(binding.targetDe.targetDeBtnApply, binding.targetDe.targetDeBtnReject)
+        val initStateTextView: Array<TextView> = arrayOf(
+            binding.targetDe.targetDeBtnApply.target_de_apply,
+            binding.targetDe.targetDeBtnReject.target_de_reject
+        )
+
+        changeState(constraintLayout, textView, initStateLayout, initStateTextView)
+    }
+
+    private fun enableNextButton(bValue: Boolean) {
+        val nextButton = binding.onboardingTargetDeButtonNext
+        nextButton.isEnabled = bValue
+    }
+
+    private fun showVerifyDialog() {
         val dialog = DialogHelper.DialogInstance(
             requireActivity(),
-            R.string.onboarding_tracing_dialog_headline,
-            R.string.onboarding_tracing_dialog_body,
-            R.string.onboarding_tracing_dialog_button_positive,
-            R.string.onboarding_tracing_dialog_button_negative,
+            R.string.target_de_verify_dialog_headline,
+            R.string.target_de_verify_dialog_body,
+            R.string.target_de_verify_dialog_apply,
+            R.string.target_de_verify_dialog_cancel,
             true,
-            {
-
-            })
+            ::applyDialog
+        )
         DialogHelper.showDialog(dialog)
     }
 

@@ -22,15 +22,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{@string/target_de_text_back}" />
 
-        <!--        <ScrollView-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:fillViewport="true"-->
-        <!--            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/information_about_header">-->
-
         <include
             android:id="@+id/target_de"
             layout="@layout/include_target_de"
@@ -42,7 +33,7 @@
             app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
 
         <Button
-            android:id="@+id/onboarding_button_next"
+            android:id="@+id/onboarding_target_de_button_next"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

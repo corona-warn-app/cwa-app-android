@@ -2,21 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
-
-        <import type="android.view.View" />
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tracing_status_card"
         style="@style/targetDe"
@@ -48,7 +33,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tracing_status_card_btn_1"
+            android:id="@+id/target_de_btn_apply"
             style="@style/targetDeButtonNotPressed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +44,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header">
 
             <TextView
-                android:id="@+id/tracing_status_card_body"
+                android:id="@+id/target_de_apply"
                 style="@style/headline6"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -71,7 +56,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tracing_status_card_btn_2"
+            android:id="@+id/target_de_btn_reject"
             style="@style/targetDeButtonNotPressed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,10 +64,10 @@
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_btn_1">
+            app:layout_constraintTop_toBottomOf="@+id/target_de_btn_apply">
 
             <TextView
-                android:id="@+id/tracing_status_card_btn_2_body"
+                android:id="@+id/target_de_reject"
                 style="@style/headline6"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -94,7 +79,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tracing_status_card_btn_3"
+            android:id="@+id/target_de_btn_verify"
             style="@style/targetDeButtonNotPressed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,10 +87,10 @@
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_btn_2">
+            app:layout_constraintTop_toBottomOf="@+id/target_de_btn_reject">
 
             <TextView
-                android:id="@+id/target_de_not_sure"
+                android:id="@+id/target_de_verify"
                 style="@style/headline6"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -125,7 +110,7 @@
             android:text="@{@string/target_de_text_notice}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_btn_3" />
+            app:layout_constraintTop_toBottomOf="@+id/target_de_btn_verify" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -380,6 +380,10 @@
     <string name="target_de_text_btn3">"Keine Angabe"</string>
     <string name="target_de_text_next">"WEITER"</string>
     <string name="target_de_text_back">"Europaweit warnen"</string>
+    <string name="target_de_verify_dialog_headline">"Headline"</string>
+    <string name="target_de_verify_dialog_body">"Are you sure?"</string>
+    <string name="target_de_verify_dialog_apply">"Apply"</string>
+    <string name="target_de_verify_dialog_cancel">"Back"</string>
     <!-- ####################################
               Onboarding
     ###################################### -->
