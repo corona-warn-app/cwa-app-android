@@ -124,10 +124,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     suspend fun startWithConstraints() {
-        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
         val lastFetch = DateTime(
             LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-            DateTimeZone.UTC
+            DateTimeZone.getDefault()
         )
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
@@ -275,13 +275,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        exportFiles.forEach { batch ->
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                listOf(batch),
-                exposureConfiguration,
-                token
-            )
-        }
+        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+            exportFiles,
+            exposureConfiguration,
+            token
+        )
         Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 
