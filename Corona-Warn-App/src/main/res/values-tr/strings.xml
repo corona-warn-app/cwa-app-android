@@ -478,6 +478,17 @@
     <string name="onboarding_notifications_illustration_description">"Bir kadın Corona-Warn-App uygulamasından bildirim alıyor."</string>
 
     <!-- ####################################
+             Onboarding sixteen include
+   ###################################### -->
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_title_text">"Yaş Sınırı: 16 ve Üzeri"</string>
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_description_text">"Uygulama, Almanya\'da yaşayan ve 16 yaş ve üzerindeki kişiler için hazırlanmıştır."</string>
+
+
+    <!-- ####################################
                   Settings
     ###################################### -->
 
@@ -606,9 +617,9 @@
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
     <string name="settings_background_priority_body_description">"Otomatik risk durumu güncellemelerinen izin ver"</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
-    <string name="settings_background_priority_headline">"Corona-Warn-App\'i Arka Planda Çalıştır"</string>
+    <string name="settings_background_priority_headline">"Risk Durumunu Otomatik Olarak Güncelle"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz Corona-Warn-App sürekli olarak arka planda çalışır. Bu, uygulamanın her an risk durumunuzu belirlemesini sağlar."</string>
+    <string name="settings_background_priority_body">"Önceliklendirilmiş arka plan aktivitesini etkinleştirirseniz Uygulama risk durumunuzu sürekli olarak belirleyebilir. Bu işlem, yalnızca Corona-Warn-App için pil ömrü optimizasyonunu devre dışı bırakır."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
@@ -692,6 +703,10 @@
     <string name="information_legal_headline_contact">"İletişim"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
     <string name="information_legal_subtitle_contact">"E-posta: CoronaWarnApp@rki.de"</string>
+    <!-- YTXT: subtitle for legal information page, open contact form : Only has to be translated in URL for English FOrm-->
+    <string name="information_legal_subtitle_contact_label">"İletişim Formu"</string>
+    <!-- YTXT: subtitle for legal information page url : Only has to be translated in URL for English FOrm-->
+    <string name="information_legal_subtitle_contact_url">"https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html"</string>
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
     <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
@@ -716,9 +731,9 @@
     <string name="submission_error_dialog_web_generic_error_button_positive">"Geri"</string>
 
     <!-- XHED: Dialog title for already paired test error -->
-    <string name="submission_error_dialog_web_test_paired_title">"Hata"</string>
+    <string name="submission_error_dialog_web_test_paired_title">"QR kod geçersiz"</string>
     <!-- XMSG: Dialog body for already paired test error -->
-    <string name="submission_error_dialog_web_test_paired_body">"QR kod/TAN geçersiz veya zaten kullanılmış. Lütfen tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <string name="submission_error_dialog_web_test_paired_body">"QR kod geçersiz veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi tarafından bilgilendirileceksiniz."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Geri"</string>
 
@@ -763,9 +778,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR kod yanlış"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR kod geçersiz"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR kod yanlış veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi tarafından bilgilendirileceksiniz."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR kod geçersiz veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi tarafından bilgilendirileceksiniz."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Lütfen tekrar deneyin."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
