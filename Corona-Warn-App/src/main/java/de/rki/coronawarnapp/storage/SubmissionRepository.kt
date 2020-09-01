@@ -15,8 +15,9 @@ object SubmissionRepository {
     val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)
     val visitedCountries: MutableLiveData<List<String>> = MutableLiveData()
     val consentToFederation = MutableLiveData(false)
+    private val testResult = MutableLiveData<TestResult?>(null)
 
-    suspend fun refreshUIState() {
+    suspend fun refreshUIState(refreshTestResult: Boolean) {
         var uiState = DeviceUIState.UNPAIRED
 
         if (LocalData.numberOfSuccessfulSubmissions() == 1) {
@@ -27,7 +28,10 @@ object SubmissionRepository {
                     LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
                         DeviceUIState.PAIRED_POSITIVE
                     }
-                    else -> fetchTestResult()
+                    refreshTestResult -> fetchTestResult()
+                    else -> {
+                        deriveUiState(testResult.value)
+                    }
                 }
             }
         }
@@ -37,32 +41,42 @@ object SubmissionRepository {
     private suspend fun fetchTestResult(): DeviceUIState {
         try {
             val testResult = SubmissionService.asyncRequestTestResult()
-            if (testResult == TestResult.POSITIVE) {
-                LocalData.isAllowedToSubmitDiagnosisKeys(true)
-            }
-
-            val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
-
-            if (initialTestResultReceivedTimestamp == null) {
-                val currentTime = System.currentTimeMillis()
-                LocalData.initialTestResultReceivedTimestamp(currentTime)
-                testResultReceivedDate.value = Date(currentTime)
-                if (testResult == TestResult.PENDING) {
-                    BackgroundWorkScheduler.startWorkScheduler()
-                }
-            } else {
-                testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
-            }
-
-            return when (testResult) {
-                TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
-                TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
-                TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
-                TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
-                TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
-            }
+            updateTestResult(testResult)
+            return deriveUiState(testResult)
         } catch (err: NoRegistrationTokenSetException) {
             return DeviceUIState.UNPAIRED
+        }
+    }
+
+    fun updateTestResult(testResult: TestResult) {
+        this.testResult.value = testResult
+
+        if (testResult == TestResult.POSITIVE) {
+            LocalData.isAllowedToSubmitDiagnosisKeys(true)
+        }
+
+        val initialTestResultReceivedTimestamp = LocalData.initialTestResultReceivedTimestamp()
+
+        if (initialTestResultReceivedTimestamp == null) {
+            val currentTime = System.currentTimeMillis()
+            LocalData.initialTestResultReceivedTimestamp(currentTime)
+            testResultReceivedDate.value = Date(currentTime)
+            if (testResult == TestResult.PENDING) {
+                BackgroundWorkScheduler.startWorkScheduler()
+            }
+        } else {
+            testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
+        }
+    }
+
+    private fun deriveUiState(testResult: TestResult?): DeviceUIState {
+        return when (testResult) {
+            TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+            TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+            TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
+            TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
+            TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
+            null -> DeviceUIState.UNPAIRED
         }
     }
 

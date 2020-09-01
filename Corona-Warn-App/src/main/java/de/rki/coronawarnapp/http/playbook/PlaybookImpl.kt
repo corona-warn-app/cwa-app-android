@@ -20,22 +20,36 @@ class PlaybookImpl(
     private val uid = UUID.randomUUID().toString()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    override suspend fun initialRegistration(key: String, keyType: KeyType): String {
+    override suspend fun initialRegistration(
+        key: String,
+        keyType: KeyType
+    ): Pair<String, TestResult> {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
-        val (registrationToken, exception) =
+        val (registrationToken, registrationException) =
             executeCapturingExceptions { webRequestBuilder.asyncGetRegistrationToken(key, keyType) }
 
-        // fake verification
-        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+        // if the registration succeeded continue with the real test result retrieval
+        // if it failed, execute a dummy request to satisfy the required playbook pattern
+        val (testResult, testResultException) = if (registrationToken != null) {
+            executeCapturingExceptions { webRequestBuilder.asyncGetTestResult(registrationToken) }
+        } else {
+            ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+            null to null
+        }
 
         // fake submission
         ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
-        return registrationToken ?: propagateException(exception)
+        // if registration and test result retrieval succeeded, return the result
+        if (registrationToken != null && testResult != null)
+            return registrationToken to TestResult.fromInt(testResult)
+
+        // else propagate the exception of either the first or the second step
+        propagateException(registrationException, testResultException)
     }
 
     override suspend fun testResult(registrationToken: String): TestResult {
@@ -144,7 +158,7 @@ class PlaybookImpl(
         }
     }
 
-    private fun propagateException(exception: Exception?): Nothing {
-        throw exception ?: IllegalStateException()
+    private fun propagateException(vararg exceptions: Exception?): Nothing {
+        throw exceptions.filterNotNull().firstOrNull() ?: IllegalStateException()
     }
 }

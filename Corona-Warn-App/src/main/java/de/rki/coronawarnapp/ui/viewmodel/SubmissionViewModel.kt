@@ -107,9 +107,9 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun refreshDeviceUIState() =
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) =
         executeRequestWithState(
-            SubmissionRepository::refreshUIState,
+            { SubmissionRepository.refreshUIState(refreshTestResult) },
             _uiStateState,
             _uiStateError
         )

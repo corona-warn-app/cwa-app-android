@@ -14,7 +14,7 @@ interface Playbook {
     suspend fun initialRegistration(
         key: String,
         keyType: KeyType
-    ): String /* registration token */
+    ): Pair<String, TestResult> /* registration token & test result*/
 
     suspend fun testResult(
         registrationToken: String
