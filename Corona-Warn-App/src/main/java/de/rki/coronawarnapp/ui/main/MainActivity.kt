@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.BackgroundPrioritization
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -86,7 +88,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onLocationUnavailable() {
-            settingsViewModel.updateLocationEnabled(false)
+            val canIgnoreLocationEnabled = InternalExposureNotificationClient.deviceSupportsLocationlessScanning()
+            settingsViewModel.updateLocationEnabled(canIgnoreLocationEnabled)
+            Timber.d("Location unavailable but can be ignored? $canIgnoreLocationEnabled")
         }
     }
 

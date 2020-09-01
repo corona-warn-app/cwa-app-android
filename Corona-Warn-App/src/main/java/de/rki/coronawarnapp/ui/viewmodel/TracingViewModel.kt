@@ -64,10 +64,10 @@ class TracingViewModel : ViewModel() {
             try {
 
                 // get the current date and the date the diagnosis keys were fetched the last time
-                val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+                val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
                 val lastFetch = DateTime(
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                    DateTimeZone.UTC
+                    DateTimeZone.getDefault()
                 )
 
                 // check if the keys were not already retrieved today

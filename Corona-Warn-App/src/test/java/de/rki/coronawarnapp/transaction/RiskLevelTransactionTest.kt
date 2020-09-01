@@ -23,6 +23,8 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -30,6 +32,7 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
@@ -51,6 +54,14 @@ class RiskLevelTransactionTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
+        mockkObject(AppInjector)
+        val appComponent = mockk<ApplicationComponent>().apply {
+            every { transRiskLevelInjection } returns RiskLevelInjectionHelper(
+                TransactionCoroutineScope()
+            )
+        }
+        every { AppInjector.component } returns appComponent
 
         mockkObject(InternalExposureNotificationClient)
         mockkObject(ApplicationConfigurationService)
