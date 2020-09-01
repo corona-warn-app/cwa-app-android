@@ -15,7 +15,7 @@ import android.os.Build
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.device.DefaultPowerManagement
+import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 
 /**
@@ -24,10 +24,9 @@ import timber.log.Timber
 object ConnectivityHelper {
     private val TAG: String? = ConnectivityHelper::class.simpleName
 
-    // TODO convert to class, then inject
-    // @Inject
-    // lateinit var backgroundPrioritization: BackgroundPrioritization
-    var backgroundPrioritization = DefaultBackgroundPrioritization(DefaultPowerManagement())
+    private val backgroundPrioritization by lazy {
+        AppInjector.component.connectivityHelperInjection.backgroundPrioritization
+    }
 
     /**
      * Register bluetooth state change listener.

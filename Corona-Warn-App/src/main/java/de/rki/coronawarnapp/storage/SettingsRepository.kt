@@ -3,9 +3,10 @@ package de.rki.coronawarnapp.storage
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
+import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import de.rki.coronawarnapp.util.DefaultBackgroundPrioritization
-import de.rki.coronawarnapp.util.device.DefaultPowerManagement
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The Settings Repository maps all setting states from different sources to MutableLiveData.
@@ -15,13 +16,13 @@ import de.rki.coronawarnapp.util.device.DefaultPowerManagement
  *
  * @see LocalData
  */
-object SettingsRepository {
+@Singleton
+class SettingsRepository @Inject constructor(
+    private val context: Context,
+    private val backgroundPrioritization: BackgroundPrioritization
+) {
 
     private val TAG: String? = SettingsRepository::class.simpleName
-
-    // TODO convert to class, then inject
-    // @Inject
-    // lateinit var backgroundPrioritization: BackgroundPrioritization
 
     // public mutable live data
     val isNotificationsEnabled = MutableLiveData(true)
@@ -40,7 +41,7 @@ object SettingsRepository {
      *
      * @see LocalData
      */
-    fun refreshNotificationsEnabled(context: Context) {
+    fun refreshNotificationsEnabled() {
         isNotificationsEnabled.value =
             NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
@@ -136,9 +137,7 @@ object SettingsRepository {
     /**
      * Refresh the current background priority state.
      */
-    fun refreshBackgroundPriorityEnabled(context: Context) {
-        val backgroundPrioritization = DefaultBackgroundPrioritization(DefaultPowerManagement())
-        isBackgroundPriorityEnabled.value =
-            backgroundPrioritization.isBackgroundActivityPrioritized
+    fun refreshBackgroundPriorityEnabled() {
+        isBackgroundPriorityEnabled.value = backgroundPrioritization.isBackgroundActivityPrioritized
     }
 }

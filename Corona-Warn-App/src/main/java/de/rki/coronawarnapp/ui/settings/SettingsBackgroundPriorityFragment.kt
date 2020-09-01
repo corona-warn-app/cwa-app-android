@@ -53,7 +53,7 @@ class SettingsBackgroundPriorityFragment : Fragment() {
         super.onResume()
         binding.settingsBackgroundPriorityContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         // refresh required data
-        settingsViewModel.refreshBackgroundPriorityEnabled(requireContext())
+        settingsViewModel.refreshBackgroundPriorityEnabled()
     }
 
     private fun setButtonOnClickListener() {
