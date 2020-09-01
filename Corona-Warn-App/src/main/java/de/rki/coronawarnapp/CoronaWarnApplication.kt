@@ -6,21 +6,40 @@ import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.os.PowerManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
+import java.util.UUID
+import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
-    Application.ActivityLifecycleCallbacks {
+    Application.ActivityLifecycleCallbacks, HasAndroidInjector {
 
     companion object {
         val TAG: String? = CoronaWarnApplication::class.simpleName
@@ -35,13 +54,31 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         fun getAppContext(): Context =
             instance.applicationContext
+
+        const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver
 
+    @Inject
+    lateinit var component: ApplicationComponent
+
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
     override fun onCreate() {
+        AppInjector.init(this)
+
         super.onCreate()
         instance = this
+
+        if (CWADebug.isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
+
+        val configuration = Configuration.Builder()
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
+        WorkManager.initialize(this, configuration)
+
         NotificationHelper.createNotificationChannel()
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
@@ -50,6 +87,62 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        }
+
+        // notification to test the WakeUpService from Google when the app
+        // was force stopped
+        BackgroundWorkHelper.sendDebugNotification(
+            "Application onCreate", "App was woken up"
+        )
+        // Only do this if the background jobs are enabled
+        if (ConnectivityHelper.autoModeEnabled(applicationContext)) {
+            ProcessLifecycleOwner.get().lifecycleScope.launch {
+                // we want a wakelock as the OS does not handle this for us like in the background
+                // job execution
+                val wakeLock: PowerManager.WakeLock =
+                    (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+                        newWakeLock(
+                            PowerManager.PARTIAL_WAKE_LOCK,
+                            TAG + "-WAKE-" + UUID.randomUUID().toString()
+                        ).apply {
+                            acquire(TEN_MINUTE_TIMEOUT_IN_MS)
+                        }
+                    }
+
+                // we keep a wifi lock to wake up the wifi connection in case the device is dozing
+                val wifiLock: WifiManager.WifiLock =
+                    (getSystemService(Context.WIFI_SERVICE) as WifiManager).run {
+                        createWifiLock(
+                            WifiManager.WIFI_MODE_FULL_HIGH_PERF,
+                            TAG + "-WIFI-" + UUID.randomUUID().toString()
+                        ).apply {
+                            acquire()
+                        }
+                    }
+
+                try {
+                    BackgroundWorkHelper.sendDebugNotification(
+                        "Automatic mode is on", "Check if we have downloaded keys already today"
+                    )
+                    RetrieveDiagnosisKeysTransaction.startWithConstraints()
+                } catch (e: Exception) {
+                    BackgroundWorkHelper.sendDebugNotification(
+                        "RetrieveDiagnosisKeysTransaction failed",
+                        (e.localizedMessage
+                            ?: "Unknown exception occurred in onCreate") + "\n\n" + (e.cause
+                            ?: "Cause is unknown").toString()
+                    )
+                    // retry the key retrieval in case of an error with a scheduled work
+                    BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
+                }
+
+                if (wifiLock.isHeld) wifiLock.release()
+                if (wakeLock.isHeld) wakeLock.release()
+            }
+
+            // if the user is onboarded we will schedule period background jobs
+            // in case the app was force stopped and woken up again by the Google WakeUpService
+            if (LocalData.onboardingCompletedTimestamp() != null) BackgroundWorkScheduler.startWorkScheduler()
         }
     }
 
@@ -104,4 +197,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }

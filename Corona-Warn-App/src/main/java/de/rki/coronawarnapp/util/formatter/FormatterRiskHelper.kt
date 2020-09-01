@@ -129,7 +129,17 @@ fun formatRiskContact(riskLevelScore: Int?, matchedKeysCount: Int?): String {
     val resources = appContext.resources
     val contacts = matchedKeysCount ?: 0
     return when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK,
+        RiskLevelConstants.INCREASED_RISK -> {
+            if (matchedKeysCount == 0) {
+                appContext.getString(R.string.risk_card_body_contact)
+            } else {
+                resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value_high_risk,
+                    contacts,
+                    contacts
+                )
+            }
+        }
         RiskLevelConstants.LOW_LEVEL_RISK -> {
             if (matchedKeysCount == 0) {
                 appContext.getString(R.string.risk_card_body_contact)
@@ -344,6 +354,24 @@ fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: 
         RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
             appContext.getString(R.string.risk_details_information_body_unknown_risk)
         else -> ""
+    }
+}
+
+/**
+ * Formats the risk details text display for each risk level for the body notice
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatRiskDetailsRiskLevelBodyNotice(riskLevelScore: Int?): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    val resources = appContext.resources
+    return when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK ->
+            resources.getString(R.string.risk_details_information_body_notice_increased)
+        RiskLevelConstants.LOW_LEVEL_RISK ->
+            resources.getString(R.string.risk_details_information_body_notice_low)
+        else -> appContext.getString(R.string.risk_details_information_body_notice)
     }
 }
 

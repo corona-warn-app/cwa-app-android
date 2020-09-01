@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
+import de.rki.coronawarnapp.util.PowerManagementHelper
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -160,6 +161,10 @@ class SettingsTracingFragment : Fragment(),
                         // ask for consent via dialog for initial tracing activation when tracing was not
                         // activated during onboarding
                         showConsentDialog()
+                        // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
+                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+                            showManualCheckingRequiredDialog()
+                        }
                     }
                 }
             } catch (exception: Exception) {
@@ -173,6 +178,20 @@ class SettingsTracingFragment : Fragment(),
         }
     }
 
+    private fun showManualCheckingRequiredDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_manual_required_dialog_headline,
+            R.string.onboarding_manual_required_dialog_body,
+            R.string.onboarding_manual_required_dialog_button,
+            null,
+            false, {
+                // close dialog
+            }
+        )
+        DialogHelper.showDialog(dialog)
+    }
+
     private fun showConsentDialog() {
         val dialog = DialogHelper.DialogInstance(
             requireActivity(),
@@ -180,8 +199,7 @@ class SettingsTracingFragment : Fragment(),
             R.string.onboarding_tracing_body_consent,
             R.string.onboarding_button_enable,
             R.string.onboarding_button_cancel,
-            true,
-            {
+            true, {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }, {
                 tracingViewModel.refreshIsTracingEnabled()

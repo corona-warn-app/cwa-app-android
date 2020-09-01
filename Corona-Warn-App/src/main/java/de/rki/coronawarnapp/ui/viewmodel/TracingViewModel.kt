@@ -64,10 +64,10 @@ class TracingViewModel : ViewModel() {
             try {
 
                 // get the current date and the date the diagnosis keys were fetched the last time
-                val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+                val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
                 val lastFetch = DateTime(
                     LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                    DateTimeZone.UTC
+                    DateTimeZone.getDefault()
                 )
 
                 // check if the keys were not already retrieved today
@@ -82,7 +82,7 @@ class TracingViewModel : ViewModel() {
                 // only fetch the diagnosis keys if background jobs are enabled, so that in manual
                 // model the keys are only fetched on button press of the user
                 val isBackgroundJobEnabled =
-                    ConnectivityHelper.isBackgroundJobEnabled(CoronaWarnApplication.getAppContext())
+                    ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
 
                 Timber.v("Keys were not retrieved today $keysWereNotRetrievedToday")
                 Timber.v("Network is enabled $isNetworkEnabled")
@@ -158,8 +158,11 @@ class TracingViewModel : ViewModel() {
     fun refreshExposureSummary() {
         viewModelScope.launch {
             try {
-                ExposureSummaryRepository.getExposureSummaryRepository()
-                    .getLatestExposureSummary()
+                val token = LocalData.googleApiToken()
+                if (token != null) {
+                    ExposureSummaryRepository.getExposureSummaryRepository()
+                        .getLatestExposureSummary(token)
+                }
                 Timber.v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(
