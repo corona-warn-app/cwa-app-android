@@ -162,7 +162,7 @@ class SubmissionResultPositiveEfgsConsentFragment : Fragment(),
     private fun navigateToSubmissionResultPositiveOtherWarningFragment() {
         findNavController().doNavigate(
             SubmissionResultPositiveEfgsConsentFragmentDirections
-                .actionSubmissionResultPositiveEfgsConsentWarningFragmentToSubmissionResultPositiveOtherWarningFragment()
+                .actionEFGSConsentFragmentToPositiveOtherWarningFragment()
         )
     }
 

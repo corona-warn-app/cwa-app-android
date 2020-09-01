@@ -216,7 +216,7 @@
         android:label="fragment_submission_result_positive_efgs_consent"
         tools:layout="@layout/fragment_submission_positive_efgs_consent">
         <action
-            android:id="@+id/action_submissionResultPositiveEfgsConsentWarningFragment_to_submissionResultPositiveOtherWarningFragment"
+            android:id="@+id/action_EFGSConsentFragment_to_PositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment"
             app:popUpTo="@id/submissionResultPositiveOtherWarningFragment"
             app:popUpToInclusive="true" />
