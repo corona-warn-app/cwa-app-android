@@ -523,3 +523,23 @@ fun formatTracingStatusVisibilityTracing(
                 tracingStatus == TracingStatusHelper.TRACING_INACTIVE
     )
 }
+
+fun formatEfgsConsentSwitchEnabled(consent: Boolean): Boolean {
+    return consent
+}
+
+fun formatEfgsConsentSwitchStatus(consent: Boolean): Boolean {
+    formatEfgsConsentSwitchStatusText(consent)
+    return consent
+}
+
+fun formatEfgsConsentSwitchStatusText(consent: Boolean): String {
+    val appContext = CoronaWarnApplication.getAppContext()
+    return if (consent) {
+        appContext.getString(R.string.settings_efgs_consent_status_active)
+    }
+    else {
+        appContext.getString(R.string.settings_efgs_consent_status_inactive)
+    }
+}
+

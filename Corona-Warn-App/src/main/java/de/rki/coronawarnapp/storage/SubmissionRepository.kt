@@ -13,6 +13,7 @@ object SubmissionRepository {
 
     val testResultReceivedDate = MutableLiveData(Date())
     val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)
+    val isEfgsConsentEnabled = MutableLiveData<Boolean>()
 
     suspend fun refreshUIState() {
         var uiState = DeviceUIState.UNPAIRED
@@ -67,4 +68,10 @@ object SubmissionRepository {
     fun setTeletan(teletan: String) {
         LocalData.teletan(teletan)
     }
+
+//    suspend fun refreshIsEfgsConsentEnabled() {
+//        try {
+//            val inEnabled = EfgsConsentViewModel.isEf
+//        }
+//    }
 }

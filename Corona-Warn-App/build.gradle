@@ -241,6 +241,8 @@ dependencies {
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
     implementation 'com.google.zxing:core:3.3.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
 
     // TESTING
     testImplementation 'junit:junit:4.13'
