@@ -81,17 +81,17 @@ class WebRequestBuilder(
 
     /**
      * Gets the country index which is then filtered by given filter param or if param not set
-     * @param filter (array of country codes) used to filter
+     * @param wantedCountries (array of country codes) used to filter
      * only wanted countries of the country index (case insensitive)
      */
     suspend fun asyncGetCountryIndex(
-        filter: List<String>
+        wantedCountries: List<String>
     ): List<String> =
         withContext(Dispatchers.IO) {
             return@withContext distributionService
                 .getDateIndex(DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL)
                 .filter {
-                    filter.map { c -> c.toUpperCase(Locale.ROOT) }
+                    wantedCountries.map { c -> c.toUpperCase(Locale.ROOT) }
                         .contains(it.toUpperCase(Locale.ROOT))
                 }
                 .toList()

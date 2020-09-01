@@ -36,7 +36,7 @@ object FileStorageHelper {
      */
     val keyExportDirectory = File(
         CoronaWarnApplication.getAppContext().cacheDir,
-        "${FileStorageConstants.KEY_EXPORT_DIRECTORY_NAME}/"
+        FileStorageConstants.KEY_EXPORT_DIRECTORY_NAME
     )
 
     /**
