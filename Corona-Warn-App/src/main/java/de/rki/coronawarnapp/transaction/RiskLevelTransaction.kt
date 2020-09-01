@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -184,8 +185,12 @@ object RiskLevelTransaction : Transaction() {
     /** atomic reference for the rollback value for date of last risk level calculation */
     private val lastCalculatedRiskLevelDate = AtomicReference<Long>()
 
+    private val transactionScope: TransactionCoroutineScope by lazy {
+        AppInjector.component.transRiskLevelInjection.transactionScope
+    }
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecute {
+    suspend fun start() = lockAndExecute(scope = transactionScope) {
         /****************************************************
          * CHECK [NO_CALCULATION_POSSIBLE_TRACING_OFF] CONDITIONS
          ****************************************************/
