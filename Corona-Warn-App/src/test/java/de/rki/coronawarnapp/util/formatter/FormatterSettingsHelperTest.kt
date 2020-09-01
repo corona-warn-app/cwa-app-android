@@ -881,7 +881,6 @@ class FormatterSettingsHelperTest {
             bBluetooth = false,
             bLocation = true
         )
-
     }
 
     @Test
