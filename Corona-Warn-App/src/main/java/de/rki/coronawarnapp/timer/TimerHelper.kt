@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 import de.rki.coronawarnapp.util.di.AppInjector
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
