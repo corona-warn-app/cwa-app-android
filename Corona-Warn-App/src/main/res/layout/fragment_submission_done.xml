@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionDoneFragment">
+        tools:context=".ui.submission.fragment.SubmissionDoneFragment">
 
         <include
             android:id="@+id/submission_done_header"

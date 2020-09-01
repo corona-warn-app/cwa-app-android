@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -56,14 +56,12 @@ class SubmissionDispatcherFragment : Fragment() {
         }
         binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections
-                    .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
+                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
         binding.submissionDispatcherContent.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
             findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections
-                    .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
+                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionContactFragment()
             )
         }
     }
@@ -86,8 +84,7 @@ class SubmissionDispatcherFragment : Fragment() {
 
     private fun privacyPermissionIsGranted() {
         findNavController().doNavigate(
-            SubmissionDispatcherFragmentDirections
-                .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
+            SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
         )
     }
 }

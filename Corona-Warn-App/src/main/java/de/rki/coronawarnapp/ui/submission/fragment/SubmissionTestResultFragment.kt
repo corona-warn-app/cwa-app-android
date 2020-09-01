@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.app.AlertDialog
 import android.os.Bundle

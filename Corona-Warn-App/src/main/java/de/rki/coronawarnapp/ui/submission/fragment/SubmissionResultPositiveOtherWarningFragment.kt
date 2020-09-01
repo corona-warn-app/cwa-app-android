@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper

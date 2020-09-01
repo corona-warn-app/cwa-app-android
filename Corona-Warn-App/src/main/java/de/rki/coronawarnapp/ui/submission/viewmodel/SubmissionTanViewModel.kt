@@ -1,9 +1,10 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.ui.submission.TanConstants
 import de.rki.coronawarnapp.util.TanHelper
 import timber.log.Timber
 
