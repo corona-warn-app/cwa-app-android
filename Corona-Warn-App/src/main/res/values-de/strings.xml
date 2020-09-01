@@ -782,7 +782,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Erneut versuchen"</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -841,7 +841,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test kann nur einmal gescannt werden"</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test entfernen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der App. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test entfernen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Entfernen"</string>
     <!-- XBUT: Negative button for test removal -->
