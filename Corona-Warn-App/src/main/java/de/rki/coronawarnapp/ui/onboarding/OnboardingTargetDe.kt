@@ -49,8 +49,7 @@ class OnboardingTargetDe : Fragment() {
         }
         setButtonOnClickListener()
     }
-
-
+    
     private fun setButtonOnClickListener() {
         binding.targetDe.targetDeVerify.setOnClickListener {
             showVerifyDialog()
