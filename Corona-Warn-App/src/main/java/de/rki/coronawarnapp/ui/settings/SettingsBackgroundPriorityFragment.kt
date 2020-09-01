@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsBackgroundPriorityBindin
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
  * This is the setting background priority page. Here the user sees the background priority setting status.
@@ -66,14 +65,18 @@ class SettingsBackgroundPriorityFragment : Fragment() {
             it.setOnClickListener {
                 val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
 
-                if (!isPriorityEnabled)
-                    ExternalActionHelper.disableBatteryOptimizations(requireContext())
+                if (!isPriorityEnabled) {
+                    val activity = requireActivity() as MainActivity
+                    activity.powerManagement.disableBatteryOptimizations()
+                }
             }
         }
 
         // explanatory card
         binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
-            ExternalActionHelper.toBatteryOptimizationSettings(requireContext())
+            (requireActivity() as MainActivity).apply {
+                startActivity(powerManagement.toBatteryOptimizationSettingsIntent)
+            }
         }
 
         // back navigation

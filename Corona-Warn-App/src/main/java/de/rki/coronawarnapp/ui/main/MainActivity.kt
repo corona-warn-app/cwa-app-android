@@ -15,9 +15,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     private lateinit var settingsViewModel: SettingsViewModel
+
+    @Inject
+    lateinit var backgroundPrioritization: BackgroundPrioritization
 
     @Inject
     lateinit var powerManagement: PowerManagement
@@ -123,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             R.string.onboarding_energy_optimized_dialog_button_negative,
             false, {
                 // go to battery optimization
-                ExternalActionHelper.disableBatteryOptimizations(this)
+                powerManagement.disableBatteryOptimizations()
             }, {
                 // keep battery optimization enabled
                 showManualCheckingRequiredDialog()
@@ -132,7 +135,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForEnergyOptimizedEnabled() {
-        if (!powerManagement.isIgnoringBatteryOptimizations(this)) {
+        if (!backgroundPrioritization.isBackgroundActivityPrioritized) {
             showEnergyOptimizedEnabledForBackground()
         }
     }

@@ -1,10 +1,15 @@
 package de.rki.coronawarnapp.util.device
 
-import android.content.Context
+import android.content.Intent
 
 interface PowerManagement {
+
     /**
      * Checks if app is excluded from battery optimizations
      */
-    fun isIgnoringBatteryOptimizations(context: Context): Boolean
+    val isIgnoringBatteryOptimizations: Boolean
+
+    val toBatteryOptimizationSettingsIntent: Intent
+
+    fun disableBatteryOptimizations()
 }

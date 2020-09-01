@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.DefaultBackgroundPrioritization
 import de.rki.coronawarnapp.util.device.DefaultPowerManagement
 
 /**
@@ -20,8 +21,7 @@ object SettingsRepository {
 
     // TODO convert to class, then inject
     // @Inject
-    // lateinit var powerManagement: PowerManagement
-    var powerManagement = DefaultPowerManagement()
+    // lateinit var backgroundPrioritization: BackgroundPrioritization
 
     // public mutable live data
     val isNotificationsEnabled = MutableLiveData(true)
@@ -137,7 +137,8 @@ object SettingsRepository {
      * Refresh the current background priority state.
      */
     fun refreshBackgroundPriorityEnabled(context: Context) {
+        val backgroundPrioritization = DefaultBackgroundPrioritization(DefaultPowerManagement())
         isBackgroundPriorityEnabled.value =
-            powerManagement.isIgnoringBatteryOptimizations(context)
+            backgroundPrioritization.isBackgroundActivityPrioritized
     }
 }

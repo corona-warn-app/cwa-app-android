@@ -26,8 +26,8 @@ object ConnectivityHelper {
 
     // TODO convert to class, then inject
     // @Inject
-    // lateinit var powerManagement: PowerManagement
-    var powerManagement = DefaultPowerManagement()
+    // lateinit var backgroundPrioritization: BackgroundPrioritization
+    var backgroundPrioritization = DefaultBackgroundPrioritization(DefaultPowerManagement())
 
     /**
      * Register bluetooth state change listener.
@@ -87,30 +87,30 @@ object ConnectivityHelper {
      *
      */
     fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
-            val receiver = object : BroadcastReceiver() {
-                var isGpsEnabled: Boolean = false
-                var isNetworkEnabled: Boolean = false
+        val receiver = object : BroadcastReceiver() {
+            var isGpsEnabled: Boolean = false
+            var isNetworkEnabled: Boolean = false
 
-                override fun onReceive(context: Context, intent: Intent) {
-                    intent.action?.let { act ->
-                        if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
-                            val locationManager =
-                                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                            isGpsEnabled =
-                                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                            isNetworkEnabled =
-                                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            override fun onReceive(context: Context, intent: Intent) {
+                intent.action?.let { act ->
+                    if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
+                        val locationManager =
+                            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                        isGpsEnabled =
+                            locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                        isNetworkEnabled =
+                            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-                            if (isGpsEnabled || isNetworkEnabled) {
-                                callback.onLocationAvailable()
-                                Timber.d("Location enabled")
-                            } else {
-                                callback.onLocationUnavailable()
-                                Timber.d("Location disabled")
-                            }
+                        if (isGpsEnabled || isNetworkEnabled) {
+                            callback.onLocationAvailable()
+                            Timber.d("Location enabled")
+                        } else {
+                            callback.onLocationUnavailable()
+                            Timber.d("Location disabled")
                         }
                     }
                 }
+            }
         }
         callback.recevier = receiver
         context.registerReceiver(
@@ -206,7 +206,7 @@ object ConnectivityHelper {
     }
 
     /**
-     * Background jobs are enabled only if the battery optimization is enabled and
+     * Background jobs are enabled only if the background activity prioritization is enabled and
      * the background activity is not restricted
      *
      * @param context the context
@@ -216,7 +216,7 @@ object ConnectivityHelper {
      * @see isBackgroundRestricted
      */
     fun autoModeEnabled(context: Context): Boolean {
-        return !isBackgroundRestricted(context) || powerManagement.isIgnoringBatteryOptimizations(context)
+        return !isBackgroundRestricted(context) || backgroundPrioritization.isBackgroundActivityPrioritized
     }
 
     /**
@@ -296,6 +296,7 @@ object ConnectivityHelper {
          */
         abstract fun onLocationUnavailable()
     }
+
     /**
      * Abstract network state change callback.
      *

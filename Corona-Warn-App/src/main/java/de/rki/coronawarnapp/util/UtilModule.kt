@@ -14,4 +14,10 @@ abstract class UtilModule {
     abstract fun bindPowerManagement(
         powerManagement: DefaultPowerManagement
     ): PowerManagement
+
+    @Binds
+    @Singleton
+    abstract fun bindBackgroundPrioritization(
+        backgroundPrioritization: DefaultBackgroundPrioritization
+    ): BackgroundPrioritization
 }

@@ -162,7 +162,7 @@ class SettingsTracingFragment : Fragment(),
                         showConsentDialog()
                         // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
                         val activity = requireActivity() as MainActivity
-                        if (!activity.powerManagement.isIgnoringBatteryOptimizations(activity)) {
+                        if (!activity.backgroundPrioritization.isBackgroundActivityPrioritized) {
                             showManualCheckingRequiredDialog()
                         }
                     }
