@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
+
+        <variable
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+
+        <variable
+            name="efgsViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.EfgsConsentViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_positive_efgs_consent_privacy_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/submission_positive_other_warning_title"
+        android:fillViewport="true"
+        tools:context=".ui.submission.SubmissionResultPositiveOtherWarningFragment">
+
+        <include
+            android:id="@+id/submission_positive_efgs_consent_header"
+            layout="@layout/include_header"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:icon="@{@drawable/ic_back}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/submission_positive_efgs_consent_title}" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_action"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_positive_efgs_consent_header">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/submission_positive_efgs_consent_illustration"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/submission_positive_efgs_consent_illustration_description)}"
+                    android:src="@drawable/ic_submission_illustration_efgs_consent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/submission_positive_efgs_consent_headline"
+                    style="@style/headline5"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/submission_positive_efgs_consent_headline"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_efgs_consent_illustration" />
+
+                <include
+                    android:id="@+id/settings_efgs_consent_row"
+                    layout="@layout/include_settings_switch_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:enabled="@{true}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_efgs_consent_headline"
+                    app:showDivider="@{true}"
+                    app:status="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatus(efgsViewModel.isEfgsConsentGranted())}"
+                    app:statusText="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatusText(efgsViewModel.isEfgsConsentGranted())}"
+                    app:subtitle="@{@string/settings_efgs_consent_title}" />
+
+                <include
+                    android:id="@+id/submission_positive_efgs_consent_privacy"
+                    layout="@layout/include_privacy_card"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_efgs_consent_row"
+                    app:privacyText="@{@string/submission_positive_efgs_consent_warning_privacy_body}" />
+
+                <include layout="@layout/merge_guidelines_side" />
+
+                <include layout="@layout/merge_guidelines_card" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/submission_positive_efgs_consent_button_next"
+            style="@style/buttonPrimary"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_positive_efgs_consent_warning_button"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/guideline_action" />
+
+        <ProgressBar
+            android:id="@+id/submission_positive_other_warning_spinner"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:indeterminate="true"
+            android:visibility="@{FormatterSubmissionHelper.formatSubmitSpinnerVisible(submissionViewModel.submissionState)}"
+            app:layout_constraintBottom_toBottomOf="@+id/submission_positive_efgs_consent_button_next"
+            app:layout_constraintEnd_toEndOf="@+id/submission_positive_efgs_consent_button_next"
+            app:layout_constraintStart_toStartOf="@+id/submission_positive_efgs_consent_button_next"
+            app:layout_constraintTop_toTopOf="@+id/submission_positive_efgs_consent_button_next" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
