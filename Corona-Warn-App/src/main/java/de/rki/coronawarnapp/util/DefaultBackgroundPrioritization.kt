@@ -7,6 +7,6 @@ class DefaultBackgroundPrioritization @Inject constructor(
     private val powerManagement: PowerManagement
 ) : BackgroundPrioritization {
 
-    override val isBackgroundActivityPrioritized: Boolean
+    override val isBackgroundActivityPrioritized
         get() = powerManagement.isIgnoringBatteryOptimizations
 }

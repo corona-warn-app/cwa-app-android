@@ -18,19 +18,20 @@ class DefaultPowerManagement @Inject constructor(
         context.getSystemService(Context.POWER_SERVICE) as PowerManager
     }
 
-    override val isIgnoringBatteryOptimizations: Boolean
+    override val isIgnoringBatteryOptimizations
         get() = powerManager.isIgnoringBatteryOptimizations(context.packageName)
 
-    override val toBatteryOptimizationSettingsIntent: Intent =
+    override val toBatteryOptimizationSettingsIntent =
         Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
 
     override fun disableBatteryOptimizations() {
         try {
-            val intent = Intent(
-                Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                Uri.parse("package:${context.packageName}")
+            context.startActivity(
+                Intent(
+                    Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                    Uri.parse("package:${context.packageName}")
+                )
             )
-            context.startActivity(intent)
         } catch (exception: Exception) {
             // catch generic exception on settings navigation
             // most likely due to device / rom specific intent issue
