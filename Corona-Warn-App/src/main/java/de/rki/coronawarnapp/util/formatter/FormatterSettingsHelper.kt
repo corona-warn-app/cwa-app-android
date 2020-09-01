@@ -537,9 +537,7 @@ fun formatEfgsConsentSwitchStatusText(consent: Boolean): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (consent) {
         appContext.getString(R.string.settings_efgs_consent_status_active)
-    }
-    else {
+    } else {
         appContext.getString(R.string.settings_efgs_consent_status_inactive)
     }
 }
-
