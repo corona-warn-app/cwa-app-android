@@ -45,7 +45,6 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
@@ -60,7 +59,6 @@ import java.io.File
 import java.lang.reflect.Type
 import java.util.Date
 import java.util.UUID
-import kotlin.system.measureTimeMillis
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
 class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {

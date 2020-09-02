@@ -184,7 +184,6 @@ object CachedKeyFileHolder {
                         "does not contain any data for today"
             )
         }
-
     }
 
     /**
