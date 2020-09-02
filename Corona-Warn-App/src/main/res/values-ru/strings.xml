@@ -421,6 +421,8 @@
     <string name="onboarding_tracing_body_emphasized">"Зашифрованные случайные идентификаторы передают другим людям только информацию о дате, продолжительности и близости (по силе сигнала) контакта. Персональные данные, такие как имя, адрес или местоположение, никогда не регистрируются. Идентификация лица невозможна."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация о приложении простым языком и на языке жестов"</a></string>
+    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
+    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Заявление о согласии"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
@@ -789,7 +791,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Недействительный QR-код."</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR-код недействительный или уже зарегистрирован на другом смартфоне. Повторите попытку. Вы получите результат теста из центра тестирования или выполнившей тест лаборатории вне зависимости от действительности QR-кода. Если у вас диагностирован COVID-19, вы получите уведомление от соответствующего органа здравоохранения."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR-код недействительный или уже зарегистрирован на другом смартфоне. Повторите попытку. Вы получите результат теста из центра тестирования или выполнившей тест лаборатории вне зависимости от действительности QR-кода. Если у вас диагностирован COVID-19, соответствующий орган здравоохранения получит уведомление по безопасному каналу и свяжется с вами."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Повторите попытку."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -848,7 +850,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Тест можно отсканировать только один раз."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"После удаления теста вы не сможете запросить результат тестирования. Вы получите результат теста из центра тестирования или выполнившей тест лаборатории вне зависимости от приложения. Если у вас диагностирован COVID-19, вы получите уведомление от соответствующего органа здравоохранения. "</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Если вы удалите тест, то не сможете вызвать результат тестирования. Вы получите результат теста из центра тестирования или выполнившей тест лаборатории вне зависимости от действительности QR-кода. Если у вас диагностирован COVID-19, соответствующий орган здравоохранения получит уведомление по безопасному каналу и свяжется с вами."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Удалить"</string>
     <!-- XBUT: Negative button for test removal -->

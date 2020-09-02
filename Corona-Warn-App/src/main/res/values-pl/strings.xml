@@ -421,6 +421,8 @@
     <string name="onboarding_tracing_body_emphasized">"Identyfikatory przekazują w sposób zaszyfrowany wyłącznie informacje o dacie, czasie trwania i odległości (przy wykorzystaniu mocy sygnału) od innych użytkowników aplikacji. Dane osobowe, takie jak nazwisko, adres, lokalizacja, nie są nigdy rejestrowane. Ustalenie tożsamości osób nie jest możliwe."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informacja o aplikacji w języku uproszczonym i języku migowym"</a></string>
+    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
+    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Oświadczenie o wyrażeniu zgody"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
@@ -789,7 +791,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Niepoprawny kod QR"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Kod QR jest niepoprawny lub został już zarejestrowany na innym smartfonie. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie COVID-19 otrzymasz powiadomienie z organu ds. zdrowia publicznego."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Kod QR jest niepoprawny lub został już zarejestrowany na innym smartfonie. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie COVID-19 organ ds. zdrowia publicznego zostanie powiadomiony przez ustanowiony prawnie kanał komunikacyjny i skontaktuje się z Tobą."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Spróbuj ponownie."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -848,7 +850,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test może być zeskanowany tylko raz."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Jeśli usuniesz test, nie będziesz mieć możliwości pobrania wyniku swojego testu. Otrzymasz wynik swojego testu z ośrodka wykonującego testy lub laboratorium, niezależnie od aplikacji. W przypadku zdiagnozowania u Ciebie COVID-19 otrzymasz powiadomienie z organu ds. zdrowia publicznego."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Jeśli usuniesz test, nie będziesz mieć możliwości pobrania wyniku swojego testu. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie COVID-19 organ ds. zdrowia publicznego zostanie powiadomiony przez ustanowiony prawnie kanał komunikacyjny i skontaktuje się z Tobą."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Usuń"</string>
     <!-- XBUT: Negative button for test removal -->
