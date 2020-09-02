@@ -20,12 +20,10 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FETCH_DATE_UPDATE
@@ -199,9 +197,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             if (TOKEN.isInStateStack()) {
                 rollbackToken()
             }
-            if (FILES_FROM_WEB_REQUESTS.isInStateStack()) {
-                rollbackFilesFromWebRequests()
-            }
         } catch (e: Exception) {
             // We handle every exception through a RollbackException to make sure that a single EntryPoint
             // is available for the caller.
@@ -217,12 +212,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private fun rollbackToken() {
         Timber.tag(TAG).v("rollback $TOKEN")
         LocalData.googleApiToken(googleAPITokenForRollback.get())
-    }
-
-    private suspend fun rollbackFilesFromWebRequests() {
-        Timber.tag(TAG).v("rollback $FILES_FROM_WEB_REQUESTS")
-        KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
-            .clear()
     }
 
     /**
