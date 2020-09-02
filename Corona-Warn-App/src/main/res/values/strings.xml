@@ -384,6 +384,8 @@
     <string name="target_de_verify_dialog_body">"Are you sure?"</string>
     <string name="target_de_verify_dialog_apply">"Apply"</string>
     <string name="target_de_verify_dialog_cancel">"Back"</string>
+    <string name="submission_target_de_title">"Submission target > de title"</string>
+
     <!-- ####################################
               Onboarding
     ###################################### -->

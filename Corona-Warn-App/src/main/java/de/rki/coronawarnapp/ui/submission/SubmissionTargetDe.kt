@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.onboarding
+package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,30 +8,29 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentOnboardingTargetDeBinding
-import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.databinding.FragmentSubmissionTargetDeBinding
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.DialogHelper
 import kotlinx.android.synthetic.main.include_target_de.view.*
 
 /**
  * Onboarding starting point.
  */
-class OnboardingTargetDe : Fragment() {
+class SubmissionTargetDe : Fragment() {
     companion object {
-        private val TAG: String? = OnboardingTargetDe::class.simpleName
+        private val TAG: String? = SubmissionTargetDe::class.simpleName
     }
 
-    private var _binding: FragmentOnboardingTargetDeBinding? = null
-    private val binding: FragmentOnboardingTargetDeBinding get() = _binding!!
+    private var _binding: FragmentSubmissionTargetDeBinding? = null
+    private val binding: FragmentSubmissionTargetDeBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOnboardingTargetDeBinding.inflate(inflater)
+        _binding = FragmentSubmissionTargetDeBinding.inflate(inflater)
         return binding.root
     }
 
@@ -42,10 +41,8 @@ class OnboardingTargetDe : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.onboardingTargetDeButtonNext.setOnClickListener {
-            findNavController().doNavigate(
-                OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
-            )
+        binding.submissionTargetDeButtonNext.setOnClickListener {
+
         }
         setButtonOnClickListener()
     }
@@ -56,7 +53,7 @@ class OnboardingTargetDe : Fragment() {
         }
 
         binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as OnboardingActivity).goBack()
+            (activity as MainActivity).goBack()
         }
 
         binding.targetDe.targetDeBtnApply.setOnClickListener {
@@ -129,7 +126,7 @@ class OnboardingTargetDe : Fragment() {
     }
 
     private fun enableNextButton(bValue: Boolean) {
-        val nextButton = binding.onboardingTargetDeButtonNext
+        val nextButton = binding.submissionTargetDeButtonNext
         nextButton.isEnabled = bValue
     }
 
@@ -148,6 +145,6 @@ class OnboardingTargetDe : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.submissionContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }

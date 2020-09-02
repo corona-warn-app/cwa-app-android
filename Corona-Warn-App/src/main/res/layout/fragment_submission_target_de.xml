@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/onboarding_container"
+        android:id="@+id/submission_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
+        android:contentDescription="@string/submission_target_de_title"
         android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.onboarding.OnboardingTargetDe">
+        tools:context="de.rki.coronawarnapp.ui.submission.SubmissionTargetDe">
 
         <include
             android:id="@+id/information_about_header"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
 
         <Button
-            android:id="@+id/onboarding_target_de_button_next"
+            android:id="@+id/submission_target_de_button_next"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
