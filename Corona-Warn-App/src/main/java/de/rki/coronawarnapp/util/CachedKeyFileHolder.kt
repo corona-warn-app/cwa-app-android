@@ -21,11 +21,14 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.DAY
 import de.rki.coronawarnapp.util.CachedKeyFileHolder.asyncFetchFiles
+import de.rki.coronawarnapp.util.CachedKeyFileHolder.generateCacheKeyFromString
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -74,7 +77,9 @@ object CachedKeyFileHolder {
         checkForFreeSpace()
 
         // Build pair of country to date <Country, Date[]>
-        val serverDates = getCountriesFromServer(countries).map { Pair(it, getDatesFromServer(it)) }
+        val serverDates = getCountriesFromServer(countries).map {
+            CountryDataWrapper(it, getDatesFromServer((it)))
+        }
 
         if (CWADebug.isDebugBuildOrMode && LocalData.last3HoursMode()) {
             asyncHandleLast3HoursFilesFetch(currentDate, serverDates)
@@ -90,15 +95,13 @@ object CachedKeyFileHolder {
      * @param serverDates pair of dates per country code
      */
     private suspend fun asyncHandleFilesFetch(
-        serverDates: List<Pair<String, List<String>>>
+        serverDates: List<CountryDataWrapper>
     ): List<File> = withContext(Dispatchers.IO) {
         // Build flat map of uuids from dates of countries
-        val uuidListFromServer = serverDates.flatMap { pair ->
-            val countryUtils = CountryUtils(pair.first, pair.second)
-            pair.second
-                .map { date ->
-                    countryUtils.getURLForDay(date)
-                }
+        val uuidListFromServer = serverDates.flatMap { countryWrapper ->
+            countryWrapper.dates.map { date ->
+                countryWrapper.getURLForDay(date)
+            }
         }
 
         Timber.v("${uuidListFromServer.size} available dates from server for ${serverDates.size} countries")
@@ -107,23 +110,24 @@ object CachedKeyFileHolder {
         val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
         keyCache.deleteOutdatedEntries(uuidListFromServer)
 
-        val missingDays = getMissingDaysFromDiff(serverDates)
-        if (missingDays.isNotEmpty()) {
+        val countryWithMissingDays = getMissingDaysFromDiff(serverDates)
+        if (countryWithMissingDays.isNotEmpty()) {
             // we have a date difference
-            deferredQueries.addAll(
-                missingDays
-                    .flatMap { daysFromServer ->
-                        val countryUtils = CountryUtils(daysFromServer.first, daysFromServer.second)
-                        daysFromServer.second.map {
-                            countryUtils.getURLForDay(it)
-                        }
+            countryWithMissingDays
+                .flatMap { country ->
+                    country.dates.map { country.getURLForDay(it) }
+                }
+                .map { url ->
+                    async {
+                        keyCache.createEntry(
+                            url.generateCacheKeyFromString(),
+                            WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(url).toURI(),
+                            DAY
+                        )
                     }
-                    .map { url ->
-                        async {
-                            url.createDayEntryForUrl()
-                        }
-                    }
-            )
+                }
+                .toList()
+                .also { deferredQueries.addAll(it) }
         }
 
         // execute the query plan
@@ -146,7 +150,7 @@ object CachedKeyFileHolder {
      */
     private suspend fun asyncHandleLast3HoursFilesFetch(
         currentDate: Date,
-        serverDates: List<Pair<String, List<String>>>
+        serverDates: List<CountryDataWrapper>
     ): List<File> = withContext(Dispatchers.IO) {
         Timber.v("Last 3 Hours will be Fetched. Only use for Debugging!")
         val currentDateServerFormat = currentDate.toServerFormat()
@@ -155,21 +159,15 @@ object CachedKeyFileHolder {
         // extend fetch for all dates in all countries provided in serverDates
         val packagesWithCurrentDate = serverDates
             .filter { countryWithDates ->
-                countryWithDates.second.contains(
-                    currentDateServerFormat
-                )
+                countryWithDates.dates.contains(currentDateServerFormat)
             }
 
         if (packagesWithCurrentDate.isNotEmpty()) {
             return@withContext serverDates
                 .flatMap { countryWithDates ->
-                    val countryUtils = CountryUtils(countryWithDates.first, countryWithDates.second)
                     getLast3Hours(currentDate)
-                        .map {
-                            countryUtils.getURLForHour(
-                                currentDate.toServerFormat(),
-                                it
-                            )
+                        .map { hour ->
+                            countryWithDates.getURLForHour(currentDate.toServerFormat(), hour)
                         }
                         .map { url ->
                             async {
@@ -192,48 +190,34 @@ object CachedKeyFileHolder {
      * with respect to all countries defined
      */
     private suspend fun getMissingDaysFromDiff(
-        datesFromServer: Collection<Pair<String, Collection<String>>>
-    ): List<Pair<String, List<String>>> {
+        serverCountryData: Collection<CountryDataWrapper>
+    ): Collection<CountryDataWrapper> {
         val cacheEntries = keyCache.getDates()
-        return datesFromServer.map { countryDates ->
-            Pair(
-                countryDates.first,
-                countryDates.second
-                    .also { Timber.d("Country: ${countryDates.first}: ${it.size} Days") }
-                    .filter {
-                        CountryUtils(countryDates.first, countryDates.second)
-                            .isDateEntryCacheMissing(countryDates.first, cacheEntries)
-                    }
-                    .toList()
-                    .also { Timber.d("Country: ${countryDates.first}, Missing Days: ${it.size}") }
-            )
-        }
+        return serverCountryData
+            .also { Timber.d("Server country data: %s", it) }
+            .map { availCountry ->
+                CountryDataWrapper(
+                    availCountry.country,
+                    availCountry.getMissingDates(cacheEntries)
+                )
+            }
+            .filter { countryData ->
+                // Only return countries with missing dates.
+                countryData.dates.isNotEmpty()
+            }
+            .also { Timber.d("Locally missing country data: %s", it) }
     }
 
-    /**
-     * TODO remove before Release
-     */
     private const val LATEST_HOURS_NEEDED = 3
 
     /**
      * Calculates the last 3 hours
-     * TODO remove before Release
      */
     private suspend fun getLast3Hours(day: Date): List<String> = getHoursFromServer(day)
         .also { Timber.v("${it.size} hours from server, but only latest 3 hours needed") }
         .filter { TimeAndDateExtensions.getCurrentHourUTC() - LATEST_HOURS_NEEDED <= it.toInt() }
         .toList()
         .also { Timber.d("${it.size} missing hours") }
-
-    /**
-     * Creates a date entry in the Key Cache for a given String with a unique Key Name derived from the URL
-     * and the URI of the downloaded File for that given key
-     */
-    private suspend fun String.createDayEntryForUrl() = keyCache.createEntry(
-        this.generateCacheKeyFromString(),
-        WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
-        DAY
-    )
 
     /**
      * Generates a unique key name (UUIDv3) for the cache entry based out of a string (e.g. an url)
@@ -262,4 +246,40 @@ object CachedKeyFileHolder {
      */
     private suspend fun getCountriesFromServer(countries: List<String>) =
         WebRequestBuilder.getInstance().asyncGetCountryIndex(countries)
+
 }
+
+internal data class CountryDataWrapper(val country: String, val dates: Collection<String>) {
+
+    /**
+     * Return a filtered list that contains all dates which are part of this wrapper, but not in the parameter.
+     */
+    fun getMissingDates(cachedKeys: Collection<KeyCacheEntity>): Collection<String> {
+        val cacheIds = cachedKeys.map { it.id }
+
+        return dates.filterNot { date ->
+            val formattedDateUrl = getURLForDay(date)
+            val cacheKeyFromUrl = formattedDateUrl.generateCacheKeyFromString()
+            // If the cache doesn't contain our ID, it's a missing date
+            cacheIds.contains(cacheKeyFromUrl)
+        }
+    }
+
+    /**
+     * Gets the correct URL String for querying a day bucket
+     *
+     * @param formattedDate the formatted date
+     */
+    fun getURLForDay(formattedDate: String) =
+        "${DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL}/$country/${DiagnosisKeyConstants.DATE}/$formattedDate"
+
+    /**
+     * Gets the correct URL String for querying an hour bucket
+     *
+     * @param formattedDate the formatted date for the hour bucket request
+     * @param formattedHour the formatted hour
+     */
+    fun getURLForHour(formattedDate: String, formattedHour: String) =
+        "${getURLForDay(formattedDate)}/${DiagnosisKeyConstants.HOUR}/$formattedHour"
+}
+
