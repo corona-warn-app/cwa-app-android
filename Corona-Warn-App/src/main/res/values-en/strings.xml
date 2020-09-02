@@ -296,7 +296,6 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Your Risk Status"</string>
-    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
