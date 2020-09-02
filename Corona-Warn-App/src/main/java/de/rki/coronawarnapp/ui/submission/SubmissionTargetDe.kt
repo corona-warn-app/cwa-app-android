@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTargetDeBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.DialogHelper
 import kotlinx.android.synthetic.main.include_target_de.view.*
 
 /**
@@ -46,7 +45,16 @@ class SubmissionTargetDe : Fragment() {
 
     private fun setButtonOnClickListener() {
         binding.targetDe.targetDeVerify.setOnClickListener {
-            showVerifyDialog()
+            val constraintLayout = binding.targetDe.targetDeBtnVerify
+            val textView = binding.targetDe.targetDeBtnVerify.target_de_verify
+            val initStateLayout: Array<ConstraintLayout> =
+                arrayOf(binding.targetDe.targetDeBtnApply, binding.targetDe.targetDeBtnReject)
+            val initStateTextView: Array<TextView> = arrayOf(
+                binding.targetDe.targetDeBtnApply.target_de_apply,
+                binding.targetDe.targetDeBtnReject.target_de_reject
+            )
+
+            changeState(constraintLayout, textView, initStateLayout, initStateTextView)
         }
 
         binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -109,35 +117,9 @@ class SubmissionTargetDe : Fragment() {
         textView.setTextColor(textColor)
     }
 
-    private fun applyDialog() {
-        val constraintLayout = binding.targetDe.targetDeBtnVerify
-        val textView = binding.targetDe.targetDeBtnVerify.target_de_verify
-        val initStateLayout: Array<ConstraintLayout> =
-            arrayOf(binding.targetDe.targetDeBtnApply, binding.targetDe.targetDeBtnReject)
-        val initStateTextView: Array<TextView> = arrayOf(
-            binding.targetDe.targetDeBtnApply.target_de_apply,
-            binding.targetDe.targetDeBtnReject.target_de_reject
-        )
-
-        changeState(constraintLayout, textView, initStateLayout, initStateTextView)
-    }
-
     private fun enableNextButton(bValue: Boolean) {
         val nextButton = binding.submissionTargetDeButtonNext
         nextButton.isEnabled = bValue
-    }
-
-    private fun showVerifyDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.target_de_verify_dialog_headline,
-            R.string.target_de_verify_dialog_body,
-            R.string.target_de_verify_dialog_apply,
-            R.string.target_de_verify_dialog_cancel,
-            true,
-            ::applyDialog
-        )
-        DialogHelper.showDialog(dialog)
     }
 
     override fun onResume() {
