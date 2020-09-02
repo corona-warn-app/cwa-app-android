@@ -22,6 +22,7 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.storage.FileStorageHelper
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository.DateEntryType.DAY
 import de.rki.coronawarnapp.util.CachedKeyFileHolder.asyncFetchFiles
@@ -75,7 +76,7 @@ object CachedKeyFileHolder {
         // Build pair of country to date <Country, Date[]>
         val serverDates = getCountriesFromServer(countries).map { Pair(it, getDatesFromServer(it)) }
 
-        if (CWADebug.isDebugBuildOrModeAndLast3HoursFetchEnabled) {
+        if (CWADebug.isDebugBuildOrMode && LocalData.last3HoursMode()) {
             asyncHandleLast3HoursFilesFetch(currentDate, serverDates)
         } else {
             asyncHandleFilesFetch(serverDates)
