@@ -135,7 +135,6 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Пока нет контактов"</string>
-    <string name="risk_card_body_contact_low_risk">"Bisher keine Begegnungen mit niedrigem Risiko"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s контакт"</item>
@@ -297,12 +296,6 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Ваш статус риска"</string>
-    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
-    <string name="risk_details_additional_info_title">"Begegnung mit niedrigem Risiko"</string>
-    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
-    <string name="risk_details_additional_info_subtitle">"Deshalb ist Ihr Infektionsrisiko niedrig"</string>
-    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
-    <string name="risk_details_additional_info_text">"Sie hatten eine Begegnung mit einer nachweislich Corona-positiv getesteten Person. Ihr Infektionsrisiko wird unter Berücksichtigung aller in der Corona-Warn-App vorliegenden Daten dennoch als niedrig eingestuft. Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allgemein geltenden Abstands- und Hygieneregeln zu halten."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Инструкции"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -345,8 +338,6 @@
     <string name="risk_details_information_body_outdated_risk">"Не удается обновить определение риска более 24 часов."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"У Вас низкий риск заражения, поскольку не зарегистрировано контактов с лицами с положительным тестом на COVID-19 или контакты были кратковременными и на большом расстоянии."</string>
-    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
-    <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Endgerät berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"У Вас повышенный риск заражения, поскольку %1$s день назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>

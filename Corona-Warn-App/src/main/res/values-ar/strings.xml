@@ -135,7 +135,6 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"لا توجد مخالطة حتى الآن"</string>
-    <string name="risk_card_body_contact_low_risk">"Bisher keine Begegnungen mit niedrigem Risiko"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s مخالطة بخطر منخفض"</item>
@@ -297,12 +296,6 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"مستوى الخطر"</string>
-    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
-    <string name="risk_details_additional_info_title">"Begegnung mit niedrigem Risiko"</string>
-    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
-    <string name="risk_details_additional_info_subtitle">"Deshalb ist Ihr Infektionsrisiko niedrig"</string>
-    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
-    <string name="risk_details_additional_info_text">"Sie hatten eine Begegnung mit einer nachweislich Corona-positiv getesteten Person. Ihr Infektionsrisiko wird unter Berücksichtigung aller in der Corona-Warn-App vorliegenden Daten dennoch als niedrig eingestuft. Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allgemein geltenden Abstands- und Hygieneregeln zu halten."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"التعليمات"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -345,8 +338,6 @@
     <string name="risk_details_information_body_outdated_risk">"تعذر تحديث تسجيل المخالطة لأكثر من 24 ساعة."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"لديك خطر منخفض للعدوى لأنه لم يتم تسجيل مخالطتك بأشخاص تم تشخيصهم لاحقًا كمصابين بمرض كوفيد-19، أو لأن تجمعاتك كانت لفترة زمنية قصيرة وعن بُعد."</string>
-    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
-    <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Endgerät berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"خطر العدوى لديك مرتفع لأنك خالطت مؤخرًا شخصًا واحدًا على الأقل مُصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية أطول وعن قرب."</item>
