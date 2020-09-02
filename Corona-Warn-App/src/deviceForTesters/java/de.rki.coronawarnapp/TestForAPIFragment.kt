@@ -313,11 +313,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
      * Updates the Label for country filter
      */
     private fun updateCountryStatusLabel() {
-        binding.labelCountryCodeFilterStatus.text =
-            getString(
-                R.string.test_api_country_filter_status,
-                lastSetCountries?.joinToString(", ")
-            )
+        binding.labelCountryCodeFilterStatus.text = "Country filter applied for: \n " +
+                "${lastSetCountries?.joinToString(",")}"
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -406,7 +403,10 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             )
 
             val dir =
-                File(File(requireContext().getExternalFilesDir(null), "key-export"), token ?: "")
+                File(
+                    File(requireContext().getExternalFilesDir(null), "key-export"),
+                    token ?: ""
+                )
             dir.mkdirs()
 
             var googleFileList: List<File>
@@ -488,12 +488,13 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         binding.labelMyKeys.text = myKeysLabelAndCount
         binding.textMyKeys.text = myExposureKeysJSON
 
-        myKeys?.maxBy { it.rollingStartIntervalNumber }?.rollingStartIntervalNumber?.toLong()?.let {
-            val ms = it * 60L * 10L * 1000L
-            val dateString = DateTime(ms, DateTimeZone.UTC)
+        myKeys?.maxBy { it.rollingStartIntervalNumber }?.rollingStartIntervalNumber?.toLong()
+            ?.let {
+                val ms = it * 60L * 10L * 1000L
+                val dateString = DateTime(ms, DateTimeZone.UTC)
 
-            binding.labelLatestKeyDate.text = "Latest key is from: $dateString"
-        }
+                binding.labelLatestKeyDate.text = "Latest key is from: $dateString"
+            }
     }
 
     private fun showToast(message: String) {

@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
-                android:text="@string/test_api_country_settings_heading" />
+                android:text="Country Settings" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -256,7 +256,7 @@
                 android:id="@+id/label_country_code_filter_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_api_country_filter_status">
+                android:text="Country filter applied for:">
 
             </TextView>
 
