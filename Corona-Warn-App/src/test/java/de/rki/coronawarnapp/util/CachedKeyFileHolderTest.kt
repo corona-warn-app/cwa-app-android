@@ -69,8 +69,9 @@ class CachedKeyFileHolderTest {
                 CachedKeyFileHolder.asyncFetchFiles(date, countries)
                 CachedKeyFileHolder["getCountriesFromServer"](countries)
                 CachedKeyFileHolder["getDatesFromServer"](country)
+                CachedKeyFileHolder["asyncHandleFilesFetch"](listOf(CountryDataWrapper(country, listOf())))
                 keyCacheRepository.deleteOutdatedEntries(any())
-                CachedKeyFileHolder["getMissingDaysFromDiff"](listOf(Pair(country, listOf<String>() )))
+                CachedKeyFileHolder["getMissingDaysFromDiff"](listOf(CountryDataWrapper(country, listOf() )))
                 keyCacheRepository.getDates()
                 keyCacheRepository.getFilesFromEntries()
             }

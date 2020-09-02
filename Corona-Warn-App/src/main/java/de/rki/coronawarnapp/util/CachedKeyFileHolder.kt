@@ -246,7 +246,6 @@ object CachedKeyFileHolder {
      */
     private suspend fun getCountriesFromServer(countries: List<String>) =
         WebRequestBuilder.getInstance().asyncGetCountryIndex(countries)
-
 }
 
 internal data class CountryDataWrapper(val country: String, val dates: Collection<String>) {
@@ -282,4 +281,3 @@ internal data class CountryDataWrapper(val country: String, val dates: Collectio
     fun getURLForHour(formattedDate: String, formattedHour: String) =
         "${getURLForDay(formattedDate)}/${DiagnosisKeyConstants.HOUR}/$formattedHour"
 }
-
