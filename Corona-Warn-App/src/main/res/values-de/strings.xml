@@ -484,7 +484,7 @@
    ###################################### -->
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_title_text">"App Nutzung ab 16 Jahren"</string>
+    <string name="sixteen_title_text">"App-Nutzung ab 16 Jahren"</string>
 
     <!-- XACT: onboarding(sixteen) title -->
     <string name="sixteen_description_text">"Die App richtet sich an Personen, die sich in Deutschland aufhalten und mindestens 16 Jahre alt sind."</string>
