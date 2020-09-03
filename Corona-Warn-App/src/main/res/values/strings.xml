@@ -137,6 +137,8 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"No exposure up to now"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk" />
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s exposure with low risk"</item>
@@ -298,6 +300,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Your Risk Status"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title" />
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle" />
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text" />
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -340,6 +348,8 @@
     <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter" />
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s day ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
