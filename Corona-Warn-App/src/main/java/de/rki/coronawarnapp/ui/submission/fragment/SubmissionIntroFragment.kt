@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
