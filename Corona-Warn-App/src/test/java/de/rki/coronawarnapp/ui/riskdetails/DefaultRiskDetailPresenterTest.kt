@@ -7,7 +7,7 @@ import org.junit.Test
 class DefaultRiskDetailPresenterTest {
 
     @Test
-    fun test_isAdditionalInfoVisible(){
+    fun test_isAdditionalInfoVisible() {
         DefaultRiskDetailPresenter().apply {
             Assert.assertFalse(isAdditionalInfoVisible(RiskLevelConstants.LOW_LEVEL_RISK, 0))
             Assert.assertTrue(isAdditionalInfoVisible(RiskLevelConstants.LOW_LEVEL_RISK, 1))
@@ -20,7 +20,7 @@ class DefaultRiskDetailPresenterTest {
     }
 
     @Test
-    fun test_isInformationBodyNoticeVisible(){
+    fun test_isInformationBodyNoticeVisible() {
         DefaultRiskDetailPresenter().apply {
             Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.LOW_LEVEL_RISK, 0))
             Assert.assertFalse(isInformationBodyNoticeVisible(RiskLevelConstants.LOW_LEVEL_RISK, 1))
@@ -31,5 +31,4 @@ class DefaultRiskDetailPresenterTest {
             Assert.assertTrue(isInformationBodyNoticeVisible(RiskLevelConstants.UNDETERMINED, 0))
         }
     }
-
 }
