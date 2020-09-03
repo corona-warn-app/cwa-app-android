@@ -241,7 +241,8 @@
                     android:id="@+id/input_country_codes_editText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    />
 
                 <Button
                     android:id="@+id/button_filter_country_codes"
@@ -289,6 +290,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:layout_weight="1"
+                    android:imeOptions="actionDone"
                     android:text="Measure: Calculate Risk Level / Key Retrieval" />
 
 

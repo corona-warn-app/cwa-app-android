@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -8,6 +9,8 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
@@ -270,28 +273,34 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         }
 
         binding.buttonFilterCountryCodes.setOnClickListener {
-            // Get user input country codes
-            val rawCountryCodes = binding.inputCountryCodesEditText.text.toString()
-
-            // Country codes can be separated by space or ,
-            var countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
-
-            lastSetCountries = countryCodes
-
-            // Trigger asyncFetchFiles which will use all Countries passed as parameter
-            val currentDate = Date(System.currentTimeMillis())
-            lifecycleScope.launch {
-                CachedKeyFileHolder.asyncFetchFiles(currentDate, countryCodes)
-                updateCountryStatusLabel()
-            }
+            filterCountryCodes()
         }
 
         binding.buttonRetrieveDiagnosisKeysAndCalcRiskLevel.setOnClickListener {
-            lifecycleScope.launch {
-                val repeatCount =
-                    binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
+            startKeyRetrievalAndRiskCalcBenchmark()
+        }
+
+        binding.inputMeasureRiskKeyRepeatCount.setOnEditorActionListener { v, actionCode, event ->
+            if (actionCode == EditorInfo.IME_ACTION_DONE) {
+                startKeyRetrievalAndRiskCalcBenchmark()
+            }
+            false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        updateExposureSummaryDisplay(null)
+    }
+
+    private fun startKeyRetrievalAndRiskCalcBenchmark() {
+        lifecycleScope.launch {
+            val repeatCount =
+                binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
+            context?.let {
                 RiskLevelAndKeyRetrievalBenchmark(
-                    context,
+                    it,
                     lastSetCountries ?: listOf("DE")
                 ).start(repeatCount) { status ->
                     binding.labelTestApiMeasureCalcKeyStatus.text = status
@@ -300,10 +309,30 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun filterCountryCodes() {
+        hideKeyboard()
+        // Get user input country codes
+        val rawCountryCodes = binding.inputCountryCodesEditText.text.toString()
 
-        updateExposureSummaryDisplay(null)
+        // Country codes can be separated by space or ,
+        var countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
+
+        lastSetCountries = countryCodes
+
+        // Trigger asyncFetchFiles which will use all Countries passed as parameter
+        val currentDate = Date(System.currentTimeMillis())
+        lifecycleScope.launch {
+            CachedKeyFileHolder.asyncFetchFiles(currentDate, countryCodes)
+            updateCountryStatusLabel()
+        }
+    }
+
+    private fun hideKeyboard() {
+        activity?.currentFocus.let {
+            val inputManager =
+                context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(it?.windowToken, 0)
+        }
     }
 
     /**
