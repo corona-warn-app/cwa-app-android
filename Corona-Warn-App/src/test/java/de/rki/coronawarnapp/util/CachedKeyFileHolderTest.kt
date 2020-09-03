@@ -2,7 +2,9 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -69,13 +71,52 @@ class CachedKeyFileHolderTest {
                 CachedKeyFileHolder.asyncFetchFiles(date, countries)
                 CachedKeyFileHolder["getCountriesFromServer"](countries)
                 CachedKeyFileHolder["getDatesFromServer"](country)
-                CachedKeyFileHolder["asyncHandleFilesFetch"](listOf(CountryDataWrapper(country, listOf())))
+                CachedKeyFileHolder["asyncHandleFilesFetch"](
+                    listOf(
+                        CountryDataWrapper(
+                            country,
+                            listOf()
+                        )
+                    )
+                )
                 keyCacheRepository.deleteOutdatedEntries(any())
-                CachedKeyFileHolder["getMissingDaysFromDiff"](listOf(CountryDataWrapper(country, listOf() )))
+                CachedKeyFileHolder["getMissingDaysFromDiff"](
+                    listOf(
+                        CountryDataWrapper(
+                            country,
+                            listOf()
+                        )
+                    )
+                )
                 keyCacheRepository.getDates()
                 keyCacheRepository.getFilesFromEntries()
             }
         }
+    }
+
+    @Test
+    fun testGetMissingDaysFromDiff() {
+        val c1 = KeyCacheEntity()
+        c1.id = "10008bf0-8890-356d-a4a4-dc375553160a"
+        c1.path =
+            "/data/user/0/de.rki.coronawarnapp.dev/cache/key-export/10008bf0-8890-356d-a4a4-dc375553160a.zip"
+        c1.type = KeyCacheRepository.DateEntryType.DAY.ordinal
+
+        val c2 = KeyCacheEntity()
+        c2.id = "a8cc7b31-843e-3924-b918-023c386aec69"
+        c2.path =
+            "/data/user/0/de.rki.coronawarnapp.dev/cache/key-export/a8cc7b31-843e-3924-b918-023c386aec69.zip"
+        c2.type = KeyCacheRepository.DateEntryType.DAY.ordinal
+
+        val cacheEntries: Collection<KeyCacheEntity> = listOf(c1, c2)
+
+        val countryDataWrapper =
+            CountryDataWrapper("DE", listOf("2020-08-29", "2020-08-26", "2020-08-28"))
+
+        val result = countryDataWrapper.getMissingDates(cacheEntries)
+
+        result.size shouldBe 1
+        result.elementAt(0) shouldBe "2020-08-28"
     }
 
     @After
