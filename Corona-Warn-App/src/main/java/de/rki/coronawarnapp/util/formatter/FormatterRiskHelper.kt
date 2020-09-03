@@ -382,7 +382,10 @@ fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: 
             appContext.getString(R.string.risk_details_information_body_outdated_risk)
         RiskLevelConstants.LOW_LEVEL_RISK ->
             appContext.getString(
-                if (count > 0) R.string.risk_details_information_body_low_risk_with_encounter else R.string.risk_details_information_body_low_risk)
+                if (count > 0)
+                    R.string.risk_details_information_body_low_risk_with_encounter
+                else
+                    R.string.risk_details_information_body_low_risk)
         RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
             appContext.getString(R.string.risk_details_information_body_unknown_risk)
         else -> ""
