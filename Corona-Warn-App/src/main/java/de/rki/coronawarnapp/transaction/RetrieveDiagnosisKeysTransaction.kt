@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
@@ -118,6 +119,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    var onApiSubmissionStarted: (() -> Unit)? = null
+    var onApiSubmissionFinished: (() -> Unit)? = null
+
+    var onKeyFilesDownloadStarted: (() -> Unit)? = null
+    var onKeyFilesDownloadFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
+
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
@@ -135,8 +142,14 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
     }
 
-    /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecuteUnique {
+    /** initiates the transaction. This suspend function guarantees a successful transaction once completed.
+     * @param countries defines which countries (country codes) should be used. If not filled the
+     * country codes will be loaded from the ApplicationConfigurationService
+     */
+    suspend fun start(
+        requestedCountries: List<String>? = null
+    ) = lockAndExecuteUnique {
+
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
          * in a background job. Also it acts as a failure catch in case the orchestration code did
@@ -165,7 +178,33 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
-        val keyFiles = executeFetchKeyFilesFromServer(currentDate)
+        val countries = requestedCountries ?: ApplicationConfigurationService
+            .asyncRetrieveApplicationConfiguration()
+            .supportedCountriesList
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onKeyFilesDownloadStarted?.invoke()
+            onKeyFilesDownloadStarted = null
+        }
+
+        val keyFiles = executeFetchKeyFilesFromServer(
+            currentDate,
+            countries
+        )
+
+        if (CWADebug.isDebugBuildOrMode) {
+            val totalFileSize = keyFiles.fold(0L, { acc, file ->
+                file.length() + acc
+            })
+
+            onKeyFilesDownloadFinished?.invoke(keyFiles.size, totalFileSize)
+            onKeyFilesDownloadFinished = null
+        }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionStarted?.invoke()
+            onApiSubmissionStarted = null
+        }
 
         if (keyFiles.isNotEmpty()) {
             /****************************************************
@@ -175,10 +214,17 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         } else {
             Timber.tag(TAG).w("no key files, skipping submission to internal API.")
         }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionFinished?.invoke()
+            onApiSubmissionFinished = null
+        }
+
         /****************************************************
          * Fetch Date Update
          ****************************************************/
         executeFetchDateUpdate(currentDate)
+
         /****************************************************
          * CLOSE TRANSACTION
          ****************************************************/
@@ -252,10 +298,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date
+        currentDate: Date,
+        countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
         FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate)
+        CachedKeyFileHolder.asyncFetchFiles(currentDate, countries)
     }
 
     /**
