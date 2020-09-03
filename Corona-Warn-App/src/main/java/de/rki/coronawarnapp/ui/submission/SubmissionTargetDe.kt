@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -53,8 +54,9 @@ class SubmissionTargetDe : Fragment() {
                 binding.targetDe.targetDeBtnApply.target_de_apply,
                 binding.targetDe.targetDeBtnReject.target_de_reject
             )
+            val buttonNext = binding.submissionTargetDeButtonNext
 
-            changeState(constraintLayout, textView, initStateLayout, initStateTextView)
+            changeState(constraintLayout, textView, initStateLayout, initStateTextView, buttonNext)
         }
 
         binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
@@ -70,8 +72,9 @@ class SubmissionTargetDe : Fragment() {
                 binding.targetDe.targetDeBtnReject.target_de_reject,
                 binding.targetDe.targetDeBtnVerify.target_de_verify
             )
+            val buttonNext = binding.submissionTargetDeButtonNext
 
-            changeState(constraintLayout, textView, initStateLayout, initStateTextView)
+            changeState(constraintLayout, textView, initStateLayout, initStateTextView, buttonNext)
         }
 
         binding.targetDe.targetDeBtnReject.setOnClickListener {
@@ -83,16 +86,18 @@ class SubmissionTargetDe : Fragment() {
                 binding.targetDe.targetDeBtnApply.target_de_apply,
                 binding.targetDe.targetDeBtnVerify.target_de_verify
             )
+            val buttonNext = binding.submissionTargetDeButtonNext
 
-            changeState(constraintLayout, textView, initStateLayout, initStateTextView)
+            changeState(constraintLayout, textView, initStateLayout, initStateTextView, buttonNext)
         }
     }
 
-    private fun changeState(
+    fun changeState(
         constraintLayout: ConstraintLayout,
         textView: TextView,
         initStateLayout: Array<ConstraintLayout>,
-        initStateText: Array<TextView>
+        initStateText: Array<TextView>,
+        buttonNext: Button
     ) {
         val context = constraintLayout.context
         var color = context.getColorStateList(R.color.colorInterBtnNotPressed)
@@ -112,14 +117,9 @@ class SubmissionTargetDe : Fragment() {
             bNextBtnValue = true
         }
 
-        enableNextButton(bNextBtnValue)
+        buttonNext.isEnabled = bNextBtnValue
         constraintLayout.backgroundTintList = color
         textView.setTextColor(textColor)
-    }
-
-    private fun enableNextButton(bValue: Boolean) {
-        val nextButton = binding.submissionTargetDeButtonNext
-        nextButton.isEnabled = bValue
     }
 
     override fun onResume() {
