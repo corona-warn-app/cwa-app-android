@@ -119,8 +119,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
-    var onKeyFilesStarted: (() -> Unit)? = null
-    var onKeyFilesFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
+    var onApiSubmissionStarted: (() -> Unit)? = null
+    var onApiSubmissionFinished: (() -> Unit)? = null
+
+    var onKeyFilesDownloadStarted: (() -> Unit)? = null
+    var onKeyFilesDownloadFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
 
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
@@ -175,19 +178,32 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
-        if (CWADebug.isDebugBuildOrMode) {
-            onKeyFilesStarted?.invoke()
-            onKeyFilesStarted = null
-        }
-
         val countries = requestedCountries ?: ApplicationConfigurationService
             .asyncRetrieveApplicationConfiguration()
             .supportedCountriesList
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onKeyFilesDownloadStarted?.invoke()
+            onKeyFilesDownloadStarted = null
+        }
 
         val keyFiles = executeFetchKeyFilesFromServer(
             currentDate,
             countries
         )
+
+        if (CWADebug.isDebugBuildOrMode) {
+            val totalFileSize = keyFiles.fold(0L, { acc, file ->
+                file.length() + acc
+            })
+
+            onKeyFilesDownloadFinished?.invoke(keyFiles.size, totalFileSize)
+        }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionStarted?.invoke()
+            onApiSubmissionStarted = null
+        }
 
         if (keyFiles.isNotEmpty()) {
             /****************************************************
@@ -199,13 +215,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
 
         if (CWADebug.isDebugBuildOrMode) {
-            val totalFileSize = keyFiles.fold(0L, { acc, file ->
-                file.length() + acc
-            })
-            onKeyFilesFinished?.invoke(
-                keyFiles.size, totalFileSize
-            )
-            onKeyFilesFinished = null
+            onApiSubmissionFinished?.invoke()
+            onApiSubmissionFinished = null
         }
 
         /****************************************************

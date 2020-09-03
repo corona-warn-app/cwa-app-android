@@ -295,6 +295,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     }
 
     private fun startKeyRetrievalAndRiskCalcBenchmark() {
+        hideKeyboard()
         lifecycleScope.launch {
             val repeatCount =
                 binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
