@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.fragment
+package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,14 +17,12 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.TanConstants
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
-import kotlinx.android.synthetic.main.include_submission_tan.*
+import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_error
+import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_character_error
 
 /**
  * Fragment for TAN entry
