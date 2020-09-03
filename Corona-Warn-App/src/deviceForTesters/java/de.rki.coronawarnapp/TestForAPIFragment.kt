@@ -290,11 +290,10 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             lifecycleScope.launch {
                 val repeatCount =
                     binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
-                RiskLevelAndKeyRetrievalBenchmark.start(
+                RiskLevelAndKeyRetrievalBenchmark(
                     context,
-                    lastSetCountries ?: listOf("DE"),
-                    repeatCount
-                ) { status ->
+                    lastSetCountries ?: listOf("DE")
+                ).start(repeatCount) { status ->
                     binding.labelTestApiMeasureCalcKeyStatus.text = status
                 }
             }

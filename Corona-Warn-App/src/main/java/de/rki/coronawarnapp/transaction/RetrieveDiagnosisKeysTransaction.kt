@@ -199,14 +199,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
 
         if (CWADebug.isDebugBuildOrMode) {
-            var totalFileSize: Long = 0
-            keyFiles.also {
-                it.forEach { file ->
-                    totalFileSize += file.length()
-                }
-            }
+            val totalFileSize = keyFiles.fold(0L, { acc, file ->
+                file.length() + acc
+            })
             onKeyFilesFinished?.invoke(
-                keyFiles.size, totalFileSize)
+                keyFiles.size, totalFileSize
+            )
             onKeyFilesFinished = null
         }
 

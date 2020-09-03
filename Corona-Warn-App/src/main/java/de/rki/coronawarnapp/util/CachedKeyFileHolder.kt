@@ -162,27 +162,27 @@ object CachedKeyFileHolder {
                 countryWithDates.dates.contains(currentDateServerFormat)
             }
 
-        if (packagesWithCurrentDate.isNotEmpty()) {
-            return@withContext serverDates
-                .flatMap { countryWithDates ->
-                    getLast3Hours(currentDate)
-                        .map { hour ->
-                            countryWithDates.getURLForHour(currentDate.toServerFormat(), hour)
-                        }
-                        .map { url ->
-                            async {
-                                return@async WebRequestBuilder.getInstance()
-                                    .asyncGetKeyFilesFromServer(url)
-                            }
-                        }
-                }
-                .awaitAll()
-        } else {
+        if (packagesWithCurrentDate.isEmpty()) {
             throw IllegalStateException(
                 "you cannot use the last 3 hour mode if the date index " +
                         "does not contain any data for today"
             )
         }
+
+        return@withContext serverDates
+            .flatMap { countryWithDates ->
+                getLast3Hours(currentDate)
+                    .map { hour ->
+                        countryWithDates.getURLForHour(currentDate.toServerFormat(), hour)
+                    }
+                    .map { url ->
+                        async {
+                            return@async WebRequestBuilder.getInstance()
+                                .asyncGetKeyFilesFromServer(url)
+                        }
+                    }
+            }
+            .awaitAll()
     }
 
     /**

@@ -10,7 +10,10 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import timber.log.Timber
 import kotlin.system.measureTimeMillis
 
-object RiskLevelAndKeyRetrievalBenchmark {
+class RiskLevelAndKeyRetrievalBenchmark(
+    private val context: Context,
+    private val countries: List<String>
+) {
 
     /**
      * Calls the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction and measures them.
@@ -19,8 +22,6 @@ object RiskLevelAndKeyRetrievalBenchmark {
      * measured separately)
      */
     suspend fun start(
-        context: Context?,
-        countries: List<String>,
         callCount: Int,
         callback: (resultInfo: String) -> Unit
     ) {
@@ -58,9 +59,7 @@ object RiskLevelAndKeyRetrievalBenchmark {
             var calculationError = ""
 
             try {
-                measureKeyCalculation("#$index") {
-                    calculationDuration = it
-                }
+                calculationDuration = measureKeyCalculation("#$index")
             } catch (e: TransactionException) {
                 calculationError = e.message.toString()
             }
@@ -85,15 +84,14 @@ object RiskLevelAndKeyRetrievalBenchmark {
         }
     }
 
-    private suspend fun measureKeyCalculation(label: String, finished: (duration: Long) -> Unit) {
+    private suspend fun measureKeyCalculation(label: String): Long {
         try {
             Timber.v("MEASURE [Risk Level Calculation] $label started")
             // start risk level calculation and get duration
-            measureTimeMillis {
+            return measureTimeMillis {
                 RiskLevelTransaction.start()
             }.also {
                 Timber.v("MEASURE [Risk Level Calculation] $label finished")
-                finished(it)
             }
         } catch (e: TransactionException) {
             e.report(ExceptionCategory.INTERNAL)

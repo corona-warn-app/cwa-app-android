@@ -239,16 +239,15 @@
 
                 <EditText
                     android:id="@+id/input_country_codes_editText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.9" />
+                    android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/button_filter_country_codes"
                     style="@style/buttonPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
                     android:text="Apply" />
             </LinearLayout>
 
@@ -275,23 +274,23 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <EditText
+                    android:id="@+id/input_measure_risk_key_repeat_count"
+                    android:layout_width="98dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="1" />
+
                 <Button
                     android:id="@+id/button_retrieve_diagnosis_keys_and_calc_risk_level"
                     style="@style/buttonPrimary"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:layout_weight="1"
                     android:text="Measure: Calculate Risk Level / Key Retrieval" />
 
-                <EditText
-                    android:id="@+id/input_measure_risk_key_repeat_count"
-                    android:layout_width="98dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="number"
-                    android:text="1" />
 
             </LinearLayout>
 
@@ -299,7 +298,7 @@
                 android:id="@+id/label_test_api_measure_calc_key_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Result: "/>
+                android:text="Result: " />
 
             <TextView
                 style="@style/headline4"
