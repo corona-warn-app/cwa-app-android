@@ -396,6 +396,37 @@ object LocalData {
      *
      * @return Long
      */
+    fun nextTimeRateLimitingUnlocks(): Long? {
+        val time = getSharedPreferenceInstance().getLong(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_next_time_rate_limiting_unlocks),
+            0L
+        )
+        return Date(time).time
+    }
+
+    /**
+     * Sets the last time of successful risk level calculation as long
+     * from the EncryptedSharedPrefs
+     *
+     * @param value timestamp as Long
+     */
+    fun nextTimeRateLimitingUnlocks(value: Long?) {
+        getSharedPreferenceInstance().edit(true) {
+            putLong(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_next_time_rate_limiting_unlocks),
+                value ?: 0L
+            )
+        }
+    }
+
+    /**
+     * Gets the last time of successful risk level calculation as long
+     * from the EncryptedSharedPrefs
+     *
+     * @return Long
+     */
     fun lastTimeRiskLevelCalculation(): Long? {
         val time = getSharedPreferenceInstance().getLong(
             CoronaWarnApplication.getAppContext()

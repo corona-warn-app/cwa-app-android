@@ -97,20 +97,33 @@ object CachedKeyFileHolder {
             val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
             keyCache.deleteOutdatedEntries(uuidListFromServer)
             val missingDays = getMissingDaysFromDiff(serverDates)
+            val failedEntryCacheKeys = mutableListOf<String>()
             if (missingDays.isNotEmpty()) {
                 // we have a date difference
                 deferredQueries.addAll(
                     missingDays
                         .map { getURLForDay(it) }
-                        .map { url -> async { url.createDayEntryForUrl() } }
+                        .map { url ->
+                            val cacheKey = url.generateCacheKeyFromString()
+                            try {
+                                async {
+                                    url.createDayEntryForUrl(cacheKey)
+                                }
+                            } catch (e: Exception) {
+                                Timber.v("failed entry: $cacheKey")
+                                failedEntryCacheKeys.add(cacheKey)
+                                throw e
+                            }
+                        }
                 )
             }
             // execute the query plan
             try {
                 deferredQueries.awaitAll()
             } catch (e: Exception) {
+                Timber.v("${failedEntryCacheKeys.size} failed entries ")
                 // For an error we clear the cache to try again
-                keyCache.clear()
+                keyCache.clear(failedEntryCacheKeys)
                 throw e
             }
             keyCache.getFilesFromEntries()
@@ -161,8 +174,8 @@ object CachedKeyFileHolder {
      * Creates a date entry in the Key Cache for a given String with a unique Key Name derived from the URL
      * and the URI of the downloaded File for that given key
      */
-    private suspend fun String.createDayEntryForUrl() = keyCache.createEntry(
-        this.generateCacheKeyFromString(),
+    private suspend fun String.createDayEntryForUrl(cacheKey: String) = keyCache.createEntry(
+        cacheKey,
         WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
         DAY
     )
