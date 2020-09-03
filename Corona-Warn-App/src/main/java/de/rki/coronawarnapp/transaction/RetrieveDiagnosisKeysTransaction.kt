@@ -198,6 +198,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             })
 
             onKeyFilesDownloadFinished?.invoke(keyFiles.size, totalFileSize)
+            onKeyFilesDownloadFinished = null
         }
 
         if (CWADebug.isDebugBuildOrMode) {
