@@ -194,6 +194,7 @@ class FormatterRiskHelperTest {
     private fun formatRiskDetailsRiskLevelBodyBase(
         iRiskLevelScore: Int?,
         iDaysSinceLastExposure: Int?,
+        iMatchedKeysCount: Int?,
         sValue: String
     ) {
         every { context.getString(R.string.risk_details_information_body_outdated_risk) } returns R.string.risk_details_information_body_outdated_risk.toString()
@@ -202,7 +203,8 @@ class FormatterRiskHelperTest {
 
         val result = formatRiskDetailsRiskLevelBody(
             riskLevelScore = iRiskLevelScore,
-            daysSinceLastExposure = iDaysSinceLastExposure
+            daysSinceLastExposure = iDaysSinceLastExposure,
+            matchedKeysCount = iMatchedKeysCount
         )
         assertThat(
             result, `is`(sValue)
@@ -1056,11 +1058,13 @@ class FormatterRiskHelperTest {
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = null,
             iDaysSinceLastExposure = 0,
+            iMatchedKeysCount = 0,
             sValue = ""
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = resources.getQuantityString(
                 R.plurals.risk_details_information_body_increased_risk,
                 1,
@@ -1070,28 +1074,34 @@ class FormatterRiskHelperTest {
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_outdated_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = ""
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_low_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_unknown_risk)
         )
 
-        formatRiskDetailsRiskLevelBodyBase(iRiskLevelScore = null, iDaysSinceLastExposure = null, sValue = "")
+        formatRiskDetailsRiskLevelBodyBase(iRiskLevelScore = null, iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0, sValue = "")
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = resources.getQuantityString(
                 R.plurals.risk_details_information_body_increased_risk,
                 0,
@@ -1101,21 +1111,25 @@ class FormatterRiskHelperTest {
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_outdated_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = ""
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_low_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_unknown_risk)
         )
     }
