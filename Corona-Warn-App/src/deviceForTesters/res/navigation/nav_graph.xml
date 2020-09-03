@@ -190,7 +190,7 @@
 
     <fragment
         android:id="@+id/submissionDispatcherFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionDispatcherFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment"
         android:label="fragment_submission_dispatcher"
         tools:layout="@layout/fragment_submission_dispatcher">
         <action
@@ -205,7 +205,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionResultPositiveOtherWarningFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionResultPositiveOtherWarningFragment"
         android:label="fragment_submission_result_positive_other_warning"
         tools:layout="@layout/fragment_submission_positive_other_warning">
         <action
@@ -221,7 +221,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionTestResultFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment"
         android:label="fragment_submission_result"
         tools:layout="@layout/fragment_submission_test_result">
         <argument
@@ -240,7 +240,7 @@
 
     <fragment
         android:id="@+id/submissionTanFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionTanFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment"
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
@@ -257,7 +257,7 @@
 
     <fragment
         android:id="@+id/submissionIntroFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionIntroFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment"
         android:label="SubmissionIntroFragment">
         <action
             android:id="@+id/action_submissionIntroFragment_to_mainFragment"
@@ -278,7 +278,7 @@
     </activity>
     <fragment
         android:id="@+id/submissionQRCodeScanFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionQRCodeScanFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment"
         android:label="SubmissionQRCodeScanFragment">
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
@@ -297,7 +297,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionDoneFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionDoneFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment"
         android:label="SubmissionDoneFragment">
         <action
             android:id="@+id/action_submissionDoneFragment_to_mainFragment"
@@ -307,7 +307,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionContactFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionContactFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment"
         android:label="SubmissionContactFragment">
         <action
             android:id="@+id/action_submissionContactFragment_to_submissionTanFragment"
