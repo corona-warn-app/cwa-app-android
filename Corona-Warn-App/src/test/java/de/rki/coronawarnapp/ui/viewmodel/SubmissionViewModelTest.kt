@@ -1,10 +1,14 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import org.junit.Assert
@@ -19,10 +23,24 @@ class SubmissionViewModelTest {
     @Rule
     var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @MockK
+    private lateinit var webRequestBuilder: WebRequestBuilder
+
+    @MockK
+    private lateinit var backgroundNoise: BackgroundNoise
+
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
+
         mockkObject(LocalData)
         every { LocalData.testGUID(any()) } just Runs
+
+        mockkObject(WebRequestBuilder.Companion)
+        every { WebRequestBuilder.getInstance() } returns webRequestBuilder
+
+        mockkObject(BackgroundNoise.Companion)
+        every { BackgroundNoise.getInstance() } returns backgroundNoise
     }
 
     @Test

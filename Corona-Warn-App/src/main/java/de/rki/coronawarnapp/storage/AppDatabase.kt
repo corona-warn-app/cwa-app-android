@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.storage
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import androidx.annotation.VisibleForTesting
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -39,6 +40,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun resetInstance() = synchronized(this) {
             instance = null
         }

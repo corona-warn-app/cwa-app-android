@@ -9,14 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.PowerManagementHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.launch
 
 /**
  * This activity holds all the fragments (except onboarding) and also registers a listener for
@@ -96,6 +99,13 @@ class MainActivity : AppCompatActivity() {
         settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.autoModeEnabled(this))
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
+        doBackgroundNoiseCheck()
+    }
+
+    private fun doBackgroundNoiseCheck() {
+        lifecycleScope.launch {
+            BackgroundNoise.getInstance().foregroundScheduleCheck()
+        }
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {
