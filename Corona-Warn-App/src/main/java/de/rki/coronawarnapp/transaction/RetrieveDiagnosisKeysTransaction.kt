@@ -19,9 +19,7 @@
 
 package de.rki.coronawarnapp.transaction
 
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationStatusCodes
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.FileStorageHelper
@@ -36,12 +34,15 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.GoogleQuotaCalculator
+import de.rki.coronawarnapp.util.QuotaCalculator
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.LocalTime
+import org.joda.time.chrono.GJChronology
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -124,16 +125,25 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         AppInjector.component.transRetrieveKeysInjection.transactionScope
     }
 
+    private const val QUOTA_RESET_PERIOD_IN_HOURS = 24
+
+    private val quotaCalculator: QuotaCalculator = GoogleQuotaCalculator(
+        incrementByAmount = 14,
+        quotaLimit = 20,
+        quotaResetPeriod = Duration.standardHours(QUOTA_RESET_PERIOD_IN_HOURS.toLong()),
+        quotaTimeZone = DateTimeZone.UTC,
+        quotaChronology = GJChronology.getInstanceUTC()
+    )
+
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
             LocalData.lastTimeDiagnosisKeysFromServerFetch(),
             DateTimeZone.UTC
         )
-        val nextTimeRateLimitingUnlocks =
-            DateTime(LocalData.nextTimeRateLimitingUnlocks(), DateTimeZone.UTC)
-        if (currentDate.isBefore(nextTimeRateLimitingUnlocks)) {
-            Timber.v("Rate Limiting unlocks at $nextTimeRateLimitingUnlocks, current is $currentDate")
+
+        // When we are above the Quote, cancel the execution
+        if (quotaCalculator.isAboveQuota()) {
             return
         }
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
@@ -273,20 +283,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        try {
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                exportFiles,
-                exposureConfiguration,
-                token
-            )
-        } catch (e: Exception) {
-            if (e is ApiException && e.status.statusCode == ExposureNotificationStatusCodes.FAILED_RATE_LIMITED) {
-                val rateLimitedTime = DateTime(Instant.now(), DateTimeZone.UTC)
-                val nextTimeRateLimitingUnlocks = rateLimitedTime.withTime(LocalTime.MIDNIGHT)
-                LocalData.nextTimeRateLimitingUnlocks(nextTimeRateLimitingUnlocks.millis)
-            }
-            throw e
-        }
+        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+            exportFiles,
+            exposureConfiguration,
+            token
+        )
         Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 

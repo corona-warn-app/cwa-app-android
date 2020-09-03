@@ -37,6 +37,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.util.Collections
 import java.util.Date
 import java.util.UUID
 
@@ -97,7 +98,7 @@ object CachedKeyFileHolder {
             val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
             keyCache.deleteOutdatedEntries(uuidListFromServer)
             val missingDays = getMissingDaysFromDiff(serverDates)
-            val failedEntryCacheKeys = mutableListOf<String>()
+            val failedEntryCacheKeys = Collections.synchronizedList(mutableListOf<String>())
             if (missingDays.isNotEmpty()) {
                 // we have a date difference
                 deferredQueries.addAll(
@@ -105,27 +106,22 @@ object CachedKeyFileHolder {
                         .map { getURLForDay(it) }
                         .map { url ->
                             val cacheKey = url.generateCacheKeyFromString()
-                            try {
-                                async {
+                            async {
+                                try {
                                     url.createDayEntryForUrl(cacheKey)
+                                } catch (e: Exception) {
+                                    Timber.v("failed entry: $cacheKey")
+                                    failedEntryCacheKeys.add(cacheKey)
                                 }
-                            } catch (e: Exception) {
-                                Timber.v("failed entry: $cacheKey")
-                                failedEntryCacheKeys.add(cacheKey)
-                                throw e
                             }
                         }
                 )
             }
             // execute the query plan
-            try {
-                deferredQueries.awaitAll()
-            } catch (e: Exception) {
-                Timber.v("${failedEntryCacheKeys.size} failed entries ")
-                // For an error we clear the cache to try again
-                keyCache.clear(failedEntryCacheKeys)
-                throw e
-            }
+            deferredQueries.awaitAll()
+            Timber.v("${failedEntryCacheKeys.size} failed entries ")
+            // For an error we clear the cache to try again
+            keyCache.clear(failedEntryCacheKeys)
             keyCache.getFilesFromEntries()
                 .also { it.forEach { file -> Timber.v("cached file:${file.path}") } }
         }
