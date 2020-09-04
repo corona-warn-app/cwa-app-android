@@ -9,6 +9,9 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.ActionOnlyNavDirections
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -16,6 +19,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -76,6 +80,15 @@ class SettingsTracingFragment : Fragment(),
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+
+        binding.settingsInteroperabilityRow.settingsRow.setOnClickListener {
+            findNavController()
+                .doNavigate(
+                    ActionOnlyNavDirections(
+                        R.id.action_settingsTracingFragment_to_interopCountryConfigurationFragment
+                    )
+                )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

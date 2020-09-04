@@ -1153,4 +1153,38 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+
+    <string name="country_name_at">Österreich</string>
+    <string name="country_name_be">Belgien</string>
+    <string name="country_name_bg">Bulgarien</string>
+    <string name="country_name_ch">Schweiz</string>
+    <string name="country_name_cy">Zypern</string>
+    <string name="country_name_cz">Tschechien</string>
+    <string name="country_name_de">Deutschland</string>
+    <string name="country_name_dk">Dänemark</string>
+    <string name="country_name_ee">Estland</string>
+    <string name="country_name_es">Spanien</string>
+    <string name="country_name_fi">Finland</string>
+    <string name="country_name_fr">Frankreich</string>
+    <string name="country_name_uk">Großbritannien</string>
+    <string name="country_name_gr">Griechenland</string>
+    <string name="country_name_hr">kroatien</string>
+    <string name="country_name_hu">Ungarn</string>
+    <string name="country_name_ie">Irland</string>
+    <string name="country_name_is">Island</string>
+    <string name="country_name_it">Italien</string>
+    <string name="country_name_li">Liechtenstein</string>
+    <string name="country_name_lt">Litauen</string>
+    <string name="country_name_lu">Luxemburg</string>
+    <string name="country_name_lv">Lettland</string>
+    <string name="country_name_mt">Malta</string>
+    <string name="country_name_nl">Niederlande</string>
+    <string name="country_name_no">Norwegen</string>
+    <string name="country_name_pl">Polen</string>
+    <string name="country_name_pt">Portugal</string>
+    <string name="country_name_ro">Rumänien</string>
+    <string name="country_name_se">Schweden</string>
+    <string name="country_name_si">Slowenien</string>
+    <string name="country_name_sk">slowakei</string>
+
 </resources>

@@ -82,13 +82,24 @@
         android:id="@+id/settingsTracingFragment"
         android:name="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
-        tools:layout="@layout/fragment_settings_tracing" />
+        tools:layout="@layout/fragment_settings_tracing" >
+        <action
+            android:id="@+id/action_settingsTracingFragment_to_interopCountryConfigurationFragment"
+            app:destination="@id/interopCountryConfigurationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/interopCountryConfigurationFragment"
+        android:name="de.rki.coronawarnapp.ui.interoperability.InteropCountryConfigurationFragment"
+        android:label="InteropCountryConfigurationFragment"
+        tools:layout="@layout/fragment_interoperability_configuration"/>
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
         android:name="de.rki.coronawarnapp.ui.settings.SettingsNotificationFragment"
         android:label="SettingsNotificationFragment"
-        tools:layout="@layout/fragment_settings_notifications" />
+        tools:layout="@layout/fragment_settings_notifications" >
+    </fragment>
 
     <fragment
         android:id="@+id/settingsBackgroundPriorityFragment"

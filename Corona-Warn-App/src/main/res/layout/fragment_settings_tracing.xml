@@ -20,10 +20,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_tracing_container"
-        android:contentDescription="@string/settings_tracing_title"
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/settings_tracing_title"
+        android:focusable="true">
 
         <include
             android:id="@+id/settings_tracing_header"
@@ -76,6 +76,21 @@
                     app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
+                <include
+                    android:id="@+id/settings_interoperability_row"
+                    layout="@layout/include_setting_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    app:body="@{@string/settings_notifications_body_description}"
+                    app:color="@{FormatterSettingsHelper.formatNotificationIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:icon="@{FormatterSettingsHelper.formatNotificationIcon(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"
+                    app:showDivider="@{true}"
+                    app:statusText="@{FormatterSettingsHelper.formatNotificationsStatusText(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:tracingViewModel="@{tracingViewModel}" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"
                     android:layout_width="@dimen/match_constraint"
@@ -83,7 +98,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_tracing_switch_row">
+                    app:layout_constraintTop_toBottomOf="@id/settings_interoperability_row">
 
                     <include
                         android:id="@+id/settings_tracing_status_location"
@@ -137,8 +152,8 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tracingViewModel="@{tracingViewModel}"
-                        app:riskLevel="@{tracingViewModel.riskLevel}" />
+                        app:riskLevel="@{tracingViewModel.riskLevel}"
+                        app:tracingViewModel="@{tracingViewModel}" />
 
                     <include layout="@layout/merge_guidelines_card" />
 
@@ -161,8 +176,8 @@
                         style="@style/body1"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_tracing_body_text"
                         android:focusable="true"
+                        android:text="@string/settings_tracing_body_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

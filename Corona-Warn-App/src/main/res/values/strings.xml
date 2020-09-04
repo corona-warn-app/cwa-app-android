@@ -1156,4 +1156,37 @@
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
     <!-- NOTR -->
     <string name="test_api_switch_background_notifications">"Background Notifications"</string>
+
+    <string name="country_name_at"></string>
+    <string name="country_name_be"></string>
+    <string name="country_name_bg"></string>
+    <string name="country_name_ch"></string>
+    <string name="country_name_cy"></string>
+    <string name="country_name_cz"></string>
+    <string name="country_name_de"></string>
+    <string name="country_name_dk"></string>
+    <string name="country_name_ee"></string>
+    <string name="country_name_es"></string>
+    <string name="country_name_fi"></string>
+    <string name="country_name_fr"></string>
+    <string name="country_name_uk"></string>
+    <string name="country_name_gr"></string>
+    <string name="country_name_hr"></string>
+    <string name="country_name_hu"></string>
+    <string name="country_name_ie"></string>
+    <string name="country_name_is"></string>
+    <string name="country_name_it"></string>
+    <string name="country_name_li"></string>
+    <string name="country_name_lt"></string>
+    <string name="country_name_lu"></string>
+    <string name="country_name_lv"></string>
+    <string name="country_name_mt"></string>
+    <string name="country_name_nl"></string>
+    <string name="country_name_no"></string>
+    <string name="country_name_pl"></string>
+    <string name="country_name_pt"></string>
+    <string name="country_name_ro"></string>
+    <string name="country_name_se"></string>
+    <string name="country_name_si"></string>
+    <string name="country_name_sk"></string>
 </resources>
