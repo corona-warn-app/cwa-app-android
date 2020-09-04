@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/target_de_layout"
-        style="@style/targetDe"
+        android:id="@+id/target_layout"
+        style="@style/targetLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/target_de_layout_header"
+            android:id="@+id/target_layout_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -18,14 +18,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/target_de_layout_header_headline"
+                android:id="@+id/target_layout_header_headline"
                 style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
-                android:contentDescription="@{@string/target_de_text_subtitle}"
-                android:text="@{@string/target_de_text_subtitle}"
+                android:contentDescription="@{@string/target_text_subtitle}"
+                android:text="@{@string/target_text_subtitle}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,22 +33,22 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/target_de_btn_apply"
-            style="@style/targetDeButtonNotPressed"
+            android:id="@+id/target_button_apply"
+            style="@style/greenButtonNotPressed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_de_layout_header">
+            app:layout_constraintTop_toBottomOf="@+id/target_layout_header">
 
             <TextView
-                android:id="@+id/target_de_apply"
+                android:id="@+id/target_apply"
                 style="@style/headline6"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:text="@{@string/target_de_text_btn1}"
+                android:text="@{@string/target_text_button_apply}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,22 +56,22 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/target_de_btn_reject"
-            style="@style/targetDeButtonNotPressed"
+            android:id="@+id/target_button_reject"
+            style="@style/greenButtonNotPressed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_de_btn_apply">
+            app:layout_constraintTop_toBottomOf="@+id/target_button_apply">
 
             <TextView
-                android:id="@+id/target_de_reject"
+                android:id="@+id/target_reject"
                 style="@style/headline6"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:text="@{@string/target_de_text_btn2}"
+                android:text="@{@string/target_text_button_reject}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -79,22 +79,22 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/target_de_btn_verify"
-            style="@style/targetDeButtonNotPressed"
+            android:id="@+id/target_button_verify"
+            style="@style/greenButtonNotPressed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_de_btn_reject">
+            app:layout_constraintTop_toBottomOf="@+id/target_button_reject">
 
             <TextView
-                android:id="@+id/target_de_verify"
+                android:id="@+id/target_verify"
                 style="@style/headline6"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:text="@{@string/target_de_text_btn3}"
+                android:text="@{@string/target_text_button_verify}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -102,15 +102,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/target_de_layout_body_notice"
+            android:id="@+id/target_layout_body_notice"
             style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@{@string/target_de_text_notice}"
+            android:text="@{@string/target_text_notice}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_de_btn_verify" />
+            app:layout_constraintTop_toBottomOf="@+id/target_button_verify" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

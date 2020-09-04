@@ -367,25 +367,6 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
 
-
-    <!-- ####################################
-              Target de
-    ###################################### -->
-
-    <!-- XBUT: onboarding - forward and deny -->
-    <string name="target_de_text_subtitle">"Haben Sie sich in den letzten 14 Tagen außerhalb von Deutschland aufgehalten?"</string>
-    <string name="target_de_text_notice">"Ihre Angabe dient lediglich der Optimierung des Datenvolumens."</string>
-    <string name="target_de_text_btn1">"Ja"</string>
-    <string name="target_de_text_btn2">"Nein"</string>
-    <string name="target_de_text_btn3">"Keine Angabe"</string>
-    <string name="target_de_text_next">"WEITER"</string>
-    <string name="target_de_text_back">"Europaweit warnen"</string>
-    <string name="target_de_verify_dialog_headline">"Headline"</string>
-    <string name="target_de_verify_dialog_body">"Are you sure?"</string>
-    <string name="target_de_verify_dialog_apply">"Apply"</string>
-    <string name="target_de_verify_dialog_cancel">"Back"</string>
-    <string name="submission_target_de_title">"Submission target > de title"</string>
-
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -1064,6 +1045,18 @@
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
+    <string name="target_text_subtitle" />
+    <string name="target_text_notice" />
+    <string name="target_text_button_apply" />
+    <string name="target_text_button_reject" />
+    <string name="target_text_button_verify" />
+    <string name="target_text_next" />
+    <string name="target_text_back" />
+    <string name="target_verify_dialog_headline" />
+    <string name="target_verify_dialog_body" />
+    <string name="target_verify_dialog_apply" />
+    <string name="target_verify_dialog_cancel" />
+    <string name="submission_target_title" />
 
     <!-- ####################################
           Button Tooltips for Accessibility

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_container"
+        android:id="@+id/submission_target_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/submission_target_de_title"
+        android:contentDescription="@string/submission_target_title"
         android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.submission.SubmissionTargetDe">
+        tools:context="de.rki.coronawarnapp.ui.submission.SubmissionTarget">
 
         <include
-            android:id="@+id/information_about_header"
+            android:id="@+id/submission_target_header"
             layout="@layout/include_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -20,11 +20,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/target_de_text_back}" />
+            app:title="@{@string/target_text_back}" />
 
         <include
-            android:id="@+id/target_de"
-            layout="@layout/include_target_de"
+            android:id="@+id/target"
+            layout="@layout/include_target"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:focusable="true"
@@ -33,17 +33,15 @@
             app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
 
         <Button
-            android:id="@+id/submission_target_de_button_next"
+            android:id="@+id/submission_target_button_next"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="@string/target_de_text_next"
+            android:text="@string/target_text_next"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />
-
-        <!--        </ScrollView>-->
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"

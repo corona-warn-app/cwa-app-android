@@ -1044,6 +1044,18 @@
         <item>"Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen."</item>
         <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
     </string-array>
+    <string name="target_text_subtitle">"Haben Sie sich in den letzten 14 Tagen außerhalb von Deutschland aufgehalten?"</string>
+    <string name="target_text_notice">"Ihre Angabe dient lediglich der Optimierung des Datenvolumens."</string>
+    <string name="target_text_button_apply">"Ja"</string>
+    <string name="target_text_button_reject">"Nein"</string>
+    <string name="target_text_button_verify">"Keine Angabe"</string>
+    <string name="target_text_next">"WEITER"</string>
+    <string name="target_text_back">"Europaweit warnen"</string>
+    <string name="target_verify_dialog_headline">"Headline"</string>
+    <string name="target_verify_dialog_body">"Are you sure?"</string>
+    <string name="target_verify_dialog_apply">"Apply"</string>
+    <string name="target_verify_dialog_cancel">"Back"</string>
+    <string name="submission_target_title">"Submission target > de title"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
