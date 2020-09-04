@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.databinding.FragmentSettingsBackgroundPriorityBinding
+import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -67,7 +68,7 @@ class SettingsBackgroundPriorityFragment : Fragment() {
 
                 if (!isPriorityEnabled) {
                     (requireActivity() as MainActivity).apply {
-                        startActivity(powerManagement.disableBatteryOptimizationsIntent)
+                        startActivitySafely(powerManagement.disableBatteryOptimizationsIntent)
                     }
                 }
             }

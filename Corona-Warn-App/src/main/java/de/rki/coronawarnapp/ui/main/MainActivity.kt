@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -130,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             R.string.onboarding_energy_optimized_dialog_button_negative,
             false, {
                 // go to battery optimization
-                startActivity(powerManagement.disableBatteryOptimizationsIntent)
+                startActivitySafely(powerManagement.disableBatteryOptimizationsIntent)
             }, {
                 // keep battery optimization enabled
                 showManualCheckingRequiredDialog()
