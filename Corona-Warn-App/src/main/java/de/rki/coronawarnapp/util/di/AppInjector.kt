@@ -3,9 +3,10 @@ package de.rki.coronawarnapp.util.di
 import de.rki.coronawarnapp.CoronaWarnApplication
 
 object AppInjector {
+    lateinit var component: ApplicationComponent
+
     fun init(app: CoronaWarnApplication) {
-        DaggerApplicationComponent.factory()
-            .create(app)
-            .inject(app)
+        component = DaggerApplicationComponent.factory().create(app)
+        component.inject(app)
     }
 }

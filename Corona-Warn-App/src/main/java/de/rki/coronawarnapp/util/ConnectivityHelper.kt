@@ -15,6 +15,7 @@ import android.os.Build
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 
 /**
@@ -22,6 +23,10 @@ import timber.log.Timber
  */
 object ConnectivityHelper {
     private val TAG: String? = ConnectivityHelper::class.simpleName
+
+    private val backgroundPrioritization by lazy {
+        AppInjector.component.connectivityHelperInjection.backgroundPrioritization
+    }
 
     /**
      * Register bluetooth state change listener.
@@ -81,30 +86,30 @@ object ConnectivityHelper {
      *
      */
     fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
-            val receiver = object : BroadcastReceiver() {
-                var isGpsEnabled: Boolean = false
-                var isNetworkEnabled: Boolean = false
+        val receiver = object : BroadcastReceiver() {
+            var isGpsEnabled: Boolean = false
+            var isNetworkEnabled: Boolean = false
 
-                override fun onReceive(context: Context, intent: Intent) {
-                    intent.action?.let { act ->
-                        if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
-                            val locationManager =
-                                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                            isGpsEnabled =
-                                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                            isNetworkEnabled =
-                                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            override fun onReceive(context: Context, intent: Intent) {
+                intent.action?.let { act ->
+                    if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
+                        val locationManager =
+                            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                        isGpsEnabled =
+                            locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                        isNetworkEnabled =
+                            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-                            if (isGpsEnabled || isNetworkEnabled) {
-                                callback.onLocationAvailable()
-                                Timber.d("Location enabled")
-                            } else {
-                                callback.onLocationUnavailable()
-                                Timber.d("Location disabled")
-                            }
+                        if (isGpsEnabled || isNetworkEnabled) {
+                            callback.onLocationAvailable()
+                            Timber.d("Location enabled")
+                        } else {
+                            callback.onLocationUnavailable()
+                            Timber.d("Location disabled")
                         }
                     }
                 }
+            }
         }
         callback.recevier = receiver
         context.registerReceiver(
@@ -200,7 +205,7 @@ object ConnectivityHelper {
     }
 
     /**
-     * Background jobs are enabled only if the battery optimization is enabled and
+     * Background jobs are enabled only if the background activity prioritization is enabled and
      * the background activity is not restricted
      *
      * @param context the context
@@ -210,7 +215,7 @@ object ConnectivityHelper {
      * @see isBackgroundRestricted
      */
     fun autoModeEnabled(context: Context): Boolean {
-        return !isBackgroundRestricted(context) || PowerManagementHelper.isIgnoringBatteryOptimizations(context)
+        return !isBackgroundRestricted(context) || backgroundPrioritization.isBackgroundActivityPrioritized
     }
 
     /**
@@ -290,6 +295,7 @@ object ConnectivityHelper {
          */
         abstract fun onLocationUnavailable()
     }
+
     /**
      * Abstract network state change callback.
      *

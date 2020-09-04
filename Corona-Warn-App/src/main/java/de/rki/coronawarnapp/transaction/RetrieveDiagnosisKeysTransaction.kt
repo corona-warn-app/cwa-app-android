@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollbac
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -119,6 +120,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    private val transactionScope: TransactionCoroutineScope by lazy {
+        AppInjector.component.transRetrieveKeysInjection.transactionScope
+    }
+
     var onApiSubmissionStarted: (() -> Unit)? = null
     var onApiSubmissionFinished: (() -> Unit)? = null
 
@@ -148,7 +153,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      */
     suspend fun start(
         requestedCountries: List<String>? = null
-    ) = lockAndExecuteUnique {
+    ) = lockAndExecute(unique = true, scope = transactionScope) {
 
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
@@ -158,7 +163,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         if (!InternalExposureNotificationClient.asyncIsEnabled()) {
             Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
             executeClose()
-            return@lockAndExecuteUnique
+            return@lockAndExecute
         }
         /****************************************************
          * INIT TRANSACTION
@@ -317,13 +322,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        exportFiles.forEach { batch ->
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                listOf(batch),
-                exposureConfiguration,
-                token
-            )
-        }
+        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+            exportFiles,
+            exposureConfiguration,
+            token
+        )
         Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 

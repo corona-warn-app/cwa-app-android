@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
-import de.rki.coronawarnapp.util.PowerManagementHelper
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -99,7 +98,6 @@ class SettingsTracingFragment : Fragment(),
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
-        val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
@@ -117,15 +115,12 @@ class SettingsTracingFragment : Fragment(),
                 tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
             val isBluetoothEnabled =
                 settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
-            val isConnectionEnabled =
-                settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
             val isLocationEnabled =
                 settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
             // check if the row is clickable, this adds the switch behaviour
             val isEnabled = formatTracingSwitchEnabled(
                 isTracingEnabled,
                 isBluetoothEnabled,
-                isConnectionEnabled,
                 isLocationEnabled
             )
             if (isEnabled) startStopTracing()
@@ -138,9 +133,6 @@ class SettingsTracingFragment : Fragment(),
         }
         location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
-        }
-        connection.setOnClickListener {
-            ExternalActionHelper.toConnections(requireContext())
         }
     }
 
@@ -162,7 +154,8 @@ class SettingsTracingFragment : Fragment(),
                         // activated during onboarding
                         showConsentDialog()
                         // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
-                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+                        val activity = requireActivity() as MainActivity
+                        if (!activity.backgroundPrioritization.isBackgroundActivityPrioritized) {
                             showManualCheckingRequiredDialog()
                         }
                     }
