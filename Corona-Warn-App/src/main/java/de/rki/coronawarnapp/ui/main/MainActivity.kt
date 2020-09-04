@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
             R.string.onboarding_energy_optimized_dialog_button_negative,
             false, {
                 // go to battery optimization
-                powerManagement.disableBatteryOptimizations()
+                startActivity(powerManagement.disableBatteryOptimizationsIntent)
             }, {
                 // keep battery optimization enabled
                 showManualCheckingRequiredDialog()

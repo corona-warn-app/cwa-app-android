@@ -66,8 +66,9 @@ class SettingsBackgroundPriorityFragment : Fragment() {
                 val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
 
                 if (!isPriorityEnabled) {
-                    val activity = requireActivity() as MainActivity
-                    activity.powerManagement.disableBatteryOptimizations()
+                    (requireActivity() as MainActivity).apply {
+                        startActivity(powerManagement.disableBatteryOptimizationsIntent)
+                    }
                 }
             }
         }
