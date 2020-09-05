@@ -5,7 +5,7 @@ Before submitting, please take the time to check the points below and provide so
 Remove the checklist after fulfilling all the relevant points, and before creating the PR, thank you.
 -->
 
-## Checklist
+### Checklist
 
 __Thank you for this this PR! Please consider the following:__
 
@@ -23,17 +23,18 @@ __Thank you for this this PR! Please consider the following:__
    * Short step by step instructions help the reviewer test your changes, e.g. how to navigate to a new UI element you added.
    * The PR _won't be reviewed_ if CircleCi is failing or if there are merge conflicts. If Circle CI is still failing mark the PR as a draft and write a little comment on your status.
    * Provide at least a few tests unit or instrumentation tests.
-   * Use the following prefixes for your branch: `fix`/`feature`, e.g. `feature/meaningful-name`
+   * Use a meaning full branch name. Use either `fix` or `feature` as prefix for your branch, e.g. `fix/prevent-npe-on-device-rotation-issue_123`
    * Test your changes thoroughly. Only open PRs which you think is ready to be merged. If you explicitly need feedback mark the PR as `DRAFT` on Github.
    * Don't introduce unrelated code reformatting (e.g., on-save hooks in your IDE)
+   * Remove this checklist before creating your pull request.
 
-## Description
+### Description
 
 <!-- 
 Please be brief in describing which issue is solved by your PR or which enhancement it brings. Link related issues!
 -->
 
-## Steps to reproduce
+### Steps to reproduce
 <!--
 How can your changes be tested?
 1. First step
