@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * ViewModel for everything settings related.
@@ -12,23 +12,24 @@ import de.rki.coronawarnapp.storage.SettingsRepository
  */
 class SettingsViewModel : ViewModel() {
 
-    val isNotificationsEnabled: LiveData<Boolean> = SettingsRepository.isNotificationsEnabled
+    private val settingsRepository by lazy {
+        AppInjector.component.settingsRepository
+    }
+
+    val isNotificationsEnabled: LiveData<Boolean> = settingsRepository.isNotificationsEnabled
     val isNotificationsRiskEnabled: LiveData<Boolean> =
-        SettingsRepository.isNotificationsRiskEnabled
+        settingsRepository.isNotificationsRiskEnabled
     val isNotificationsTestEnabled: LiveData<Boolean> =
-        SettingsRepository.isNotificationsTestEnabled
-    val isConnectionEnabled: LiveData<Boolean> =
-        SettingsRepository.isConnectionEnabled
-    val isBluetoothEnabled: LiveData<Boolean> =
-        SettingsRepository.isBluetoothEnabled
-    val isLocationEnabled: LiveData<Boolean> =
-        SettingsRepository.isLocationEnabled
+        settingsRepository.isNotificationsTestEnabled
+    val isConnectionEnabled: LiveData<Boolean> = settingsRepository.isConnectionEnabled
+    val isBluetoothEnabled: LiveData<Boolean> = settingsRepository.isBluetoothEnabled
+    val isLocationEnabled: LiveData<Boolean> = settingsRepository.isLocationEnabled
 
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
-    val isBackgroundJobEnabled: LiveData<Boolean> = SettingsRepository.isBackgroundJobEnabled
+    val isBackgroundJobEnabled: LiveData<Boolean> = settingsRepository.isBackgroundJobEnabled
 
     val isBackgroundPriorityEnabled: LiveData<Boolean> =
-        SettingsRepository.isBackgroundPriorityEnabled
+        settingsRepository.isBackgroundPriorityEnabled
 
     /**
      * Is manual key retrieval enabled
@@ -37,14 +38,14 @@ class SettingsViewModel : ViewModel() {
      * @see SettingsRepository.isManualKeyRetrievalEnabled
      */
     val isManualKeyRetrievalEnabled: LiveData<Boolean> =
-        SettingsRepository.isManualKeyRetrievalEnabled
+        settingsRepository.isManualKeyRetrievalEnabled
 
     /**
      * Manual update button timer value
      *
      * @see SettingsRepository.manualKeyRetrievalTime
      */
-    val manualKeyRetrievalTime: LiveData<Long> = SettingsRepository.manualKeyRetrievalTime
+    val manualKeyRetrievalTime: LiveData<Long> = settingsRepository.manualKeyRetrievalTime
 
     /**
      * Refresher and toggles for settings
@@ -56,32 +57,32 @@ class SettingsViewModel : ViewModel() {
      *  - Connectivity
      *  - Background activity
      *
-     * @see SettingsRepository
+     * @see settingsRepository
      */
-    fun refreshNotificationsEnabled(context: Context) {
-        SettingsRepository.refreshNotificationsEnabled(context)
+    fun refreshNotificationsEnabled() {
+        settingsRepository.refreshNotificationsEnabled()
     }
 
     /**
      * Refresh & toggle risk notifications
      */
     fun refreshNotificationsRiskEnabled() {
-        SettingsRepository.refreshNotificationsRiskEnabled()
+        settingsRepository.refreshNotificationsRiskEnabled()
     }
 
     fun toggleNotificationsRiskEnabled() {
-        SettingsRepository.toggleNotificationsRiskEnabled()
+        settingsRepository.toggleNotificationsRiskEnabled()
     }
 
     /**
      * Refresh & toggle test notifications
      */
     fun refreshNotificationsTestEnabled() {
-        SettingsRepository.refreshNotificationsTestEnabled()
+        settingsRepository.refreshNotificationsTestEnabled()
     }
 
     fun toggleNotificationsTestEnabled() {
-        SettingsRepository.toggleNotificationsTestEnabled()
+        settingsRepository.toggleNotificationsTestEnabled()
     }
 
     /**
@@ -90,7 +91,7 @@ class SettingsViewModel : ViewModel() {
      * @param value
      */
     fun updateConnectionEnabled(value: Boolean) {
-        SettingsRepository.updateConnectionEnabled(value)
+        settingsRepository.updateConnectionEnabled(value)
     }
 
     /**
@@ -99,7 +100,7 @@ class SettingsViewModel : ViewModel() {
      * @param value
      */
     fun updateBluetoothEnabled(value: Boolean) {
-        SettingsRepository.updateBluetoothEnabled(value)
+        settingsRepository.updateBluetoothEnabled(value)
     }
 
     /**
@@ -108,7 +109,7 @@ class SettingsViewModel : ViewModel() {
      * @param value
      */
     fun updateLocationEnabled(value: Boolean) {
-        SettingsRepository.updateLocationEnabled(value)
+        settingsRepository.updateLocationEnabled(value)
     }
 
     /**
@@ -117,7 +118,7 @@ class SettingsViewModel : ViewModel() {
      * @param value
      */
     fun updateBackgroundJobEnabled(value: Boolean) {
-        SettingsRepository.updateBackgroundJobEnabled(value)
+        settingsRepository.updateBackgroundJobEnabled(value)
     }
 
     /**
@@ -126,10 +127,10 @@ class SettingsViewModel : ViewModel() {
      * @param value
      */
     fun updateManualKeyRetrievalEnabled(value: Boolean) {
-        SettingsRepository.updateManualKeyRetrievalEnabled(value)
+        settingsRepository.updateManualKeyRetrievalEnabled(value)
     }
 
-    fun refreshBackgroundPriorityEnabled(context: Context) {
-        SettingsRepository.refreshBackgroundPriorityEnabled(context)
+    fun refreshBackgroundPriorityEnabled() {
+        settingsRepository.refreshBackgroundPriorityEnabled()
     }
 }

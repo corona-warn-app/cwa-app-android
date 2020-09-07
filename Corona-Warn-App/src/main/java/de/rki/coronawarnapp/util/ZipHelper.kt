@@ -22,7 +22,6 @@ package de.rki.coronawarnapp.util
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -44,7 +43,7 @@ object ZipHelper {
         }
         outputFile.createNewFile()
 
-        FileOutputStream(outputFile).use { fileOutputStream ->
+        outputFile.outputStream().use { fileOutputStream ->
             ZipOutputStream(fileOutputStream).use { zipOutputStream ->
                 writeToZip(
                     nameOfOutputFile,
