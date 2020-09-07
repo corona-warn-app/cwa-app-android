@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -45,7 +46,6 @@ class SubmissionViewModelTest {
 
     @Test
     fun scanStatusValid() {
-
         // start
         viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.STARTED, it) }
 
@@ -57,5 +57,25 @@ class SubmissionViewModelTest {
         // invalid guid
         viewModel.validateAndStoreTestGUID("https://no-guid-here")
         viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.INVALID, it) }
+    }
+
+    @Test
+    fun setVisitedCountriesWorking() {
+        val countryList = listOf("DE", "EN")
+        viewModel.setVisitedCountries(countryList)
+
+        viewModel.visitedCountries.observeForever { }
+
+        viewModel.visitedCountries.value shouldBe countryList
+    }
+
+    @Test
+    fun setConsentToFederationWorking() {
+        val consent = true
+        viewModel.setConsentToFederation(consent)
+
+        viewModel.consentToFederation.observeForever { }
+
+        viewModel.consentToFederation.value shouldBe consent
     }
 }
