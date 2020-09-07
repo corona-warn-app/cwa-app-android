@@ -5,10 +5,12 @@ import org.joda.time.Chronology
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
+import org.joda.time.Instant
 
 /**
  * This Calculator class takes multiple parameters to check if the Google API
- * can be called or the Rate Limit has been reached.
+ * can be called or the Rate Limit has been reached. The Quota is expected to reset at
+ * the start of the day in the given timeZone and Chronology
  *
  * @property incrementByAmount The amount of Quota Calls to increment per Call
  * @property quotaLimit The maximum amount of Quota Calls allowed before Rate Limiting
@@ -26,11 +28,7 @@ class GoogleQuotaCalculator(
     override var isAboveQuota: Boolean = false
 
     override fun calculateQuota() {
-        val currentDateTime = DateTime
-            .now(quotaTimeZone)
-            .withChronology(quotaChronology)
-
-        if (currentDateTime.isAfter(LocalData.nextTimeRateLimitingUnlocks)) {
+        if (Instant.now().isAfter(LocalData.nextTimeRateLimitingUnlocks)) {
             LocalData.nextTimeRateLimitingUnlocks = DateTime
                 .now(quotaTimeZone)
                 .withChronology(quotaChronology)
