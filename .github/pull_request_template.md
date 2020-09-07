@@ -23,7 +23,7 @@ __Thank you for this this PR! Please consider the following:__
    * Describe your changes in detail, if you changed the UI, screenshots or GIFs would be awesome! 
    * Short step by step instructions help the reviewer test your changes, e.g. how to navigate to a new UI element you added.
    * The PR _won't be reviewed_ if CircleCi is failing or if there are merge conflicts. If Circle CI is still failing mark the PR as a draft and write a little comment on your status.
-   * Provide at least a few tests unit or instrumentation tests.
+   * Provide at least a few unit and/or instrumentation tests.
    * Use a meaning full branch name. Use either `fix` or `feature` as prefix for your branch, e.g. `fix/prevent-npe-on-device-rotation-issue_123`
    * Test your changes thoroughly. Only open PRs which you think is ready to be merged. If you explicitly need feedback mark the PR as `DRAFT` on Github.
    * Don't introduce unrelated code reformatting (e.g., on-save hooks in your IDE)
