@@ -56,6 +56,10 @@ class RetrieveDiagnosisKeysTransactionTest {
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch(any()) } just Runs
         every { LocalData.googleApiToken() } returns UUID.randomUUID().toString()
+        every { LocalData.googleAPIProvideDiagnosisKeysCallCount = any() } just Runs
+        every { LocalData.googleAPIProvideDiagnosisKeysCallCount } returns 0
+        every { LocalData.nextTimeRateLimitingUnlocks = any() } just Runs
+        every { LocalData.nextTimeRateLimitingUnlocks } returns System.currentTimeMillis()
     }
 
     @Test
@@ -67,6 +71,7 @@ class RetrieveDiagnosisKeysTransactionTest {
 
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
+                RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
                 RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
                 RetrieveDiagnosisKeysTransaction["executeFetchDateUpdate"](any<Date>())
@@ -87,6 +92,7 @@ class RetrieveDiagnosisKeysTransactionTest {
 
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
+                RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
                 RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
                 RetrieveDiagnosisKeysTransaction["executeAPISubmission"](

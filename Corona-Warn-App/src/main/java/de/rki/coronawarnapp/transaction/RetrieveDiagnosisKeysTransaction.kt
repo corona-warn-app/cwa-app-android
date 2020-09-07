@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FETCH_DATE_UPDATE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FILES_FROM_WEB_REQUESTS
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.QUOTA_CALCULATION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.RETRIEVE_RISK_SCORE_PARAMS
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.SETUP
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
@@ -93,6 +94,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /** Initial Setup of the Transaction and Transaction ID Generation and Date Lock */
         SETUP,
 
+        /** calculates the Quota so that the rate limiting is caught gracefully*/
+        QUOTA_CALCULATION,
+
         /** Initialisation of the identifying token used during the entire transaction */
         TOKEN,
 
@@ -144,12 +148,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             DateTimeZone.UTC
         )
 
-        // save the progress towards the quota for a possible rollback
-        progressTowardsQuotaForRollback.set(quotaCalculator.getProgressTowardsQuota())
-        quotaCalculator.calculateQuota()
-        // When we are above the Quote, cancel the execution
-        if (quotaCalculator.isAboveQuota) return
-
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
         ) {
@@ -177,6 +175,18 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
          * INIT TRANSACTION
          ****************************************************/
         val currentDate = executeSetup()
+
+        /****************************************************
+         * CALCULATE QUOTA FOR PROVIDE DIAGNOSIS KEYS
+         ****************************************************/
+        executeQuotaCalculation()
+
+        // When we are above the Quote, cancel the execution entirely
+        if (quotaCalculator.isAboveQuota) {
+            Timber.tag(TAG).w("above quota, skipping RetrieveDiagnosisKeys")
+            executeClose()
+            return@lockAndExecute
+        }
 
         /****************************************************
          * RETRIEVE TOKEN
@@ -220,7 +230,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             if (TOKEN.isInStateStack()) {
                 rollbackToken()
             }
-            if (!API_SUBMISSION.isInStateStack()) {
+            // we reset the quota only if the submission has not happened yet
+            if (QUOTA_CALCULATION.isInStateStack() && !API_SUBMISSION.isInStateStack()) {
                 rollbackProgressTowardsQuota()
             }
         } catch (e: Exception) {
@@ -253,6 +264,16 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         val currentDate = Date(System.currentTimeMillis())
         Timber.tag(TAG).d("using $currentDate as current date in Transaction.")
         currentDate
+    }
+
+    /**
+     * Executes the QUOTA_CALCULATION Transaction State
+     */
+    private suspend fun executeQuotaCalculation() = executeState(
+        QUOTA_CALCULATION
+    ) {
+        progressTowardsQuotaForRollback.set(quotaCalculator.getProgressTowardsQuota())
+        quotaCalculator.calculateQuota()
     }
 
     /**
