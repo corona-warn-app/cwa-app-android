@@ -138,8 +138,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //binding.submissionTargetContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        // binding.submissionTargetContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
-
-
