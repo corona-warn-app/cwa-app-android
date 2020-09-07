@@ -151,7 +151,7 @@ class MainFragment : Fragment() {
     }
 
     private fun toSubmissionIntro() {
-       findNavController().doNavigate(
+        findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
         )
     }
