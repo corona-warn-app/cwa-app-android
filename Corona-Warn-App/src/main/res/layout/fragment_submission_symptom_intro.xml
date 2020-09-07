@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_symptom_initial_headline" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/target_button_apply"
+                android:id="@+id/symptom_button_apply"
                 style="@style/greenButtonNotPressed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/further_info_text">
 
                 <TextView
-                    android:id="@+id/target_apply"
+                    android:id="@+id/symptom_apply"
                     style="@style/headline6"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/target_button_reject"
+                android:id="@+id/symptom_button_reject"
                 style="@style/greenButtonNotPressed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,10 +80,10 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/target_button_apply">
+                app:layout_constraintTop_toBottomOf="@+id/symptom_button_apply">
 
                 <TextView
-                    android:id="@+id/target_reject"
+                    android:id="@+id/symptom_reject"
                     style="@style/headline6"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/target_button_verify"
+                android:id="@+id/symptom_button_verify"
                 style="@style/greenButtonNotPressed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,10 +103,10 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/target_button_reject">
+                app:layout_constraintTop_toBottomOf="@+id/symptom_button_reject">
 
                 <TextView
-                    android:id="@+id/target_verify"
+                    android:id="@+id/symptom_verify"
                     style="@style/headline6"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/target_button_verify"/>
+                app:layout_constraintTop_toBottomOf="@+id/symptom_button_verify"/>
 
             <include layout="@layout/merge_guidelines_side" />
 
