@@ -121,13 +121,15 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    private val progressTowardsQuotaForRollback = AtomicReference<Int>()
+
     private val transactionScope: TransactionCoroutineScope by lazy {
         AppInjector.component.transRetrieveKeysInjection.transactionScope
     }
 
     private const val QUOTA_RESET_PERIOD_IN_HOURS = 24
 
-    private val quotaCalculator: QuotaCalculator = GoogleQuotaCalculator(
+    private val quotaCalculator: QuotaCalculator<Int> = GoogleQuotaCalculator(
         incrementByAmount = 14,
         quotaLimit = 20,
         quotaResetPeriod = Duration.standardHours(QUOTA_RESET_PERIOD_IN_HOURS.toLong()),
@@ -142,10 +144,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             DateTimeZone.UTC
         )
 
+        // save the progress towards the quota for a possible rollback
+        progressTowardsQuotaForRollback.set(quotaCalculator.getProgressTowardsQuota())
+        quotaCalculator.calculateQuota()
         // When we are above the Quote, cancel the execution
-        if (quotaCalculator.isAboveQuota()) {
-            return
-        }
+        if (quotaCalculator.isAboveQuota) return
+
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
         ) {
@@ -216,6 +220,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             if (TOKEN.isInStateStack()) {
                 rollbackToken()
             }
+            if (!API_SUBMISSION.isInStateStack()) {
+                rollbackProgressTowardsQuota()
+            }
         } catch (e: Exception) {
             // We handle every exception through a RollbackException to make sure that a single EntryPoint
             // is available for the caller.
@@ -231,6 +238,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private fun rollbackToken() {
         Timber.tag(TAG).v("rollback $TOKEN")
         LocalData.googleApiToken(googleAPITokenForRollback.get())
+    }
+
+    private fun rollbackProgressTowardsQuota() {
+        Timber.tag(TAG).v("rollback Quota Increase")
+        quotaCalculator.resetProgressTowardsQuota(progressTowardsQuotaForRollback.get())
     }
 
     /**

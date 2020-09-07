@@ -390,36 +390,41 @@ object LocalData {
         }
     }
 
-    /**
-     * Gets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @return Long
-     */
-    fun nextTimeRateLimitingUnlocks(): Long? {
-        val time = getSharedPreferenceInstance().getLong(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_next_time_rate_limiting_unlocks),
-            0L
-        )
-        return Date(time).time
-    }
-
-    /**
-     * Sets the last time of successful risk level calculation as long
-     * from the EncryptedSharedPrefs
-     *
-     * @param value timestamp as Long
-     */
-    fun nextTimeRateLimitingUnlocks(value: Long?) {
-        getSharedPreferenceInstance().edit(true) {
-            putLong(
+    var nextTimeRateLimitingUnlocks: Long
+        get() {
+            return getSharedPreferenceInstance().getLong(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_next_time_rate_limiting_unlocks),
-                value ?: 0L
+                0L
             )
         }
-    }
+        set(value) {
+            getSharedPreferenceInstance().edit(true) {
+                putLong(
+                    CoronaWarnApplication.getAppContext()
+                        .getString(R.string.preference_next_time_rate_limiting_unlocks),
+                    value
+                )
+            }
+        }
+
+    var googleAPIProvideDiagnosisKeysCallCount: Int
+        get() {
+            return getSharedPreferenceInstance().getInt(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_google_api_provide_diagnosis_keys_call_count),
+                0
+            )
+        }
+        set(value) {
+            getSharedPreferenceInstance().edit(true) {
+                putInt(
+                    CoronaWarnApplication.getAppContext()
+                        .getString(R.string.preference_google_api_provide_diagnosis_keys_call_count),
+                    value
+                )
+            }
+        }
 
     /**
      * Gets the last time of successful risk level calculation as long

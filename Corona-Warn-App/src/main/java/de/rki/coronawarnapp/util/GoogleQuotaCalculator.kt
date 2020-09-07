@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.util
 
+import de.rki.coronawarnapp.storage.LocalData
 import org.joda.time.Chronology
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
-import timber.log.Timber
 
 /**
  * This Calculator class takes multiple parameters to check if the Google API
@@ -22,54 +22,38 @@ class GoogleQuotaCalculator(
     val quotaResetPeriod: Duration,
     val quotaTimeZone: DateTimeZone,
     val quotaChronology: Chronology
-) : QuotaCalculator {
+) : QuotaCalculator<Int> {
+    override var isAboveQuota: Boolean = false
 
-    /**
-     * Initially null, the next time rate limiting occurs is initialized after the first call
-     * of isAboveQuota()
-     */
-    private var nextTimeRateLimitingUnlocks: DateTime? = null
+    override fun calculateQuota() {
+        val currentDateTime = DateTime
+            .now(quotaTimeZone)
+            .withChronology(quotaChronology)
 
-    /**
-     * The current amount of API Calls made
-     */
-    private var amountOfAPICalls = 0
-
-    override fun isAboveQuota(): Boolean {
-        val currentDateTime = currentDateTime()
-        Timber.v("current for quota check is $currentDateTime")
-
-        // initialize nextTimeRateLimitingUnlocks or check on Epoch value
-        if (nextTimeRateLimitingUnlocks == null) {
-            nextTimeRateLimitingUnlocks = newRateLimitUnlockDateTime()
-        } else if (currentDateTime.isAfter(nextTimeRateLimitingUnlocks)) {
-            nextTimeRateLimitingUnlocks = newRateLimitUnlockDateTime()
-            amountOfAPICalls = 0
+        if (currentDateTime.isAfter(LocalData.nextTimeRateLimitingUnlocks)) {
+            LocalData.nextTimeRateLimitingUnlocks = DateTime
+                .now(quotaTimeZone)
+                .withChronology(quotaChronology)
+                .plus(quotaResetPeriod)
+                .withTimeAtStartOfDay()
+                .millis
+            LocalData.googleAPIProvideDiagnosisKeysCallCount = 0
         }
 
-        Timber.v("next time rate limiting unlocks: $nextTimeRateLimitingUnlocks")
-
-        // if not already above the quota limit, increase the api call count by increment amount
-        if (amountOfAPICalls <= quotaLimit) {
-            amountOfAPICalls += incrementByAmount
+        if (LocalData.googleAPIProvideDiagnosisKeysCallCount <= quotaLimit) {
+            LocalData.googleAPIProvideDiagnosisKeysCallCount += incrementByAmount
         }
 
-        val isAboveQuotaLimit = amountOfAPICalls > quotaLimit
-        Timber.v("Amount of API Calls: $amountOfAPICalls, Quota Limit: $quotaLimit, Is above Limit: $isAboveQuotaLimit")
-        return amountOfAPICalls > quotaLimit
+        isAboveQuota = LocalData.googleAPIProvideDiagnosisKeysCallCount > quotaLimit
     }
 
-    private fun currentDateTime(): DateTime = DateTime
-        .now(quotaTimeZone)
-        .withChronology(quotaChronology)
+    override fun resetProgressTowardsQuota(newProgress: Int) {
+        if (newProgress > quotaLimit) {
+            throw IllegalArgumentException("cannot reset progress to a value higher than the quota limit")
+        }
+        LocalData.googleAPIProvideDiagnosisKeysCallCount = newProgress
+        isAboveQuota = false
+    }
 
-    /**
-     * Calculate the new Rate Limiting Unlock Time based on the assumption
-     * that it is always at the start of a day based on the given TimeZone
-     *
-     * @return unlock DateTime
-     */
-    private fun newRateLimitUnlockDateTime(): DateTime = currentDateTime()
-        .plus(quotaResetPeriod)
-        .withTimeAtStartOfDay()
+    override fun getProgressTowardsQuota(): Int = LocalData.googleAPIProvideDiagnosisKeysCallCount
 }

@@ -1,5 +1,10 @@
 package de.rki.coronawarnapp.util
 
+import de.rki.coronawarnapp.storage.LocalData
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
@@ -8,36 +13,61 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 internal class GoogleQuotaCalculatorTest : BaseTest() {
 
     private val timeInTest = DateTimeUtils.currentTimeMillis()
 
     private lateinit var classUnderTest: GoogleQuotaCalculator
+    private val nextTimeRateLimitingUnlocksInTesting = AtomicLong()
+    private val googleAPIProvideDiagnosisKeysCallCount = AtomicInteger()
+
+    private val defaultIncrementByAmountInTest = 14
+    private val defaultQuotaLimitInTest = 20
 
     @BeforeEach
     fun setUpClassUnderTest() {
         classUnderTest = GoogleQuotaCalculator(
-            incrementByAmount = 14,
-            quotaLimit = 20,
+            incrementByAmount = defaultIncrementByAmountInTest,
+            quotaLimit = defaultQuotaLimitInTest,
             quotaResetPeriod = Duration.standardHours(24),
             quotaTimeZone = DateTimeZone.UTC,
             quotaChronology = GJChronology.getInstanceUTC()
         )
         DateTimeUtils.setCurrentMillisFixed(timeInTest)
+
+        // Since LocalData is simple to mock
+        mockkObject(LocalData)
+        every { LocalData.nextTimeRateLimitingUnlocks = any() } answers {
+            nextTimeRateLimitingUnlocksInTesting.set(this.arg(0))
+        }
+        every { LocalData.nextTimeRateLimitingUnlocks } answers {
+            nextTimeRateLimitingUnlocksInTesting.get()
+        }
+        every { LocalData.googleAPIProvideDiagnosisKeysCallCount = any() } answers {
+            googleAPIProvideDiagnosisKeysCallCount.set(this.arg(0))
+        }
+        every { LocalData.googleAPIProvideDiagnosisKeysCallCount } answers {
+            googleAPIProvideDiagnosisKeysCallCount.get()
+        }
+
     }
 
     @Test
     fun `isAboveQuota false if called initially`() {
-        assertEquals(classUnderTest.isAboveQuota(), false)
+        assertEquals(classUnderTest.isAboveQuota, false)
     }
 
     @Test
     fun `isAboveQuota true if called above quota limit when calling with amount bigger than one`() {
         for (callNumber in 1..5) {
-            val aboveQuota = classUnderTest.isAboveQuota()
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             if (callNumber > 1) {
                 assertEquals(true, aboveQuota)
@@ -45,6 +75,120 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
                 assertEquals(false, aboveQuota)
             }
         }
+    }
+
+    @Test
+    fun `getProgressTowardsQuota increases with calls to isAboveQuota but is stopped once increased above the quota`() {
+        var latestCallNumberWithoutLimiting = 1
+        for (callNumber in 1..5) {
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
+            Timber.v("call number $callNumber above quota: $aboveQuota")
+            val expectedIncrement = callNumber * defaultIncrementByAmountInTest
+            if (expectedIncrement >= defaultQuotaLimitInTest) {
+                assertEquals(
+                    (latestCallNumberWithoutLimiting + 1) * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+            } else {
+                assertEquals(
+                    callNumber * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+                latestCallNumberWithoutLimiting = callNumber
+            }
+        }
+    }
+
+    @Test
+    fun `getProgressTowardsQuota is reset and the quota is not recalculated but isAboveQuota should still be false`() {
+        var latestCallNumberWithoutLimiting = 1
+        for (callNumber in 1..5) {
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
+            Timber.v("call number $callNumber above quota: $aboveQuota")
+            val expectedIncrement = callNumber * defaultIncrementByAmountInTest
+            if (expectedIncrement >= defaultQuotaLimitInTest) {
+                assertEquals(
+                    (latestCallNumberWithoutLimiting + 1) * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+            } else {
+                assertEquals(
+                    callNumber * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+                latestCallNumberWithoutLimiting = callNumber
+            }
+        }
+
+        classUnderTest.resetProgressTowardsQuota(0)
+        assertEquals(false, classUnderTest.isAboveQuota)
+    }
+
+    @Test
+    fun `getProgressTowardsQuota is reset and the quota is not recalculated and the progress should update`() {
+        var latestCallNumberWithoutLimiting = 1
+        for (callNumber in 1..5) {
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
+            Timber.v("call number $callNumber above quota: $aboveQuota")
+            val expectedIncrement = callNumber * defaultIncrementByAmountInTest
+            if (expectedIncrement >= defaultQuotaLimitInTest) {
+                assertEquals(
+                    (latestCallNumberWithoutLimiting + 1) * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+            } else {
+                assertEquals(
+                    callNumber * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+                latestCallNumberWithoutLimiting = callNumber
+            }
+        }
+
+        val newProgressAfterReset = 14
+        classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
+        assertEquals(false, classUnderTest.isAboveQuota)
+        assertEquals(newProgressAfterReset, classUnderTest.getProgressTowardsQuota())
+    }
+
+    @Test
+    fun `getProgressTowardsQuota is reset and the quota is not recalculated and the progress throws an error because of too high newProgress`() {
+        var latestCallNumberWithoutLimiting = 1
+        var progressBeforeReset: Int? = null
+        for (callNumber in 1..5) {
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
+            Timber.v("call number $callNumber above quota: $aboveQuota")
+            val expectedIncrement = callNumber * defaultIncrementByAmountInTest
+            if (expectedIncrement >= defaultQuotaLimitInTest) {
+                progressBeforeReset =
+                    (latestCallNumberWithoutLimiting + 1) * defaultIncrementByAmountInTest
+                assertEquals(
+                    (latestCallNumberWithoutLimiting + 1) * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+            } else {
+                assertEquals(
+                    callNumber * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+                latestCallNumberWithoutLimiting = callNumber
+            }
+        }
+
+        val newProgressAfterReset = defaultQuotaLimitInTest + 1
+        assertThrows<IllegalArgumentException> {
+            classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
+        }
+        assertEquals(true, classUnderTest.isAboveQuota)
+        assertEquals(
+            (progressBeforeReset
+                ?: throw IllegalStateException("progressBeforeReset was not set during test")),
+            classUnderTest.getProgressTowardsQuota()
+        )
     }
 
     @Test
@@ -57,7 +201,8 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
             quotaChronology = GJChronology.getInstanceUTC()
         )
         for (callNumber in 1..15) {
-            val aboveQuota = classUnderTest.isAboveQuota()
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             if (callNumber > 3) {
                 assertEquals(true, aboveQuota)
@@ -70,7 +215,8 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
     @Test
     fun `isAboveQuota false if called above quota limit but next day resets quota`() {
         for (callNumber in 1..5) {
-            val aboveQuota = classUnderTest.isAboveQuota()
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.isAboveQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             if (callNumber > 1) {
                 assertEquals(true, aboveQuota)
@@ -82,15 +228,40 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         // Day Change
         val timeInTestAdvancedByADay = timeInTest + Duration.standardDays(1).millis
         DateTimeUtils.setCurrentMillisFixed(timeInTestAdvancedByADay)
-
-        val aboveQuotaAfterDayAdvance = classUnderTest.isAboveQuota()
+        classUnderTest.calculateQuota()
+        val aboveQuotaAfterDayAdvance = classUnderTest.isAboveQuota
         Timber.v("above quota after day advance: $aboveQuotaAfterDayAdvance")
 
         assertEquals(false, aboveQuotaAfterDayAdvance)
     }
 
+    @Test
+    fun `test if isAfter is affected by Timezone to make sure we do not run into Shifting Errors`() {
+        val testTimeUTC = DateTime(
+            timeInTest,
+            DateTimeZone.UTC
+        ).withChronology(GJChronology.getInstanceUTC())
+        val testTimeGMT = DateTime(
+            timeInTest,
+            DateTimeZone.forID("Etc/GMT+2")
+        ).withChronology(GJChronology.getInstanceUTC())
+
+        assertEquals(testTimeGMT, testTimeUTC)
+        assertEquals(testTimeGMT.millis, testTimeUTC.millis)
+
+        val testTimeUTCAfterGMT = testTimeUTC.plusMinutes(1)
+
+        assertEquals(true, testTimeUTCAfterGMT.isAfter(testTimeGMT))
+
+        val testTimeGMTAfterUTC = testTimeGMT.plusMinutes(1)
+
+        assertEquals(true, testTimeGMTAfterUTC.isAfter(testTimeUTC))
+
+    }
+
     @AfterEach
     fun cleanup() {
         DateTimeUtils.setCurrentMillisSystem()
+        unmockkObject(LocalData)
     }
 }
