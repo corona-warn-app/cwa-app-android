@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
+import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -14,6 +17,7 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.ui.riskdetails.DefaultRiskDetailPresenter
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -37,6 +41,8 @@ class TracingViewModel : ViewModel() {
         val TAG: String? = TracingViewModel::class.simpleName
     }
 
+    private val riskDetailPresenter = DefaultRiskDetailPresenter()
+
     // Values from RiskLevelRepository
     val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
     val riskLevelScoreLastSuccessfulCalculated =
@@ -52,6 +58,52 @@ class TracingViewModel : ViewModel() {
     val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
     val activeTracingDaysInRetentionPeriod = TracingRepository.activeTracingDaysInRetentionPeriod
     var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
+
+    val additionalInformationVisibility = MediatorLiveData<Int>()
+    val informationBodyNoticeVisibility = MediatorLiveData<Int>()
+
+    init {
+        additionalInformationVisibility.addSource(riskLevel) {
+            additionalInformationVisibility.value =
+                if (riskDetailPresenter.isAdditionalInfoVisible(it, matchedKeyCount.value ?: -1))
+                    View.VISIBLE
+                else
+                    View.GONE
+        }
+        additionalInformationVisibility.addSource(matchedKeyCount) {
+            additionalInformationVisibility.value =
+                if (riskDetailPresenter.isAdditionalInfoVisible(
+                        riskLevel.value ?: RiskLevelConstants.UNKNOWN_RISK_INITIAL,
+                        it ?: 0
+                    )
+                )
+                    View.VISIBLE
+                else
+                    View.GONE
+        }
+        informationBodyNoticeVisibility.addSource(riskLevel) {
+            informationBodyNoticeVisibility.value =
+                if (riskDetailPresenter.isInformationBodyNoticeVisible(
+                        it,
+                        matchedKeyCount.value ?: -1
+                    )
+                )
+                    View.VISIBLE
+                else
+                    View.GONE
+        }
+        informationBodyNoticeVisibility.addSource(matchedKeyCount) {
+            informationBodyNoticeVisibility.value =
+                if (riskDetailPresenter.isInformationBodyNoticeVisible(
+                        riskLevel.value ?: RiskLevelConstants.UNKNOWN_RISK_INITIAL,
+                        it ?: 0
+                    )
+                )
+                    View.VISIBLE
+                else
+                    View.GONE
+        }
+    }
 
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
