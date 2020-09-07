@@ -13,6 +13,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
+import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -46,6 +47,10 @@ class RetrieveDiagnosisKeysTransactionTest {
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch(any()) } just Runs
         every { LocalData.googleApiToken() } returns UUID.randomUUID().toString()
+        every { LocalData.googleAPIProvideDiagnosisKeysCallCount = any() } just Runs
+        every { LocalData.googleAPIProvideDiagnosisKeysCallCount } returns 0
+        every { LocalData.nextTimeRateLimitingUnlocks = any() } just Runs
+        every { LocalData.nextTimeRateLimitingUnlocks } returns Instant.now()
     }
 
     @Test
@@ -57,6 +62,7 @@ class RetrieveDiagnosisKeysTransactionTest {
 
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
+                RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
                 RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
                 RetrieveDiagnosisKeysTransaction["executeFetchDateUpdate"](any<Date>())
@@ -77,6 +83,7 @@ class RetrieveDiagnosisKeysTransactionTest {
 
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
+                RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
                 RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
                 RetrieveDiagnosisKeysTransaction["executeAPISubmission"](
