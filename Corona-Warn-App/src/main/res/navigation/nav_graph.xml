@@ -206,15 +206,15 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionResultPositiveEfgsConsentFragment"
-            app:destination="@id/submissionResultPositiveEfgsConsentFragment"
+            app:destination="@id/submissionResultEuropeanStatisticsConsentFragment"
             app:popUpTo="@id/submissionResultFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/submissionResultPositiveEfgsConsentFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionResultPositiveEfgsConsentFragment"
-        android:label="fragment_submission_result_positive_efgs_consent"
-        tools:layout="@layout/fragment_submission_positive_efgs_consent">
+        android:id="@+id/submissionResultEuropeanStatisticsConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionEuropeanFederalGatewayServerConsentFragment"
+        android:label="fragment_submission_result_european_consent"
+        tools:layout="@layout/fragment_submission_european_federal_gateway_server_consent">
         <action
             android:id="@+id/action_EFGSConsentFragment_to_PositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment"

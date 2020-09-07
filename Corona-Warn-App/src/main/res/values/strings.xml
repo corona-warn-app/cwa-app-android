@@ -922,17 +922,17 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A device transmits an encrypted positive test diagnosis to the system."</string>
 
-    <!-- Submission Positive EFGS Consent -->
-    <!-- XHED: Page title for the positive result EFGS consent page -->
-    <string name="submission_positive_efgs_consent_title">"Title Dummy Text"</string>
-    <!-- XHED: Page headline forThe positive EFGS consent page -->
-    <string name="submission_positive_efgs_consent_headline">"Headline Dummy Text Dummy Text Dummy Text Dummy Text Dummy Text Dummy Text Dummy Text Dummy Text Dummy Text Dummy Text "</string>
-    <!-- XHED: efgs consent - illustration description, explanation image -->
-    <string name="submission_positive_efgs_consent_illustration_description">"Illustration description dummy text"</string>
+    <!-- Submission European Federal Gateway Server Consent -->
+    <!-- XHED: Page title for the positive result European Federal Gateway Server Consent page -->
+    <string name="submission_european_federal_gateway_server_consent_title">""</string>
+    <!-- XHED: Page headline forThe positive European Federal Gateway Server Consent page -->
+    <string name="submission_european_federal_gateway_server_consent_headline">""</string>
+    <!-- XHED: European Federal Gateway Server Consent - illustration description, explanation image -->
+    <string name="submission_european_federal_gateway_server_consent_illustration_description">""</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_efgs_consent_warning_privacy_body">"By tapping on “Dummy Text”, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed elit non tellus vulputate imperdiet at at ante. Sed id ultrices purus. Proin quam lorem, aliquet in lacus sit amet, efficitur condimentum quam. Curabitur id pharetra erat. Morbi et hendrerit augue. Fusce rutrum imperdiet ipsum eu aliquet. In in diam nisl. Pellentesque vel libero ac felis interdum rutrum a id massa. Vivamus dui diam, semper non vulputate nec, cursus ut lorem. Maecenas vitae ligula a felis volutpat mattis. Maecenas eu mauris vitae ex vehicula fringilla. Sed hendrerit maximus leo, ut iaculis nulla eleifend eget. Phasellus vitae orci vel enim sollicitudin consectetur vel vel ante. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam a ante et odio dapibus pretium. Donec tincidunt non dolor fermentum eleifend.Sed at bibendum erat, sed porta tellus. Sed tincidunt nisl at lacus accumsan, pellentesque feugiat nisl pretium. Nulla facilisi. Nulla facilisi. Cras purus mi, sodales eu arcu ac, facilisis varius lorem. Morbi vitae nulla vitae tortor luctus hendrerit. Pellentesque luctus, ipsum eu euismod convallis, neque massa tincidunt elit, ut fermentum metus lorem ut sapien. Sed porta nunc nisi, non sollicitudin libero sollicitudin nec. Morbi auctor erat eget ante gravida efficitur. Sed imperdiet dignissim nisl eu dictum. Pellentesque mauris sem, tempus eu scelerisque et, gravida a nulla."</string>
+    <string name="submission_european_federal_gateway_server_consent_privacy_body">""</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_efgs_consent_warning_button">"Next"</string>
+    <string name="submission_european_federal_gateway_server_consent_button">""</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->

@@ -914,6 +914,18 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
 
+    <!-- Submission European Federal Gateway Server Consent -->
+    <!-- XHED: Page title for the positive result European Federal Gateway Server Consent page -->
+    <string name="submission_european_federal_gateway_server_consent_title">"Title Dummy Text"</string>
+    <!-- XHED: Page headline forThe positive European Federal Gateway Server Consent page -->
+    <string name="submission_european_federal_gateway_server_consent_headline">"Headline Dummy Text"</string>
+    <!-- XHED: European Federal Gateway Server Consent - illustration description, explanation image -->
+    <string name="submission_european_federal_gateway_server_consent_illustration_description">"Illustration description dummy text"</string>
+    <!-- YTXT: Body text for the privacy card-->
+    <string name="submission_european_federal_gateway_server_consent_privacy_body">"By tapping on “Dummy Text"</string>
+    <!-- XBUT: other warning continue button -->
+    <string name="submission_european_federal_gateway_server_consent_button">"Next"</string>
+
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->

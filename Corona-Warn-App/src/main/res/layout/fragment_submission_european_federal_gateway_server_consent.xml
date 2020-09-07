@@ -16,21 +16,21 @@
             type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
 
         <variable
-            name="efgsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.EfgsConsentViewModel" />
+            name="europeanConsentViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.EuropeanFederalGatewayServerConsentViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_positive_efgs_consent_privacy_container"
+        android:id="@+id/submission_european_federal_gateway_server_consent_privacy_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_positive_other_warning_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionResultPositiveOtherWarningFragment">
+        tools:context=".ui.submission.SubmissionEuropeanFederalGatewayServerConsentFragment">
 
         <include
-            android:id="@+id/submission_positive_efgs_consent_header"
+            android:id="@+id/submission_european_federal_gateway_server_consent_header"
             layout="@layout/include_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_positive_efgs_consent_title}" />
+            app:title="@{@string/submission_european_federal_gateway_server_consent_title}" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -46,37 +46,37 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_positive_efgs_consent_header">
+            app:layout_constraintTop_toBottomOf="@+id/submission_european_federal_gateway_server_consent_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/submission_positive_efgs_consent_illustration"
+                    android:id="@+id/submission_european_federal_gateway_server_consent_illustration"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/submission_positive_efgs_consent_illustration_description)}"
+                    android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/submission_european_federal_gateway_server_consent_illustration_description)}"
                     android:src="@drawable/ic_submission_illustration_efgs_consent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/submission_positive_efgs_consent_headline"
+                    android:id="@+id/submission_european_federal_gateway_server_consent_headline"
                     style="@style/headline5"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
                     android:focusable="true"
-                    android:text="@string/submission_positive_efgs_consent_headline"
+                    android:text="@string/submission_european_federal_gateway_server_consent_headline"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_efgs_consent_illustration" />
+                    app:layout_constraintTop_toBottomOf="@+id/submission_european_federal_gateway_server_consent_illustration" />
 
                 <include
-                    android:id="@+id/settings_efgs_consent_row"
+                    android:id="@+id/settings_european_federal_gateway_server_consent_row"
                     layout="@layout/include_settings_switch_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
@@ -85,22 +85,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_positive_efgs_consent_headline"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_european_federal_gateway_server_consent_headline"
                     app:showDivider="@{true}"
-                    app:status="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatus(efgsViewModel.isEfgsConsentGranted())}"
-                    app:statusText="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatusText(efgsViewModel.isEfgsConsentGranted())}"
+                    app:status="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatus(europeanConsentViewModel.isEuropeanConsentGranted())}"
+                    app:statusText="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatusText(europeanConsentViewModel.isEuropeanConsentGranted())}"
                     app:subtitle="@{@string/settings_efgs_consent_title}" />
 
                 <include
-                    android:id="@+id/submission_positive_efgs_consent_privacy"
+                    android:id="@+id/submission_european_federal_gateway_server_consent_privacy"
                     layout="@layout/include_privacy_card"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_efgs_consent_row"
-                    app:privacyText="@{@string/submission_positive_efgs_consent_warning_privacy_body}" />
+                    app:layout_constraintTop_toBottomOf="@+id/settings_european_federal_gateway_server_consent_row"
+                    app:privacyText="@{@string/submission_european_federal_gateway_server_consent_privacy_body}" />
 
                 <include layout="@layout/merge_guidelines_side" />
 
@@ -110,11 +110,11 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/submission_positive_efgs_consent_button_next"
+            android:id="@+id/submission_european_federal_gateway_server_consent_button_next"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:text="@string/submission_positive_efgs_consent_warning_button"
+            android:text="@string/submission_european_federal_gateway_server_consent_button"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -122,17 +122,17 @@
             app:layout_constraintTop_toBottomOf="@id/guideline_action" />
 
         <ProgressBar
-            android:id="@+id/submission_positive_other_warning_spinner"
+            android:id="@+id/submission_european_federal_gateway_server_consent_warning_spinner"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
             android:indeterminate="true"
             android:visibility="@{FormatterSubmissionHelper.formatSubmitSpinnerVisible(submissionViewModel.submissionState)}"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_positive_efgs_consent_button_next"
-            app:layout_constraintEnd_toEndOf="@+id/submission_positive_efgs_consent_button_next"
-            app:layout_constraintStart_toStartOf="@+id/submission_positive_efgs_consent_button_next"
-            app:layout_constraintTop_toTopOf="@+id/submission_positive_efgs_consent_button_next" />
+            app:layout_constraintBottom_toBottomOf="@+id/submission_european_federal_gateway_server_consent_button_next"
+            app:layout_constraintEnd_toEndOf="@+id/submission_european_federal_gateway_server_consent_button_next"
+            app:layout_constraintStart_toStartOf="@+id/submission_european_federal_gateway_server_consent_button_next"
+            app:layout_constraintTop_toTopOf="@+id/submission_european_federal_gateway_server_consent_button_next" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_action"
