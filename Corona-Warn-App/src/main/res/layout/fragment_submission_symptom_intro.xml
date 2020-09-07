@@ -118,7 +118,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
-                android:id="@+id/onboarding_button_next"
+                android:id="@+id/symptom_button_next"
                 style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
