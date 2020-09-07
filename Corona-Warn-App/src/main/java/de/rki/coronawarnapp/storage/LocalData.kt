@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
+import org.joda.time.Instant
 import java.util.Date
 
 /**
@@ -17,6 +18,11 @@ import java.util.Date
 object LocalData {
 
     private val TAG: String? = LocalData::class.simpleName
+
+    private const val PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS =
+        "preference_next_time_rate_limiting_unlocks"
+    private const val PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT =
+        "preference_google_api_provide_diagnosis_keys_call_count"
 
     /****************************************************
      * ONBOARDING DATA
@@ -390,20 +396,20 @@ object LocalData {
         }
     }
 
-    var nextTimeRateLimitingUnlocks: Long
+    var nextTimeRateLimitingUnlocks: Instant
         get() {
-            return getSharedPreferenceInstance().getLong(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_next_time_rate_limiting_unlocks),
-                0L
+            return Instant.ofEpochMilli(
+                getSharedPreferenceInstance().getLong(
+                    PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS,
+                    0L
+                )
             )
         }
         set(value) {
             getSharedPreferenceInstance().edit(true) {
                 putLong(
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.preference_next_time_rate_limiting_unlocks),
-                    value
+                    PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS,
+                    value.millis
                 )
             }
         }
@@ -411,16 +417,14 @@ object LocalData {
     var googleAPIProvideDiagnosisKeysCallCount: Int
         get() {
             return getSharedPreferenceInstance().getInt(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_google_api_provide_diagnosis_keys_call_count),
+                PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT,
                 0
             )
         }
         set(value) {
             getSharedPreferenceInstance().edit(true) {
                 putInt(
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.preference_google_api_provide_diagnosis_keys_call_count),
+                    PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT,
                     value
                 )
             }

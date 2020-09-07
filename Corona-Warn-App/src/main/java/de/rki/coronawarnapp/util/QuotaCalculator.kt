@@ -6,12 +6,12 @@ package de.rki.coronawarnapp.util
  *
  */
 interface QuotaCalculator<T> {
-    var isAboveQuota: Boolean
+    val hasExceededQuota: Boolean
 
     /**
      * This function is called to recalculate an old quota score
      */
-    fun calculateQuota()
+    fun calculateQuota(): Boolean
 
     /**
      * Reset the quota progress

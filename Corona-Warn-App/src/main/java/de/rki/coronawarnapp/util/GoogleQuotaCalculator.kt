@@ -25,16 +25,16 @@ class GoogleQuotaCalculator(
     val quotaTimeZone: DateTimeZone,
     val quotaChronology: Chronology
 ) : QuotaCalculator<Int> {
-    override var isAboveQuota: Boolean = false
+    override var hasExceededQuota: Boolean = false
 
-    override fun calculateQuota() {
+    override fun calculateQuota(): Boolean {
         if (Instant.now().isAfter(LocalData.nextTimeRateLimitingUnlocks)) {
             LocalData.nextTimeRateLimitingUnlocks = DateTime
                 .now(quotaTimeZone)
                 .withChronology(quotaChronology)
                 .plus(quotaResetPeriod)
                 .withTimeAtStartOfDay()
-                .millis
+                .toInstant()
             LocalData.googleAPIProvideDiagnosisKeysCallCount = 0
         }
 
@@ -42,15 +42,20 @@ class GoogleQuotaCalculator(
             LocalData.googleAPIProvideDiagnosisKeysCallCount += incrementByAmount
         }
 
-        isAboveQuota = LocalData.googleAPIProvideDiagnosisKeysCallCount > quotaLimit
+        hasExceededQuota = LocalData.googleAPIProvideDiagnosisKeysCallCount > quotaLimit
+
+        return hasExceededQuota
     }
 
     override fun resetProgressTowardsQuota(newProgress: Int) {
         if (newProgress > quotaLimit) {
             throw IllegalArgumentException("cannot reset progress to a value higher than the quota limit")
         }
+        if (newProgress % incrementByAmount != 0) {
+            throw IllegalArgumentException("supplied progress is no multiple of $incrementByAmount")
+        }
         LocalData.googleAPIProvideDiagnosisKeysCallCount = newProgress
-        isAboveQuota = false
+        hasExceededQuota = false
     }
 
     override fun getProgressTowardsQuota(): Int = LocalData.googleAPIProvideDiagnosisKeysCallCount

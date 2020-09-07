@@ -179,10 +179,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * CALCULATE QUOTA FOR PROVIDE DIAGNOSIS KEYS
          ****************************************************/
-        executeQuotaCalculation()
+        val hasExceededQuota = executeQuotaCalculation()
 
         // When we are above the Quote, cancel the execution entirely
-        if (quotaCalculator.isAboveQuota) {
+        if (hasExceededQuota) {
             Timber.tag(TAG).w("above quota, skipping RetrieveDiagnosisKeys")
             executeClose()
             return@lockAndExecute
@@ -252,7 +252,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     private fun rollbackProgressTowardsQuota() {
-        Timber.tag(TAG).v("rollback Quota Increase")
+        Timber.tag(TAG).v("rollback $QUOTA_CALCULATION")
         quotaCalculator.resetProgressTowardsQuota(progressTowardsQuotaForRollback.get())
     }
 

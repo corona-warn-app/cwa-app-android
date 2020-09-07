@@ -8,6 +8,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
+import org.joda.time.Instant
 import org.joda.time.chrono.GJChronology
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -44,10 +45,10 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         // Since LocalData is simple to mock
         mockkObject(LocalData)
         every { LocalData.nextTimeRateLimitingUnlocks = any() } answers {
-            nextTimeRateLimitingUnlocksInTesting.set(this.arg(0))
+            nextTimeRateLimitingUnlocksInTesting.set((this.arg(0) as Instant).millis)
         }
         every { LocalData.nextTimeRateLimitingUnlocks } answers {
-            nextTimeRateLimitingUnlocksInTesting.get()
+            Instant.ofEpochMilli(nextTimeRateLimitingUnlocksInTesting.get())
         }
         every { LocalData.googleAPIProvideDiagnosisKeysCallCount = any() } answers {
             googleAPIProvideDiagnosisKeysCallCount.set(this.arg(0))
@@ -60,14 +61,14 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
 
     @Test
     fun `isAboveQuota false if called initially`() {
-        assertEquals(classUnderTest.isAboveQuota, false)
+        assertEquals(classUnderTest.hasExceededQuota, false)
     }
 
     @Test
     fun `isAboveQuota true if called above quota limit when calling with amount bigger than one`() {
         for (callNumber in 1..5) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             if (callNumber > 1) {
                 assertEquals(true, aboveQuota)
@@ -82,7 +83,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         var latestCallNumberWithoutLimiting = 1
         for (callNumber in 1..5) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             val expectedIncrement = callNumber * defaultIncrementByAmountInTest
             if (expectedIncrement >= defaultQuotaLimitInTest) {
@@ -105,7 +106,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         var latestCallNumberWithoutLimiting = 1
         for (callNumber in 1..5) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             val expectedIncrement = callNumber * defaultIncrementByAmountInTest
             if (expectedIncrement >= defaultQuotaLimitInTest) {
@@ -123,7 +124,34 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         }
 
         classUnderTest.resetProgressTowardsQuota(0)
-        assertEquals(false, classUnderTest.isAboveQuota)
+        assertEquals(false, classUnderTest.hasExceededQuota)
+    }
+
+    @Test
+    fun `getProgressTowardsQuota is reset but the reset value is no multiple of incrementByAmount`() {
+        var latestCallNumberWithoutLimiting = 1
+        for (callNumber in 1..5) {
+            classUnderTest.calculateQuota()
+            val aboveQuota = classUnderTest.hasExceededQuota
+            Timber.v("call number $callNumber above quota: $aboveQuota")
+            val expectedIncrement = callNumber * defaultIncrementByAmountInTest
+            if (expectedIncrement >= defaultQuotaLimitInTest) {
+                assertEquals(
+                    (latestCallNumberWithoutLimiting + 1) * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+            } else {
+                assertEquals(
+                    callNumber * defaultIncrementByAmountInTest,
+                    classUnderTest.getProgressTowardsQuota()
+                )
+                latestCallNumberWithoutLimiting = callNumber
+            }
+        }
+
+        assertThrows<IllegalArgumentException> {
+            classUnderTest.resetProgressTowardsQuota(defaultIncrementByAmountInTest + 1)
+        }
     }
 
     @Test
@@ -131,7 +159,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         var latestCallNumberWithoutLimiting = 1
         for (callNumber in 1..5) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             val expectedIncrement = callNumber * defaultIncrementByAmountInTest
             if (expectedIncrement >= defaultQuotaLimitInTest) {
@@ -150,7 +178,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
 
         val newProgressAfterReset = 14
         classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
-        assertEquals(false, classUnderTest.isAboveQuota)
+        assertEquals(false, classUnderTest.hasExceededQuota)
         assertEquals(newProgressAfterReset, classUnderTest.getProgressTowardsQuota())
     }
 
@@ -160,7 +188,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         var progressBeforeReset: Int? = null
         for (callNumber in 1..5) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             val expectedIncrement = callNumber * defaultIncrementByAmountInTest
             if (expectedIncrement >= defaultQuotaLimitInTest) {
@@ -183,7 +211,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         assertThrows<IllegalArgumentException> {
             classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
         }
-        assertEquals(true, classUnderTest.isAboveQuota)
+        assertEquals(true, classUnderTest.hasExceededQuota)
         assertEquals(
             (progressBeforeReset
                 ?: throw IllegalStateException("progressBeforeReset was not set during test")),
@@ -202,7 +230,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         )
         for (callNumber in 1..15) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             if (callNumber > 3) {
                 assertEquals(true, aboveQuota)
@@ -216,7 +244,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
     fun `isAboveQuota false if called above quota limit but next day resets quota`() {
         for (callNumber in 1..5) {
             classUnderTest.calculateQuota()
-            val aboveQuota = classUnderTest.isAboveQuota
+            val aboveQuota = classUnderTest.hasExceededQuota
             Timber.v("call number $callNumber above quota: $aboveQuota")
             if (callNumber > 1) {
                 assertEquals(true, aboveQuota)
@@ -229,7 +257,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         val timeInTestAdvancedByADay = timeInTest + Duration.standardDays(1).millis
         DateTimeUtils.setCurrentMillisFixed(timeInTestAdvancedByADay)
         classUnderTest.calculateQuota()
-        val aboveQuotaAfterDayAdvance = classUnderTest.isAboveQuota
+        val aboveQuotaAfterDayAdvance = classUnderTest.hasExceededQuota
         Timber.v("above quota after day advance: $aboveQuotaAfterDayAdvance")
 
         assertEquals(false, aboveQuotaAfterDayAdvance)

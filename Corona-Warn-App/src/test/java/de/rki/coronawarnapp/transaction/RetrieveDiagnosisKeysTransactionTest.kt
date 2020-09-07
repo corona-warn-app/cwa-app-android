@@ -15,6 +15,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
+import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -59,7 +60,7 @@ class RetrieveDiagnosisKeysTransactionTest {
         every { LocalData.googleAPIProvideDiagnosisKeysCallCount = any() } just Runs
         every { LocalData.googleAPIProvideDiagnosisKeysCallCount } returns 0
         every { LocalData.nextTimeRateLimitingUnlocks = any() } just Runs
-        every { LocalData.nextTimeRateLimitingUnlocks } returns System.currentTimeMillis()
+        every { LocalData.nextTimeRateLimitingUnlocks } returns Instant.now()
     }
 
     @Test
