@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="de.rki.coronawarnapp.ui.submission.SubmissionTanViewModel" />
+            type="de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_tan_accessibility_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionTanFragment">
+        tools:context=".ui.submission.fragment.SubmissionTanFragment">
 
         <include
             android:id="@+id/submission_tan_header"
