@@ -51,8 +51,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/symptom_button_apply"
                 style="@style/greenButtonNotPressed"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="0dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -74,8 +74,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/symptom_button_reject"
                 style="@style/greenButtonNotPressed"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="0dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -97,9 +97,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/symptom_button_verify"
                 style="@style/greenButtonNotPressed"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="0dp"
                 android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -122,13 +123,29 @@
                 style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/onboarding_button_next"
-                app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/submission_symptom_further_button"
+                app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/symptom_button_verify"/>
 
             <include layout="@layout/merge_guidelines_side" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/guideline_top" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/spacing_small" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
