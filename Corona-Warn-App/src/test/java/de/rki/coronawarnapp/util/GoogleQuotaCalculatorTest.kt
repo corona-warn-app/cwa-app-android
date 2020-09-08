@@ -10,17 +10,15 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.chrono.GJChronology
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import testhelpers.BaseTest
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-internal class GoogleQuotaCalculatorTest : BaseTest() {
+internal class GoogleQuotaCalculatorTest {
 
     private val timeInTest = DateTimeUtils.currentTimeMillis()
 
@@ -31,7 +29,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
     private val defaultIncrementByAmountInTest = 14
     private val defaultQuotaLimitInTest = 20
 
-    @BeforeEach
+    @Before
     fun setUpClassUnderTest() {
         classUnderTest = GoogleQuotaCalculator(
             incrementByAmount = defaultIncrementByAmountInTest,
@@ -127,7 +125,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         assertEquals(false, classUnderTest.hasExceededQuota)
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException::class)
     fun `getProgressTowardsQuota is reset but the reset value is no multiple of incrementByAmount`() {
         var latestCallNumberWithoutLimiting = 1
         for (callNumber in 1..5) {
@@ -149,9 +147,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
             }
         }
 
-        assertThrows<IllegalArgumentException> {
-            classUnderTest.resetProgressTowardsQuota(defaultIncrementByAmountInTest + 1)
-        }
+        classUnderTest.resetProgressTowardsQuota(defaultIncrementByAmountInTest + 1)
     }
 
     @Test
@@ -182,7 +178,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         assertEquals(newProgressAfterReset, classUnderTest.getProgressTowardsQuota())
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException::class)
     fun `getProgressTowardsQuota is reset and the quota is not recalculated and the progress throws an error because of too high newProgress`() {
         var latestCallNumberWithoutLimiting = 1
         var progressBeforeReset: Int? = null
@@ -208,9 +204,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         }
 
         val newProgressAfterReset = defaultQuotaLimitInTest + 1
-        assertThrows<IllegalArgumentException> {
-            classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
-        }
+        classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
         assertEquals(true, classUnderTest.hasExceededQuota)
         assertEquals(
             (progressBeforeReset
@@ -287,7 +281,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
 
     }
 
-    @AfterEach
+    @After
     fun cleanup() {
         DateTimeUtils.setCurrentMillisSystem()
         unmockkObject(LocalData)
