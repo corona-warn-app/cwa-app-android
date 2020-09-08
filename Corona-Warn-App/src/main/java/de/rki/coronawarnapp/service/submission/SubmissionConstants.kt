@@ -49,7 +49,7 @@ object SubmissionConstants {
 
     const val minKeyCountForSubmission = 14
     const val fakeKeySize = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
-    const val qrCodeRegex = "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)"+
+    const val qrCodeRegex = "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)" +
                 "?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?\$"
 }
 
