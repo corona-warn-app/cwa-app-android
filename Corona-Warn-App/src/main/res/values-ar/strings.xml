@@ -135,11 +135,13 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"لا توجد مخالطة حتى الآن"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"لا توجد مخالطة بخطر منخفض حتى الآن"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s مخالطة بخطر منخفض"</item>
         <item quantity="other">"%1$s من المخالطات بخطر منخفض"</item>
-        <item quantity="zero">"لا توجد مخالطة حتى الآن"</item>
+        <item quantity="zero">"لا توجد مخالطة بخطر منخفض حتى الآن"</item>
         <item quantity="two">"%1$s مخالطة بخطر منخفض"</item>
         <item quantity="few">"%1$s من المخالطات بخطر منخفض"</item>
         <item quantity="many">"%1$s من المخالطات بخطر منخفض"</item>
@@ -296,6 +298,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"مستوى الخطر"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"مخالطات بخطر منخفض"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"لماذا خطر الإصابة بالعدوى منخفض"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"خالطت شخصًا مُصاب بمرض كوفيد-19. ومع ذلك، مع الأخذ في الاعتبار جميع البيانات المتاحة في تطبيق Corona-Warn-App، فإن خطر إصابتك يعد منخفضًا.\nليست هناك حاجة محددة لأي إجراء. نوصيك بالالتزام بالقواعد السائدة فيما يتعلق بالمسافة والنظافة."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"التعليمات"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +346,8 @@
     <string name="risk_details_information_body_outdated_risk">"تعذر تحديث تسجيل المخالطة لأكثر من 24 ساعة."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"لديك خطر منخفض للعدوى لأنه لم يتم تسجيل مخالطتك بأشخاص تم تشخيصهم لاحقًا كمصابين بمرض كوفيد-19، أو لأن تجمعاتك كانت لفترة زمنية قصيرة وعن بُعد."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"يتم حساب خطر الإصابة محليًا على جهازك باستخدام بيانات تسجيل المخالطات. يأخذ الحساب أيضًا في الاعتبار مسافة ومدة أي تعرض للأشخاص الذين تم تشخيص إصابتهم بمرض كوفيد-19، بالإضافة إلى احتمال إصابتهم بالعدوى. لا يمكن رؤية خطر الإصابة بالعدوى أو نقلها إلى أي شخص آخر."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"خطر العدوى لديك مرتفع لأنك خالطت مؤخرًا شخصًا واحدًا على الأقل مُصاب بمرض كوفيد-19 منذ %1$s من الأيام لفترة زمنية أطول وعن قرب."</item>

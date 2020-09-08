@@ -135,11 +135,13 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Пока нет контактов"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"Пока нет контактов с низким риском"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s контакт"</item>
         <item quantity="other">"%1$s контакта"</item>
-        <item quantity="zero">"Пока нет контактов"</item>
+        <item quantity="zero">"Пока нет контактов с низким риском"</item>
         <item quantity="two">"%1$s контакта"</item>
         <item quantity="few">"%1$s контакта"</item>
         <item quantity="many">"%1$s контактов"</item>
@@ -296,6 +298,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Ваш статус риска"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Контакты с низким риском"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Почему ваш риск заражения низкий"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Вы контактировали с человеком, который позднее получил положительный тест на COVID-19. Однако с учетом данных определения контакта ваш риск заражения оценивается как низкий. Риск низкий, если контакт был кратковременным или на расстоянии. Не стоит волноваться. Не требуются никакие действия. Рекомендуем вам соблюдать действующие правила в отношении социальной дистанции и гигиены."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Инструкции"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +346,8 @@
     <string name="risk_details_information_body_outdated_risk">"Не удается обновить определение риска более 24 часов."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"У Вас низкий риск заражения, поскольку не зарегистрировано контактов с лицами с положительным тестом на COVID-19 или контакты были кратковременными и на большом расстоянии."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Риск заражения рассчитывается локально на вашем устройстве по данным определения контакта. В расчете также учитываются расстояние и продолжительность контактов с лицами с положительным тестом на COVID-19 и их потенциальная заразность. Ваш риск заражения не виден и не передается третьим лицам."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"У Вас повышенный риск заражения, поскольку %1$s день назад у Вас был продолжительный близкий контакт минимум с одним лицом с положительным тестом на COVID-19."</item>
