@@ -66,13 +66,19 @@ object SubmissionService {
 
     fun containsValidGUID(scanResult: String): Boolean {
         if (scanResult.length > SubmissionConstants.MAX_QR_CODE_LENGTH ||
-            scanResult.count { it == SubmissionConstants.GUID_SEPARATOR } != 1
+            scanResult.count { it == SubmissionConstants.GUID_SEPARATOR } != 1 ||
+            !matchGUIDPattern(scanResult)
         )
             return false
 
         val potentialGUID = extractGUID(scanResult)
 
         return !(potentialGUID.isEmpty() || potentialGUID.length > SubmissionConstants.MAX_GUID_LENGTH)
+    }
+
+    private fun matchGUIDPattern(scanResult: String): Boolean {
+        val pattern = Regex(SubmissionConstants.qrCodeRegex)
+        return pattern.containsMatchIn(scanResult)
     }
 
     fun extractGUID(scanResult: String): String =

@@ -171,9 +171,15 @@ class SubmissionServiceTest {
             equalTo(true)
         )
 
-        // invalid
+        // invalid if no GUID
         assertThat(
             SubmissionService.containsValidGUID("https://no-guid-here"),
+            equalTo(false)
+        )
+
+        // invalid if url format is incorrect
+        assertThat(
+            SubmissionService.containsValidGUID("htps://wrongformat.com"),
             equalTo(false)
         )
     }

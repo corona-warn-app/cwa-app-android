@@ -49,6 +49,8 @@ object SubmissionConstants {
 
     const val minKeyCountForSubmission = 14
     const val fakeKeySize = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
+    const val qrCodeRegex = "((http(s)?(\\:\\/\\/))+(www\\.)?([\\w\\-\\.\\/])*(\\." +
+            "[a-zA-Z]{2,3}\\/?))[^\\s\\n|]*[^.,;:\\?\\!\\@\\^\\\$ -]"
 }
 
 enum class KeyType {
