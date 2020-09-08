@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
+import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import kotlinx.coroutines.launch
 
 class InteropCountryConfigurationFragment : Fragment() {
@@ -15,6 +18,7 @@ class InteropCountryConfigurationFragment : Fragment() {
         private val TAG: String? = InteropCountryConfigurationFragment::class.simpleName
     }
 
+    private val interoperabilityViewModel: InteroperabilityViewModel by activityViewModels()
     private var _binding: FragmentInteroperabilityConfigurationBinding? = null
     private val binding: FragmentInteroperabilityConfigurationBinding get() = _binding!!
 
@@ -29,10 +33,9 @@ class InteropCountryConfigurationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            binding.countryList.countryList =
-                ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                    .supportedCountriesList
+        // register back button action
+        binding.interopConfigHeader.headerButtonBack.buttonIcon.setOnClickListener {
+            (activity as MainActivity).goBack()
         }
     }
 }

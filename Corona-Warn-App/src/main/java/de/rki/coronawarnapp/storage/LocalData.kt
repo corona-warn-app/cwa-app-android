@@ -710,4 +710,21 @@ object LocalData {
      ****************************************************/
 
     fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
+
+    /****************************************************
+     * INTEROPERABILITY
+     ****************************************************/
+    var countryCodes: List<String>?
+        get() = getSharedPreferenceInstance().getStringSet(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_interoperability_selected_country_codes),
+            setOf()
+        )?.toList()
+        set(countryCodes) {
+            getSharedPreferenceInstance().edit().putStringSet(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_interoperability_selected_country_codes),
+                countryCodes?.toSet()
+            )
+        }
 }

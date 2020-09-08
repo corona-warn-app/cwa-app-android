@@ -1154,6 +1154,7 @@
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
+    <string name="country_name_all">Alle Länder</string>
     <string name="country_name_at">Österreich</string>
     <string name="country_name_be">Belgien</string>
     <string name="country_name_bg">Bulgarien</string>
@@ -1186,5 +1187,16 @@
     <string name="country_name_se">Schweden</string>
     <string name="country_name_si">Slowenien</string>
     <string name="country_name_sk">slowakei</string>
+
+    <string name="eu_wide_risk_detection_title">Europaweite\nRisiko-Ermittlung</string>
+    <string name="eu_wide_risk_detection_description">Bitte aktivieren Sie alle Länder, in denen Sie sich aufhalten oder in den letzen 14 Tagen aufgehalten haben:</string>
+    <string name="eu_wide_risk_detection_all_countries">Alle Länder</string>
+    <string name="eu_wide_risk_detection_higher_data_usage_hint">Die Aktivierung aller Länder erzeugt ein erhöhtes Datenvolumen und Stromverbrauch</string>
+    <string name="eu_wide_risk_detection_country_info">Daten aus den gewählten Ländern werden empfangen und zur Risiko-Ermittlung berücksichtigt.</string>
+    <string name="eu_wide_risk_detection_default_germany_title">Deutschlandweite Risiko-Ermittlung immer aktiv</string>
+    <string name="eu_wide_risk_detection_default_germany_summary">Die Risiko-Ermittlung funktioniert deutschlandweit unabhängig von Ihrer Einstellung der europaweiten Risiko-Ermittlung</string>
+    <string name="eu_wide_risk_detection_private_data_title">Hinweise zur Verarbeitung von personenbezogenen Daten</string>
+    <string name="eu_wide_risk_detection_private_data_description">Lorem Ipsum</string>
+
 
 </resources>

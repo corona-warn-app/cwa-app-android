@@ -75,6 +75,8 @@
     <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_interoperability_selected_country_codes"><xliff:g id="preference">"preference_interoperability_selected_country_codes"</xliff:g></string>
 
     <!-- ####################################
                      Generics
@@ -1157,6 +1159,7 @@
     <!-- NOTR -->
     <string name="test_api_switch_background_notifications">"Background Notifications"</string>
 
+    <string name="country_name_all"></string>
     <string name="country_name_at"></string>
     <string name="country_name_be"></string>
     <string name="country_name_bg"></string>
@@ -1189,4 +1192,14 @@
     <string name="country_name_se"></string>
     <string name="country_name_si"></string>
     <string name="country_name_sk"></string>
+
+    <string name="eu_wide_risk_detection_title"></string>
+    <string name="eu_wide_risk_detection_description"></string>
+    <string name="eu_wide_risk_detection_all_countries"></string>
+    <string name="eu_wide_risk_detection_higher_data_usage_hint"></string>
+    <string name="eu_wide_risk_detection_country_info"></string>
+    <string name="eu_wide_risk_detection_default_germany_title"></string>
+    <string name="eu_wide_risk_detection_default_germany_summary"></string>
+    <string name="eu_wide_risk_detection_private_data_title"></string>
+    <string name="eu_wide_risk_detection_private_data_description"></string>
 </resources>

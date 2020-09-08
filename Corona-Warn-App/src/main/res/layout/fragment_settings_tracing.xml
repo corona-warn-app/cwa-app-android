@@ -78,18 +78,14 @@
 
                 <include
                     android:id="@+id/settings_interoperability_row"
-                    layout="@layout/include_setting_row"
+                    layout="@layout/include_settings_plain_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    app:body="@{@string/settings_notifications_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatNotificationIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                    app:icon="@{FormatterSettingsHelper.formatNotificationIcon(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterSettingsHelper.formatNotificationsStatusText(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                    app:tracingViewModel="@{tracingViewModel}" />
+                    app:subtitle="@{@string/eu_wide_risk_detection_title}"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"

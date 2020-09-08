@@ -81,7 +81,7 @@ class SettingsTracingFragment : Fragment(),
         tracingViewModel.refreshIsTracingEnabled()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
-        binding.settingsInteroperabilityRow.settingsRow.setOnClickListener {
+        binding.settingsInteroperabilityRow.settingsPlainRow.setOnClickListener {
             findNavController()
                 .doNavigate(
                     ActionOnlyNavDirections(
