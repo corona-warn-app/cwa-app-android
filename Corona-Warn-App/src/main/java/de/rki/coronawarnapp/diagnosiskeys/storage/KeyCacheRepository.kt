@@ -23,6 +23,8 @@ import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import timber.log.Timber
@@ -51,33 +53,29 @@ class KeyCacheRepository @Inject constructor(
 
     private val database by lazy { databaseFactory.create() }
 
-    private var isHouseKeepingDone = false
-    private var isMigrationDone = false
+    private var isInitDone = false
+    private val initMutex = Mutex()
 
-    @Synchronized
     private suspend fun getDao(): KeyCacheDatabase.CachedKeyFileDao {
         val dao = database.cachedKeyFiles()
 
-        tryMigration()
-        tryHouseKeeping()
+        if (!isInitDone) {
+            initMutex.withLock {
+                if (isInitDone) return@withLock
+                isInitDone = true
+
+                doHouseKeeping()
+            }
+        }
 
         return dao
     }
 
-    private suspend fun tryHouseKeeping() {
-        if (isHouseKeepingDone) return
-        isHouseKeepingDone = true
-
+    private suspend fun doHouseKeeping() {
         val dirtyInfos = getDao().getAllEntries().filter {
             it.isDownloadComplete && !getPathForKey(it).exists()
         }
         delete(dirtyInfos)
-    }
-
-    private fun tryMigration() {
-        if (isMigrationDone) return
-        isMigrationDone = true
-        // TODO() from key-export
     }
 
     fun getPathForKey(cachedKeyInfo: CachedKeyInfo): File {

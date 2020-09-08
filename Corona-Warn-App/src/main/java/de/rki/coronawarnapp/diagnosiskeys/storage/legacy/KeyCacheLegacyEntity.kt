@@ -27,7 +27,7 @@ import androidx.room.PrimaryKey
     tableName = "date",
     indices = [Index("id")]
 )
-class KeyCacheEntity {
+class KeyCacheLegacyEntity {
     @PrimaryKey
     var id: String = ""
 

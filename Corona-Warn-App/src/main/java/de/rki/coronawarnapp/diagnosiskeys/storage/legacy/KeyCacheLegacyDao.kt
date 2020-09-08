@@ -21,29 +21,16 @@ package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface KeyCacheDao {
-    @Query("SELECT * FROM date WHERE type=0")
-    suspend fun getDates(): List<KeyCacheEntity>
-
-    @Query("SELECT * FROM date WHERE type=1")
-    suspend fun getHours(): List<KeyCacheEntity>
-
+interface KeyCacheLegacyDao {
     @Query("SELECT * FROM date")
-    suspend fun getAllEntries(): List<KeyCacheEntity>
+    suspend fun getAllEntries(): List<KeyCacheLegacyEntity>
+
+    @Delete
+    suspend fun deleteEntry(entity: KeyCacheLegacyEntity)
 
     @Query("DELETE FROM date")
     suspend fun clear()
-
-    @Query("DELETE FROM date WHERE type=1")
-    suspend fun clearHours()
-
-    @Delete
-    suspend fun deleteEntry(entity: KeyCacheEntity)
-
-    @Insert
-    suspend fun insertEntry(keyCacheEntity: KeyCacheEntity): Long
 }

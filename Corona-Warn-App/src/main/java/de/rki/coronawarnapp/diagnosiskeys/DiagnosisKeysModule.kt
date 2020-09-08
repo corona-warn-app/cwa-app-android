@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -9,7 +10,9 @@ import de.rki.coronawarnapp.diagnosiskeys.server.DownloadHomeCountry
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadHttpClient
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadServerUrl
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
 import de.rki.coronawarnapp.http.HttpClientDefault
+import de.rki.coronawarnapp.storage.AppDatabase
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
@@ -51,6 +54,12 @@ class DiagnosisKeysModule {
         val url = BuildConfig.DOWNLOAD_CDN_URL
         if (!url.startsWith("https://")) throw IllegalStateException("Innvalid: $url")
         return url
+    }
+
+    @Singleton
+    @Provides
+    fun legacyKeyCacheDao(context: Context): KeyCacheLegacyDao {
+        return AppDatabase.getInstance(context).dateDao()
     }
 
     companion object {
