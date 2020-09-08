@@ -34,10 +34,8 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
     /**
      * Saves the changes of a country
      */
-    private fun countrySelected(countryCode: String, enabled: Boolean) {
-        if (enabled) {
-            InteroperabilityRepository.updateSelectedCountryCodes(countryCode)
-        }
+    private fun countrySelected(countryCode: String, selected: Boolean) {
+        InteroperabilityRepository.updateSelectedCountryCodes(countryCode, selected)
     }
 
     /**
@@ -46,12 +44,22 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
     private fun buildList() {
         this.removeAllViews()
         val savedSelectedCountries = InteroperabilityRepository.getSelectedCountryCodes()
-        countryList?.map { it.toLowerCase(Locale.ROOT) }?.forEachIndexed { index, countryCode ->
-            inflate(context, R.layout.view_country_list_entry, this)
-            val child = this.getChildAt(index)
-            val isAlreadySelected = savedSelectedCountries.contains(countryCode)
-            this.setEntryValues(child, countryCode, isAlreadySelected)
-        }
+        countryList?.map { it.toLowerCase(Locale.ROOT) }
+            ?.map { countryCode ->
+                val countryNameResourceId = context.resources.getIdentifier(
+                    "country_name_$countryCode",
+                    "string",
+                    context.packageName
+                )
+                Pair(countryCode, context.getString(countryNameResourceId))
+            }
+            ?.sortedBy { it.second }
+            ?.forEachIndexed { index, country ->
+                inflate(context, R.layout.view_country_list_entry, this)
+                val child = this.getChildAt(index)
+                val isAlreadySelected = savedSelectedCountries.contains(country.first)
+                this.setEntryValues(child, country.first, country.second, isAlreadySelected)
+            }
 
     }
 
@@ -61,13 +69,12 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
      * @param countryCode needed to determine which country is used for the current entry
      * @param selected sets the status of the switch for the current entry
      */
-    private fun setEntryValues(entry: View, countryCode: String, selected: Boolean = false) {
-        // get string (Name of country) resource if dynamically based on country code
-        val countryNameResourceId = context.resources.getIdentifier(
-            "country_name_$countryCode",
-            "string",
-            context.packageName
-        )
+    private fun setEntryValues(
+        entry: View,
+        countryCode: String,
+        countryName: String,
+        selected: Boolean = false
+    ) {
 
         // get drawable (flag of country) resource if dynamically based on country code
         val countryFlagImageDrawableId = context.resources.getIdentifier(
@@ -82,8 +89,7 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
         entry.findViewById<ImageView>(R.id.img_country_flag)
             .setImageDrawable(countryFlagDrawable)
 
-        entry.findViewById<TextView>(R.id.label_country_name).text =
-            context.getString(countryNameResourceId)
+        entry.findViewById<TextView>(R.id.label_country_name).text = countryName
 
 
         val countrySwitch = entry.findViewById<Switch>(R.id.switch_country_enabled)

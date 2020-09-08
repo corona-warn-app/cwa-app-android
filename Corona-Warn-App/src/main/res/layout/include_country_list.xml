@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="interopViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
@@ -43,7 +44,7 @@
                 android:id="@+id/all_country_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/country_header_description">
@@ -65,13 +66,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/label_all_country"></Switch>
 
+                <include
+                    android:id="@+id/all_country_divider"
+                    layout="@layout/include_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginTop="@dimen/bullet_point_baseline_offset"
+                    app:layout_constraintTop_toBottomOf="@id/label_all_country" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/eu_wide_risk_detection_higher_data_usage_hint}}"
+                    android:text="@{@string/eu_wide_risk_detection_higher_data_usage_hint}"
+                    android:layout_marginTop="@dimen/bullet_point_baseline_offset"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_all_country" />
+                    app:layout_constraintTop_toBottomOf="@id/all_country_divider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <de.rki.coronawarnapp.ui.view.CountrySelectionList
@@ -118,6 +128,7 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:accessibilityHeading="true"
                     android:text="@{footerDescription}"
                     app:layout_constraintEnd_toEndOf="parent"

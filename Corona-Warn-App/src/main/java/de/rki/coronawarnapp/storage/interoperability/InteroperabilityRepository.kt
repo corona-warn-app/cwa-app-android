@@ -14,25 +14,27 @@ object InteroperabilityRepository {
     fun getSelectedCountryCodes(): List<String> =
         LocalData.countryCodes ?: listOf()
 
-
     /**
-     * Update selected countries by multiple countries at once
+     * Refresh selected country codes state
      */
-    fun updateSelectedCountryCodes(countryCodes: List<String>) {
+    fun refreshSelectedCountryCodes() {
         val codes = getSelectedCountryCodes()
-        codes.toMutableList().addAll(countryCodes)
-        LocalData.countryCodes = codes
         selectedCountryCodes.postValue(codes)
     }
 
     /**
      * Update selected countries by one country
      */
-    fun updateSelectedCountryCodes(countryCode: String) {
-        val codes = getSelectedCountryCodes()
-        codes.toMutableList().add(countryCode)
+    fun updateSelectedCountryCodes(countryCode: String, selected: Boolean = true) {
+        val codes =
+            if (selected) {
+                getSelectedCountryCodes() + countryCode
+            } else {
+                getSelectedCountryCodes() - countryCode
+            }
         LocalData.countryCodes = codes
         selectedCountryCodes.postValue(codes)
     }
+
 
 }

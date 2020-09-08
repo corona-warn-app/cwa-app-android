@@ -725,6 +725,6 @@ object LocalData {
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_interoperability_selected_country_codes),
                 countryCodes?.toSet()
-            )
+            ).commit()
         }
 }

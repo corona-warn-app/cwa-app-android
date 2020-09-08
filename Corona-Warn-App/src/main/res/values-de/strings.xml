@@ -1198,5 +1198,7 @@
     <string name="eu_wide_risk_detection_private_data_title">Hinweise zur Verarbeitung von personenbezogenen Daten</string>
     <string name="eu_wide_risk_detection_private_data_description">Lorem Ipsum</string>
 
+    <string name="settings_eu_wide_risk_detection_subtitle">Europaweite Risiko-Ermittlung</string>
+
 
 </resources>

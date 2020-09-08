@@ -1202,4 +1202,6 @@
     <string name="eu_wide_risk_detection_default_germany_summary"></string>
     <string name="eu_wide_risk_detection_private_data_title"></string>
     <string name="eu_wide_risk_detection_private_data_description"></string>
+
+    <string name="settings_eu_wide_risk_detection_subtitle"></string>
 </resources>

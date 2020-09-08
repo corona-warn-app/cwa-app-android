@@ -11,11 +11,7 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 class InteroperabilityViewModel : ViewModel() {
     val countryCodes = InteroperabilityRepository.selectedCountryCodes
 
-    fun updateCountryCodes(countryCodes: List<String>) {
-        InteroperabilityRepository.updateSelectedCountryCodes(countryCodes)
-    }
-
-    fun updateCountryCodes(countryCode: String) {
-        InteroperabilityRepository.updateSelectedCountryCodes(countryCode)
+    fun refreshSelectedCountryCodes() {
+        InteroperabilityRepository.refreshSelectedCountryCodes()
     }
 }

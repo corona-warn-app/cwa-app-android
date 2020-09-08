@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 
@@ -25,6 +26,7 @@ class SettingsFragment : Fragment() {
     companion object {
         private val TAG: String? = SettingsFragment::class.simpleName
     }
+
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()

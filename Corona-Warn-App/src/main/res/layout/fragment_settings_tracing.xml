@@ -9,6 +9,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
 
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterInteroperabilityHelper"></import>
+
         <variable
             name="tracingViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
@@ -16,6 +18,10 @@
         <variable
             name="settingsViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
+
+        <variable
+            name="interopViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,7 +91,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"
                     app:showDivider="@{true}"
-                    app:subtitle="@{@string/eu_wide_risk_detection_title}"/>
+                    app:statusText="@{FormatterInteroperabilityHelper.formatInteroperabilityStatus(interopViewModel.countryCodes.size())}"
+                    app:subtitle="@{@string/settings_eu_wide_risk_detection_subtitle}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"
