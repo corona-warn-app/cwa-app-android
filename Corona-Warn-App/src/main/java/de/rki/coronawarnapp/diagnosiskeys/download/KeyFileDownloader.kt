@@ -1,22 +1,3 @@
-/******************************************************************************
- * Corona-Warn-App                                                            *
- *                                                                            *
- * SAP SE and all other contributors /                                        *
- * copyright owners license this file to you under the Apache                 *
- * License, Version 2.0 (the "License"); you may not use this                 *
- * file except in compliance with the License.                                *
- * You may obtain a copy of the License at                                    *
- *                                                                            *
- * http://www.apache.org/licenses/LICENSE-2.0                                 *
- *                                                                            *
- * Unless required by applicable law or agreed to in writing,                 *
- * software distributed under the License is distributed on an                *
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY                     *
- * KIND, either express or implied.  See the License for the                  *
- * specific language governing permissions and limitations                    *
- * under the License.                                                         *
- ******************************************************************************/
-
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import dagger.Reusable
@@ -59,8 +40,6 @@ class KeyFileDownloader @Inject constructor(
      * - the app initializes with an empty cache and draws in every available data set in the beginning
      * - the difference can only work properly if the date from the device is synchronized through the net
      * - the difference in timezone is taken into account by using UTC in the Conversion from the Date to Server format
-     * - the missing days and hours are stored in one table as the actual stored data amount is low
-     * - the underlying repository from the database has no error and is reliable as source of truth
      *
      * @param currentDate the current date - if this is adjusted by the calendar, the cache is affected.
      * @return list of all files from both the cache and the diff query
@@ -271,7 +250,7 @@ class KeyFileDownloader @Inject constructor(
     }
 
     private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, path: File) {
-        val headerValidation = object : DownloadServer.HeaderValidation {
+        val validation = object : DownloadServer.HeaderValidation {
             override suspend fun validate(headers: Headers): Boolean {
                 // TODO get MD5 from better header, ETag isn't guaranteed to be the files MD5
                 val fileMD5 = headers.values("ETag")
@@ -283,6 +262,7 @@ class KeyFileDownloader @Inject constructor(
 
                 if (fileMD5 != null) {
                     legacyKeyCache.getLegacyFile(fileMD5)?.let { legacyFile ->
+                        Timber.tag(TAG).i("Migrating legacy file for : %s", keyInfo)
                         legacyFile.inputStream().use { from ->
                             path.outputStream().use { to ->
                                 from.copyTo(to, DEFAULT_BUFFER_SIZE)
@@ -302,7 +282,7 @@ class KeyFileDownloader @Inject constructor(
             keyInfo.day,
             keyInfo.hour,
             path,
-            headerValidation
+            validation
         )
 
         Timber.tag(TAG).v("Dowwnload finished: %s -> %s", keyInfo, path)
@@ -314,7 +294,6 @@ class KeyFileDownloader @Inject constructor(
     }
 
     companion object {
-
         private val TAG: String? = KeyFileDownloader::class.simpleName
     }
 }

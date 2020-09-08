@@ -20,17 +20,10 @@
 package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 
 @Dao
 interface KeyCacheLegacyDao {
-    @Query("SELECT * FROM date")
-    suspend fun getAllEntries(): List<KeyCacheLegacyEntity>
-
-    @Delete
-    suspend fun deleteEntry(entity: KeyCacheLegacyEntity)
-
     @Query("DELETE FROM date")
     suspend fun clear()
 }
