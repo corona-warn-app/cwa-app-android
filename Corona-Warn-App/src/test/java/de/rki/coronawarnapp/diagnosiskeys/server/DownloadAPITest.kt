@@ -116,7 +116,7 @@ class DownloadAPITest : BaseIOTest() {
         webServer.enqueue(MockResponse().setBody("~daykeyfile"))
 
         runBlocking {
-            api.downloadKeyFileForDay("DE", "2020-09-09").string() shouldBe "~daykeyfile"
+            api.downloadKeyFileForDay("DE", "2020-09-09").body()!!.string() shouldBe "~daykeyfile"
         }
 
         val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!
@@ -131,7 +131,8 @@ class DownloadAPITest : BaseIOTest() {
         webServer.enqueue(MockResponse().setBody("~hourkeyfile"))
 
         runBlocking {
-            api.downloadKeyFileForHour("DE", "2020-09-09", "23").string() shouldBe "~hourkeyfile"
+            api.downloadKeyFileForHour("DE", "2020-09-09", "23").body()!!
+                .string() shouldBe "~hourkeyfile"
         }
 
         val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!

@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.Headers
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
@@ -88,6 +89,10 @@ class DownloadServer @Inject constructor(
                 .map { hourString -> LocalTime.parse(hourString, HOUR_FORMATTER) }
         }
 
+    interface HeaderValidation {
+        suspend fun validate(headers: Headers): Boolean = true
+    }
+
     /**
      * Retrieves Key Files from the Server
      * Leave **[hour]** null to download a day package
@@ -96,7 +101,8 @@ class DownloadServer @Inject constructor(
         locationCode: LocationCode,
         day: LocalDate,
         hour: LocalTime? = null,
-        saveTo: File
+        saveTo: File,
+        validator: HeaderValidation = object : HeaderValidation {}
     ) = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v(
             "Starting download: country=%s, day=%s, hour=%s -> %s.",
@@ -108,21 +114,26 @@ class DownloadServer @Inject constructor(
             saveTo.delete()
         }
 
-        saveTo.outputStream().use {
+        val response = if (hour != null) {
+            api.downloadKeyFileForHour(
+                locationCode.identifier,
+                day.toString(DAY_FORMATTER),
+                hour.toString(HOUR_FORMATTER)
+            )
+        } else {
+            api.downloadKeyFileForDay(
+                locationCode.identifier,
+                day.toString(DAY_FORMATTER)
+            )
+        }
 
-            val streamingBody = if (hour != null) {
-                api.downloadKeyFileForHour(
-                    locationCode.identifier,
-                    day.toString(DAY_FORMATTER),
-                    hour.toString(HOUR_FORMATTER)
-                )
-            } else {
-                api.downloadKeyFileForDay(
-                    locationCode.identifier,
-                    day.toString(DAY_FORMATTER)
-                )
-            }
-            streamingBody.byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
+        if (!validator.validate(response.headers())) {
+            Timber.tag(TAG).d("validateHeaders() told us to abort.")
+            return@withContext
+        }
+
+        saveTo.outputStream().use {
+            response.body()!!.byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
         }
         Timber.tag(TAG).v("Key file download successful: %s", saveTo)
     }

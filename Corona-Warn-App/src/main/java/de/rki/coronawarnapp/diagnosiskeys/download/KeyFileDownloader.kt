@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.DownloadServer
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.CWADebug
@@ -34,6 +35,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import okhttp3.Headers
 import org.joda.time.LocalDate
 import timber.log.Timber
 import java.io.File
@@ -45,7 +47,8 @@ import javax.inject.Inject
 @Reusable
 class KeyFileDownloader @Inject constructor(
     private val downloadServer: DownloadServer,
-    private val keyCache: KeyCacheRepository
+    private val keyCache: KeyCacheRepository,
+    private val legacyKeyCache: LegacyKeyCacheMigration
 ) {
 
     /**
@@ -268,7 +271,40 @@ class KeyFileDownloader @Inject constructor(
     }
 
     private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, path: File) {
-        downloadServer.downloadKeyFile(keyInfo.location, keyInfo.day, keyInfo.hour, path)
+        val headerValidation = object : DownloadServer.HeaderValidation {
+            override suspend fun validate(headers: Headers): Boolean {
+                // TODO get MD5 from better header, ETag isn't guaranteed to be the files MD5
+                val fileMD5 = headers.values("ETag")
+                    .singleOrNull()
+                    ?.removePrefix("\"")
+                    ?.removeSuffix("\"")
+
+                var startDownload = true
+
+                if (fileMD5 != null) {
+                    legacyKeyCache.getLegacyFile(fileMD5)?.let { legacyFile ->
+                        legacyFile.inputStream().use { from ->
+                            path.outputStream().use { to ->
+                                from.copyTo(to, DEFAULT_BUFFER_SIZE)
+                            }
+                        }
+                        legacyKeyCache.delete(fileMD5)
+                        startDownload = false
+                    }
+                }
+
+                return startDownload
+            }
+        }
+
+        downloadServer.downloadKeyFile(
+            keyInfo.location,
+            keyInfo.day,
+            keyInfo.hour,
+            path,
+            headerValidation
+        )
+
         Timber.tag(TAG).v("Dowwnload finished: %s -> %s", keyInfo, path)
 
         val (downloadedMD5, duration) = measureTimeMillisWithResult { path.hashToMD5() }

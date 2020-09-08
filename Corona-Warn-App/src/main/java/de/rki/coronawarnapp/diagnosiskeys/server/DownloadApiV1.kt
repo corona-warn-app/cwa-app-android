@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Streaming
@@ -27,7 +28,7 @@ interface DownloadApiV1 {
     suspend fun downloadKeyFileForDay(
         @Path("country") country: String,
         @Path("day") day: String
-    ): ResponseBody
+    ): Response<ResponseBody>
 
     @Streaming
     @GET("/version/v1/diagnosis-keys/country/{country}/date/{day}/hour/{hour}")
@@ -35,6 +36,6 @@ interface DownloadApiV1 {
         @Path("country") country: String,
         @Path("day") day: String,
         @Path("hour") hour: String
-    ): ResponseBody
+    ): Response<ResponseBody>
 
 }

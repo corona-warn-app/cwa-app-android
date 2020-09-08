@@ -21,6 +21,7 @@ import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Response
 import testhelpers.BaseIOTest
 import java.io.File
 
@@ -171,7 +172,7 @@ class DownloadServerTest : BaseIOTest() {
                 "DE",
                 "2000-01-01"
             )
-        } returns "testdata-day".toResponseBody()
+        } returns Response.success("testdata-day".toResponseBody())
 
         val targetFile = File(testDir, "day-keys")
 
@@ -197,7 +198,7 @@ class DownloadServerTest : BaseIOTest() {
                 "2000-01-01",
                 "01"
             )
-        } returns "testdata-hour".toResponseBody()
+        } returns Response.success("testdata-hour".toResponseBody())
 
         val targetFile = File(testDir, "hour-keys")
 
