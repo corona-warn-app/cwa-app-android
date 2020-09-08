@@ -87,7 +87,7 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
 
 
         val countrySwitch = entry.findViewById<Switch>(R.id.switch_country_enabled)
-        countrySwitch.isEnabled = selected
+        countrySwitch.isChecked = selected
 
         countrySwitch.setOnCheckedChangeListener { view, checked ->
             this.countrySelected(countryCode, checked)
