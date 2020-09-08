@@ -17,7 +17,7 @@
  * under the License.                                                         *
  ******************************************************************************/
 
-package de.rki.coronawarnapp.storage.keycache
+package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
 import androidx.room.Entity
 import androidx.room.Index

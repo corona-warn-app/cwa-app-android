@@ -5,9 +5,9 @@ import android.text.format.Formatter
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 import kotlin.system.measureTimeMillis
 
@@ -19,8 +19,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
     /**
      * the key cache instance used to store queried dates and hours
      */
-    private val keyCache =
-        KeyCacheRepository.getDateRepository(context)
+    private val keyCache = AppInjector.component.keyCacheRepository
 
     /**
      * Calls the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction and measures them.
@@ -36,7 +35,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
         var resultInfo = StringBuilder()
             .append(
                 "MEASUREMENT Running for Countries:\n " +
-                        "${countries?.joinToString(", ")}\n\n"
+                        "${countries.joinToString(", ")}\n\n"
             )
             .append("Result: \n\n")
             .append("#\t Combined \t Download \t Sub \t Risk \t File # \t  F. size\n")

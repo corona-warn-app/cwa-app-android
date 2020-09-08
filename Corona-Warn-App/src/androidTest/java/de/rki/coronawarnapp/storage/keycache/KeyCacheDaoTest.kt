@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheDao
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheEntity
 import de.rki.coronawarnapp.storage.AppDatabase
 import kotlinx.coroutines.runBlocking
 import org.junit.After

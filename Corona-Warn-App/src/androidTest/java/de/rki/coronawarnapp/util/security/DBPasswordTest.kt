@@ -21,8 +21,8 @@ package de.rki.coronawarnapp.util.security
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheEntity
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SQLiteException
 import org.hamcrest.Matchers.equalTo

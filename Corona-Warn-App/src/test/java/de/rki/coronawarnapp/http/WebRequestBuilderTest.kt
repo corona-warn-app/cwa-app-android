@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.http
 
-import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
@@ -12,8 +11,9 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.util.Date
@@ -50,15 +50,18 @@ class WebRequestBuilderTest {
     @Test
     fun retrievingDateIndexIsSuccessful() {
         val urlString = DiagnosisKeyConstants.AVAILABLE_DATES_URL
-        coEvery { distributionService.getDateIndex(urlString) }
-            .returns(listOf("1900-01-01", "2000-01-01"))
+        coEvery { distributionService.getDateIndex(urlString) } returns listOf(
+            "1900-01-01",
+            "2000-01-01"
+        )
 
         runBlocking {
-            val expectedResult = listOf("1900-01-01", "2000-01-01")
-            Assert.assertEquals(webRequestBuilder.asyncGetDateIndex("DE"), expectedResult)
-            coVerify {
-                distributionService.getDateIndex(urlString)
-            }
+            webRequestBuilder.asyncGetDateIndex("DE") shouldBe listOf(
+                LocalDate.parse("1900-01-01"),
+                LocalDate.parse("2000-01-01")
+            )
+
+            coVerify(exactly = 1) { distributionService.getDateIndex(urlString) }
         }
     }
 
@@ -68,15 +71,15 @@ class WebRequestBuilderTest {
         val urlString = DiagnosisKeyConstants.AVAILABLE_DATES_URL +
                 "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
 
-        coEvery { distributionService.getHourIndex(urlString) }
-            .returns(listOf("1", "2"))
+        coEvery { distributionService.getHourIndex(urlString) } returns listOf("1", "2")
 
         runBlocking {
-            val expectedResult = listOf("1", "2")
-            Assert.assertEquals(webRequestBuilder.asyncGetHourIndex(day), expectedResult)
-            coVerify {
-                distributionService.getHourIndex(urlString)
-            }
+            webRequestBuilder.asyncGetHourIndex(day) shouldBe listOf(
+                LocalTime.parse("01:00"),
+                LocalTime.parse("02:00")
+            )
+
+            coVerify(exactly = 1) { distributionService.getHourIndex(urlString) }
         }
     }
 }

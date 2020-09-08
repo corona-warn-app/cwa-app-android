@@ -50,17 +50,17 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
-import java.util.Date
 import java.util.UUID
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
@@ -321,9 +321,9 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         lastSetCountries = countryCodes
 
         // Trigger asyncFetchFiles which will use all Countries passed as parameter
-        val currentDate = Date(System.currentTimeMillis())
+        val currentDate = LocalDate.now()
         lifecycleScope.launch {
-            CachedKeyFileHolder.asyncFetchFiles(currentDate, countryCodes)
+            AppInjector.component.keyFileDownloader.asyncFetchFiles(currentDate, countryCodes)
             updateCountryStatusLabel()
         }
     }

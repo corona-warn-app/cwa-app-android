@@ -17,23 +17,45 @@
  * under the License.                                                         *
  ******************************************************************************/
 
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.util.database
 
-import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import org.junit.jupiter.api.Test
 
-class Converters {
-    private val gson = Gson()
+class CommonConvertersTest {
 
-    @TypeConverter
-    fun fromString(value: String?): List<Int> {
-        val listType = object : TypeToken<List<Int?>?>() {}.type
-        return gson.fromJson(value, listType)
+    @Test
+    fun `int list conversion`() {
+        TODO()
     }
 
-    @TypeConverter
-    fun fromArrayList(list: List<Int?>?): String {
-        return gson.toJson(list)
+    @Test
+    fun `UUID conversion`() {
+        TODO()
+    }
+
+
+    @Test
+    fun `path conversion`() {
+        TODO()
+    }
+
+    @Test
+    fun `local date conversion`() {
+        TODO()
+    }
+
+    @Test
+    fun `local time conversion`() {
+        TODO()
+    }
+
+    @Test
+    fun `instant conversion`() {
+        TODO()
+    }
+
+    @Test
+    fun `LocationCode conversion`() {
+        TODO()
     }
 }
