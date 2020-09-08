@@ -22,7 +22,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadServer
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyFile
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
@@ -62,7 +62,7 @@ class KeyFileDownloader @Inject constructor(
      * @param currentDate the current date - if this is adjusted by the calendar, the cache is affected.
      * @return list of all files from both the cache and the diff query
      */
-    suspend fun asyncFetchFiles(
+    suspend fun asyncFetchKeyFiles(
         currentDate: LocalDate,
         countries: List<String>
     ): List<File> = withContext(Dispatchers.IO) {
@@ -74,11 +74,25 @@ class KeyFileDownloader @Inject constructor(
         val availableCountries = downloadServer.getCountryIndex(countries)
         Timber.tag(TAG).v("Available server data: %s", availableCountries)
 
-        if (CWADebug.isDebugBuildOrMode && LocalData.last3HoursMode()) {
-            asyncHandleLast3HoursFilesFetch(currentDate, availableCountries)
+        val availableKeys = if (CWADebug.isDebugBuildOrMode && LocalData.last3HoursMode()) {
+            fetchMissing3Hours(currentDate, availableCountries)
+            keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
         } else {
-            asyncHandleFilesFetch(availableCountries)
+            fetchMissingDays(availableCountries)
+            keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY)
         }
+
+        return@withContext availableKeys
+            .filter { it.first.isDownloadComplete && it.second.exists() }
+            .mapNotNull { (keyInfo, path) ->
+                if (!path.exists()) {
+                    Timber.tag(TAG).w("Missing keyfile for : %s", keyInfo)
+                    null
+                } else {
+                    path
+                }
+            }
+            .also { Timber.tag(TAG).d("Returning %d available keyfiles", it.size) }
     }
 
     // TODO replace
@@ -88,17 +102,18 @@ class KeyFileDownloader @Inject constructor(
      * Fetches files given by serverDates by respecting countries
      * @param availableCountries pair of dates per country code
      */
-    private suspend fun asyncHandleFilesFetch(
+    private suspend fun fetchMissingDays(
         availableCountries: List<LocationCode>
-    ): List<File> = withContext(Dispatchers.IO) {
+    ) = withContext(Dispatchers.IO) {
         val availableCountriesWithDays = availableCountries.map {
             val days = downloadServer.getDayIndex(it)
             CountryDays(it, days)
         }
 
         val cachedDays = keyCache
-            .getEntriesForType(CachedKeyFile.Type.COUNTRY_DAY)
-            .filter { it.isDownloadComplete } // We overwrite not completed ones
+            .getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY)
+            .filter { it.first.isDownloadComplete && it.second.exists() } // We overwrite not completed ones
+            .map { it.first }
 
         // All cached files that are no longer on the server are considered stale
         val staleKeyFiles = cachedDays.filter { cachedKeyFile ->
@@ -136,7 +151,7 @@ class KeyFileDownloader @Inject constructor(
                         location = countryWrapper.country,
                         dayIdentifier = dayDate,
                         hourIdentifier = null,
-                        type = CachedKeyFile.Type.COUNTRY_DAY
+                        type = CachedKeyInfo.Type.COUNTRY_DAY
                     )
 
                     return@async try {
@@ -159,10 +174,12 @@ class KeyFileDownloader @Inject constructor(
             (System.currentTimeMillis() - batchDownloadStart)
         )
 
-        return@withContext downloadedDays.map { (keyInfo, path) ->
+        downloadedDays.map { (keyInfo, path) ->
             Timber.tag(TAG).v("Downloaded keyfile: %s to %s", keyInfo, path)
             path
         }
+
+        Unit
     }
 
     /**
@@ -170,10 +187,10 @@ class KeyFileDownloader @Inject constructor(
      * @param currentDate base for where only dates within 3 hours before will be fetched
      * @param availableCountries pair of dates per country code
      */
-    private suspend fun asyncHandleLast3HoursFilesFetch(
+    private suspend fun fetchMissing3Hours(
         currentDate: LocalDate,
         availableCountries: List<LocationCode>
-    ): List<File> = withContext(Dispatchers.IO) {
+    ) = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v(
             "asyncHandleLast3HoursFilesFetch(currentDate=%s, availableCountries=%s)",
             currentDate, availableCountries
@@ -188,8 +205,9 @@ class KeyFileDownloader @Inject constructor(
         }
 
         val cachedHours = keyCache
-            .getEntriesForType(CachedKeyFile.Type.COUNTRY_HOUR)
-            .filter { it.isDownloadComplete } // We overwrite not completed ones
+            .getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
+            .filter { it.first.isDownloadComplete && it.second.exists() } // We overwrite not completed ones
+            .map { it.first }
 
         // All cached files that are no longer on the server are considered stale
         val staleHours = cachedHours.filter { cachedHour ->
@@ -227,7 +245,7 @@ class KeyFileDownloader @Inject constructor(
                             location = country.country,
                             dayIdentifier = day,
                             hourIdentifier = missingHour,
-                            type = CachedKeyFile.Type.COUNTRY_HOUR
+                            type = CachedKeyInfo.Type.COUNTRY_HOUR
                         )
 
                         downloadKeyFile(keyInfo, path)
@@ -241,13 +259,15 @@ class KeyFileDownloader @Inject constructor(
         Timber.tag(TAG).d("Waiting for %d missing hour downloads.", hourDownloads.size)
         val downloadedHours = hourDownloads.awaitAll()
 
-        return@withContext downloadedHours.map { (keyInfo, path) ->
+        downloadedHours.map { (keyInfo, path) ->
             Timber.tag(TAG).d("Downloaded keyfile: %s to %s", keyInfo, path)
             path
         }
+
+        Unit
     }
 
-    private suspend fun downloadKeyFile(keyInfo: CachedKeyFile, path: File) {
+    private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, path: File) {
         downloadServer.downloadKeyFile(keyInfo.location, keyInfo.day, keyInfo.hour, path)
         Timber.tag(TAG).v("Dowwnload finished: %s -> %s", keyInfo, path)
 

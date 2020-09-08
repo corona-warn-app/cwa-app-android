@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.diagnosiskeys
 
-import android.webkit.URLUtil
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -24,7 +23,7 @@ class DiagnosisKeysModule {
     @Singleton
     @DownloadHomeCountry
     @Provides
-    fun provideCDNHomeCountry(): LocationCode = LocationCode("DE")
+    fun provideDiagnosisHomeCountry(): LocationCode = LocationCode("DE")
 
     @Reusable
     @DownloadHttpClient
@@ -34,13 +33,13 @@ class DiagnosisKeysModule {
 
     @Singleton
     @Provides
-    fun cdnApi(
-        @DownloadHttpClient cdnHttpClient: OkHttpClient,
-        @DownloadServerUrl cdnUrl: String,
+    fun provideDownloadApi(
+        @DownloadHttpClient client: OkHttpClient,
+        @DownloadServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory
     ): DownloadApiV1 = Retrofit.Builder()
-        .client(cdnHttpClient)
-        .baseUrl(cdnUrl)
+        .client(client)
+        .baseUrl(url)
         .addConverterFactory(gsonConverterFactory)
         .build()
         .create(DownloadApiV1::class.java)
@@ -48,8 +47,10 @@ class DiagnosisKeysModule {
     @Singleton
     @DownloadServerUrl
     @Provides
-    fun provideCDNUrl(): String = BuildConfig.DOWNLOAD_CDN_URL.also {
-        if (!URLUtil.isHttpsUrl(it)) throw IllegalArgumentException("the url is invalid")
+    fun provideDownloadServerUrl(): String {
+        val url = BuildConfig.DOWNLOAD_CDN_URL
+        if (!url.startsWith("https://")) throw IllegalStateException("Innvalid: $url")
+        return url
     }
 
     companion object {

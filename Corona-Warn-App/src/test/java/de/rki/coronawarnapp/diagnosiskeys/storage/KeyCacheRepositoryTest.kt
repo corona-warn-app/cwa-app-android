@@ -1,142 +1,212 @@
 package de.rki.coronawarnapp.diagnosiskeys.storage
 
-import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheDao
+import android.content.Context
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.runBlocking
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
+import testhelpers.BaseIOTest
+import java.io.File
 
-class KeyCacheRepositoryTest : BaseTest() {
+class KeyCacheRepositoryTest : BaseIOTest() {
+    @MockK
+    lateinit var context: Context
 
     @MockK
-    private lateinit var keyCacheDao: KeyCacheDao
+    lateinit var timeStamper: TimeStamper
 
-    private lateinit var keyCacheRepository: KeyCacheRepository
+    @MockK
+    lateinit var databaseFactory: KeyCacheDatabase.Factory
 
-//    @Before
-//    fun setUp() {
-//        MockKAnnotations.init(this)
-//        keyCacheRepository = KeyCacheRepository(keyCacheDao)
-//
-//        // DAO tests in another test
-//        coEvery { keyCacheDao.getAllEntries() } returns listOf()
-//        coEvery { keyCacheDao.getHours() } returns listOf()
-//        coEvery { keyCacheDao.clear() } just Runs
-//        coEvery { keyCacheDao.clearHours() } just Runs
-//        coEvery { keyCacheDao.insertEntry(any()) } returns 0
-//    }
-//
-//    /**
-//     * Test clear order.
-//     */
-//    @Test
-//    fun testClear() {
-//        runBlocking {
-//            keyCacheRepository.clear()
-//
-//            coVerifyOrder {
-//                keyCacheDao.getAllEntries()
-//
-//                keyCacheDao.clear()
-//            }
-//        }
-//
-//        runBlocking {
-//            keyCacheRepository.clearHours()
-//
-//            coVerifyOrder {
-//                keyCacheDao.getHours()
-//
-//                keyCacheDao.clearHours()
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Test insert order.
-//     */
-//    @Test
-//    fun testInsert() {
-//        runBlocking {
-//            keyCacheRepository.createCacheEntry(
-//                key = "1",
-//                type = KeyCacheRepository.DateEntryType.DAY,
-//                uri = URI("1")
-//            )
-//
-//            coVerify {
-//                keyCacheDao.insertEntry(any())
-//            }
-//        }
-//    }
-//
-//    @After
-//    fun cleanUp() {
-//        unmockkAll()
-//    }
+    @MockK
+    lateinit var database: KeyCacheDatabase
+
+    @MockK
+    lateinit var keyfileDAO: KeyCacheDatabase.CachedKeyFileDao
+
+    private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+        testDir.mkdirs()
+        testDir.exists() shouldBe true
+
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { context.cacheDir } returns testDir
+
+        every { databaseFactory.create() } returns database
+        every { database.cachedKeyFiles() } returns keyfileDAO
+
+        coEvery { keyfileDAO.getAllEntries() } returns emptyList()
+    }
+
+    @AfterEach
+    fun teardown() {
+        clearAllMocks()
+        testDir.deleteRecursively()
+    }
+
+    private fun createRepo(): KeyCacheRepository = KeyCacheRepository(
+        context = context,
+        databaseFactory = databaseFactory,
+        timeStamper = timeStamper
+    )
 
     @Test
-    fun `migration of old data`() {
+    fun `migration runs before data access`() {
         TODO()
     }
 
     @Test
-    fun `migration does nothing when there is no old data`() {
-        TODO()
-    }
+    fun `housekeeping runs before data access`() {
+        val lostKey = CachedKeyInfo(
+            location = LocationCode("DE"),
+            day = LocalDate.now(),
+            hour = LocalTime.now(),
+            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            createdAt = Instant.now()
+        ).copy(
+            isDownloadComplete = true,
+            checksumMD5 = "checksum"
+        )
 
-    @Test
-    fun `migration consumes old data and runs only once`() {
-        TODO()
-    }
+        val existingKey = CachedKeyInfo(
+            location = LocationCode("NL"),
+            day = LocalDate.now(),
+            hour = LocalTime.now(),
+            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            createdAt = Instant.now()
+        )
 
-    @Test
-    fun `migration runs before creation`() {
-        TODO()
-    }
+        File(testDir, "diagnosis_keys/${existingKey.id}.zip").apply {
+            parentFile!!.mkdirs()
+            createNewFile()
+        }
 
-    @Test
-    fun `migration runs before download update`() {
-        TODO()
-    }
+        coEvery { keyfileDAO.getAllEntries() } returns listOf(lostKey, existingKey)
+        coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
+        coEvery { keyfileDAO.deleteEntry(lostKey) } returns Unit
 
-    @Test
-    fun `health check runs before data creation`() {
-        TODO()
-    }
+        val repo = createRepo()
 
-    @Test
-    fun `health check runs before data update`() {
-        TODO()
+        coVerify(exactly = 0) { keyfileDAO.updateDownloadState(any()) }
+
+        runBlocking {
+            repo.getAllCachedKeys()
+            coVerify(exactly = 2) { keyfileDAO.getAllEntries() }
+            coVerify { keyfileDAO.deleteEntry(lostKey) }
+        }
     }
 
     @Test
     fun `insert and retrieve`() {
-        TODO()
+        val repo = createRepo()
+
+        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
+
+        runBlocking {
+            val (keyFile, path) = repo.createCacheEntry(
+                location = LocationCode("NL"),
+                dayIdentifier = LocalDate.parse("2020-09-09"),
+                hourIdentifier = LocalTime.parse("23:00"),
+                type = CachedKeyInfo.Type.COUNTRY_HOUR
+            )
+
+            path shouldBe File(testDir, "diagnosis_keys/${keyFile.id}.zip")
+
+            coVerify { keyfileDAO.insertEntry(keyFile) }
+        }
     }
 
     @Test
     fun `update download state`() {
-        TODO()
+        val repo = createRepo()
+
+        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
+        coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
+
+        runBlocking {
+            val (keyFile, _) = repo.createCacheEntry(
+                location = LocationCode("NL"),
+                dayIdentifier = LocalDate.parse("2020-09-09"),
+                hourIdentifier = LocalTime.parse("23:00"),
+                type = CachedKeyInfo.Type.COUNTRY_HOUR
+            )
+
+            repo.markKeyComplete(keyFile, "checksum")
+
+            coVerify {
+                keyfileDAO.insertEntry(keyFile)
+                keyfileDAO.updateDownloadState(keyFile.toDownloadUpdate("checksum"))
+            }
+        }
     }
 
     @Test
     fun `delete only selected entries`() {
-        TODO()
+        val repo = createRepo()
+
+        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
+        coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
+
+        runBlocking {
+            val (keyFile, path) = repo.createCacheEntry(
+                location = LocationCode("NL"),
+                dayIdentifier = LocalDate.parse("2020-09-09"),
+                hourIdentifier = LocalTime.parse("23:00"),
+                type = CachedKeyInfo.Type.COUNTRY_HOUR
+            )
+
+            path.createNewFile() shouldBe true
+            path.exists() shouldBe true
+
+            repo.delete(listOf(keyFile))
+
+            coVerify { keyfileDAO.deleteEntry(keyFile) }
+
+            path.exists() shouldBe false
+        }
     }
 
     @Test
     fun `clear all files`() {
-        TODO()
-    }
+        val repo = createRepo()
 
-    @Test
-    fun `path is based on private cache dir`() {
-        TODO()
-    }
+        val keyFileToClear = CachedKeyInfo(
+            location = LocationCode("DE"),
+            day = LocalDate.now(),
+            hour = LocalTime.now(),
+            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            createdAt = Instant.now()
+        )
 
-    @Test
-    fun `check for missing key files and change download state`() {
-        TODO()
+        coEvery { keyfileDAO.getAllEntries() } returns listOf(keyFileToClear)
+        coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
+
+        val keyFilePath = repo.getPathForKey(keyFileToClear)
+        keyFilePath.createNewFile() shouldBe true
+        keyFilePath.exists() shouldBe true
+
+        runBlocking {
+            repo.clear()
+
+            coVerify { keyfileDAO.deleteEntry(keyFileToClear) }
+
+            keyFilePath.exists() shouldBe false
+        }
     }
 
 }

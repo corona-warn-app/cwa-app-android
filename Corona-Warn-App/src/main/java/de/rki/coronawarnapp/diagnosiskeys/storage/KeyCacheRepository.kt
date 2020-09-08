@@ -51,36 +51,54 @@ class KeyCacheRepository @Inject constructor(
 
     private val database by lazy { databaseFactory.create() }
 
-    private val cacheKeyFilesDao: KeyCacheDatabase.CachedKeyFileDao
-        get() = database.cachedKeyFiles()
+    private var isHouseKeepingDone = false
+    private var isMigrationDone = false
+
+    @Synchronized
+    private suspend fun getDao(): KeyCacheDatabase.CachedKeyFileDao {
+        val dao = database.cachedKeyFiles()
+
+        tryMigration()
+        tryHouseKeeping()
+
+        return dao
+    }
+
+    private suspend fun tryHouseKeeping() {
+        if (isHouseKeepingDone) return
+        isHouseKeepingDone = true
+
+        val dirtyInfos = getDao().getAllEntries().filter {
+            it.isDownloadComplete && !getPathForKey(it).exists()
+        }
+        delete(dirtyInfos)
+    }
 
     private fun tryMigration() {
+        if (isMigrationDone) return
+        isMigrationDone = true
         // TODO() from key-export
     }
 
-    private fun checkCacheHealth() {
-//        TODO()
+    fun getPathForKey(cachedKeyInfo: CachedKeyInfo): File {
+        return File(storageDir, cachedKeyInfo.fileName)
     }
 
-    fun getPathForKey(cachedKeyFile: CachedKeyFile): File {
-        return File(storageDir, cachedKeyFile.fileName)
+    suspend fun getAllCachedKeys(): List<Pair<CachedKeyInfo, File>> {
+        return getDao().getAllEntries().map { it to getPathForKey(it) }
     }
 
-    suspend fun getAllCachedKeys(): List<CachedKeyFile> {
-        return cacheKeyFilesDao.getAllEntries()
-    }
-
-    suspend fun getEntriesForType(type: CachedKeyFile.Type): List<CachedKeyFile> {
-        return cacheKeyFilesDao.getEntriesForType(type.typeValue)
+    suspend fun getEntriesForType(type: CachedKeyInfo.Type): List<Pair<CachedKeyInfo, File>> {
+        return getDao().getEntriesForType(type.typeValue).map { it to getPathForKey(it) }
     }
 
     suspend fun createCacheEntry(
-        type: CachedKeyFile.Type,
+        type: CachedKeyInfo.Type,
         location: LocationCode,
         dayIdentifier: LocalDate,
         hourIdentifier: LocalTime?
-    ): Pair<CachedKeyFile, File> {
-        val newKeyFile = CachedKeyFile(
+    ): Pair<CachedKeyInfo, File> {
+        val newKeyFile = CachedKeyInfo(
             type = type,
             location = location,
             day = dayIdentifier,
@@ -91,7 +109,7 @@ class KeyCacheRepository @Inject constructor(
         val targetFile = getPathForKey(newKeyFile)
 
         try {
-            cacheKeyFilesDao.insertEntry(newKeyFile)
+            getDao().insertEntry(newKeyFile)
             if (targetFile.exists()) {
                 Timber.w("Target path despire no collision exists, deleting: %s", targetFile)
             }
@@ -100,7 +118,7 @@ class KeyCacheRepository @Inject constructor(
             delete(listOf(newKeyFile))
 
             Timber.d(e, "Retrying insertion for %s", newKeyFile)
-            cacheKeyFilesDao.insertEntry(newKeyFile)
+            getDao().insertEntry(newKeyFile)
         }
 
         // This can't be null unless our cache dir is root `/`
@@ -113,15 +131,15 @@ class KeyCacheRepository @Inject constructor(
         return newKeyFile to targetFile
     }
 
-    suspend fun markKeyComplete(cachedKeyFile: CachedKeyFile, checksumMD5: String) {
-        val update = cachedKeyFile.toDownloadCompleted(checksumMD5)
-        cacheKeyFilesDao.updateDownloadState(update)
+    suspend fun markKeyComplete(cachedKeyInfo: CachedKeyInfo, checksumMD5: String) {
+        val update = cachedKeyInfo.toDownloadUpdate(checksumMD5)
+        getDao().updateDownloadState(update)
     }
 
-    suspend fun delete(keyFiles: Collection<CachedKeyFile>) {
-        Timber.d("delete(keyFiles=%s)", keyFiles)
-        keyFiles.forEach { key ->
-            cacheKeyFilesDao.deleteEntry(key)
+    suspend fun delete(keyInfos: Collection<CachedKeyInfo>) {
+        Timber.d("delete(keyFiles=%s)", keyInfos)
+        keyInfos.forEach { key ->
+            getDao().deleteEntry(key)
             Timber.v("Deleted %s", key)
             val path = getPathForKey(key)
             if (path.delete()) Timber.v("Deleted cache key file at %s", path)
@@ -130,6 +148,6 @@ class KeyCacheRepository @Inject constructor(
 
     suspend fun clear() {
         Timber.i("clear()")
-        delete(getAllCachedKeys())
+        delete(getDao().getAllEntries())
     }
 }

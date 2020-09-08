@@ -15,11 +15,11 @@ import de.rki.coronawarnapp.util.database.CommonConverters
 import javax.inject.Inject
 
 @Database(
-    entities = [CachedKeyFile::class],
+    entities = [CachedKeyInfo::class],
     version = 1,
     exportSchema = true
 )
-@TypeConverters(CommonConverters::class, CachedKeyFile.Type.Converter::class)
+@TypeConverters(CommonConverters::class, CachedKeyInfo.Type.Converter::class)
 abstract class KeyCacheDatabase : RoomDatabase() {
 
     abstract fun cachedKeyFiles(): CachedKeyFileDao
@@ -27,22 +27,22 @@ abstract class KeyCacheDatabase : RoomDatabase() {
     @Dao
     interface CachedKeyFileDao {
         @Query("SELECT * FROM keyfiles")
-        suspend fun getAllEntries(): List<CachedKeyFile>
+        suspend fun getAllEntries(): List<CachedKeyInfo>
 
         @Query("SELECT * FROM keyfiles WHERE type = :type")
-        suspend fun getEntriesForType(type: String): List<CachedKeyFile>
+        suspend fun getEntriesForType(type: String): List<CachedKeyInfo>
 
         @Query("DELETE FROM keyfiles")
         suspend fun clear()
 
         @Insert(onConflict = OnConflictStrategy.ABORT)
-        suspend fun insertEntry(cachedKeyFile: CachedKeyFile)
+        suspend fun insertEntry(cachedKeyInfo: CachedKeyInfo)
 
         @Delete
-        suspend fun deleteEntry(cachedKeyFile: CachedKeyFile)
+        suspend fun deleteEntry(cachedKeyInfo: CachedKeyInfo)
 
-        @Update(entity = CachedKeyFile::class)
-        suspend fun updateDownloadState(update: CachedKeyFile.DownloadUpdate)
+        @Update(entity = CachedKeyInfo::class)
+        suspend fun updateDownloadState(update: CachedKeyInfo.DownloadUpdate)
     }
 
     class Factory @Inject constructor(private val context: Context) {

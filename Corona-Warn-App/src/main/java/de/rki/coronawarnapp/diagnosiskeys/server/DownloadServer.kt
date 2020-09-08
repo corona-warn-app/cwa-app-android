@@ -20,20 +20,19 @@ import javax.inject.Singleton
 
 @Singleton
 class DownloadServer @Inject constructor(
-    private val DownloadAPI: Lazy<DownloadApiV1>,
+    private val downloadAPI: Lazy<DownloadApiV1>,
     private val verificationKeys: VerificationKeys,
     @DownloadHomeCountry private val homeCountry: LocationCode
 ) {
 
-    private val apiDownload: DownloadApiV1
-        get() = DownloadAPI.get()
+    private val api: DownloadApiV1
+        get() = downloadAPI.get()
 
     suspend fun downloadAppConfig(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
         withContext(Dispatchers.IO) {
             var exportBinary: ByteArray? = null
             var exportSignature: ByteArray? = null
-
-            apiDownload.getApplicationConfiguration(homeCountry.identifier).byteStream()
+            api.getApplicationConfiguration(homeCountry.identifier).byteStream()
                 .unzip { entry, entryContent ->
                     if (entry.name == EXPORT_BINARY_FILE_NAME) exportBinary =
                         entryContent.copyOf()
@@ -65,7 +64,7 @@ class DownloadServer @Inject constructor(
     suspend fun getCountryIndex(
         wantedCountries: List<String>
     ): List<LocationCode> = withContext(Dispatchers.IO) {
-        apiDownload
+        api
             .getCountryIndex().filter {
                 wantedCountries
                     .map { c -> c.toUpperCase(Locale.ROOT) }
@@ -75,7 +74,7 @@ class DownloadServer @Inject constructor(
     }
 
     suspend fun getDayIndex(location: LocationCode): List<LocalDate> = withContext(Dispatchers.IO) {
-        apiDownload
+        api
             .getDayIndex(location.identifier)
             .map { dayString ->  // 2020-08-19
                 LocalDate.parse(dayString, DAY_FORMATTER)
@@ -84,7 +83,7 @@ class DownloadServer @Inject constructor(
 
     suspend fun getHourIndex(location: LocationCode, day: LocalDate): List<LocalTime> =
         withContext(Dispatchers.IO) {
-            apiDownload
+            api
                 .getHourIndex(location.identifier, day.toString(DAY_FORMATTER))
                 .map { hourString -> LocalTime.parse(hourString, HOUR_FORMATTER) }
         }
@@ -112,13 +111,13 @@ class DownloadServer @Inject constructor(
         saveTo.outputStream().use {
 
             val streamingBody = if (hour != null) {
-                apiDownload.downloadKeyFileForHour(
+                api.downloadKeyFileForHour(
                     locationCode.identifier,
                     day.toString(DAY_FORMATTER),
                     hour.toString(HOUR_FORMATTER)
                 )
             } else {
-                apiDownload.downloadKeyFileForDay(
+                api.downloadKeyFileForDay(
                     locationCode.identifier,
                     day.toString(DAY_FORMATTER)
                 )

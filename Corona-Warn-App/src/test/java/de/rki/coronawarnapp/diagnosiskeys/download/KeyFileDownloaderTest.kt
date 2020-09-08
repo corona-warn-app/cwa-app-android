@@ -159,4 +159,9 @@ class KeyFileDownloaderTest : BaseTest() {
     fun `not completed cache entries are overwritten`() {
         TODO()
     }
+
+    @Test
+    fun `fetch returns all currently available keyfiles`() {
+        TODO()
+    }
 }

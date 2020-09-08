@@ -1,74 +1,241 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class CountryDataTest : BaseTest() {
+    private val locationCode = LocationCode("DE")
 
-
-    //    @Test
-//    fun testGetMissingDaysFromDiff() {
-//        val c1 = KeyCacheEntity()
-//        c1.id = "10008bf0-8890-356d-a4a4-dc375553160a"
-//        c1.path =
-//            "/data/user/0/de.rki.coronawarnapp.dev/cache/key-export/10008bf0-8890-356d-a4a4-dc375553160a.zip"
-//        c1.type = KeyCacheRepository.DateEntryType.DAY.ordinal
-//
-//        val c2 = KeyCacheEntity()
-//        c2.id = "a8cc7b31-843e-3924-b918-023c386aec69"
-//        c2.path =
-//            "/data/user/0/de.rki.coronawarnapp.dev/cache/key-export/a8cc7b31-843e-3924-b918-023c386aec69.zip"
-//        c2.type = KeyCacheRepository.DateEntryType.DAY.ordinal
-//
-//        val cacheEntries: Collection<KeyCacheEntity> = listOf(c1, c2)
-//
-//        val countryDataWrapper =
-//            CountryDataWrapper("DE", listOf("2020-08-29", "2020-08-26", "2020-08-28"))
-//
-//        val result = countryDataWrapper.getMissingDates(cacheEntries)
-//
-//        result.size shouldBe 1
-//        result.elementAt(0) shouldBe "2020-08-28"
-//    }
-
-    @Test
-    fun `missing hours default`() {
-        TODO()
-    }
-
-    @Test
-    fun `missing hours empty`() {
-        TODO()
-    }
-
-    @Test
-    fun `missing hours disjunct`() {
-        TODO()
-    }
-
-    @Test
-    fun `missing hours none missing`() {
-        TODO()
+    private fun createCachedKey(dayString: String, hourString: String? = null): CachedKeyInfo {
+        return mockk<CachedKeyInfo>().apply {
+            every { location } returns locationCode
+            every { day } returns LocalDate.parse(dayString)
+            every { hour } returns hourString?.let { LocalTime.parse(it) }
+        }
     }
 
     @Test
     fun `missing days default`() {
-        TODO()
+        val availableDates = listOf(
+            "2222-12-30", "2222-12-31"
+        ).map { LocalDate.parse(it) }
+        val cd = CountryDays(locationCode, availableDates)
+
+        cd.dayData shouldBe availableDates
+
+        val cachedDays = listOf(
+            createCachedKey("2222-12-30")
+        )
+
+        cd.getMissingDays(cachedDays) shouldBe listOf(availableDates[1])
+        cd.toMissingDays(cachedDays) shouldBe cd.copy(
+            dayData = listOf(availableDates[1])
+        )
     }
 
     @Test
-    fun `missing days empty`() {
-        TODO()
+    fun `missing days empty day data`() {
+        val availableDates = emptyList<LocalDate>()
+        val cd = CountryDays(locationCode, availableDates)
+
+        cd.dayData shouldBe availableDates
+
+        val cachedDays = listOf(
+            createCachedKey("2222-12-30"),
+            createCachedKey("2222-12-31")
+        )
+
+        cd.getMissingDays(cachedDays) shouldBe emptyList()
+        cd.toMissingDays(cachedDays) shouldBe null
+    }
+
+    @Test
+    fun `missing days empty cache`() {
+        val availableDates = listOf(
+            "2222-11-28", "2222-11-29"
+        ).map { LocalDate.parse(it) }
+        val cd = CountryDays(locationCode, availableDates)
+
+        cd.dayData shouldBe availableDates
+
+        val cachedDays = emptyList<CachedKeyInfo>()
+
+        cd.getMissingDays(cachedDays) shouldBe availableDates
+        cd.toMissingDays(cachedDays) shouldBe cd
     }
 
     @Test
     fun `missing days disjunct`() {
-        TODO()
+        val availableDates = listOf(
+            "2222-11-28", "2222-11-29"
+        ).map { LocalDate.parse(it) }
+        val cd = CountryDays(locationCode, availableDates)
+
+        cd.dayData shouldBe availableDates
+
+        val cachedDays = listOf(
+            createCachedKey("2222-12-28"),
+            createCachedKey("2222-12-29")
+        )
+
+        cd.getMissingDays(cachedDays) shouldBe availableDates
+        cd.toMissingDays(cachedDays) shouldBe cd
     }
 
     @Test
     fun `missing days none missing`() {
-        TODO()
+        val availableDates = listOf(
+            "2222-12-30", "2222-12-31"
+        ).map { LocalDate.parse(it) }
+        val cd = CountryDays(locationCode, availableDates)
+
+        cd.dayData shouldBe availableDates
+
+        val cachedDays = listOf(
+            createCachedKey("2222-12-30"),
+            createCachedKey("2222-12-31")
+        )
+
+        cd.getMissingDays(cachedDays) shouldBe emptyList()
+        cd.toMissingDays(cachedDays) shouldBe null
+    }
+
+    @Test
+    fun `missing hours default`() {
+        val availableHours = mapOf(
+            LocalDate.parse("2222-12-30") to listOf(
+                LocalTime.parse("19:00"), LocalTime.parse("20:00")
+            ),
+            LocalDate.parse("2222-12-31") to listOf(
+                LocalTime.parse("22:00"), LocalTime.parse("23:00")
+            )
+        )
+        val cd = CountryHours(locationCode, availableHours)
+
+        cd.hourData shouldBe availableHours
+
+        val cachedHours = listOf(
+            createCachedKey("2222-12-30", "19:00"),
+            createCachedKey("2222-12-31", "23:00")
+        )
+
+        val missingHours = mapOf(
+            LocalDate.parse("2222-12-30") to listOf(LocalTime.parse("20:00")),
+            LocalDate.parse("2222-12-31") to listOf(LocalTime.parse("22:00"))
+        )
+
+        cd.getMissingHours(cachedHours) shouldBe missingHours
+        cd.toMissingHours(cachedHours) shouldBe cd.copy(hourData = missingHours)
+    }
+
+    @Test
+    fun `missing hours empty available hour data`() {
+        val availableHours: Map<LocalDate, List<LocalTime>> = emptyMap()
+        val cd = CountryHours(locationCode, availableHours)
+
+        cd.hourData shouldBe availableHours
+
+        val cachedHours = listOf(
+            createCachedKey("2222-12-30", "19:00"),
+            createCachedKey("2222-12-31", "23:00")
+        )
+
+        cd.getMissingHours(cachedHours) shouldBe emptyMap()
+        cd.toMissingHours(cachedHours) shouldBe null
+    }
+
+    @Test
+    fun `missing hours faulty hour map`() {
+        val availableHours = mapOf(
+            LocalDate.parse("2222-12-30") to emptyList<LocalTime>()
+        )
+        val cd = CountryHours(locationCode, availableHours)
+
+        cd.hourData shouldBe availableHours
+
+        val cachedHours = listOf(
+            createCachedKey("2222-12-30", "19:00"),
+            createCachedKey("2222-12-31", "23:00")
+        )
+
+        cd.getMissingHours(cachedHours) shouldBe emptyMap()
+        cd.toMissingHours(cachedHours) shouldBe null
+    }
+
+    @Test
+    fun `missing hours empty cache`() {
+        val availableHours = mapOf(
+            LocalDate.parse("2222-12-30") to listOf(
+                LocalTime.parse("19:00"), LocalTime.parse("20:00")
+            ),
+            LocalDate.parse("2222-12-31") to listOf(
+                LocalTime.parse("22:00"), LocalTime.parse("23:00")
+            )
+        )
+        val cd = CountryHours(locationCode, availableHours)
+
+        cd.hourData shouldBe availableHours
+
+        val cachedHours = emptyList<CachedKeyInfo>()
+
+        cd.getMissingHours(cachedHours) shouldBe availableHours
+        cd.toMissingHours(cachedHours) shouldBe cd.copy(hourData = availableHours)
+    }
+
+    @Test
+    fun `missing hours disjunct`() {
+        val availableHours = mapOf(
+            LocalDate.parse("2222-12-30") to listOf(
+                LocalTime.parse("19:00"), LocalTime.parse("20:00")
+            ),
+            LocalDate.parse("2222-12-31") to listOf(
+                LocalTime.parse("22:00"), LocalTime.parse("23:00")
+            )
+        )
+        val cd = CountryHours(locationCode, availableHours)
+
+        cd.hourData shouldBe availableHours
+
+        val cachedHours = listOf(
+            createCachedKey("2022-12-30", "19:00"),
+            createCachedKey("2022-12-31", "23:00")
+        )
+
+        cd.getMissingHours(cachedHours) shouldBe availableHours
+        cd.toMissingHours(cachedHours) shouldBe cd.copy(hourData = availableHours)
+    }
+
+    @Test
+    fun `missing hours none missing`() {
+        val availableHours = mapOf(
+            LocalDate.parse("2222-12-30") to listOf(
+                LocalTime.parse("19:00"), LocalTime.parse("20:00")
+            ),
+            LocalDate.parse("2222-12-31") to listOf(
+                LocalTime.parse("22:00"), LocalTime.parse("23:00")
+            )
+        )
+        val cd = CountryHours(locationCode, availableHours)
+
+        cd.hourData shouldBe availableHours
+
+        val cachedHours = listOf(
+            createCachedKey("2222-12-30", "19:00"),
+            createCachedKey("2222-12-30", "20:00"),
+            createCachedKey("2222-12-31", "22:00"),
+            createCachedKey("2222-12-31", "23:00")
+        )
+
+
+        cd.getMissingHours(cachedHours) shouldBe emptyMap()
+        cd.toMissingHours(cachedHours) shouldBe null
     }
 
 }

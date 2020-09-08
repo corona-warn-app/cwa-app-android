@@ -323,7 +323,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         // Trigger asyncFetchFiles which will use all Countries passed as parameter
         val currentDate = LocalDate.now()
         lifecycleScope.launch {
-            AppInjector.component.keyFileDownloader.asyncFetchFiles(currentDate, countryCodes)
+            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(currentDate, countryCodes)
             updateCountryStatusLabel()
         }
     }

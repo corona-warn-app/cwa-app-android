@@ -11,7 +11,7 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 
 @Entity(tableName = "keyfiles")
-data class CachedKeyFile(
+data class CachedKeyInfo(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "type") val type: Type,
     @ColumnInfo(name = "location") val location: LocationCode, // i.e. "DE"
@@ -42,10 +42,10 @@ data class CachedKeyFile(
     @Transient
     val fileName: String = "$id.zip"
 
-    fun toDownloadCompleted(checksumMD5: String): DownloadUpdate = DownloadUpdate(
+    fun toDownloadUpdate(checksumMD5: String?): DownloadUpdate = DownloadUpdate(
         id = id,
         checksumMD5 = checksumMD5,
-        isDownloadComplete = true
+        isDownloadComplete = checksumMD5 != null
     )
 
     companion object {
