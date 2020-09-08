@@ -524,10 +524,6 @@ fun formatTracingStatusVisibilityTracing(
     )
 }
 
-fun formatEfgsConsentSwitchEnabled(consent: Boolean): Boolean {
-    return consent
-}
-
 fun formatEfgsConsentSwitchStatus(consent: Boolean): Boolean {
     formatEfgsConsentSwitchStatusText(consent)
     return consent

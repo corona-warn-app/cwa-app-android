@@ -145,6 +145,14 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
                 navigateToSubmissionDoneFragment()
             }
         })
+
+        europeanFederalGatewayServerViewModel.routeToScreen.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is EuropeanConsentEvent.NavigateToKeysSubmission ->initiateWarningOthers()
+                is EuropeanConsentEvent.NavigateToTargetGermany -> navigateToTargetGermanyFragment()
+                is EuropeanConsentEvent.NavigateToPreviousScreen -> navigateToSubmissionResultPositiveOtherWarningFragment()
+            }
+        })
     }
 
     private fun setButtonOnClickListener() {
@@ -152,36 +160,30 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
             .settingsEuropeanFederalGatewayServerConsentRow.settingsSwitchRowSwitch
             .setOnCheckedChangeListener { switch, isEnabled ->
                 if (switch.tag != IGNORE_CHANGE_TAG) {
-                    europeanFederalGatewayServerViewModel.isEuropeanConsentGranted.postValue(isEnabled)
+                    europeanFederalGatewayServerViewModel.updateSwitch(isEnabled)
                 }
             }
 
         binding
             .submissionEuropeanFederalGatewayServerConsentHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { navigateToSubmissionResultPositiveOtherWarningFragment() }
+            .setOnClickListener { europeanFederalGatewayServerViewModel.onBackButtonClick() }
 
         binding
             .submissionEuropeanFederalGatewayServerConsentButtonNext
-            .setOnClickListener {
-                if (europeanFederalGatewayServerViewModel.isEuropeanConsentGranted.value!!) {
-                    navigateToTargetGermanyFragment()
-                } else {
-                    initiateWarningOthers()
-                }
-            }
+            .setOnClickListener { europeanFederalGatewayServerViewModel.onNextButtonClick() }
     }
 
     private fun navigateToSubmissionResultPositiveOtherWarningFragment() {
         findNavController().doNavigate(
             SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
-                .actionEFGSConsentFragmentToPositiveOtherWarningFragment()
+                .actionSubmissionEuropeanConsentFragmentToPositiveWarningOthersFragment()
         )
     }
 
     private fun navigateToSubmissionDoneFragment() {
         findNavController().doNavigate(
             SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
-                .actionSubmissionResultPositiveEfgsConsentWarningFragmentToSubmissionDoneFragment()
+                .actionSubmissionEuropeanConsentFragmentToSubmissionDoneFragment()
         )
     }
 
@@ -192,7 +194,7 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
     private fun navigateToSubmissionResultFragment() {
         findNavController().doNavigate(
             SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
-                .actionSubmissionResultPositiveEfgsConsentWarningFragmentToSubmissionResultFragment()
+                .actionSubmissionEuropeanConsentFragmentToSubmissionResultFragment()
         )
     }
 

@@ -924,15 +924,15 @@
 
     <!-- Submission European Federal Gateway Server Consent -->
     <!-- XHED: Page title for the positive result European Federal Gateway Server Consent page -->
-    <string name="submission_european_federal_gateway_server_consent_title">""</string>
+    <string name="submission_european_federal_gateway_server_consent_title" />
     <!-- XHED: Page headline forThe positive European Federal Gateway Server Consent page -->
-    <string name="submission_european_federal_gateway_server_consent_headline">""</string>
+    <string name="submission_european_federal_gateway_server_consent_headline" />
     <!-- XHED: European Federal Gateway Server Consent - illustration description, explanation image -->
-    <string name="submission_european_federal_gateway_server_consent_illustration_description">""</string>
+    <string name="submission_european_federal_gateway_server_consent_illustration_description" />
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_european_federal_gateway_server_consent_privacy_body">""</string>
+    <string name="submission_european_federal_gateway_server_consent_privacy_body" />
     <!-- XBUT: other warning continue button -->
-    <string name="submission_european_federal_gateway_server_consent_button">""</string>
+    <string name="submission_european_federal_gateway_server_consent_button" />
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
