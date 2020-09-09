@@ -205,7 +205,7 @@
             app:popUpTo="@id/submissionResultFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionResultPositiveEfgsConsentFragment"
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionEuropeanConsentFragment"
             app:destination="@id/submissionEuropeanConsentFragment"
             app:popUpTo="@id/submissionEuropeanConsentFragment"
             app:popUpToInclusive="true" />

@@ -12,7 +12,9 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.EuropeanConsentEvent
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
@@ -30,6 +32,9 @@ class SubmissionViewModel : ViewModel() {
 
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
+
+    val isEuropeanConsentGranted: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
+    val routeToScreen: SingleLiveEvent<EuropeanConsentEvent> = SingleLiveEvent()
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
@@ -140,5 +145,20 @@ class SubmissionViewModel : ViewModel() {
                 err.report(ExceptionCategory.INTERNAL)
             }
         }
+    }
+    fun onNextButtonClick() {
+        if (isEuropeanConsentGranted.value!!) {
+            routeToScreen.value = EuropeanConsentEvent.NavigateToTargetGermany
+        } else {
+            routeToScreen.value = EuropeanConsentEvent.NavigateToKeysSubmission
+        }
+    }
+
+    fun onBackButtonClick() {
+        routeToScreen.value = EuropeanConsentEvent.NavigateToPreviousScreen
+    }
+
+    fun updateSwitch(onOff: Boolean) {
+        isEuropeanConsentGranted.value = onOff
     }
 }

@@ -524,16 +524,15 @@ fun formatTracingStatusVisibilityTracing(
     )
 }
 
-fun formatEfgsConsentSwitchStatus(consent: Boolean): Boolean {
-    formatEfgsConsentSwitchStatusText(consent)
+fun formatEuropeanConsentSwitchStatus(consent: Boolean): Boolean {
     return consent
 }
 
-fun formatEfgsConsentSwitchStatusText(consent: Boolean): String {
+fun formatEuropeanConsentSwitchStatusText(consent: Boolean): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return if (consent) {
-        appContext.getString(R.string.settings_efgs_consent_status_active)
+        appContext.getString(R.string.settings_european_consent_status_active)
     } else {
-        appContext.getString(R.string.settings_efgs_consent_status_inactive)
+        appContext.getString(R.string.settings_european_consent_status_inactive)
     }
 }

@@ -60,7 +60,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
         submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
             if (it == ApiRequestState.SUCCESS) {
-                navigateToSubmissionResultPositiveEfgsConsent()
+                navigateToSubmissionEuropeanConsentFragment()
             }
         })
     }
@@ -70,7 +70,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             navigateToSubmissionResultFragment()
         }
         binding.submissionPositiveOtherWarningButtonNext.setOnClickListener {
-            navigateToSubmissionResultPositiveEfgsConsent()
+            navigateToSubmissionEuropeanConsentFragment()
         }
     }
 
@@ -84,10 +84,10 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
      * Navigate to submission done Fragment
      * @see SubmissionDoneFragment
      */
-    private fun navigateToSubmissionResultPositiveEfgsConsent() =
+    private fun navigateToSubmissionEuropeanConsentFragment() =
         findNavController().doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
-                .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultPositiveEfgsConsentFragment()
+                .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionEuropeanConsentFragment()
         )
 
     override fun onFailure(exception: Exception?) {

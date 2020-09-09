@@ -4,21 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
         <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
 
         <variable
             name="submissionViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
-
-        <variable
-            name="europeanConsentViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.EuropeanFederalGatewayServerConsentViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +50,7 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/submission_european_federal_gateway_server_consent_illustration_description)}"
-                    android:src="@drawable/ic_submission_illustration_efgs_consent"
+                    android:src="@drawable/ic_submission_illustration_european_consent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -87,9 +80,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_european_federal_gateway_server_consent_headline"
                     app:showDivider="@{true}"
-                    app:status="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatus(europeanConsentViewModel.isEuropeanConsentGranted())}"
-                    app:statusText="@{FormatterSettingsHelper.formatEfgsConsentSwitchStatusText(europeanConsentViewModel.isEuropeanConsentGranted())}"
-                    app:subtitle="@{@string/settings_efgs_consent_title}" />
+                    app:status="@{FormatterSettingsHelper.formatEuropeanConsentSwitchStatus(submissionViewModel.isEuropeanConsentGranted())}"
+                    app:statusText="@{FormatterSettingsHelper.formatEuropeanConsentSwitchStatusText(submissionViewModel.isEuropeanConsentGranted())}"
+                    app:subtitle="@{@string/settings_european_consent_title}" />
 
                 <include
                     android:id="@+id/submission_european_federal_gateway_server_consent_privacy"

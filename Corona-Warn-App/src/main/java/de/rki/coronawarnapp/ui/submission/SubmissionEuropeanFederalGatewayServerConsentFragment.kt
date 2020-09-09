@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.viewmodel.EuropeanFederalGatewayServerConsentViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
@@ -31,15 +30,11 @@ import de.rki.coronawarnapp.util.observeEvent
  *  countries if they have been travelling outside of Germany.
  *  If the user leaves the switch deactivated, the system dialog for submitting the keys is triggered
  *  and the keys will only be submitted to the the German server.
- *  Otherwise, Screen 3: Target > Germany and "Screen 4: Target specific countries" are shown, and
- *  the user will be able to select what countries they want to share their keys with.
  */
 
 class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
-    private val europeanFederalGatewayServerViewModel:
-            EuropeanFederalGatewayServerConsentViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
@@ -66,7 +61,6 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
             InternalExposureNotificationPermissionHelper(this, this)
         _binding = FragmentSubmissionEuropeanFederalGatewayServerConsentBinding.inflate(inflater)
         binding.submissionViewModel = submissionViewModel
-        binding.europeanConsentViewModel = europeanFederalGatewayServerViewModel
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -146,11 +140,11 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
             }
         })
 
-        europeanFederalGatewayServerViewModel.routeToScreen.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.routeToScreen.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is EuropeanConsentEvent.NavigateToKeysSubmission ->initiateWarningOthers()
+                is EuropeanConsentEvent.NavigateToKeysSubmission -> initiateWarningOthers()
                 is EuropeanConsentEvent.NavigateToTargetGermany -> navigateToTargetGermanyFragment()
-                is EuropeanConsentEvent.NavigateToPreviousScreen -> navigateToSubmissionResultPositiveOtherWarningFragment()
+                is EuropeanConsentEvent.NavigateToPreviousScreen -> navigateToWarningOthersFragment()
             }
         })
     }
@@ -160,20 +154,20 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
             .settingsEuropeanFederalGatewayServerConsentRow.settingsSwitchRowSwitch
             .setOnCheckedChangeListener { switch, isEnabled ->
                 if (switch.tag != IGNORE_CHANGE_TAG) {
-                    europeanFederalGatewayServerViewModel.updateSwitch(isEnabled)
+                    submissionViewModel.updateSwitch(isEnabled)
                 }
             }
 
         binding
             .submissionEuropeanFederalGatewayServerConsentHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { europeanFederalGatewayServerViewModel.onBackButtonClick() }
+            .setOnClickListener { submissionViewModel.onBackButtonClick() }
 
         binding
             .submissionEuropeanFederalGatewayServerConsentButtonNext
-            .setOnClickListener { europeanFederalGatewayServerViewModel.onNextButtonClick() }
+            .setOnClickListener { submissionViewModel.onNextButtonClick() }
     }
 
-    private fun navigateToSubmissionResultPositiveOtherWarningFragment() {
+    private fun navigateToWarningOthersFragment() {
         findNavController().doNavigate(
             SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
                 .actionSubmissionEuropeanConsentFragmentToPositiveWarningOthersFragment()

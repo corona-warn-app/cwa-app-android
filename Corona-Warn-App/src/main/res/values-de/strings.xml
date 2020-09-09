@@ -617,6 +617,12 @@
     <string name="settings_background_priority_card_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
     <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ausschalten"</string>
+    <!-- XTXT: settings(european federal gateway server consent) - status next to switch under title -->
+    <string name="settings_european_consent_status_active">@string/lorem_ipsum</string>
+    <!-- XTXT: settings(european federal gateway server consent) - status next to switch under title -->
+    <string name="settings_european_consent_status_inactive">@string/lorem_ipsum</string>
+    <!-- XHED: settings(european federal gateway server consent) - page title -->
+    <string name="settings_european_consent_title">@string/lorem_ipsum</string>
 
     <!-- ####################################
                App Information
@@ -916,15 +922,15 @@
 
     <!-- Submission European Federal Gateway Server Consent -->
     <!-- XHED: Page title for the positive result European Federal Gateway Server Consent page -->
-    <string name="submission_european_federal_gateway_server_consent_title">"Title Dummy Text"</string>
+    <string name="submission_european_federal_gateway_server_consent_title">@string/lorem_ipsum</string>
     <!-- XHED: Page headline forThe positive European Federal Gateway Server Consent page -->
-    <string name="submission_european_federal_gateway_server_consent_headline">"Headline Dummy Text"</string>
+    <string name="submission_european_federal_gateway_server_consent_headline">@string/lorem_ipsum</string>
     <!-- XHED: European Federal Gateway Server Consent - illustration description, explanation image -->
-    <string name="submission_european_federal_gateway_server_consent_illustration_description">"Illustration description dummy text"</string>
+    <string name="submission_european_federal_gateway_server_consent_illustration_description">@string/lorem_ipsum</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_european_federal_gateway_server_consent_privacy_body">"By tapping on “Dummy Text"</string>
+    <string name="submission_european_federal_gateway_server_consent_privacy_body">@string/lorem_ipsum</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_european_federal_gateway_server_consent_button">"Next"</string>
+    <string name="submission_european_federal_gateway_server_consent_button">@string/lorem_ipsum</string>
 
 
     <!-- Submission Done -->
