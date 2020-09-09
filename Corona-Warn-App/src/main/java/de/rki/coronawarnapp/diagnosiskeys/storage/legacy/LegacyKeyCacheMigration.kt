@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
 import android.content.Context
+import dagger.Lazy
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.sync.Mutex
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class LegacyKeyCacheMigration @Inject constructor(
     private val context: Context,
-    private val legacyDao: KeyCacheLegacyDao,
+    private val legacyDao: Lazy<KeyCacheLegacyDao>,
     private val timeStamper: TimeStamper
 ) {
 
@@ -29,7 +30,12 @@ class LegacyKeyCacheMigration @Inject constructor(
         if (isInit) return
         isInit = true
 
-        legacyDao.clear()
+        try {
+            legacyDao.get().clear()
+        } catch (e: Exception) {
+            // Not good, but not a problem, we don't need the actual entities for migration.
+            Timber.tag(TAG).w(e, "Failed to clear legacy key cache from db.")
+        }
 
         try {
             cacheDir.listFiles()?.forEach { file ->
@@ -53,16 +59,31 @@ class LegacyKeyCacheMigration @Inject constructor(
         }
     }
 
-    suspend fun getLegacyFile(fileMD5: String): File? = workMutex.withLock {
+    suspend fun tryMigration(fileMD5: String?, targetPath: File): Boolean = workMutex.withLock {
+        if (fileMD5 == null) return false
         tryInit()
-        legacyCacheMap[fileMD5]
-    }
 
-    suspend fun delete(fileMD5: String) = workMutex.withLock {
-        tryInit()
-        Timber.tag(TAG).v("delete(md5=%s)", fileMD5)
-        val removedFile = legacyCacheMap.remove(fileMD5)
-        if (removedFile?.delete() == true) Timber.tag(TAG).d("Deleted %s", removedFile)
+        val legacyFile = legacyCacheMap[fileMD5] ?: return false
+        Timber.tag(TAG).i("Migrating legacy file for %s to %s", fileMD5, targetPath)
+
+        return try {
+            legacyFile.inputStream().use { from ->
+                targetPath.outputStream().use { to ->
+                    from.copyTo(to, DEFAULT_BUFFER_SIZE)
+                }
+            }
+            true
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to migrate %s", legacyFile)
+            false
+        } finally {
+            try {
+                val removedFile = legacyCacheMap.remove(fileMD5)
+                if (removedFile?.delete() == true) Timber.tag(TAG).d("Deleted %s", removedFile)
+            } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Failed to delete %s", legacyFile)
+            }
+        }
     }
 
     companion object {

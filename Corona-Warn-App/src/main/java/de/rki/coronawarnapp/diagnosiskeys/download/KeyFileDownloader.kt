@@ -249,7 +249,7 @@ class KeyFileDownloader @Inject constructor(
         Unit
     }
 
-    private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, path: File) {
+    private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, saveTo: File) {
         val validation = object : DownloadServer.HeaderValidation {
             override suspend fun validate(headers: Headers): Boolean {
                 // TODO get MD5 from better header, ETag isn't guaranteed to be the files MD5
@@ -258,22 +258,7 @@ class KeyFileDownloader @Inject constructor(
                     ?.removePrefix("\"")
                     ?.removeSuffix("\"")
 
-                var startDownload = true
-
-                if (fileMD5 != null) {
-                    legacyKeyCache.getLegacyFile(fileMD5)?.let { legacyFile ->
-                        Timber.tag(TAG).i("Migrating legacy file for : %s", keyInfo)
-                        legacyFile.inputStream().use { from ->
-                            path.outputStream().use { to ->
-                                from.copyTo(to, DEFAULT_BUFFER_SIZE)
-                            }
-                        }
-                        legacyKeyCache.delete(fileMD5)
-                        startDownload = false
-                    }
-                }
-
-                return startDownload
+                return !legacyKeyCache.tryMigration(fileMD5, saveTo)
             }
         }
 
@@ -281,14 +266,14 @@ class KeyFileDownloader @Inject constructor(
             keyInfo.location,
             keyInfo.day,
             keyInfo.hour,
-            path,
+            saveTo,
             validation
         )
 
-        Timber.tag(TAG).v("Dowwnload finished: %s -> %s", keyInfo, path)
+        Timber.tag(TAG).v("Dowwnload finished: %s -> %s", keyInfo, saveTo)
 
-        val (downloadedMD5, duration) = measureTimeMillisWithResult { path.hashToMD5() }
-        Timber.tag(TAG).v("Hashed to MD5 in %dms: %s", duration, path)
+        val (downloadedMD5, duration) = measureTimeMillisWithResult { saveTo.hashToMD5() }
+        Timber.tag(TAG).v("Hashed to MD5 in %dms: %s", duration, saveTo)
 
         keyCache.markKeyComplete(keyInfo, downloadedMD5)
     }

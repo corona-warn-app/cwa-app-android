@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.diagnosiskeys.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -29,9 +28,6 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     lateinit var timeStamper: TimeStamper
 
     @MockK
-    lateinit var migrator: LegacyKeyCacheMigration
-
-    @MockK
     lateinit var databaseFactory: KeyCacheDatabase.Factory
 
     @MockK
@@ -53,8 +49,6 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
         every { databaseFactory.create() } returns database
         every { database.cachedKeyFiles() } returns keyfileDAO
-
-        coEvery { migrator.migrate(any()) } returns Unit
 
         coEvery { keyfileDAO.getAllEntries() } returns emptyList()
     }
