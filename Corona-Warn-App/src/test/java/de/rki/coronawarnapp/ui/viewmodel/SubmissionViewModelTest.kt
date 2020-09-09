@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.ui.submission.EuropeanConsentEvent
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -11,6 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import junit.framework.Assert.assertEquals
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -57,5 +59,19 @@ class SubmissionViewModelTest {
         // invalid guid
         viewModel.validateAndStoreTestGUID("https://no-guid-here")
         viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.INVALID, it) }
+    }
+
+    @Test
+    fun testButtonClick() {
+        viewModel.isEuropeanConsentGranted.value = true
+        viewModel.onNextButtonClick()
+        assertEquals(EuropeanConsentEvent.NavigateToTargetGermany, viewModel.routeToScreen.value)
+
+        viewModel.isEuropeanConsentGranted.value = false
+        viewModel.onNextButtonClick()
+        assertEquals(EuropeanConsentEvent.NavigateToKeysSubmission, viewModel.routeToScreen.value)
+
+        viewModel.onBackButtonClick()
+        assertEquals(EuropeanConsentEvent.NavigateToPreviousScreen, viewModel.routeToScreen.value)
     }
 }
