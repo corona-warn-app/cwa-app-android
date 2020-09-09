@@ -33,6 +33,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
@@ -323,7 +324,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         // Trigger asyncFetchFiles which will use all Countries passed as parameter
         val currentDate = LocalDate.now()
         lifecycleScope.launch {
-            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(currentDate, countryCodes)
+            val locationCodes = countryCodes.map { LocationCode(it) }
+            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(currentDate, locationCodes)
             updateCountryStatusLabel()
         }
     }

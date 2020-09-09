@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
-import de.rki.coronawarnapp.storage.FileStorageHelper
-import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.AppSettings
+import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
@@ -20,6 +20,7 @@ import okhttp3.Headers
 import org.joda.time.LocalDate
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -27,9 +28,11 @@ import javax.inject.Inject
  */
 @Reusable
 class KeyFileDownloader @Inject constructor(
+    private val deviceStorage: DeviceStorage,
     private val downloadServer: DownloadServer,
     private val keyCache: KeyCacheRepository,
-    private val legacyKeyCache: LegacyKeyCacheMigration
+    private val legacyKeyCache: LegacyKeyCacheMigration,
+    private val settings: AppSettings
 ) {
 
     /**
@@ -46,21 +49,30 @@ class KeyFileDownloader @Inject constructor(
      */
     suspend fun asyncFetchKeyFiles(
         currentDate: LocalDate,
-        countries: List<String>
+        wantedCountries: List<LocationCode>
     ): List<File> = withContext(Dispatchers.IO) {
-        // Initiate key-cache folder needed for saving downloaded key files
-        FileStorageHelper.initializeExportSubDirectory() // TODO replace
+        val availableCountries = downloadServer.getCountryIndex()
+        val intersection = availableCountries.filter { wantedCountries.contains(it) }
+        Timber.tag(TAG).v(
+            "Available=%s; Wanted=%s; Intersect=%s",
+            availableCountries, wantedCountries, intersection
+        )
 
-        checkForFreeSpace() // TODO replace
+        val storageResult = deviceStorage.checkSpacePrivateStorage(
+            // 512KB per day file, for 15 days, for each country ~ 65MB for 9 countries
+            requiredBytes = intersection.size * 15 * 512 * 1024L
+        )
 
-        val availableCountries = downloadServer.getCountryIndex(countries)
-        Timber.tag(TAG).v("Available server data: %s", availableCountries)
+        Timber.tag(TAG).d("Storage check result: %s", storageResult)
+        if (!storageResult.isSpaceAvailable) {
+            throw IOException("Not enough free space (${storageResult.freeBytes}")
+        }
 
-        val availableKeys = if (CWADebug.isDebugBuildOrMode && LocalData.last3HoursMode()) {
-            syncMissing3Hours(currentDate, availableCountries)
+        val availableKeys = if (CWADebug.isDebugBuildOrMode && settings.isLast3HourModeEnabled) {
+            syncMissing3Hours(currentDate, intersection)
             keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
         } else {
-            syncMissingDays(availableCountries)
+            syncMissingDays(intersection)
             keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY)
         }
 
@@ -76,9 +88,6 @@ class KeyFileDownloader @Inject constructor(
             }
             .also { Timber.tag(TAG).d("Returning %d available keyfiles", it.size) }
     }
-
-    // TODO replace
-    private fun checkForFreeSpace() = FileStorageHelper.checkFileStorageFreeSpace()
 
     /**
      * Fetches files given by serverDates by respecting countries
@@ -202,7 +211,7 @@ class KeyFileDownloader @Inject constructor(
                 return@filter true // It's stale
             }
 
-            val availableDay = availCountry.hourData.get(currentDate)
+            val availableDay = availCountry.hourData[cachedHour.day]
             if (availableDay == null) {
                 Timber.d("Unknown day %s, assuming stale.", cachedHour.location)
                 return@filter true // It's stale
@@ -231,16 +240,20 @@ class KeyFileDownloader @Inject constructor(
                             type = CachedKeyInfo.Type.COUNTRY_HOUR
                         )
 
-                        downloadKeyFile(keyInfo, path)
-
-                        return@async keyInfo to path
+                        return@async try {
+                            downloadKeyFile(keyInfo, path)
+                            keyInfo to path
+                        } catch (e: Exception) {
+                            Timber.tag(TAG).e(e, "Download failed: %s", keyInfo)
+                            null
+                        }
                     }
                 }
             }
         }
 
         Timber.tag(TAG).d("Waiting for %d missing hour downloads.", hourDownloads.size)
-        val downloadedHours = hourDownloads.awaitAll()
+        val downloadedHours = hourDownloads.awaitAll().filterNotNull()
 
         downloadedHours.map { (keyInfo, path) ->
             Timber.tag(TAG).d("Downloaded keyfile: %s to %s", keyInfo, path)

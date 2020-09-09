@@ -15,7 +15,6 @@ import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.io.File
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -57,20 +56,9 @@ class DownloadServer @Inject constructor(
             }
         }
 
-    /**
-     * Gets the country index which is then filtered by given filter param or if param not set
-     * @param wantedCountries (array of country codes) used to filter
-     * only wanted countries of the country index (case insensitive)
-     */
-    suspend fun getCountryIndex(
-        wantedCountries: List<String>
-    ): List<LocationCode> = withContext(Dispatchers.IO) {
+    suspend fun getCountryIndex(): List<LocationCode> = withContext(Dispatchers.IO) {
         api
-            .getCountryIndex().filter {
-                wantedCountries
-                    .map { c -> c.toUpperCase(Locale.ROOT) }
-                    .contains(it.toUpperCase(Locale.ROOT))
-            }
+            .getCountryIndex()
             .map { LocationCode(it) }
     }
 

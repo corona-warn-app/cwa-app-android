@@ -117,10 +117,10 @@ class DownloadServerTest : BaseIOTest() {
     @Test
     fun `download country index`() {
         val downloadServer = createDownloadServer()
-        coEvery { api.getCountryIndex() } returns listOf("DE", "NL", "FR")
+        coEvery { api.getCountryIndex() } returns listOf("DE", "NL")
 
         runBlocking {
-            downloadServer.getCountryIndex(listOf("DE", "NL")) shouldBe listOf(
+            downloadServer.getCountryIndex() shouldBe listOf(
                 LocationCode("DE"), LocationCode("NL")
             )
         }

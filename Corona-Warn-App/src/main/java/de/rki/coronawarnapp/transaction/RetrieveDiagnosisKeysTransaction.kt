@@ -21,6 +21,7 @@ package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -313,7 +314,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
         FileStorageHelper.initializeExportSubDirectory()
         val convertedDate = LocalDate.fromDateFields(currentDate) // TODO confirm
-        keyFileDownloader.asyncFetchKeyFiles(convertedDate, countries)
+        val locationCodes = countries.map { LocationCode(it) }
+        keyFileDownloader.asyncFetchKeyFiles(convertedDate, locationCodes)
     }
 
     /**

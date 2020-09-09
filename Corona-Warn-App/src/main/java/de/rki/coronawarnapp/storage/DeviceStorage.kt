@@ -6,10 +6,11 @@ import android.content.Context
 import android.os.Build
 import android.os.storage.StorageManager
 import android.text.format.Formatter
-import androidx.annotation.WorkerThread
 import dagger.Reusable
 import de.rki.coronawarnapp.util.ApiLevel
 import de.rki.coronawarnapp.util.storage.StatsFsProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -75,9 +76,10 @@ class DeviceStorage @Inject constructor(
         )
     }
 
-    @WorkerThread
-    @Throws(IOException::class)
-    private fun checkSpace(path: File, requiredBytes: Long = -1L): CheckResult {
+    private suspend fun checkSpace(
+        path: File,
+        requiredBytes: Long = -1L
+    ): CheckResult = withContext(Dispatchers.IO) {
         try {
             Timber.tag(TAG).v("checkSpace(path=%s, requiredBytes=%d)", path, requiredBytes)
             val result: CheckResult = if (apiLevel.hasAPILevel(Build.VERSION_CODES.O)) {
@@ -92,7 +94,7 @@ class DeviceStorage @Inject constructor(
             }
 
             Timber.tag(TAG).d("Requested %d from %s: %s", requiredBytes, path, result)
-            return result
+            return@withContext result
         } catch (e: Exception) {
             throw IOException("checkSpace(path=$path, requiredBytes=$requiredBytes) FAILED", e)
                 .also { Timber.tag(TAG).e(it) }
@@ -108,9 +110,7 @@ class DeviceStorage @Inject constructor(
      *
      * @throws IOException if storage check or allocation fails.
      */
-    @WorkerThread
-    @Throws(IOException::class)
-    fun checkSpacePrivateStorage(requiredBytes: Long = -1L): CheckResult =
+    suspend fun checkSpacePrivateStorage(requiredBytes: Long = -1L): CheckResult =
         checkSpace(privateStorage, requiredBytes)
 
     data class CheckResult(
