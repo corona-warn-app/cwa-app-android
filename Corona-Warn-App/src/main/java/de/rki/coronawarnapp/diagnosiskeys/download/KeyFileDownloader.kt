@@ -57,10 +57,10 @@ class KeyFileDownloader @Inject constructor(
         Timber.tag(TAG).v("Available server data: %s", availableCountries)
 
         val availableKeys = if (CWADebug.isDebugBuildOrMode && LocalData.last3HoursMode()) {
-            fetchMissing3Hours(currentDate, availableCountries)
+            syncMissing3Hours(currentDate, availableCountries)
             keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
         } else {
-            fetchMissingDays(availableCountries)
+            syncMissingDays(availableCountries)
             keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY)
         }
 
@@ -84,7 +84,8 @@ class KeyFileDownloader @Inject constructor(
      * Fetches files given by serverDates by respecting countries
      * @param availableCountries pair of dates per country code
      */
-    private suspend fun fetchMissingDays(
+    @Suppress("LongMethod")
+    private suspend fun syncMissingDays(
         availableCountries: List<LocationCode>
     ) = withContext(Dispatchers.IO) {
         val availableCountriesWithDays = availableCountries.map {
@@ -103,11 +104,10 @@ class KeyFileDownloader @Inject constructor(
                 it.country == cachedKeyFile.location
             }
             if (availableCountry == null) {
-                Timber.tag(TAG)
-                    .w(
-                        "Unknown location %s, assuming stale cache.",
-                        cachedKeyFile.location
-                    )
+                Timber.tag(TAG).w(
+                    "Unknown location %s, assuming stale cache.",
+                    cachedKeyFile.location
+                )
                 return@filter true // It's stale
             }
 
@@ -169,7 +169,8 @@ class KeyFileDownloader @Inject constructor(
      * @param currentDate base for where only dates within 3 hours before will be fetched
      * @param availableCountries pair of dates per country code
      */
-    private suspend fun fetchMissing3Hours(
+    @Suppress("LongMethod")
+    private suspend fun syncMissing3Hours(
         currentDate: LocalDate,
         availableCountries: List<LocationCode>
     ) = withContext(Dispatchers.IO) {

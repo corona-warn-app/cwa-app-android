@@ -11,17 +11,20 @@ interface DownloadApiV1 {
     @GET("/version/v1/configuration/country/{country}/app_config")
     suspend fun getApplicationConfiguration(@Path("country") country: String): ResponseBody
 
+    // TODO Let retrofit format this to CountryCode
     @GET("/version/v1/diagnosis-keys/country")
-    suspend fun getCountryIndex(): List<String> // TODO Let retrofit format this to CountryCode
+    suspend fun getCountryIndex(): List<String>
 
+    // TODO Let retrofit format this to LocalDate
     @GET("/version/v1/diagnosis-keys/country/{country}/date")
-    suspend fun getDayIndex(@Path("country") country: String): List<String> // TODO Let retrofit format this to LocalDate
+    suspend fun getDayIndex(@Path("country") country: String): List<String>
 
+    // TODO Let retrofit format this to LocalTime
     @GET("/version/v1/diagnosis-keys/country/{country}/date/{day}/hour")
     suspend fun getHourIndex(
         @Path("country") country: String,
         @Path("day") day: String
-    ): List<String> // TODO Let retrofit format this to LocalTime
+    ): List<String>
 
     @Streaming
     @GET("/version/v1/diagnosis-keys/country/{country}/date/{day}")
