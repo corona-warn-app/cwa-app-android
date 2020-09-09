@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActionOnlyNavDirections
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
@@ -89,7 +88,7 @@ class SettingsTracingFragment : Fragment(),
             findNavController()
                 .doNavigate(
                     ActionOnlyNavDirections(
-                        R.id.action_settingsTracingFragment_to_interopCountryConfigurationFragment
+                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragmetn
                     )
                 )
         }
