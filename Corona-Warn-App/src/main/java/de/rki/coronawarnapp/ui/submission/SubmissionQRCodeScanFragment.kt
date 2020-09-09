@@ -68,11 +68,12 @@ class SubmissionQRCodeScanFragment : Fragment() {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title,
-                R.string.submission_error_dialog_web_test_paired_body,
-                R.string.submission_error_dialog_web_test_paired_button_positive,
-                null,
+                R.string.submission_qr_code_scan_invalid_dialog_headline,
+                R.string.submission_qr_code_scan_invalid_dialog_body,
+                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
                 true,
+                { startDecode() },
                 ::navigateToDispatchScreen
             )
             is CwaServerError -> DialogHelper.DialogInstance(
