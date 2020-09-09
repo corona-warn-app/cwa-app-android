@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -17,6 +18,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -57,6 +59,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
         MockKAnnotations.init(this)
         testDir.mkdirs()
         testDir.exists() shouldBe true
+
+        mockkObject(CWADebug)
 
         coEvery { downloadServer.getCountryIndex() } returns listOf(
             LocationCode("DE"),
@@ -391,6 +395,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch without prior data`() {
+        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -430,6 +435,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch with prior data`() {
+        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         mockAddData(
@@ -468,6 +474,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch deletes stale data`() {
+        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         val (staleKey1, _) = mockAddData(
@@ -523,6 +530,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch skips single download failures`() {
+        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         var dlCounter = 0
