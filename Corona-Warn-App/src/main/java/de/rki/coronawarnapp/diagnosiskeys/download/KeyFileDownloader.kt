@@ -252,11 +252,14 @@ class KeyFileDownloader @Inject constructor(
     private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, saveTo: File) {
         val validation = object : DownloadServer.HeaderValidation {
             override suspend fun validate(headers: Headers): Boolean {
-                // TODO get MD5 from better header, ETag isn't guaranteed to be the files MD5
-                val fileMD5 = headers.values("ETag")
-                    .singleOrNull()
-                    ?.removePrefix("\"")
-                    ?.removeSuffix("\"")
+                var fileMD5 = headers.values("cwa-hash-md5").singleOrNull()
+                if (fileMD5 == null) {
+                    headers.values("cwa-hash").singleOrNull()
+                }
+                if (fileMD5 == null) { // Fallback
+                    fileMD5 = headers.values("ETag").singleOrNull()
+                }
+                fileMD5 = fileMD5?.removePrefix("\"")?.removeSuffix("\"")
 
                 return !legacyKeyCache.tryMigration(fileMD5, saveTo)
             }
