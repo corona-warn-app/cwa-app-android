@@ -84,15 +84,6 @@ class SettingsTracingFragment : Fragment(),
         tracingViewModel.refreshIsTracingEnabled()
         interopViewModel.refreshSelectedCountryCodes()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-
-        binding.settingsInteroperabilityRow.settingsPlainRow.setOnClickListener {
-            findNavController()
-                .doNavigate(
-                    ActionOnlyNavDirections(
-                        R.id.action_settingsTracingFragment_to_interopCountryConfigurationFragment
-                    )
-                )
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -118,6 +109,8 @@ class SettingsTracingFragment : Fragment(),
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
+        val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
+
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         switch.setOnCheckedChangeListener { _, _ ->
@@ -158,6 +151,14 @@ class SettingsTracingFragment : Fragment(),
         }
         connection.setOnClickListener {
             ExternalActionHelper.toConnections(requireContext())
+        }
+        interoperability.setOnClickListener {
+            findNavController()
+                .doNavigate(
+                    ActionOnlyNavDirections(
+                        R.id.action_settingsTracingFragment_to_interopCountryConfigurationFragment
+                    )
+                )
         }
     }
 

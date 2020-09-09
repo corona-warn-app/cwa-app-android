@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
                Preference Keys
@@ -77,6 +78,8 @@
     <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_interoperability_selected_country_codes"><xliff:g id="preference">"preference_interoperability_selected_country_codes"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_interoperability_all_countries_selected">preference_interoperability_all_countries_selected</string>
 
     <!-- ####################################
                      Generics
@@ -1204,4 +1207,9 @@
     <string name="eu_wide_risk_detection_private_data_description"></string>
 
     <string name="settings_eu_wide_risk_detection_subtitle"></string>
+
+    <string name="interoperability_country_disabled_dialog_headline"></string>
+    <string name="interoperability_country_disabled_dialog_body"></string>
+    <string name="interoperability_country_disabled_dialog_positive_button"></string>
+    <string name="interoperability_country_disabled_dialog_negative_button"></string>
 </resources>

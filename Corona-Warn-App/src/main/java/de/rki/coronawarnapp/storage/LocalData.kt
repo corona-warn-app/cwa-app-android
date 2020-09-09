@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import java.util.Date
+import java.util.Locale
 
 /**
  * LocalData is responsible for all access to the shared preferences. Each preference is accessible
@@ -724,7 +725,21 @@ object LocalData {
             getSharedPreferenceInstance().edit().putStringSet(
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_interoperability_selected_country_codes),
-                countryCodes?.toSet()
+                countryCodes?.map { it.toLowerCase(Locale.ROOT) }?.toSet()
+            ).commit()
+        }
+
+    var isAllCountriesSelected: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_interoperability_all_countries_selected)
+            , false
+        )
+        set(selected) {
+            getSharedPreferenceInstance().edit().putBoolean(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_interoperability_all_countries_selected),
+                selected
             ).commit()
         }
 }

@@ -1200,5 +1200,10 @@
 
     <string name="settings_eu_wide_risk_detection_subtitle">Europaweite Risiko-Ermittlung</string>
 
+    <string name="interoperability_country_disabled_dialog_headline">Bitte erst 14 Tage nach Verlassen des Landes deaktivieren</string>
+    <string name="interoperability_country_disabled_dialog_body">Bitte lassen Sie die Risiko-Ermittlung für 14 weitere Tage aktiviert, nachdem Sie das jeweilige Land bereits verlassen haben. Nur so kann sichergestellt werden, dass Sie alle relevanten Daten erhalten und eine verlässliche Berechnung des Infektionsrisikos erfolgen kann. Das mobile Datenvolumen der Corona-Warn-App ist für Sie europaweit kostenlos.</string>
+    <string name="interoperability_country_disabled_dialog_positive_button">Zurück</string>
+    <string name="interoperability_country_disabled_dialog_negative_button">Deaktivieren</string>
+
 
 </resources>
