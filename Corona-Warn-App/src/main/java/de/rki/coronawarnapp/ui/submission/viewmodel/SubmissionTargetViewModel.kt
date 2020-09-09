@@ -16,5 +16,4 @@ class SubmissionTargetViewModel : ViewModel() {
     fun setCurrentButtonSelected(selectedButton: String) {
         _currentButtonSelected.postValue(selectedButton)
     }
-
 }
