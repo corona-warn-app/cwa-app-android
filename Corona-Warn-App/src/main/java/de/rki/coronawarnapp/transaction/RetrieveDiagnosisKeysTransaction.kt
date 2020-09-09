@@ -312,7 +312,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
         FileStorageHelper.initializeExportSubDirectory()
-        val convertedDate = LocalDate.fromDateFields(currentDate)  // TODO confirm
+        val convertedDate = LocalDate.fromDateFields(currentDate) // TODO confirm
         keyFileDownloader.asyncFetchKeyFiles(convertedDate, countries)
     }
 

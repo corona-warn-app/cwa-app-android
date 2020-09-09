@@ -75,7 +75,6 @@ class ServiceFactory @Inject constructor(
         private const val HTTP_CACHE_SIZE = 10L * 1024L * 1024L // 10 MiB
         private const val HTTP_CACHE_FOLDER = "http_cache" // <pkg>/cache/http_cache
 
-
         /**
          * For Submission and Verification we want to limit our specifications for TLS.
          */

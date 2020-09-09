@@ -44,7 +44,6 @@ class HttpModule {
 
             interceptors.forEach { addInterceptor(it) }
         }.build()
-
     }
 
     @Reusable

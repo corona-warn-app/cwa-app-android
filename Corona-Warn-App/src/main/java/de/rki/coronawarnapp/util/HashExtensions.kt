@@ -36,5 +36,4 @@ internal object HashExtensions {
             md.digest()
         }
         .formatHash()
-
 }

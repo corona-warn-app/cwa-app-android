@@ -8,7 +8,6 @@ import org.joda.time.LocalTime
 sealed class CountryData {
 
     abstract val country: LocationCode
-
 }
 
 internal data class CountryDays(

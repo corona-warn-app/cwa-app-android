@@ -82,5 +82,3 @@ data class CachedKeyInfo(
         @ColumnInfo(name = "completed") val isDownloadComplete: Boolean
     )
 }
-
-

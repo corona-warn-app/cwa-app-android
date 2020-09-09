@@ -77,7 +77,8 @@ class DownloadServer @Inject constructor(
     suspend fun getDayIndex(location: LocationCode): List<LocalDate> = withContext(Dispatchers.IO) {
         api
             .getDayIndex(location.identifier)
-            .map { dayString ->  // 2020-08-19
+            .map { dayString ->
+                // 2020-08-19
                 LocalDate.parse(dayString, DAY_FORMATTER)
             }
     }
@@ -145,6 +146,5 @@ class DownloadServer @Inject constructor(
 
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
-
     }
 }

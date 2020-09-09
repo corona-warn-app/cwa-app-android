@@ -9,5 +9,4 @@ class TimeStamper @Inject constructor() {
 
     val nowUTC: Instant
         get() = Instant.now()
-
 }

@@ -54,11 +54,9 @@ abstract class KeyCacheDatabase : RoomDatabase() {
             .databaseBuilder(context, KeyCacheDatabase::class.java, DATABASE_NAME)
             .fallbackToDestructiveMigrationFrom()
             .build()
-
     }
 
     companion object {
         private const val DATABASE_NAME = "keycache.db"
     }
-
 }

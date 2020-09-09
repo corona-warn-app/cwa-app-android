@@ -40,5 +40,4 @@ interface DownloadApiV1 {
         @Path("day") day: String,
         @Path("hour") hour: String
     ): Response<ResponseBody>
-
 }
