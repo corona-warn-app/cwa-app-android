@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -48,75 +58,16 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_symptom_initial_headline" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/symptom_button_apply"
-                style="@style/greenButtonNotPressed"
+            <include
+                android:id="@+id/symptom_choice_selection"
+                layout="@layout/include_submission_target_selection"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
+                app:currentButtonSelected="@{submissionViewModel.currentButtonSelected}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/further_info_text">
-
-                <TextView
-                    android:id="@+id/symptom_apply"
-                    style="@style/headline6"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/submission_symptom_positive_button}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/symptom_button_reject"
-                style="@style/greenButtonNotPressed"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/symptom_button_apply">
-
-                <TextView
-                    android:id="@+id/symptom_reject"
-                    style="@style/headline6"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/submission_symptom_negative_button}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/symptom_button_verify"
-                style="@style/greenButtonNotPressed"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginBottom="@dimen/spacing_small"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/symptom_button_reject">
-
-                <TextView
-                    android:id="@+id/symptom_verify"
-                    style="@style/headline6"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/submission_symptom_no_information_button}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/further_info_text" />
 
             <Button
                 android:id="@+id/symptom_button_next"
@@ -129,7 +80,7 @@
                 app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/symptom_button_verify"/>
+                app:layout_constraintTop_toBottomOf="@+id/symptom_choice_selection"/>
 
             <include layout="@layout/merge_guidelines_side" />
 

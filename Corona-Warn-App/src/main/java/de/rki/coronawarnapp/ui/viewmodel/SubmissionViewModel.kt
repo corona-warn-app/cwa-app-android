@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,8 +13,10 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
@@ -33,6 +36,8 @@ class SubmissionViewModel : ViewModel() {
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
+    val symptom_routeToScreen: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
+
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
 
@@ -43,6 +48,9 @@ class SubmissionViewModel : ViewModel() {
     val submissionError: LiveData<Event<CwaWebException>> = _submissionError
 
     val deviceRegistered get() = LocalData.registrationToken() != null
+
+    private val _currentButtonSelected = MediatorLiveData<String>()
+    val currentButtonSelected: LiveData<String> = _currentButtonSelected
 
     val testResultReceivedDate: LiveData<Date> =
         SubmissionRepository.testResultReceivedDate
@@ -68,6 +76,14 @@ class SubmissionViewModel : ViewModel() {
             _submissionState.value = ApiRequestState.FAILED
             err.report(ExceptionCategory.INTERNAL)
         }
+    }
+
+    init {
+        _currentButtonSelected.value = ""
+    }
+
+    fun setCurrentButtonSelected(selectedButton: String) {
+        _currentButtonSelected.postValue(selectedButton)
     }
 
     fun doDeviceRegistration() = viewModelScope.launch {
