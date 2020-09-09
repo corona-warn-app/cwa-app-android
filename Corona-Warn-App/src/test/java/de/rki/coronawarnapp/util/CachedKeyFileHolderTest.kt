@@ -38,7 +38,6 @@ class CachedKeyFileHolderTest {
         every { KeyCacheRepository.getDateRepository(any()) } returns keyCacheRepository
         mockkObject(CachedKeyFileHolder)
         coEvery { keyCacheRepository.deleteOutdatedEntries(any()) } just Runs
-        coEvery { keyCacheRepository.clear(any()) } just Runs
     }
 
     /**
@@ -65,7 +64,6 @@ class CachedKeyFileHolderTest {
                 keyCacheRepository.deleteOutdatedEntries(any())
                 CachedKeyFileHolder["getMissingDaysFromDiff"](arrayListOf<String>())
                 keyCacheRepository.getDates()
-                keyCacheRepository.clear(emptyList())
                 keyCacheRepository.getFilesFromEntries()
             }
         }

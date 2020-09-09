@@ -37,6 +37,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 import java.util.Collections
 import java.util.Date
 import java.util.UUID
@@ -121,7 +122,10 @@ object CachedKeyFileHolder {
             deferredQueries.awaitAll()
             Timber.v("${failedEntryCacheKeys.size} failed entries ")
             // For an error we clear the cache to try again
-            keyCache.clear(failedEntryCacheKeys)
+            if (failedEntryCacheKeys.isNotEmpty()) {
+                keyCache.clear(failedEntryCacheKeys)
+                throw IOException("failed to download all key files, at least one failing request.")
+            }
             keyCache.getFilesFromEntries()
                 .also { it.forEach { file -> Timber.v("cached file:${file.path}") } }
         }
