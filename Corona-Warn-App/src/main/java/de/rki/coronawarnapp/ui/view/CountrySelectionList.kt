@@ -60,7 +60,6 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
                 val isAlreadySelected = savedSelectedCountries.contains(country.first)
                 this.setEntryValues(child, country.first, country.second, isAlreadySelected)
             }
-
     }
 
     /**
@@ -91,7 +90,6 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
 
         entry.findViewById<TextView>(R.id.label_country_name).text = countryName
 
-
         val countrySwitch = entry.findViewById<Switch>(R.id.switch_country_enabled)
         countrySwitch.isChecked = selected
 
@@ -100,4 +98,3 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
         }
     }
 }
-

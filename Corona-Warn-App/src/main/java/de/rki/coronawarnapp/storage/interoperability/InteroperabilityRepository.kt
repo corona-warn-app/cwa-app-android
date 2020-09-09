@@ -35,6 +35,4 @@ object InteroperabilityRepository {
         LocalData.countryCodes = codes
         selectedCountryCodes.postValue(codes)
     }
-
-
 }

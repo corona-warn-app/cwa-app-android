@@ -6,15 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionResultPositiveOtherWarningFragmentDirections
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
-import kotlinx.coroutines.launch
 
 class InteropCountryConfigurationFragment : Fragment() {
     companion object {
@@ -42,7 +37,7 @@ class InteropCountryConfigurationFragment : Fragment() {
         }
     }
 
-    private fun navBack()  {
+    private fun navBack() {
         findNavController().doNavigate(
             InteropCountryConfigurationFragmentDirections
                 .actionInteropCountryConfigurationFragmentToSettingTracingFragmetn()
