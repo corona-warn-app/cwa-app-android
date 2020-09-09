@@ -82,6 +82,15 @@ class SettingsTracingFragment : Fragment(),
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+
+        binding.settingsInteroperabilityRow.settingsPlainRow.setOnClickListener {
+            findNavController()
+                .doNavigate(
+                    ActionOnlyNavDirections(
+                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragmetn
+                    )
+                )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
