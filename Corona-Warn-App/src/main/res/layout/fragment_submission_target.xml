@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="submissionTargetViewModel"
+            type="de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTargetViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_target_container"
         android:layout_width="match_parent"
@@ -24,10 +34,11 @@
 
         <include
             android:id="@+id/target"
-            layout="@layout/include_target"
+            layout="@layout/include_submission_target_selection"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:focusable="true"
+            app:currentButtonSelected="@{submissionTargetViewModel.currentButtonSelected}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
@@ -37,8 +48,8 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/target_text_next"
+            android:enabled="@{FormatterSubmissionHelper.isEnableButtonByState(submissionTargetViewModel.currentButtonSelected)}"
+            android:text="@string/submission_target_text_next"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />

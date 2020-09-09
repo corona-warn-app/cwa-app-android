@@ -2,6 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="currentButtonSelected"
+            type="String" />
+
+        <variable
+            name="verifyState"
+            type="String" />
+
+        <variable
+            name="applyState"
+            type="String" />
+
+        <variable
+            name="rejectState"
+            type="String" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/target_layout"
         style="@style/targetLayout"
@@ -24,82 +45,55 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
-                android:contentDescription="@{@string/target_text_subtitle}"
-                android:text="@{@string/target_text_subtitle}"
+                android:contentDescription="@{@string/submission_target_subtitle}"
+                android:text="@{@string/submission_target_subtitle}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <Button
             android:id="@+id/target_button_apply"
-            style="@style/greenButtonNotPressed"
+            style="@style/selectionButton"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,applyState)}"
+            android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:focusable="true"
+            android:text="@{@string/submission_target_text_button_apply}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,applyState)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_layout_header">
+            app:layout_constraintTop_toBottomOf="@id/target_layout_header" />
 
-            <TextView
-                android:id="@+id/target_apply"
-                style="@style/headline6"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="@{@string/target_text_button_apply}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <Button
             android:id="@+id/target_button_reject"
-            style="@style/greenButtonNotPressed"
+            style="@style/selectionButton"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,rejectState)}"
+            android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:focusable="true"
+            android:text="@{@string/submission_target_text_button_reject}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,rejectState)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_button_apply">
+            app:layout_constraintTop_toBottomOf="@id/target_button_apply" />
 
-            <TextView
-                android:id="@+id/target_reject"
-                style="@style/headline6"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="@{@string/target_text_button_reject}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <Button
             android:id="@+id/target_button_verify"
-            style="@style/greenButtonNotPressed"
+            style="@style/selectionButton"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,verifyState)}"
+            android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:focusable="true"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{@string/submission_target_text_button_verify}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,verifyState)}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_button_reject">
-
-            <TextView
-                android:id="@+id/target_verify"
-                style="@style/headline6"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:text="@{@string/target_text_button_verify}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/target_button_reject" />
 
         <TextView
             android:id="@+id/target_layout_body_notice"

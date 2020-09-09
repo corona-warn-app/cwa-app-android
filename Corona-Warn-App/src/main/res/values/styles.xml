@@ -140,16 +140,16 @@
         <item name="android:textColor">@color/colorStableLight</item>
     </style>
 
-    <style name="greenButtonNotPressed">
+    <style name="selectionButton" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:gravity">left</item>
         <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSurface2</item>
-    </style>
-
-    <style name="greenButtonPressed">
-        <item name="android:padding">@dimen/card_padding</item>
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorGreenButtonPressed</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.0125</item>
     </style>
 
     <style name="targetLayout">

@@ -15,6 +15,16 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 
+fun formatButtonStyleByState(currentState: String?, state: String?): Int =
+    formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorStableDark)
+
+fun formatBackgroundButtonStyleByState(currentState: String?, state: String?): Int =
+    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+
+fun isEnableButtonByState(currentState: String?): Boolean {
+    return currentState != ""
+}
+
 fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState != ApiRequestState.SUCCESS)
 

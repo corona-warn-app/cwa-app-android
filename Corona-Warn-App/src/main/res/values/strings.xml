@@ -1045,12 +1045,12 @@
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
-    <string name="target_text_subtitle" />
+    <string name="submission_target_subtitle" />
     <string name="target_text_notice" />
-    <string name="target_text_button_apply" />
-    <string name="target_text_button_reject" />
-    <string name="target_text_button_verify" />
-    <string name="target_text_next" />
+    <string name="submission_target_text_button_apply" />
+    <string name="submission_target_text_button_reject" />
+    <string name="submission_target_text_button_verify" />
+    <string name="submission_target_text_next" />
     <string name="target_text_back" />
     <string name="target_verify_dialog_headline" />
     <string name="target_verify_dialog_body" />
