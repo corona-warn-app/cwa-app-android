@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
@@ -312,7 +311,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         currentDate: Date,
         countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
-        FileStorageHelper.initializeExportSubDirectory()
         val convertedDate = LocalDate.fromDateFields(currentDate) // TODO confirm
         val locationCodes = countries.map { LocationCode(it) }
         keyFileDownloader.asyncFetchKeyFiles(convertedDate, locationCodes)
