@@ -748,6 +748,7 @@
     <string name="submission_error_dialog_web_test_paired_title">"QR code is invalid"</string>
     <!-- XMSG: Dialog body for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan"/>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Back"</string>
 

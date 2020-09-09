@@ -56,7 +56,7 @@ class SubmissionTanFragment : Fragment() {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_test_paired_title,
-                R.string.submission_error_dialog_web_test_paired_body,
+                R.string.submission_error_dialog_web_test_paired_body_tan,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
                 null,
                 true,

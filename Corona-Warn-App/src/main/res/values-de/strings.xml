@@ -746,6 +746,7 @@
     <string name="submission_error_dialog_web_test_paired_title">"QR-Code ist ungültig"</string>
     <!-- XMSG: Dialog body for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan">"Der QR-Code / Die TAN ist ungültig oder wurde schon verwendet. Bitte versuchen Sie es erneut oder kontaktieren Sie die technische Hotline über App-Informationen → Technische Hotline."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Zurück"</string>
 
