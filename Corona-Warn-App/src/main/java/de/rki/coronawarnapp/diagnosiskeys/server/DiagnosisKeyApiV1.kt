@@ -6,11 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Streaming
 
-interface DownloadApiV1 {
-
-    @GET("/version/v1/configuration/country/{country}/app_config")
-    suspend fun getApplicationConfiguration(@Path("country") country: String): ResponseBody
-
+interface DiagnosisKeyApiV1 {
     // TODO Let retrofit format this to CountryCode
     @GET("/version/v1/diagnosis-keys/country")
     suspend fun getCountryIndex(): List<String>

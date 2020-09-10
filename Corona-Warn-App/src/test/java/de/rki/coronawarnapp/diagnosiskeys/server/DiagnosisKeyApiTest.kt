@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.util.concurrent.TimeUnit
 
-class DownloadAPITest : BaseIOTest() {
+class DiagnosisKeyApiTest : BaseIOTest() {
 
     lateinit var webServer: MockWebServer
     lateinit var serverAddress: String
@@ -30,7 +30,7 @@ class DownloadAPITest : BaseIOTest() {
         webServer.shutdown()
     }
 
-    private fun createAPI(): DownloadApiV1 {
+    private fun createAPI(): DiagnosisKeyApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
         val gsonConverterFactory = httpModule.provideGSONConverter()
@@ -40,28 +40,12 @@ class DownloadAPITest : BaseIOTest() {
                 .newBuilder()
                 .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
                 .build()
-            it.provideDownloadApi(
+            it.provideDiagnosisKeyApi(
                 client = downloadHttpClient,
                 url = serverAddress,
                 gsonConverterFactory = gsonConverterFactory
-
             )
         }
-    }
-
-    @Test
-    fun `application config download`() {
-        val api = createAPI()
-
-        webServer.enqueue(MockResponse().setBody("~appconfig"))
-
-        runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
-        }
-
-        val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!
-        request.method shouldBe "GET"
-        request.path shouldBe "/version/v1/configuration/country/DE/app_config"
     }
 
     @Test

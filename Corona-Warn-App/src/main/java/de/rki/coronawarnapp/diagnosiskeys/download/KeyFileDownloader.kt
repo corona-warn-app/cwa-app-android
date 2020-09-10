@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.server.DownloadServer
+import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -29,7 +29,7 @@ import javax.inject.Inject
 @Reusable
 class KeyFileDownloader @Inject constructor(
     private val deviceStorage: DeviceStorage,
-    private val downloadServer: DownloadServer,
+    private val diagnosisKeyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
     private val legacyKeyCache: LegacyKeyCacheMigration,
     private val settings: AppSettings
@@ -51,7 +51,7 @@ class KeyFileDownloader @Inject constructor(
         currentDate: LocalDate,
         wantedCountries: List<LocationCode>
     ): List<File> = withContext(Dispatchers.IO) {
-        val availableCountries = downloadServer.getCountryIndex()
+        val availableCountries = diagnosisKeyServer.getCountryIndex()
         val intersection = availableCountries.filter { wantedCountries.contains(it) }
         Timber.tag(TAG).v(
             "Available=%s; Wanted=%s; Intersect=%s",
@@ -98,7 +98,7 @@ class KeyFileDownloader @Inject constructor(
         availableCountries: List<LocationCode>
     ) = withContext(Dispatchers.IO) {
         val availableCountriesWithDays = availableCountries.map {
-            val days = downloadServer.getDayIndex(it)
+            val days = diagnosisKeyServer.getDayIndex(it)
             CountryDays(it, days)
         }
 
@@ -190,9 +190,10 @@ class KeyFileDownloader @Inject constructor(
 
         // This is currently used for debugging, so we only fetch 3 hours
         val availableHours = availableCountries.map {
-            val hoursForDate = downloadServer.getHourIndex(it, currentDate).filter { availHour ->
-                TimeAndDateExtensions.getCurrentHourUTC() - 3 <= availHour.hourOfDay
-            }
+            val hoursForDate =
+                diagnosisKeyServer.getHourIndex(it, currentDate).filter { availHour ->
+                    TimeAndDateExtensions.getCurrentHourUTC() - 3 <= availHour.hourOfDay
+                }
             CountryHours(it, mapOf(currentDate to hoursForDate))
         }
 
@@ -264,7 +265,7 @@ class KeyFileDownloader @Inject constructor(
     }
 
     private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, saveTo: File) {
-        val validation = object : DownloadServer.HeaderValidation {
+        val validation = object : DiagnosisKeyServer.HeaderValidation {
             override suspend fun validate(headers: Headers): Boolean {
                 var fileMD5 = headers.values("ETag").singleOrNull()
 //                var fileMD5 = headers.values("x-amz-meta-cwa-hash-md5").singleOrNull()
@@ -280,7 +281,7 @@ class KeyFileDownloader @Inject constructor(
             }
         }
 
-        downloadServer.downloadKeyFile(
+        diagnosisKeyServer.downloadKeyFile(
             keyInfo.location,
             keyInfo.day,
             keyInfo.hour,

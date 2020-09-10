@@ -5,7 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.diagnosiskeys.server.DownloadApiV1
+import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigApiV1
+import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyApiV1
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadHomeCountry
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadHttpClient
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadServerUrl
@@ -13,11 +14,13 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.storage.AppDatabase
+import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -36,16 +39,36 @@ class DiagnosisKeysModule {
 
     @Singleton
     @Provides
-    fun provideDownloadApi(
+    fun provideDiagnosisKeyApi(
         @DownloadHttpClient client: OkHttpClient,
         @DownloadServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory
-    ): DownloadApiV1 = Retrofit.Builder()
+    ): DiagnosisKeyApiV1 = Retrofit.Builder()
         .client(client)
         .baseUrl(url)
         .addConverterFactory(gsonConverterFactory)
         .build()
-        .create(DownloadApiV1::class.java)
+        .create(DiagnosisKeyApiV1::class.java)
+
+    @Singleton
+    @Provides
+    fun provideAppConfigApi(
+        context: Context,
+        @DownloadHttpClient client: OkHttpClient,
+        @DownloadServerUrl url: String,
+        gsonConverterFactory: GsonConverterFactory
+    ): AppConfigApiV1 {
+        val cacheSize = 1 * 1024 * 1024L // 1MB
+        val cacheDir = File(context.cacheDir, "http_app-config")
+        val cache = Cache(cacheDir, cacheSize)
+        val cachingClient = client.newBuilder().cache(cache).build()
+        return Retrofit.Builder()
+            .client(cachingClient)
+            .baseUrl(url)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+            .create(AppConfigApiV1::class.java)
+    }
 
     @Singleton
     @DownloadServerUrl
