@@ -58,7 +58,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
@@ -322,10 +321,9 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         lastSetCountries = countryCodes
 
         // Trigger asyncFetchFiles which will use all Countries passed as parameter
-        val currentDate = LocalDate.now()
         lifecycleScope.launch {
             val locationCodes = countryCodes.map { LocationCode(it) }
-            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(currentDate, locationCodes)
+            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(locationCodes)
             updateCountryStatusLabel()
         }
     }

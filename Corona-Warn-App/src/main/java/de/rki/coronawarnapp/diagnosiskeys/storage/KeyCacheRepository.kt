@@ -75,6 +75,7 @@ class KeyCacheRepository @Inject constructor(
         val dirtyInfos = getDao().getAllEntries().filter {
             it.isDownloadComplete && !getPathForKey(it).exists()
         }
+        Timber.v("HouseKeeping, deleting: %s", dirtyInfos)
         delete(dirtyInfos)
     }
 
@@ -109,7 +110,7 @@ class KeyCacheRepository @Inject constructor(
         try {
             getDao().insertEntry(newKeyFile)
             if (targetFile.exists()) {
-                Timber.w("Target path despire no collision exists, deleting: %s", targetFile)
+                Timber.w("Target path despite no collision exists, deleting: %s", targetFile)
             }
         } catch (e: SQLiteConstraintException) {
             Timber.e(e, "Insertion collision? Overwriting for %s", newKeyFile)

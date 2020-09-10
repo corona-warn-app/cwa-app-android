@@ -41,7 +41,6 @@ import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -198,10 +197,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             onKeyFilesDownloadStarted = null
         }
 
-        val keyFiles = executeFetchKeyFilesFromServer(
-            currentDate,
-            countries
-        )
+        val keyFiles = executeFetchKeyFilesFromServer(countries)
 
         if (CWADebug.isDebugBuildOrMode) {
             val totalFileSize = keyFiles.fold(0L, { acc, file ->
@@ -308,12 +304,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date,
         countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
-        val convertedDate = LocalDate.fromDateFields(currentDate)
         val locationCodes = countries.map { LocationCode(it) }
-        keyFileDownloader.asyncFetchKeyFiles(convertedDate, locationCodes)
+        keyFileDownloader.asyncFetchKeyFiles(locationCodes)
     }
 
     /**
