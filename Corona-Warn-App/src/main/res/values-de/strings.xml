@@ -543,7 +543,7 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, da Google bzw. Android diese für die Verwendung von Bluetooth voraussetzt."</string>
+    <string name="settings_tracing_status_location_body">"Aktivieren Sie die Standort-Dienste. Für die Abstandsberechnung benötigt Bluetooth Low Energy aktivierte Standort-Dienste, greift dabei aber nicht auf Ihren Standort zu. Weitere Informationen finden Sie [in der FAQ]. (https://www.coronawarn.app/de/faq/#android_location)"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Geräte-Einstellungen öffnen"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
