@@ -7,6 +7,7 @@ import okhttp3.Headers
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
+import retrofit2.HttpException
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class DiagnosisKeyServer @Inject constructor(
                 .map { hourString -> LocalTime.parse(hourString, HOUR_FORMATTER) }
         }
 
-    interface HeaderValidation {
+    interface HeaderHook {
         suspend fun validate(headers: Headers): Boolean = true
     }
 
@@ -56,7 +57,7 @@ class DiagnosisKeyServer @Inject constructor(
         day: LocalDate,
         hour: LocalTime? = null,
         saveTo: File,
-        validator: HeaderValidation = object : HeaderValidation {}
+        headerHook: HeaderHook = object : HeaderHook {}
     ) = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v(
             "Starting download: country=%s, day=%s, hour=%s -> %s.",
@@ -65,7 +66,9 @@ class DiagnosisKeyServer @Inject constructor(
 
         if (saveTo.exists()) {
             Timber.tag(TAG).w("File existed, overwriting: %s", saveTo)
-            saveTo.delete()
+            if (saveTo.delete()) {
+                Timber.tag(TAG).e("%s exists, but can't be deleted.", saveTo)
+            }
         }
 
         val response = if (hour != null) {
@@ -81,15 +84,20 @@ class DiagnosisKeyServer @Inject constructor(
             )
         }
 
-        if (!validator.validate(response.headers())) {
+        if (!headerHook.validate(response.headers())) {
             Timber.tag(TAG).d("validateHeaders() told us to abort.")
             return@withContext
         }
-
-        saveTo.outputStream().use {
-            response.body()!!.byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
+        if (response.isSuccessful) {
+            saveTo.outputStream().use { target ->
+                response.body()!!.byteStream().use { source ->
+                    source.copyTo(target, DEFAULT_BUFFER_SIZE)
+                }
+            }
+            Timber.tag(TAG).v("Key file download successful: %s", saveTo)
+        } else {
+            throw HttpException(response)
         }
-        Timber.tag(TAG).v("Key file download successful: %s", saveTo)
     }
 
     companion object {
