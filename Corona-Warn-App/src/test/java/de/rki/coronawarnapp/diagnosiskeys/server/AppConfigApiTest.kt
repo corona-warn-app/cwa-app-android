@@ -12,6 +12,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.SocketPolicy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -123,6 +124,34 @@ class AppConfigApiTest : BaseIOTest() {
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
             path shouldBe "/version/v1/configuration/country/DE/app_config"
+        }
+    }
+
+    @Test
+    fun `cache is used when connection is flaky`() {
+        appConfigCacheDir.exists() shouldBe false
+
+        val api = createAPI()
+
+        val configResponse =
+            MockResponse().setBody("~appconfig").addHeader("Cache-Control: max-age=300")
+
+        webServer.enqueue(configResponse)
+        runBlocking {
+            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+        }
+        appConfigCacheDir.exists() shouldBe true
+        appConfigCacheDir.listFiles()!!.size shouldBe 3
+
+        webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
+            method shouldBe "GET"
+            path shouldBe "/version/v1/configuration/country/DE/app_config"
+        }
+
+        webServer.enqueue(MockResponse().setSocketPolicy(SocketPolicy.DISCONNECT_DURING_REQUEST_BODY))
+
+        runBlocking {
+            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
     }
 }
