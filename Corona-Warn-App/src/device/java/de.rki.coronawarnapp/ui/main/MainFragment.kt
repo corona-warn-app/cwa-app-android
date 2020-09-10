@@ -151,12 +151,9 @@ class MainFragment : Fragment() {
     }
 
     private fun toSubmissionIntro() {
-       /*findNavController().doNavigate(
-            MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-        )*/
         findNavController().doNavigate(
-            MainFragmentDirections.actionMainFragmentToSubmissionSymptomIntroductionFragment()
-        )
+            MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
+            )
     }
 
     private fun showPopup(view: View) {
