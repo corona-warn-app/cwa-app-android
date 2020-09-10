@@ -39,8 +39,18 @@ class SubmissionOutOfGermanyFragment :Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        binding.submissionOutofgermanyPositiveSelection.submissionOutofgermanyContainer.setOnClickListener {
+            viewModel.positiveClick()
+        }
+
+        binding.submissionOutofgermanyNegativeSelection.submissionOutofgermanyContainer.setOnClickListener {
+            viewModel.negativeClick()
+        }
+
         binding.submissionOutofgermanyNoSelection.submissionOutofgermanyContainer.setOnClickListener {
             viewModel.noInfoClick()
         }
+
+
     }
 }

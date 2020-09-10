@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_tiny"
                 android:layout_marginTop="@dimen/spacing_small"
-                app:active="@{submissionOutOfGermanyViewModel.notSpecifiedActive}"
+                app:active="@{submissionOutOfGermanyViewModel.yesAnswerActive}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/submission_outofgermany_selection_headline" />
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_tiny"
                 android:layout_marginTop="@dimen/spacing_small"
-                app:active="@{submissionOutOfGermanyViewModel.notSpecifiedActive}"
+                app:active="@{submissionOutOfGermanyViewModel.noAnswerActive}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/submission_outofgermany_positive_selection" />

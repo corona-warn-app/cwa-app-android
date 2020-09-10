@@ -49,18 +49,21 @@ class SubmissionOutOfGermanyViewModel : ViewModel() {
         }
     }
 
-    fun noInfoClick() {
-        Timber.i("noInfoClick")
 
-        //_countries.value?.let { currentCountries ->
-        //    _countries.postValue(currentCountries.map { it.apply { selected = false } })
+    fun positiveClick(){
+        Timber.i("yes click")
     }
 
-    // _noInfoActive.postValue(true)
-}
+    fun negativeClick(){
+        Timber.i("no click")
+    }
 
-    fun Context.toast(message: CharSequence) =
-      Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    fun noInfoClick() {
+        Timber.i("keine Angabe click")
+        
+    }
+
+}
 
 
 
