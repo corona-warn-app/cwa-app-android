@@ -29,6 +29,7 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,7 +46,7 @@ class KeyCacheRepository @Inject constructor(
                 if (mkdirs()) {
                     Timber.d("KeyCache directory created: %s", this)
                 } else {
-                    Timber.w("KeyCache directory creation failed: %s", this)
+                    throw IOException("KeyCache directory creation failed: $this")
                 }
             }
         }
