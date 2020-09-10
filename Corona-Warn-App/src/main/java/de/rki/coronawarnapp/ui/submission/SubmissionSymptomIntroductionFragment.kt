@@ -4,19 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityEvent
-import android.widget.Button
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import kotlinx.android.synthetic.main.fragment_submission_symptom_intro.view.*
 
@@ -89,7 +83,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         binding
             .symptomButtonNext
             .setOnClickListener { submissionViewModel.navigateToSymptomCalendar() }
-
     }
 
     private fun onChangeCurrentButtonSelected(state: String?) {
@@ -108,5 +101,4 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
 
     private fun onClickButtonRejectHandler() =
         onChangeCurrentButtonSelected(binding.symptomChoiceSelection.rejectState)
-
 }
