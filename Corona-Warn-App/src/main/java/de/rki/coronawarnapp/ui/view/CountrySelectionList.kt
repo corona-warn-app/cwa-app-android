@@ -10,36 +10,26 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
-import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 class CountrySelectionList(context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs) {
 
     private var _countryList: List<String>? = null
-    private var countryList: List<String>?
+    var countryList: List<String>?
         get() {
             return _countryList?.map { it.toLowerCase(Locale.ROOT) }
         }
         set(value) {
             _countryList = value
+            buildList()
         }
 
-    var onCountrySelectionChanged: ((countryCode: String, selected: Boolean) -> Unit)? = null
+    var onCountrySelectionChanged: ((userPressed: Boolean, countryCode: String, selected: Boolean) -> Unit)? = null
 
     init {
         orientation = VERTICAL
-
-        runBlocking {
-            // Get all supported countries from backend and build country list
-            countryList =
-                ApplicationConfigurationService
-                    .asyncRetrieveApplicationConfiguration().supportedCountriesList
-            buildList()
-        }
     }
 
     /**
@@ -48,7 +38,7 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
     private fun buildList() {
         this.removeAllViews()
         countryList
-            ?.filter { it !== DiagnosisKeyConstants.CURRENT_COUNTRY.toLowerCase(Locale.ROOT) }
+            ?.filter { it != DiagnosisKeyConstants.CURRENT_COUNTRY.toLowerCase(Locale.ROOT) }
             ?.map { countryCode ->
                 val countryNameResourceId = context.resources.getIdentifier(
                     "country_name_$countryCode",
@@ -61,20 +51,16 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
             ?.forEachIndexed { index, country ->
                 inflate(context, R.layout.view_country_list_entry, this)
                 val child = this.getChildAt(index)
+                // set countrycode as tag of view to determine entry later
                 child.tag = country.first
                 this.setEntryValues(child, country.first, country.second)
             }
     }
 
-    fun changeCountryStates(selected: Boolean) {
-        this.children.iterator().forEach { v ->
-            v.findViewById<Switch>(R.id.switch_country_enabled).isChecked = selected
-        }
-    }
-
     fun selectedCountries(countryCodes: List<String>) {
         val countries = countryCodes.map { it.toLowerCase(Locale.ROOT) }
         this.children.iterator().forEach { child ->
+            // determine child by using tag property
             val tag = child.tag.toString()
             val switch = child?.findViewById<Switch>(R.id.switch_country_enabled)
             switch?.isChecked = countries.contains(tag)
@@ -112,7 +98,7 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
         val countrySwitch = entry.findViewById<Switch>(R.id.switch_country_enabled)
 
         countrySwitch.setOnCheckedChangeListener { view, checked ->
-            onCountrySelectionChanged?.invoke(countryCode, checked)
+            onCountrySelectionChanged?.invoke(view.isPressed, countryCode, checked)
         }
     }
 }

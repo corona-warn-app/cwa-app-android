@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import de.rki.coronawarnapp.R
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import de.rki.coronawarnapp.util.DialogHelper
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class InteropCountryConfigurationFragment : Fragment() {
     companion object {
@@ -42,35 +38,52 @@ class InteropCountryConfigurationFragment : Fragment() {
 
         interoperabilityViewModel.refreshInteroperability()
 
-        binding.countryListView.allCountrySwitch.setOnCheckedChangeListener { _, checked ->
-            if (!checked) {
-                showCountryDisabledDialog {
-                    interoperabilityViewModel.overwriteSelectedCountries(false)
-                }
-            } else {
-                interoperabilityViewModel.overwriteSelectedCountries(true)
+        binding.countryListView.allCountrySwitch.setOnCheckedChangeListener { view, checked ->
+            // only if user pressed -> ignore changes done from viewmodel
+            if (view.isPressed) {
+                handleAllCountrySwitchChanged(checked)
             }
         }
+
+        binding.countryListView.countryList.onCountrySelectionChanged =
+            { userPressed, countryCode, selected ->
+                handleCountrySelected(countryCode, selected, userPressed)
+            }
 
         // register back button action
         binding.interopConfigHeader.headerButtonBack.buttonIcon.setOnClickListener {
             navBack()
         }
+    }
 
-        binding.countryListView.countryList.onCountrySelectionChanged = { countryCode, selected ->
-            // TODO: Handle all country selection if all country selected disable it
-            if (!selected) {
-                if(interoperabilityViewModel.isAllCountriesSelected.value == true) {
-                    showCountryDisabledDialog {
-                        interoperabilityViewModel.setIsAllCountriesSelected(false)
-                        interoperabilityViewModel.updateSelectedCountryCodes(countryCode, false)
-                    }
-                }else {
-                    interoperabilityViewModel.setIsAllCountriesSelected(false)
+    /**
+     * Updates the viewmodel and saves the given country code if selected. Displays a dialog if user
+     * wants to disable the country
+     */
+    private fun handleCountrySelected(countryCode: String, selected: Boolean, showDialog: Boolean) {
+        if (!selected) {
+            if (showDialog) {
+                showCountryDisabledDialog {
+                    interoperabilityViewModel.updateSelectedCountryCodes(countryCode, false)
                 }
-            } else {
-                interoperabilityViewModel.updateSelectedCountryCodes(countryCode, true)
             }
+            interoperabilityViewModel.updateSelectedCountryCodes(countryCode, false)
+        } else {
+            interoperabilityViewModel.updateSelectedCountryCodes(countryCode, true)
+        }
+    }
+
+    /**
+     * Updates the viewmodel and saves all countries if selected. Displays a dialog if user
+     * wants to disable all countries
+     */
+    private fun handleAllCountrySwitchChanged(checked: Boolean) {
+        if (!checked) {
+            showCountryDisabledDialog {
+                interoperabilityViewModel.overwriteSelectedCountries(false)
+            }
+        } else {
+            interoperabilityViewModel.overwriteSelectedCountries(true)
         }
     }
 
@@ -82,9 +95,7 @@ class InteropCountryConfigurationFragment : Fragment() {
             R.string.interoperability_country_disabled_dialog_positive_button,
             R.string.interoperability_country_disabled_dialog_negative_button,
             false,
-            {
-                interoperabilityViewModel.refreshInteroperability()
-            },
+            {},
             deactivate
         )
         DialogHelper.showDialog(dialog)

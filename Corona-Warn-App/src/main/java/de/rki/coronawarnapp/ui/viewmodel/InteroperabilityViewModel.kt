@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import kotlinx.coroutines.runBlocking
 
 /**
  * ViewModel for everything Interoperability related
@@ -13,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 class InteroperabilityViewModel : ViewModel() {
     val selectedCountryCodes = InteroperabilityRepository.selectedCountryCodes
     val isAllCountriesSelected = InteroperabilityRepository.isAllCountriesSelected
+    val allCountries = InteroperabilityRepository.getAllCountries()
 
     fun refreshInteroperability() {
         refreshAllCountriesSelected()
@@ -28,16 +27,7 @@ class InteroperabilityViewModel : ViewModel() {
     }
 
     fun overwriteSelectedCountries(selected: Boolean) {
-        runBlocking {
-            val countries =
-                ApplicationConfigurationService
-                    .asyncRetrieveApplicationConfiguration().supportedCountriesList
-            InteroperabilityRepository.overwriteSelectedCountries(countries, selected)
-        }
-    }
-
-    fun setIsAllCountriesSelected(selected: Boolean) {
-        InteroperabilityRepository.setIsAllCountriesSelected(selected)
+        InteroperabilityRepository.overwriteSelectedCountries(allCountries, selected)
     }
 
     fun updateSelectedCountryCodes(
@@ -45,5 +35,18 @@ class InteroperabilityViewModel : ViewModel() {
         selected: Boolean = true
     ) {
         InteroperabilityRepository.updateSelectedCountryCodes(countryCode, selected)
+
+        // Disable all countries selected if user deselects a country
+        if (!selected && InteroperabilityRepository.isAllCountriesSelected.value == false) {
+            InteroperabilityRepository.setIsAllCountriesSelected(false)
+            return
+        }
+
+        // check if all countries are selected now to set all countries selected to true
+        val allCountriesSelected =
+            selectedCountryCodes.value?.containsAll(allCountries) ?: false
+        if (allCountriesSelected) {
+            InteroperabilityRepository.setIsAllCountriesSelected(true)
+        }
     }
 }

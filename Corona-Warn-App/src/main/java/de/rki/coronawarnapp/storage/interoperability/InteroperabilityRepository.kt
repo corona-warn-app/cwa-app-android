@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.storage.interoperability
 
 import androidx.lifecycle.MutableLiveData
+import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
+import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.storage.LocalData
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 object InteroperabilityRepository {
@@ -14,17 +17,40 @@ object InteroperabilityRepository {
 
     val isAllCountriesSelected = MutableLiveData<Boolean>(false)
 
-    fun getSelectedCountryCodes(): List<String> =
+    private fun getSelectedCountryCodes(): List<String> =
         LocalData.countryCodes ?: listOf()
 
     /**
-     * Refresh selected country codes state
+     * Gets all countries from @see ApplicationConfigurationService.asyncRetrieveApplicationConfiguration
+     * and filters out the CURRENT_COUNTRY from @see DiagnosisKeyConstants. Also changes every country code
+     * to lower case
+     */
+    fun getAllCountries(): List<String> {
+        return runBlocking {
+            ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                .supportedCountriesList
+                ?.filter {
+                    // Filter our CURRENT_COUNTRY because this country should always be used and it should
+                    // not be able to disable it
+                    it != DiagnosisKeyConstants.CURRENT_COUNTRY.toLowerCase(
+                        Locale.ROOT
+                    )
+                }
+                ?.map { it.toLowerCase(Locale.ROOT) } ?: listOf()
+        }
+    }
+
+    /**
+     * Refresh selected country codes state by localData
      */
     fun refreshSelectedCountryCodes() {
         val codes = getSelectedCountryCodes()
         selectedCountryCodes.value = codes
     }
 
+    /**
+     * Refresh all countries selected state by localData
+     */
     fun refreshAllCountriesSelected() {
         isAllCountriesSelected.value = LocalData.isAllCountriesSelected
     }
