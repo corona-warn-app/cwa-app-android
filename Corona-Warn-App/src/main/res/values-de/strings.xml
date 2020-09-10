@@ -775,9 +775,9 @@
     <!-- XMSG: Dialog body for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_body">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_button_positive">"OK"</string>
-    <!-- XBUT: Positive button for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Cancel"</string>
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Ja"</string>
+    <!-- XBUT: Negative button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Nein"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
