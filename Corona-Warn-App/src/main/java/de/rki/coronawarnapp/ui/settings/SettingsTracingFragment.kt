@@ -83,15 +83,6 @@ class SettingsTracingFragment : Fragment(),
         tracingViewModel.refreshIsTracingEnabled()
         interopViewModel.refreshSelectedCountryCodes()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-
-        binding.settingsInteroperabilityRow.settingsPlainRow.setOnClickListener {
-            findNavController()
-                .doNavigate(
-                    ActionOnlyNavDirections(
-                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragment
-                    )
-                )
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -164,7 +155,7 @@ class SettingsTracingFragment : Fragment(),
             findNavController()
                 .doNavigate(
                     ActionOnlyNavDirections(
-                        R.id.action_settingsTracingFragment_to_interopCountryConfigurationFragment
+                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragment
                     )
                 )
         }
