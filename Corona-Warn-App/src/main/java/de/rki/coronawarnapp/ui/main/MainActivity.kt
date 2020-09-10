@@ -16,13 +16,14 @@ import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.PowerManagementHelper
+import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * This activity holds all the fragments (except onboarding) and also registers a listener for
@@ -45,6 +46,12 @@ class MainActivity : AppCompatActivity() {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     private lateinit var settingsViewModel: SettingsViewModel
+
+    @Inject
+    lateinit var backgroundPrioritization: BackgroundPrioritization
+
+    @Inject
+    lateinit var powerManagement: PowerManagement
 
     /**
      * Register connection callback.
@@ -123,7 +130,7 @@ class MainActivity : AppCompatActivity() {
             R.string.onboarding_energy_optimized_dialog_button_negative,
             false, {
                 // go to battery optimization
-                ExternalActionHelper.disableBatteryOptimizations(this)
+                powerManagement.disableBatteryOptimizations()
             }, {
                 // keep battery optimization enabled
                 showManualCheckingRequiredDialog()
@@ -132,7 +139,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForEnergyOptimizedEnabled() {
-        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(this)) {
+        if (!backgroundPrioritization.isBackgroundActivityPrioritized) {
             showEnergyOptimizedEnabledForBackground()
         }
     }

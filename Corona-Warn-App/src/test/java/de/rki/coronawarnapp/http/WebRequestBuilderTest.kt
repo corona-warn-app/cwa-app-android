@@ -55,7 +55,7 @@ class WebRequestBuilderTest {
 
         runBlocking {
             val expectedResult = listOf("1900-01-01", "2000-01-01")
-            Assert.assertEquals(webRequestBuilder.asyncGetDateIndex(), expectedResult)
+            Assert.assertEquals(webRequestBuilder.asyncGetDateIndex("DE"), expectedResult)
             coVerify {
                 distributionService.getDateIndex(urlString)
             }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -8,8 +9,9 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.fragment.app.Fragment
@@ -48,33 +50,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.util.KeyFileHelper
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_enter_other_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_check_exposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_exposure_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_scan_qr_code
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_share_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_submit_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_test_start
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_calculate_risk_level
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_clear_db
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_insert_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_retrieve_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_duration_in_retention_period
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_intervals
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_attenuation
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_daysSinceLastExposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_matchedKeyCount
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_maximumRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_googlePlayServices_version
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_latest_key_date
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.qr_code_viewpager
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_background_notifications
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -83,6 +60,7 @@ import org.joda.time.DateTimeZone
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
+import java.util.Date
 import java.util.UUID
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
@@ -120,6 +98,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private var _binding: FragmentTestForAPIBinding? = null
     private val binding: FragmentTestForAPIBinding get() = _binding!!
 
+    private var lastSetCountries: List<String>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -153,7 +133,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 0
             )
         )
-        label_googlePlayServices_version.text = "Google Play Services version: " + v.toString()
+        binding.labelGooglePlayServicesVersion.text =
+            "Google Play Services version: " + v.toString()
 
         token = UUID.randomUUID().toString()
 
@@ -162,19 +143,34 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         getExposureKeys()
 
-        qrPager = qr_code_viewpager
+        qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
 
-        button_api_test_start.setOnClickListener {
+        // Load countries from App config and update Country UI element states
+        lifecycleScope.launch {
+            lastSetCountries =
+                ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                    .supportedCountriesList
+
+            binding.inputCountryCodesEditText.setText(
+                lastSetCountries?.joinToString(
+                    ","
+                )
+            )
+
+            updateCountryStatusLabel()
+        }
+
+        binding.buttonApiTestStart.setOnClickListener {
             start()
         }
 
-        button_api_get_exposure_keys.setOnClickListener {
+        binding.buttonApiGetExposureKeys.setOnClickListener {
             getExposureKeys()
         }
 
-        val last3HoursSwitch = test_api_switch_last_three_hours_from_server as Switch
+        val last3HoursSwitch = binding.testApiSwitchLastThreeHoursFromServer
         last3HoursSwitch.isChecked = LocalData.last3HoursMode()
         last3HoursSwitch.setOnClickListener {
             val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
@@ -182,7 +178,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             LocalData.last3HoursMode(isLast3HoursModeEnabled)
         }
 
-        val backgroundNotificationSwitch = test_api_switch_background_notifications as Switch
+        val backgroundNotificationSwitch = binding.testApiSwitchBackgroundNotifications
         backgroundNotificationSwitch.isChecked = LocalData.backgroundNotification()
         backgroundNotificationSwitch.setOnClickListener {
             val isBackgroundNotificationsActive = backgroundNotificationSwitch.isChecked
@@ -190,26 +186,26 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             LocalData.backgroundNotification(isBackgroundNotificationsActive)
         }
 
-        button_api_get_check_exposure.setOnClickListener {
+        binding.buttonApiGetCheckExposure.setOnClickListener {
             checkExposure()
         }
 
-        button_api_scan_qr_code.setOnClickListener {
+        binding.buttonApiScanQrCode.setOnClickListener {
             IntentIntegrator.forSupportFragment(this)
                 .setOrientationLocked(false)
                 .setBeepEnabled(false)
                 .initiateScan()
         }
 
-        button_api_share_my_keys.setOnClickListener {
+        binding.buttonApiShareMyKeys.setOnClickListener {
             shareMyKeys()
         }
 
-        button_api_enter_other_keys.setOnClickListener {
+        binding.buttonApiEnterOtherKeys.setOnClickListener {
             enterOtherKeys()
         }
 
-        button_api_submit_keys.setOnClickListener {
+        binding.buttonApiSubmitKeys.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 try {
                     internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
@@ -224,7 +220,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             }
         }
 
-        button_calculate_risk_level.setOnClickListener {
+        binding.buttonCalculateRiskLevel.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 try {
                     RiskLevelTransaction.start()
@@ -234,7 +230,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             }
         }
 
-        button_insert_exposure_summary.setOnClickListener {
+        binding.buttonInsertExposureSummary.setOnClickListener {
             // Now broadcasts them to the worker.
             val intent = Intent(
                 context,
@@ -244,7 +240,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             context?.sendBroadcast(intent)
         }
 
-        button_retrieve_exposure_summary.setOnClickListener {
+        binding.buttonRetrieveExposureSummary.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 showToast(
                     ExposureSummaryRepository.getExposureSummaryRepository()
@@ -253,7 +249,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             }
         }
 
-        button_clear_db.setOnClickListener {
+        binding.buttonClearDb.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     AppDatabase.getInstance(requireContext()).clearAllTables()
@@ -261,7 +257,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             }
         }
 
-        button_tracing_intervals.setOnClickListener {
+        binding.buttonTracingIntervals.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 showToast(
                     TracingIntervalRepository.getDateRepository(requireContext()).getIntervals()
@@ -270,10 +266,25 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             }
         }
 
-        button_tracing_duration_in_retention_period.setOnClickListener {
+        binding.buttonTracingDurationInRetentionPeriod.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
             }
+        }
+
+        binding.buttonFilterCountryCodes.setOnClickListener {
+            filterCountryCodes()
+        }
+
+        binding.buttonRetrieveDiagnosisKeysAndCalcRiskLevel.setOnClickListener {
+            startKeyRetrievalAndRiskCalcBenchmark()
+        }
+
+        binding.inputMeasureRiskKeyRepeatCount.setOnEditorActionListener { v, actionCode, event ->
+            if (actionCode == EditorInfo.IME_ACTION_DONE) {
+                startKeyRetrievalAndRiskCalcBenchmark()
+            }
+            false
         }
     }
 
@@ -281,6 +292,56 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         super.onResume()
 
         updateExposureSummaryDisplay(null)
+    }
+
+    private fun startKeyRetrievalAndRiskCalcBenchmark() {
+        hideKeyboard()
+        lifecycleScope.launch {
+            val repeatCount =
+                binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
+            context?.let {
+                RiskLevelAndKeyRetrievalBenchmark(
+                    it,
+                    lastSetCountries ?: listOf("DE")
+                ).start(repeatCount) { status ->
+                    binding.labelTestApiMeasureCalcKeyStatus.text = status
+                }
+            }
+        }
+    }
+
+    private fun filterCountryCodes() {
+        hideKeyboard()
+        // Get user input country codes
+        val rawCountryCodes = binding.inputCountryCodesEditText.text.toString()
+
+        // Country codes can be separated by space or ,
+        var countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
+
+        lastSetCountries = countryCodes
+
+        // Trigger asyncFetchFiles which will use all Countries passed as parameter
+        val currentDate = Date(System.currentTimeMillis())
+        lifecycleScope.launch {
+            CachedKeyFileHolder.asyncFetchFiles(currentDate, countryCodes)
+            updateCountryStatusLabel()
+        }
+    }
+
+    private fun hideKeyboard() {
+        activity?.currentFocus.let {
+            val inputManager =
+                context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(it?.windowToken, 0)
+        }
+    }
+
+    /**
+     * Updates the Label for country filter
+     */
+    private fun updateCountryStatusLabel() {
+        binding.labelCountryCodeFilterStatus.text = "Country filter applied for: \n " +
+                "${lastSetCountries?.joinToString(",")}"
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -294,8 +355,8 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private val onScannedKey = { key: AppleLegacyKeyExchange.Key? ->
         Timber.i("keys scanned..")
         key?.let {
-            text_scanned_key.text = prettyKey(key)
-            text_scanned_key.visibility = View.VISIBLE
+            binding.textScannedKey.text = prettyKey(key)
+            binding.textScannedKey.visibility = View.VISIBLE
 //            text_scanned_key.movementMethod = ScrollingMovementMethod.getInstance()
         }
         otherExposureKeyList.add(key!!)
@@ -369,7 +430,10 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             )
 
             val dir =
-                File(File(requireContext().getExternalFilesDir(null), "key-export"), token ?: "")
+                File(
+                    File(requireContext().getExternalFilesDir(null), "key-export"),
+                    token ?: ""
+                )
             dir.mkdirs()
 
             var googleFileList: List<File>
@@ -411,27 +475,27 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
     private fun updateExposureSummaryDisplay(exposureSummary: ExposureSummary?) {
 
-        label_exposure_summary_matchedKeyCount.text = getString(
+        binding.labelExposureSummaryMatchedKeyCount.text = getString(
             R.string.test_api_body_matchedKeyCount,
             (exposureSummary?.matchedKeyCount ?: "-").toString()
         )
 
-        label_exposure_summary_daysSinceLastExposure.text = getString(
+        binding.labelExposureSummaryDaysSinceLastExposure.text = getString(
             R.string.test_api_body_daysSinceLastExposure,
             (exposureSummary?.daysSinceLastExposure ?: "-").toString()
         )
 
-        label_exposure_summary_maximumRiskScore.text = getString(
+        binding.labelExposureSummaryMaximumRiskScore.text = getString(
             R.string.test_api_body_maximumRiskScore,
             (exposureSummary?.maximumRiskScore ?: "-").toString()
         )
 
-        label_exposure_summary_summationRiskScore.text = getString(
+        binding.labelExposureSummarySummationRiskScore.text = getString(
             R.string.test_api_body_summation_risk,
             (exposureSummary?.summationRiskScore ?: "-").toString()
         )
 
-        label_exposure_summary_attenuation.text = getString(
+        binding.labelExposureSummaryAttenuation.text = getString(
             R.string.test_api_body_attenuation,
             (exposureSummary?.attenuationDurationsInMinutes?.joinToString() ?: "-").toString()
         )
@@ -448,15 +512,16 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             R.string.test_api_body_my_keys,
             myKeys?.size ?: 0
         )
-        label_my_keys.text = myKeysLabelAndCount
-        text_my_keys.text = myExposureKeysJSON
+        binding.labelMyKeys.text = myKeysLabelAndCount
+        binding.textMyKeys.text = myExposureKeysJSON
 
-        myKeys?.maxBy { it.rollingStartIntervalNumber }?.rollingStartIntervalNumber?.toLong()?.let {
-            val ms = it * 60L * 10L * 1000L
-            val dateString = DateTime(ms, DateTimeZone.UTC)
+        myKeys?.maxBy { it.rollingStartIntervalNumber }?.rollingStartIntervalNumber?.toLong()
+            ?.let {
+                val ms = it * 60L * 10L * 1000L
+                val dateString = DateTime(ms, DateTimeZone.UTC)
 
-            label_latest_key_date.text = "Latest key is from: $dateString"
-        }
+                binding.labelLatestKeyDate.text = "Latest key is from: $dateString"
+            }
     }
 
     private fun showToast(message: String) {
