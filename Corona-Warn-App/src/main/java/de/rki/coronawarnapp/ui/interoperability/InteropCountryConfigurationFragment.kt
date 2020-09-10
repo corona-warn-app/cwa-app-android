@@ -40,7 +40,7 @@ class InteropCountryConfigurationFragment : Fragment() {
     private fun navBack() {
         findNavController().doNavigate(
             InteropCountryConfigurationFragmentDirections
-                .actionInteropCountryConfigurationFragmentToSettingTracingFragmetn()
+                .actionInteropCountryConfigurationFragmentToSettingTracingFragment()
         )
     }
 }

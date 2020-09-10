@@ -84,7 +84,7 @@
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing" >
         <action
-            android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragmetn"
+            android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
             app:destination="@id/interopCountryConfigurationFragment"
             app:popUpTo="@id/interopCountryConfigurationFragment"
             app:popUpToInclusive="true" />
@@ -96,7 +96,7 @@
         android:label="InteropCountryConfigurationFragment"
         tools:layout="@layout/fragment_interoperability_configuration" >
         <action
-            android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragmetn"
+            android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
             app:destination="@id/settingsTracingFragment"
             app:popUpTo="@id/settingsTracingFragment"
             app:popUpToInclusive="true" />
