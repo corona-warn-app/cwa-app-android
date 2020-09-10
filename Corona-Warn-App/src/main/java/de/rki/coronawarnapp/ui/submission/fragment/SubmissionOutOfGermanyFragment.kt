@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import de.rki.coronawarnapp.databinding.FragmentSubmissionOutofgermanySelectionBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionOutOfGermanyViewModel
 
-class SubmissionOutOfGermanyFragment :Fragment() {
+class SubmissionOutOfGermanyFragment : Fragment() {
 
     companion object {
         private val TAG: String? = SubmissionOutOfGermanyFragment::class.simpleName
