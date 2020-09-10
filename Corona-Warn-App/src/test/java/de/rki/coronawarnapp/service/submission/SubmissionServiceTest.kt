@@ -175,8 +175,12 @@ class SubmissionServiceTest {
         // invalid if no GUID
             SubmissionService.containsValidGUID("https://localhost/?") shouldBe false
 
-        // invalid if url format is incorrect
-            SubmissionService.containsValidGUID("htps://wrongformat.com")shouldBe false
+        // more invalid tests checks
+            SubmissionService.containsValidGUID("htps://wrongformat.com") shouldBe false
+            SubmissionService.containsValidGUID("https://localhost/%20?3D6D08-3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA") shouldBe false
+            SubmissionService.containsValidGUID("https://some-host.com/?3D6D08-3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA") shouldBe false
+            SubmissionService.containsValidGUID("https://localhost/?3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA") shouldBe false
+            SubmissionService.containsValidGUID("https://localhost/?4CD1F87D6FDA") shouldBe false
     }
 
     @Test
