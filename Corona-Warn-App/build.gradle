@@ -33,8 +33,8 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 37
-        versionName "1.3.0"
+        versionCode 39
+        versionName "1.4.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -263,6 +263,7 @@ dependencies {
     testImplementation "io.mockk:mockk:1.10.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.8.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
 
     // Testing - jUnit4
     testImplementation 'junit:junit:4.13'
