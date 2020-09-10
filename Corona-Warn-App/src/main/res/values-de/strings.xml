@@ -1021,6 +1021,16 @@ Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allge
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Im zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App."</string>
 
+    <!-- Submission Symptom Calendar -->
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"In den letzten 7 tagen"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"Vor 1-2 Wochen"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"Vor mehr als 2 Wochen"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"Keine Angabe"</string>
+
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Datenabruf…"</string>

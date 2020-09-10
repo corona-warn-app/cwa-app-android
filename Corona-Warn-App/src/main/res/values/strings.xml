@@ -991,6 +991,16 @@
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">""</string>
 
+    <!-- Submission Symptom Calendar -->
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">""</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">""</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">""</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">""</string>
+
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
     <string name="submission_contact_title">"Request TAN"</string>
