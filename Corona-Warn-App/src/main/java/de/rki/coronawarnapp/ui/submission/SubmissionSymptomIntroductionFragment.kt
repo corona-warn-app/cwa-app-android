@@ -7,12 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import kotlinx.android.synthetic.main.fragment_submission_symptom_intro.view.*
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
 
@@ -56,10 +52,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
     }
 
     private fun navigateToPreviousScreen() {
-        findNavController().doNavigate(
-            SubmissionSymptomIntroductionFragmentDirections
-                .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
-        )
+        // TODO: Place here the route to the previous fragment
     }
 
     private fun setButtonOnClickListener() {
