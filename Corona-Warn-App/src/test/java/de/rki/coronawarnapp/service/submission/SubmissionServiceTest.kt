@@ -25,7 +25,6 @@ import org.junit.Test
 
 class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
-    private val invalidGuid = "12345Z-1238-1234-4DA7-B166-B8VWXD85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
     private val testResult = TestResult.PENDING
 
@@ -172,7 +171,7 @@ class SubmissionServiceTest {
 
         // invalid if "http" is present instead of "https"
              SubmissionService.containsValidGUID("http://localhost/?$guid") shouldBe false
-        
+
         // invalid if no GUID
             SubmissionService.containsValidGUID("https://localhost/?") shouldBe false
 
