@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -12,17 +14,21 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import testhelpers.CoroutinesTestRule
 
 class SubmissionViewModelTest {
-    private var viewModel: SubmissionViewModel = SubmissionViewModel()
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var coroutinesTestRule = CoroutinesTestRule()
 
-    @JvmField
-    @Rule
-    var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    val instantTaskExecRule = InstantTaskExecutorRule()
 
     @MockK
     private lateinit var webRequestBuilder: WebRequestBuilder
@@ -30,12 +36,18 @@ class SubmissionViewModelTest {
     @MockK
     private lateinit var backgroundNoise: BackgroundNoise
 
+    private val viewModel: SubmissionViewModel = SubmissionViewModel()
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
         mockkObject(LocalData)
         every { LocalData.testGUID(any()) } just Runs
+        every { LocalData.registrationToken() } returns null
+
+        mockkStatic("de.rki.coronawarnapp.exception.reporting.ExceptionReporterKt")
+        every { any<Throwable>().report(any()) } just Runs
 
         mockkObject(WebRequestBuilder.Companion)
         every { WebRequestBuilder.getInstance() } returns webRequestBuilder
@@ -64,8 +76,6 @@ class SubmissionViewModelTest {
         val countryList = listOf("DE", "EN")
         viewModel.setVisitedCountries(countryList)
 
-        viewModel.visitedCountries.observeForever { }
-
         viewModel.visitedCountries.value shouldBe countryList
     }
 
@@ -74,8 +84,14 @@ class SubmissionViewModelTest {
         val consent = true
         viewModel.setConsentToFederation(consent)
 
-        viewModel.consentToFederation.observeForever { }
-
         viewModel.consentToFederation.value shouldBe consent
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun submitDiagnosisKeysShouldFail() {
+        viewModel.submitDiagnosisKeys(listOf())
+
+        viewModel.submissionState.value shouldBe ApiRequestState.FAILED
     }
 }

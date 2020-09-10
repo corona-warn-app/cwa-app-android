@@ -285,6 +285,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.work:work-testing:2.3.4'
     androidTestImplementation "io.mockk:mockk-android:1.10.0"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
     debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
 
     // Play Services
