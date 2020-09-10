@@ -5,7 +5,7 @@ object HTTPVariables {
      * The maximal runtime of a transaction
      * In milliseconds
      */
-    private const val HTTP_CONNECTION_TIMEOUT = 10000L
+    private const val HTTP_CONNECTION_TIMEOUT = 20000L
 
     /**
      * Getter function for [HTTP_CONNECTION_TIMEOUT]
@@ -19,7 +19,7 @@ object HTTPVariables {
      * The maximal runtime of a transaction
      * In milliseconds
      */
-    private const val HTTP_READ_TIMEOUT = 10000L
+    private const val HTTP_READ_TIMEOUT = 20000L
 
     /**
      * Getter function for [HTTP_READ_TIMEOUT]
@@ -33,7 +33,7 @@ object HTTPVariables {
      * The maximal runtime of a transaction
      * In milliseconds
      */
-    private const val HTTP_WRITE_TIMEOUT = 10000L
+    private const val HTTP_WRITE_TIMEOUT = 20000L
 
     /**
      * Getter function for [HTTP_WRITE_TIMEOUT]
