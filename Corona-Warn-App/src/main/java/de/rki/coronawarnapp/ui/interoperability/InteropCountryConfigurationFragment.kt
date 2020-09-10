@@ -9,9 +9,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import de.rki.coronawarnapp.R
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import kotlinx.coroutines.launch
@@ -54,7 +54,7 @@ class InteropCountryConfigurationFragment : Fragment() {
 
         // register back button action
         binding.interopConfigHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            navBack()
         }
 
         binding.countryListView.countryList.onCountrySelectionChanged = { countryCode, selected ->
@@ -88,5 +88,12 @@ class InteropCountryConfigurationFragment : Fragment() {
             deactivate
         )
         DialogHelper.showDialog(dialog)
+    }
+
+    private fun navBack() {
+        findNavController().doNavigate(
+            InteropCountryConfigurationFragmentDirections
+                .actionInteropCountryConfigurationFragmentToSettingTracingFragment()
+        )
     }
 }

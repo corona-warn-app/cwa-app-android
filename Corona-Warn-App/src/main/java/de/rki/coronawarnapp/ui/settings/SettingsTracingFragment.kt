@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActionOnlyNavDirections
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
@@ -84,6 +83,15 @@ class SettingsTracingFragment : Fragment(),
         tracingViewModel.refreshIsTracingEnabled()
         interopViewModel.refreshSelectedCountryCodes()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+
+        binding.settingsInteroperabilityRow.settingsPlainRow.setOnClickListener {
+            findNavController()
+                .doNavigate(
+                    ActionOnlyNavDirections(
+                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragment
+                    )
+                )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
