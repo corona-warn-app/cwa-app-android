@@ -172,10 +172,7 @@ class SubmissionServiceTest {
 
         // invalid if "http" is present instead of "https"
              SubmissionService.containsValidGUID("http://localhost/?$guid") shouldBe false
-
-        // invalid if GUID is not in HEX or the format is incorrect
-            SubmissionService.containsValidGUID("http://localhost/?$invalidGuid") shouldBe false
-
+        
         // invalid if no GUID
             SubmissionService.containsValidGUID("https://localhost/?") shouldBe false
 
