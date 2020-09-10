@@ -7,5 +7,7 @@ import retrofit2.http.Path
 interface AppConfigApiV1 {
 
     @GET("/version/v1/configuration/country/{country}/app_config")
-    suspend fun getApplicationConfiguration(@Path("country") country: String): ResponseBody
+    suspend fun getApplicationConfiguration(
+        @Path("country") country: String
+    ): ResponseBody
 }
