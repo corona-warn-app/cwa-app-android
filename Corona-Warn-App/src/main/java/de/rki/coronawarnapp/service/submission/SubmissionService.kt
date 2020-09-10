@@ -77,8 +77,8 @@ object SubmissionService {
     }
 
     private fun matchGUIDPattern(scanResult: String): Boolean {
-        val pattern = Regex(SubmissionConstants.qrCodeRegex)
-        return pattern.containsMatchIn(scanResult)
+        val pattern = SubmissionConstants.QR_CODE_REGEX
+        return pattern.toRegex().matches(scanResult)
     }
 
     fun extractGUID(scanResult: String): String =

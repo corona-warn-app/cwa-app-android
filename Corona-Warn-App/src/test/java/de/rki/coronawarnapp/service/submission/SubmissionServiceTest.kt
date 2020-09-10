@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -24,6 +25,7 @@ import org.junit.Test
 
 class SubmissionServiceTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
+    private val invalidGuid = "12345Z-1238-1234-4DA7-B166-B8VWXD85475064"
     private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
     private val testResult = TestResult.PENDING
 
@@ -166,22 +168,19 @@ class SubmissionServiceTest {
     @Test
     fun containsValidGUID() {
         // valid
-        assertThat(
-            SubmissionService.containsValidGUID("https://bs-sd.de/covid-19/?$guid"),
-            equalTo(true)
-        )
+            SubmissionService.containsValidGUID("https://localhost/?$guid") shouldBe true
+
+        // invalid if "http" is present instead of "https"
+             SubmissionService.containsValidGUID("http://localhost/?$guid") shouldBe false
+
+        // invalid if GUID is not in HEX or the format is incorrect
+            SubmissionService.containsValidGUID("http://localhost/?$invalidGuid") shouldBe false
 
         // invalid if no GUID
-        assertThat(
-            SubmissionService.containsValidGUID("https://no-guid-here"),
-            equalTo(false)
-        )
+            SubmissionService.containsValidGUID("https://localhost/?") shouldBe false
 
         // invalid if url format is incorrect
-        assertThat(
-            SubmissionService.containsValidGUID("htps://wrongformat.com"),
-            equalTo(false)
-        )
+            SubmissionService.containsValidGUID("htps://wrongformat.com")shouldBe false
     }
 
     @Test
