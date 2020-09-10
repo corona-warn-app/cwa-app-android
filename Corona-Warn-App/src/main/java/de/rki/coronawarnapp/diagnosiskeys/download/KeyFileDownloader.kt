@@ -266,13 +266,14 @@ class KeyFileDownloader @Inject constructor(
     private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, saveTo: File) {
         val validation = object : DownloadServer.HeaderValidation {
             override suspend fun validate(headers: Headers): Boolean {
-                var fileMD5 = headers.values("cwa-hash-md5").singleOrNull()
-                if (fileMD5 == null) {
-                    headers.values("cwa-hash").singleOrNull()
-                }
-                if (fileMD5 == null) { // Fallback
-                    fileMD5 = headers.values("ETag").singleOrNull()
-                }
+                var fileMD5 = headers.values("ETag").singleOrNull()
+//                var fileMD5 = headers.values("x-amz-meta-cwa-hash-md5").singleOrNull()
+//                if (fileMD5 == null) {
+//                    headers.values("x-amz-meta-cwa-hash").singleOrNull()
+//                }
+//                if (fileMD5 == null) { // Fallback
+//                    fileMD5 = headers.values("ETag").singleOrNull()
+//                }
                 fileMD5 = fileMD5?.removePrefix("\"")?.removeSuffix("\"")
 
                 return !legacyKeyCache.tryMigration(fileMD5, saveTo)
