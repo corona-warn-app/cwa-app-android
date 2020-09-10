@@ -142,7 +142,7 @@ fun formatRiskContact(riskLevelScore: Int?, matchedKeysCount: Int?): String {
         }
         RiskLevelConstants.LOW_LEVEL_RISK -> {
             if (matchedKeysCount == 0) {
-                appContext.getString(R.string.risk_card_body_contact)
+                appContext.getString(R.string.risk_card_body_contact_low_risk)
             } else {
                 resources.getQuantityString(
                     R.plurals.risk_card_body_contact_value,

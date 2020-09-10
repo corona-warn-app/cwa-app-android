@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBinding
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 

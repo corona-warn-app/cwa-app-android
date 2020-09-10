@@ -137,6 +137,8 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"No exposure up to now"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk" />
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s exposure with low risk"</item>
@@ -298,6 +300,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Your Risk Status"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title" />
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle" />
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text" />
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -340,6 +348,8 @@
     <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter" />
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s day ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
@@ -414,6 +424,8 @@
     <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration and proximity (using signal strength) to other people. Personal data such as name, address, location is never recorded. Individuals cannot be identified."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"App Information in Simplified Language and Sign Language"</a></string>
+    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
+    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Declaration of Consent"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
@@ -478,6 +490,16 @@
     <string name="onboarding_notifications_body">"You can then self-isolate to protect others and find out where you can get tested."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
+
+    <!-- ####################################
+              Onboarding sixteen include
+    ###################################### -->
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_title_text">""</string>
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_description_text">""</string>
 
     <!-- ####################################
                   Settings
@@ -619,12 +641,6 @@
     <string name="settings_background_priority_card_button">"Open Device Settings"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
     <string name="settings_background_priority_card_headline">"Disable prioritized background activity"</string>
-    <!-- XTXT: settings(european federal gateway server consent) - status next to switch under title -->
-    <string name="settings_european_consent_status_active" />
-    <!-- XTXT: settings(european federal gateway server consent) - status next to switch under title -->
-    <string name="settings_european_consent_status_inactive" />
-    <!-- XHED: settings(european federal gateway server consent) - page title -->
-    <string name="settings_european_consent_title" />
 
     <!-- ####################################
                App Information
@@ -700,8 +716,10 @@
     <string name="information_legal_headline_contact">"Contact"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
     <string name="information_legal_subtitle_contact">"E-mail: CoronaWarnApp@rki.de"</string>
-    <!-- YTXT: subtitle for legal information page, open contact form -->
-    <string name="information_legal_subtitle_contact_form"><a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"Contact Form"</a></string>
+    <!-- YTXT: subtitle for legal information page -->
+    <string name="information_legal_subtitle_contact_label">"Kontaktformular"</string>
+    <!-- YTXT: subtitle for legal information page url -->
+    <string name="information_legal_subtitle_contact_url">"https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html"</string>
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
     <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
@@ -934,6 +952,20 @@
     <!-- XBUT: other warning continue button -->
     <string name="submission_european_federal_gateway_server_consent_button" />
 
+    <!-- Submission Country Selector -->
+    <!-- XHED: Page title for the submission country selection page -->
+    <string name="submission_positive_country_selection_title"></string>
+    <!-- XHED: Page headline for the submission country selection page -->
+    <string name="submission_positive_country_selection_headline"></string>
+    <!-- XHED: Country selector headline for the submission country selection page -->
+    <string name="submission_country_selector_headline"></string>
+    <!-- XHED: Country no selection headline for the submission country selection page -->
+    <string name="submission_country_no_selection_headline"></string>
+    <!-- YTXT: Data FAQ for the submission country selection page -->
+    <string name="submission_country_selection_data_faq_body"></string>
+    <!-- XBUT: submission country selection continue button -->
+    <string name="submission_country_selection_button"></string>
+
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_title">"Thank you"</string>
@@ -1148,5 +1180,4 @@
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
     <!-- NOTR -->
     <string name="test_api_switch_background_notifications">"Background Notifications"</string>
-
 </resources>

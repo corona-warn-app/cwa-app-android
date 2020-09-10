@@ -35,7 +35,9 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -118,6 +120,16 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    private val transactionScope: TransactionCoroutineScope by lazy {
+        AppInjector.component.transRetrieveKeysInjection.transactionScope
+    }
+
+    var onApiSubmissionStarted: (() -> Unit)? = null
+    var onApiSubmissionFinished: (() -> Unit)? = null
+
+    var onKeyFilesDownloadStarted: (() -> Unit)? = null
+    var onKeyFilesDownloadFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
+
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
@@ -135,17 +147,23 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
     }
 
-    /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecuteUnique {
+    /** initiates the transaction. This suspend function guarantees a successful transaction once completed.
+     * @param countries defines which countries (country codes) should be used. If not filled the
+     * country codes will be loaded from the ApplicationConfigurationService
+     */
+    suspend fun start(
+        requestedCountries: List<String>? = null
+    ) = lockAndExecute(unique = true, scope = transactionScope) {
+
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
          * in a background job. Also it acts as a failure catch in case the orchestration code did
          * not check in before.
          */
         if (!InternalExposureNotificationClient.asyncIsEnabled()) {
-            Timber.w("EN is not enabled, skipping RetrieveDiagnosisKeys")
+            Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
             executeClose()
-            return@lockAndExecuteUnique
+            return@lockAndExecute
         }
         /****************************************************
          * INIT TRANSACTION
@@ -165,7 +183,33 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
-        val keyFiles = executeFetchKeyFilesFromServer(currentDate)
+        val countries = requestedCountries ?: ApplicationConfigurationService
+            .asyncRetrieveApplicationConfiguration()
+            .supportedCountriesList
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onKeyFilesDownloadStarted?.invoke()
+            onKeyFilesDownloadStarted = null
+        }
+
+        val keyFiles = executeFetchKeyFilesFromServer(
+            currentDate,
+            countries
+        )
+
+        if (CWADebug.isDebugBuildOrMode) {
+            val totalFileSize = keyFiles.fold(0L, { acc, file ->
+                file.length() + acc
+            })
+
+            onKeyFilesDownloadFinished?.invoke(keyFiles.size, totalFileSize)
+            onKeyFilesDownloadFinished = null
+        }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionStarted?.invoke()
+            onApiSubmissionStarted = null
+        }
 
         if (keyFiles.isNotEmpty()) {
             /****************************************************
@@ -173,12 +217,19 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
              ****************************************************/
             executeAPISubmission(token, keyFiles, exposureConfiguration)
         } else {
-            Timber.w("no key files, skipping submission to internal API.")
+            Timber.tag(TAG).w("no key files, skipping submission to internal API.")
         }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionFinished?.invoke()
+            onApiSubmissionFinished = null
+        }
+
         /****************************************************
          * Fetch Date Update
          ****************************************************/
         executeFetchDateUpdate(currentDate)
+
         /****************************************************
          * CLOSE TRANSACTION
          ****************************************************/
@@ -205,17 +256,17 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     private fun rollbackSetup() {
-        Timber.v("rollback $SETUP")
+        Timber.tag(TAG).v("rollback $SETUP")
         LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback.get())
     }
 
     private fun rollbackToken() {
-        Timber.v("rollback $TOKEN")
+        Timber.tag(TAG).v("rollback $TOKEN")
         LocalData.googleApiToken(googleAPITokenForRollback.get())
     }
 
     private suspend fun rollbackFilesFromWebRequests() {
-        Timber.v("rollback $FILES_FROM_WEB_REQUESTS")
+        Timber.tag(TAG).v("rollback $FILES_FROM_WEB_REQUESTS")
         KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
             .clear()
     }
@@ -226,7 +277,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private suspend fun executeSetup() = executeState(SETUP) {
         lastFetchDateForRollback.set(LocalData.lastTimeDiagnosisKeysFromServerFetch())
         val currentDate = Date(System.currentTimeMillis())
-        Timber.d("using $currentDate as current date in Transaction.")
+        Timber.tag(TAG).d("using $currentDate as current date in Transaction.")
         currentDate
     }
 
@@ -252,10 +303,11 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date
+        currentDate: Date,
+        countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
         FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate)
+        CachedKeyFileHolder.asyncFetchFiles(currentDate, countries)
     }
 
     /**
@@ -270,14 +322,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        exportFiles.forEach { batch ->
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                listOf(batch),
-                exposureConfiguration,
-                token
-            )
-        }
-        Timber.d("Diagnosis Keys provided successfully, Token: $token")
+        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+            exportFiles,
+            exposureConfiguration,
+            token
+        )
+        Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 
     /**

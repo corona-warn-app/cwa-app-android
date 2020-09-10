@@ -52,6 +52,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
 
             <include
+                android:id="@+id/submission_positive_location_card_16_years"
+                layout="@layout/include_16_years"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:focusable="true"
+                app:body="@{@string/sixteen_description_text}"
+                app:headline="@{@string/sixteen_title_text}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text" />
+
+            <include
                 android:id="@+id/submission_positive_other_privacy"
                 layout="@layout/include_privacy_card"
                 android:layout_width="@dimen/match_constraint"
@@ -60,7 +73,7 @@
                 app:privacyText="@{@string/submission_positive_other_warning_privacy_body}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_location_card_16_years" />
 
             <include layout="@layout/merge_guidelines_side" />
 
