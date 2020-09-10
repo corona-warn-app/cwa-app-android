@@ -18,13 +18,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fillViewport="true"
             android:focusable="true"
             tools:context=".ui.submission.fragment.SubmissionIntroFragment">
 
             <include
-                android:id="@+id/submission_country_selection_header"
+                android:id="@+id/submission_outofgermany_selection_header"
                 layout="@layout/include_header"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_positive_country_selection_title}" />
+                app:title="@{@string/submission_outofgermany_title}" />
 
             <TextView
                 android:id="@+id/submission_outofgermany_selection_headline"
@@ -44,21 +44,7 @@
                 android:text="@string/submission_outofgermany_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_country_selection_header" />
-
-          <!--  <include
-                android:id="@+id/submission_country_selection_selector"
-                layout="@layout/include_submission_country_selector"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_tiny"
-                android:layout_marginTop="@dimen/spacing_medium"
-                app:active="@{submissionCountrySelectViewModel.countriesActive}"
-                app:countries="@{submissionCountrySelectViewModel.countries}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/submission_country_selection_headline" />-->
-
+                app:layout_constraintTop_toBottomOf="@+id/submission_outofgermany_selection_header" />
 
 
             <include
@@ -98,7 +84,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_outofgermany_negative_selection" />
 
             <TextView
-                android:id="@+id/submission_country_selection_data_faq"
+                android:id="@+id/submission_outofgermany_selection_data_faq"
                 style="@style/body1"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -110,17 +96,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_outofgermany_no_selection" />
 
             <Button
-                android:id="@+id/submission_country_selection_button"
+                android:id="@+id/submission_outofgermany_selection_button"
                 style="@style/buttonPrimary"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/spacing_normal"
                 android:enabled="@{submissionOutOfGermanyViewModel.nextActive}"
-                android:text="@string/submission_country_selection_button"
+                android:text="@string/submission_outofgermany_next_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_country_selection_data_faq" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_outofgermany_selection_data_faq" />
 
             <include layout="@layout/merge_guidelines_side" />
 

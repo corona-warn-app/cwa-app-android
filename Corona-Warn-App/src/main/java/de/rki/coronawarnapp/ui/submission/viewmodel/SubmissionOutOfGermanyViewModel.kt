@@ -23,44 +23,35 @@ class SubmissionOutOfGermanyViewModel : ViewModel() {
     val nextActive: LiveData<Boolean> = _nextButtonActive
 
     init {
-        /* _countriesActive.addSource(countries) { countries ->
-             _countriesActive.value = countries.any { it.selected }
-         }*/
-
-        /*  _noInfoActive.addSource(countriesActive) {
-              if (it) {
-                  _noInfoActive.value = false
-              }
-          }*/
-
-        /*  _nextButtonActive.addSource(countriesActive) {
-              if (it) {
-                  _nextButtonActive.value = true
-              }
-              if (!it && noInfoActive.value == false) {
-                  _nextButtonActive.value = false
-              }
-          }*/
-
-        _nextButtonActive.addSource(notSpecifiedActive) {
-            if (it) {
-                _nextButtonActive.value = true
-            }
+        _nextButtonActive.addSource(yesAnswerActive ) {
+            if (it) { _nextButtonActive.value = true }
+        }
+        _nextButtonActive.addSource(noAnswerActive ) {
+            if (it) { _nextButtonActive.value = true }
+        }
+        _nextButtonActive.addSource(notSpecifiedActive ) {
+            if (it) { _nextButtonActive.value = true }
         }
     }
 
 
     fun positiveClick(){
-        Timber.i("yes click")
+        _yesAnswerActive.postValue(true)
+        _noAnswerActive.postValue(false)
+        _notSpecifiedActive.postValue(false)
     }
 
     fun negativeClick(){
-        Timber.i("no click")
+        _noAnswerActive.postValue(true)
+        _yesAnswerActive.postValue(false)
+        _notSpecifiedActive.postValue(false)
     }
 
     fun noInfoClick() {
-        Timber.i("keine Angabe click")
-        
+        _notSpecifiedActive.postValue(true)
+        _yesAnswerActive.postValue(false)
+        _noAnswerActive.postValue(false)
+
     }
 
 }

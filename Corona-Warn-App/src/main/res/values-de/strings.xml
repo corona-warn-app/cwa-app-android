@@ -954,7 +954,7 @@ Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allge
     <!-- XBUT: submission out of Germany no selection button -->
     <string name="submission_outofgermany_button_no_selection">"Keine Angabe"</string>
     <!-- XBUT: submission out of Germany continue button -->
-    <string name="submission_outofgermany_next_button">"weiter"</string>
+    <string name="submission_outofgermany_next_button">"Weiter"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
