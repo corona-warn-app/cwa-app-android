@@ -5,22 +5,25 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import testhelpers.CoroutinesTestRule
+import testhelpers.beEventContent
 
 class SubmissionViewModelTest {
     @ExperimentalCoroutinesApi
@@ -36,6 +39,7 @@ class SubmissionViewModelTest {
     @MockK
     private lateinit var backgroundNoise: BackgroundNoise
 
+    private val registrationToken = "asdjnskjfdniuewbheboqudnsojdff"
     private val viewModel: SubmissionViewModel = SubmissionViewModel()
 
     @Before
@@ -44,7 +48,18 @@ class SubmissionViewModelTest {
 
         mockkObject(LocalData)
         every { LocalData.testGUID(any()) } just Runs
-        every { LocalData.registrationToken() } returns null
+        every { LocalData.registrationToken() } returns registrationToken
+
+        mockkObject(SubmitDiagnosisKeysTransaction)
+        coEvery {
+            SubmitDiagnosisKeysTransaction.start(
+                registrationToken,
+                any(),
+                any(),
+                any()
+            )
+        } just Runs
+
 
         mockkStatic("de.rki.coronawarnapp.exception.reporting.ExceptionReporterKt")
         every { any<Throwable>().report(any()) } just Runs
@@ -59,16 +74,16 @@ class SubmissionViewModelTest {
     @Test
     fun scanStatusValid() {
         // start
-        viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.STARTED, it) }
+        viewModel.scanStatus.value should beEventContent(ScanStatus.STARTED)
 
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
         viewModel.validateAndStoreTestGUID("https://bs-sd.de/covid-19/?$guid")
-        viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.SUCCESS, it) }
+        viewModel.scanStatus.value should beEventContent(ScanStatus.SUCCESS)
 
         // invalid guid
         viewModel.validateAndStoreTestGUID("https://no-guid-here")
-        viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.INVALID, it) }
+        viewModel.scanStatus.value should beEventContent(ScanStatus.INVALID)
     }
 
     @Test
@@ -93,5 +108,16 @@ class SubmissionViewModelTest {
         viewModel.submitDiagnosisKeys(listOf())
 
         viewModel.submissionState.value shouldBe ApiRequestState.FAILED
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun submitDiagnosisKeysShouldNotFail() {
+        viewModel.setConsentToFederation(true)
+        viewModel.setVisitedCountries(listOf())
+
+        viewModel.submitDiagnosisKeys(listOf())
+
+        viewModel.submissionState.value shouldBe ApiRequestState.SUCCESS
     }
 }
