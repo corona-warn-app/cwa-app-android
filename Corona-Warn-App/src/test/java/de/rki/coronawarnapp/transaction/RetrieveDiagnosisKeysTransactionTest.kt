@@ -63,8 +63,11 @@ class RetrieveDiagnosisKeysTransactionTest {
     @Test
     fun testTransactionNoFiles() {
         val requestedCountries = listOf("DE")
-        coEvery { RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>(),
-            requestedCountries) } returns listOf<File>()
+        coEvery {
+            RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
+                requestedCountries
+            )
+        } returns listOf<File>()
 
         runBlocking {
             RetrieveDiagnosisKeysTransaction.start(requestedCountries)
@@ -72,7 +75,9 @@ class RetrieveDiagnosisKeysTransactionTest {
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
-                RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>(), requestedCountries)
+                RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
+                    requestedCountries
+                )
                 RetrieveDiagnosisKeysTransaction["executeFetchDateUpdate"](any<Date>())
             }
         }
@@ -83,7 +88,11 @@ class RetrieveDiagnosisKeysTransactionTest {
         val file = Paths.get("src", "test", "resources", "keys.bin").toFile()
         val requestedCountries = listOf("DE")
 
-        coEvery { RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>(), requestedCountries) } returns listOf(file)
+        coEvery {
+            RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
+                requestedCountries
+            )
+        } returns listOf(file)
 
         runBlocking {
             RetrieveDiagnosisKeysTransaction.start(requestedCountries)
@@ -92,7 +101,6 @@ class RetrieveDiagnosisKeysTransactionTest {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
                 RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
-                    any<Date>(),
                     requestedCountries
                 )
                 RetrieveDiagnosisKeysTransaction["executeAPISubmission"](
