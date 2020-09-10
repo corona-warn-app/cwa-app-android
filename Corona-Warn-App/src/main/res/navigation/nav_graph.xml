@@ -315,5 +315,9 @@
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
-        android:label="SubmissionSymptomIntroductionFragment" />
+        android:label="SubmissionSymptomIntroductionFragment" >
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultFragment"
+            app:destination="@id/submissionResultFragment" />
+    </fragment>
 </navigation>
