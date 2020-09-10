@@ -78,10 +78,6 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    init {
-        _currentButtonSelected.value = ""
-    }
-
     fun setCurrentButtonSelected(selectedButton: String) {
         _currentButtonSelected.postValue(selectedButton)
     }
