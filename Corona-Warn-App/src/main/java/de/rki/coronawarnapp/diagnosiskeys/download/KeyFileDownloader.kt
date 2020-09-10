@@ -248,8 +248,8 @@ class KeyFileDownloader @Inject constructor(
 
     /**
      * Fetches files given by serverDates by respecting countries
-     * @param currentDate base for where only dates within 3 hours before will be fetched
      * @param availableCountries pair of dates per country code
+     * @param hourItemLimit how many hours to go back
      */
     private suspend fun syncMissing3Hours(
         availableCountries: List<LocationCode>,
@@ -278,6 +278,7 @@ class KeyFileDownloader @Inject constructor(
                             keyInfo to path
                         } catch (e: Exception) {
                             Timber.tag(TAG).e(e, "Download failed: %s", keyInfo)
+                            keyCache.delete(listOf(keyInfo))
                             null
                         }
                     }
