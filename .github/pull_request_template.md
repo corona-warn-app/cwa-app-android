@@ -19,6 +19,7 @@ __Thank you for this this PR! Please consider the following:__
     * Set labels: `maintainers`, `sprintX`.
     * Update Jira status: `In Review`.
     * Fulfill internal `Acceptance Criteria`.
+    * If mentioned in the Jira ticket link all corresponding GitHub issues in the sidebar.
 * To _everyone_ :world_map::  
    * Describe your changes in detail, if you changed the UI, screenshots or GIFs would be awesome! 
    * Short step by step instructions help the reviewer test your changes, e.g. how to navigate to a new UI element you added.
