@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
 import android.content.Context
 import dagger.Lazy
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.sync.Mutex
@@ -30,6 +31,11 @@ class LegacyKeyCacheMigration @Inject constructor(
         if (isInit) return
         isInit = true
 
+        if (!cacheDir.exists()) {
+            Timber.tag(TAG).v("Legacy cache dir doesn't exist, we are done.")
+            return
+        }
+
         try {
             legacyDao.get().clear()
         } catch (e: Exception) {
@@ -42,7 +48,7 @@ class LegacyKeyCacheMigration @Inject constructor(
                 val isExpired = Duration(
                     Instant.ofEpochMilli(file.lastModified()),
                     timeStamper.nowUTC
-                ).standardDays > 15
+                ).standardDays > TimeVariables.getDefaultRetentionPeriodInDays()
 
                 if (isExpired) {
                     Timber.tag(TAG).d("Deleting expired file: %s", file)
@@ -56,6 +62,11 @@ class LegacyKeyCacheMigration @Inject constructor(
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Reading legacy cached failed. Clearing.")
             cacheDir.deleteRecursively()
+        }
+
+        if (cacheDir.exists() && cacheDir.listFiles()?.isNullOrEmpty() == true) {
+            Timber.tag(TAG).v("Legacy cache dir is empty, deleting.")
+            cacheDir.delete()
         }
     }
 

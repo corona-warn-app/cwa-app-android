@@ -190,4 +190,26 @@ class LegacyKeyCacheMigrationTest : BaseIOTest() {
         legacyFile1.exists() shouldBe false
         migrationTarget.exists() shouldBe false
     }
+
+    @Test
+    fun `init deletes empty cache dir`() {
+        legacyDir.mkdirs()
+        legacyDir.exists() shouldBe true
+
+        runBlocking {
+            val tool = createTool()
+            tool.tryMigration("doesntmatter", File(testDir, "1"))
+        }
+        legacyDir.exists() shouldBe false
+        legacyDir.parentFile!!.exists() shouldBe true
+
+        runBlocking {
+            val tool = createTool()
+            tool.tryMigration("doesntmatter", File(testDir, "1"))
+        }
+        legacyDir.exists() shouldBe false
+        legacyDir.parentFile!!.exists() shouldBe true
+
+        coVerify(exactly = 1) { legacyDao.clear() }
+    }
 }
