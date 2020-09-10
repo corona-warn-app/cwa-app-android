@@ -121,6 +121,7 @@ class DeviceStorageTest : BaseIOTest() {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
+                requiredBytes = defaultFreeSpace,
                 freeBytes = defaultFreeSpace,
                 totalBytes = defaultTotalSpace
             )
@@ -135,6 +136,7 @@ class DeviceStorageTest : BaseIOTest() {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
+                requiredBytes = defaultFreeSpace,
                 freeBytes = defaultFreeSpace,
                 totalBytes = defaultTotalSpace
             )
@@ -149,6 +151,7 @@ class DeviceStorageTest : BaseIOTest() {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = targetBytes) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
+                requiredBytes = targetBytes,
                 freeBytes = targetBytes,
                 totalBytes = defaultTotalSpace
             )
@@ -165,6 +168,7 @@ class DeviceStorageTest : BaseIOTest() {
                 path = privateDataDir,
                 isSpaceAvailable = false,
                 freeBytes = defaultFreeSpace,
+                requiredBytes = Long.MAX_VALUE,
                 totalBytes = defaultTotalSpace
             )
         }
@@ -177,6 +181,7 @@ class DeviceStorageTest : BaseIOTest() {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = false,
+                requiredBytes = Long.MAX_VALUE,
                 freeBytes = defaultFreeSpace,
                 totalBytes = defaultTotalSpace
             )

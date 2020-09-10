@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.storage.InsufficientStorageException
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -215,12 +216,13 @@ class KeyFileDownloaderTest : BaseIOTest() {
         coEvery { deviceStorage.checkSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
             every { isSpaceAvailable } returns false
             every { freeBytes } returns 1337L
+            every { requiredBytes } returns 5000L
         }
 
         val downloader = createDownloader()
 
         runBlocking {
-            shouldThrow<IOException> {
+            shouldThrow<InsufficientStorageException> {
                 downloader.asyncFetchKeyFiles(LocalDate.now(), listOf(LocationCode("DE")))
             }
         }

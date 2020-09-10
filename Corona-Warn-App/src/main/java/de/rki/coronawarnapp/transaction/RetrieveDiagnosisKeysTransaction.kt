@@ -311,7 +311,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         currentDate: Date,
         countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
-        val convertedDate = LocalDate.fromDateFields(currentDate) // TODO confirm
+        val convertedDate = LocalDate.fromDateFields(currentDate)
         val locationCodes = countries.map { LocationCode(it) }
         keyFileDownloader.asyncFetchKeyFiles(convertedDate, locationCodes)
     }

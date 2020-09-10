@@ -56,6 +56,7 @@ class DeviceStorage @Inject constructor(
         return CheckResult(
             path = targetPath,
             isSpaceAvailable = availableBytes >= requiredBytes || requiredBytes == -1L,
+            requiredBytes = requiredBytes,
             freeBytes = availableBytes,
             totalBytes = totalBytes
         )
@@ -71,6 +72,7 @@ class DeviceStorage @Inject constructor(
         return CheckResult(
             path = targetPath,
             isSpaceAvailable = stats.availableBytes >= requiredBytes || requiredBytes == -1L,
+            requiredBytes = requiredBytes,
             freeBytes = stats.availableBytes,
             totalBytes = stats.totalBytes
         )
@@ -116,6 +118,7 @@ class DeviceStorage @Inject constructor(
     data class CheckResult(
         val path: File,
         val isSpaceAvailable: Boolean,
+        val requiredBytes: Long = -1L,
         val freeBytes: Long,
         val totalBytes: Long
     ) {

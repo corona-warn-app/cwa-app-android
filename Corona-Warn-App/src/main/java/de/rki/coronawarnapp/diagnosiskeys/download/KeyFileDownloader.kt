@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.storage.InsufficientStorageException
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import de.rki.coronawarnapp.util.TimeAndDateExtensions
@@ -20,7 +21,6 @@ import okhttp3.Headers
 import org.joda.time.LocalDate
 import timber.log.Timber
 import java.io.File
-import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -34,6 +34,30 @@ class KeyFileDownloader @Inject constructor(
     private val legacyKeyCache: LegacyKeyCacheMigration,
     private val settings: AppSettings
 ) {
+
+    private suspend fun checkStorageSpace(countries: List<LocationCode>): DeviceStorage.CheckResult {
+        val storageResult = deviceStorage.checkSpacePrivateStorage(
+            // 512KB per day file, for 15 days, for each country ~ 65MB for 9 countries
+            requiredBytes = countries.size * 15 * 512 * 1024L
+        )
+        Timber.tag(TAG).d("Storage check result: %s", storageResult)
+        return storageResult
+    }
+
+    private suspend fun getCompletedKeyFiles(type: CachedKeyInfo.Type): List<CachedKeyInfo> {
+        return keyCache
+            .getEntriesForType(type)
+            .filter { (keyInfo, file) ->
+                val complete = keyInfo.isDownloadComplete
+                val exists = file.exists()
+                if (complete && !exists) {
+                    Timber.tag(TAG).v("Incomplete download, will overwrite: %s", keyInfo)
+                }
+                // We overwrite not completed ones
+                complete && exists
+            }
+            .map { it.first }
+    }
 
     /**
      * Fetches all necessary Files from the Cached KeyFile Entries out of the [KeyCacheRepository] and
@@ -52,27 +76,20 @@ class KeyFileDownloader @Inject constructor(
         wantedCountries: List<LocationCode>
     ): List<File> = withContext(Dispatchers.IO) {
         val availableCountries = diagnosisKeyServer.getCountryIndex()
-        val intersection = availableCountries.filter { wantedCountries.contains(it) }
+        val filteredCountries = availableCountries.filter { wantedCountries.contains(it) }
         Timber.tag(TAG).v(
             "Available=%s; Wanted=%s; Intersect=%s",
-            availableCountries, wantedCountries, intersection
+            availableCountries, wantedCountries, filteredCountries
         )
 
-        val storageResult = deviceStorage.checkSpacePrivateStorage(
-            // 512KB per day file, for 15 days, for each country ~ 65MB for 9 countries
-            requiredBytes = intersection.size * 15 * 512 * 1024L
-        )
-
-        Timber.tag(TAG).d("Storage check result: %s", storageResult)
-        if (!storageResult.isSpaceAvailable) {
-            throw IOException("Not enough free space (${storageResult.freeBytes}")
-        }
+        val storageResult = checkStorageSpace(filteredCountries)
+        if (!storageResult.isSpaceAvailable) throw InsufficientStorageException(storageResult)
 
         val availableKeys = if (CWADebug.isDebugBuildOrMode && settings.isLast3HourModeEnabled) {
-            syncMissing3Hours(currentDate, intersection)
+            syncMissing3Hours(currentDate, filteredCountries, DEBUG_HOUR_LIMIT)
             keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
         } else {
-            syncMissingDays(intersection)
+            syncMissingDays(filteredCountries)
             keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY)
         }
 
@@ -89,27 +106,17 @@ class KeyFileDownloader @Inject constructor(
             .also { Timber.tag(TAG).d("Returning %d available keyfiles", it.size) }
     }
 
-    /**
-     * Fetches files given by serverDates by respecting countries
-     * @param availableCountries pair of dates per country code
-     */
-    @Suppress("LongMethod")
-    private suspend fun syncMissingDays(
-        availableCountries: List<LocationCode>
-    ) = withContext(Dispatchers.IO) {
-        val availableCountriesWithDays = availableCountries.map {
+    private suspend fun determineMissingDays(availableCountries: List<LocationCode>): List<CountryDays> {
+        val availableDays = availableCountries.map {
             val days = diagnosisKeyServer.getDayIndex(it)
             CountryDays(it, days)
         }
 
-        val cachedDays = keyCache
-            .getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY)
-            .filter { it.first.isDownloadComplete && it.second.exists() } // We overwrite not completed ones
-            .map { it.first }
+        val cachedDays = getCompletedKeyFiles(CachedKeyInfo.Type.COUNTRY_DAY)
 
         // All cached files that are no longer on the server are considered stale
-        val staleKeyFiles = cachedDays.filter { cachedKeyFile ->
-            val availableCountry = availableCountriesWithDays.singleOrNull {
+        val staleDays = cachedDays.filter { cachedKeyFile ->
+            val availableCountry = availableDays.singleOrNull {
                 it.country == cachedKeyFile.location
             }
             if (availableCountry == null) {
@@ -124,12 +131,27 @@ class KeyFileDownloader @Inject constructor(
                 cachedKeyFile.day == date
             }
         }
-        if (staleKeyFiles.isNotEmpty()) keyCache.delete(staleKeyFiles)
 
-        val nonStaleDays = cachedDays.minus(staleKeyFiles)
-        val countriesWithMissingDays = availableCountriesWithDays.mapNotNull {
-            it.toMissingDays(nonStaleDays)
+        if (staleDays.isNotEmpty()) {
+            Timber.tag(TAG).v("Deleting stale days: %s", staleDays)
+            keyCache.delete(staleDays)
         }
+
+        val nonStaleDays = cachedDays.minus(staleDays)
+
+        // The missing days
+        return availableDays.mapNotNull { it.toMissingDays(nonStaleDays) }
+    }
+
+    /**
+     * Fetches files given by serverDates by respecting countries
+     * @param availableCountries pair of dates per country code
+     */
+    private suspend fun syncMissingDays(
+        availableCountries: List<LocationCode>
+    ) = withContext(Dispatchers.IO) {
+        val countriesWithMissingDays = determineMissingDays(availableCountries)
+
         Timber.tag(TAG).d("Downloading missing days: %s", countriesWithMissingDays)
         val batchDownloadStart = System.currentTimeMillis()
         val dayDownloads = countriesWithMissingDays
@@ -170,37 +192,29 @@ class KeyFileDownloader @Inject constructor(
             path
         }
 
-        Unit
+        return@withContext
     }
 
-    /**
-     * Fetches files given by serverDates by respecting countries
-     * @param currentDate base for where only dates within 3 hours before will be fetched
-     * @param availableCountries pair of dates per country code
-     */
-    @Suppress("LongMethod")
-    private suspend fun syncMissing3Hours(
+    private suspend fun determineMissingHours(
         currentDate: LocalDate,
-        availableCountries: List<LocationCode>
-    ) = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v(
-            "asyncHandleLast3HoursFilesFetch(currentDate=%s, availableCountries=%s)",
-            currentDate, availableCountries
-        )
-
+        availableCountries: List<LocationCode>,
+        itemLimit: Int
+    ): List<CountryHours> {
         // This is currently used for debugging, so we only fetch 3 hours
+
         val availableHours = availableCountries.map {
             val hoursForDate =
-                diagnosisKeyServer.getHourIndex(it, currentDate).filter { availHour ->
-                    TimeAndDateExtensions.getCurrentHourUTC() - 3 <= availHour.hourOfDay
+                diagnosisKeyServer.getHourIndex(it, currentDate).filter { availableHour ->
+                    if (itemLimit < 0) {
+                        true
+                    } else {
+                        TimeAndDateExtensions.getCurrentHourUTC() - itemLimit <= availableHour.hourOfDay
+                    }
                 }
             CountryHours(it, mapOf(currentDate to hoursForDate))
         }
 
-        val cachedHours = keyCache
-            .getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
-            .filter { it.first.isDownloadComplete && it.second.exists() } // We overwrite not completed ones
-            .map { it.first }
+        val cachedHours = getCompletedKeyFiles(CachedKeyInfo.Type.COUNTRY_HOUR)
 
         // All cached files that are no longer on the server are considered stale
         val staleHours = cachedHours.filter { cachedHour ->
@@ -222,12 +236,33 @@ class KeyFileDownloader @Inject constructor(
                 cachedHour.hour == time
             }
         }
-        if (staleHours.isNotEmpty()) keyCache.delete(staleHours)
+
+        if (staleHours.isNotEmpty()) {
+            Timber.tag(TAG).v("Deleting stale hours: %s", staleHours)
+            keyCache.delete(staleHours)
+        }
 
         val nonStaleHours = cachedHours.minus(staleHours)
-        val missingHours = availableHours.mapNotNull {
-            it.toMissingHours(nonStaleHours)
-        }
+
+        // The missing hours
+        return availableHours.mapNotNull { it.toMissingHours(nonStaleHours) }
+    }
+
+    /**
+     * Fetches files given by serverDates by respecting countries
+     * @param currentDate base for where only dates within 3 hours before will be fetched
+     * @param availableCountries pair of dates per country code
+     */
+    private suspend fun syncMissing3Hours(
+        currentDate: LocalDate,
+        availableCountries: List<LocationCode>,
+        hourItemLimit: Int
+    ) = withContext(Dispatchers.IO) {
+        Timber.tag(TAG).v(
+            "asyncHandleLast3HoursFilesFetch(currentDate=%s, availableCountries=%s)",
+            currentDate, availableCountries
+        )
+        val missingHours = determineMissingHours(currentDate, availableCountries, hourItemLimit)
         Timber.tag(TAG).d("Downloading missing hours: %s", missingHours)
 
         val hourDownloads = missingHours.flatMap { country ->
@@ -261,7 +296,7 @@ class KeyFileDownloader @Inject constructor(
             path
         }
 
-        Unit
+        return@withContext
     }
 
     private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, saveTo: File) {
@@ -299,5 +334,6 @@ class KeyFileDownloader @Inject constructor(
 
     companion object {
         private val TAG: String? = KeyFileDownloader::class.simpleName
+        private const val DEBUG_HOUR_LIMIT = 3
     }
 }
