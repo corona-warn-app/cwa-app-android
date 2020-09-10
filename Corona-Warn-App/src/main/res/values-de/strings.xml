@@ -940,6 +940,22 @@ Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allge
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
 
+    <!-- Submission Out Of Germany Selector -->
+    <!-- XHED: Page title for the submission out of Germany page -->
+    <string name="submission_outofgermany_title">"Europaweit warnen"</string>
+    <!-- XHED: Page headline for the submission out of Germany page -->
+    <string name="submission_outofgermany_headline">"Haben Sie sich in den letzten 14 Tagen außerhalb von Deutschland aufgehalten?"</string>
+    <!-- YTXT: Data FAQ for the submission out of Germany page -->
+    <string name="submission_outofgermany_data_faq_body">"Ihre Angabe dient lediglich der Optimierung des Datenvolumens."</string>
+    <!-- XBUT: submission out of Germany accept button -->
+    <string name="submission_outofgermany_button_yes">"Ja"</string>
+    <!-- XBUT: submission out of Germany reject button -->
+    <string name="submission_outofgermany_button_no">"Nein"</string>
+    <!-- XBUT: submission out of Germany no selection button -->
+    <string name="submission_outofgermany_button_no_selection">"Keine Angabe"</string>
+    <!-- XBUT: submission out of Germany continue button -->
+    <string name="submission_outofgermany_next_button">"weiter"</string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title">"Europaweit warnen"</string>

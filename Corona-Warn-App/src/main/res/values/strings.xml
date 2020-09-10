@@ -940,6 +940,22 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A device transmits an encrypted positive test diagnosis to the system."</string>
 
+    <!-- Submission Out Of Germany Selector -->
+    <!-- XHED: Page title for the submission out of Germany page -->
+    <string name="submission_outofgermany_title"></string>
+    <!-- XHED: Page headline for the submission out of Germany page -->
+    <string name="submission_outofgermany_headline"></string>
+    <!-- YTXT: Data FAQ for the submission out of Germany page -->
+    <string name="submission_outofgermany_data_faq_body"></string>
+    <!-- XBUT: submission out of Germany accept button -->
+    <string name="submission_outofgermany_button_yes"></string>
+    <!-- XBUT: submission out of Germany reject button -->
+    <string name="submission_outofgermany_button_no"></string>
+    <!-- XBUT: submission out of Germany no selection button -->
+    <string name="submission_outofgermany_button_no_selection"></string>
+    <!-- XBUT: submission out of Germany continue button -->
+    <string name="submission_outofgermany_next_button"></string>
+
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
     <string name="submission_positive_country_selection_title"></string>
