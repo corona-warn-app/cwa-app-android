@@ -316,11 +316,13 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-            exportFiles,
-            exposureConfiguration,
-            token
-        )
+        exportFiles.forEach { batch ->
+            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                listOf(batch),
+                exposureConfiguration,
+                token
+            )
+        }
         Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 
