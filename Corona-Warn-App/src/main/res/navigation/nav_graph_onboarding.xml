@@ -39,6 +39,14 @@
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragment"
         android:label="OnboardingTracingFragment">
         <action
+            android:id="@+id/action_onboardingTracingFragment_to_onboardingInteroperabilityFragment"
+            app:destination="@id/onboardingInteroperabilityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingInteroperabilityFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingInteroperabilityFragment"
+        android:label="OnboardingInteroperabilityFragment">
+        <action
             android:id="@+id/action_onboardingTracingFragment_to_onboardingTestFragment"
             app:destination="@id/onboardingTestFragment" />
     </fragment>

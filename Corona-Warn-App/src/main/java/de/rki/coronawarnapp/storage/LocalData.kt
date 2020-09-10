@@ -732,8 +732,7 @@ object LocalData {
     var isAllCountriesSelected: Boolean
         get() = getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_interoperability_all_countries_selected)
-            , false
+                .getString(R.string.preference_interoperability_all_countries_selected), false
         )
         set(selected) {
             getSharedPreferenceInstance().edit().putBoolean(

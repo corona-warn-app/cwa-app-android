@@ -44,6 +44,7 @@
                 app:footerTitle="@{@string/eu_wide_risk_detection_private_data_title}"
                 app:headerDescription="@{@string/eu_wide_risk_detection_description}"
                 app:interopViewModel="@{interopViewModel}"
+                app:isOnboarding="@{false}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1198,6 +1198,9 @@
     <string name="eu_wide_risk_detection_private_data_title">Hinweise zur Verarbeitung von personenbezogenen Daten</string>
     <string name="eu_wide_risk_detection_private_data_description">Lorem Ipsum</string>
 
+    <string name="onboarding_interoperability_title">Europaweite\nRisiko-Ermittlung</string>
+    <string name="onboarding_interoperability_subtitle">Die Corona-Warn-App kann Sie europaweit über mögliche Infektionen informieren, indem auch Daten aus anderen Ländern empfangen werden. Die Europaweite Risiko-Ermittlung kann jederzeit in den Einstellungen der Risiko-Ermittlung gesteuert werden.</string>
+
     <string name="settings_eu_wide_risk_detection_subtitle">Europaweite Risiko-Ermittlung</string>
 
     <string name="interoperability_country_disabled_dialog_headline">Bitte erst 14 Tage nach Verlassen des Landes deaktivieren</string>

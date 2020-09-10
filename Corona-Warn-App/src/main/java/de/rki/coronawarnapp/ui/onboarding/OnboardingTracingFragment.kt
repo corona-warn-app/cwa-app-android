@@ -112,7 +112,7 @@ class OnboardingTracingFragment : Fragment(),
 
     private fun navigate() {
         findNavController().doNavigate(
-            OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
+            OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingInteroperabilityFragment()
         )
     }
 

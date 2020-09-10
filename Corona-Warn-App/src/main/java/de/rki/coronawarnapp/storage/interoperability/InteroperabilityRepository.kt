@@ -13,7 +13,7 @@ object InteroperabilityRepository {
     /**
      * LiveData that can be used in a ViewModel for selected country changes
      */
-    val selectedCountryCodes = MutableLiveData<List<String>>()
+    val selectedCountryCodes = MutableLiveData<List<String>>(listOf())
 
     val isAllCountriesSelected = MutableLiveData<Boolean>(false)
 

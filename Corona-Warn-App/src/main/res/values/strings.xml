@@ -1208,6 +1208,9 @@
 
     <string name="settings_eu_wide_risk_detection_subtitle"></string>
 
+    <string name="onboarding_interoperability_title"></string>
+    <string name="onboarding_interoperability_subtitle"></string>
+
     <string name="interoperability_country_disabled_dialog_headline"></string>
     <string name="interoperability_country_disabled_dialog_body"></string>
     <string name="interoperability_country_disabled_dialog_positive_button"></string>

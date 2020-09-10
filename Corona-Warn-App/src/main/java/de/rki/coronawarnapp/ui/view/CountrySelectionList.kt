@@ -94,7 +94,6 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
 
         entry.findViewById<TextView>(R.id.label_country_name).text = countryName
 
-
         val countrySwitch = entry.findViewById<Switch>(R.id.switch_country_enabled)
 
         countrySwitch.setOnCheckedChangeListener { view, checked ->
@@ -102,4 +101,3 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
         }
     }
 }
-

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="interopViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/onboarding_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/onboarding_onboarding_accessibility_title"
+        android:fillViewport="true"
+        tools:context="de.rki.coronawarnapp.ui.onboarding.OnboardingFragment">
+
+
+        <include
+            android:id="@+id/onboarding_include"
+            layout="@layout/include_country_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:focusable="false"
+            app:footerDescription="@{@string/eu_wide_risk_detection_private_data_description}"
+            app:footerTitle="@{@string/eu_wide_risk_detection_private_data_title}"
+            app:headerDescription="@{@string/eu_wide_risk_detection_description}"
+            app:interopViewModel="@{interopViewModel}"
+            app:isOnboarding="@{true}"
+            app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
+
+        <Button
+            android:id="@+id/onboarding_button_next"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_button_start"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/guideline_top_onboarding" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
