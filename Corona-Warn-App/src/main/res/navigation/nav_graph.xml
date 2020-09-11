@@ -92,7 +92,7 @@
 
     <fragment
         android:id="@+id/interopCountryConfigurationFragment"
-        android:name="de.rki.coronawarnapp.ui.interoperability.InteropCountryConfigurationFragment"
+        android:name="de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment"
         android:label="InteropCountryConfigurationFragment"
         tools:layout="@layout/fragment_interoperability_configuration" >
         <action

@@ -1215,4 +1215,7 @@
     <string name="interoperability_country_disabled_dialog_body"></string>
     <string name="interoperability_country_disabled_dialog_positive_button"></string>
     <string name="interoperability_country_disabled_dialog_negative_button"></string>
+
+    <string name="onboarding_interoperability_accessibility_title"></string>
+
 </resources>

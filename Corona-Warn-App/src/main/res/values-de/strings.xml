@@ -382,7 +382,7 @@
     <!-- XTXT: onboarding - back description for screen reader -->
     <string name="onboarding_button_back_description">"Zurück"</string>
     <!-- XACT: Onboarding (together) page title -->
-    <string name="onboarding_onboarding_accessibility_title">"Einführung Seite 1 von 5: Gemeinsam Corona bekämpfen"</string>
+    <string name="onboarding_onboarding_accessibility_title">"Einführung Seite 1 von 6: Gemeinsam Corona bekämpfen"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Gemeinsam Corona bekämpfen"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
@@ -394,14 +394,14 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">"Einführung Seite 2 von 5. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung."</string>
+    <string name="onboarding_privacy_accessibility_title">"Einführung Seite 2 von 6. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Datenschutz"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">"Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
     <!-- XACT: Onboarding (tracing) page title -->
-    <string name="onboarding_tracing_accessibility_title">"Einführung Seite 3 von 5: Wie Sie die Risiko Ermittlung ermöglichen"</string>
+    <string name="onboarding_tracing_accessibility_title">"Einführung Seite 3 von 6: Wie Sie die Risiko Ermittlung ermöglichen"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Wie Sie die Risiko-Ermittlung ermöglichen"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
@@ -457,7 +457,7 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: Onboarding (test) page title -->
-    <string name="onboarding_test_accessibility_title">"Einführung Seite 4 von 5: Falls Sie positiv getestet wurden"</string>
+    <string name="onboarding_test_accessibility_title">"Einführung Seite 5 von 6: Falls Sie positiv getestet wurden"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"Falls Sie Corona-positiv getestet werden …"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
@@ -467,7 +467,7 @@
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
     <!-- XACT: Onboarding (datashare) page title -->
-    <string name="onboarding_notifications_accessibility_title">"Einführung Seite 5 von 5: Warnungen erhalten und Risiken erkennen"</string>
+    <string name="onboarding_notifications_accessibility_title">"Einführung Seite 6 von 6: Warnungen erhalten und Risiken erkennen"</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Warnungen erhalten, Risiken kennen"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
@@ -1207,6 +1207,7 @@
     <string name="interoperability_country_disabled_dialog_body">Bitte lassen Sie die Risiko-Ermittlung für 14 weitere Tage aktiviert, nachdem Sie das jeweilige Land bereits verlassen haben. Nur so kann sichergestellt werden, dass Sie alle relevanten Daten erhalten und eine verlässliche Berechnung des Infektionsrisikos erfolgen kann. Das mobile Datenvolumen der Corona-Warn-App ist für Sie europaweit kostenlos.</string>
     <string name="interoperability_country_disabled_dialog_positive_button">Zurück</string>
     <string name="interoperability_country_disabled_dialog_negative_button">Deaktivieren</string>
+    <string name="onboarding_interoperability_accessibility_title">Einführung Seite 4 von 6: Wie Sie die europaweite Risiko Ermittlung ermöglichen</string>
 
 
 </resources>
