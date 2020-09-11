@@ -27,7 +27,6 @@ import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
@@ -36,6 +35,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
 import kotlinx.coroutines.Dispatchers
@@ -112,7 +112,7 @@ class TestRiskLevelCalculation : Fragment() {
                         // Database Reset
                         AppDatabase.reset(requireContext())
                         // Export File Reset
-                        FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
+                        AppInjector.component.keyCacheRepository.clear()
 
                         LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                         LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
@@ -127,6 +127,12 @@ class TestRiskLevelCalculation : Fragment() {
                     requireContext(), "Reset done, please fetch diagnosis keys from server again",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        }
+
+        binding.buttonClearDiagnosisKeyCache.setOnClickListener {
+            lifecycleScope.launch {
+                AppInjector.component.keyCacheRepository.clear()
             }
         }
 

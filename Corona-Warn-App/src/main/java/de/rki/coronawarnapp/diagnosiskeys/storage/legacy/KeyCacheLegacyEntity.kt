@@ -17,23 +17,21 @@
  * under the License.                                                         *
  ******************************************************************************/
 
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
-import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
-class Converters {
-    private val gson = Gson()
+@Entity(
+    tableName = "date",
+    indices = [Index("id")]
+)
+class KeyCacheLegacyEntity {
+    @PrimaryKey
+    var id: String = ""
 
-    @TypeConverter
-    fun fromString(value: String?): List<Int> {
-        val listType = object : TypeToken<List<Int?>?>() {}.type
-        return gson.fromJson(value, listType)
-    }
+    var path: String = ""
 
-    @TypeConverter
-    fun fromArrayList(list: List<Int?>?): String {
-        return gson.toJson(list)
-    }
+    var type: Int = 0
 }

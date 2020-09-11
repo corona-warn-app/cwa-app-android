@@ -33,6 +33,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
@@ -50,8 +51,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -60,7 +61,6 @@ import org.joda.time.DateTimeZone
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
-import java.util.Date
 import java.util.UUID
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
@@ -321,9 +321,9 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         lastSetCountries = countryCodes
 
         // Trigger asyncFetchFiles which will use all Countries passed as parameter
-        val currentDate = Date(System.currentTimeMillis())
         lifecycleScope.launch {
-            CachedKeyFileHolder.asyncFetchFiles(currentDate, countryCodes)
+            val locationCodes = countryCodes.map { LocationCode(it) }
+            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(locationCodes)
             updateCountryStatusLabel()
         }
     }

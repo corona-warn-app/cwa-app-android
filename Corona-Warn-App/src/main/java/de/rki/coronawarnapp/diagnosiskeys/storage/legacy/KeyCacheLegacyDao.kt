@@ -17,21 +17,13 @@
  * under the License.                                                         *
  ******************************************************************************/
 
-package de.rki.coronawarnapp.storage.keycache
+package de.rki.coronawarnapp.diagnosiskeys.storage.legacy
 
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.Dao
+import androidx.room.Query
 
-@Entity(
-    tableName = "date",
-    indices = [Index("id")]
-)
-class KeyCacheEntity {
-    @PrimaryKey
-    var id: String = ""
-
-    var path: String = ""
-
-    var type: Int = 0
+@Dao
+interface KeyCacheLegacyDao {
+    @Query("DELETE FROM date")
+    suspend fun clear()
 }

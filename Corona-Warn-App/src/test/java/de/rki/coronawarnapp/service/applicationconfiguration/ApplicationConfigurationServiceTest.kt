@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
+import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigServer
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
@@ -23,7 +26,6 @@ class ApplicationConfigurationServiceTest : BaseTest() {
         CWADebug.isDebugBuildOrMode shouldBe true
 
         mockkObject(WebRequestBuilder)
-        val requestBuilder = mockk<WebRequestBuilder>()
         val appConfig = mockk<ApplicationConfigurationOuterClass.ApplicationConfiguration>()
         val appConfigBuilder =
             mockk<ApplicationConfigurationOuterClass.ApplicationConfiguration.Builder>()
@@ -36,9 +38,15 @@ class ApplicationConfigurationServiceTest : BaseTest() {
 
         every { appConfigBuilder.build() } returns appConfig
 
-        coEvery { requestBuilder.asyncGetApplicationConfigurationFromServer() } returns appConfig
+        val downloadServer = mockk<AppConfigServer>()
+        coEvery { downloadServer.downloadAppConfig() } returns appConfig
 
-        every { WebRequestBuilder.getInstance() } returns requestBuilder
+        mockkObject(AppInjector)
+        mockk<ApplicationComponent>().apply {
+            every { this@apply.appConfigServer } returns downloadServer
+            every { AppInjector.component } returns this@apply
+        }
+
 
         runBlocking {
             ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()

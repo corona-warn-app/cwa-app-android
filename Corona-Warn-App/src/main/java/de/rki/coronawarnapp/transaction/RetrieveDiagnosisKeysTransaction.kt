@@ -20,12 +20,12 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FETCH_DATE_UPDATE
@@ -36,7 +36,6 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
@@ -123,6 +122,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val transactionScope: TransactionCoroutineScope by lazy {
         AppInjector.component.transRetrieveKeysInjection.transactionScope
     }
+    private val keyCacheRepository: KeyCacheRepository by lazy {
+        AppInjector.component.keyCacheRepository
+    }
+    private val keyFileDownloader: KeyFileDownloader by lazy {
+        AppInjector.component.keyFileDownloader
+    }
 
     var onApiSubmissionStarted: (() -> Unit)? = null
     var onApiSubmissionFinished: (() -> Unit)? = null
@@ -148,7 +153,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed.
-     * @param countries defines which countries (country codes) should be used. If not filled the
+     * @param requestedCountries defines which countries (country codes) should be used. If not filled the
      * country codes will be loaded from the ApplicationConfigurationService
      */
     suspend fun start(
@@ -192,10 +197,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             onKeyFilesDownloadStarted = null
         }
 
-        val keyFiles = executeFetchKeyFilesFromServer(
-            currentDate,
-            countries
-        )
+        val keyFiles = executeFetchKeyFilesFromServer(countries)
 
         if (CWADebug.isDebugBuildOrMode) {
             val totalFileSize = keyFiles.fold(0L, { acc, file ->
@@ -267,8 +269,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
     private suspend fun rollbackFilesFromWebRequests() {
         Timber.tag(TAG).v("rollback $FILES_FROM_WEB_REQUESTS")
-        KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
-            .clear()
+        keyCacheRepository.clear()
     }
 
     /**
@@ -303,11 +304,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date,
         countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
-        FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate, countries)
+        val locationCodes = countries.map { LocationCode(it) }
+        keyFileDownloader.asyncFetchKeyFiles(locationCodes)
     }
 
     /**
