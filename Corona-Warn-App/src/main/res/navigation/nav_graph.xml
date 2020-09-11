@@ -168,21 +168,6 @@
         android:label="InformationTechnicalFragment"
         tools:layout="@layout/fragment_information_technical" />
 
-    <!-- Dev Test Outside Germany Onbording Fragment -->
-    //TODO  remove it after testing (will be added due marriage)
-    <fragment
-        android:id="@+id/submissionCountrySelectionFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionCountrySelectionFragment"
-        android:label="@layout/fragment_submission_country_selection"
-        tools:layout="@layout/fragment_submission_country_selection" />
-
-    //TODO  remove it after testing (will be added due marriage)
-    <fragment
-        android:id="@+id/submissionOutOfGermanyFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionOutOfGermanyFragment"
-        android:label="@layout/fragment_submission_outofgermany_selection"
-        tools:layout="@layout/fragment_submission_outofgermany_selection" />
-
     <!-- Submission -->
     <fragment
         android:id="@+id/riskDetailsFragment"

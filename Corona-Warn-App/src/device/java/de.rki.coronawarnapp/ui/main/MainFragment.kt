@@ -173,14 +173,7 @@ class MainFragment : Fragment() {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
                     true
                 }
-                R.id.menu_fragmentTestCountryList -> {
-                    findNavController().navigate(R.id.submissionCountrySelectionFragment, null)
-                    true
-                }
-                R.id.menu_fragmentOutOfGermany -> {
-                    findNavController().navigate(R.id.submissionOutOfGermanyFragment, null)
-                    true
-                }
+
                 else -> super.onOptionsItemSelected(it)
             }
         }

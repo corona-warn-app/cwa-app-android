@@ -8,10 +8,5 @@
     <item
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
-    <item
-        android:id="@+id/menu_fragmentTestCountryList"
-        android:title="ShowFrag CountryList (Dev)" />
-    <item
-        android:id="@+id/menu_fragmentOutOfGermany"
-        android:title="ShowFrag OutOfGermany (Dev)" />
+   
 </menu>
