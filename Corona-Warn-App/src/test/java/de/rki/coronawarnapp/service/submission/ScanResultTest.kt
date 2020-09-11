@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.service.submission
 
-import de.rki.coronawarnapp.storage.LocalData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
