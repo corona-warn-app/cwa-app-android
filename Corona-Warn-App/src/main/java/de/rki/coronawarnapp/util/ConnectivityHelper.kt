@@ -15,7 +15,7 @@ import android.os.Build
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.Injector
 import timber.log.Timber
 
 /**
@@ -25,7 +25,7 @@ object ConnectivityHelper {
     private val TAG: String? = ConnectivityHelper::class.simpleName
 
     private val backgroundPrioritization by lazy {
-        AppInjector.component.connectivityHelperInjection.backgroundPrioritization
+        Injector.component.connectivityHelperInjection.backgroundPrioritization
     }
 
     /**

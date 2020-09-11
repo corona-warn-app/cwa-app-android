@@ -11,13 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
@@ -30,13 +30,16 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.ui.test.TestRiskLevelCalculationFragmentVDC
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.viewmodel.VDCSource
+import de.rki.coronawarnapp.util.viewmodel.vdcsAssisted
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,15 +48,23 @@ import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
-class TestRiskLevelCalculation : Fragment() {
-    companion object {
-        val TAG: String? = TestRiskLevelCalculation::class.simpleName
-    }
+class TestRiskLevelCalculation : Fragment(), AutoInject {
+    private val navArgs by navArgs<TestRiskLevelCalculationArgs>()
+
+    @Inject
+    lateinit var vdcSource: VDCSource.Factory
+    private val vdc: TestRiskLevelCalculationFragmentVDC by vdcsAssisted(
+        { vdcSource },
+        { factory, handle ->
+            factory as TestRiskLevelCalculationFragmentVDC.Factory
+            factory.create(handle, navArgs.exampleArgument)
+        })
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -88,9 +99,7 @@ class TestRiskLevelCalculation : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                retrieveDiagnosisKeys()
-            }
+            vdc.retrieveDiagnosisKeys()
         }
 
         binding.buttonProvideKeyViaQr.setOnClickListener {
@@ -98,9 +107,7 @@ class TestRiskLevelCalculation : Fragment() {
         }
 
         binding.buttonCalculateRiskLevel.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                calculateRiskLevel()
-            }
+            vdc.calculateRiskLevel()
         }
 
         binding.buttonResetRiskLevel.setOnClickListener {
@@ -135,9 +142,7 @@ class TestRiskLevelCalculation : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        tracingViewModel.viewModelScope.launch {
-            calculateRiskLevel()
-        }
+        vdc.calculateRiskLevel()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -152,15 +157,6 @@ class TestRiskLevelCalculation : Fragment() {
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-    private suspend fun retrieveDiagnosisKeys() {
-        try {
-            RetrieveDiagnosisKeysTransaction.start()
-            calculateRiskLevel()
-        } catch (e: TransactionException) {
-            e.report(ExceptionCategory.INTERNAL)
         }
     }
 
@@ -235,14 +231,6 @@ class TestRiskLevelCalculation : Fragment() {
         }
     }
 
-    private suspend fun calculateRiskLevel() {
-        try {
-            RiskLevelTransaction.start()
-        } catch (e: TransactionException) {
-            e.report(ExceptionCategory.INTERNAL)
-        }
-    }
-
     private fun startObserving() {
         tracingViewModel.viewModelScope.launch {
             try {
@@ -292,9 +280,11 @@ class TestRiskLevelCalculation : Fragment() {
                     "Days Since Last Exposure: ${exposureSummary.daysSinceLastExposure}\n" +
                             "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
                             "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
-                            "Attenuation Durations: [${exposureSummary.attenuationDurationsInMinutes?.get(
-                                0
-                            )}," +
+                            "Attenuation Durations: [${
+                                exposureSummary.attenuationDurationsInMinutes?.get(
+                                    0
+                                )
+                            }," +
                             "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
                             "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
                             "Summation Risk Score: ${exposureSummary.summationRiskScore}"
@@ -351,4 +341,8 @@ class TestRiskLevelCalculation : Fragment() {
                     cont.resumeWithException(it)
                 }
         }
+
+    companion object {
+        val TAG: String = TestRiskLevelCalculation::class.simpleName!!
+    }
 }

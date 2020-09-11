@@ -37,7 +37,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
 import de.rki.coronawarnapp.util.GoogleQuotaCalculator
 import de.rki.coronawarnapp.util.QuotaCalculator
-import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.Injector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -128,7 +128,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val progressTowardsQuotaForRollback = AtomicReference<Int>()
 
     private val transactionScope: TransactionCoroutineScope by lazy {
-        AppInjector.component.transRetrieveKeysInjection.transactionScope
+        Injector.component.transRetrieveKeysInjection.transactionScope
     }
 
     private const val QUOTA_RESET_PERIOD_IN_HOURS = 24

@@ -27,8 +27,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.di.Injector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -65,12 +65,12 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate() {
-        AppInjector.init(this)
-
-        super.onCreate()
         instance = this
+        super.onCreate()
+        Injector.init(this)
 
         if (CWADebug.isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
@@ -197,6 +197,4 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }

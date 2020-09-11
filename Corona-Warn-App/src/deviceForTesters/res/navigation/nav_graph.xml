@@ -317,5 +317,10 @@
         android:id="@+id/testRiskLevelCalculation"
         android:name="de.rki.coronawarnapp.TestRiskLevelCalculation"
         android:label="fragment_test_risk_level_calculation"
-        tools:layout="@layout/fragment_test_risk_level_calculation" />
+        tools:layout="@layout/fragment_test_risk_level_calculation">
+        <argument
+            android:name="exampleArgument"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
