@@ -111,20 +111,7 @@ class KeyFileDownloader @Inject constructor(
 
         val cachedDays = getCompletedKeyFiles(CachedKeyInfo.Type.COUNTRY_DAY)
 
-        // All cached files that are no longer on the server are considered stale
-        val staleDays = cachedDays.filter { cachedDay ->
-            val availableCountry = availableDays.singleOrNull {
-                it.country == cachedDay.location
-            }
-            if (availableCountry == null) {
-                Timber.tag(TAG).w("Unknown location %s, assuming stale day.", cachedDay.location)
-                return@filter true // It's stale
-            }
-
-            availableCountry.dayData.none { date ->
-                cachedDay.day == date
-            }
-        }
+        val staleDays = getStale(cachedDays, availableDays)
 
         if (staleDays.isNotEmpty()) {
             Timber.tag(TAG).v("Deleting stale days: %s", staleDays)
@@ -214,26 +201,7 @@ class KeyFileDownloader @Inject constructor(
 
         val cachedHours = getCompletedKeyFiles(CachedKeyInfo.Type.COUNTRY_HOUR)
 
-        // All cached files that are no longer on the server are considered stale
-        val staleHours = cachedHours.filter { cachedHour ->
-            val availCountry = availableHours.singleOrNull {
-                it.country == cachedHour.location && it.hourData.containsKey(cachedHour.day)
-            }
-            if (availCountry == null) {
-                Timber.w("Unknown location %s, assuming stale hour.", cachedHour.location)
-                return@filter true // It's stale
-            }
-
-            val availableDay = availCountry.hourData[cachedHour.day]
-            if (availableDay == null) {
-                Timber.d("Unknown day %s, assuming stale hour.", cachedHour.location)
-                return@filter true // It's stale
-            }
-
-            availableDay.none { time ->
-                cachedHour.hour == time
-            }
-        }
+        val staleHours = getStale(cachedHours, availableHours)
 
         if (staleHours.isNotEmpty()) {
             Timber.tag(TAG).v("Deleting stale hours: %s", staleHours)
@@ -244,6 +212,49 @@ class KeyFileDownloader @Inject constructor(
 
         // The missing hours
         return availableHours.mapNotNull { it.toMissingHours(nonStaleHours) }
+    }
+
+    // All cached files that are no longer on the server are considered stale
+    private fun getStale(
+        cachedKeys: List<CachedKeyInfo>,
+        availableData: List<CountryData>
+    ): List<CachedKeyInfo> = cachedKeys.filter { cachedKey ->
+        val availableCountry = availableData
+            .filter { it.country == cachedKey.location }
+            .singleOrNull {
+                when (cachedKey.type) {
+                    CachedKeyInfo.Type.COUNTRY_DAY -> true
+                    CachedKeyInfo.Type.COUNTRY_HOUR -> {
+                        it as CountryHours
+                        it.hourData.containsKey(cachedKey.day)
+                    }
+                }
+            }
+        if (availableCountry == null) {
+            Timber.w("Unknown location %s, assuming stale hour.", cachedKey.location)
+            return@filter true // It's stale
+        }
+
+        when (cachedKey.type) {
+            CachedKeyInfo.Type.COUNTRY_DAY -> {
+                availableCountry as CountryDays
+                availableCountry.dayData.none { date ->
+                    cachedKey.day == date
+                }
+            }
+            CachedKeyInfo.Type.COUNTRY_HOUR -> {
+                availableCountry as CountryHours
+                val availableDay = availableCountry.hourData[cachedKey.day]
+                if (availableDay == null) {
+                    Timber.d("Unknown day %s, assuming stale hour.", cachedKey.location)
+                    return@filter true // It's stale
+                }
+
+                availableDay.none { time ->
+                    cachedKey.hour == time
+                }
+            }
+        }
     }
 
     /**
