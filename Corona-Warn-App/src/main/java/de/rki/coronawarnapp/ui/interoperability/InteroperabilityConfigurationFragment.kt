@@ -37,6 +37,7 @@ class InteroperabilityConfigurationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        interoperabilityViewModel.saveInteroperabilityUsed()
         interoperabilityViewModel.refreshInteroperability()
 
         binding.countryListView.allCountrySwitch.setOnCheckedChangeListener { view, checked ->

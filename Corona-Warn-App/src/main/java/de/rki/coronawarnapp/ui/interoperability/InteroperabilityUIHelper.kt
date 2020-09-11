@@ -15,6 +15,10 @@ data class InteroperabilityUIHelper(
     private val fragmentActivity: FragmentActivity
 ) {
 
+    fun saveInteroperabilityUsed() {
+        interoperabilityViewModel.saveInteroperabilityUsed()
+    }
+
     /**
      * Updates the viewmodel and saves the given country code if selected. Displays a dialog if user
      * wants to disable the country

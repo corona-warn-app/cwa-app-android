@@ -34,6 +34,7 @@ class OnboardingInteroperabilityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        interoperabilityViewModel.saveInteroperabilityUsed()
         setButtonOnClickListener()
     }
 
@@ -52,7 +53,7 @@ class OnboardingInteroperabilityFragment : Fragment() {
 
         binding.onboardingButtonNext.setOnClickListener {
             findNavController().doNavigate(
-                OnboardingInteroperabilityFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
+                OnboardingInteroperabilityFragmentDirections.actionOnboardingInteroperabilityFragmentToOnboardingTestFragment()
             )
         }
 

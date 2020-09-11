@@ -20,6 +20,12 @@ object InteroperabilityRepository {
     private fun getSelectedCountryCodes(): List<String> =
         LocalData.countryCodes ?: listOf()
 
+    fun wasInteroperabilityUsed(): Boolean = LocalData.wasInteroperabilityUsed()
+
+    fun saveInteroperabilityUsed() {
+        LocalData.saveInteroperabilityUsed()
+    }
+
     /**
      * Gets all countries from @see ApplicationConfigurationService.asyncRetrieveApplicationConfiguration
      * and filters out the CURRENT_COUNTRY from @see DiagnosisKeyConstants. Also changes every country code

@@ -80,6 +80,8 @@
     <string name="preference_interoperability_selected_country_codes"><xliff:g id="preference">"preference_interoperability_selected_country_codes"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_interoperability_all_countries_selected">preference_interoperability_all_countries_selected</string>
+    <!-- NOTR -->
+    <string name="preference_interoperability_is_used_at_least_once">preference_interoperability_is_used_at_least_once</string>
 
     <!-- ####################################
                      Generics

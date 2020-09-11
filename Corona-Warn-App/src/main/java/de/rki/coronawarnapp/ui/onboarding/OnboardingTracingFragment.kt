@@ -105,9 +105,15 @@ class OnboardingTracingFragment : Fragment(),
             R.string.onboarding_tracing_dialog_button_negative,
             true,
             {
-                navigate()
+                navigateSkipInteroperability()
             })
         DialogHelper.showDialog(dialog)
+    }
+
+    private fun navigateSkipInteroperability() {
+        findNavController().doNavigate(
+            OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
+        )
     }
 
     private fun navigate() {

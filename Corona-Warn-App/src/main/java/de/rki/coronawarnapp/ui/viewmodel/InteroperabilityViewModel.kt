@@ -12,6 +12,11 @@ class InteroperabilityViewModel : ViewModel() {
     val selectedCountryCodes = InteroperabilityRepository.selectedCountryCodes
     val isAllCountriesSelected = InteroperabilityRepository.isAllCountriesSelected
     val allCountries = InteroperabilityRepository.getAllCountries()
+    val wasInteroperabilityUsed = InteroperabilityRepository.wasInteroperabilityUsed()
+
+    fun saveInteroperabilityUsed() {
+        InteroperabilityRepository.saveInteroperabilityUsed()
+    }
 
     fun refreshInteroperability() {
         refreshAllCountriesSelected()

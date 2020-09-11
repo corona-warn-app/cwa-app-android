@@ -715,6 +715,23 @@ object LocalData {
     /****************************************************
      * INTEROPERABILITY
      ****************************************************/
+
+    fun saveInteroperabilityUsed() {
+        getSharedPreferenceInstance().edit().putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_interoperability_is_used_at_least_once),
+            true
+        ).commit()
+    }
+
+    fun wasInteroperabilityUsed(): Boolean {
+        return getSharedPreferenceInstance().getBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_interoperability_is_used_at_least_once),
+            false
+        )
+    }
+
     var countryCodes: List<String>?
         get() = getSharedPreferenceInstance().getStringSet(
             CoronaWarnApplication.getAppContext()

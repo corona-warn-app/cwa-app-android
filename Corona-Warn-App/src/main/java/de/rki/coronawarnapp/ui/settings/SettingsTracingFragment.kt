@@ -152,13 +152,17 @@ class SettingsTracingFragment : Fragment(),
             ExternalActionHelper.toConnections(requireContext())
         }
         interoperability.setOnClickListener {
-            findNavController()
-                .doNavigate(
-                    ActionOnlyNavDirections(
-                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragment
-                    )
-                )
+            navigateToInteroperability()
         }
+    }
+
+    private fun navigateToInteroperability() {
+        findNavController()
+            .doNavigate(
+                ActionOnlyNavDirections(
+                    R.id.action_interopCountryConfigurationFragment_to_settingTracingFragment
+                )
+            )
     }
 
     private fun startStopTracing() {
