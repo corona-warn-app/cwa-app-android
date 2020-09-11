@@ -28,7 +28,7 @@ data class ScanResult(val rawResult: String) {
     }
 
     companion object {
-        val QR_CODE_REGEX: Pattern = Pattern.compile("^((^https:\\/{2}localhost)(\\/\\?)[A-Fa-f0-9]{6}"+
+        val QR_CODE_REGEX: Pattern = Pattern.compile("^((^https:\\/{2}localhost)(\\/\\?)[A-Fa-f0-9]{6}" +
                 "[-][A-Fa-f0-9]{8}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{12})\$")
     }
 }
