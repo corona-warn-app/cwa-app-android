@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.service.submission.ScanResult
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
@@ -99,8 +100,9 @@ class SubmissionViewModel : ViewModel() {
         )
 
     fun validateAndStoreTestGUID(scanResult: String) {
-        if (SubmissionService.containsValidGUID(scanResult)) {
-            val guid = SubmissionService.extractGUID(scanResult)
+        val scanResult = ScanResult(scanResult)
+        if (scanResult.isValid) {
+            val guid = scanResult.extractGUID(scanResult.rawResult)
             SubmissionService.storeTestGUID(guid)
             _scanStatus.value = Event(ScanStatus.SUCCESS)
         } else {

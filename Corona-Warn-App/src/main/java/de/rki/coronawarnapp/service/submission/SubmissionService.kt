@@ -69,9 +69,6 @@ object SubmissionService {
         return scanResult.isValid
     }
 
-    fun extractGUID(scanResult: String): String =
-        scanResult.substringAfterLast(SubmissionConstants.GUID_SEPARATOR, "")
-
     fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
 
     fun deleteTestGUID() {

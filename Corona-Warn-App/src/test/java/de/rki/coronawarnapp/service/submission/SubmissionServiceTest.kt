@@ -164,30 +164,4 @@ class SubmissionServiceTest {
         }
     }
 
-    @Test
-    fun containsValidGUID() {
-        // valid
-            SubmissionService.containsValidGUID("https://localhost/?$guid") shouldBe true
-
-        // invalid if "http" is present instead of "https"
-             SubmissionService.containsValidGUID("http://localhost/?$guid") shouldBe false
-
-        // invalid if no GUID
-            SubmissionService.containsValidGUID("https://localhost/?") shouldBe false
-
-        // more invalid tests checks
-            SubmissionService.containsValidGUID("htps://wrongformat.com") shouldBe false
-            SubmissionService.containsValidGUID("https://localhost/%20?3D6D08-3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA") shouldBe false
-            SubmissionService.containsValidGUID("https://some-host.com/?3D6D08-3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA") shouldBe false
-            SubmissionService.containsValidGUID("https://localhost/?3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA") shouldBe false
-            SubmissionService.containsValidGUID("https://localhost/?4CD1F87D6FDA") shouldBe false
-    }
-
-    @Test
-    fun extractGUID() {
-        assertThat(
-            SubmissionService.extractGUID("https://bs-sd.de/covid-19/?$guid"),
-            equalTo(guid)
-        )
-    }
 }
