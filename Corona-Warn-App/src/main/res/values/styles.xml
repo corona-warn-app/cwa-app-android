@@ -285,4 +285,28 @@
         <item name="android:textColor">@color/colorStableLight</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <!-- ####################################
+            Calendar
+    ###################################### -->
+    <style name="calendarMonthText">
+        <item name="android:textColor">@color/colorCalendarMonthText</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.1</item>
+    </style>
+
+    <style name="calendarWeekDayNormal">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:letterSpacing">0.4</item>
+    </style>
+
+    <style name="calendarWeekDaySelected">
+        <item name="android:textColor">@color/colorCalendarTodayText</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:letterSpacing">2</item>
+    </style>
 </resources>

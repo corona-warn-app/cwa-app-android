@@ -1058,6 +1058,9 @@ Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allge
         <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
     </string-array>
 
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Genaues Datum"</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
