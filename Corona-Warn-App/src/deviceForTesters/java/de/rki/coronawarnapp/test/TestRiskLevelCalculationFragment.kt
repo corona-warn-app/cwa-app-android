@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp
+package de.rki.coronawarnapp.test
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +16,7 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -54,7 +55,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
-class TestRiskLevelCalculation : Fragment(), AutoInject {
+class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     private val navArgs by navArgs<TestRiskLevelCalculationArgs>()
 
     @Inject
