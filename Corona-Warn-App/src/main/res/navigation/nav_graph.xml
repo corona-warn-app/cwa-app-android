@@ -212,9 +212,9 @@
     </fragment>
     <fragment
         android:id="@+id/submissionEuropeanConsentFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionEuropeanFederalGatewayServerConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionEuropeanConsentFragment"
         android:label="fragment_submission_result_european_consent"
-        tools:layout="@layout/fragment_submission_european_federal_gateway_server_consent">
+        tools:layout="@layout/fragment_submission_european_consent">
         <action
             android:id="@+id/action_submissionEuropeanConsentFragment_to_PositiveWarningOthersFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment"

@@ -2,17 +2,17 @@ package de.rki.coronawarnapp.ui.submission
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentSubmissionEuropeanFederalGatewayServerConsentBinding
+import de.rki.coronawarnapp.databinding.FragmentSubmissionEuropeanConsentBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
@@ -32,14 +32,14 @@ import de.rki.coronawarnapp.util.observeEvent
  *  and the keys will only be submitted to the the German server.
  */
 
-class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
+class SubmissionEuropeanConsentFragment : Fragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private var _binding: FragmentSubmissionEuropeanFederalGatewayServerConsentBinding? = null
-    private val binding: FragmentSubmissionEuropeanFederalGatewayServerConsentBinding get() = _binding!!
+    private var _binding: FragmentSubmissionEuropeanConsentBinding? = null
+    private val binding: FragmentSubmissionEuropeanConsentBinding get() = _binding!!
 
     private lateinit var internalExposureNotificationPermissionHelper:
             InternalExposureNotificationPermissionHelper
@@ -47,7 +47,7 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         binding
-            .submissionEuropeanFederalGatewayServerConsentPrivacyContainer
+            .submissionEuropeanConsentPrivacyContainer
             .sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         tracingViewModel.refreshIsTracingEnabled()
     }
@@ -58,8 +58,14 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         internalExposureNotificationPermissionHelper =
-            InternalExposureNotificationPermissionHelper(this, this)
-        _binding = FragmentSubmissionEuropeanFederalGatewayServerConsentBinding.inflate(inflater)
+            InternalExposureNotificationPermissionHelper(
+                this,
+                this
+            )
+        _binding =
+            FragmentSubmissionEuropeanConsentBinding.inflate(
+                inflater
+            )
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -151,7 +157,7 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
 
     private fun setButtonOnClickListener() {
         binding
-            .settingsEuropeanFederalGatewayServerConsentRow.settingsSwitchRowSwitch
+            .settingsEuropeanConsentRow.settingsSwitchRowSwitch
             .setOnCheckedChangeListener { switch, isEnabled ->
                 if (switch.tag != IGNORE_CHANGE_TAG) {
                     submissionViewModel.updateSwitch(isEnabled)
@@ -159,26 +165,26 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
             }
 
         binding
-            .submissionEuropeanFederalGatewayServerConsentHeader.headerButtonBack.buttonIcon
+            .submissionEuropeanConsentHeader.headerButtonBack.buttonIcon
             .setOnClickListener { submissionViewModel.onBackButtonClick() }
 
         binding
-            .submissionEuropeanFederalGatewayServerConsentButtonNext
+            .submissionEuropeanConsentButtonNext
             .setOnClickListener { submissionViewModel.onNextButtonClick() }
     }
 
     private fun navigateToWarningOthersFragment() {
-        findNavController().doNavigate(
-            SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
-                .actionSubmissionEuropeanConsentFragmentToPositiveWarningOthersFragment()
-        )
+//        findNavController().doNavigate(
+//            SubmissionEuropeanConsentFragmentDirections
+//                .actionSubmissionEuropeanConsentFragmentToPositiveWarningOthersFragment()
+//        )
     }
 
     private fun navigateToSubmissionDoneFragment() {
-        findNavController().doNavigate(
-            SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
-                .actionSubmissionEuropeanConsentFragmentToSubmissionDoneFragment()
-        )
+//        findNavController().doNavigate(
+//            SubmissionEuropeanConsentFragmentDirections
+//                .actionSubmissionEuropeanConsentFragmentToSubmissionDoneFragment()
+//        )
     }
 
     private fun navigateToTargetGermanyFragment() {
@@ -186,21 +192,24 @@ class SubmissionEuropeanFederalGatewayServerConsentFragment : Fragment(),
     }
 
     private fun navigateToSubmissionResultFragment() {
-        findNavController().doNavigate(
-            SubmissionEuropeanFederalGatewayServerConsentFragmentDirections
-                .actionSubmissionEuropeanConsentFragmentToSubmissionResultFragment()
-        )
+//        findNavController().doNavigate(
+//            SubmissionEuropeanConsentFragmentDirections
+//                .actionSubmissionEuropeanConsentFragmentToSubmissionResultFragment()
+//        )
     }
 
     private fun initiateWarningOthers() {
         if (tracingViewModel.isTracingEnabled.value != true) {
-            val tracingRequiredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_test_result_dialog_tracing_required_title,
-                R.string.submission_test_result_dialog_tracing_required_message,
-                R.string.submission_test_result_dialog_tracing_required_button
+            val tracingRequiredDialog =
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.submission_test_result_dialog_tracing_required_title,
+                    R.string.submission_test_result_dialog_tracing_required_message,
+                    R.string.submission_test_result_dialog_tracing_required_button
+                )
+            DialogHelper.showDialog(
+                tracingRequiredDialog
             )
-            DialogHelper.showDialog(tracingRequiredDialog)
             return
         }
         internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()

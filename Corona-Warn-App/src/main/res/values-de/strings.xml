@@ -948,15 +948,15 @@ Es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allge
 
     <!-- Submission European Federal Gateway Server Consent -->
     <!-- XHED: Page title for the positive result European Federal Gateway Server Consent page -->
-    <string name="submission_european_federal_gateway_server_consent_title">@string/lorem_ipsum</string>
+    <string name="submission_european_consent_title">@string/lorem_ipsum</string>
     <!-- XHED: Page headline forThe positive European Federal Gateway Server Consent page -->
-    <string name="submission_european_federal_gateway_server_consent_headline">@string/lorem_ipsum</string>
+    <string name="submission_european_consent_headline">@string/lorem_ipsum</string>
     <!-- XHED: European Federal Gateway Server Consent - illustration description, explanation image -->
-    <string name="submission_european_federal_gateway_server_consent_illustration_description">@string/lorem_ipsum</string>
+    <string name="submission_european_consent_illustration_description">@string/lorem_ipsum</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_european_federal_gateway_server_consent_privacy_body">@string/lorem_ipsum</string>
+    <string name="submission_european_consent_privacy_body">@string/lorem_ipsum</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_european_federal_gateway_server_consent_button">@string/lorem_ipsum</string>
+    <string name="submission_european_consent_button">@string/lorem_ipsum</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
