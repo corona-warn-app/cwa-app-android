@@ -148,13 +148,7 @@ class KeyFileDownloader @Inject constructor(
                         type = CachedKeyInfo.Type.COUNTRY_DAY
                     )
 
-                    return@async try {
-                        downloadKeyFile(keyInfo, path)
-                        keyInfo to path
-                    } catch (e: Exception) {
-                        Timber.tag(TAG).e(e, "Download failed: %s", keyInfo)
-                        null
-                    }
+                    return@async downloadKeyFile(keyInfo, path)
                 }
             }
 
@@ -284,14 +278,7 @@ class KeyFileDownloader @Inject constructor(
                             type = CachedKeyInfo.Type.COUNTRY_HOUR
                         )
 
-                        return@async try {
-                            downloadKeyFile(keyInfo, path)
-                            keyInfo to path
-                        } catch (e: Exception) {
-                            Timber.tag(TAG).e(e, "Download failed: %s", keyInfo)
-                            keyCache.delete(listOf(keyInfo))
-                            null
-                        }
+                        return@async downloadKeyFile(keyInfo, path)
                     }
                 }
             }
@@ -308,7 +295,10 @@ class KeyFileDownloader @Inject constructor(
         return@withContext
     }
 
-    private suspend fun downloadKeyFile(keyInfo: CachedKeyInfo, saveTo: File) {
+    private suspend fun downloadKeyFile(
+        keyInfo: CachedKeyInfo,
+        saveTo: File
+    ): Pair<CachedKeyInfo, File>? = try {
         val validation = KeyFileHeaderHook { headers ->
             // tryMigration returns true when a file was migrated, meaning, no download necessary
             return@KeyFileHeaderHook !legacyKeyCache.tryMigration(
@@ -331,6 +321,11 @@ class KeyFileDownloader @Inject constructor(
         Timber.tag(TAG).v("Hashed to MD5 in %dms: %s", duration, saveTo)
 
         keyCache.markKeyComplete(keyInfo, downloadedMD5)
+        keyInfo to saveTo
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Download failed: %s", keyInfo)
+        keyCache.delete(listOf(keyInfo))
+        null
     }
 
     companion object {

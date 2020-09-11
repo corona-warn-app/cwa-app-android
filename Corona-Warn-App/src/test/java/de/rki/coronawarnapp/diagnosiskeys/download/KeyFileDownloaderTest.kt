@@ -390,6 +390,9 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 listOf(LocationCode("DE"), LocationCode("NL"))
             ).size shouldBe 3
         }
+
+        // We delete the entry for the failed download
+        coVerify(exactly = 1) { keyCache.delete(any()) }
     }
 
     @Test
@@ -618,6 +621,9 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 listOf(LocationCode("DE"), LocationCode("NL"))
             ).size shouldBe 5
         }
+
+        // We delete the entry for the failed download
+        coVerify(exactly = 1) { keyCache.delete(any()) }
     }
 
     @Test
