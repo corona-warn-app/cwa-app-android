@@ -130,6 +130,12 @@ class TestRiskLevelCalculation : Fragment() {
             }
         }
 
+        binding.buttonClearDiagnosisKeyCache.setOnClickListener {
+            lifecycleScope.launch {
+                AppInjector.component.keyCacheRepository.clear()
+            }
+        }
+
         startObserving()
     }
 
