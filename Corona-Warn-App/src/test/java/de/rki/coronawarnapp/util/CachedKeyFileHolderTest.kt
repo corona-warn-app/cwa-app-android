@@ -53,7 +53,6 @@ class CachedKeyFileHolderTest {
         every { CachedKeyFileHolder["checkForFreeSpace"]() } returns Unit
         every { CachedKeyFileHolder["getDatesFromServer"]() } returns arrayListOf<String>()
 
-
         runBlocking {
 
             CachedKeyFileHolder.asyncFetchFiles(date)
