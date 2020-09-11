@@ -27,7 +27,7 @@ class SubmissionOutOfGermanyFragment : Fragment() {
     ): View? {
         _binding = FragmentSubmissionOutofgermanySelectionBinding.inflate(inflater)
         binding.submissionOutOfGermanyViewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
