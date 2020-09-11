@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes.API_NOT_CONNECTED
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration.ExposureConfigurationBuilder
@@ -17,8 +15,6 @@ import java.util.Date
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import kotlin.math.abs
-import kotlin.math.log10
 
 /**
  * Wrapper class for the Exposure Notification Client in the com.google.android.gms.nearby.Nearby
@@ -96,31 +92,7 @@ object InternalExposureNotificationClient {
             }
     }
 
-    /**
-     * Indicates if the client runs above a certain version
-     *
-     * @return isAboveVersion, if connected to an old version, return false
-     */
-    suspend fun asyncIsAboveVersion(version: Long): Boolean {
-        if (!version.versionLength.isCorrectVersionLength) {
-            throw IllegalArgumentException("given version has incorrect length")
-        }
-        return try {
-            version > getVersion()
-        } catch (e: ApiException) {
-            if (e.statusCode == API_NOT_CONNECTED) false else throw e
-        }
-    }
-
-    private val Int.isCorrectVersionLength get(): Boolean = this == 8
-
-    private val Long.versionLength
-        get(): Int = when (this) {
-            0L -> 1
-            else -> log10(abs(toDouble())).toInt() + 1
-        }
-
-    private suspend fun getVersion(): Long = suspendCoroutine { cont ->
+    suspend fun getVersion(): Long = suspendCoroutine { cont ->
         exposureNotificationClient.version
             .addOnSuccessListener {
                 cont.resume(it)
