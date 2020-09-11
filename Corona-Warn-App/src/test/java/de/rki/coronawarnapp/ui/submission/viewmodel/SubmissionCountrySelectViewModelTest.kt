@@ -20,7 +20,7 @@ class SubmissionCountrySelectViewModelTest {
 
         viewModel.fetchCountries()
         // TODO: implement proper test one backend is merged
-        viewModel.countries.value?.shouldHaveSize(2)
+        viewModel.countries.value!!.shouldHaveSize(2)
     }
 
     @Test
@@ -30,13 +30,13 @@ class SubmissionCountrySelectViewModelTest {
         viewModel.fetchCountries()
 
         viewModel.updateCountryCheckedState(SubmissionCountry("IT", true))
-        viewModel.countries.value?.forAtMostOne {
+        viewModel.countries.value!!.forAtMostOne {
             it.countryCode shouldBe "IT"
             it.selected shouldBe true
         }
 
         viewModel.updateCountryCheckedState(SubmissionCountry("IT", false))
-        viewModel.countries.value?.forAtLeastOne {
+        viewModel.countries.value!!.forAtLeastOne {
             it.countryCode shouldBe "IT"
             it.selected shouldBe false
         }
@@ -50,10 +50,10 @@ class SubmissionCountrySelectViewModelTest {
 
         viewModel.updateCountryCheckedState(SubmissionCountry("IT", true))
         viewModel.updateCountryCheckedState(SubmissionCountry("ES", true))
-        viewModel.countries.value?.forAll { it.selected shouldBe true }
+        viewModel.countries.value!!.forAll { it.selected shouldBe true }
 
         viewModel.noInfoClick()
 
-        viewModel.countries.value?.forAll { it.selected shouldBe false }
+        viewModel.countries.value!!.forAll { it.selected shouldBe false }
     }
 }
