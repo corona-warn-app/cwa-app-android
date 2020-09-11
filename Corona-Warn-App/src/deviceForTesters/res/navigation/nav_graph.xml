@@ -214,9 +214,30 @@
             app:popUpTo="@id/submissionResultFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionDoneFragment"
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionEuropeanConsentFragment"
+            app:destination="@id/submissionEuropeanConsentFragment"
+            app:popUpTo="@id/submissionEuropeanConsentFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionEuropeanConsentFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionEuropeanConsentFragment"
+        android:label="fragment_submission_result_european_consent"
+        tools:layout="@layout/fragment_submission_european_consent">
+        <action
+            android:id="@+id/action_submissionEuropeanConsentFragment_to_PositiveWarningOthersFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment"
+            app:popUpTo="@id/submissionResultPositiveOtherWarningFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionEuropeanConsentFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/submissionDoneFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionEuropeanConsentFragment_to_submissionResultFragment"
+            app:destination="@id/submissionResultFragment"
+            app:popUpTo="@id/submissionResultFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

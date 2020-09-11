@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_positive_other_warning_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionEuropeanConsentFragment">
+        tools:context=".ui.submission.fragment.SubmissionEuropeanConsentFragment">
 
         <include
             android:id="@+id/submission_european_consent_header"
