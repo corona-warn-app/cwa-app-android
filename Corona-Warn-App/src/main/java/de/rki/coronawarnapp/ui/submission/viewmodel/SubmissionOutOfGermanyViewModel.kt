@@ -29,8 +29,3 @@ enum class ButtonClicked {
     NO,
     NOT_SPECIFIED
 }
-
-
-
-
-

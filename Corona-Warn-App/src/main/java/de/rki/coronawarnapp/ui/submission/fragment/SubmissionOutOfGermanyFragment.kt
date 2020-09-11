@@ -35,7 +35,6 @@ class SubmissionOutOfGermanyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.submissionOutofgermanyPositiveSelection.submissionOutofgermanyContainer.setOnClickListener {
             viewModel.buttonClicked(ButtonClicked.YES)
         }
@@ -47,7 +46,6 @@ class SubmissionOutOfGermanyFragment : Fragment() {
         binding.submissionOutofgermanyNoSelection.submissionOutofgermanyContainer.setOnClickListener {
             viewModel.buttonClicked(ButtonClicked.NOT_SPECIFIED)
         }
-
     }
 
     companion object {
