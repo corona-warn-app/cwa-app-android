@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
+import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
@@ -37,7 +38,7 @@ class KeyFileDownloader @Inject constructor(
     private suspend fun checkStorageSpace(countries: List<LocationCode>): DeviceStorage.CheckResult {
         val storageResult = deviceStorage.checkSpacePrivateStorage(
             // 512KB per day file, for 15 days, for each country ~ 65MB for 9 countries
-            requiredBytes = countries.size * 15 * 512 * 1024L
+            requiredBytes = countries.size * EXPECTED_STORAGE_PER_COUNTRY
         )
         Timber.tag(TAG).d("Storage check result: %s", storageResult)
         return storageResult
@@ -331,5 +332,10 @@ class KeyFileDownloader @Inject constructor(
     companion object {
         private val TAG: String? = KeyFileDownloader::class.simpleName
         private const val DEBUG_HOUR_LIMIT = 3
+
+        // Daymode: ~512KB per day, ~14 days
+        // Hourmode: ~20KB per hour, 24 hours, also ~512KB
+        private val EXPECTED_STORAGE_PER_COUNTRY =
+            TimeVariables.getDefaultRetentionPeriodInDays() * 512 * 1024L
     }
 }
