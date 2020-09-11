@@ -54,7 +54,6 @@ internal class GoogleQuotaCalculatorTest {
         every { LocalData.googleAPIProvideDiagnosisKeysCallCount } answers {
             googleAPIProvideDiagnosisKeysCallCount.get()
         }
-
     }
 
     @Test
@@ -278,7 +277,6 @@ internal class GoogleQuotaCalculatorTest {
         val testTimeGMTAfterUTC = testTimeGMT.plusMinutes(1)
 
         assertEquals(true, testTimeGMTAfterUTC.isAfter(testTimeUTC))
-
     }
 
     @After
