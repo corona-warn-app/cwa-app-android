@@ -1,58 +1,29 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class SubmissionOutOfGermanyViewModel : ViewModel() {
 
-    private val _yesAnswerActive = MediatorLiveData<Boolean>()
-    private val _noAnswerActive = MediatorLiveData<Boolean>()
-    private val _notSpecifiedActive = MediatorLiveData<Boolean>()
-    private val _nextButtonActive = MediatorLiveData<Boolean>()
+    private val _buttonClicked = MutableLiveData<ButtonClicked>(ButtonClicked.NONE)
 
-    val yesAnswerActive: LiveData<Boolean> = _yesAnswerActive
-    val noAnswerActive: LiveData<Boolean> = _noAnswerActive
-    val notSpecifiedActive: LiveData<Boolean> = _notSpecifiedActive
-    val nextActive: LiveData<Boolean> = _nextButtonActive
+    val yesAnswerActive: LiveData<Boolean> = Transformations.map(_buttonClicked) { it == ButtonClicked.YES}
+    val noAnswerActive: LiveData<Boolean> = Transformations.map(_buttonClicked) { it == ButtonClicked.NO}
+    val notSpecifiedActive: LiveData<Boolean> = Transformations.map(_buttonClicked) { it == ButtonClicked.NOT_SPECIFIED}
+    val nextActive: LiveData<Boolean> = Transformations.map(_buttonClicked) { it != ButtonClicked.NONE}
 
-    init {
-        _nextButtonActive.addSource(yesAnswerActive) {
-            if (it) {
-                _nextButtonActive.value = true
-            }
-        }
-        _nextButtonActive.addSource(noAnswerActive) {
-            if (it) {
-                _nextButtonActive.value = true
-            }
-        }
-        _nextButtonActive.addSource(notSpecifiedActive) {
-            if (it) {
-                _nextButtonActive.value = true
-            }
-        }
+    fun buttonClicked(buttonClicked: ButtonClicked) {
+        _buttonClicked.value = buttonClicked
     }
+}
 
-    fun positiveClick() {
-        _yesAnswerActive.postValue(true)
-        _noAnswerActive.postValue(false)
-        _notSpecifiedActive.postValue(false)
-    }
-
-    fun negativeClick() {
-        _noAnswerActive.postValue(true)
-        _yesAnswerActive.postValue(false)
-        _notSpecifiedActive.postValue(false)
-    }
-
-    fun noInfoClick() {
-        _notSpecifiedActive.postValue(true)
-        _yesAnswerActive.postValue(false)
-        _noAnswerActive.postValue(false)
-
-    }
-
+enum class ButtonClicked {
+    NONE,
+    YES,
+    NO,
+    NOT_SPECIFIED
 }
 
 
