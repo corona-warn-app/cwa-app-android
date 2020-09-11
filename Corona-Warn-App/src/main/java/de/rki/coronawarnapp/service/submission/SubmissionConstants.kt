@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.service.submission
 
-import java.util.regex.Pattern
-
 object SubmissionConstants {
     private const val VERSION = "version"
     private const val REGISTRATION_TOKEN = "registrationToken"
@@ -51,8 +49,6 @@ object SubmissionConstants {
 
     const val minKeyCountForSubmission = 14
     const val fakeKeySize = (1 * 16 /* key data*/) + (3 * 4 /* 3x int32*/)
-    val QR_CODE_REGEX: Pattern = Pattern.compile("^((^https:\\/{2}localhost)(\\/\\?)[A-Fa-f0-9]{6}[-][A-Fa-f0-9]{8}" +
-            "[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{12})\$")
 }
 
 enum class KeyType {
