@@ -12,10 +12,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionOutOfGermanyViewMo
 
 class SubmissionOutOfGermanyFragment : Fragment() {
 
-    companion object {
-        private val TAG: String = SubmissionOutOfGermanyFragment::class.java.simpleName
-    }
-
     private val viewModel: SubmissionOutOfGermanyViewModel by viewModels()
     private var _binding: FragmentSubmissionOutofgermanySelectionBinding? = null
     private val binding: FragmentSubmissionOutofgermanySelectionBinding get() = _binding!!
@@ -52,6 +48,9 @@ class SubmissionOutOfGermanyFragment : Fragment() {
             viewModel.buttonClicked(ButtonClicked.NOT_SPECIFIED)
         }
 
+    }
 
+    companion object {
+        private val TAG: String = SubmissionOutOfGermanyFragment::class.java.simpleName
     }
 }
