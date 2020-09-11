@@ -49,8 +49,6 @@ class InformationLegalFragment : Fragment() {
     private fun setUpContactFormLinks() {
         binding.informationLegalContactForm.informationLegalContactForm
             .convertToHyperlink(getString(R.string.information_legal_subtitle_contact_url))
-        binding.informationLegalContactForm.informationLegalContactForm
-            .movementMethod = LinkMovementMethod.getInstance()
         binding.informationLegalContactForm.informationLegalContactFormNonEnDe
             .movementMethod = LinkMovementMethod.getInstance()
     }

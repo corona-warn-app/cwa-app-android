@@ -23,10 +23,6 @@
             type="String" />
 
         <variable
-            name="body"
-            type="String" />
-
-        <variable
             name="buttonText"
             type="String" />
 
@@ -75,13 +71,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
+        <de.rki.coronawarnapp.ui.view.LocationTracingStatusCardBodyTextView
             android:id="@+id/tracing_status_card_body"
             style="@style/subtitle"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@{body}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header" />
