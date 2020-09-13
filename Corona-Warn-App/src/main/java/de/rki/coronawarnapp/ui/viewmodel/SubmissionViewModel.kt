@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +12,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
@@ -49,13 +49,12 @@ class SubmissionViewModel : ViewModel() {
 
     val deviceRegistered get() = LocalData.registrationToken() != null
 
-    private val _currentButtonSelected = MediatorLiveData<String>()
-    val currentButtonSelected: LiveData<String> = _currentButtonSelected
-
     val testResultReceivedDate: LiveData<Date> =
         SubmissionRepository.testResultReceivedDate
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
+
+    val symptomIndication = MutableLiveData<SymptomIndication>().apply { SymptomIndication.POSITIVE }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
@@ -76,10 +75,6 @@ class SubmissionViewModel : ViewModel() {
             _submissionState.value = ApiRequestState.FAILED
             err.report(ExceptionCategory.INTERNAL)
         }
-    }
-
-    fun setCurrentButtonSelected(selectedButton: String) {
-        _currentButtonSelected.postValue(selectedButton)
     }
 
     fun doDeviceRegistration() = viewModelScope.launch {
@@ -160,5 +155,17 @@ class SubmissionViewModel : ViewModel() {
 
     fun navigateToPreviousScreen() {
         symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToPreviousScreen
+    }
+
+    fun onPositiveSymptomIndication() {
+        symptomIndication.postValue(SymptomIndication.POSITIVE)
+    }
+
+    fun onNegativeSymptomIndication() {
+        symptomIndication.postValue(SymptomIndication.NEGATIVE)
+    }
+
+    fun onNoInformationSymptomIndication() {
+        symptomIndication.postValue(SymptomIndication.NO_INFORMATION)
     }
 }

@@ -24,9 +24,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         _binding = FragmentSubmissionSymptomIntroBinding.inflate(inflater)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
-        binding.symptomChoiceSelection.verifyState = "verify"
-        binding.symptomChoiceSelection.applyState = "apply"
-        binding.symptomChoiceSelection.rejectState = "reject"
         return binding.root
     }
 
@@ -56,19 +53,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
     }
 
     private fun setButtonOnClickListener() {
-
-        binding.symptomChoiceSelection.targetButtonVerify.setOnClickListener {
-            onClickButtonVerifyHandler()
-        }
-
-        binding.symptomChoiceSelection.targetButtonApply.setOnClickListener {
-            onClickButtonApplyHandler()
-        }
-
-        binding.symptomChoiceSelection.targetButtonReject.setOnClickListener {
-            onClickButtonRejectHandler()
-        }
-
         binding
             .submissionSymptomHeader.headerButtonBack.buttonIcon
             .setOnClickListener { submissionViewModel.navigateToPreviousScreen() }
@@ -77,21 +61,4 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             .symptomButtonNext
             .setOnClickListener { submissionViewModel.navigateToSymptomCalendar() }
     }
-
-    private fun onChangeCurrentButtonSelected(state: String?) {
-        if (submissionViewModel.currentButtonSelected.value.toString() !== state) {
-            submissionViewModel.setCurrentButtonSelected(state.toString())
-        } else {
-            submissionViewModel.setCurrentButtonSelected("")
-        }
-    }
-
-    private fun onClickButtonVerifyHandler() =
-        onChangeCurrentButtonSelected(binding.symptomChoiceSelection.verifyState)
-
-    private fun onClickButtonApplyHandler() =
-        onChangeCurrentButtonSelected(binding.symptomChoiceSelection.applyState)
-
-    private fun onClickButtonRejectHandler() =
-        onChangeCurrentButtonSelected(binding.symptomChoiceSelection.rejectState)
 }
