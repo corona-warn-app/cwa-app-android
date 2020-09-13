@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 
 /**
  * Calendar day view holder
@@ -20,6 +21,11 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     private val textView: TextView = v.findViewById(R.id.dayText)
 
     /**
+     * Accessibility talk back date format
+     */
+    private val talkBackDateFormat = DateTimeFormat.forPattern("EEEE d MMMMM")
+
+    /**
      * Bind data to view
      */
     fun bind(day:CalendarAdapter.Day, clickListener: (CalendarAdapter.Day) -> Unit) {
@@ -28,6 +34,9 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
         // Set day text
         textView.text = day.date.dayOfMonth.toString()
+
+        // Set day content description for talk back
+        textView.contentDescription = day.date.toString(talkBackDateFormat)
 
         // If date is after today - then disable click listener
         if(!day.date.isAfter(today)) {

@@ -14,7 +14,9 @@
         android:textSize="@dimen/font_title"
         android:textColor="@color/calendar_header"
         android:text="@string/symptoms_calendar_exact_date_button"
-        android:background="@drawable/calendar_header_background" />
+        android:background="@drawable/calendar_header_background"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <TextView
         android:id="@+id/calendar_month"
@@ -23,7 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small" />
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <LinearLayout
         android:id="@+id/calendar_day_legend"
@@ -41,6 +45,7 @@
         android:layout_marginStart="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_small"
+        android:importantForAccessibility="no"
         android:scrollbars="vertical" />
 
 </LinearLayout>
