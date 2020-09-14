@@ -6,21 +6,11 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
-        <variable
-            name="currentButtonSelected"
-            type="String" />
+        <import type="de.rki.coronawarnapp.submission.SymptomIndication"/>
 
         <variable
-            name="verifyState"
-            type="String" />
-
-        <variable
-            name="applyState"
-            type="String" />
-
-        <variable
-            name="rejectState"
-            type="String" />
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,13 +46,14 @@
         <Button
             android:id="@+id/target_button_apply"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,applyState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.POSITIVE)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_positive_button}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,applyState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.POSITIVE)}"
+            android:onClick="@{() -> submissionViewModel.onPositiveSymptomIndication()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/target_layout_header" />
@@ -70,13 +61,14 @@
         <Button
             android:id="@+id/target_button_reject"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,rejectState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NEGATIVE)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_negative_button}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,rejectState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NEGATIVE)}"
+            android:onClick="@{() -> submissionViewModel.onNegativeSymptomIndication()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/target_button_apply" />
@@ -84,13 +76,14 @@
         <Button
             android:id="@+id/target_button_verify"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,verifyState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NO_INFORMATION)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_no_information_button}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,verifyState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NO_INFORMATION)}"
+            android:onClick="@{() -> submissionViewModel.onNoInformationSymptomIndication()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/target_button_reject" />

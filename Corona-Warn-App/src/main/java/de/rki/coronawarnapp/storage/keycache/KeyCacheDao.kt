@@ -35,6 +35,9 @@ interface KeyCacheDao {
     @Query("SELECT * FROM date")
     suspend fun getAllEntries(): List<KeyCacheEntity>
 
+    @Query("SELECT * FROM date WHERE id IN (:idList)")
+    suspend fun getAllEntries(idList: List<String>): List<KeyCacheEntity>
+
     @Query("DELETE FROM date")
     suspend fun clear()
 
@@ -43,6 +46,9 @@ interface KeyCacheDao {
 
     @Delete
     suspend fun deleteEntry(entity: KeyCacheEntity)
+
+    @Delete
+    suspend fun deleteEntries(entities: List<KeyCacheEntity>)
 
     @Insert
     suspend fun insertEntry(keyCacheEntity: KeyCacheEntity): Long
