@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * The fragment displays static informative content to the user
@@ -21,21 +22,15 @@ class MainOverviewFragment : Fragment() {
         private val TAG: String? = MainOverviewFragment::class.simpleName
     }
 
-    private var _binding: FragmentMainOverviewBinding? = null
-    private val binding: FragmentMainOverviewBinding get() = _binding!!
+    private var binding: FragmentMainOverviewBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainOverviewBinding.inflate(inflater)
+        binding = FragmentMainOverviewBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
