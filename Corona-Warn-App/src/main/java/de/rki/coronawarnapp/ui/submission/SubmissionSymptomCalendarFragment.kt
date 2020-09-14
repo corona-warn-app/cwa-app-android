@@ -8,15 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
+import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainFragmentDirections
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
-class SubmissionSymptomIntroductionFragment : Fragment() {
+class SubmissionSymptomCalendarFragment : Fragment() {
 
-    private var _binding: FragmentSubmissionSymptomIntroBinding? = null
-    private val binding: FragmentSubmissionSymptomIntroBinding get() = _binding!!
+    private var _binding: FragmentSubmissionSymptomCalendarBinding? = null
+    private val binding: FragmentSubmissionSymptomCalendarBinding get() = _binding!!
     private val submissionViewModel: SubmissionViewModel by viewModels()
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSubmissionSymptomIntroBinding.inflate(inflater)
+        _binding = FragmentSubmissionSymptomCalendarBinding.inflate(inflater)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -39,30 +39,30 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.symptomIntroductionEvent.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.symptomCalendarEvent.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
-                is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
+                is SymptomCalendarEvent.NavigateToNext -> navigateToSymptomFinish()
+                is SymptomCalendarEvent.NavigateToPrevious-> navigateToPreviousScreen()
             }
         })
     }
 
-    private fun navigateToSymptomCalendar() {
-        findNavController().doNavigate(SubmissionSymptomIntroductionFragmentDirections
-            .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment())
+    private fun navigateToSymptomFinish() {
+        // TODO: Place here the route to the next fragment
     }
 
     private fun navigateToPreviousScreen() {
-        // TODO: Place here the route to the previous fragment
+        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
+            .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
     }
 
     private fun setButtonOnClickListener() {
         binding
-            .submissionSymptomHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { submissionViewModel.onPreviousClicked() }
+            .submissionSymptomCalendarHeader.headerButtonBack.buttonIcon
+            .setOnClickListener { submissionViewModel.onCalendarPreviousClicked() }
 
         binding
             .symptomButtonNext
-            .setOnClickListener { submissionViewModel.onNextClicked() }
+            .setOnClickListener { submissionViewModel.onCalendarNextClicked() }
     }
 }

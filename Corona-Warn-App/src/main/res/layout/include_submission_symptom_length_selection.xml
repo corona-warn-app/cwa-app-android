@@ -6,25 +6,12 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
-        <variable
-            name="currentButtonSelected"
-            type="String" />
+        <import type="de.rki.coronawarnapp.submission.StartOfSymptoms"/>
 
         <variable
-            name="lessSevenState"
-            type="String" />
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
 
-        <variable
-            name="oneTwoWeeksState"
-            type="String" />
-
-        <variable
-            name="moreTwoWeeksState"
-            type="String" />
-
-        <variable
-            name="verifyState"
-            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,13 +24,14 @@
         <Button
             android:id="@+id/calendar_button_seven_days"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,lessSevenState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatCalendarBackgroundButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.LastSevenDays)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_less_seven}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,lessSevenState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatCalendarButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.LastSevenDays)}"
+            android:onClick="@{() -> submissionViewModel.onLastSevenDaysStart()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
@@ -52,13 +40,14 @@
         <Button
             android:id="@+id/calendar_button_one_two_weeks"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,oneTwoWeeksState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatCalendarBackgroundButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.OneToTwoWeeksAgo)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_one_two_weeks}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,oneTwoWeeksState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatCalendarButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.OneToTwoWeeksAgo)}"
+            android:onClick="@{() -> submissionViewModel.onOneToTwoWeeksAgoStart()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar_button_seven_days" />
@@ -66,13 +55,14 @@
         <Button
             android:id="@+id/calendar_button_more_than_two_weeks"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,moreTwoWeeksState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatCalendarBackgroundButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.MoreThanTwoWeeks)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_more_two_weeks}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,moreTwoWeeksState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatCalendarButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.MoreThanTwoWeeks)}"
+            android:onClick="@{() -> submissionViewModel.onMoreThanTwoWeeksStart()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar_button_one_two_weeks" />
@@ -80,13 +70,14 @@
         <Button
             android:id="@+id/target_button_verify"
             style="@style/selectionButton"
-            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(currentButtonSelected,verifyState)}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatCalendarBackgroundButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.NoInformation)}"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_verify}"
-            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(currentButtonSelected,verifyState)}"
+            android:textColor="@{FormatterSubmissionHelper.formatCalendarButtonStyleByState(submissionViewModel.symptomStart, StartOfSymptoms.NoInformation)}"
+            android:onClick="@{() -> submissionViewModel.onNoInformationStart()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar_button_more_than_two_weeks" />

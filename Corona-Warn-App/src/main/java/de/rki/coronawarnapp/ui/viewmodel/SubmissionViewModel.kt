@@ -12,10 +12,12 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.StartOfSymptoms
 import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
@@ -37,6 +39,7 @@ class SubmissionViewModel : ViewModel() {
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
     val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
+    val symptomCalendarEvent: SingleLiveEvent<SymptomCalendarEvent> = SingleLiveEvent()
 
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
@@ -55,6 +58,8 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     val symptomIndication = MutableLiveData<SymptomIndication>().apply { SymptomIndication.POSITIVE }
+    val symptomStart = MutableLiveData<StartOfSymptoms>().apply { StartOfSymptoms.LastSevenDays }
+
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
@@ -157,6 +162,14 @@ class SubmissionViewModel : ViewModel() {
         symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToPreviousScreen
     }
 
+    fun onCalendarNextClicked() {
+        symptomCalendarEvent.value = SymptomCalendarEvent.NavigateToNext
+    }
+
+    fun onCalendarPreviousClicked() {
+        symptomCalendarEvent.value = SymptomCalendarEvent.NavigateToPrevious
+    }
+
     fun onPositiveSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.POSITIVE)
     }
@@ -167,5 +180,21 @@ class SubmissionViewModel : ViewModel() {
 
     fun onNoInformationSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.NO_INFORMATION)
+    }
+
+    fun onLastSevenDaysStart() {
+        symptomStart.postValue(StartOfSymptoms.LastSevenDays)
+    }
+
+    fun onOneToTwoWeeksAgoStart() {
+        symptomStart.postValue(StartOfSymptoms.OneToTwoWeeksAgo)
+    }
+
+    fun onMoreThanTwoWeeksStart() {
+        symptomStart.postValue(StartOfSymptoms.MoreThanTwoWeeks)
+    }
+
+    fun onNoInformationStart() {
+        symptomStart.postValue(StartOfSymptoms.NoInformation)
     }
 }
