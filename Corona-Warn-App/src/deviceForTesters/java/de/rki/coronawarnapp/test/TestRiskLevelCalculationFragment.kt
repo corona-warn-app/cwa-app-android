@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp
+package de.rki.coronawarnapp.test
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +15,7 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -50,9 +51,9 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
-class TestRiskLevelCalculation : Fragment() {
+class TestRiskLevelCalculationFragment : Fragment() {
     companion object {
-        val TAG: String? = TestRiskLevelCalculation::class.simpleName
+        val TAG: String? = TestRiskLevelCalculationFragment::class.simpleName
     }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
