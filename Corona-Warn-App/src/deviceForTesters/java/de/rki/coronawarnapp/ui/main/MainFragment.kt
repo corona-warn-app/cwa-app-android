@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -44,25 +45,19 @@ class MainFragment : Fragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentMainBinding? = null
-    private val binding: FragmentMainBinding get() = _binding!!
+    private var binding: FragmentMainBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainBinding.inflate(inflater)
+        binding = FragmentMainBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -154,6 +149,8 @@ class MainFragment : Fragment() {
     private fun showPopup(view: View) {
         val popup = PopupMenu(requireContext(), view)
         popup.inflate(R.menu.menu_main)
+        // TODO we shouldn't have to duplicate the whole fragment to add these items
+        // In the future we'd like a DI'ed class that changes the navigation for this MainFragment?
         popup.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
@@ -188,7 +185,6 @@ class MainFragment : Fragment() {
 
         // check if the dialog explaining the tracing time was already shown
         if (!LocalData.tracingExplanationDialogWasShown()) {
-
 
             val activity = this.requireActivity()
 

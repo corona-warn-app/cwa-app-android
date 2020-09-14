@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
@@ -18,8 +19,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
  */
 class SubmissionContactFragment : Fragment() {
 
-    private var _binding: FragmentSubmissionContactBinding? = null
-    private val binding: FragmentSubmissionContactBinding get() = _binding!!
+    private var binding: FragmentSubmissionContactBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,13 +27,8 @@ class SubmissionContactFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionContactBinding.inflate(inflater)
+        binding = FragmentSubmissionContactBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
+import org.joda.time.Instant
 import java.util.Date
 
 /**
@@ -17,6 +18,11 @@ import java.util.Date
 object LocalData {
 
     private val TAG: String? = LocalData::class.simpleName
+
+    private const val PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS =
+        "preference_next_time_rate_limiting_unlocks"
+    private const val PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT =
+        "preference_google_api_provide_diagnosis_keys_call_count"
 
     /****************************************************
      * ONBOARDING DATA
@@ -71,6 +77,30 @@ object LocalData {
         putLong(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_onboarding_completed_timestamp), value
+        )
+    }
+
+    /**
+     * Gets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @return boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext().getString(R.string.preference_background_check_done),
+        false
+    )
+
+    /**
+     * Sets the boolean if the user has received the background warning
+     * from the EncryptedSharedPrefs
+     *
+     * @param value boolean if background warning was shown
+     */
+    fun isBackgroundCheckDone(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_check_done), value
         )
     }
     /****************************************************
@@ -365,6 +395,40 @@ object LocalData {
             )
         }
     }
+
+    var nextTimeRateLimitingUnlocks: Instant
+        get() {
+            return Instant.ofEpochMilli(
+                getSharedPreferenceInstance().getLong(
+                    PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS,
+                    0L
+                )
+            )
+        }
+        set(value) {
+            getSharedPreferenceInstance().edit(true) {
+                putLong(
+                    PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS,
+                    value.millis
+                )
+            }
+        }
+
+    var googleAPIProvideDiagnosisKeysCallCount: Int
+        get() {
+            return getSharedPreferenceInstance().getInt(
+                PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT,
+                0
+            )
+        }
+        set(value) {
+            getSharedPreferenceInstance().edit(true) {
+                putInt(
+                    PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT,
+                    value
+                )
+            }
+        }
 
     /**
      * Gets the last time of successful risk level calculation as long
@@ -666,6 +730,19 @@ object LocalData {
     fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
         CoronaWarnApplication.getAppContext()
             .getString(R.string.preference_last_three_hours_from_server), false
+    )
+
+    fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
+        putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_background_notification),
+            value
+        )
+    }
+
+    fun backgroundNotification(): Boolean = getSharedPreferenceInstance().getBoolean(
+        CoronaWarnApplication.getAppContext()
+            .getString(R.string.preference_background_notification), false
     )
 
     /****************************************************

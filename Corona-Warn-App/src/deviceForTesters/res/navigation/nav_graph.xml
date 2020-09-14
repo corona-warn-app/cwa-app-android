@@ -174,7 +174,7 @@
     <!-- Submission -->
     <fragment
         android:id="@+id/testForAPIFragment"
-        android:name="de.rki.coronawarnapp.TestForAPIFragment"
+        android:name="de.rki.coronawarnapp.test.TestForAPIFragment"
         android:label="@layout/fragment_test_for_a_p_i"
         tools:layout="@layout/fragment_test_for_a_p_i" />
 
@@ -224,6 +224,10 @@
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionTestResultFragment"
         android:label="fragment_submission_result"
         tools:layout="@layout/fragment_submission_test_result">
+        <argument
+            android:name="skipInitialTestResultRefresh"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_submissionResultFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -240,15 +244,15 @@
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
-            android:id="@+id/action_submissionTanFragment_to_submissionDispatcherFragment"
-            app:destination="@id/submissionDispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_submissionTanFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
             app:popUpTo="@id/submissionResultFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true">
+            <argument
+                android:name="skipInitialTestResultRefresh"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
     </fragment>
 
     <fragment
@@ -284,7 +288,12 @@
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
-            app:popUpTo="@id/submissionResultFragment" />
+            app:popUpTo="@id/submissionResultFragment">
+            <argument
+                android:name="skipInitialTestResultRefresh"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/submissionDoneFragment"
@@ -306,7 +315,7 @@
     </fragment>
     <fragment
         android:id="@+id/testRiskLevelCalculation"
-        android:name="de.rki.coronawarnapp.TestRiskLevelCalculation"
+        android:name="de.rki.coronawarnapp.test.TestRiskLevelCalculationFragment"
         android:label="fragment_test_risk_level_calculation"
         tools:layout="@layout/fragment_test_risk_level_calculation" />
 </navigation>

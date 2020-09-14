@@ -12,6 +12,8 @@
     <!-- NOTR -->
     <string name="preference_onboarding_completed_timestamp"><xliff:g id="preference">"preference_onboarding_completed_timestamp"</xliff:g></string>
     <!-- NOTR -->
+    <string name="preference_background_check_done"><xliff:g id="preference">"preference_background_check_done"</xliff:g></string>
+    <!-- NOTR -->
     <string name="preference_reset_app"><xliff:g id="preference">"preference_reset_app"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_only_wifi"><xliff:g id="preference">"preference_only_wifi"</xliff:g></string>
@@ -133,11 +135,22 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"No exposure up to now"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"No exposure with low risk so far"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
+        <item quantity="one">"%1$s exposure with low risk"</item>
+        <item quantity="other">"%1$s exposures with low risk"</item>
+        <item quantity="zero">"No exposure with low risk so far"</item>
+        <item quantity="two">"%1$s exposures with low risk"</item>
+        <item quantity="few">"%1$s exposures with low risk"</item>
+        <item quantity="many">"%1$s exposures with low risk"</item>
+    </plurals>
+    <!-- XTXT: risk card - number of contacts for one or more -->
+    <plurals name="risk_card_body_contact_value_high_risk">
         <item quantity="one">"%1$s exposure"</item>
         <item quantity="other">"%1$s exposures"</item>
-        <item quantity="zero">"%1$s exposures"</item>
+        <item quantity="zero">"No exposure up to now"</item>
         <item quantity="two">"%1$s exposures"</item>
         <item quantity="few">"%1$s exposures"</item>
         <item quantity="many">"%1$s exposures"</item>
@@ -152,6 +165,8 @@
     <string name="risk_card_body_time_fetched">"Updated: %1$s"</string>
     <!-- XTXT: risk card - next update -->
     <string name="risk_card_body_next_update">"Updated daily"</string>
+    <!-- XTXT: risk card - hint to open the app daily -->
+    <string name="risk_card_body_open_daily">"Note: Please open the app daily to update your risk status."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Update"</string>
     <!-- XBUT: risk card - update risk with time display -->
@@ -163,7 +178,7 @@
     <!-- XHED: risk card - low risk headline -->
     <string name="risk_card_low_risk_headline">"Low Risk"</string>
     <!-- XHED: risk card - increased risk headline -->
-    <string name="risk_card_increased_risk_headline">"Higher Risk"</string>
+    <string name="risk_card_increased_risk_headline">"Increased Risk"</string>
     <!-- XTXT: risk card - increased risk days since last contact -->
     <plurals name="risk_card_increased_risk_body_contact_last">
         <item quantity="one">"%1$s day since the last encounter"</item>
@@ -241,7 +256,7 @@
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"The following risk status can be shown:"</string>
     <!-- XTXT: App overview increased risk level -->
-    <string name="main_overview_subtitle_increased_risk">"Higher Risk"</string>
+    <string name="main_overview_subtitle_increased_risk">"Increased Risk"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Low Risk"</string>
     <!-- XTXT: App overview unknown risk level -->
@@ -263,7 +278,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -283,6 +298,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Your Risk Status"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Exposures with low risk"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Why your risk of infection is low"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"You encountered a person who was later diagnosed with COVID-19. Nevertheless, based on your exposure logging data, your risk of infection is low. The risk is low if your encounter was brief or occurred at a distance. You do not need to worry and there is no specific need for action. We recommend that you adhere to the prevailing rules regarding distancing and hygiene."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -292,7 +313,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"If you have questions about symptoms, testing availability, or self-isolation, please contact one of the following:"</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for 20 seconds."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
@@ -307,9 +328,9 @@
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
-    <!-- XHED: risk details - infection period logged heading, below behaviors -->
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_headline_period_logged">"Period logged"</string>
-    <!-- XHED: risk details - infection period logged subtitle, below behaviors -->
+    <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently."</string>
@@ -325,17 +346,23 @@
     <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with COVID-19 was logged, or because your encounters were only for a short time and at a greater distance."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"The risk of infection is calculated locally on your device, using exposure logging data. The calculation also takes into account distance and duration of any exposure to persons diagnosed with COVID-19, as well as their potential infectiousness. Your risk of infection cannot be seen by or passed on to anyone else."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"You have a higher risk of infection because you were last exposed %1$s day ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="other">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="zero">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="two">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="few">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
-        <item quantity="many">"You have a higher risk of infection because you were last exposed %1$s days ago over a longer period of time and in close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="other">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="zero">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="two">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="few">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
+        <item quantity="many">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with COVID-19."</item>
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
+    <!-- YTXT: risk details - risk calculation explanation for low risk -->
+    <string name="risk_details_information_body_notice_low">"Therefore, your risk of infection has been ranked as low. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
+    <!-- YTXT: risk details - risk calculation explanation for increased risk -->
+    <string name="risk_details_information_body_notice_increased">"Therefore, your risk of infection has been ranked as increased. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else. When you get home, please also avoid close contact with members of your family or household."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -393,10 +420,14 @@
     <string name="onboarding_tracing_body">"Exposure logging works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your own random ID to their devices. This feature can be deactivated at any time."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration and proximity (using signal strength) to other people. Personal data such as name, address, location is never recorded. Individuals cannot be identified."</string>
+    <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
+    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"App Information in Simplified Language and Sign Language"</a></string>
+    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
+    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Declaration of Consent"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping on the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the COVID-19 Exposure Logging functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyses this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
+    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the COVID-19 Exposure Logging functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Activate Exposure Logging"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -407,6 +438,28 @@
     <string name="onboarding_tracing_dialog_button_positive">"Do Not Activate"</string>
     <!-- XBUT: onboarding(tracing) - negative button (right) -->
     <string name="onboarding_tracing_dialog_button_negative">"Back"</string>
+    <!-- XACT: onboarding(tracing) - dialog about background jobs header text -->
+    <string name="onboarding_background_fetch_dialog_headline">"Background updates deactivated"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
+    <string name="onboarding_background_fetch_dialog_body">"You have deactivated background updates for the Corona-Warn-App. Please activate background updates to use automatic exposure logging. If you do not activate background updates, you can only start exposure logging manually in the app. You can activate background updates for the app in your device settings."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
+    <string name="onboarding_background_fetch_dialog_button_positive">"Open Device Settings"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
+    <string name="onboarding_background_fetch_dialog_button_negative">"Start Exposure Logging Manually"</string>
+    <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
+    <string name="onboarding_energy_optimized_dialog_headline">"Allow prioritized background activity"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about energy optimized -->
+    <string name="onboarding_energy_optimized_dialog_body">"Enable prioritized background activity to allow the App to determine your risk status in the background any time (recommended). This disables battery life optimization for the Corona-Warn-App only. We do not expect this to cause a significant decrease in your device\'s battery life.\n\nIf you do not allow this setting, we recommend you to open the App manually at least once every 24 hours."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, open device settings -->
+    <string name="onboarding_energy_optimized_dialog_button_positive">"Allow"</string>
+    <!-- XBUT: onboarding(tracing) - dialog about energy optimized, continue in app -->
+    <string name="onboarding_energy_optimized_dialog_button_negative">"Do Not Allow"</string>
+    <!-- XACT: onboarding(tracing) - dialog about manual checking header text -->
+    <string name="onboarding_manual_required_dialog_headline">"Prioritized background activity disabled"</string>
+    <!-- YMSI: onboarding(tracing) - dialog about manual checking -->
+    <string name="onboarding_manual_required_dialog_body">"Please note that with prioritized background activity disabled, you have to open the App manually at least once every 24 hours to update your risk status.\n\nYou can enable prioritized background activity in your settings any time."</string>
+    <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
+    <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
     <string name="onboarding_tracing_illustration_description">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
@@ -437,6 +490,17 @@
     <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
 
     <!-- ####################################
+             Onboarding sixteen include
+   ###################################### -->
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_title_text">"Age Limit: 16 and Up"</string>
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_description_text">"This app is intended for people who reside in Germany and who are at least 16 years of age."</string>
+
+
+    <!-- ####################################
                   Settings
     ###################################### -->
 
@@ -457,9 +521,9 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
     <string name="settings_tracing_body_inactive">"Exposure logging stopped"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
-    <string name="settings_tracing_body_inactive_location">"Location service deactivated"</string>
+    <string name="settings_tracing_body_inactive_location">"Location services deactivated"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Exposure logging works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. This feature can be deactivated at any time. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity (calculated using signal strength) to other people. Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
+    <string name="settings_tracing_body_text">"You have to activate the exposure logging feature to identify whether you are at risk of infection. Risk identification works by your device receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their devices. You can disable this feature any time."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity to other persons (calculated by signal strength). Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Active"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -503,6 +567,8 @@
     <string name="settings_tracing_illustration_description_inactive">"A person has deactivated exposure logging on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
+    <!-- XACT: settings(tracing) - describes illustration -->
+    <string name="settings_tracing_location_illustration_description_inactive"/>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"A person has turned off the Internet connection on their smartphone, so an encounter with two other persons is not logged."</string>
 
@@ -563,15 +629,17 @@
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
     <string name="settings_background_priority_body_description">"Allow automatic risk status updates"</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
-    <string name="settings_background_priority_headline">"Run Corona-Warn-App in Background"</string>
+    <string name="settings_background_priority_headline">"Update Risk Status Automatically"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"Corona-Warn-App runs in the background permanently if you activate prioritized background activity. This enables the app to determine your risk status any time."</string>
+    <string name="settings_background_priority_body">"If you activate prioritized background activity, the App can determine your risk status at any time. This disables battery life optimization for the Corona-Warn-App only."</string>
+    <!-- XACT: settings(background priority) - illustraction description -->
+    <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">To turn off Prioritized Background Activity, please disable it in your device settings.</string>
+    <string name="settings_background_priority_card_body">"To disable prioritized background activity, please deactivate it in the device settings."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">Open Device Settings</string>
+    <string name="settings_background_priority_card_button">"Open Device Settings"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">Turn off Prioritized Background Activity</string>
+    <string name="settings_background_priority_card_headline">"Disable prioritized background activity"</string>
 
     <!-- ####################################
                App Information
@@ -646,7 +714,13 @@
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"Contact"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
-    <string name="information_legal_subtitle_contact">"E-Mail: CoronaWarnApp@rki.de"<xliff:g id="line_break">"\n"</xliff:g>"Telephone: +49 30 18754 5100"</string>
+    <string name="information_legal_subtitle_contact">"E-mail: CoronaWarnApp@rki.de"</string>
+    <!-- YTXT: subtitle for legal information page, open contact form : Only has to be translated in URL for English FOrm-->
+    <string name="information_legal_subtitle_contact_label">"Contact Form"</string>
+    <!-- YTXT: subtitle for legal information page url : Only has to be translated in URL for English FOrm-->
+    <string name="information_legal_subtitle_contact_url">"https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html"</string>
+    <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
+    <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
     <string name="information_legal_headline_taxid">"VAT identification number"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
@@ -669,9 +743,9 @@
     <string name="submission_error_dialog_web_generic_error_button_positive">"Back"</string>
 
     <!-- XHED: Dialog title for already paired test error -->
-    <string name="submission_error_dialog_web_test_paired_title">"Error"</string>
+    <string name="submission_error_dialog_web_test_paired_title">"QR code is invalid"</string>
     <!-- XMSG: Dialog body for already paired test error -->
-    <string name="submission_error_dialog_web_test_paired_body">"The QR code/TAN is invalid or has been used already. Please try again or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
+    <string name="submission_error_dialog_web_test_paired_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Back"</string>
 
@@ -685,9 +759,16 @@
     <!-- XHED: Dialog title for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_title">"Error"</string>
     <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"A TAN for submission could not be generated. Please contact the technical hotline via App Information → Technical Hotline."</string>
+    <string name="submission_error_dialog_web_tan_invalid_body">"The generated TAN is invalid for submission. Please contact the technical hotline via App Information → Technical Hotline."</string>
     <!-- XBUT: Positive button for submission tan invalid -->
     <string name="submission_error_dialog_web_tan_invalid_button_positive">"Back"</string>
+
+    <!-- XHED: Dialog title for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_title">"Test has errors"</string>
+    <!-- XMSG: Dialog body for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_body">"There was a problem evaluating your test. Your QR code has already expired."</string>
+    <!-- XBUT: Positive button for submission tan redeemed -->
+    <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
@@ -709,9 +790,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"Incorrect QR code"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR code is invalid"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is not correct. Please try again."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Please try again."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -758,7 +839,7 @@
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Your Test Result"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the public health authority to find out how to proceed.\n\nPlease delete the test from your Corona-Warn-App so that you will be able to save a new test code there, if necessary."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the test center or laboratory involved to find out how to proceed.\n\nPlease delete the test from your Corona-Warn-App so that you will be able to save a new test code there, if necessary."</string>
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Delete Test"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -768,9 +849,9 @@
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Delete the test?"</string>
+    <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"The test will be permanently deleted from the Corona-Warn-App and cannot be added again. This procedure cannot be undone."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"If you remove the test, you can no longer retrieve your test result. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Remove"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -800,7 +881,7 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">"This is how the Corona-Warn-App works"</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who were diagnosed with COVID-19.\n\nSince only encrypted random IDs are exchanged, you remain anonymous. You can now proceed as follows:"</string>
+    <string name="submission_intro_text">"For the app to work well, we are relying on the support of people who were diagnosed with COVID-19.\n\nSince only encrypted random IDs are exchanged, you will remain anonymous. You can now proceed as follows:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Next"</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
@@ -848,7 +929,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Please help all of us!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Next, you can make sure that the Corona-Warn-App shares your random IDs of the last 14 days with others. By doing this, you can warn other people and help to break the infection chain.\n\nSince only impersonal random IDs are transmitted, your identity remains anonymous."</string>
+    <string name="submission_positive_other_warning_body">"Next, you can make sure that the Corona-Warn-App shares your random IDs of the last 14 days with others. By doing this, you can warn other people and help to break the infection chain.\n\nSince only impersonal random IDs are transmitted, your identity will remain anonymous."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Data Privacy"</string>
     <!-- YTXT: Body text for the privacy card-->
@@ -890,7 +971,7 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"How this works:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"Please keep your test result (if available) and your phone number ready to request a TAN."</string>
+    <string name="submission_contact_body">"Please keep your test result (if available) and your phone number ready to request a TAN.\n\nPeople with hearing impairments can use Tess Relay services (interpreting between German written language and sign language) to contact the phone hotline. You can download the software from Google Play."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Call"</string>
     <!-- XBUT: submission contact enter tan button -->
@@ -1006,7 +1087,7 @@
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
     <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 exposure notifications\" service is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
-    <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/ \n"</string>
+    <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
 
     <!-- ####################################
                Generic Error Messages

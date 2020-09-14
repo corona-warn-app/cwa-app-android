@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.DataRetentionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -33,21 +34,15 @@ class SettingsResetFragment : Fragment() {
         private val TAG: String? = SettingsResetFragment::class.simpleName
     }
 
-    private var _binding: FragmentSettingsResetBinding? = null
-    private val binding: FragmentSettingsResetBinding get() = _binding!!
+    private var binding: FragmentSettingsResetBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSettingsResetBinding.inflate(inflater)
+        binding = FragmentSettingsResetBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
