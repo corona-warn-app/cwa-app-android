@@ -4,6 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.di.Injector
 import io.mockk.Runs
@@ -34,7 +35,8 @@ class RetrieveDiagnosisKeysTransactionTest {
         mockkObject(Injector)
         val appComponent = mockk<ApplicationComponent>().apply {
             every { transRetrieveKeysInjection } returns RetrieveDiagnosisInjectionHelper(
-                TransactionCoroutineScope()
+                TransactionCoroutineScope(),
+                GoogleAPIVersion()
             )
         }
         every { Injector.component } returns appComponent
@@ -52,6 +54,9 @@ class RetrieveDiagnosisKeysTransactionTest {
                 any()
             )
         } returns mockk()
+        coEvery {
+            InternalExposureNotificationClient.getVersion()
+        } returns 17000000L
         coEvery { ApplicationConfigurationService.asyncRetrieveExposureConfiguration() } returns mockk()
         every { LocalData.googleApiToken(any()) } just Runs
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()

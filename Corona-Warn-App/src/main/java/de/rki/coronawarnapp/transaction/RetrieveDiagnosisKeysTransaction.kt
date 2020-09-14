@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.GoogleQuotaCalculator
 import de.rki.coronawarnapp.util.QuotaCalculator
 import de.rki.coronawarnapp.util.di.Injector
@@ -140,6 +141,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         quotaTimeZone = DateTimeZone.UTC,
         quotaChronology = GJChronology.getInstanceUTC()
     )
+
+    private val googleAPIVersion: GoogleAPIVersion by lazy {
+        AppInjector.component.transRetrieveKeysInjection.googleAPIVersion
+    }
 
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
@@ -316,11 +321,21 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-            exportFiles,
-            exposureConfiguration,
-            token
-        )
+        if (googleAPIVersion.isAbove(GoogleAPIVersion.V16)) {
+            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                exportFiles,
+                exposureConfiguration,
+                token
+            )
+        } else {
+            exportFiles.forEach { batch ->
+                InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                    listOf(batch),
+                    exposureConfiguration,
+                    token
+                )
+            }
+        }
         Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }
 
