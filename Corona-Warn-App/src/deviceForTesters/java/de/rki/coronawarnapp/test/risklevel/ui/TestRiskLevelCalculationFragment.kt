@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test
+package de.rki.coronawarnapp.test.risklevel.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,29 +22,22 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
-import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
-import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import de.rki.coronawarnapp.ui.test.TestRiskLevelCalculationFragmentVDC
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.VDCSource
 import de.rki.coronawarnapp.util.viewmodel.vdcsAssisted
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.util.UUID
@@ -56,7 +49,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
 class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
-    private val navArgs by navArgs<TestRiskLevelCalculationArgs>()
+    private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()
 
     @Inject
     lateinit var vdcSource: VDCSource.Factory
@@ -112,32 +105,14 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
         }
 
         binding.buttonResetRiskLevel.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    try {
-                        // Preference reset
-                        SecurityHelper.resetSharedPrefs()
-                        // Database Reset
-                        AppDatabase.reset(requireContext())
-                        // Export File Reset
-                        FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
-
-                        LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
-                        LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
-                        LocalData.lastTimeDiagnosisKeysFromServerFetch(null)
-                        LocalData.googleApiToken(null)
-                    } catch (e: java.lang.Exception) {
-                        e.report(ExceptionCategory.INTERNAL)
-                    }
-                }
-                RiskLevelTransaction.start()
-                Toast.makeText(
-                    requireContext(), "Reset done, please fetch diagnosis keys from server again",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            vdc.resetRiskLevel()
         }
-
+        vdc.resetEvent.observe2(this) {
+            Toast.makeText(
+                requireContext(), "Reset done, please fetch diagnosis keys from server again",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
         startObserving()
     }
 
@@ -344,6 +319,6 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
         }
 
     companion object {
-        val TAG: String = TestRiskLevelCalculation::class.simpleName!!
+        val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!
     }
 }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.test
+package de.rki.coronawarnapp.test.risklevel.ui
 
 import dagger.Binds
 import dagger.Module
