@@ -166,7 +166,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             R.string.submission_error_dialog_confirm_cancellation_body,
             R.string.submission_error_dialog_confirm_cancellation_button_positive,
             R.string.submission_error_dialog_confirm_cancellation_button_negative,
-            false,
+            true,
             ::navigateToSubmissionResultFragment
         ))
     }
