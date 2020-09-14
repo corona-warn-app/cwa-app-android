@@ -8,6 +8,6 @@ import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentMo
 @Module
 abstract class MainActivityTestModule {
 
-     @ContributesAndroidInjector(modules = [TestRiskLevelCalculationFragmentModule::class])
-     abstract fun testRiskLevelCalculationFragment(): TestRiskLevelCalculationFragment
+    @ContributesAndroidInjector(modules = [TestRiskLevelCalculationFragmentModule::class])
+    abstract fun testRiskLevelCalculationFragment(): TestRiskLevelCalculationFragment
 }

@@ -130,7 +130,6 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
             val number = if (!text.isBlank()) Integer.valueOf(text) else 5
             vdc.provideDiagnosisKey(number, key)
         }
-
     }
 
     companion object {

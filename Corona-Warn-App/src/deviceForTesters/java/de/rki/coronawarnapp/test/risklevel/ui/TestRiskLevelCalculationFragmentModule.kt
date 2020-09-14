@@ -14,4 +14,3 @@ abstract class TestRiskLevelCalculationFragmentModule {
     @VDCKey(TestRiskLevelCalculationFragmentVDC::class)
     abstract fun testRiskLevelFragment(factory: TestRiskLevelCalculationFragmentVDC.Factory): VDCFactory<out VDC>
 }
-
