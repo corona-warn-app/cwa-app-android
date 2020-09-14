@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.main.MainFragmentDirections
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
 class SubmissionSymptomCalendarFragment : Fragment() {
@@ -42,7 +41,7 @@ class SubmissionSymptomCalendarFragment : Fragment() {
         submissionViewModel.symptomCalendarEvent.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SymptomCalendarEvent.NavigateToNext -> navigateToSymptomFinish()
-                is SymptomCalendarEvent.NavigateToPrevious-> navigateToPreviousScreen()
+                is SymptomCalendarEvent.NavigateToPrevious -> navigateToPreviousScreen()
             }
         })
     }

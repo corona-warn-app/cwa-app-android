@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.main.MainFragmentDirections
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
