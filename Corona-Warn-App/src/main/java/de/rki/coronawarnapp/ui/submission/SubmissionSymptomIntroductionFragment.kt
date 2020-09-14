@@ -36,7 +36,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.symptomRouteToScreen.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.symptomIntroductionEvent.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()

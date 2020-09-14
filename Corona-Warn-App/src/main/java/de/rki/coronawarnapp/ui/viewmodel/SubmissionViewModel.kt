@@ -36,7 +36,7 @@ class SubmissionViewModel : ViewModel() {
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
-    val symptomRouteToScreen: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
+    val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
 
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
@@ -150,11 +150,11 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun onNextClicked() {
-        symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToSymptomCalendar
+        symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToSymptomCalendar
     }
 
     fun onPreviousClicked() {
-        symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToPreviousScreen
+        symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToPreviousScreen
     }
 
     fun onPositiveSymptomIndication() {
