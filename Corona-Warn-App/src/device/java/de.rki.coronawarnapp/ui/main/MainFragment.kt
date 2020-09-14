@@ -124,7 +124,7 @@ class MainFragment : Fragment() {
             findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
         binding.mainRisk.riskCard.setOnClickListener {
-            findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+            findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSubmissionSymptomIntroductionFragment())
         }
         binding.mainRisk.riskCardButtonUpdate.setOnClickListener {
             tracingViewModel.refreshDiagnosisKeys()

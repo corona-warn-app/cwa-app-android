@@ -38,6 +38,8 @@ class SubmissionSymptomCalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
+        binding.symptomCalendarContainer.setDateSelectedListener(submissionViewModel::onDateSelected)
+
         submissionViewModel.symptomCalendarEvent.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SymptomCalendarEvent.NavigateToNext -> navigateToSymptomFinish()

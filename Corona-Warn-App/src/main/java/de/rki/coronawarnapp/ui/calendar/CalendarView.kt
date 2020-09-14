@@ -101,6 +101,8 @@ class CalendarView @JvmOverloads constructor(
      */
     private lateinit var adapter: CalendarAdapter
 
+    private var listener: ((LocalDate?) -> Unit)? = null
+
     /**
      * On item click event listener
      *
@@ -114,6 +116,8 @@ class CalendarView @JvmOverloads constructor(
         updateSelection(updateData.any { it.isSelected })
 
         adapter.update(updateData)
+
+        listener?.invoke(updateData.find { it.isSelected }?.date)
     }
 
     init {
@@ -153,6 +157,10 @@ class CalendarView @JvmOverloads constructor(
 
         // Setup month
         setUpMonthTextView(this)
+    }
+
+    fun setDateSelectedListener(listener: (LocalDate?) -> Unit) {
+         this.listener = listener
     }
 
     /**

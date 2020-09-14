@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
+import org.joda.time.LocalDate
 import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
@@ -58,7 +59,7 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     val symptomIndication = MutableLiveData<SymptomIndication>().apply { SymptomIndication.POSITIVE }
-    val symptomStart = MutableLiveData<StartOfSymptoms>().apply { StartOfSymptoms.LastSevenDays }
+    val symptomStart = MutableLiveData<StartOfSymptoms?>()
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
@@ -195,5 +196,9 @@ class SubmissionViewModel : ViewModel() {
 
     fun onNoInformationStart() {
         symptomStart.postValue(StartOfSymptoms.NoInformation)
+    }
+
+    fun onDateSelected(localDate: LocalDate?) {
+        symptomStart.postValue(if (localDate == null) null else StartOfSymptoms.Date(localDate.toDate().time))
     }
 }

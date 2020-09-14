@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionSymptomIntroductionFragment2"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
 
     <fragment

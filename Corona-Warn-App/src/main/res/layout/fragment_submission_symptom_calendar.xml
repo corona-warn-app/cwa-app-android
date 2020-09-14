@@ -7,6 +7,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
+        <import type="de.rki.coronawarnapp.submission.StartOfSymptoms"/>
+
         <variable
             name="submissionViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
@@ -59,16 +61,14 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_headline" />
 
-            <de.rki.coronawarnapp.ui.view.BulletPointList
-                android:id="@+id/further_info_text"
-                android:layout_width="@dimen/match_constraint"
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/symptom_calendar_container"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:entries="@array/submission_symptom_symptom_bullets"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_body" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_body"/>
 
             <include
                 android:id="@+id/symptom_calendar_choice_selection"
@@ -78,7 +78,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/further_info_text" />
+                app:layout_constraintTop_toBottomOf="@+id/symptom_calendar_container" />
 
             <Button
                 android:id="@+id/symptom_button_next"
