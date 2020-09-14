@@ -149,11 +149,11 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun navigateToSymptomCalendar() {
+    fun onNextClicked() {
         symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToSymptomCalendar
     }
 
-    fun navigateToPreviousScreen() {
+    fun onPreviousClicked() {
         symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToPreviousScreen
     }
 

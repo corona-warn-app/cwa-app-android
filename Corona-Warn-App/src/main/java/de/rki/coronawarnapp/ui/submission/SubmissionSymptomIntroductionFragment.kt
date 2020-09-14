@@ -55,10 +55,10 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { submissionViewModel.navigateToPreviousScreen() }
+            .setOnClickListener { submissionViewModel.onPreviousClicked() }
 
         binding
             .symptomButtonNext
-            .setOnClickListener { submissionViewModel.navigateToSymptomCalendar() }
+            .setOnClickListener { submissionViewModel.onNextClicked() }
     }
 }
