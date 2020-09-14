@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp
+package de.rki.coronawarnapp.test
 
 import android.content.Context
 import android.content.Intent
@@ -32,6 +32,8 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ExceptionCategory

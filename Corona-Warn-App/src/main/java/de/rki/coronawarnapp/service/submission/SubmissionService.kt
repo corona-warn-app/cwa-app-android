@@ -65,18 +65,9 @@ object SubmissionService {
     }
 
     fun containsValidGUID(scanResult: String): Boolean {
-        if (scanResult.length > SubmissionConstants.MAX_QR_CODE_LENGTH ||
-            scanResult.count { it == SubmissionConstants.GUID_SEPARATOR } != 1
-        )
-            return false
-
-        val potentialGUID = extractGUID(scanResult)
-
-        return !(potentialGUID.isEmpty() || potentialGUID.length > SubmissionConstants.MAX_GUID_LENGTH)
+        val scanResult = QRScanResult(scanResult)
+        return scanResult.isValid
     }
-
-    fun extractGUID(scanResult: String): String =
-        scanResult.substringAfterLast(SubmissionConstants.GUID_SEPARATOR, "")
 
     fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
 

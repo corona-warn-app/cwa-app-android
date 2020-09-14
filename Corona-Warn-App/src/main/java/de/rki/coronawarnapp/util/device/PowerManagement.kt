@@ -11,5 +11,5 @@ interface PowerManagement {
 
     val toBatteryOptimizationSettingsIntent: Intent
 
-    fun disableBatteryOptimizations()
+    val disableBatteryOptimizationsIntent: Intent
 }
