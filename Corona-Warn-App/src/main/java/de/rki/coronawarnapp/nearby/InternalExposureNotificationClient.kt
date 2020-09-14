@@ -92,6 +92,15 @@ object InternalExposureNotificationClient {
             }
     }
 
+    suspend fun getVersion(): Long = suspendCoroutine { cont ->
+        exposureNotificationClient.version
+            .addOnSuccessListener {
+                cont.resume(it)
+            }.addOnFailureListener {
+                cont.resumeWithException(it)
+            }
+    }
+
     /**
      * Takes an ExposureConfiguration object. Inserts a list of files that contain key
      * information into the on-device database. Provide the keys of confirmed cases retrieved
@@ -160,4 +169,11 @@ object InternalExposureNotificationClient {
                     cont.resumeWithException(it)
                 }
         }
+
+    /**
+     * Indicates if device supports scanning without location service
+     *
+     * @return
+     */
+    fun deviceSupportsLocationlessScanning() = exposureNotificationClient.deviceSupportsLocationlessScanning()
 }

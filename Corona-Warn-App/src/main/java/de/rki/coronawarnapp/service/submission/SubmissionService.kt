@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -27,7 +28,7 @@ object SubmissionService {
     }
 
     private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
-        val registrationToken =
+        val (registrationToken, testResult) =
             PlaybookImpl(WebRequestBuilder.getInstance()).initialRegistration(
                 guid,
                 KeyType.GUID
@@ -35,10 +36,11 @@ object SubmissionService {
 
         LocalData.registrationToken(registrationToken)
         deleteTestGUID()
+        SubmissionRepository.updateTestResult(testResult)
     }
 
     private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
-        val registrationToken =
+        val (registrationToken, testResult) =
             PlaybookImpl(WebRequestBuilder.getInstance()).initialRegistration(
                 tan,
                 KeyType.TELETAN
@@ -46,6 +48,7 @@ object SubmissionService {
 
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
+        SubmissionRepository.updateTestResult(testResult)
     }
 
     suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>) {
@@ -62,18 +65,9 @@ object SubmissionService {
     }
 
     fun containsValidGUID(scanResult: String): Boolean {
-        if (scanResult.length > SubmissionConstants.MAX_QR_CODE_LENGTH ||
-            scanResult.count { it == SubmissionConstants.GUID_SEPARATOR } != 1
-        )
-            return false
-
-        val potentialGUID = extractGUID(scanResult)
-
-        return !(potentialGUID.isEmpty() || potentialGUID.length > SubmissionConstants.MAX_GUID_LENGTH)
+        val scanResult = QRScanResult(scanResult)
+        return scanResult.isValid
     }
-
-    fun extractGUID(scanResult: String): String =
-        scanResult.substringAfterLast(SubmissionConstants.GUID_SEPARATOR, "")
 
     fun storeTestGUID(guid: String) = LocalData.testGUID(guid)
 

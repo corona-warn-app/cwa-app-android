@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
@@ -91,17 +92,17 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun refreshDeviceUIState() =
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) =
         executeRequestWithState(
-            SubmissionRepository::refreshUIState,
+            { SubmissionRepository.refreshUIState(refreshTestResult) },
             _uiStateState,
             _uiStateError
         )
 
-    fun validateAndStoreTestGUID(scanResult: String) {
-        if (SubmissionService.containsValidGUID(scanResult)) {
-            val guid = SubmissionService.extractGUID(scanResult)
-            SubmissionService.storeTestGUID(guid)
+    fun validateAndStoreTestGUID(rawResult: String) {
+        val scanResult = QRScanResult(rawResult)
+        if (scanResult.isValid) {
+            SubmissionService.storeTestGUID(scanResult.guid!!)
             _scanStatus.value = Event(ScanStatus.SUCCESS)
         } else {
             _scanStatus.value = Event(ScanStatus.INVALID)

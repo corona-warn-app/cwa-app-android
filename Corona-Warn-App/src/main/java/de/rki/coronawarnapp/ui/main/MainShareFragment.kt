@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainShareBinding
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
 
@@ -24,23 +25,17 @@ class MainShareFragment : Fragment() {
     }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
-    private var _binding: FragmentMainShareBinding? = null
-    private val binding: FragmentMainShareBinding get() = _binding!!
+    private var binding: FragmentMainShareBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainShareBinding.inflate(inflater)
+        binding = FragmentMainShareBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

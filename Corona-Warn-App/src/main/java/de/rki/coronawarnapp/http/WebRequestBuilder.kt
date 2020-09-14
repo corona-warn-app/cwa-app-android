@@ -102,9 +102,12 @@ class WebRequestBuilder(
     ): File = withContext(Dispatchers.IO) {
         val fileName = "${UUID.nameUUIDFromBytes(url.toByteArray())}.zip"
         val file = File(FileStorageHelper.keyExportDirectory, fileName)
-        file.outputStream().use {
+        if (file.exists()) file.delete()
+        file.outputStream().use { fos ->
             Timber.v("Added $url to queue.")
-            distributionService.getKeyFiles(url).byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
+            distributionService.getKeyFiles(url).byteStream().use {
+                it.copyTo(fos, DEFAULT_BUFFER_SIZE)
+            }
             Timber.v("key file request successful.")
         }
         return@withContext file

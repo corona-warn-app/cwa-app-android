@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+import de.rki.coronawarnapp.risk.RiskLevelCalculation
+import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClass
@@ -21,6 +23,8 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -28,10 +32,12 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.util.UUID
@@ -48,6 +54,14 @@ class RiskLevelTransactionTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
+        mockkObject(AppInjector)
+        val appComponent = mockk<ApplicationComponent>().apply {
+            every { transRiskLevelInjection } returns RiskLevelInjectionHelper(
+                TransactionCoroutineScope()
+            )
+        }
+        every { AppInjector.component } returns appComponent
 
         mockkObject(InternalExposureNotificationClient)
         mockkObject(ApplicationConfigurationService)
@@ -458,6 +472,35 @@ class RiskLevelTransactionTest {
                 RiskLevelTransaction["executeClose"]()
             }
         }
+    }
+
+    @Test
+    fun test_getRiskLevel() {
+
+        // if risk score is within defined level threshold
+        // expected: INCREASED_RISK
+
+        val testAppConfig = buildTestAppConfig()
+        Assert.assertEquals(
+            RiskLevel.INCREASED_RISK, RiskLevelTransaction.getRiskLevel(
+                object : RiskLevelCalculation {
+                    override fun calculateRiskScore(
+                        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+                        exposureSummary: ExposureSummary
+                    ) = 0.0
+                },
+                object : RiskScoreAnalysis {
+                    override fun withinDefinedLevelThreshold(
+                        riskScore: Double,
+                        min: Int,
+                        max: Int
+                    ) = true
+                },
+                testAppConfig.attenuationDuration,
+                buildSummary(1600, 0, 30, 15),
+                testAppConfig.riskScoreClasses
+            )
+        )
     }
 
     @After
