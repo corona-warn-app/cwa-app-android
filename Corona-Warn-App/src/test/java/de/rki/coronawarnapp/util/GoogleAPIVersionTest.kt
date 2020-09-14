@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
+@ExperimentalCoroutinesApi
 internal class GoogleAPIVersionTest {
 
     private lateinit var classUnderTest: GoogleAPIVersion
@@ -27,7 +28,11 @@ internal class GoogleAPIVersionTest {
         classUnderTest = GoogleAPIVersion()
     }
 
-    @ExperimentalCoroutinesApi
+    @AfterEach
+    fun tearDown() {
+        unmockkObject(InternalExposureNotificationClient)
+    }
+
     @Test
     fun `isAbove API v16 is true for v17`() {
         coEvery { InternalExposureNotificationClient.getVersion() } returns 17000000L
@@ -38,7 +43,6 @@ internal class GoogleAPIVersionTest {
 
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `isAbove API v16 is false for v15`() {
         coEvery { InternalExposureNotificationClient.getVersion() } returns 15000000L
@@ -48,7 +52,6 @@ internal class GoogleAPIVersionTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `isAbove API v16 throws IllegalArgument for invalid version`() {
         assertThrows<IllegalArgumentException> {
@@ -61,7 +64,6 @@ internal class GoogleAPIVersionTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `isAbove API v16 false when APIException for too low version`() {
         coEvery { InternalExposureNotificationClient.getVersion() } throws
@@ -70,10 +72,5 @@ internal class GoogleAPIVersionTest {
         runBlockingTest {
             classUnderTest.isAbove(GoogleAPIVersion.V16) shouldBe false
         }
-    }
-
-    @AfterEach
-    fun teardown() {
-        unmockkObject(InternalExposureNotificationClient)
     }
 }
