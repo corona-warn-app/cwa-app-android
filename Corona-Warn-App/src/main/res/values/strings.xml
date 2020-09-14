@@ -1100,6 +1100,9 @@
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
 
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">""</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
