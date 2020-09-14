@@ -28,14 +28,14 @@ import javax.inject.Inject
 class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()
 
-    @Inject
-    lateinit var vdcSource: VDCSource.Factory
+    @Inject lateinit var vdcSource: VDCSource.Factory
     private val vdc: TestRiskLevelCalculationFragmentVDC by vdcsAssisted(
         { vdcSource },
         { factory, handle ->
             factory as TestRiskLevelCalculationFragmentVDC.Factory
             factory.create(handle, navArgs.exampleArgument)
-        })
+        }
+    )
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
