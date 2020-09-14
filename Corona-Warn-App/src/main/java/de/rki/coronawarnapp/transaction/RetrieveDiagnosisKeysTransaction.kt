@@ -321,7 +321,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        if (googleAPIVersion.isAbove(GoogleAPIVersion.V16)) {
+        if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
             InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
                 exportFiles,
                 exposureConfiguration,
