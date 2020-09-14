@@ -51,7 +51,7 @@ class SettingsNotificationFragment : Fragment() {
         super.onResume()
         binding.settingsNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         // refresh required data
-        settingsViewModel.refreshNotificationsEnabled(requireContext())
+        settingsViewModel.refreshNotificationsEnabled()
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
     }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp
+package de.rki.coronawarnapp.test
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -30,6 +30,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
@@ -72,6 +73,7 @@ import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_my_keys
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.qr_code_viewpager
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_background_notifications
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_my_keys
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_scanned_key
 import kotlinx.coroutines.Dispatchers
@@ -173,6 +175,14 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
             showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
             LocalData.last3HoursMode(isLast3HoursModeEnabled)
+        }
+
+        val backgroundNotificationSwitch = test_api_switch_background_notifications as Switch
+        backgroundNotificationSwitch.isChecked = LocalData.backgroundNotification()
+        backgroundNotificationSwitch.setOnClickListener {
+            val isBackgroundNotificationsActive = backgroundNotificationSwitch.isChecked
+            showToast("Background Notifications are activated: $isBackgroundNotificationsActive")
+            LocalData.backgroundNotification(isBackgroundNotificationsActive)
         }
 
         button_api_get_check_exposure.setOnClickListener {

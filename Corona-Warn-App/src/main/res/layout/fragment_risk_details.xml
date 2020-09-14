@@ -117,6 +117,18 @@
                     app:showDetails="@{true}"
                     app:tracingViewModel="@{tracingViewModel}" />
 
+                <include
+                    android:id="@+id/risk_details_additional_information"
+                    layout="@layout/include_risk_details_low_risk_encounter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/risk_details_risk_card"
+                    app:settingsViewModel="@{settingsViewModel}"
+                    app:tracingViewModel="@{tracingViewModel}" />
+
                 <TextView
                     android:id="@+id/risk_details_behavior_headline"
                     style="@style/headline5"
@@ -129,7 +141,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/risk_details_risk_card" />
+                    app:layout_constraintTop_toBottomOf="@+id/risk_details_additional_information" />
 
                 <TextView
                     android:id="@+id/risk_details_behavior_subtitle"
@@ -232,8 +244,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure)}"
-                        android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure))}"
+                        android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure, tracingViewModel.matchedKeyCount)}"
+                        android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskDetailsRiskLevelBody(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure, tracingViewModel.matchedKeyCount))}"
                         android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +257,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:text="@string/risk_details_information_body_notice"
+                        android:text="@{FormatterRiskHelper.formatRiskDetailsRiskLevelBodyNotice(tracingViewModel.riskLevel)}"
+                        android:visibility="@{tracingViewModel.informationBodyNoticeVisibility}"
                         android:focusable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

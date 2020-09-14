@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewLifecycle
@@ -36,6 +39,16 @@ class OnboardingFragment : Fragment() {
             findNavController().doNavigate(
                 OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
             )
+        }
+        setLinks()
+    }
+
+    private fun setLinks() {
+        binding.onboardingInclude.onboardingEasyLanguage
+            .setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url)))
+            startActivity(browserIntent)
         }
     }
 

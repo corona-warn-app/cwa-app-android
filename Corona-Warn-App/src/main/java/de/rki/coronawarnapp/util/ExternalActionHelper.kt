@@ -155,33 +155,4 @@ object ExternalActionHelper {
             )
         }
     }
-
-    fun disableBatteryOptimizations(context: Context) {
-        try {
-            val intent = Intent(
-                Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                Uri.parse("package:" + context.packageName)
-            )
-            context.startActivity(intent)
-        } catch (exception: Exception) {
-            // catch generic exception on settings navigation
-            // most likely due to device / rom specific intent issue
-            ExternalActionException(exception).report(
-                ExceptionCategory.UI
-            )
-        }
-    }
-
-    fun toBatteryOptimizationSettings(context: Context) {
-        try {
-            val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-            context.startActivity(intent)
-        } catch (exception: Exception) {
-            // catch generic exception on settings navigation
-            // most likely due to device / rom specific intent issue
-            ExternalActionException(exception).report(
-                ExceptionCategory.UI
-            )
-        }
-    }
 }

@@ -148,6 +148,8 @@ class MainFragment : Fragment() {
     private fun showPopup(view: View) {
         val popup = PopupMenu(requireContext(), view)
         popup.inflate(R.menu.menu_main)
+        // TODO we shouldn't have to duplicate the whole fragment to add these items
+        // In the future we'd like a DI'ed class that changes the navigation for this MainFragment?
         popup.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
@@ -182,7 +184,6 @@ class MainFragment : Fragment() {
 
         // check if the dialog explaining the tracing time was already shown
         if (!LocalData.tracingExplanationDialogWasShown()) {
-
 
             val activity = this.requireActivity()
 

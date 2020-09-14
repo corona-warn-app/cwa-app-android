@@ -37,6 +37,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
+import java.util.Collections
 import java.util.Date
 import java.util.UUID
 
@@ -97,21 +99,32 @@ object CachedKeyFileHolder {
             val deferredQueries: MutableCollection<Deferred<Any>> = mutableListOf()
             keyCache.deleteOutdatedEntries(uuidListFromServer)
             val missingDays = getMissingDaysFromDiff(serverDates)
+            val failedEntryCacheKeys = Collections.synchronizedList(mutableListOf<String>())
             if (missingDays.isNotEmpty()) {
                 // we have a date difference
                 deferredQueries.addAll(
                     missingDays
                         .map { getURLForDay(it) }
-                        .map { url -> async { url.createDayEntryForUrl() } }
+                        .map { url ->
+                            val cacheKey = url.generateCacheKeyFromString()
+                            async {
+                                try {
+                                    url.createDayEntryForUrl(cacheKey)
+                                } catch (e: Exception) {
+                                    Timber.v("failed entry: $cacheKey")
+                                    failedEntryCacheKeys.add(cacheKey)
+                                }
+                            }
+                        }
                 )
             }
             // execute the query plan
-            try {
-                deferredQueries.awaitAll()
-            } catch (e: Exception) {
-                // For an error we clear the cache to try again
-                keyCache.clear()
-                throw e
+            deferredQueries.awaitAll()
+            Timber.v("${failedEntryCacheKeys.size} failed entries ")
+            // For an error we clear the cache to try again
+            if (failedEntryCacheKeys.isNotEmpty()) {
+                keyCache.clear(failedEntryCacheKeys)
+                throw IOException("failed to download all key files, at least one failing request.")
             }
             keyCache.getFilesFromEntries()
                 .also { it.forEach { file -> Timber.v("cached file:${file.path}") } }
@@ -161,8 +174,8 @@ object CachedKeyFileHolder {
      * Creates a date entry in the Key Cache for a given String with a unique Key Name derived from the URL
      * and the URI of the downloaded File for that given key
      */
-    private suspend fun String.createDayEntryForUrl() = keyCache.createEntry(
-        this.generateCacheKeyFromString(),
+    private suspend fun String.createDayEntryForUrl(cacheKey: String) = keyCache.createEntry(
+        cacheKey,
         WebRequestBuilder.getInstance().asyncGetKeyFilesFromServer(this).toURI(),
         DAY
     )

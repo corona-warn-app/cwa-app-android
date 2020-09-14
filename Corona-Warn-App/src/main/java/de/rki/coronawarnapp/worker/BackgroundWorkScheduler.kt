@@ -1,19 +1,15 @@
 package de.rki.coronawarnapp.worker
 
-import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.Operation
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.work.WorkInfo
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.storage.LocalData
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
-import java.util.concurrent.TimeUnit
 
 /**
  * Singleton class for background work handling
@@ -32,11 +28,15 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG
      * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORKER_TAG
      * @see BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG
+     * @see BackgroundConstants.BACKGROUND_NOISE_ONE_TIME_WORKER_TAG
+     * @see BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORKER_TAG
      */
     enum class WorkTag(val tag: String) {
         DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER(BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORKER_TAG),
         DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORKER_TAG),
-        DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG)
+        DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER_TAG),
+        BACKGROUND_NOISE_ONE_TIME_WORKER(BackgroundConstants.BACKGROUND_NOISE_ONE_TIME_WORKER_TAG),
+        BACKGROUND_NOISE_PERIODIC_WORKER(BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORKER_TAG)
     }
 
     /**
@@ -47,11 +47,15 @@ object BackgroundWorkScheduler {
      * @see BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORK_NAME
      * @see BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORK_NAME
      * @see BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME
+     * @see BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORK_NAME
+     * @see BackgroundConstants.BACKGROUND_NOISE_ONE_TIME_WORK_NAME
      */
     enum class WorkType(val uniqueName: String) {
         DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK(BackgroundConstants.DIAGNOSIS_KEY_ONE_TIME_WORK_NAME),
         DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK(BackgroundConstants.DIAGNOSIS_KEY_PERIODIC_WORK_NAME),
-        DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME)
+        DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER(BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_WORK_NAME),
+        BACKGROUND_NOISE_PERIODIC_WORK(BackgroundConstants.BACKGROUND_NOISE_PERIODIC_WORK_NAME),
+        BACKGROUND_NOISE_ONE_TIME_WORK(BackgroundConstants.BACKGROUND_NOISE_ONE_TIME_WORK_NAME)
     }
 
     /**
@@ -68,6 +72,8 @@ object BackgroundWorkScheduler {
      * @see isWorkActive
      */
     fun startWorkScheduler() {
+        val notificationBody = StringBuilder()
+        notificationBody.append("Jobs starting: ")
         if (LocalData.numberOfSuccessfulSubmissions() > 0) return
         val isPeriodicWorkActive = isWorkActive(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
         logWorkActiveStatus(
@@ -76,13 +82,17 @@ object BackgroundWorkScheduler {
         )
         if (!isPeriodicWorkActive) {
             WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK.start()
+            notificationBody.append("[DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK] ")
         }
         if (!isWorkActive(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag) &&
             LocalData.registrationToken() != null && !LocalData.isTestResultNotificationSent()
         ) {
             WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER.start()
             LocalData.initialPollingForTestResultTimeStamp(System.currentTimeMillis())
+            notificationBody.append("[DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER]")
         }
+        BackgroundWorkHelper.sendDebugNotification(
+            "Background Job Starting", notificationBody.toString())
     }
 
     /**
@@ -134,6 +144,8 @@ object BackgroundWorkScheduler {
             workManager.cancelAllWorkByTag(workTag.tag)
                 .also { it.logOperationCancelByTag(workTag) }
         }
+        BackgroundWorkHelper.sendDebugNotification(
+            "All Background Jobs Stopped", "All Background Jobs Stopped")
     }
 
     /**
@@ -155,6 +167,24 @@ object BackgroundWorkScheduler {
     }
 
     /**
+     * Schedule background noise periodic work
+     *
+     * @see WorkType.BACKGROUND_NOISE_PERIODIC_WORK
+     */
+    fun scheduleBackgroundNoisePeriodicWork() {
+        WorkType.BACKGROUND_NOISE_PERIODIC_WORK.start()
+    }
+
+    /**
+     * Schedule background noise one time work
+     *
+     * @see WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK
+     */
+    fun scheduleBackgroundNoiseOneTimeWork() {
+        WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK.start()
+    }
+
+    /**
      * Enqueue operation for work type defined in WorkType enum class
      *
      * @return Operation
@@ -165,6 +195,8 @@ object BackgroundWorkScheduler {
         WorkType.DIAGNOSIS_KEY_BACKGROUND_PERIODIC_WORK -> enqueueDiagnosisKeyBackgroundPeriodicWork()
         WorkType.DIAGNOSIS_KEY_BACKGROUND_ONE_TIME_WORK -> enqueueDiagnosisKeyBackgroundOneTimeWork()
         WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER -> enqueueDiagnosisTestResultBackgroundPeriodicWork()
+        WorkType.BACKGROUND_NOISE_PERIODIC_WORK -> enqueueBackgroundNoisePeriodicWork()
+        WorkType.BACKGROUND_NOISE_ONE_TIME_WORK -> enqueueBackgroundNoiseOneTimeWork()
     }
 
     /**
@@ -212,84 +244,34 @@ object BackgroundWorkScheduler {
         ).also { it.logOperationSchedule(WorkType.DIAGNOSIS_TEST_RESULT_PERIODIC_WORKER) }
 
     /**
-     * Build diagnosis key periodic work request
-     * Set "kind delay" for accessibility reason.
-     * Backoff criteria set to Linear type.
+     * Enqueue background noise periodic
+     * Replace with new if older work exists.
      *
-     * @return PeriodicWorkRequest
+     * @return Operation
      *
-     * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER
-     * @see BackgroundConstants.KIND_DELAY
-     * @see BackgroundConstants.BACKOFF_INITIAL_DELAY
-     * @see BackoffPolicy.LINEAR
+     * @see WorkType.BACKGROUND_NOISE_PERIODIC_WORK
      */
-    private fun buildDiagnosisKeyRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<DiagnosisKeyRetrievalPeriodicWorker>(
-            BackgroundWorkHelper.getDiagnosisKeyRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
-        )
-            .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setInitialDelay(
-                BackgroundConstants.KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .setBackoffCriteria(
-                BackoffPolicy.EXPONENTIAL,
-                BackgroundConstants.BACKOFF_INITIAL_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
+    private fun enqueueBackgroundNoisePeriodicWork() =
+        workManager.enqueueUniquePeriodicWork(
+            WorkType.BACKGROUND_NOISE_PERIODIC_WORK.uniqueName,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            buildBackgroundNoisePeriodicWork()
+        ).also { it.logOperationSchedule(WorkType.BACKGROUND_NOISE_PERIODIC_WORK) }
 
     /**
-     * Build diagnosis key one time work request
-     * Set random initial delay for security reason.
-     * Backoff criteria set to Linear type.
+     * Enqueue background noise one time
+     * Replace with new if older work exists.
      *
-     * @return OneTimeWorkRequest
+     * @return Operation
      *
-     * @see WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER
-     * @see buildDiagnosisKeyRetrievalOneTimeWork
-     * @see BackgroundConstants.BACKOFF_INITIAL_DELAY
-     * @see BackoffPolicy.LINEAR
+     * @see WorkType.BACKGROUND_NOISE_ONE_TIME_WORK
      */
-    private fun buildDiagnosisKeyRetrievalOneTimeWork() =
-        OneTimeWorkRequestBuilder<DiagnosisKeyRetrievalOneTimeWorker>()
-            .addTag(WorkTag.DIAGNOSIS_KEY_RETRIEVAL_ONE_TIME_WORKER.tag)
-            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
-            .setInitialDelay(
-                BackgroundConstants.KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .setBackoffCriteria(
-                BackoffPolicy.EXPONENTIAL,
-                BackgroundConstants.BACKOFF_INITIAL_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
-
-    /**
-     * Build diagnosis Test Result periodic work request
-     * Set "kind delay" for accessibility reason.
-     *
-     * @return PeriodicWorkRequest
-     *
-     * @see WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER
-     * @see BackgroundConstants.KIND_DELAY
-     */
-    private fun buildDiagnosisTestResultRetrievalPeriodicWork() =
-        PeriodicWorkRequestBuilder<DiagnosisTestResultRetrievalPeriodicWorker>(
-            BackgroundWorkHelper.getDiagnosisTestResultRetrievalPeriodicWorkTimeInterval(), TimeUnit.MINUTES
-        )
-            .addTag(WorkTag.DIAGNOSIS_TEST_RESULT_RETRIEVAL_PERIODIC_WORKER.tag)
-            .setConstraints(BackgroundWorkHelper.getConstraintsForDiagnosisKeyOneTimeBackgroundWork())
-            .setInitialDelay(
-                BackgroundConstants.DIAGNOSIS_TEST_RESULT_PERIODIC_INITIAL_DELAY,
-                TimeUnit.SECONDS
-            ).setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                BackgroundConstants.KIND_DELAY,
-                TimeUnit.MINUTES
-            )
-            .build()
+    private fun enqueueBackgroundNoiseOneTimeWork() =
+        workManager.enqueueUniqueWork(
+            WorkType.BACKGROUND_NOISE_ONE_TIME_WORK.uniqueName,
+            ExistingWorkPolicy.REPLACE,
+            buildBackgroundNoiseOneTimeWork()
+        ).also { it.logOperationSchedule(WorkType.BACKGROUND_NOISE_ONE_TIME_WORK) }
 
     /**
      * Log operation schedule
@@ -297,6 +279,8 @@ object BackgroundWorkScheduler {
     private fun Operation.logOperationSchedule(workType: WorkType) =
         this.result.addListener({
             Timber.d("${workType.uniqueName} completed.")
+            BackgroundWorkHelper.sendDebugNotification(
+                "Background Job Started", "${workType.uniqueName} scheduled")
         }, { it.run() })
             .also { if (BuildConfig.DEBUG) Timber.d("${workType.uniqueName} scheduled.") }
 
@@ -306,6 +290,8 @@ object BackgroundWorkScheduler {
     private fun Operation.logOperationCancelByTag(workTag: WorkTag) =
         this.result.addListener({
             Timber.d("All work with tag ${workTag.tag} canceled.")
+            BackgroundWorkHelper.sendDebugNotification(
+                "Background Job canceled", "${workTag.tag} canceled")
         }, { it.run() })
             .also { if (BuildConfig.DEBUG) Timber.d("Canceling all work with tag ${workTag.tag}") }
 
