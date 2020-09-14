@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.viewmodel.VDCSource
-import de.rki.coronawarnapp.util.viewmodel.vdcsAssisted
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelSource
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,11 +28,11 @@ import javax.inject.Inject
 class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()
 
-    @Inject lateinit var vdcSource: VDCSource.Factory
-    private val vdc: TestRiskLevelCalculationFragmentVDC by vdcsAssisted(
-        { vdcSource },
+    @Inject lateinit var viewModelFactory: CWAViewModelSource.Factory
+    private val vm: TestRiskLevelCalculationFragmentCWAViewModel by cwaViewModelsAssisted(
+        { viewModelFactory },
         { factory, handle ->
-            factory as TestRiskLevelCalculationFragmentVDC.Factory
+            factory as TestRiskLevelCalculationFragmentCWAViewModel.Factory
             factory.create(handle, navArgs.exampleArgument)
         }
     )
@@ -64,19 +64,19 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vdc.retrieveDiagnosisKeys() }
-        binding.buttonProvideKeyViaQr.setOnClickListener { vdc.scanLocalQRCodeAndProvide() }
-        binding.buttonCalculateRiskLevel.setOnClickListener { vdc.calculateRiskLevel() }
+        binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
+        binding.buttonProvideKeyViaQr.setOnClickListener { vm.scanLocalQRCodeAndProvide() }
+        binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
 
-        binding.buttonResetRiskLevel.setOnClickListener { vdc.resetRiskLevel() }
-        vdc.riskLevelResetEvent.observe2(this) {
+        binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
+        vm.riskLevelResetEvent.observe2(this) {
             Toast.makeText(
                 requireContext(), "Reset done, please fetch diagnosis keys from server again",
                 Toast.LENGTH_SHORT
             ).show()
         }
 
-        vdc.riskScoreState.observe2(this) { state ->
+        vm.riskScoreState.observe2(this) { state ->
             binding.labelRiskScore.text = state.riskScoreMsg
             binding.labelBackendParameters.text = state.backendParameters
             binding.labelExposureSummary.text = state.exposureSummary
@@ -84,9 +84,9 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
             binding.labelFullConfig.text = state.fullConfig
             binding.labelExposureInfo.text = state.exposureInfo
         }
-        vdc.startENFObserver()
+        vm.startENFObserver()
 
-        vdc.apiKeysProvidedEvent.observe2(this) { event ->
+        vm.apiKeysProvidedEvent.observe2(this) { event ->
             Toast.makeText(
                 requireContext(),
                 "Provided ${event.keyCount} keys to Google API with token ${event.token}",
@@ -94,7 +94,7 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
             ).show()
         }
 
-        vdc.startLocalQRCodeScanEvent.observe2(this) {
+        vm.startLocalQRCodeScanEvent.observe2(this) {
             IntentIntegrator.forSupportFragment(this)
                 .setOrientationLocked(false)
                 .setBeepEnabled(false)
@@ -104,7 +104,7 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
 
     override fun onResume() {
         super.onResume()
-        vdc.calculateRiskLevel()
+        vm.calculateRiskLevel()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -128,7 +128,7 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
 
             val text = binding.transmissionNumber.text.toString()
             val number = if (!text.isBlank()) Integer.valueOf(text) else 5
-            vdc.provideDiagnosisKey(number, key)
+            vm.provideDiagnosisKey(number, key)
         }
     }
 

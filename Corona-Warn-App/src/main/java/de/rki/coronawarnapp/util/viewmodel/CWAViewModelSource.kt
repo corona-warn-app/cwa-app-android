@@ -8,11 +8,11 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
-class VDCSource @AssistedInject constructor(
-    private val creators: @JvmSuppressWildcards Map<Class<out VDC>, VDCFactory<out VDC>>,
+class CWAViewModelSource @AssistedInject constructor(
+    private val creators: @JvmSuppressWildcards Map<Class<out CWAViewModel>, CWAViewModelFactory<out CWAViewModel>>,
     @Assisted savedStateOwner: SavedStateRegistryOwner,
     @Assisted defaultSavedState: Bundle?,
-    @Assisted private val assistAction: ((VDCFactory<out VDC>, SavedStateHandle) -> VDC)?
+    @Assisted private val assistAction: ((CWAViewModelFactory<out CWAViewModel>, SavedStateHandle) -> CWAViewModel)?
 ) : AbstractSavedStateViewModelFactory(savedStateOwner, defaultSavedState) {
 
     override fun <T : ViewModel?> create(
@@ -21,7 +21,7 @@ class VDCSource @AssistedInject constructor(
         handle: SavedStateHandle
     ): T {
         val factory = creators.entries.find { modelClass.isAssignableFrom(it.key) }?.value
-        if (factory == null) throw IllegalStateException("Unknown VDC factory: $modelClass")
+        if (factory == null) throw IllegalStateException("Unknown ViewModel factory: $modelClass")
 
         @Suppress("UNCHECKED_CAST")
         var vm: T? = assistAction?.invoke(factory, handle) as? T
@@ -29,13 +29,13 @@ class VDCSource @AssistedInject constructor(
         @Suppress("UNCHECKED_CAST")
         if (vm == null) {
             vm = when (factory) {
-                is SavedStateVDCFactory<*> -> factory.create(handle) as? T
-                is SimpleVDCFactory<*> -> factory.create() as? T
+                is SavedStateCWAViewModelFactory<*> -> factory.create(handle) as? T
+                is SimpleCWAViewModelFactory<*> -> factory.create() as? T
                 else -> throw IllegalStateException("Unknown factory: $factory")
             }
         }
 
-        return vm ?: throw IllegalStateException("VDCFactory $factory didn't return a VDC")
+        return vm ?: throw IllegalStateException("$factory didn't return a ViewModel")
     }
 
     @AssistedInject.Factory
@@ -43,7 +43,7 @@ class VDCSource @AssistedInject constructor(
         fun create(
             savedStateOwner: SavedStateRegistryOwner,
             defaultSavedState: Bundle?,
-            assistAction: ((VDCFactory<out VDC>, SavedStateHandle) -> VDC)? = null
-        ): VDCSource
+            assistAction: ((CWAViewModelFactory<out CWAViewModel>, SavedStateHandle) -> CWAViewModel)? = null
+        ): CWAViewModelSource
     }
 }

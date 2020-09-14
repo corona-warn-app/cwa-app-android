@@ -26,8 +26,8 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
-import de.rki.coronawarnapp.util.viewmodel.VDC
-import de.rki.coronawarnapp.util.viewmodel.VDCFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,12 +39,12 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class TestRiskLevelCalculationFragmentVDC @AssistedInject constructor(
+class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     private val context: Context, // App context
     private val exposureNotificationClient: ExposureNotificationClient
-) : VDC() {
+) : CWAViewModel() {
 
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
@@ -52,7 +52,7 @@ class TestRiskLevelCalculationFragmentVDC @AssistedInject constructor(
     val riskScoreState = MutableLiveData<RiskScoreState>(RiskScoreState())
 
     init {
-        Timber.d("VDC: %s", this)
+        Timber.d("CWAViewModel: %s", this)
         Timber.d("SavedStateHandle: %s", handle)
         Timber.d("Example arg: %s", exampleArg)
     }
@@ -282,10 +282,10 @@ class TestRiskLevelCalculationFragmentVDC @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : VDCFactory<TestRiskLevelCalculationFragmentVDC> {
+    interface Factory : CWAViewModelFactory<TestRiskLevelCalculationFragmentCWAViewModel> {
         fun create(
             handle: SavedStateHandle,
             exampleArg: String?
-        ): TestRiskLevelCalculationFragmentVDC
+        ): TestRiskLevelCalculationFragmentCWAViewModel
     }
 }

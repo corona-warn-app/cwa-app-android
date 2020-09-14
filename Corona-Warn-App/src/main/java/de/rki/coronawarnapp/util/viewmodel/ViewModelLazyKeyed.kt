@@ -27,6 +27,12 @@ import androidx.lifecycle.ViewModelStoreOwner
 import kotlin.reflect.KClass
 
 /**
+ * This is a fork of the standard ViewModel code that allows to optionally provide
+ * alternative keys for ViewModels, to allow for more freedom when using multiple viewModels.
+ * Note the `keyProducer` argument.
+ */
+
+/**
  * An implementation of [Lazy] used by [androidx.fragment.app.Fragment.viewModels] and
  * [androidx.activity.ComponentActivity.viewmodels].
  *

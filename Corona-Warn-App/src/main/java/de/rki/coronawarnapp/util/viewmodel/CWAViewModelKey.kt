@@ -6,4 +6,4 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MapKey
-internal annotation class VDCKey(val value: KClass<out VDC>)
+internal annotation class CWAViewModelKey(val value: KClass<out CWAViewModel>)
