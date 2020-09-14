@@ -56,15 +56,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             instance.applicationContext
 
         const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
-
-        fun logTag(vararg tags: String): String {
-            val sb = StringBuilder("CWA:")
-            for (i in tags.indices) {
-                sb.append(tags[i])
-                if (i < tags.size - 1) sb.append(":")
-            }
-            return sb.toString()
-        }
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver

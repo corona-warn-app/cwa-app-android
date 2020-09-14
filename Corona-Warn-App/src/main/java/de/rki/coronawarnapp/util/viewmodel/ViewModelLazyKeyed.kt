@@ -16,7 +16,6 @@ package de.rki.coronawarnapp.util.viewmodel
  * limitations under the License.
  */
 
-
 import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
@@ -26,15 +25,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import kotlin.reflect.KClass
-
-/**
- * Returns an existing ViewModel or creates a new one in the scope (usually, a fragment or
- * an activity), associated with this `ViewModelProvider`.
- *
- * @see ViewModelProvider.get(Class)
- */
-//@MainThread
-//inline fun <reified VM : ViewModel> ViewModelProvider.get() = get(VM::class.java)
 
 /**
  * An implementation of [Lazy] used by [androidx.fragment.app.Fragment.viewModels] and

@@ -15,7 +15,6 @@ class VDCSource @AssistedInject constructor(
     @Assisted private val assistAction: ((VDCFactory<out VDC>, SavedStateHandle) -> VDC)?
 ) : AbstractSavedStateViewModelFactory(savedStateOwner, defaultSavedState) {
 
-
     override fun <T : ViewModel?> create(
         key: String,
         modelClass: Class<T>,

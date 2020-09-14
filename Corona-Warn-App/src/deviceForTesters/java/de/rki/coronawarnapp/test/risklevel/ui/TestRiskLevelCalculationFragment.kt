@@ -5,47 +5,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
-import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
-import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.sharing.ExposureSharingService
-import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.VDCSource
 import de.rki.coronawarnapp.util.viewmodel.vdcsAssisted
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
-import java.util.UUID
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
 class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
@@ -65,11 +42,6 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private var _binding: FragmentTestRiskLevelCalculationBinding? = null
     private val binding: FragmentTestRiskLevelCalculationBinding get() = _binding!!
-
-    // reference to the client from the Google framework with the given application context
-    private val exposureNotificationClient by lazy {
-        Nearby.getExposureNotificationClient(CoronaWarnApplication.getAppContext())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,28 +64,42 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonRetrieveDiagnosisKeys.setOnClickListener {
-            vdc.retrieveDiagnosisKeys()
-        }
+        binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vdc.retrieveDiagnosisKeys() }
+        binding.buttonProvideKeyViaQr.setOnClickListener { vdc.scanLocalQRCodeAndProvide() }
+        binding.buttonCalculateRiskLevel.setOnClickListener { vdc.calculateRiskLevel() }
 
-        binding.buttonProvideKeyViaQr.setOnClickListener {
-            scanLocalQRCodeAndProvide()
-        }
-
-        binding.buttonCalculateRiskLevel.setOnClickListener {
-            vdc.calculateRiskLevel()
-        }
-
-        binding.buttonResetRiskLevel.setOnClickListener {
-            vdc.resetRiskLevel()
-        }
-        vdc.resetEvent.observe2(this) {
+        binding.buttonResetRiskLevel.setOnClickListener { vdc.resetRiskLevel() }
+        vdc.riskLevelResetEvent.observe2(this) {
             Toast.makeText(
                 requireContext(), "Reset done, please fetch diagnosis keys from server again",
                 Toast.LENGTH_SHORT
             ).show()
         }
-        startObserving()
+
+        vdc.riskScoreState.observe2(this) { state ->
+            binding.labelRiskScore.text = state.riskScoreMsg
+            binding.labelBackendParameters.text = state.backendParameters
+            binding.labelExposureSummary.text = state.exposureSummary
+            binding.labelFormula.text = state.formula
+            binding.labelFullConfig.text = state.fullConfig
+            binding.labelExposureInfo.text = state.exposureInfo
+        }
+        vdc.startENFObserver()
+
+        vdc.apiKeysProvidedEvent.observe2(this) { event ->
+            Toast.makeText(
+                requireContext(),
+                "Provided ${event.keyCount} keys to Google API with token ${event.token}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        vdc.startLocalQRCodeScanEvent.observe2(this) {
+            IntentIntegrator.forSupportFragment(this)
+                .setOrientationLocked(false)
+                .setBeepEnabled(false)
+                .initiateScan()
+        }
     }
 
     override fun onResume() {
@@ -122,201 +108,30 @@ class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        val result: IntentResult? =
+        val result: IntentResult =
             IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents == null) {
-                Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
-            } else {
-                ExposureSharingService.getOthersKeys(result.contents, onScannedKey)
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+                ?: return super.onActivityResult(requestCode, resultCode, data)
+
+        if (result.contents == null) {
+            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
+            return
         }
-    }
 
-    private fun scanLocalQRCodeAndProvide() {
-        IntentIntegrator.forSupportFragment(this)
-            .setOrientationLocked(false)
-            .setBeepEnabled(false)
-            .initiateScan()
-    }
-
-    private val onScannedKey = { key: AppleLegacyKeyExchange.Key? ->
-        Timber.i("keys scanned..")
-        provideDiagnosisKey(key)
-    }
-
-    private fun provideDiagnosisKey(key: AppleLegacyKeyExchange.Key?) {
-        if (null == key) {
-            Toast.makeText(requireContext(), "No Key data found in QR code", Toast.LENGTH_SHORT)
-                .show()
-        } else {
-            val token = UUID.randomUUID().toString()
-            LocalData.googleApiToken(token)
-
-            val appleKeyList = mutableListOf<AppleLegacyKeyExchange.Key>()
-
-            val text = (transmission_number as EditText).text.toString()
-            var number = 5
-            if (!text.isBlank()) {
-                number = Integer.valueOf(text)
+        ExposureSharingService.getOthersKeys(result.contents) { key: AppleLegacyKeyExchange.Key? ->
+            Timber.i("Keys scanned: %s", key)
+            if (key == null) {
+                Toast.makeText(
+                    requireContext(), "No Key data found in QR code", Toast.LENGTH_SHORT
+                ).show()
+                return@getOthersKeys Unit
             }
 
-            appleKeyList.add(
-                AppleLegacyKeyExchange.Key.newBuilder()
-                    .setKeyData(key.keyData)
-                    .setRollingPeriod(144)
-                    .setRollingStartNumber(key.rollingStartNumber)
-                    .setTransmissionRiskLevel(number)
-                    .build()
-            )
-
-            val appleFiles = listOf(
-                AppleLegacyKeyExchange.File.newBuilder()
-                    .addAllKeys(appleKeyList)
-                    .build()
-            )
-
-            val dir =
-                File(File(requireContext().getExternalFilesDir(null), "key-export"), token)
-            dir.mkdirs()
-
-            var googleFileList: List<File>
-            lifecycleScope.launch {
-                googleFileList = KeyFileHelper.asyncCreateExportFiles(appleFiles, dir)
-
-                Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
-                try {
-                    // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                    InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                        googleFileList,
-                        ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
-                        token
-                    )
-                    Toast.makeText(
-                        requireContext(),
-                        "Provided ${appleKeyList.size} keys to Google API with token $token",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } catch (e: Exception) {
-                    e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-                }
-            }
+            val text = binding.transmissionNumber.text.toString()
+            val number = if (!text.isBlank()) Integer.valueOf(text) else 5
+            vdc.provideDiagnosisKey(number, key)
         }
+
     }
-
-    private fun startObserving() {
-        tracingViewModel.viewModelScope.launch {
-            try {
-                val googleToken = LocalData.googleApiToken() ?: UUID.randomUUID().toString()
-                val exposureSummary =
-                    InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
-
-                val appConfig =
-                    ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-
-                val riskLevelScore = DefaultRiskLevelCalculation().calculateRiskScore(
-                    appConfig.attenuationDuration,
-                    exposureSummary
-                )
-
-                val riskAsString = "Level: ${RiskLevelRepository.getLastCalculatedScore()}\n" +
-                        "Last successful Level: " +
-                        "${LocalData.lastSuccessfullyCalculatedRiskLevel()}\n" +
-                        "Calculated Score: ${riskLevelScore}\n" +
-                        "Last Time Server Fetch: ${LocalData.lastTimeDiagnosisKeysFromServerFetch()}\n" +
-                        "Tracing Duration: " +
-                        "${TimeUnit.MILLISECONDS.toDays(TimeVariables.getTimeActiveTracingDuration())} days \n" +
-                        "Tracing Duration in last 14 days: " +
-                        "${TimeVariables.getActiveTracingDaysInRetentionPeriod()} days \n" +
-                        "Last time risk level calculation ${LocalData.lastTimeRiskLevelCalculation()}"
-
-                binding.labelRiskScore.text = riskAsString
-
-                val lowClass =
-                    appConfig.riskScoreClasses?.riskClassesList?.find { low -> low.label == "LOW" }
-                val highClass =
-                    appConfig.riskScoreClasses?.riskClassesList?.find { high -> high.label == "HIGH" }
-
-                val configAsString =
-                    "Attenuation Weight Low: ${appConfig.attenuationDuration?.weights?.low}\n" +
-                            "Attenuation Weight Mid: ${appConfig.attenuationDuration?.weights?.mid}\n" +
-                            "Attenuation Weight High: ${appConfig.attenuationDuration?.weights?.high}\n\n" +
-                            "Attenuation Offset: ${appConfig.attenuationDuration?.defaultBucketOffset}\n" +
-                            "Attenuation Normalization: " +
-                            "${appConfig.attenuationDuration?.riskScoreNormalizationDivisor}\n\n" +
-                            "Risk Score Low Class: ${lowClass?.min ?: 0} - ${lowClass?.max ?: 0}\n" +
-                            "Risk Score High Class: ${highClass?.min ?: 0} - ${highClass?.max ?: 0}"
-
-                binding.labelBackendParameters.text = configAsString
-
-                val summaryAsString =
-                    "Days Since Last Exposure: ${exposureSummary.daysSinceLastExposure}\n" +
-                            "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
-                            "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
-                            "Attenuation Durations: [${
-                                exposureSummary.attenuationDurationsInMinutes?.get(
-                                    0
-                                )
-                            }," +
-                            "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
-                            "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
-                            "Summation Risk Score: ${exposureSummary.summationRiskScore}"
-
-                binding.labelExposureSummary.text = summaryAsString
-
-                val maxRisk = exposureSummary.maximumRiskScore
-                val atWeights = appConfig.attenuationDuration?.weights
-                val attenuationDurationInMin =
-                    exposureSummary.attenuationDurationsInMinutes
-                val attenuationConfig = appConfig.attenuationDuration
-                val formulaString =
-                    "($maxRisk / ${attenuationConfig?.riskScoreNormalizationDivisor}) * " +
-                            "(${attenuationDurationInMin?.get(0)} * ${atWeights?.low} " +
-                            "+ ${attenuationDurationInMin?.get(1)} * ${atWeights?.mid} " +
-                            "+ ${attenuationDurationInMin?.get(2)} * ${atWeights?.high} " +
-                            "+ ${attenuationConfig?.defaultBucketOffset})"
-
-                binding.labelFormula.text = formulaString
-
-                binding.labelFullConfig.text = appConfig.toString()
-
-                val token = LocalData.googleApiToken()
-                if (token != null) {
-                    val exposureInformation = asyncGetExposureInformation(token)
-
-                    var infoString = ""
-                    exposureInformation.forEach {
-                        infoString += "Attenuation duration in min.: " +
-                                "[${it.attenuationDurationsInMinutes?.get(0)}, " +
-                                "${it.attenuationDurationsInMinutes?.get(1)}," +
-                                "${it.attenuationDurationsInMinutes?.get(2)}]\n" +
-                                "Attenuation value: ${it.attenuationValue}\n" +
-                                "Duration in min.: ${it.durationMinutes}\n" +
-                                "Risk Score: ${it.totalRiskScore}\n" +
-                                "Transmission Risk Level: ${it.transmissionRiskLevel}\n" +
-                                "Date Millis Since Epoch: ${it.dateMillisSinceEpoch}\n\n"
-                    }
-
-                    binding.labelExposureInfo.text = infoString
-                }
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-            }
-        }
-    }
-
-    suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
-        suspendCoroutine { cont ->
-            exposureNotificationClient.getExposureInformation(token)
-                .addOnSuccessListener {
-                    cont.resume(it)
-                }.addOnFailureListener {
-                    cont.resumeWithException(it)
-                }
-        }
 
     companion object {
         val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!

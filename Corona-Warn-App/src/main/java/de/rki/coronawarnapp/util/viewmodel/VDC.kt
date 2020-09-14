@@ -11,15 +11,14 @@ import timber.log.Timber
  * A scoped component for view related data/logic.
  */
 abstract class VDC : ViewModel() {
-    val TAG: String = javaClass.simpleName
 
     init {
-        Timber.tag(TAG).v("Initialized")
+        Timber.v("Initialized")
     }
 
     @CallSuper
     override fun onCleared() {
-        Timber.tag(TAG).v("onCleared()")
+        Timber.v("onCleared()")
         super.onCleared()
     }
 }
