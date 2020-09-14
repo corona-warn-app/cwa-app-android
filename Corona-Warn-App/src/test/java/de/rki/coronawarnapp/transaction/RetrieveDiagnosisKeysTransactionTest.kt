@@ -4,6 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.mockk.Runs
@@ -34,7 +35,8 @@ class RetrieveDiagnosisKeysTransactionTest {
         mockkObject(AppInjector)
         val appComponent = mockk<ApplicationComponent>().apply {
             every { transRetrieveKeysInjection } returns RetrieveDiagnosisInjectionHelper(
-                TransactionCoroutineScope()
+                TransactionCoroutineScope(),
+                GoogleAPIVersion()
             )
         }
         every { AppInjector.component } returns appComponent

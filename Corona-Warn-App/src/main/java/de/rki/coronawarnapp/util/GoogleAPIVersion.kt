@@ -2,10 +2,13 @@ package de.rki.coronawarnapp.util
 
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
+import dagger.Reusable
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import javax.inject.Inject
 import kotlin.math.abs
 
-class GoogleAPIVersion {
+@Reusable
+class GoogleAPIVersion @Inject constructor() {
     /**
      * Indicates if the client runs above a certain version
      *

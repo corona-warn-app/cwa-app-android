@@ -142,7 +142,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         quotaChronology = GJChronology.getInstanceUTC()
     )
 
-    private val googleAPIVersion = GoogleAPIVersion()
+    private val googleAPIVersion: GoogleAPIVersion by lazy {
+        AppInjector.component.transRetrieveKeysInjection.googleAPIVersion
+    }
 
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
