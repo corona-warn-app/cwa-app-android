@@ -178,7 +178,7 @@ object NotificationHelper {
      */
     fun sendNotification(content: String, visibility: Int) {
         if (!CoronaWarnApplication.isAppInForeground) {
-            sendNotification("", content, visibility)
+            sendNotification("", content, visibility, true)
         }
     }
 
