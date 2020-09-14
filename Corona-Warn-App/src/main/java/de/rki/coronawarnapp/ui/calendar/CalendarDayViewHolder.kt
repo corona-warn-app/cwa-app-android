@@ -28,7 +28,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     /**
      * Bind data to view
      */
-    fun bind(day:CalendarAdapter.Day, clickListener: (CalendarAdapter.Day) -> Unit) {
+    fun bind(day: CalendarAdapter.Day, clickListener: (CalendarAdapter.Day) -> Unit) {
         val context = textView.context
         val today = LocalDate.now()
 
@@ -39,7 +39,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         textView.contentDescription = day.date.toString(talkBackDateFormat)
 
         // If date is after today - then disable click listener
-        if(!day.date.isAfter(today)) {
+        if (!day.date.isAfter(today)) {
             textView.setOnClickListener { clickListener(day) }
         }
 

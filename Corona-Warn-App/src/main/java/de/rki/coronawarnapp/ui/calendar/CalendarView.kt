@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.R
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
-import timber.log.Timber
 import java.util.Locale
 import kotlin.text.StringBuilder
 
@@ -29,6 +28,40 @@ class CalendarView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
+
+    companion object {
+        /**
+         * Zero
+         */
+        private const val ZERO = 0
+
+        /**
+         * First day of the week
+         */
+        private const val FIRST_DAY = 1
+
+        /**
+         * Total days in week
+         */
+        private const val DAYS_IN_WEEK = 7
+
+        /**
+         * Weeks count
+         */
+        private const val WEEKS_COUNT = 4
+
+        /**
+         * Day of week text length
+         * 3 = Mon
+         * 1 = M
+         */
+        private const val DAY_OF_WEEK_TEXT_LENGTH = 1
+
+        /**
+         * Shift for logic
+         */
+        private const val SHIFT = -1
+    }
 
     /**
      * Calendar layout
@@ -99,11 +132,11 @@ class CalendarView @JvmOverloads constructor(
         // Create layout manager
         layoutManager = LinearLayoutManager(context)
         // Set to grid layout
-        layoutManager = GridLayoutManager(context, 7)
+        layoutManager = GridLayoutManager(context, DAYS_IN_WEEK)
 
         with(recyclerView) {
             layoutManager = this@CalendarView.layoutManager
-            scrollToPosition(0)
+            scrollToPosition(ZERO)
         }
 
         // Calculate dates to display
@@ -125,7 +158,7 @@ class CalendarView @JvmOverloads constructor(
     /**
      * Update header and top level layout background
      */
-    private fun updateSelection(isSelected:Boolean) {
+    private fun updateSelection(isSelected: Boolean) {
         calendarLayout.isSelected = isSelected
         headerTextView.isSelected = isSelected
     }
@@ -139,17 +172,18 @@ class CalendarView @JvmOverloads constructor(
      *
      * @see getMonthText
      */
-    private fun setUpDayLegend(view:View) {
+    private fun setUpDayLegend(view: View) {
         // Get day legend layout
         val dayLegendLayout = findViewById<LinearLayout>(R.id.calendar_day_legend)
         // Get current week day
         val date = LocalDate()
         val currentWeekDay = DateTime(Instant.now()).dayOfWeek().get()
-        for(dayId in 1..7) {
+        for (dayId in FIRST_DAY..DAYS_IN_WEEK) {
             val dayOfWeek = CalendarWeekDayView(context)
             val weekDay = date.withDayOfWeek(dayId).dayOfWeek()
             // weekDay.getAsText returns in either "Fri" or "Friday" format, substring first latter
-            dayOfWeek.setUp(weekDay.getAsText(Locale.getDefault()).take(1), weekDay.get() == currentWeekDay)
+            dayOfWeek.setUp(weekDay.getAsText(Locale.getDefault()).take(DAY_OF_WEEK_TEXT_LENGTH),
+                weekDay.get() == currentWeekDay)
             dayLegendLayout.addView(dayOfWeek)
         }
     }
@@ -161,7 +195,7 @@ class CalendarView @JvmOverloads constructor(
      *
      * @see getMonthText
      */
-    private fun  setUpMonthTextView(view:View) {
+    private fun setUpMonthTextView(view: View) {
         // Get month text view
         val monthTextView = findViewById<TextView>(R.id.calendar_month)
 
@@ -171,7 +205,6 @@ class CalendarView @JvmOverloads constructor(
 
         monthTextView.text = getMonthText(firstDate, lastDate)
     }
-
 
     /**
      * Get month text view text
@@ -201,7 +234,7 @@ class CalendarView @JvmOverloads constructor(
      *
      * @see StringBuilder
      */
-    private fun getMonthText(firstDate:LocalDate, lastDate:LocalDate): String {
+    private fun getMonthText(firstDate: LocalDate, lastDate: LocalDate): String {
         val monthText = StringBuilder()
         // Append first date month as it would always be displayed
         monthText.append(firstDate.monthOfYear().getAsText(Locale.getDefault()))
@@ -253,7 +286,7 @@ class CalendarView @JvmOverloads constructor(
      * | -2| -1| 9 | +1| +2| +3| +4| <- Current Week (4th row)
      * Code: (DaysInWeekCount * (TotalWeeks - weekId)) * -1
      */
-    private fun getDates() : List<CalendarAdapter.Day> {
+    private fun getDates(): List<CalendarAdapter.Day> {
         // Create mutable list of DateTime as a result
         val result = mutableListOf<CalendarAdapter.Day>()
         // Get current date. We do not bound to UTC timezone
@@ -261,10 +294,10 @@ class CalendarView @JvmOverloads constructor(
         // Get current day of the week (where 1 = Monday, 7 = Sunday)
         val currentDayOfTheWeek = currentDate.dayOfWeek().get()
         // Week count
-        val weeksCount = 4 - 1
-            for(weekId in 0..weeksCount) {
-            for (dayId in 1..7) {
-                val daysDiff = (currentDayOfTheWeek * -1) + dayId - (7 * (weeksCount - weekId))
+        val weeksCount = WEEKS_COUNT + SHIFT
+        for (weekId in ZERO..weeksCount) {
+            for (dayId in FIRST_DAY..DAYS_IN_WEEK) {
+                val daysDiff = (currentDayOfTheWeek * SHIFT) + dayId - (DAYS_IN_WEEK * (weeksCount - weekId))
                 result.add(CalendarAdapter.Day(currentDate.plusDays(daysDiff).toLocalDate()))
             }
         }

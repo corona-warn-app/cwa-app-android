@@ -11,7 +11,7 @@ import org.joda.time.LocalDate
  *
  * @param clickListener (Day) -> Unit - on item click event listener
  */
-class CalendarAdapter (private val clickListener:(Day) -> Unit) :
+class CalendarAdapter(private val clickListener: (Day) -> Unit) :
     RecyclerView.Adapter<CalendarDayViewHolder>() {
 
     /**
@@ -74,5 +74,5 @@ class CalendarAdapter (private val clickListener:(Day) -> Unit) :
      *
      * @see LocalDate
      */
-    data class Day(val date:LocalDate, val isSelected:Boolean = false)
+    data class Day(val date: LocalDate, val isSelected: Boolean = false)
 }

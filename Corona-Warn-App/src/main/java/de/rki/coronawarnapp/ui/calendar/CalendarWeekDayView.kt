@@ -16,7 +16,7 @@ class CalendarWeekDayView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val textView:TextView
+    private val textView: TextView
 
     /**
      * Initialize the view
@@ -39,10 +39,10 @@ class CalendarWeekDayView @JvmOverloads constructor(
     /**
      * SetUp the view from CalendarFragment
      */
-    fun setUp(text:String, isSelected:Boolean = false){
+    fun setUp(text: String, isSelected: Boolean = false) {
         textView.text = text
 
-        if(isSelected) {
+        if (isSelected) {
             textView.setTextAppearance(R.style.calendarWeekDaySelected)
         } else {
             textView.setTextAppearance(R.style.calendarWeekDayNormal)
