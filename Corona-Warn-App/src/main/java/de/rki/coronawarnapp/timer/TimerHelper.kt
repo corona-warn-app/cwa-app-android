@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.util.di.Injector
+import de.rki.coronawarnapp.util.di.AppInjector
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
@@ -50,7 +50,7 @@ object TimerHelper {
     private const val INITIAL_TIMER_DELAY = 0L
 
     private val settingsRepository by lazy {
-        Injector.component.settingsRepository
+        AppInjector.component.settingsRepository
     }
 
     /**

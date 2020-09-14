@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHistoryToExternalFormat
-import de.rki.coronawarnapp.util.di.Injector
+import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * The SubmitDiagnosisKeysTransaction is used to define an atomic Transaction for Key Reports. Its states allow an
@@ -49,7 +49,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     }
 
     private val transactionScope: TransactionCoroutineScope by lazy {
-        Injector.component.transSubmitDiagnosisInjection.transactionScope
+        AppInjector.component.transSubmitDiagnosisInjection.transactionScope
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */

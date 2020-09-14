@@ -10,7 +10,7 @@ import dagger.android.support.AndroidSupportInjection
 import de.rki.coronawarnapp.CoronaWarnApplication
 import timber.log.Timber
 
-object Injector {
+object AppInjector {
     lateinit var component: ApplicationComponent
 
     fun init(app: CoronaWarnApplication) {
@@ -44,5 +44,5 @@ object Injector {
         }
     }
 
-    private val TAG = Injector::class.java.simpleName
+    private val TAG = AppInjector::class.java.simpleName
 }

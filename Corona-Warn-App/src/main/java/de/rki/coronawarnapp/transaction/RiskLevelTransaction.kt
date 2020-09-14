@@ -37,7 +37,7 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactio
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.UPDATE_RISK_LEVEL
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
-import de.rki.coronawarnapp.util.di.Injector
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -186,7 +186,7 @@ object RiskLevelTransaction : Transaction() {
     private val lastCalculatedRiskLevelDate = AtomicReference<Long>()
 
     private val transactionScope: TransactionCoroutineScope by lazy {
-        Injector.component.transRiskLevelInjection.transactionScope
+        AppInjector.component.transRiskLevelInjection.transactionScope
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */

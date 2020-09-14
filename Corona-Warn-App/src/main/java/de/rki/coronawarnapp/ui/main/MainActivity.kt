@@ -23,7 +23,7 @@ import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
-import de.rki.coronawarnapp.util.di.Injector
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Injector.setup(this)
+        AppInjector.setup(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)

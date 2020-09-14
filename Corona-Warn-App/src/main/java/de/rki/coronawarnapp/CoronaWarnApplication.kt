@@ -27,8 +27,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.util.di.Injector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -70,7 +70,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     override fun onCreate() {
         instance = this
         super.onCreate()
-        Injector.init(this)
+        AppInjector.init(this)
 
         if (CWADebug.isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 

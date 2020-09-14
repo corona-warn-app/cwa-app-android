@@ -10,7 +10,7 @@ import androidx.lifecycle.LifecycleObserver
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.di.Injector
+import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * This activity holds all the onboarding fragments and isn't used after a successful onboarding flow.
@@ -31,7 +31,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Injector.setup(this)
+        AppInjector.setup(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
     }

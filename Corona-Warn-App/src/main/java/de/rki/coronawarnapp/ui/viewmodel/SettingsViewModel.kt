@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.util.di.Injector
+import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * ViewModel for everything settings related.
@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.di.Injector
 class SettingsViewModel : ViewModel() {
 
     private val settingsRepository by lazy {
-        Injector.component.settingsRepository
+        AppInjector.component.settingsRepository
     }
 
     val isNotificationsEnabled: LiveData<Boolean> = settingsRepository.isNotificationsEnabled

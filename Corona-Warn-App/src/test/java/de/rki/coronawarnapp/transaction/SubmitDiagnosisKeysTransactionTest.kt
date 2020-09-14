@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.util.di.Injector
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -43,13 +43,13 @@ class SubmitDiagnosisKeysTransactionTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        mockkObject(Injector)
+        mockkObject(AppInjector)
         val appComponent = mockk<ApplicationComponent>().apply {
             every { transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
                 TransactionCoroutineScope()
             )
         }
-        every { Injector.component } returns appComponent
+        every { AppInjector.component } returns appComponent
 
         mockkObject(WebRequestBuilder.Companion)
         every { WebRequestBuilder.getInstance() } returns webRequestBuilder
