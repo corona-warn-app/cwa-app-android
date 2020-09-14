@@ -16,7 +16,8 @@ class GoogleAPIVersion {
             throw IllegalArgumentException("given version has incorrect length")
         }
         return try {
-            compareVersion > InternalExposureNotificationClient.getVersion()
+            val currentVersion = InternalExposureNotificationClient.getVersion()
+            currentVersion >= compareVersion
         } catch (apiException: ApiException) {
             if (apiException.statusCode == CommonStatusCodes.API_NOT_CONNECTED) false
             else throw apiException

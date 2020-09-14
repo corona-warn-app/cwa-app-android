@@ -52,6 +52,9 @@ class RetrieveDiagnosisKeysTransactionTest {
                 any()
             )
         } returns mockk()
+        coEvery {
+            InternalExposureNotificationClient.getVersion()
+        } returns 17000000L
         coEvery { ApplicationConfigurationService.asyncRetrieveExposureConfiguration() } returns mockk()
         every { LocalData.googleApiToken(any()) } just Runs
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
