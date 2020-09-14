@@ -30,6 +30,7 @@ class TransmissionRiskVectorDeterminator {
                     19 -> arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2)
                     20 -> arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2)
                     else -> arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+                    //TODO > 21 invalid
                 }
                 is StartOfSymptoms.LastSevenDays -> arrayOf(4, 5, 6, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1)
                 is StartOfSymptoms.MoreThanTwoWeeks -> arrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5)
