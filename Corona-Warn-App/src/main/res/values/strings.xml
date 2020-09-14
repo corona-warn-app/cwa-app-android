@@ -82,6 +82,8 @@
     <string name="preference_interoperability_all_countries_selected">preference_interoperability_all_countries_selected</string>
     <!-- NOTR -->
     <string name="preference_interoperability_is_used_at_least_once">preference_interoperability_is_used_at_least_once</string>
+    <!-- NOTR -->
+    <string name="preference_interoperability_skipped_on_onboarding">preference_interoperability_skipped_on_onboarding</string>
 
     <!-- ####################################
                      Generics
@@ -1198,17 +1200,17 @@
     <string name="country_name_si"></string>
     <string name="country_name_sk"></string>
 
-    <string name="eu_wide_risk_detection_title"></string>
-    <string name="eu_wide_risk_detection_description"></string>
-    <string name="eu_wide_risk_detection_all_countries"></string>
-    <string name="eu_wide_risk_detection_higher_data_usage_hint"></string>
-    <string name="eu_wide_risk_detection_country_info"></string>
-    <string name="eu_wide_risk_detection_default_germany_title"></string>
-    <string name="eu_wide_risk_detection_default_germany_summary"></string>
-    <string name="eu_wide_risk_detection_private_data_title"></string>
-    <string name="eu_wide_risk_detection_private_data_description"></string>
+    <string name="interoperability_title"></string>
+    <string name="interoperability_description"></string>
+    <string name="interoperability_all_countries"></string>
+    <string name="interoperability_higher_data_usage_hint"></string>
+    <string name="interoperability_country_info"></string>
+    <string name="interoperability_default_germany_title"></string>
+    <string name="interoperability_default_germany_summary"></string>
+    <string name="interoperability_private_data_title"></string>
+    <string name="interoperability_private_data_description"></string>
 
-    <string name="settings_eu_wide_risk_detection_subtitle"></string>
+    <string name="settings_interoperability_subtitle"></string>
 
     <string name="onboarding_interoperability_title"></string>
     <string name="onboarding_interoperability_subtitle"></string>

@@ -20,7 +20,7 @@ object InteroperabilityRepository {
     private fun getSelectedCountryCodes(): List<String> =
         LocalData.countryCodes ?: listOf()
 
-    fun wasInteroperabilityUsed(): Boolean = LocalData.wasInteroperabilityUsed()
+    fun interoperabilityWasShown(): Boolean = LocalData.interoperabilityWasShown()
 
     fun saveInteroperabilityUsed() {
         LocalData.saveInteroperabilityUsed()

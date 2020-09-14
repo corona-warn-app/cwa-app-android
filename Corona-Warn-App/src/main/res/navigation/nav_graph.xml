@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_mainFragment_to_testRiskLevelCalculation"
             app:destination="@id/testRiskLevelCalculation" />
+        <action
+            android:id="@+id/action_mainFragment_to_interopCountryConfigurationFragment"
+            app:destination="@id/interopCountryConfigurationFragment" />
     </fragment>
 
     <fragment

@@ -111,6 +111,7 @@ class OnboardingTracingFragment : Fragment(),
     }
 
     private fun navigateSkipInteroperability() {
+        LocalData.saveInteroperabilitySkippedOnOnboarding()
         findNavController().doNavigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )

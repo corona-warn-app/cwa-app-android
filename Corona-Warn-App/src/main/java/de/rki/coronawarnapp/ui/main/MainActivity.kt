@@ -81,7 +81,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onLocationUnavailable() {
-            val canIgnoreLocationEnabled = InternalExposureNotificationClient.deviceSupportsLocationlessScanning()
+            val canIgnoreLocationEnabled =
+                InternalExposureNotificationClient.deviceSupportsLocationlessScanning()
             settingsViewModel.updateLocationEnabled(canIgnoreLocationEnabled)
             Timber.d("Location unavailable but can be ignored? $canIgnoreLocationEnabled")
         }

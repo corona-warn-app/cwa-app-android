@@ -724,7 +724,23 @@ object LocalData {
         ).commit()
     }
 
-    fun wasInteroperabilityUsed(): Boolean {
+    fun saveInteroperabilitySkippedOnOnboarding() {
+        getSharedPreferenceInstance().edit().putBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_interoperability_skipped_on_onboarding),
+            true
+        ).commit()
+    }
+
+    fun interoperabilityWasSkippedOnOnboarding(): Boolean {
+        return getSharedPreferenceInstance().getBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_interoperability_skipped_on_onboarding),
+            false
+        )
+    }
+
+    fun interoperabilityWasShown(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
                 .getString(R.string.preference_interoperability_is_used_at_least_once),

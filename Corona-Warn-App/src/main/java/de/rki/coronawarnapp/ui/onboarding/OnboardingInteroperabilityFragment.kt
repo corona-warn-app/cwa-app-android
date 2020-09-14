@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingInteroperabilityBinding
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityUIHelper
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 class OnboardingInteroperabilityFragment : Fragment() {
     private var _binding: FragmentOnboardingInteroperabilityBinding? = null
@@ -52,6 +56,7 @@ class OnboardingInteroperabilityFragment : Fragment() {
             }
 
         binding.onboardingButtonNext.setOnClickListener {
+            // TODO: Download the keys for all selected countries here
             findNavController().doNavigate(
                 OnboardingInteroperabilityFragmentDirections.actionOnboardingInteroperabilityFragmentToOnboardingTestFragment()
             )

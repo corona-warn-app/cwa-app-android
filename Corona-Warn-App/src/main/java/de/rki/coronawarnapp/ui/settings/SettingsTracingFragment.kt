@@ -95,6 +95,9 @@ class SettingsTracingFragment : Fragment(),
     override fun onStartPermissionGranted() {
         tracingViewModel.refreshIsTracingEnabled()
         BackgroundWorkScheduler.startWorkScheduler()
+        if (!interopViewModel.interoperabilityWasShown) {
+            showInteroperabilityDialog()
+        }
     }
 
     override fun onFailure(exception: Exception?) {
@@ -197,6 +200,20 @@ class SettingsTracingFragment : Fragment(),
                 )
             }
         }
+    }
+
+    private fun showInteroperabilityDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.onboarding_manual_required_dialog_headline,
+            R.string.onboarding_manual_required_dialog_body,
+            R.string.onboarding_manual_required_dialog_button,
+            null,
+            false, {
+                navigateToInteroperability()
+            }
+        )
+        DialogHelper.showDialog(dialog)
     }
 
     private fun showManualCheckingRequiredDialog() {

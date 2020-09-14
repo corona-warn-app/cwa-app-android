@@ -26,7 +26,8 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
             buildList()
         }
 
-    var onCountrySelectionChanged: ((userPressed: Boolean, countryCode: String, selected: Boolean) -> Unit)? = null
+    var onCountrySelectionChanged: ((userPressed: Boolean, countryCode: String, selected: Boolean) -> Unit)? =
+        null
 
     init {
         orientation = VERTICAL
@@ -57,15 +58,22 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
             }
     }
 
-    fun selectedCountries(countryCodes: List<String>) {
-        val countries = countryCodes.map { it.toLowerCase(Locale.ROOT) }
-        this.children.iterator().forEach { child ->
-            // determine child by using tag property
-            val tag = child.tag.toString()
-            val switch = child?.findViewById<Switch>(R.id.switch_country_enabled)
-            switch?.isChecked = countries.contains(tag)
+    private var _selectedCountries: List<String>? = null
+
+    var selectedCountries: List<String>?
+        get() {
+            return _selectedCountries
         }
-    }
+        set(countryCodes) {
+            val countries = countryCodes?.map { it.toLowerCase(Locale.ROOT) }
+            this.children.iterator().forEach { child ->
+                // determine child by using tag property
+                val tag = child.tag.toString()
+                val switch = child?.findViewById<Switch>(R.id.switch_country_enabled)
+                switch?.isChecked = countries?.contains(tag)!!
+            }
+            _selectedCountries = countryCodes
+        }
 
     /**
      * Sets the values of the views of each entry in the list
