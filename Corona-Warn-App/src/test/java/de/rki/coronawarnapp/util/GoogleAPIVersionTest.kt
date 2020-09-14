@@ -38,7 +38,7 @@ internal class GoogleAPIVersionTest {
         coEvery { InternalExposureNotificationClient.getVersion() } returns 17000000L
 
         runBlockingTest {
-            classUnderTest.isAbove(GoogleAPIVersion.V16) shouldBe true
+            classUnderTest.isAtLeast(GoogleAPIVersion.V16) shouldBe true
         }
 
     }
@@ -48,7 +48,7 @@ internal class GoogleAPIVersionTest {
         coEvery { InternalExposureNotificationClient.getVersion() } returns 15000000L
 
         runBlockingTest {
-            classUnderTest.isAbove(GoogleAPIVersion.V16) shouldBe false
+            classUnderTest.isAtLeast(GoogleAPIVersion.V16) shouldBe false
         }
     }
 
@@ -56,7 +56,7 @@ internal class GoogleAPIVersionTest {
     fun `isAbove API v16 throws IllegalArgument for invalid version`() {
         assertThrows<IllegalArgumentException> {
             runBlockingTest {
-                classUnderTest.isAbove(1L)
+                classUnderTest.isAtLeast(1L)
             }
             coVerify {
                 InternalExposureNotificationClient.getVersion() wasNot Called
@@ -70,7 +70,7 @@ internal class GoogleAPIVersionTest {
                 ApiException(Status(API_NOT_CONNECTED))
 
         runBlockingTest {
-            classUnderTest.isAbove(GoogleAPIVersion.V16) shouldBe false
+            classUnderTest.isAtLeast(GoogleAPIVersion.V16) shouldBe false
         }
     }
 }
