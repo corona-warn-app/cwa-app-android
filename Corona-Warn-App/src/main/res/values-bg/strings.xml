@@ -135,8 +135,6 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"До момента няма излагане на риск"</string>
-    <!-- XTXT: risk card - no exposures with low risk -->
-    <string name="risk_card_body_contact_low_risk">"До момента няма излагане на нисък риск"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s излагане на нисък риск"</item>
