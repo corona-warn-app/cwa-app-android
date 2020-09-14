@@ -135,11 +135,13 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"Bisher keine Begegnungen mit niedrigem Risiko"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s Risiko-Begegnung mit niedrigem Risiko"</item>
         <item quantity="other">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="zero">"Bisher keine Risiko-Begegnungen"</item>
+        <item quantity="zero">"Bisher keine Begegnungen mit niedrigem Risiko"</item>
         <item quantity="two">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
         <item quantity="few">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
         <item quantity="many">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
@@ -296,6 +298,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Ihr Risikostatus"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Begegnung mit niedrigem Risiko"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Deshalb ist Ihr Infektionsrisiko niedrig"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Sie hatten eine Begegnung mit einer später Corona-positiv getesteten Person. Ihr Infektionsrisiko wird auf Grundlage der Daten der Risiko-Ermittlung dennoch als niedrig eingestuft. Ein niedriges Risiko besteht insbesondere dann, wenn sich Ihre Begegnung auf einen kurzen Zeitraum oder einen größeren Abstand beschränkt hat. Sie müssen sich keine Sorgen machen und es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allgemein geltenden Abstands- und Hygieneregeln zu halten."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Verhalten"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +346,8 @@
     <string name="risk_details_information_body_outdated_risk">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Endgerät berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
@@ -484,10 +494,10 @@
    ###################################### -->
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_title_text">"App Nutzung ab 16 Jahren"</string>
+    <string name="sixteen_title_text">"App-Nutzung ab 16 Jahren"</string>
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_description_text">"Die App richtet sich an Personen, die sich in Deutschland aufhalten und mindestens 16 Jahre alt sind."</string>
+    <string name="sixteen_description_text">"Die App-Nutzung ist ab 16 Jahren gestattet und richtet sich an Personen, die sich in Deutschland aufhalten."</string>
 
 
     <!-- ####################################
@@ -712,7 +722,7 @@
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
     <string name="information_legal_subtitle_contact_form_non_en_de">Contact Form in <a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">English</a> or <a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">German</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
-    <string name="information_legal_headline_taxid">"Umsatzsteueridentifikationsnummer"</string>
+    <string name="information_legal_headline_taxid">"Umsatzsteuer-\nIdentifikationsnummer"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="tracingViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+
+        <variable
+            name="settingsViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="@{tracingViewModel.additionalInformationVisibility}">
+
+        <TextView
+            android:id="@+id/risk_details_additional_information_headline"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:accessibilityHeading="true"
+            android:focusable="true"
+            android:text="@string/risk_details_additional_info_title"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/risk_details_additional_information_subtitle"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:focusable="true"
+            android:text="@string/risk_details_additional_info_subtitle"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_details_additional_information_headline" />
+
+        <TextView
+            android:id="@+id/risk_details_additional_information_body"
+            style="@style/body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/risk_details_additional_info_text"
+            android:focusable="true"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/risk_details_additional_information_subtitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -135,11 +135,13 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"До момента няма излагане на риск"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"До момента няма излагане на нисък риск"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s излагане на нисък риск"</item>
         <item quantity="other">"%1$s излагания на нисък риск"</item>
-        <item quantity="zero">"До момента няма излагане на риск"</item>
+        <item quantity="zero">"До момента няма излагане на нисък риск"</item>
         <item quantity="two">"%1$s излагания на нисък риск"</item>
         <item quantity="few">"%1$s излагания на нисък риск"</item>
         <item quantity="many">"%1$s излагания на нисък риск"</item>
@@ -296,6 +298,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Вашият статус на риск"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Излагания на нисък риск"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Защо рискът Ви от заразяване е нисък"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Били сте в контакт с лице, което на по-късен етап е диагностицирано с COVID-19. Но отчитайки регистрираните от вас данни за излагането, рискът ви от заразяване се определя като нисък. Той е такъв, когато контактът е бил за кратко или е осъществен от разстояние.\nНе трябва да се притеснявате и не е нужно да предприемате определени действия. Препоръчваме Ви да спазвате широкоразпространените правила за социално дистанциране и поддържане на хигиена."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Насоки"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +346,8 @@
     <string name="risk_details_information_body_outdated_risk">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с COVID-19, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Рискът от заразяване се изчислява локално на устройството Ви въз основа на регистрираните данни за излагане. Изчислението включва също така разстоянието от и продължителността на всички контакти с лица, диагностицирани с COVID-19., както и възможността им да заразят околните. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Изложени сте на повишен риск от заразяване, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с COVID-19."</item>
@@ -412,6 +422,8 @@
     <string name="onboarding_tracing_body_emphasized">"Криптираните случайни ИД кодове предават само информация за дата, продължителност и близост на контакта с други лица (посредством силата на сигнала). Лични данни от типа на име, адрес и местоположение не се записват и идентифицирането на лицата е невъзможно."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация за приложението на опростен и жестомимичен език."</a></string>
+    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
+    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Поверителност"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
@@ -780,7 +792,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Невалиден QR код"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на друг смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза COVID-19, службата за обществено осигуряване ще Ви уведоми за това."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на друг смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза COVID-19, службата за обществено осигуряване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Моля, опитайте отново."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -839,7 +851,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Тестът може да се сканира само веднъж."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Ако изтриете теста, повече няма да можете да извлечете данните за резултата си. Ще получите резултата си от център за тестване или лаборатория, независимо от приложението. Ако Ви бъде поставена диагноза COVID-19, службата за обществено осигуряване ще Ви уведоми за това."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Ако изтриете теста, повече няма да можете да излечете данните за резултата си. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза COVID-19, службата за обществено осигуряване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Изтриване"</string>
     <!-- XBUT: Negative button for test removal -->
