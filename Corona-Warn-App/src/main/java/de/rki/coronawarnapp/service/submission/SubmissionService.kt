@@ -65,7 +65,7 @@ object SubmissionService {
     }
 
     fun containsValidGUID(scanResult: String): Boolean {
-        val scanResult = ScanResult(scanResult)
+        val scanResult = QRScanResult(scanResult)
         return scanResult.isValid
     }
 
