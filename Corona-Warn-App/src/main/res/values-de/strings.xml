@@ -135,16 +135,14 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
-    <!-- XTXT: risk card - no exposures with low risk -->
-    <string name="risk_card_body_contact_low_risk">"Bisher keine Begegnungen mit niedrigem Risiko"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s Risiko-Begegnung mit niedrigem Risiko"</item>
-        <item quantity="other">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="one">"%1$s Begegnung mit niedrigem Risiko"</item>
+        <item quantity="other">"%1$s Begegnungen mit niedrigem Risiko"</item>
         <item quantity="zero">"Bisher keine Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="two">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="few">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="many">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="two">"%1$s Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="few">"%1$s Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="many">"%1$s Begegnungen mit niedrigem Risiko"</item>
     </plurals>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value_high_risk">
