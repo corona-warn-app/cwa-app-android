@@ -49,6 +49,8 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
                 is SymptomIntroductionEvent.SelectPositive -> selectPositiveButton()
+                is SymptomIntroductionEvent.SelectNegative -> selectNegativeButton()
+                is SymptomIntroductionEvent.SelectNoInformation -> selectNoInformationButton()
             }
         })
 
@@ -110,6 +112,14 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         submissionViewModel.onPositiveSymptomIndication()
     }
 
+    private fun selectNegativeButton() {
+        submissionViewModel.onNegativeSymptomIndication()
+    }
+
+    private fun selectNoInformationButton() {
+        submissionViewModel.onNoInformationSymptomIndication()
+    }
+
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomHeader.headerButtonBack.buttonIcon
@@ -122,5 +132,13 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         binding
             .symptomChoiceSelection.targetButtonApply
             .setOnClickListener { submissionViewModel.onPositiveSymptomIndication() }
+
+        binding
+            .symptomChoiceSelection.targetButtonReject
+            .setOnClickListener { submissionViewModel.onNegativeSymptomIndication() }
+
+        binding
+            .symptomChoiceSelection.targetButtonVerify
+            .setOnClickListener { submissionViewModel.onNoInformationSymptomIndication() }
     }
 }
