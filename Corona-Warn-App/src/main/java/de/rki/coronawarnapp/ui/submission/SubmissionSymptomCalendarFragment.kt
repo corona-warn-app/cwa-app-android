@@ -51,10 +51,6 @@ class SubmissionSymptomCalendarFragment : Fragment() {
             when (it) {
                 is SymptomCalendarEvent.NavigateToNext -> navigateToSymptomFinish()
                 is SymptomCalendarEvent.NavigateToPrevious -> navigateToPreviousScreen()
-                is SymptomCalendarEvent.SelectLastSeven -> selectLastSeven()
-                is SymptomCalendarEvent.SelectOneToTwoWeeks -> selectOneToTwoWeeks()
-                is SymptomCalendarEvent.SelectMoreThanTwoWeeks -> selectMoreThanTwoWeeks()
-                is SymptomCalendarEvent.SelectNoInformation -> selectNoInformation()
             }
         })
 
@@ -120,22 +116,6 @@ class SubmissionSymptomCalendarFragment : Fragment() {
     private fun navigateToPreviousScreen() {
         findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
             .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
-    }
-
-    private fun selectLastSeven() {
-        submissionViewModel.onLastSevenDaysStart()
-    }
-
-    private fun selectOneToTwoWeeks() {
-        submissionViewModel.onOneToTwoWeeksAgoStart()
-    }
-
-    private fun selectMoreThanTwoWeeks() {
-        submissionViewModel.onMoreThanTwoWeeksStart()
-    }
-
-    private fun selectNoInformation() {
-        submissionViewModel.onNoInformationStart()
     }
 
     private fun setButtonOnClickListener() {
