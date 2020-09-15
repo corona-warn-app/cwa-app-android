@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * This fragment informs the user about test results.
@@ -18,21 +19,15 @@ class OnboardingTestFragment : Fragment() {
         private val TAG: String? = OnboardingTestFragment::class.simpleName
     }
 
-    private var _binding: FragmentOnboardingTestBinding? = null
-    private val binding: FragmentOnboardingTestBinding get() = _binding!!
+    private var binding: FragmentOnboardingTestBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOnboardingTestBinding.inflate(inflater)
+        binding = FragmentOnboardingTestBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
