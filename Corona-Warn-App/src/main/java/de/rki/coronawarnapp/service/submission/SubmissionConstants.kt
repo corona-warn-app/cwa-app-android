@@ -14,10 +14,6 @@ object SubmissionConstants {
     val TEST_RESULT_URL = "$VERSIONED_VERIFICATION_CDN_URL/$TEST_RESULT"
     val TAN_REQUEST_URL = "$VERSIONED_VERIFICATION_CDN_URL/$TAN"
 
-    const val MAX_QR_CODE_LENGTH = 150
-    const val MAX_GUID_LENGTH = 80
-    const val GUID_SEPARATOR = '?'
-
     const val SERVER_ERROR_CODE_400 = 400
 
     const val EMPTY_HEADER = ""
