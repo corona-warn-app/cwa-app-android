@@ -109,19 +109,10 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
     }
 
     private fun navigateToPreviousScreen() {
-        // TODO: Place here the route to the previous fragment
-    }
-
-    private fun selectPositiveButton() {
-        submissionViewModel.onPositiveSymptomIndication()
-    }
-
-    private fun selectNegativeButton() {
-        submissionViewModel.onNegativeSymptomIndication()
-    }
-
-    private fun selectNoInformationButton() {
-        submissionViewModel.onNoInformationSymptomIndication()
+        findNavController().doNavigate(
+            SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
+        )
     }
 
     private fun setButtonOnClickListener() {

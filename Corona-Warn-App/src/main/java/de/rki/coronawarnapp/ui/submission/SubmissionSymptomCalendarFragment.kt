@@ -111,7 +111,8 @@ class SubmissionSymptomCalendarFragment : Fragment() {
     }
 
     private fun navigateToSymptomFinish() {
-        // TODO: Place here the route to the next fragment
+        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
+            .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment())
     }
 
     private fun navigateToPreviousScreen() {
