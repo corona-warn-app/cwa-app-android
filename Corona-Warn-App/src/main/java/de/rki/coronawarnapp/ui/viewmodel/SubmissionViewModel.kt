@@ -68,25 +68,26 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
-        val symptoms = Symptoms(symptomStart.value ?: return, symptomIndication.value ?: return)
-        viewModelScope.launch {
-            try {
-                _submissionState.value = ApiRequestState.STARTED
-                SubmissionService.asyncSubmitExposureKeys(keys, symptoms)
-                _submissionState.value = ApiRequestState.SUCCESS
-            } catch (err: CwaWebException) {
-                _submissionError.value = Event(err)
-                _submissionState.value = ApiRequestState.FAILED
-            } catch (err: TransactionException) {
-                if (err.cause is CwaWebException) {
-                    _submissionError.value = Event(err.cause)
-                } else {
+        Symptoms(symptomStart.value ?: return, symptomIndication.value ?: return).also {
+            viewModelScope.launch {
+                try {
+                    _submissionState.value = ApiRequestState.STARTED
+                    SubmissionService.asyncSubmitExposureKeys(keys, it)
+                    _submissionState.value = ApiRequestState.SUCCESS
+                } catch (err: CwaWebException) {
+                    _submissionError.value = Event(err)
+                    _submissionState.value = ApiRequestState.FAILED
+                } catch (err: TransactionException) {
+                    if (err.cause is CwaWebException) {
+                        _submissionError.value = Event(err.cause)
+                    } else {
+                        err.report(ExceptionCategory.INTERNAL)
+                    }
+                    _submissionState.value = ApiRequestState.FAILED
+                } catch (err: Exception) {
+                    _submissionState.value = ApiRequestState.FAILED
                     err.report(ExceptionCategory.INTERNAL)
                 }
-                _submissionState.value = ApiRequestState.FAILED
-            } catch (err: Exception) {
-                _submissionState.value = ApiRequestState.FAILED
-                err.report(ExceptionCategory.INTERNAL)
             }
         }
     }
