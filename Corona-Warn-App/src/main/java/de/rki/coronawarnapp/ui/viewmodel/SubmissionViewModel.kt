@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.StartOfSymptoms
 import de.rki.coronawarnapp.submission.SymptomIndication
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import java.util.Date
@@ -61,24 +63,27 @@ class SubmissionViewModel : ViewModel() {
     val symptomIndication = MutableLiveData<SymptomIndication>().apply { SymptomIndication.POSITIVE }
     val symptomStart = MutableLiveData<StartOfSymptoms?>()
 
-    fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
-        try {
-            _submissionState.value = ApiRequestState.STARTED
-            SubmissionService.asyncSubmitExposureKeys(keys)
-            _submissionState.value = ApiRequestState.SUCCESS
-        } catch (err: CwaWebException) {
-            _submissionError.value = Event(err)
-            _submissionState.value = ApiRequestState.FAILED
-        } catch (err: TransactionException) {
-            if (err.cause is CwaWebException) {
-                _submissionError.value = Event(err.cause)
-            } else {
+    fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
+        val symptoms = Symptoms(symptomStart.value ?: return, symptomIndication.value ?: return)
+        viewModelScope.launch {
+            try {
+                _submissionState.value = ApiRequestState.STARTED
+                SubmissionService.asyncSubmitExposureKeys(keys, symptoms)
+                _submissionState.value = ApiRequestState.SUCCESS
+            } catch (err: CwaWebException) {
+                _submissionError.value = Event(err)
+                _submissionState.value = ApiRequestState.FAILED
+            } catch (err: TransactionException) {
+                if (err.cause is CwaWebException) {
+                    _submissionError.value = Event(err.cause)
+                } else {
+                    err.report(ExceptionCategory.INTERNAL)
+                }
+                _submissionState.value = ApiRequestState.FAILED
+            } catch (err: Exception) {
+                _submissionState.value = ApiRequestState.FAILED
                 err.report(ExceptionCategory.INTERNAL)
             }
-            _submissionState.value = ApiRequestState.FAILED
-        } catch (err: Exception) {
-            _submissionState.value = ApiRequestState.FAILED
-            err.report(ExceptionCategory.INTERNAL)
         }
     }
 
