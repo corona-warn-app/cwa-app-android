@@ -61,6 +61,10 @@ class SubmissionViewModel : ViewModel() {
     val symptomIndication = MutableLiveData<SymptomIndication?>()
     val symptomStart = MutableLiveData<StartOfSymptoms?>()
 
+    fun initSymptoms(){
+        symptomIndication.postValue(null)
+    }
+
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
             _submissionState.value = ApiRequestState.STARTED

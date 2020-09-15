@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
@@ -53,15 +55,23 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         submissionViewModel.symptomIndication.observe(viewLifecycleOwner, Observer {
             updateButtons(it)
         })
+
+        submissionViewModel.initSymptoms()
     }
 
     private fun updateButtons(symptomIndication: SymptomIndication?){
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).
             setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.POSITIVE))
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).
+        backgroundTintList = ColorStateList.valueOf(formatBackgroundButtonStyleByState(symptomIndication, SymptomIndication.POSITIVE))
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).
             setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.NEGATIVE))
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).
+        backgroundTintList = ColorStateList.valueOf(formatBackgroundButtonStyleByState(symptomIndication, SymptomIndication.NEGATIVE))
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).
             setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.NO_INFORMATION))
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).
+        backgroundTintList = ColorStateList.valueOf(formatBackgroundButtonStyleByState(symptomIndication, SymptomIndication.NO_INFORMATION))
         // TODO disable continue button if symptomIndication == null
     }
 
