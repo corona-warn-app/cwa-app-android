@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
  */
 class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
 
-
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val binding: FragmentRiskDetailsBinding by viewBindingLazy()
