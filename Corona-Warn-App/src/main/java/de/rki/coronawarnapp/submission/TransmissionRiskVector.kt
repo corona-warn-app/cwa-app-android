@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.submission
 
-class TransmissionRiskVector(private val values: Array<Int>) {
+class TransmissionRiskVector(private val values: IntArray) {
 
     companion object {
 
