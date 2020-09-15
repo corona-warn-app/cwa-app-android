@@ -409,8 +409,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         binding.labelMyKeys.text = myKeysLabelAndCount
         binding.textMyKeys.text = myExposureKeysJSON
 
-        myKeys?.let { myKeys -> this.maxByOrNull<TemporaryExposureKey, Int>({ it.rollingStartIntervalNumber }) }?.rollingStartIntervalNumber.toLong()
-            .let {
+        myKeys
+            ?.maxByOrNull { it.rollingStartIntervalNumber }
+            ?.rollingStartIntervalNumber?.toLong()
+            ?.let {
                 val ms = it * 60L * 10L * 1000L
                 val dateString = DateTime(ms, DateTimeZone.UTC)
 
