@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.databinding.FragmentRiskDetailsBinding
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 
@@ -29,24 +30,18 @@ class RiskDetailsFragment : Fragment() {
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentRiskDetailsBinding? = null
-    private val binding: FragmentRiskDetailsBinding get() = _binding!!
+    private var binding: FragmentRiskDetailsBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRiskDetailsBinding.inflate(inflater)
+        binding = FragmentRiskDetailsBinding.inflate(inflater)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

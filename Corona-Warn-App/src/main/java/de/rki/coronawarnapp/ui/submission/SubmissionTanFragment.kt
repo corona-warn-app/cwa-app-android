@@ -17,12 +17,12 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
-import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_error
-import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_character_error
+import kotlinx.android.synthetic.main.include_submission_tan.*
 
 /**
  * Fragment for TAN entry
@@ -31,8 +31,7 @@ class SubmissionTanFragment : Fragment() {
 
     private val viewModel: SubmissionTanViewModel by viewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentSubmissionTanBinding? = null
-    private val binding: FragmentSubmissionTanBinding get() = _binding!!
+    private var binding: FragmentSubmissionTanBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,23 +39,18 @@ class SubmissionTanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionTanBinding.inflate(inflater)
+        binding = FragmentSubmissionTanBinding.inflate(inflater)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title,
-                R.string.submission_error_dialog_web_test_paired_body,
+                R.string.submission_error_dialog_web_test_paired_title_tan,
+                R.string.submission_error_dialog_web_test_paired_body_tan,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
                 null,
                 true,

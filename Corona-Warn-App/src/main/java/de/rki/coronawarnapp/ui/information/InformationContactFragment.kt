@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationContactBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
@@ -19,21 +20,15 @@ class InformationContactFragment : Fragment() {
         private val TAG: String? = InformationContactFragment::class.simpleName
     }
 
-    private var _binding: FragmentInformationContactBinding? = null
-    private val binding: FragmentInformationContactBinding get() = _binding!!
+    private var binding: FragmentInformationContactBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInformationContactBinding.inflate(inflater)
+        binding = FragmentInformationContactBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
