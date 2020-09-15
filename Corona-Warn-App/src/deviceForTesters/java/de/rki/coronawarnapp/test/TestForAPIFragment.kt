@@ -111,10 +111,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         // set the lifecycleowner for LiveData
         binding.lifecycleOwner = this
 
-//        val calendar: Fragment = CalendarFragment()
-//        val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-//        transaction.replace(R.id.fragment_calendar_container, calendar).commit()
-
         // Inflate the layout for this fragment
         return binding.root
     }
