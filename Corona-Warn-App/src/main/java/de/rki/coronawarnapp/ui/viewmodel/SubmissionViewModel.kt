@@ -12,14 +12,17 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.StartOfSymptoms
 import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
+import org.joda.time.LocalDate
 import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
@@ -36,7 +39,8 @@ class SubmissionViewModel : ViewModel() {
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
-    val symptomRouteToScreen: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
+    val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
+    val symptomCalendarEvent: SingleLiveEvent<SymptomCalendarEvent> = SingleLiveEvent()
 
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
@@ -55,6 +59,7 @@ class SubmissionViewModel : ViewModel() {
         SubmissionRepository.deviceUIState
 
     val symptomIndication = MutableLiveData<SymptomIndication>().apply { SymptomIndication.POSITIVE }
+    val symptomStart = MutableLiveData<StartOfSymptoms?>()
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) = viewModelScope.launch {
         try {
@@ -149,12 +154,20 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun navigateToSymptomCalendar() {
-        symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToSymptomCalendar
+    fun onNextClicked() {
+        symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToSymptomCalendar
     }
 
-    fun navigateToPreviousScreen() {
-        symptomRouteToScreen.value = SymptomIntroductionEvent.NavigateToPreviousScreen
+    fun onPreviousClicked() {
+        symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToPreviousScreen
+    }
+
+    fun onCalendarNextClicked() {
+        symptomCalendarEvent.value = SymptomCalendarEvent.NavigateToNext
+    }
+
+    fun onCalendarPreviousClicked() {
+        symptomCalendarEvent.value = SymptomCalendarEvent.NavigateToPrevious
     }
 
     fun onPositiveSymptomIndication() {
@@ -167,5 +180,25 @@ class SubmissionViewModel : ViewModel() {
 
     fun onNoInformationSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.NO_INFORMATION)
+    }
+
+    fun onLastSevenDaysStart() {
+        symptomStart.postValue(StartOfSymptoms.LastSevenDays)
+    }
+
+    fun onOneToTwoWeeksAgoStart() {
+        symptomStart.postValue(StartOfSymptoms.OneToTwoWeeksAgo)
+    }
+
+    fun onMoreThanTwoWeeksStart() {
+        symptomStart.postValue(StartOfSymptoms.MoreThanTwoWeeks)
+    }
+
+    fun onNoInformationStart() {
+        symptomStart.postValue(StartOfSymptoms.NoInformation)
+    }
+
+    fun onDateSelected(localDate: LocalDate?) {
+        symptomStart.postValue(if (localDate == null) null else StartOfSymptoms.Date(localDate.toDate().time))
     }
 }

@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.submission.StartOfSymptoms
 import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -20,6 +21,12 @@ fun formatButtonStyleByState(currentState: SymptomIndication, state: SymptomIndi
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorStableDark)
 
 fun formatBackgroundButtonStyleByState(currentState: SymptomIndication, state: SymptomIndication): Int =
+    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+
+fun formatCalendarButtonStyleByState(currentState: StartOfSymptoms, state: StartOfSymptoms): Int =
+    formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorStableDark)
+
+fun formatCalendarBackgroundButtonStyleByState(currentState: StartOfSymptoms, state: StartOfSymptoms): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
 fun isEnableButtonByState(currentState: String?): Boolean {

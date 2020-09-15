@@ -7,6 +7,8 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
+        <import type="de.rki.coronawarnapp.submission.StartOfSymptoms"/>
+
         <variable
             name="submissionViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
@@ -22,10 +24,10 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:focusable="true"
-            tools:context=".ui.submission.fragment.SubmissionIntroFragment">
+            tools:context=".ui.submission.fragment.SubmissionSymptomCalendarFragment">
 
             <include
-                android:id="@+id/submission_symptom_header"
+                android:id="@+id/submission_symptom_calendar_header"
                 layout="@layout/include_header"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
@@ -33,40 +35,50 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="@{@string/submission_symptom_title}" />
+                app:title="@{@string/submission_symptom_calendar_title}" />
 
             <TextView
-                android:id="@+id/submission_symptom_initial_headline"
+                android:id="@+id/submission_symptom_calendar_headline"
                 style="@style/headline5"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:accessibilityHeading="true"
-                android:text="@string/submission_symptom_initial_headline"
+                android:text="@string/submission_symptom_calendar_headline"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_header" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_header" />
 
-            <de.rki.coronawarnapp.ui.view.BulletPointList
-                android:id="@+id/further_info_text"
+            <TextView
+                android:id="@+id/submission_symptom_calendar_body"
+                style="@style/body1"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:focusable="true"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:entries="@array/submission_symptom_symptom_bullets"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_symptom_calendar_body"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_initial_headline" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_headline" />
+
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/symptom_calendar_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_body"/>
 
             <include
-                android:id="@+id/symptom_choice_selection"
-                layout="@layout/include_submission_target_selection"
+                android:id="@+id/symptom_calendar_choice_selection"
+                layout="@layout/include_submission_symptom_length_selection"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/further_info_text" />
+                app:layout_constraintTop_toBottomOf="@+id/symptom_calendar_container" />
 
             <Button
                 android:id="@+id/symptom_button_next"
@@ -79,7 +91,7 @@
                 app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/symptom_choice_selection"/>
+                app:layout_constraintTop_toBottomOf="@+id/symptom_calendar_choice_selection"/>
 
             <include layout="@layout/merge_guidelines_side" />
 

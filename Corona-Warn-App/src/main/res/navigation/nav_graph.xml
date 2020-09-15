@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionSymptomIntroductionFragment2"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
 
     <fragment
@@ -316,5 +319,16 @@
         android:id="@+id/submissionSymptomIntroductionFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
         android:label="SubmissionSymptomIntroductionFragment" >
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
+            app:destination="@id/submissionSymptomCalendarFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionSymptomCalendarFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
+        android:label="SubmissionSymptomCalendarFragment" >
+        <action
+            android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
 </navigation>
