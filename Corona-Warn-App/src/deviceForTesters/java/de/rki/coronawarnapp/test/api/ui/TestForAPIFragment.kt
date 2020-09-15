@@ -48,6 +48,7 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
@@ -93,8 +94,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
 
     // Data and View binding
-    private var _binding: FragmentTestForAPIBinding? = null
-    private val binding: FragmentTestForAPIBinding get() = _binding!!
+    private var binding: FragmentTestForAPIBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,7 +103,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     ): View? {
 
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentTestForAPIBinding.inflate(inflater)
+        binding = FragmentTestForAPIBinding.inflate(inflater)
 
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
@@ -113,11 +113,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
 
         // Inflate the layout for this fragment
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

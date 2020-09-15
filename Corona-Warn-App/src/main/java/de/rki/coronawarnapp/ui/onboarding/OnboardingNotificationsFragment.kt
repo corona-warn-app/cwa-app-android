@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.databinding.FragmentOnboardingNotificationsBinding
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * This fragment ask the user if he wants to get notifications and finishes the onboarding afterwards.
@@ -21,21 +22,15 @@ class OnboardingNotificationsFragment : Fragment() {
         private val TAG: String? = OnboardingNotificationsFragment::class.simpleName
     }
 
-    private var _binding: FragmentOnboardingNotificationsBinding? = null
-    private val binding: FragmentOnboardingNotificationsBinding get() = _binding!!
+    private var binding: FragmentOnboardingNotificationsBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOnboardingNotificationsBinding.inflate(inflater)
+        binding = FragmentOnboardingNotificationsBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
