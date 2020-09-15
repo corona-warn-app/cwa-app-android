@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.isEnableButtonByState
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
 
@@ -95,6 +96,12 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
                 )
             )
         // TODO disable continue button if symptomIndication == null
+        binding
+            .symptomButtonNext.findViewById<Button>(R.id.symptom_button_next).isEnabled =
+            isEnableButtonByState(
+                symptomIndication
+            )
+            
     }
 
     private fun navigateToSymptomCalendar() {
