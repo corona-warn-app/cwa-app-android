@@ -7,6 +7,9 @@ import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.StartOfSymptoms
+import de.rki.coronawarnapp.submission.SymptomIndication
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -38,6 +41,8 @@ class SubmitDiagnosisKeysTransactionTest {
 
     private val authString = "authString"
     private val registrationToken = "123"
+
+    private val symptoms = Symptoms(StartOfSymptoms.OneToTwoWeeksAgo, SymptomIndication.POSITIVE)
 
     @Before
     fun setUp() {
@@ -72,7 +77,7 @@ class SubmitDiagnosisKeysTransactionTest {
         coEvery { webRequestBuilder.asyncSubmitKeysToServer(authString, listOf()) } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf())
+            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)
 
             coVerifyOrder {
                 webRequestBuilder.asyncSubmitKeysToServer(authString, listOf())
@@ -98,7 +103,7 @@ class SubmitDiagnosisKeysTransactionTest {
         } just Runs
 
         runBlocking {
-            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key))
+            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key), symptoms)
 
             coVerifyOrder {
                 webRequestBuilder.asyncSubmitKeysToServer(authString, any())

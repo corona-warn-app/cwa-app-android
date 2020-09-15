@@ -6,6 +6,9 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.StartOfSymptoms
+import de.rki.coronawarnapp.submission.SymptomIndication
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
 import io.mockk.MockKAnnotations
@@ -32,6 +35,8 @@ class SubmissionServiceTest {
 
     @MockK
     private lateinit var backgroundNoise: BackgroundNoise
+
+    private val symptoms = Symptoms(StartOfSymptoms.OneToTwoWeeksAgo, SymptomIndication.POSITIVE)
 
     @Before
     fun setUp() {
@@ -136,17 +141,17 @@ class SubmissionServiceTest {
     @Test(expected = NoRegistrationTokenSetException::class)
     fun submitExposureKeysWithoutRegistrationTokenFails() {
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            SubmissionService.asyncSubmitExposureKeys(listOf(), symptoms)
         }
     }
 
     @Test
     fun submitExposureKeysSucceeds() {
         every { LocalData.registrationToken() } returns registrationToken
-        coEvery { SubmitDiagnosisKeysTransaction.start(registrationToken, any()) } just Runs
+        coEvery { SubmitDiagnosisKeysTransaction.start(registrationToken, any(), symptoms) } just Runs
 
         runBlocking {
-            SubmissionService.asyncSubmitExposureKeys(listOf())
+            SubmissionService.asyncSubmitExposureKeys(listOf(), symptoms)
         }
     }
 
