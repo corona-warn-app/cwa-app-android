@@ -50,9 +50,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             when (it) {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
-                is SymptomIntroductionEvent.SelectPositive -> selectPositiveButton()
-                is SymptomIntroductionEvent.SelectNegative -> selectNegativeButton()
-                is SymptomIntroductionEvent.SelectNoInformation -> selectNoInformationButton()
             }
         })
 
