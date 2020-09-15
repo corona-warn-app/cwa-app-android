@@ -60,8 +60,12 @@ class SubmissionViewModel : ViewModel() {
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
 
-    val symptomIndication = MutableLiveData<SymptomIndication>().apply { SymptomIndication.POSITIVE }
+    val symptomIndication = MutableLiveData<SymptomIndication?>()
     val symptomStart = MutableLiveData<StartOfSymptoms?>()
+
+    fun initSymptoms(){
+        symptomIndication.postValue(null)
+    }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
         val symptoms = Symptoms(symptomStart.value ?: return, symptomIndication.value ?: return)
@@ -178,6 +182,7 @@ class SubmissionViewModel : ViewModel() {
     fun onPositiveSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.POSITIVE)
     }
+
 
     fun onNegativeSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.NEGATIVE)

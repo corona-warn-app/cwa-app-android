@@ -17,16 +17,16 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 
-fun formatButtonStyleByState(currentState: SymptomIndication, state: SymptomIndication): Int =
+fun formatButtonStyleByState(currentState: SymptomIndication?, state: SymptomIndication?): Int =
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorStableDark)
 
-fun formatBackgroundButtonStyleByState(currentState: SymptomIndication, state: SymptomIndication): Int =
+fun formatBackgroundButtonStyleByState(currentState: SymptomIndication?, state: SymptomIndication?): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun formatCalendarButtonStyleByState(currentState: StartOfSymptoms, state: StartOfSymptoms): Int =
+fun formatCalendarButtonStyleByState(currentState: StartOfSymptoms?, state: StartOfSymptoms?): Int =
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorStableDark)
 
-fun formatCalendarBackgroundButtonStyleByState(currentState: StartOfSymptoms, state: StartOfSymptoms): Int =
+fun formatCalendarBackgroundButtonStyleByState(currentState: StartOfSymptoms?, state: StartOfSymptoms?): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
 fun isEnableButtonByState(currentState: String?): Boolean {
