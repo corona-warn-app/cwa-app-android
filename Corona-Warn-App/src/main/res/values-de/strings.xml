@@ -541,7 +541,9 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, da Google bzw. Android diese für die Verwendung von Bluetooth voraussetzt."</string>
+    <string name="settings_tracing_status_location_body">"Aktivieren Sie die Standort-Dienste. Für die Abstandsberechnung benötigt Bluetooth Low Energy aktivierte Standort-Dienste, greift dabei aber nicht auf Ihren Standort zu. Weitere Informationen finden Sie in der FAQ."</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
+    <string name="settings_tracing_status_location_body_url">https://www.coronawarn.app/de/faq/#android_location</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Geräte-Einstellungen öffnen"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -747,7 +749,7 @@
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN ist ungültig"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
-    <string name="submission_error_dialog_web_test_paired_body_tan">"Die TAN ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit der TAN. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan">"Die TAN ist ungültig oder wurde bereits verwendet. Bitte rufen Sie die unter „TAN anfragen" angegebene Nummer an, um weitere Informationen zu erhalten."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Zurück"</string>
 
