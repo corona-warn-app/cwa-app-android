@@ -22,8 +22,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
-import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_error
-import kotlinx.android.synthetic.main.include_submission_tan.submission_tan_character_error
+import kotlinx.android.synthetic.main.include_submission_tan.*
 
 /**
  * Fragment for TAN entry
@@ -50,8 +49,8 @@ class SubmissionTanFragment : Fragment() {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title,
-                R.string.submission_error_dialog_web_test_paired_body,
+                R.string.submission_error_dialog_web_test_paired_title_tan,
+                R.string.submission_error_dialog_web_test_paired_body_tan,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
                 null,
                 true,
