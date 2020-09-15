@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
@@ -34,10 +36,17 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private var _binding: FragmentSubmissionPositiveOtherWarningBinding? = null
-    private val binding: FragmentSubmissionPositiveOtherWarningBinding get() = _binding!!
+    private var binding: FragmentSubmissionPositiveOtherWarningBinding by viewLifecycle()
     private lateinit var internalExposureNotificationPermissionHelper:
             InternalExposureNotificationPermissionHelper
+
+    // Overrides default back behaviour
+    private val backCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleSubmissionCancellation()
+            }
+        }
 
     override fun onResume() {
         super.onResume()
@@ -52,15 +61,11 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     ): View? {
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        _binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
+        binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
@@ -139,8 +144,26 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            navigateToSubmissionResultFragment()
+            handleSubmissionCancellation()
         }
+    }
+
+    /**
+    * Opens a Dialog that warns user
+    * when they're about to cancel the submission flow
+    * @see DialogHelper
+    * @see navigateToSubmissionResultFragment
+    */
+    fun handleSubmissionCancellation() {
+        DialogHelper.showDialog(DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_error_dialog_confirm_cancellation_title,
+            R.string.submission_error_dialog_confirm_cancellation_body,
+            R.string.submission_error_dialog_confirm_cancellation_button_positive,
+            R.string.submission_error_dialog_confirm_cancellation_button_negative,
+            true,
+            ::navigateToSubmissionResultFragment
+        ))
     }
 
     private fun navigateToSubmissionResultFragment() =

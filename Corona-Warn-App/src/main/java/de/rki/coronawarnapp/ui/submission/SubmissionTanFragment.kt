@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
@@ -30,8 +31,7 @@ class SubmissionTanFragment : Fragment() {
 
     private val viewModel: SubmissionTanViewModel by viewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentSubmissionTanBinding? = null
-    private val binding: FragmentSubmissionTanBinding get() = _binding!!
+    private var binding: FragmentSubmissionTanBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,15 +39,10 @@ class SubmissionTanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionTanBinding.inflate(inflater)
+        binding = FragmentSubmissionTanBinding.inflate(inflater)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {

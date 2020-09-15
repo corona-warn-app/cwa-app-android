@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.databinding.FragmentInformationPrivacyBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * Basic Fragment which only displays static content.
@@ -17,21 +18,15 @@ class InformationPrivacyFragment : Fragment() {
         private val TAG: String? = InformationPrivacyFragment::class.simpleName
     }
 
-    private var _binding: FragmentInformationPrivacyBinding? = null
-    private val binding: FragmentInformationPrivacyBinding get() = _binding!!
+    private var binding: FragmentInformationPrivacyBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInformationPrivacyBinding.inflate(inflater)
+        binding = FragmentInformationPrivacyBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

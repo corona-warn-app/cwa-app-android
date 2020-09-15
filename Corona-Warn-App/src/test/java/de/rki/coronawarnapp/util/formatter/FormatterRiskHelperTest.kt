@@ -95,7 +95,6 @@ class FormatterRiskHelperTest {
 
     private fun formatRiskContactBase(iRiskLevelScore: Int?, iMatchedKeysCount: Int?, sValue: String) {
         every { context.getString(R.string.risk_card_body_contact) } returns R.string.risk_card_body_contact.toString()
-        every { context.getString(R.string.risk_card_body_contact_low_risk) } returns R.string.risk_card_body_contact_low_risk.toString()
 
         val result = formatRiskContact(riskLevelScore = iRiskLevelScore, matchedKeysCount = iMatchedKeysCount)
         assertThat(
@@ -105,7 +104,6 @@ class FormatterRiskHelperTest {
 
     private fun formatRiskContactLastBase(iRiskLevelScore: Int?, iDaysSinceLastExposure: Int?, sValue: String) {
         every { context.getString(R.string.risk_card_body_contact) } returns R.string.risk_card_body_contact.toString()
-        every { context.getString(R.string.risk_card_body_contact_low_risk) } returns R.string.risk_card_body_contact_low_risk.toString()
 
         val result =
             formatRiskContactLast(riskLevelScore = iRiskLevelScore, daysSinceLastExposure = iDaysSinceLastExposure)
@@ -584,7 +582,7 @@ class FormatterRiskHelperTest {
         formatRiskContactBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             iMatchedKeysCount = 0,
-            sValue = context.getString(R.string.risk_card_body_contact_low_risk)
+            sValue = context.getString(R.string.risk_card_body_contact)
         )
         formatRiskContactBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
