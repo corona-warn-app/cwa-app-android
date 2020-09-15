@@ -990,7 +990,7 @@
         <item>"Schnupfen"</item>
         <item>"Halsschmerzen"</item>
         <item>"Kopf- und Gliederschmerzen"</item>
-        <item>"allgemeine Schwäche und Abgeschlagenheit"</item>
+        <item>"Allgemeine Schwäche und Abgeschlagenheit"</item>
     </string-array>
     <!-- XBUT: symptom initial screen yes button -->
     <string name="submission_symptom_positive_button">"Ja"</string>
@@ -1037,9 +1037,9 @@
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
     <string name="submission_symptom_calendar_headline">"Wann sind die Symptome bei Ihnen aufgetreten? "</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Selektieren Sie entweder das genau Datum in dem Kalender oder wenn Sie sich nicht genau erinnern, eine der anderen Optionen."</string>
+    <string name="submission_symptom_calendar_body">"Selektieren Sie entweder das genaue Datum in dem Kalender oder wenn Sie sich nicht genau erinnern, eine der anderen Optionen."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
-    <string name="submission_symptom_less_seven">"In den letzten 7 tagen"</string>
+    <string name="submission_symptom_less_seven">"In den letzten 7 Tagen"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
     <string name="submission_symptom_one_two_weeks">"Vor 1-2 Wochen"</string>
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
