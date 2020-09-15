@@ -24,8 +24,6 @@
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">#5D6E80</color>
     <color name="colorTextTint">#007FAD</color>
-    <color name="colorTextGreenButtonPressed">#FFFFFF</color>
-    <color name="colorTextGreenButtonNotPressed">#000000</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -54,8 +52,6 @@
     <color name="colorStableLight">#FFFFFF</color>
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
-    <color name="colorGreenButtonPressed">#5D6E80</color>
-    <color name="colorGreenButtonNotPressed">#F5F5F5</color>
 
     <!-- Calendar -->
     <color name="colorCalendarSelectedDayBackground">#5D6F80</color>

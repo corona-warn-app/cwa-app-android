@@ -152,18 +152,6 @@
         <item name="android:letterSpacing">0.0125</item>
     </style>
 
-    <style name="greenButtonNotPressed">
-        <item name="android:padding">@dimen/card_padding</item>
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSurface2</item>
-    </style>
-
-    <style name="greenButtonPressed">
-        <item name="android:padding">@dimen/card_padding</item>
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorGreenButtonPressed</item>
-    </style>
-
     <style name="targetLayout">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
@@ -172,7 +160,6 @@
     <style name="cardGrey">
         <item name="android:background">@drawable/card_dark</item>
     </style>
-
 
     <!-- ####################################
             Grey Body Background
