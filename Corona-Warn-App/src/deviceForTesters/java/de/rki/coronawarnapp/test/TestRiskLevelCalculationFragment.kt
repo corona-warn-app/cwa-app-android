@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.test
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,6 +14,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -33,12 +32,12 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +51,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("MagicNumber", "LongMethod")
-class TestRiskLevelCalculationFragment : Fragment() {
+class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_level_calculation) {
     companion object {
         val TAG: String? = TestRiskLevelCalculationFragment::class.simpleName
     }
@@ -60,28 +59,19 @@ class TestRiskLevelCalculationFragment : Fragment() {
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var binding: FragmentTestRiskLevelCalculationBinding by viewLifecycle()
+    private val binding: FragmentTestRiskLevelCalculationBinding by viewBindingLazy()
 
     // reference to the client from the Google framework with the given application context
     private val exposureNotificationClient by lazy {
         Nearby.getExposureNotificationClient(CoronaWarnApplication.getAppContext())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentTestRiskLevelCalculationBinding.inflate(inflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener {
             tracingViewModel.viewModelScope.launch {

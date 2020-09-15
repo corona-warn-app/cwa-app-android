@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -11,29 +9,16 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
-class SubmissionDispatcherFragment : Fragment() {
+class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispatcher) {
 
-    companion object {
-        private val TAG: String? = SubmissionDispatcherFragment::class.simpleName
-    }
-
-    private var binding: FragmentSubmissionDispatcherBinding by viewLifecycle()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSubmissionDispatcherBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        return binding.root
-    }
+    private val binding: FragmentSubmissionDispatcherBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
         setButtonOnClickListener()
     }
 
