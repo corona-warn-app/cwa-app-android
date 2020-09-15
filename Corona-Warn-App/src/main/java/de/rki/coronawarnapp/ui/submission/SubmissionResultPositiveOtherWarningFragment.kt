@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
@@ -35,8 +36,7 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private var _binding: FragmentSubmissionPositiveOtherWarningBinding? = null
-    private val binding: FragmentSubmissionPositiveOtherWarningBinding get() = _binding!!
+    private var binding: FragmentSubmissionPositiveOtherWarningBinding by viewLifecycle()
     private lateinit var internalExposureNotificationPermissionHelper:
             InternalExposureNotificationPermissionHelper
 
@@ -61,16 +61,11 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
     ): View? {
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        _binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
+        binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {

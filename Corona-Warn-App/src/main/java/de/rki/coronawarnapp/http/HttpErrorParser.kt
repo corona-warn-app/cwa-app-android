@@ -27,30 +27,31 @@ import de.rki.coronawarnapp.exception.http.UnsupportedMediaTypeException
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.UnknownHostException
+import javax.net.ssl.HttpsURLConnection
 
 class HttpErrorParser : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         try {
             val response = chain.proceed(chain.request())
             return when (val code = response.code) {
-                200 -> response
-                201 -> response
-                202 -> response
-                204 -> response
-                400 -> throw BadRequestException()
-                401 -> throw UnauthorizedException()
-                403 -> throw ForbiddenException()
-                404 -> throw NotFoundException()
-                409 -> throw ConflictException()
-                410 -> throw GoneException()
-                415 -> throw UnsupportedMediaTypeException()
+                HttpsURLConnection.HTTP_OK -> response
+                HttpsURLConnection.HTTP_CREATED -> response
+                HttpsURLConnection.HTTP_ACCEPTED -> response
+                HttpsURLConnection.HTTP_NO_CONTENT -> response
+                HttpsURLConnection.HTTP_BAD_REQUEST -> throw BadRequestException()
+                HttpsURLConnection.HTTP_UNAUTHORIZED -> throw UnauthorizedException()
+                HttpsURLConnection.HTTP_FORBIDDEN -> throw ForbiddenException()
+                HttpsURLConnection.HTTP_NOT_FOUND -> throw NotFoundException()
+                HttpsURLConnection.HTTP_CONFLICT -> throw ConflictException()
+                HttpsURLConnection.HTTP_GONE -> throw GoneException()
+                HttpsURLConnection.HTTP_UNSUPPORTED_TYPE -> throw UnsupportedMediaTypeException()
                 429 -> throw TooManyRequestsException()
-                500 -> throw InternalServerErrorException()
-                501 -> throw NotImplementedException()
-                502 -> throw BadGatewayException()
-                503 -> throw ServiceUnavailableException()
-                504 -> throw GatewayTimeoutException()
-                505 -> throw HTTPVersionNotSupported()
+                HttpsURLConnection.HTTP_INTERNAL_ERROR -> throw InternalServerErrorException()
+                HttpsURLConnection.HTTP_NOT_IMPLEMENTED -> throw NotImplementedException()
+                HttpsURLConnection.HTTP_BAD_GATEWAY -> throw BadGatewayException()
+                HttpsURLConnection.HTTP_UNAVAILABLE -> throw ServiceUnavailableException()
+                HttpsURLConnection.HTTP_GATEWAY_TIMEOUT -> throw GatewayTimeoutException()
+                HttpsURLConnection.HTTP_VERSION -> throw HTTPVersionNotSupported()
                 511 -> throw NetworkAuthenticationRequiredException()
                 598 -> throw NetworkReadTimeoutException()
                 599 -> throw NetworkConnectTimeoutException()
