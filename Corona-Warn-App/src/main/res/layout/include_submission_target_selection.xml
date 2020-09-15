@@ -20,29 +20,6 @@
         android:layout_height="wrap_content"
         android:focusable="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/target_layout_header"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/target_layout_header_headline"
-                style="@style/headline6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:accessibilityHeading="true"
-                android:contentDescription=""
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <Button
             android:id="@+id/target_button_apply"
             style="@style/selectionButton"
@@ -51,10 +28,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_positive_button}"
-            android:onClick="@{() -> submissionViewModel.onPositiveSymptomIndication()}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.POSITIVE)}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.POSITIVE)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/target_layout_header" />
+            app:layout_constraintTop_toTopOf="parent"  />
 
         <Button
             android:id="@+id/target_button_reject"
@@ -65,6 +43,8 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_negative_button}"
             android:onClick="@{() -> submissionViewModel.onNegativeSymptomIndication()}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NEGATIVE)}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NEGATIVE)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/target_button_apply" />
@@ -78,20 +58,11 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_no_information_button}"
             android:onClick="@{() -> submissionViewModel.onNoInformationSymptomIndication()}"
+            android:backgroundTint="@{FormatterSubmissionHelper.formatBackgroundButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NO_INFORMATION)}"
+            android:textColor="@{FormatterSubmissionHelper.formatButtonStyleByState(submissionViewModel.symptomIndication, SymptomIndication.NO_INFORMATION)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/target_button_reject" />
-
-        <TextView
-            android:id="@+id/target_layout_body_notice"
-            style="@style/subtitle"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:text=""
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/target_button_verify" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

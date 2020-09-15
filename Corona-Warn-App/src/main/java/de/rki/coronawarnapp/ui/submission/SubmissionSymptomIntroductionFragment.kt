@@ -42,7 +42,12 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             when (it) {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
+                is SymptomIntroductionEvent.SelectPositive-> selectPositiveButton()
             }
+        })
+
+        submissionViewModel.symptomIndication.observe(viewLifecycleOwner, Observer {
+
         })
     }
 
@@ -55,6 +60,11 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         // TODO: Place here the route to the previous fragment
     }
 
+    private fun selectPositiveButton()
+    {
+        submissionViewModel.onPositiveSymptomIndication()
+    }
+
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomHeader.headerButtonBack.buttonIcon
@@ -63,5 +73,9 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         binding
             .symptomButtonNext
             .setOnClickListener { submissionViewModel.onNextClicked() }
+
+        binding
+            .symptomChoiceSelection.targetButtonApply
+            .setOnClickListener { submissionViewModel.onPositiveSymptomIndication() }
     }
 }
