@@ -101,13 +101,16 @@ class CalendarView @JvmOverloads constructor(
      */
     private lateinit var adapter: CalendarAdapter
 
+    /**
+     * Fragment click listener
+     */
     private var listener: ((LocalDate?) -> Unit)? = null
 
     /**
      * On item click event listener
      *
      * @see CalendarAdapter.update
-     * @see updateHeader
+     * @see updateSelection
      */
     private val onItemClickListener: (CalendarAdapter.Day) -> Unit = { selectedDay ->
         // Update data set
@@ -118,6 +121,17 @@ class CalendarView @JvmOverloads constructor(
         adapter.update(updateData)
 
         listener?.invoke(updateData.find { it.isSelected }?.date)
+    }
+
+    /**
+     * Unset selection of each date shown
+     *
+     * @see CalendarAdapter.update
+     */
+    fun unsetSelection() {
+        val updateData = days.map { oldDay -> oldDay.copy(isSelected = false) }
+        updateSelection(false)
+        adapter.update(updateData)
     }
 
     init {
@@ -159,8 +173,13 @@ class CalendarView @JvmOverloads constructor(
         setUpMonthTextView(this)
     }
 
+    /**
+     * Set fragment click listener
+     *
+     * @see listener
+     */
     fun setDateSelectedListener(listener: (LocalDate?) -> Unit) {
-         this.listener = listener
+        this.listener = listener
     }
 
     /**

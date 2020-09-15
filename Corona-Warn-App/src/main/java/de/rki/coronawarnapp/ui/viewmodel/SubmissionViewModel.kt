@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import java.util.Date
@@ -63,10 +62,10 @@ class SubmissionViewModel : ViewModel() {
     val symptomIndication = MutableLiveData<SymptomIndication?>()
     val symptomStart = MutableLiveData<StartOfSymptoms?>()
 
-    fun initSymptoms(){
+    fun initSymptoms() {
         symptomIndication.postValue(null)
     }
-    fun initSymptomStart(){
+    fun initSymptomStart() {
         symptomStart.postValue(null)
     }
 
@@ -186,7 +185,6 @@ class SubmissionViewModel : ViewModel() {
     fun onPositiveSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.POSITIVE)
     }
-
 
     fun onNegativeSymptomIndication() {
         symptomIndication.postValue(SymptomIndication.NEGATIVE)

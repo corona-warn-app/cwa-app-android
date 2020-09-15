@@ -98,7 +98,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             isEnableSymptomIntroButtonByState(
                 symptomIndication
             )
-            
     }
 
     private fun navigateToSymptomCalendar() {

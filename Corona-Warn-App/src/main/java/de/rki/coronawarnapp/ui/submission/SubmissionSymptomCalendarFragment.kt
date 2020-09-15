@@ -60,6 +60,9 @@ class SubmissionSymptomCalendarFragment : Fragment() {
 
         submissionViewModel.symptomStart.observe(viewLifecycleOwner, Observer {
             updateButtons(it)
+            if (it !is StartOfSymptoms.Date) {
+                binding.symptomCalendarContainer.unsetSelection()
+            }
         })
 
         submissionViewModel.initSymptomStart()
@@ -107,7 +110,6 @@ class SubmissionSymptomCalendarFragment : Fragment() {
             isEnableSymptomCalendarButtonByState(
                 symptomStart
             )
-
     }
 
     private fun navigateToSymptomFinish() {
