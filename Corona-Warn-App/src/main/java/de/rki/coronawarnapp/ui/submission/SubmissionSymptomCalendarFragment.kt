@@ -1,16 +1,23 @@
 package de.rki.coronawarnapp.ui.submission
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
+import de.rki.coronawarnapp.submission.StartOfSymptoms
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.isEnableSymptomCalendarButtonByState
 
 class SubmissionSymptomCalendarFragment : Fragment() {
 
@@ -44,8 +51,63 @@ class SubmissionSymptomCalendarFragment : Fragment() {
             when (it) {
                 is SymptomCalendarEvent.NavigateToNext -> navigateToSymptomFinish()
                 is SymptomCalendarEvent.NavigateToPrevious -> navigateToPreviousScreen()
+                is SymptomCalendarEvent.SelectLastSeven -> selectLastSeven()
+                is SymptomCalendarEvent.SelectOneToTwoWeeks -> selectOneToTwoWeeks()
+                is SymptomCalendarEvent.SelectMoreThanTwoWeeks -> selectMoreThanTwoWeeks()
+                is SymptomCalendarEvent.SelectNoInformation -> selectNoInformation()
             }
         })
+
+        submissionViewModel.symptomStart.observe(viewLifecycleOwner, Observer {
+            updateButtons(it)
+        })
+
+        submissionViewModel.initSymptomStart()
+    }
+
+    private fun updateButtons(symptomStart: StartOfSymptoms?) {
+        binding.symptomCalendarChoiceSelection.calendarButtonSevenDays.findViewById<Button>(R.id.calendar_button_seven_days)
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.LastSevenDays))
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_seven_days).backgroundTintList =
+            ColorStateList.valueOf(
+                formatCalendarBackgroundButtonStyleByState(
+                    symptomStart, StartOfSymptoms.LastSevenDays
+                )
+            )
+
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_one_two_weeks)
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.OneToTwoWeeksAgo))
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_one_two_weeks).backgroundTintList =
+            ColorStateList.valueOf(
+                formatCalendarBackgroundButtonStyleByState(
+                    symptomStart, StartOfSymptoms.OneToTwoWeeksAgo
+                )
+            )
+
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_more_than_two_weeks)
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.MoreThanTwoWeeks))
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_more_than_two_weeks).backgroundTintList =
+            ColorStateList.valueOf(
+                formatCalendarBackgroundButtonStyleByState(
+                    symptomStart, StartOfSymptoms.MoreThanTwoWeeks
+                )
+            )
+
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.target_button_verify)
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.NoInformation))
+        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.target_button_verify).backgroundTintList =
+            ColorStateList.valueOf(
+                formatCalendarBackgroundButtonStyleByState(
+                    symptomStart, StartOfSymptoms.NoInformation
+                )
+            )
+
+        binding
+            .symptomButtonNext.findViewById<Button>(R.id.symptom_button_next).isEnabled =
+            isEnableSymptomCalendarButtonByState(
+                symptomStart
+            )
+
     }
 
     private fun navigateToSymptomFinish() {
@@ -57,6 +119,22 @@ class SubmissionSymptomCalendarFragment : Fragment() {
             .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
     }
 
+    private fun selectLastSeven() {
+        submissionViewModel.onLastSevenDaysStart()
+    }
+
+    private fun selectOneToTwoWeeks() {
+        submissionViewModel.onOneToTwoWeeksAgoStart()
+    }
+
+    private fun selectMoreThanTwoWeeks() {
+        submissionViewModel.onMoreThanTwoWeeksStart()
+    }
+
+    private fun selectNoInformation() {
+        submissionViewModel.onNoInformationStart()
+    }
+
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomCalendarHeader.headerButtonBack.buttonIcon
@@ -65,5 +143,21 @@ class SubmissionSymptomCalendarFragment : Fragment() {
         binding
             .symptomButtonNext
             .setOnClickListener { submissionViewModel.onCalendarNextClicked() }
+
+        binding.symptomCalendarChoiceSelection
+            .calendarButtonSevenDays
+            .setOnClickListener { submissionViewModel.onLastSevenDaysStart() }
+
+        binding.symptomCalendarChoiceSelection
+            .calendarButtonOneTwoWeeks
+            .setOnClickListener { submissionViewModel.onOneToTwoWeeksAgoStart() }
+
+        binding.symptomCalendarChoiceSelection
+            .calendarButtonMoreThanTwoWeeks
+            .setOnClickListener { submissionViewModel.onMoreThanTwoWeeksStart() }
+
+        binding.symptomCalendarChoiceSelection
+            .targetButtonVerify
+            .setOnClickListener { submissionViewModel.onNoInformationStart() }
     }
 }
