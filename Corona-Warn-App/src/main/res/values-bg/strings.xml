@@ -135,6 +135,8 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"До момента няма излагане на риск"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"До момента няма излагане на нисък риск"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s излагане на нисък риск"</item>
@@ -495,7 +497,7 @@
     <string name="sixteen_title_text">"Минимална възраст: 16 год."</string>
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_description_text">"Това приложение е предназначено за лица с постоянно пребиваване в Германия, които имат навършени 16 години."</string>
+    <string name="sixteen_description_text">"Употребата на това приложение е предназначено за лица, навършили 16 години, с постоянно пребиваване в Германия."</string>
 
 
     <!-- ####################################
@@ -720,7 +722,7 @@
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
     <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
-    <string name="information_legal_headline_taxid">"Идентификационен номер за ДДС"</string>
+    <string name="information_legal_headline_taxid">"Идентификационен номер \nза ДДС"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
@@ -767,6 +769,15 @@
     <string name="submission_error_dialog_web_tan_redeemed_body">"Възникнаха грешки при проверката на Вашия тест. Този QR код вече е изтекъл."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
+
+    <!-- XHED: Dialog title for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_title">"Желаете ли отмяна?"</string>
+    <!-- XMSG: Dialog body for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_body">"Въведените от Вас данни няма да бъдат запазени."</string>
+    <!-- XBUT: Positive button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Да"</string>
+    <!-- XBUT: Negative button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Не"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->

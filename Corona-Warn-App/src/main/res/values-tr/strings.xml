@@ -135,6 +135,8 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Şu ana dek hiçbir maruz kalma yok"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"Şu ana dek hiçbir düşük riskli maruz kalma yok"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s kez düşük riskli maruz kalma"</item>
@@ -495,7 +497,7 @@
     <string name="sixteen_title_text">"Yaş Sınırı: 16 ve Üzeri"</string>
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_description_text">"Uygulama, Almanya\'da yaşayan ve 16 yaş ve üzerindeki kişiler için hazırlanmıştır."</string>
+    <string name="sixteen_description_text">"Bu uygulama, 16 yaş ve üzerinde olan ve Almanya\'da yaşayan kişilerin kullanması için hazırlanmıştır."</string>
 
 
     <!-- ####################################
@@ -767,6 +769,15 @@
     <string name="submission_error_dialog_web_tan_redeemed_body">"Testinizi değerlendirirken bir problem oluştu. QR kodunuzun süresi dolmuş."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"Tamam"</string>
+
+    <!-- XHED: Dialog title for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_title">"İptal etmek istiyor musunuz?"</string>
+    <!-- XMSG: Dialog body for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_body">"Girişleriniz kaydedilmeyecektir."</string>
+    <!-- XBUT: Positive button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Evet"</string>
+    <!-- XBUT: Negative button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Hayır"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->

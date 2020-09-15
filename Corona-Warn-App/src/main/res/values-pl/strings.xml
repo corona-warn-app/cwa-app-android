@@ -135,6 +135,8 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"Brak narażenia do tej pory"</string>
+    <!-- XTXT: risk card - no exposures with low risk -->
+    <string name="risk_card_body_contact_low_risk">"Brak narażenia z niskim ryzykiem do tej pory"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s narażenie z niskim ryzykiem"</item>
@@ -495,7 +497,7 @@
     <string name="sixteen_title_text">"Limit wieku: 16 i więcej"</string>
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_description_text">"Ta aplikacja jest przeznaczona dla osób mieszkających w Niemczech, które ukończyły 16 lat."</string>
+    <string name="sixteen_description_text">"Ta aplikacja jest przeznaczona dla osób, które ukończyły 16 lat i mieszkają w Niemczech."</string>
 
 
     <!-- ####################################
@@ -767,6 +769,15 @@
     <string name="submission_error_dialog_web_tan_redeemed_body">"Podczas ustalania wyniku testu pojawił się błąd. Twój kod QR wygasł."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
+
+    <!-- XHED: Dialog title for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_title">"Czy chcesz anulować?"</string>
+    <!-- XMSG: Dialog body for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_body">"Twoje wpisy nie zostaną zapisane."</string>
+    <!-- XBUT: Positive button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Tak"</string>
+    <!-- XBUT: Negative button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Nie"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
