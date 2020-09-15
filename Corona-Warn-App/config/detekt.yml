@@ -100,7 +100,7 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt', '**/LocalData.kt', '**/formatter/*Helper.kt']
+    excludes: ['**/test/**', '**/androidTest/**', '**/*.Test.kt', '**/*.Spec.kt', '**/*.Spek.kt', '**/LocalData.kt', '**/formatter/*Helper.kt', '**/viewmodel/*']
     thresholdInFiles: 20
     thresholdInClasses: 20
     thresholdInInterfaces: 20
@@ -522,7 +522,8 @@ style:
       '**/*.Spek.kt',
       '**/CwaWebException.kt',
       '**/HttpErrorParser.kt',
-      '**/ErrorCodes.kt'
+      '**/ErrorCodes.kt',
+      '**/submission/TransmissionRiskVectorDeterminator.kt'
     ]
     ignoreNumbers: ['-1', '0', '1', '2']
     ignoreHashCodeFunction: true

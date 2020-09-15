@@ -30,15 +30,6 @@ class CalendarView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        /**
-         * Zero
-         */
-        private const val ZERO = 0
-
-        /**
-         * First day of the week
-         */
-        private const val FIRST_DAY = 1
 
         /**
          * Total days in week
@@ -49,18 +40,6 @@ class CalendarView @JvmOverloads constructor(
          * Weeks count
          */
         private const val WEEKS_COUNT = 4
-
-        /**
-         * Day of week text length
-         * 3 = Mon
-         * 1 = M
-         */
-        private const val DAY_OF_WEEK_TEXT_LENGTH = 1
-
-        /**
-         * Shift for logic
-         */
-        private const val SHIFT = -1
     }
 
     /**
@@ -154,7 +133,7 @@ class CalendarView @JvmOverloads constructor(
 
         with(recyclerView) {
             layoutManager = this@CalendarView.layoutManager
-            scrollToPosition(ZERO)
+            scrollToPosition(0)
         }
 
         // Calculate dates to display
@@ -205,11 +184,11 @@ class CalendarView @JvmOverloads constructor(
         // Get current week day
         val date = LocalDate()
         val currentWeekDay = DateTime(Instant.now()).dayOfWeek().get()
-        for (dayId in FIRST_DAY..DAYS_IN_WEEK) {
+        for (dayId in 1..DAYS_IN_WEEK) {
             val dayOfWeek = CalendarWeekDayView(context)
             val weekDay = date.withDayOfWeek(dayId).dayOfWeek()
             // weekDay.getAsText returns in either "Fri" or "Friday" format, substring first latter
-            dayOfWeek.setUp(weekDay.getAsText(Locale.getDefault()).take(DAY_OF_WEEK_TEXT_LENGTH),
+            dayOfWeek.setUp(weekDay.getAsText(Locale.getDefault()).take(1),
                 weekDay.get() == currentWeekDay)
             dayLegendLayout.addView(dayOfWeek)
         }
@@ -321,10 +300,10 @@ class CalendarView @JvmOverloads constructor(
         // Get current day of the week (where 1 = Monday, 7 = Sunday)
         val currentDayOfTheWeek = currentDate.dayOfWeek().get()
         // Week count
-        val weeksCount = WEEKS_COUNT + SHIFT
-        for (weekId in ZERO..weeksCount) {
-            for (dayId in FIRST_DAY..DAYS_IN_WEEK) {
-                val daysDiff = (currentDayOfTheWeek * SHIFT) + dayId - (DAYS_IN_WEEK * (weeksCount - weekId))
+        val weeksCount = WEEKS_COUNT - 1
+        for (weekId in 0..weeksCount) {
+            for (dayId in 1..DAYS_IN_WEEK) {
+                val daysDiff = (currentDayOfTheWeek * -1) + dayId - (DAYS_IN_WEEK * (weeksCount - weekId))
                 result.add(CalendarAdapter.Day(currentDate.plusDays(daysDiff).toLocalDate()))
             }
         }

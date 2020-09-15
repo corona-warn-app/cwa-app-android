@@ -65,36 +65,44 @@ class SubmissionSymptomCalendarFragment : Fragment() {
     }
 
     private fun updateButtons(symptomStart: StartOfSymptoms?) {
-        binding.symptomCalendarChoiceSelection.calendarButtonSevenDays.findViewById<Button>(R.id.calendar_button_seven_days)
+        binding.symptomCalendarChoiceSelection.calendarButtonSevenDays
+            .findViewById<Button>(R.id.calendar_button_seven_days)
             .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.LastSevenDays))
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_seven_days).backgroundTintList =
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.calendar_button_seven_days).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
                     symptomStart, StartOfSymptoms.LastSevenDays
                 )
             )
 
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_one_two_weeks)
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.calendar_button_one_two_weeks)
             .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.OneToTwoWeeksAgo))
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_one_two_weeks).backgroundTintList =
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.calendar_button_one_two_weeks).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
                     symptomStart, StartOfSymptoms.OneToTwoWeeksAgo
                 )
             )
 
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_more_than_two_weeks)
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.calendar_button_more_than_two_weeks)
             .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.MoreThanTwoWeeks))
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.calendar_button_more_than_two_weeks).backgroundTintList =
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.calendar_button_more_than_two_weeks).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
                     symptomStart, StartOfSymptoms.MoreThanTwoWeeks
                 )
             )
 
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.target_button_verify)
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.target_button_verify)
             .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.NoInformation))
-        binding.symptomCalendarChoiceSelection.targetLayout.findViewById<Button>(R.id.target_button_verify).backgroundTintList =
+        binding.symptomCalendarChoiceSelection.targetLayout
+            .findViewById<Button>(R.id.target_button_verify).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
                     symptomStart, StartOfSymptoms.NoInformation
