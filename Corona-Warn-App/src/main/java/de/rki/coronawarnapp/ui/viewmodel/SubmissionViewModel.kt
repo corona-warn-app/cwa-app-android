@@ -66,6 +66,9 @@ class SubmissionViewModel : ViewModel() {
     fun initSymptoms(){
         symptomIndication.postValue(null)
     }
+    fun initSymptomStart(){
+        symptomStart.postValue(null)
+    }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
         Symptoms(symptomStart.value ?: return, symptomIndication.value ?: return).also {

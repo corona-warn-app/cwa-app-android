@@ -16,7 +16,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/target_layout"
-        style="@style/targetLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true">
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_less_seven}"
-            android:onClick="@{() -> submissionViewModel.onLastSevenDaysStart()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_one_two_weeks}"
-            android:onClick="@{() -> submissionViewModel.onOneToTwoWeeksAgoStart()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar_button_seven_days" />
@@ -56,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_more_two_weeks}"
-            android:onClick="@{() -> submissionViewModel.onMoreThanTwoWeeksStart()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar_button_one_two_weeks" />
@@ -69,7 +65,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@{@string/submission_symptom_verify}"
-            android:onClick="@{() -> submissionViewModel.onNoInformationStart()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar_button_more_than_two_weeks" />

@@ -17,7 +17,8 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
-import de.rki.coronawarnapp.util.formatter.isEnableButtonByState
+import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
+import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
 
@@ -49,9 +50,6 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             when (it) {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
-                is SymptomIntroductionEvent.SelectPositive -> selectPositiveButton()
-                is SymptomIntroductionEvent.SelectNegative -> selectNegativeButton()
-                is SymptomIntroductionEvent.SelectNoInformation -> selectNoInformationButton()
             }
         })
 
@@ -95,10 +93,9 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
                     SymptomIndication.NO_INFORMATION
                 )
             )
-        // TODO disable continue button if symptomIndication == null
         binding
             .symptomButtonNext.findViewById<Button>(R.id.symptom_button_next).isEnabled =
-            isEnableButtonByState(
+            isEnableSymptomIntroButtonByState(
                 symptomIndication
             )
             
@@ -112,19 +109,10 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
     }
 
     private fun navigateToPreviousScreen() {
-        // TODO: Place here the route to the previous fragment
-    }
-
-    private fun selectPositiveButton() {
-        submissionViewModel.onPositiveSymptomIndication()
-    }
-
-    private fun selectNegativeButton() {
-        submissionViewModel.onNegativeSymptomIndication()
-    }
-
-    private fun selectNoInformationButton() {
-        submissionViewModel.onNoInformationSymptomIndication()
+        findNavController().doNavigate(
+            SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
+        )
     }
 
     private fun setButtonOnClickListener() {

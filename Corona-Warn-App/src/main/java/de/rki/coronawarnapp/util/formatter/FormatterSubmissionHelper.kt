@@ -29,7 +29,11 @@ fun formatCalendarButtonStyleByState(currentState: StartOfSymptoms?, state: Star
 fun formatCalendarBackgroundButtonStyleByState(currentState: StartOfSymptoms?, state: StartOfSymptoms?): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun isEnableButtonByState(currentState: SymptomIndication?): Boolean {
+fun isEnableSymptomIntroButtonByState(currentState: SymptomIndication?): Boolean {
+    return currentState != null
+}
+
+fun isEnableSymptomCalendarButtonByState(currentState: StartOfSymptoms?): Boolean {
     return currentState != null
 }
 
