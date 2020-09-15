@@ -48,7 +48,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             when (it) {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
-                is SymptomIntroductionEvent.SelectPositive-> selectPositiveButton()
+                is SymptomIntroductionEvent.SelectPositive -> selectPositiveButton()
             }
         })
 
@@ -59,33 +59,54 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         submissionViewModel.initSymptoms()
     }
 
-    private fun updateButtons(symptomIndication: SymptomIndication?){
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).
-            setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.POSITIVE))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).
-        backgroundTintList = ColorStateList.valueOf(formatBackgroundButtonStyleByState(symptomIndication, SymptomIndication.POSITIVE))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).
-            setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.NEGATIVE))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).
-        backgroundTintList = ColorStateList.valueOf(formatBackgroundButtonStyleByState(symptomIndication, SymptomIndication.NEGATIVE))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).
-            setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.NO_INFORMATION))
-        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).
-        backgroundTintList = ColorStateList.valueOf(formatBackgroundButtonStyleByState(symptomIndication, SymptomIndication.NO_INFORMATION))
+    private fun updateButtons(symptomIndication: SymptomIndication?) {
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply)
+            .setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.POSITIVE))
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).backgroundTintList =
+            ColorStateList.valueOf(
+                formatBackgroundButtonStyleByState(
+                    symptomIndication,
+                    SymptomIndication.POSITIVE
+                )
+            )
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject)
+            .setTextColor(formatButtonStyleByState(symptomIndication, SymptomIndication.NEGATIVE))
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).backgroundTintList =
+            ColorStateList.valueOf(
+                formatBackgroundButtonStyleByState(
+                    symptomIndication,
+                    SymptomIndication.NEGATIVE
+                )
+            )
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify)
+            .setTextColor(
+                formatButtonStyleByState(
+                    symptomIndication,
+                    SymptomIndication.NO_INFORMATION
+                )
+            )
+        binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).backgroundTintList =
+            ColorStateList.valueOf(
+                formatBackgroundButtonStyleByState(
+                    symptomIndication,
+                    SymptomIndication.NO_INFORMATION
+                )
+            )
         // TODO disable continue button if symptomIndication == null
     }
 
     private fun navigateToSymptomCalendar() {
-        findNavController().doNavigate(SubmissionSymptomIntroductionFragmentDirections
-            .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment())
+        findNavController().doNavigate(
+            SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
+        )
     }
 
     private fun navigateToPreviousScreen() {
         // TODO: Place here the route to the previous fragment
     }
 
-    private fun selectPositiveButton()
-    {
+    private fun selectPositiveButton() {
         submissionViewModel.onPositiveSymptomIndication()
     }
 
