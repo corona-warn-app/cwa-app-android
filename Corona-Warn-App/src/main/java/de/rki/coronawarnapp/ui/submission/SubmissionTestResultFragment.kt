@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -34,8 +35,7 @@ class SubmissionTestResultFragment : Fragment() {
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private var _binding: FragmentSubmissionTestResultBinding? = null
-    private val binding: FragmentSubmissionTestResultBinding get() = _binding!!
+    private var binding: FragmentSubmissionTestResultBinding by viewLifecycle()
 
     private var skipInitialTestResultRefresh = false
 
@@ -55,7 +55,7 @@ class SubmissionTestResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionTestResultBinding.inflate(inflater)
+        binding = FragmentSubmissionTestResultBinding.inflate(inflater)
         binding.submissionViewModel = submissionViewModel
         binding.lifecycleOwner = this
         // registers callback when the os level back is pressed
@@ -109,11 +109,6 @@ class SubmissionTestResultFragment : Fragment() {
                 ::navigateToMainScreen
             )
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

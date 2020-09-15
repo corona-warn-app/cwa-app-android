@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * This fragment informs the user regarding privacy.
@@ -18,21 +19,15 @@ class OnboardingPrivacyFragment : Fragment() {
         private val TAG: String? = OnboardingPrivacyFragment::class.simpleName
     }
 
-    private var _binding: FragmentOnboardingPrivacyBinding? = null
-    private val binding: FragmentOnboardingPrivacyBinding get() = _binding!!
+    private var binding: FragmentOnboardingPrivacyBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOnboardingPrivacyBinding.inflate(inflater)
+        binding = FragmentOnboardingPrivacyBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

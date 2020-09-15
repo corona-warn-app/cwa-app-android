@@ -36,9 +36,6 @@
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_testRiskLevelCalculation"
-            app:destination="@id/testRiskLevelCalculation" />
-        <action
             android:id="@+id/action_mainFragment_to_submissionIntroFragment"
             app:destination="@id/submissionIntroFragment" />
     </fragment>
@@ -168,7 +165,6 @@
         android:label="InformationTechnicalFragment"
         tools:layout="@layout/fragment_information_technical" />
 
-    <!-- Submission -->
     <fragment
         android:id="@+id/riskDetailsFragment"
         android:name="de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragment"
@@ -178,7 +174,7 @@
             android:id="@+id/action_riskDetailsFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
     </fragment>
-
+    <!-- Submission -->
     <fragment
         android:id="@+id/submissionDispatcherFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionDispatcherFragment"
@@ -304,11 +300,6 @@
             android:id="@+id/action_submissionContactFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/testRiskLevelCalculation"
-        android:name="de.rki.coronawarnapp.TestRiskLevelCalculation"
-        android:label="fragment_test_risk_level_calculation"
-        tools:layout="@layout/fragment_test_risk_level_calculation" />
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.ExternalActionHelper
 
 /**
@@ -22,21 +23,15 @@ class InformationFragment : Fragment() {
         private val TAG: String? = InformationFragment::class.simpleName
     }
 
-    private var _binding: FragmentInformationBinding? = null
-    private val binding: FragmentInformationBinding get() = _binding!!
+    private var binding: FragmentInformationBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInformationBinding.inflate(inflater)
+        binding = FragmentInformationBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

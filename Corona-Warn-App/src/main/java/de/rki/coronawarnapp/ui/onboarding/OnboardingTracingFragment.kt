@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.DialogHelper
 import kotlinx.coroutines.launch
 
@@ -35,8 +36,7 @@ class OnboardingTracingFragment : Fragment(),
     }
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
-    private var _binding: FragmentOnboardingTracingBinding? = null
-    private val binding: FragmentOnboardingTracingBinding get() = _binding!!
+    private var binding: FragmentOnboardingTracingBinding by viewLifecycle()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         internalExposureNotificationPermissionHelper.onResolutionComplete(
@@ -56,13 +56,8 @@ class OnboardingTracingFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOnboardingTracingBinding.inflate(inflater)
+        binding = FragmentOnboardingTracingBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

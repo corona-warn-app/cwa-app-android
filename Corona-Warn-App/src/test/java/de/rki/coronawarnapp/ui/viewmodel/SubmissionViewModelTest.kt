@@ -51,7 +51,7 @@ class SubmissionViewModelTest {
 
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
-        viewModel.validateAndStoreTestGUID("https://bs-sd.de/covid-19/?$guid")
+        viewModel.validateAndStoreTestGUID("https://localhost/?$guid")
         viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.SUCCESS, it) }
 
         // invalid guid
