@@ -170,26 +170,4 @@ class SubmissionServiceTest {
         }
     }
 
-    @Test
-    fun containsValidGUID() {
-        // valid
-        assertThat(
-            SubmissionService.containsValidGUID("https://bs-sd.de/covid-19/?$guid"),
-            equalTo(true)
-        )
-
-        // invalid
-        assertThat(
-            SubmissionService.containsValidGUID("https://no-guid-here"),
-            equalTo(false)
-        )
-    }
-
-    @Test
-    fun extractGUID() {
-        assertThat(
-            SubmissionService.extractGUID("https://bs-sd.de/covid-19/?$guid"),
-            equalTo(guid)
-        )
-    }
 }

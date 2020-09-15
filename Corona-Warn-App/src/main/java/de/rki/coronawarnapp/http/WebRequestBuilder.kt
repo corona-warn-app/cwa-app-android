@@ -21,43 +21,27 @@ package de.rki.coronawarnapp.http
 
 import KeyExportFormat
 import com.google.protobuf.ByteString
-import com.google.protobuf.InvalidProtocolBufferException
-import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
-import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.http.requests.RegistrationRequest
 import de.rki.coronawarnapp.http.requests.RegistrationTokenRequest
 import de.rki.coronawarnapp.http.requests.TanRequestBody
-import de.rki.coronawarnapp.http.service.DistributionService
 import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.service.submission.SubmissionConstants
-import de.rki.coronawarnapp.storage.FileStorageHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toServerFormat
-import de.rki.coronawarnapp.util.ZipHelper.unzip
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.HashHelper
-import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.io.File
-import java.util.Date
-import java.util.Locale
-import java.util.UUID
 import kotlin.math.max
 
 class WebRequestBuilder(
-    private val distributionService: DistributionService,
     private val verificationService: VerificationService,
-    private val submissionService: SubmissionService,
-    private val verificationKeys: VerificationKeys
+    private val submissionService: SubmissionService
 ) {
     companion object {
         private val TAG: String? = WebRequestBuilder::class.simpleName
-        private const val EXPORT_BINARY_FILE_NAME = "export.bin"
-        private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
 
         @Volatile
         private var instance: WebRequestBuilder? = null
@@ -69,97 +53,13 @@ class WebRequestBuilder(
         }
 
         private fun buildWebRequestBuilder(): WebRequestBuilder {
-            val serviceFactory = ServiceFactory()
+            val serviceFactory = AppInjector.component.serviceFactory
             return WebRequestBuilder(
-                serviceFactory.distributionService(),
                 serviceFactory.verificationService(),
-                serviceFactory.submissionService(),
-                VerificationKeys()
+                serviceFactory.submissionService()
             )
         }
     }
-
-    /**
-     * Gets the country index which is then filtered by given filter param or if param not set
-     * @param wantedCountries (array of country codes) used to filter
-     * only wanted countries of the country index (case insensitive)
-     */
-    suspend fun asyncGetCountryIndex(
-        wantedCountries: List<String>
-    ): List<String> =
-        withContext(Dispatchers.IO) {
-            return@withContext distributionService
-                .getDateIndex(DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL)
-                .filter {
-                    wantedCountries.map { c -> c.toUpperCase(Locale.ROOT) }
-                        .contains(it.toUpperCase(Locale.ROOT))
-                }
-                .toList()
-        }
-
-    suspend fun asyncGetHourIndex(day: Date): List<String> = withContext(Dispatchers.IO) {
-        return@withContext distributionService
-            .getHourIndex(
-                DiagnosisKeyConstants.AVAILABLE_DATES_URL +
-                        "/${day.toServerFormat()}/${DiagnosisKeyConstants.HOUR}"
-            )
-            .toList()
-    }
-
-    /**
-     * Get the date index based on the given country
-     * @param country the country where the date index should be requested
-     */
-    suspend fun asyncGetDateIndex(country: String): List<String> = withContext(Dispatchers.IO) {
-        return@withContext distributionService
-            .getDateIndex("${DiagnosisKeyConstants.AVAILABLE_COUNTRIES_URL}/$country/${DiagnosisKeyConstants.DATE}")
-            .toList()
-    }
-
-    /**
-     * Retrieves Key Files from the Server based on a URL
-     *
-     * @param url the given URL
-     */
-    suspend fun asyncGetKeyFilesFromServer(
-        url: String
-    ): File = withContext(Dispatchers.IO) {
-        val fileName = "${UUID.nameUUIDFromBytes(url.toByteArray())}.zip"
-        val file = File(FileStorageHelper.keyExportDirectory, fileName)
-        file.outputStream().use {
-            Timber.v("Added $url to queue.")
-            distributionService.getKeyFiles(url).byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
-            Timber.v("key file request successful.")
-        }
-        return@withContext file
-    }
-
-    suspend fun asyncGetApplicationConfigurationFromServer(): ApplicationConfiguration =
-        withContext(Dispatchers.IO) {
-            var exportBinary: ByteArray? = null
-            var exportSignature: ByteArray? = null
-
-            distributionService.getApplicationConfiguration(
-                DiagnosisKeyConstants.COUNTRY_APPCONFIG_DOWNLOAD_URL
-            ).byteStream().unzip { entry, entryContent ->
-                if (entry.name == EXPORT_BINARY_FILE_NAME) exportBinary = entryContent.copyOf()
-                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) exportSignature =
-                    entryContent.copyOf()
-            }
-            if (exportBinary == null || exportSignature == null) {
-                throw ApplicationConfigurationInvalidException()
-            }
-
-            if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
-                throw ApplicationConfigurationCorruptException()
-            }
-
-            try {
-                return@withContext ApplicationConfiguration.parseFrom(exportBinary)
-            } catch (e: InvalidProtocolBufferException) {
-                throw ApplicationConfigurationInvalidException()
-            }
-        }
 
     suspend fun asyncGetRegistrationToken(
         key: String,

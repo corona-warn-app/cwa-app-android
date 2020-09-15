@@ -34,7 +34,7 @@ object TimeVariables {
      * The maximal runtime of a transaction
      * In milliseconds
      */
-    private const val TRANSACTION_TIMEOUT = 60000L
+    private const val TRANSACTION_TIMEOUT = 180000L
 
     /**
      * Getter function for [TRANSACTION_TIMEOUT]
