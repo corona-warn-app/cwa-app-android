@@ -4,15 +4,13 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.submission.ExposureKeyDomain
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN_AND_SUBMIT_KEYS
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
-import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.limitKeyCount
-import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.toExternalFormat
-import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.toSortedHistory
 import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
@@ -65,10 +63,10 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
          * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
          ****************************************************/
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
-            keys
-                .limitKeyCount()
-                .toSortedHistory()
-                .toExternalFormat(TransmissionRiskVectorDeterminator().determine(symptoms))
+            ExposureKeyDomain().transformToKeyHistoryInExternalFormat(
+                keys,
+                TransmissionRiskVectorDeterminator().determine(symptoms)
+            )
         }
         /****************************************************
          * RETRIEVE TAN & SUBMIT KEYS
