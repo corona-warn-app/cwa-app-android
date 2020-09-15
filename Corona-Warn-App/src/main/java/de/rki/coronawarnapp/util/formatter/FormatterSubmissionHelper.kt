@@ -29,8 +29,8 @@ fun formatCalendarButtonStyleByState(currentState: StartOfSymptoms?, state: Star
 fun formatCalendarBackgroundButtonStyleByState(currentState: StartOfSymptoms?, state: StartOfSymptoms?): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun isEnableButtonByState(currentState: String?): Boolean {
-    return currentState != ""
+fun isEnableButtonByState(currentState: SymptomIndication?): Boolean {
+    return currentState != null
 }
 
 fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =

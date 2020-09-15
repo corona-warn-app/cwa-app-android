@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
+import de.rki.coronawarnapp.util.formatter.isEnableButtonByState
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
 
@@ -49,6 +50,8 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
                 is SymptomIntroductionEvent.SelectPositive -> selectPositiveButton()
+                is SymptomIntroductionEvent.SelectNegative -> selectNegativeButton()
+                is SymptomIntroductionEvent.SelectNoInformation -> selectNoInformationButton()
             }
         })
 
@@ -93,6 +96,12 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
                 )
             )
         // TODO disable continue button if symptomIndication == null
+        binding
+            .symptomButtonNext.findViewById<Button>(R.id.symptom_button_next).isEnabled =
+            isEnableButtonByState(
+                symptomIndication
+            )
+            
     }
 
     private fun navigateToSymptomCalendar() {
@@ -110,6 +119,14 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         submissionViewModel.onPositiveSymptomIndication()
     }
 
+    private fun selectNegativeButton() {
+        submissionViewModel.onNegativeSymptomIndication()
+    }
+
+    private fun selectNoInformationButton() {
+        submissionViewModel.onNoInformationSymptomIndication()
+    }
+
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomHeader.headerButtonBack.buttonIcon
@@ -122,5 +139,13 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         binding
             .symptomChoiceSelection.targetButtonApply
             .setOnClickListener { submissionViewModel.onPositiveSymptomIndication() }
+
+        binding
+            .symptomChoiceSelection.targetButtonReject
+            .setOnClickListener { submissionViewModel.onNegativeSymptomIndication() }
+
+        binding
+            .symptomChoiceSelection.targetButtonVerify
+            .setOnClickListener { submissionViewModel.onNoInformationSymptomIndication() }
     }
 }
