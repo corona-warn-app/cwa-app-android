@@ -137,8 +137,6 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"No exposure up to now"</string>
-    <!-- XTXT: risk card - no exposures with low risk -->
-    <string name="risk_card_body_contact_low_risk">"No exposure with low risk so far"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s exposure with low risk"</item>
@@ -748,6 +746,10 @@
     <string name="submission_error_dialog_web_test_paired_title">"QR code is invalid"</string>
     <!-- XMSG: Dialog body for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
+    <!-- XHED: Dialog title for already paired test error: tan -->
+    <string name="submission_error_dialog_web_test_paired_title_tan" />
+    <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
+    <string name="submission_error_dialog_web_test_paired_body_tan" />
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Back"</string>
 
