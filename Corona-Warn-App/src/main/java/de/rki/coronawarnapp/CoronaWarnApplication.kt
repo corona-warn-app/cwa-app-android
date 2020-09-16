@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.debug.FileLogger
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -49,6 +50,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             instance.applicationContext
 
         const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
+        var fileLogger: FileLogger? = null
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver
@@ -70,6 +72,10 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        }
+
+        if ((BuildConfig.FLAVOR != "deviceForTesters" || BuildConfig.DEBUG)) {
+            fileLogger = FileLogger(this)
         }
 
         // notification to test the WakeUpService from Google when the app
