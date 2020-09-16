@@ -168,19 +168,19 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun onNextClicked() {
-        symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToSymptomCalendar
+        symptomIntroductionEvent.postValue(SymptomIntroductionEvent.NavigateToSymptomCalendar)
     }
 
     fun onPreviousClicked() {
-        symptomIntroductionEvent.value = SymptomIntroductionEvent.NavigateToPreviousScreen
+        symptomIntroductionEvent.postValue(SymptomIntroductionEvent.NavigateToPreviousScreen)
     }
 
     fun onCalendarNextClicked() {
-        symptomCalendarEvent.value = SymptomCalendarEvent.NavigateToNext
+        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToNext)
     }
 
     fun onCalendarPreviousClicked() {
-        symptomCalendarEvent.value = SymptomCalendarEvent.NavigateToPrevious
+        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToPrevious)
     }
 
     fun onPositiveSymptomIndication() {
