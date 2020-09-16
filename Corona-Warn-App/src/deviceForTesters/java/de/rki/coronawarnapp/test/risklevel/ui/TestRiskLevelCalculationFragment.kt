@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelSource
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class TestRiskLevelCalculationFragment : Fragment(), AutoInject {
     private val navArgs by navArgs<TestRiskLevelCalculationFragmentArgs>()
 
-    @Inject lateinit var viewModelFactory: CWAViewModelSource.Factory
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: TestRiskLevelCalculationFragmentCWAViewModel by cwaViewModelsAssisted(
         { viewModelFactory },
         { factory, handle ->
