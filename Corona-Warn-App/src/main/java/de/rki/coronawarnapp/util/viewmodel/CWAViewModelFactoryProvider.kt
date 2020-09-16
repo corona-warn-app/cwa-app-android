@@ -28,7 +28,7 @@ import com.squareup.inject.assisted.AssistedInject
  *
  * Step 7: Finally whatever called `ourViewModel.onActionClicked` can execute.
  */
-class CWAViewModelSource @AssistedInject constructor(
+class CWAViewModelFactoryProvider @AssistedInject constructor(
     private val creators: @JvmSuppressWildcards Map<Class<out CWAViewModel>, CWAViewModelFactory<out CWAViewModel>>,
     @Assisted savedStateOwner: SavedStateRegistryOwner,
     @Assisted defaultSavedState: Bundle?,
@@ -75,6 +75,6 @@ class CWAViewModelSource @AssistedInject constructor(
             savedStateOwner: SavedStateRegistryOwner,
             defaultSavedState: Bundle?,
             assistAction: ((CWAViewModelFactory<out CWAViewModel>, SavedStateHandle) -> CWAViewModel)? = null
-        ): CWAViewModelSource
+        ): CWAViewModelFactoryProvider
     }
 }
