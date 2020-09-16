@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.submission
 import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.protobuf.ByteString
+import javax.inject.Inject
 
-class ExposureKeyDomain {
+class ExposureKeyDomain @Inject constructor() {
 
     companion object {
 
@@ -19,7 +20,7 @@ class ExposureKeyDomain {
         toExternalFormat(toSortedHistory(limitKeyCount(keys)), transmissionRiskVector)
 
     private fun limitKeyCount(keys: List<TemporaryExposureKey>): List<TemporaryExposureKey> =
-        toSortedHistory(keys).take(MAXIMUM_KEYS)
+        keys.take(MAXIMUM_KEYS)
 
     private fun toExternalFormat(
         keys: List<TemporaryExposureKey>,

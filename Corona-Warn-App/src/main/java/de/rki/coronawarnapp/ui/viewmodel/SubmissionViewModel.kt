@@ -71,7 +71,7 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
-        Symptoms(symptomStart.value ?: return, symptomIndication.value ?: return).also {
+        Symptoms(symptomStart.value, symptomIndication.value ?: return).also {
             viewModelScope.launch {
                 try {
                     _submissionState.value = ApiRequestState.STARTED
