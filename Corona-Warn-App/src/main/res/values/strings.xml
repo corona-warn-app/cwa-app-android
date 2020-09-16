@@ -137,8 +137,6 @@
 
     <!-- XTXT: risk card - no contact yet -->
     <string name="risk_card_body_contact">"No exposure up to now"</string>
-    <!-- XTXT: risk card - no exposures with low risk -->
-    <string name="risk_card_body_contact_low_risk">"No exposure with low risk so far"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s exposure with low risk"</item>
@@ -546,6 +544,8 @@
     <string name="settings_tracing_status_location_headline">"Allow location access"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
+    <string name="settings_tracing_status_location_body_url"/>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -748,6 +748,10 @@
     <string name="submission_error_dialog_web_test_paired_title">"QR code is invalid"</string>
     <!-- XMSG: Dialog body for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
+    <!-- XHED: Dialog title for already paired test error: tan -->
+    <string name="submission_error_dialog_web_test_paired_title_tan" />
+    <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
+    <string name="submission_error_dialog_web_test_paired_body_tan" />
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Back"</string>
 
@@ -771,6 +775,15 @@
     <string name="submission_error_dialog_web_tan_redeemed_body">"There was a problem evaluating your test. Your QR code has already expired."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
+
+    <!-- XHED: Dialog title for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie wirklich abbrechen?"</string>
+    <!-- XMSG: Dialog body for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_body">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
+    <!-- XBUT: Positive button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Ja"</string>
+    <!-- XBUT: Negative button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"Nein"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->

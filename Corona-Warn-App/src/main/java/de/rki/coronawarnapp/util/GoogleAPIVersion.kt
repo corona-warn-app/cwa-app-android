@@ -14,7 +14,7 @@ class GoogleAPIVersion @Inject constructor() {
      *
      * @return isAboveVersion, if connected to an old unsupported version, return false
      */
-    suspend fun isAbove(compareVersion: Long): Boolean {
+    suspend fun isAtLeast(compareVersion: Long): Boolean {
         if (!compareVersion.isCorrectVersionLength) {
             throw IllegalArgumentException("given version has incorrect length")
         }

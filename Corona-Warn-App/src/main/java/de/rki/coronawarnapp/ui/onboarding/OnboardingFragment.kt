@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * Onboarding starting point.
@@ -21,21 +22,15 @@ class OnboardingFragment : Fragment() {
         private val TAG: String? = OnboardingFragment::class.simpleName
     }
 
-    private var _binding: FragmentOnboardingBinding? = null
-    private val binding: FragmentOnboardingBinding get() = _binding!!
+    private var binding: FragmentOnboardingBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentOnboardingBinding.inflate(inflater)
+        binding = FragmentOnboardingBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

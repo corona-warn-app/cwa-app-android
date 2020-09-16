@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * The [SubmissionDoneFragment] displays information to a user that submitted his exposure keys
  */
 class SubmissionDoneFragment : Fragment() {
 
-    private var _binding: FragmentSubmissionDoneBinding? = null
-    private val binding: FragmentSubmissionDoneBinding get() = _binding!!
+    private var binding: FragmentSubmissionDoneBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,15 +24,9 @@ class SubmissionDoneFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionDoneBinding.inflate(inflater)
+        binding = FragmentSubmissionDoneBinding.inflate(inflater)
         return binding.root
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()

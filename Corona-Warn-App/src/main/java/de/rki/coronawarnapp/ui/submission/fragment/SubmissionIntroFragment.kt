@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewLifecycle
 
 /**
  * The [SubmissionIntroFragment] displays information about how the corona warning system works
  */
 class SubmissionIntroFragment : Fragment() {
 
-    private var _binding: FragmentSubmissionIntroBinding? = null
-    private val binding: FragmentSubmissionIntroBinding get() = _binding!!
+    private var binding: FragmentSubmissionIntroBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,13 +24,8 @@ class SubmissionIntroFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionIntroBinding.inflate(inflater)
+        binding = FragmentSubmissionIntroBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

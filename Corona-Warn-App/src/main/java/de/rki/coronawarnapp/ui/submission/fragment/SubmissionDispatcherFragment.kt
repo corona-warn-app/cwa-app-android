@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.util.DialogHelper
 
 class SubmissionDispatcherFragment : Fragment() {
@@ -19,22 +20,16 @@ class SubmissionDispatcherFragment : Fragment() {
         private val TAG: String? = SubmissionDispatcherFragment::class.simpleName
     }
 
-    private var _binding: FragmentSubmissionDispatcherBinding? = null
-    private val binding: FragmentSubmissionDispatcherBinding get() = _binding!!
+    private var binding: FragmentSubmissionDispatcherBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSubmissionDispatcherBinding.inflate(inflater)
+        binding = FragmentSubmissionDispatcherBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
