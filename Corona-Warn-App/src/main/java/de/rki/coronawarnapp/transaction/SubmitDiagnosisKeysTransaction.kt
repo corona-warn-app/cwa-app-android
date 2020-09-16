@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.ExposureKeyDomain
+import de.rki.coronawarnapp.submission.KeyConverter
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
@@ -65,7 +66,8 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
             ExposureKeyDomain().transformToKeyHistoryInExternalFormat(
                 keys,
-                TransmissionRiskVectorDeterminator().determine(symptoms)
+                TransmissionRiskVectorDeterminator().determine(symptoms),
+                KeyConverter::toExternalFormat
             )
         }
         /****************************************************

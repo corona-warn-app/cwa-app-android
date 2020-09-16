@@ -167,5 +167,4 @@ class SubmissionServiceTest {
             LocalData.devicePairingSuccessfulTimestamp(0L)
         }
     }
-
 }
