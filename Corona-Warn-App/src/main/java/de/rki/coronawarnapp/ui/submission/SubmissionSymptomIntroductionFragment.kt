@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
-import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
 
 class SubmissionSymptomIntroductionFragment : Fragment() {
 
@@ -48,7 +47,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
 
         submissionViewModel.symptomIntroductionEvent.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToSymptomCalendar()
+                is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToNext()
                 is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
             }
         })
@@ -100,11 +99,19 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
             )
     }
 
-    private fun navigateToSymptomCalendar() {
-        findNavController().doNavigate(
-            SubmissionSymptomIntroductionFragmentDirections
-                .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
-        )
+    private fun navigateToNext() {
+
+        if (submissionViewModel.symptomIndication.value!! == SymptomIndication.POSITIVE) {
+            findNavController().doNavigate(
+                SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
+            )
+        } else {
+            findNavController().doNavigate(
+                SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
+            )
+        }
     }
 
     private fun navigateToPreviousScreen() {

@@ -205,6 +205,12 @@
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/submissionDoneFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionSymptomCalendarFragment"
+            app:destination="@id/submissionSymptomCalendarFragment" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
@@ -310,6 +316,9 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
