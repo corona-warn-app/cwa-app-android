@@ -749,7 +749,7 @@
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN ist ungültig"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
-    <string name="submission_error_dialog_web_test_paired_body_tan">"Die TAN ist ungültig oder wurde bereits verwendet. Bitte rufen Sie die unter „TAN anfragen" angegebene Nummer an, um weitere Informationen zu erhalten."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan">"Die TAN ist ungültig oder wurde bereits verwendet. Bitte rufen Sie die unter „TAN anfragen“ angegebene Nummer an, um weitere Informationen zu erhalten."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Zurück"</string>
 
@@ -884,9 +884,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"TAN-Eingabe"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"Ungültige TAN, bitte überprüfen Sie Ihre Eingabe."</string>
+    <string name="submission_tan_error">"Ungültige TAN. Bitte überprüfen Sie Ihre Eingabe."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Ungültige Eingabe, bitte überprüfen Sie das Zeichen."</string>
+    <string name="submission_tan_character_error">"Ihre Eingabe enthält ein ungültiges Zeichen. Bitte überprüfen Sie Ihre Eingabe."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
