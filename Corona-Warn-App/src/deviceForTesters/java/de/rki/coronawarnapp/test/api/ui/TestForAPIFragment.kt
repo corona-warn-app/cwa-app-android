@@ -51,6 +51,10 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,9 +65,14 @@ import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.UUID
+import javax.inject.Inject
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
-class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
+class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback,
+    AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
         const val CONFIG_SCORE = 8
@@ -148,9 +157,12 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         val last3HoursSwitch = test_api_switch_last_three_hours_from_server as Switch
         last3HoursSwitch.isChecked = LocalData.last3HoursMode()
         last3HoursSwitch.setOnClickListener {
-            val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
-            showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
-            LocalData.last3HoursMode(isLast3HoursModeEnabled)
+            vm.setLast3HoursMode(last3HoursSwitch.isChecked)
+
+        }
+
+        vm.last3HourToggleEvent.observe2(this) {
+            showToast("Last 3 Hours Mode is activated: $it")
         }
 
         val backgroundNotificationSwitch = test_api_switch_background_notifications as Switch
