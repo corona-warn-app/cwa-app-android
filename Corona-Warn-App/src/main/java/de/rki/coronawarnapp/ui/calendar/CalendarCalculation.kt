@@ -7,7 +7,6 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @Reusable
 class CalendarCalculation @Inject constructor() {

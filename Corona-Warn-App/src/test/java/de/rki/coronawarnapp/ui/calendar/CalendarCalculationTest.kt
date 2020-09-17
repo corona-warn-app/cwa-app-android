@@ -8,6 +8,7 @@ import org.junit.Test
 class CalendarCalculationTest {
 
     private var pattern = "dd.MM.yyyy"
+    private val formatter = DateTimeFormat.forPattern(pattern)
 
     @Test
     fun calculateSameYearSameMonth() {
@@ -72,5 +73,44 @@ class CalendarCalculationTest {
             dates.first().date,
             dates.last().date
         ) shouldBe "December 2020 - January 2021"
+    }
+
+    @Test
+    fun calculateEdgeCases() {
+        // new year
+        CalendarCalculation().getDates(DateTime.parse("27.12.2021", formatter)).apply {
+            // First day - 6 of December 2021
+            first().date.dayOfMonth shouldBe 6
+            first().date.monthOfYear shouldBe 12
+            first().date.year shouldBe 2021
+
+            // Last day - 2 of January 2022
+            last().date.dayOfMonth shouldBe 2
+            last().date.monthOfYear shouldBe 1
+            last().date.year shouldBe 2022
+
+            CalendarCalculation().getMonthText(
+                first().date,
+                last().date
+            ) shouldBe "December 2021 - January 2022"
+        }
+
+        // leap year
+        CalendarCalculation().getDates(DateTime.parse("29.02.2024", formatter)).apply {
+            // First day - 5 of February 2024
+            first().date.dayOfMonth shouldBe 5
+            first().date.monthOfYear shouldBe 2
+            first().date.year shouldBe 2024
+
+            // Last day - 2 of March 2024
+            last().date.dayOfMonth shouldBe 3
+            last().date.monthOfYear shouldBe 3
+            last().date.year shouldBe 2024
+
+            CalendarCalculation().getMonthText(
+                first().date,
+                last().date
+            ) shouldBe "February - March 2024"
+        }
     }
 }

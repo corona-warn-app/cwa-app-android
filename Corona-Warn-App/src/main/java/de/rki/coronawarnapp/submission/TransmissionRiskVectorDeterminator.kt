@@ -10,9 +10,7 @@ class TransmissionRiskVectorDeterminator {
         when (symptoms.symptomIndication) {
             SymptomIndication.POSITIVE -> when (symptoms.startOfSymptoms) {
                 is StartOfSymptoms.Date -> when (
-                    numberOfDays(
-                        symptoms.startOfSymptoms.millis,
-                        System.currentTimeMillis())) {
+                    numberOfDays(symptoms.startOfSymptoms.millis)) {
                     0 -> intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                     1 -> intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
                     2 -> intArrayOf(6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1)
@@ -48,7 +46,7 @@ class TransmissionRiskVectorDeterminator {
     )
 
     companion object {
-        fun numberOfDays(t0: Long, t1: Long) =
+        fun numberOfDays(t0: Long, t1: Long = System.currentTimeMillis()) =
             Duration(Instant.ofEpochMilli(t0), Instant.ofEpochMilli(t1)).standardDays.toInt()
     }
 }
