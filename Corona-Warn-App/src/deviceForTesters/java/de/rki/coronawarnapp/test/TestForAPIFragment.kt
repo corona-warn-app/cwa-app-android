@@ -101,9 +101,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
 
-        // set the lifecycleowner for LiveData
-        binding.lifecycleOwner = this
-
         val v: Long = PackageInfoCompat.getLongVersionCode(
             activity?.packageManager!!.getPackageInfo(
                 GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE,
@@ -412,7 +409,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         myKeys
             ?.maxByOrNull { it.rollingStartIntervalNumber }
             ?.rollingStartIntervalNumber?.toLong()
-            ?.let {
+            .let {
                 val ms = it * 60L * 10L * 1000L
                 val dateString = DateTime(ms, DateTimeZone.UTC)
 

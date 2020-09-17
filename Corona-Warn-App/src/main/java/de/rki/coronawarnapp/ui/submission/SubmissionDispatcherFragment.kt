@@ -18,7 +18,6 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this
         setButtonOnClickListener()
     }
 

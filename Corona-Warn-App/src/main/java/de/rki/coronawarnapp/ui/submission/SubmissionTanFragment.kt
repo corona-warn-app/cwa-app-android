@@ -81,7 +81,6 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewmodel = viewModel
-        binding.lifecycleOwner = this
 
         binding.submissionTanContent.submissionTanInput.listener = { tan ->
             resetError()

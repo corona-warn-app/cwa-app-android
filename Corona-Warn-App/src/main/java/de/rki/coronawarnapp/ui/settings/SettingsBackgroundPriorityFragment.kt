@@ -29,7 +29,6 @@ class SettingsBackgroundPriorityFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.settingsViewModel = settingsViewModel
-        binding.lifecycleOwner = this
         setButtonOnClickListener()
     }
 

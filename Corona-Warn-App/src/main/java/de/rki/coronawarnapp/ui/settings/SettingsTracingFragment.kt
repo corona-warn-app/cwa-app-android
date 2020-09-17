@@ -50,7 +50,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
-        binding.lifecycleOwner = this
         setButtonOnClickListener()
     }
 

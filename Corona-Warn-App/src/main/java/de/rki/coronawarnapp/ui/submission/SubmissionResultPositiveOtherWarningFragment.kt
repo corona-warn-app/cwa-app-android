@@ -111,7 +111,6 @@ class SubmissionResultPositiveOtherWarningFragment :
             InternalExposureNotificationPermissionHelper(this, this)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
 
         setButtonOnClickListener()
 

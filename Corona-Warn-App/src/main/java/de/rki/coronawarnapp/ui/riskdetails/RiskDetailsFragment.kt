@@ -31,7 +31,6 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
-        binding.lifecycleOwner = this
         setButtonOnClickListeners()
     }
 

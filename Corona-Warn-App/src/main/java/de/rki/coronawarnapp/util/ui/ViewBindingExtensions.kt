@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.annotation.MainThread
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -14,12 +15,16 @@ import kotlin.reflect.KProperty
 inline fun <FragmentT : Fragment, reified BindingT : ViewBinding> FragmentT.viewBindingLazy() =
     viewBindingLazy {
         val bindingMethod = BindingT::class.java.getMethod("bind", View::class.java)
-        bindingMethod(null, requireView()) as BindingT
+        val binding = bindingMethod(null, requireView()) as BindingT
+        if (binding is ViewDataBinding) {
+            binding.lifecycleOwner = this
+        }
+        binding
     }
 
 @Suppress("unused")
 fun <FragmentT : Fragment, BindingT : ViewBinding> FragmentT.viewBindingLazy(
-    bindingProvider: (FragmentT) -> BindingT
+    bindingProvider: FragmentT.() -> BindingT
 ) = ViewBindingProperty(bindingProvider)
 
 class ViewBindingProperty<ComponentT : LifecycleOwner, BindingT : ViewBinding>(

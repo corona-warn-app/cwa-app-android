@@ -24,7 +24,6 @@ class MainShareFragment : Fragment(R.layout.fragment_main_share) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
-        binding.lifecycleOwner = this
         setButtonOnClickListener()
     }
 

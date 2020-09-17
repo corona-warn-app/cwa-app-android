@@ -46,7 +46,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
 
         setButtonOnClickListener()
 

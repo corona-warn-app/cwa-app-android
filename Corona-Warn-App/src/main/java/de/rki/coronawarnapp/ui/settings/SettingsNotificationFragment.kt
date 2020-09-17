@@ -30,7 +30,6 @@ class SettingsNotificationFragment : Fragment(R.layout.fragment_settings_notific
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.settingsViewModel = settingsViewModel
-        binding.lifecycleOwner = this
         setButtonOnClickListener()
     }
 

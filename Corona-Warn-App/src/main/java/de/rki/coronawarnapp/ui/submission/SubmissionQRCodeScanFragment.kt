@@ -96,7 +96,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this
 
         binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
             binding.submissionQrCodeScanPreview.setTorch(

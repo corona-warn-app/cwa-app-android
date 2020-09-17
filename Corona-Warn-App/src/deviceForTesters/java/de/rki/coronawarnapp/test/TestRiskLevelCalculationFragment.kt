@@ -71,7 +71,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
 
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
