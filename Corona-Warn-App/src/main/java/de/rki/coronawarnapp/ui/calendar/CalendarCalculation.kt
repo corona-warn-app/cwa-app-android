@@ -10,18 +10,6 @@ import javax.inject.Singleton
 @Singleton
 class CalendarCalculation @Inject constructor() {
 
-    companion object {
-        /**
-         * Total days in week
-         */
-        const val DAYS_IN_WEEK = 7
-
-        /**
-         * Weeks count
-         */
-        private const val WEEKS_COUNT = 4
-    }
-
     /**
      * Get month text view text
      *
@@ -116,5 +104,17 @@ class CalendarCalculation @Inject constructor() {
             }
         }
         return result
+    }
+
+    companion object {
+        /**
+         * Total days in week
+         */
+        const val DAYS_IN_WEEK = 7
+
+        /**
+         * Weeks count
+         */
+        private const val WEEKS_COUNT = 4
     }
 }
