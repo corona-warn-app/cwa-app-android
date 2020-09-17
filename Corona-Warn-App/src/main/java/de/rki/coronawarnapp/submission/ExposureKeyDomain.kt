@@ -5,11 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 
 class ExposureKeyDomain {
 
-    companion object {
-
-        private const val MAXIMUM_KEYS = 14
-    }
-
     fun transformToKeyHistoryInExternalFormat(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
@@ -37,4 +32,9 @@ class ExposureKeyDomain {
 
     fun toSortedHistory(keys: List<TemporaryExposureKey>) =
         keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
+
+    companion object {
+
+        private const val MAXIMUM_KEYS = 14
+    }
 }
