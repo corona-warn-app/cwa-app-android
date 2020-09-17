@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.calendar
 
+import dagger.Reusable
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -7,7 +8,7 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class CalendarCalculation @Inject constructor() {
 
     /**
