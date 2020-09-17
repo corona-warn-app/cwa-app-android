@@ -46,21 +46,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/submission_tan_body" />
 
             <TextView
-                android:id="@+id/submission_tan_character_error"
-                style="@style/subtitle"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:accessibilityLiveRegion="assertive"
-                android:text="@string/submission_tan_character_error"
-                android:textColor="@color/colorTextSemanticRed"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/submission_tan_input"
-                tools:visibility="visible" />
-
-            <TextView
                 android:id="@+id/submission_tan_error"
                 style="@style/subtitle"
                 android:layout_width="@dimen/match_constraint"
@@ -72,7 +57,22 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/submission_tan_character_error"
+                app:layout_constraintTop_toBottomOf="@id/submission_tan_input"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/submission_tan_character_error"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:accessibilityLiveRegion="assertive"
+                android:text="@string/submission_tan_character_error"
+                android:textColor="@color/colorTextSemanticRed"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/submission_tan_error"
                 tools:visibility="visible" />
 
             <include layout="@layout/merge_guidelines_side" />
