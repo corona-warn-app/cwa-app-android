@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
+import timber.log.Timber
 import java.util.Date
 
 class SubmissionViewModel : ViewModel() {
@@ -70,7 +71,12 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
-        Symptoms(symptomStart.value, symptomIndication.value ?: return).also {
+        val indication = symptomIndication.value
+        if (indication == null) {
+            Timber.w("symptoms indicator is null")
+            return
+        }
+        Symptoms(symptomStart.value, indication).also {
             viewModelScope.launch {
                 try {
                     _submissionState.value = ApiRequestState.STARTED
