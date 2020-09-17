@@ -30,6 +30,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -53,6 +54,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -244,6 +246,51 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         button_tracing_duration_in_retention_period.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
+            }
+        }
+
+        binding.testLogfileToggle.isChecked = CoronaWarnApplication.fileLogger?.isLogging ?: false
+        binding.testLogfileToggle.setOnClickListener { buttonView ->
+            CoronaWarnApplication.fileLogger?.let {
+                if (binding.testLogfileToggle.isChecked) {
+                    it.start()
+                } else {
+                    it.stop()
+                }
+            }
+        }
+
+        binding.testLogfileShare.setOnClickListener {
+            CoronaWarnApplication.fileLogger?.let {
+                lifecycleScope.launch {
+                    val targetPath = withContext(Dispatchers.IO) {
+                        async {
+                            if (!it.logFile.exists()) return@async null
+
+                            val externalPath = File(
+                                requireContext().getExternalFilesDir(null),
+                                "LogFile-${System.currentTimeMillis()}.log"
+                            )
+
+                            it.logFile.copyTo(externalPath)
+
+                            return@async externalPath
+                        }
+                    }.await()
+                    if (targetPath != null) {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Logfile copied to $targetPath",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireActivity(),
+                            "No log file available",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
     }

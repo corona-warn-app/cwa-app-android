@@ -155,7 +155,7 @@ class TestRiskLevelCalculationFragment : Fragment() {
         try {
             RetrieveDiagnosisKeysTransaction.start()
             calculateRiskLevel()
-        } catch (e: TransactionException) {
+        } catch (e: Exception) {
             e.report(ExceptionCategory.INTERNAL)
         }
     }

@@ -6,6 +6,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
+import timber.log.Timber
 
 /**
  * This Calculator class takes multiple parameters to check if the Google API
@@ -28,34 +29,58 @@ class GoogleQuotaCalculator(
     override var hasExceededQuota: Boolean = false
 
     override fun calculateQuota(): Boolean {
-        if (Instant.now().isAfter(LocalData.nextTimeRateLimitingUnlocks)) {
+        val oldQuota = LocalData.googleAPIProvideDiagnosisKeysCallCount
+        var currentQuota = oldQuota
+
+        val now = Instant.now()
+        val nextUnlock = LocalData.nextTimeRateLimitingUnlocks
+
+        Timber.v(
+            "calculateQuota() start! (currentQuota=%s, timeNow=%s, timeReset=%s)",
+            oldQuota, now, nextUnlock
+        )
+        if (now.isAfter(nextUnlock)) {
             LocalData.nextTimeRateLimitingUnlocks = DateTime
                 .now(quotaTimeZone)
                 .withChronology(quotaChronology)
                 .plus(quotaResetPeriod)
                 .withTimeAtStartOfDay()
                 .toInstant()
-            LocalData.googleAPIProvideDiagnosisKeysCallCount = 0
+            Timber.d("calculateQuota() quota reset to 0.")
+            currentQuota = 0
+        } else {
+            Timber.v("calculateQuota() can't be reset yet.")
         }
 
-        if (LocalData.googleAPIProvideDiagnosisKeysCallCount <= quotaLimit) {
-            LocalData.googleAPIProvideDiagnosisKeysCallCount += incrementByAmount
+        if (currentQuota <= quotaLimit) {
+            currentQuota += incrementByAmount
         }
 
-        hasExceededQuota = LocalData.googleAPIProvideDiagnosisKeysCallCount > quotaLimit
+        if (currentQuota != oldQuota) {
+            LocalData.googleAPIProvideDiagnosisKeysCallCount = currentQuota
+        }
 
-        return hasExceededQuota
+        return (currentQuota > quotaLimit).also {
+            hasExceededQuota = it
+            Timber.v(
+                "calculateQuota() done! -> oldQuota=%d, currentQuotaHm=%d, quotaLimit=%d, EXCEEDED=%b",
+                oldQuota, currentQuota, quotaLimit, it
+            )
+        }
     }
 
     override fun resetProgressTowardsQuota(newProgress: Int) {
         if (newProgress > quotaLimit) {
-            throw IllegalArgumentException("cannot reset progress to a value higher than the quota limit")
+            Timber.w("cannot reset progress to a value higher than the quota limit")
+            return
         }
         if (newProgress % incrementByAmount != 0) {
-            throw IllegalArgumentException("supplied progress is no multiple of $incrementByAmount")
+            Timber.e("supplied progress is no multiple of $incrementByAmount")
+            return
         }
         LocalData.googleAPIProvideDiagnosisKeysCallCount = newProgress
         hasExceededQuota = false
+        Timber.d("resetProgressTowardsQuota(newProgress=%d) done", newProgress)
     }
 
     override fun getProgressTowardsQuota(): Int = LocalData.googleAPIProvideDiagnosisKeysCallCount

@@ -148,9 +148,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
             }
         }
 
-        assertThrows<IllegalArgumentException> {
-            classUnderTest.resetProgressTowardsQuota(defaultIncrementByAmountInTest + 1)
-        }
+        classUnderTest.resetProgressTowardsQuota(defaultIncrementByAmountInTest + 1)
     }
 
     @Test
@@ -207,9 +205,7 @@ internal class GoogleQuotaCalculatorTest : BaseTest() {
         }
 
         val newProgressAfterReset = defaultQuotaLimitInTest + 1
-        assertThrows<IllegalArgumentException> {
-            classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
-        }
+        classUnderTest.resetProgressTowardsQuota(newProgressAfterReset)
         assertEquals(true, classUnderTest.hasExceededQuota)
         assertEquals(
             (progressBeforeReset
