@@ -190,7 +190,7 @@ class SubmissionTestResultFragment : Fragment() {
 
         findNavController().doNavigate(
             SubmissionTestResultFragmentDirections
-                .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+                .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
         )
     }
 

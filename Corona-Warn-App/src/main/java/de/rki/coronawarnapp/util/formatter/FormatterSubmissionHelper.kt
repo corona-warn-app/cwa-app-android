@@ -10,10 +10,43 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
+
+fun formatButtonStyleByState(
+    currentState: Symptoms.Indication?,
+    state: Symptoms.Indication?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
+
+fun formatBackgroundButtonStyleByState(
+    currentState: Symptoms.Indication?,
+    state: Symptoms.Indication?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+
+fun formatCalendarButtonStyleByState(
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
+
+fun formatCalendarBackgroundButtonStyleByState(
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+
+fun isEnableSymptomIntroButtonByState(currentState: Symptoms.Indication?): Boolean {
+    return currentState != null
+}
+
+fun isEnableSymptomCalendarButtonByState(currentState: Symptoms.StartOf?): Boolean {
+    return currentState != null
+}
 
 fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState != ApiRequestState.SUCCESS)

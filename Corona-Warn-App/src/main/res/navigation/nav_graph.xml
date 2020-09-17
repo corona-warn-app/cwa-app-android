@@ -27,9 +27,6 @@
             android:id="@+id/action_mainFragment_to_mainSharingFragment"
             app:destination="@id/mainSharingFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionIntroFragment"
-            app:destination="@id/submissionIntroFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment" />
         <action
@@ -38,6 +35,9 @@
         <action
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionIntroFragment"
+            app:destination="@id/submissionIntroFragment" />
     </fragment>
 
     <fragment
@@ -205,6 +205,12 @@
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/submissionDoneFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionSymptomCalendarFragment"
+            app:destination="@id/submissionSymptomCalendarFragment" />
+        <action
+            android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
@@ -221,8 +227,8 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionResultFragment_to_submissionResultPositiveOtherWarningFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
+            android:id="@+id/action_submissionResultFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
 
     <fragment
@@ -304,5 +310,30 @@
         <action
             android:id="@+id/action_submissionContactFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionSymptomIntroductionFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
+        android:label="SubmissionSymptomIntroductionFragment" >
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
+            app:destination="@id/submissionSymptomCalendarFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultFragment"
+            app:destination="@id/submissionResultFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionSymptomCalendarFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
+        android:label="SubmissionSymptomCalendarFragment" >
+        <action
+            android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
 </navigation>
