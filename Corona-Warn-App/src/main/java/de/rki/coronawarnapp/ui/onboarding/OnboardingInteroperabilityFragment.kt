@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingInteroperabilityBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 
 class OnboardingInteroperabilityFragment : Fragment() {
@@ -31,16 +29,5 @@ class OnboardingInteroperabilityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         interoperabilityViewModel.saveInteroperabilityUsed()
-        setButtonOnClickListener()
-    }
-
-    private fun setButtonOnClickListener() {
-
-        binding.onboardingButtonNext.setOnClickListener {
-            findNavController().doNavigate(
-                OnboardingInteroperabilityFragmentDirections
-                    .actionOnboardingInteroperabilityFragmentToOnboardingTestFragment()
-            )
-        }
     }
 }

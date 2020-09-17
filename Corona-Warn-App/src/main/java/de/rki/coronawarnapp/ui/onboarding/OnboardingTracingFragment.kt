@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import kotlinx.coroutines.launch
 
@@ -37,6 +39,7 @@ class OnboardingTracingFragment : Fragment(),
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
     private var _binding: FragmentOnboardingTracingBinding? = null
     private val binding: FragmentOnboardingTracingBinding get() = _binding!!
+    private val interoperabilityViewModel: InteroperabilityViewModel by activityViewModels()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         internalExposureNotificationPermissionHelper.onResolutionComplete(
@@ -57,6 +60,7 @@ class OnboardingTracingFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentOnboardingTracingBinding.inflate(inflater)
+        binding.interopViewModel = interoperabilityViewModel
         return binding.root
     }
 
@@ -105,21 +109,13 @@ class OnboardingTracingFragment : Fragment(),
             R.string.onboarding_tracing_dialog_button_negative,
             true,
             {
-                navigateSkipInteroperability()
             })
         DialogHelper.showDialog(dialog)
     }
 
-    private fun navigateSkipInteroperability() {
-        LocalData.saveInteroperabilitySkippedOnOnboarding()
-        findNavController().doNavigate(
-            OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
-        )
-    }
-
     private fun navigate() {
         findNavController().doNavigate(
-            OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingInteroperabilityFragment()
+            OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
     }
 
