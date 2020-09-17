@@ -20,8 +20,6 @@ class InteroperabilityConfigurationFragment : Fragment() {
     private var _binding: FragmentInteroperabilityConfigurationBinding? = null
     private val binding: FragmentInteroperabilityConfigurationBinding get() = _binding!!
 
-    private var uiHelper: InteroperabilityUIHelper? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,7 +28,6 @@ class InteroperabilityConfigurationFragment : Fragment() {
         _binding = FragmentInteroperabilityConfigurationBinding.inflate(inflater)
         binding.interopViewModel = interoperabilityViewModel
         binding.lifecycleOwner = this
-        uiHelper = InteroperabilityUIHelper(interoperabilityViewModel, requireActivity())
         return binding.root
     }
 
@@ -38,19 +35,6 @@ class InteroperabilityConfigurationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         interoperabilityViewModel.saveInteroperabilityUsed()
-        interoperabilityViewModel.refreshInteroperability()
-
-        binding.countryListView.allCountrySwitch.setOnCheckedChangeListener { view, checked ->
-            // only if user pressed -> ignore changes done from viewmodel
-            if (view.isPressed) {
-                uiHelper?.handleAllCountrySwitchChanged(checked)
-            }
-        }
-
-        binding.countryListView.countryList.onCountrySelectionChanged =
-            { userPressed, countryCode, selected ->
-                uiHelper?.handleCountrySelected(countryCode, selected, userPressed)
-            }
 
         // register back button action
         binding.interopConfigHeader.headerButtonBack.buttonIcon.setOnClickListener {

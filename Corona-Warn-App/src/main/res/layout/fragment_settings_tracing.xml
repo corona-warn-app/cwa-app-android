@@ -91,8 +91,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterInteroperabilityHelper.formatInteroperabilityStatus(interopViewModel.selectedCountryCodes.size())}"
-                    app:subtitle="@{@string/settings_interoperability_subtitle}" />
+                    app:icon="@{@drawable/ic_country_eu}"
+                    app:statusText="@{@string/settings_interoperability_subtitle}"
+                    app:subtitle="@{@string/settings_interoperability_title}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"

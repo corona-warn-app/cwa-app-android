@@ -1204,13 +1204,15 @@
     <string name="interoperability_description"></string>
     <string name="interoperability_all_countries"></string>
     <string name="interoperability_higher_data_usage_hint"></string>
-    <string name="interoperability_country_info"></string>
+    <string name="interoperability_consent_info"></string>
     <string name="interoperability_default_germany_title"></string>
     <string name="interoperability_default_germany_summary"></string>
     <string name="interoperability_private_data_title"></string>
     <string name="interoperability_private_data_description"></string>
 
+    <string name="settings_interoperability_title"></string>
     <string name="settings_interoperability_subtitle"></string>
+    <string name="onboarding_interoperability_privacy_data_header_info"></string>
 
     <string name="onboarding_interoperability_title"></string>
     <string name="onboarding_interoperability_subtitle"></string>

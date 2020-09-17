@@ -9,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentOnboardingInteroperabilityBinding
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.interoperability.InteroperabilityUIHelper
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 
 class OnboardingInteroperabilityFragment : Fragment() {
@@ -17,8 +16,6 @@ class OnboardingInteroperabilityFragment : Fragment() {
     private val binding: FragmentOnboardingInteroperabilityBinding get() = _binding!!
 
     private val interoperabilityViewModel: InteroperabilityViewModel by activityViewModels()
-
-    private var uiHelper: InteroperabilityUIHelper? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +25,6 @@ class OnboardingInteroperabilityFragment : Fragment() {
         _binding = FragmentOnboardingInteroperabilityBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.interopViewModel = interoperabilityViewModel
-        uiHelper = InteroperabilityUIHelper(interoperabilityViewModel, requireActivity())
         return binding.root
     }
 
@@ -40,27 +36,11 @@ class OnboardingInteroperabilityFragment : Fragment() {
 
     private fun setButtonOnClickListener() {
 
-        interoperabilityViewModel.refreshInteroperability()
-
-        binding.onboardingInclude.allCountrySwitch.setOnCheckedChangeListener { view, checked ->
-            uiHelper?.handleAllCountrySwitchChanged(checked, false)
-        }
-
-        binding.onboardingInclude.countryList.onCountrySelectionChanged =
-            { _, countryCode, selected ->
-                uiHelper?.handleCountrySelected(countryCode, selected, false)
-            }
-
         binding.onboardingButtonNext.setOnClickListener {
-            // TODO: Download the keys for all selected countries here
             findNavController().doNavigate(
                 OnboardingInteroperabilityFragmentDirections
                     .actionOnboardingInteroperabilityFragmentToOnboardingTestFragment()
             )
-        }
-
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            (activity as OnboardingActivity).goBack()
         }
     }
 }

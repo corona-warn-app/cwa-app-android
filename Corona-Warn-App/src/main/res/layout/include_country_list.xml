@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -38,12 +37,10 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/onboarding_header"
+                android:id="@+id/interoperability_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_small"
-                android:visibility="@{FormatterHelper.formatVisibility(isOnboarding)}"
-                app:layout_constraintBottom_toTopOf="@+id/country_header_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -58,7 +55,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/label_onboarding_title"
+                    android:id="@+id/label_interoperability_title"
                     style="@style/headline4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,7 +66,7 @@
                     app:layout_constraintTop_toBottomOf="@id/interoperability_illustration" />
 
                 <TextView
-                    android:id="@+id/label_onboarding_subtitle"
+                    android:id="@+id/label_interoperability_subtitle"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -77,7 +74,18 @@
                     android:text="@{@string/onboarding_interoperability_subtitle}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_onboarding_title" />
+                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_title" />
+
+                <TextView
+                    android:id="@+id/label_interoperability_thirdtitle"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@{@string/onboarding_interoperability_privacy_data_header_info}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,56 +96,10 @@
                 android:layout_height="wrap_content"
                 android:accessibilityHeading="true"
                 android:text="@{headerDescription}"
-                app:layout_constraintBottom_toTopOf="@+id/all_country_container"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/onboarding_header" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/all_country_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/country_header_description">
-
-                <TextView
-                    android:id="@+id/label_all_country"
-                    style="@style/headline6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/country_name_all}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></TextView>
-
-                <Switch
-                    android:id="@+id/all_country_switch"
-                    style="@style/switchBase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{interopViewModel.isAllCountriesSelected}"
-                    app:layout_constraintBottom_toBottomOf="@+id/label_all_country"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/label_all_country"></Switch>
-
-                <include
-                    android:id="@+id/all_country_divider"
-                    layout="@layout/include_divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginTop="@dimen/bullet_point_baseline_offset"
-                    app:layout_constraintTop_toBottomOf="@id/label_all_country" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/bullet_point_baseline_offset"
-                    android:text="@{@string/interoperability_higher_data_usage_hint}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/all_country_divider" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
             <de.rki.coronawarnapp.ui.view.CountrySelectionList
                 android:id="@+id/countryList"
@@ -147,58 +109,16 @@
                 app:countryList="@{interopViewModel.allCountries}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/all_country_container"
-                app:selectedCountries="@{interopViewModel.selectedCountryCodes}" />
+                app:layout_constraintTop_toBottomOf="@+id/country_header_description" />
 
             <TextView
                 android:id="@+id/label_country_selection_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_normal"
-                android:text="@{@string/interoperability_country_info}"
+                android:text="@{@string/interoperability_consent_info}"
+                android:visibility="@{FormatterHelper.formatVisibility(isOnboarding)}"
                 app:layout_constraintTop_toBottomOf="@+id/countryList"></TextView>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/germany_always_enabled_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginBottom="@dimen/spacing_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_country_selection_info">
-
-                <ImageView
-                    android:id="@+id/image_germany_always_enabled_germany"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_country_de"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/label_germany_always_enabled_title"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_small"
-                    android:text="@{@string/interoperability_default_germany_title}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/image_germany_always_enabled_germany"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/label_germany_always_enabled_description"
-                    style="@style/body1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_small"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{@string/interoperability_default_germany_summary}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/image_germany_always_enabled_germany"
-                    app:layout_constraintTop_toBottomOf="@+id/label_germany_always_enabled_title" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/cardTracing"
@@ -206,9 +126,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:padding="10dp"
+                android:visibility="@{FormatterHelper.formatVisibility(isOnboarding)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/germany_always_enabled_container">
+                app:layout_constraintTop_toBottomOf="@+id/label_country_selection_info">
 
                 <TextView
                     android:id="@+id/country_footer_title"

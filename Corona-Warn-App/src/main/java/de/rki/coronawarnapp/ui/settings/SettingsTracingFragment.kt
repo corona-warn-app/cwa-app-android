@@ -81,7 +81,6 @@ class SettingsTracingFragment : Fragment(),
         super.onResume()
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
-        interopViewModel.refreshSelectedCountryCodes()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 

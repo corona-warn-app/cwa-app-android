@@ -46,7 +46,7 @@ object DiagnosisKeyConstants {
 
     /** resource variables but non-static context */
     private var CURRENT_VERSION = "v1"
-    const val CURRENT_COUNTRY = "DE"
+    private const val CURRENT_COUNTRY = "DE"
 
     /** Distribution URL built from CDN URL's and REST resources */
     private var VERSIONED_DISTRIBUTION_CDN_URL = "$VERSION/$CURRENT_VERSION"

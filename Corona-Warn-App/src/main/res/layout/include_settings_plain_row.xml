@@ -20,11 +20,24 @@
             name="showDivider"
             type="Boolean" />
 
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_settings"
+            android:layout_height="@dimen/icon_size_settings"
+            android:src="@{icon}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_start"
+            app:layout_constraintStart_toEndOf="@id/guideline_icon"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settings_plain_row"
@@ -33,7 +46,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -68,11 +81,18 @@
             android:layout_height="@dimen/card_divider"
             android:visibility="@{FormatterHelper.formatVisibility(showDivider)}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintStart_toStartOf="@id/guideline_icon"
             app:layout_constraintTop_toBottomOf="@+id/settings_plain_row" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

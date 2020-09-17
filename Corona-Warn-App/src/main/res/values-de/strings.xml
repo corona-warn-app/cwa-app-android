@@ -1189,19 +1189,20 @@
     <string name="country_name_sk">slowakei</string>
 
     <string name="interoperability_title">Europaweite\nRisiko-Ermittlung</string>
-    <string name="interoperability_description">Bitte aktivieren Sie alle Länder, in denen Sie sich aufhalten oder in den letzen 14 Tagen aufgehalten haben:</string>
-    <string name="interoperability_all_countries">Alle Länder</string>
-    <string name="interoperability_higher_data_usage_hint">Die Aktivierung aller Länder erzeugt ein erhöhtes Datenvolumen und Stromverbrauch</string>
-    <string name="interoperability_country_info">Daten aus den gewählten Ländern werden empfangen und zur Risiko-Ermittlung berücksichtigt.</string>
+    <string name="interoperability_description">Die Liste der teilnehmenden Länder wird stetig erweitert und umfasst derzeit die folgenden Lännder:</string>
+    <string name="interoperability_consent_info">Um den Infektionsschutz noch weiter zu verbessern und die App weiter wie gewohnt benutzen zu können, benötigen wir Ihre Zustimmung.</string>
     <string name="interoperability_default_germany_title">Deutschlandweite Risiko-Ermittlung immer aktiv</string>
     <string name="interoperability_default_germany_summary">Die Risiko-Ermittlung funktioniert deutschlandweit unabhängig von Ihrer Einstellung der europaweiten Risiko-Ermittlung</string>
     <string name="interoperability_private_data_title">Hinweise zur Verarbeitung von personenbezogenen Daten</string>
     <string name="interoperability_private_data_description">Lorem Ipsum</string>
 
-    <string name="onboarding_interoperability_title">Europaweite\nRisiko-Ermittlung</string>
+    <string name="onboarding_interoperability_privacy_data_header_info">Selbstverständlich werden keine persönlischen Daten ausgetauscht und es fallen Ihnen europaweit keine Kosten für das Datenvolumen der Corona-Warn-App an.</string>
+
+    <string name="onboarding_interoperability_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <string name="onboarding_interoperability_subtitle">Die Corona-Warn-App kann Sie europaweit über mögliche Infektionen informieren, indem auch Daten aus anderen Ländern empfangen werden. Die Europaweite Risiko-Ermittlung kann jederzeit in den Einstellungen der Risiko-Ermittlung gesteuert werden.</string>
 
-    <string name="settings_interoperability_subtitle">Europaweite Risiko-Ermittlung</string>
+    <string name="settings_interoperability_title">Europaweite Risiko-Ermittlung</string>
+    <string name="settings_interoperability_subtitle">Teilnehmende Länder</string>
 
     <string name="interoperability_country_disabled_dialog_headline">Bitte erst 14 Tage nach Verlassen des Landes deaktivieren</string>
     <string name="interoperability_country_disabled_dialog_body">Bitte lassen Sie die Risiko-Ermittlung für 14 weitere Tage aktiviert, nachdem Sie das jeweilige Land bereits verlassen haben. Nur so kann sichergestellt werden, dass Sie alle relevanten Daten erhalten und eine verlässliche Berechnung des Infektionsrisikos erfolgen kann. Das mobile Datenvolumen der Corona-Warn-App ist für Sie europaweit kostenlos.</string>

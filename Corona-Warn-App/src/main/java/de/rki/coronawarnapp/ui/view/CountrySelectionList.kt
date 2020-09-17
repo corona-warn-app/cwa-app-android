@@ -5,10 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Switch
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import java.util.Locale
@@ -26,9 +24,6 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
             buildList()
         }
 
-    var onCountrySelectionChanged: ((userPressed: Boolean, countryCode: String, selected: Boolean) -> Unit)? =
-        null
-
     init {
         orientation = VERTICAL
     }
@@ -39,7 +34,6 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
     private fun buildList() {
         this.removeAllViews()
         countryList
-            ?.filter { it != DiagnosisKeyConstants.CURRENT_COUNTRY.toLowerCase(Locale.ROOT) }
             ?.map { countryCode ->
                 val countryNameResourceId = context.resources.getIdentifier(
                     "country_name_$countryCode",
@@ -52,28 +46,9 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
             ?.forEachIndexed { index, country ->
                 inflate(context, R.layout.view_country_list_entry, this)
                 val child = this.getChildAt(index)
-                // set countrycode as tag of view to determine entry later
-                child.tag = country.first
                 this.setEntryValues(child, country.first, country.second)
             }
     }
-
-    private var _selectedCountries: List<String>? = null
-
-    var selectedCountries: List<String>?
-        get() {
-            return _selectedCountries
-        }
-        set(countryCodes) {
-            val countries = countryCodes?.map { it.toLowerCase(Locale.ROOT) }
-            this.children.iterator().forEach { child ->
-                // determine child by using tag property
-                val tag = child.tag.toString()
-                val switch = child?.findViewById<Switch>(R.id.switch_country_enabled)
-                switch?.isChecked = countries?.contains(tag)!!
-            }
-            _selectedCountries = countryCodes
-        }
 
     /**
      * Sets the values of the views of each entry in the list
@@ -101,11 +76,5 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
             .setImageDrawable(countryFlagDrawable)
 
         entry.findViewById<TextView>(R.id.label_country_name).text = countryName
-
-        val countrySwitch = entry.findViewById<Switch>(R.id.switch_country_enabled)
-
-        countrySwitch.setOnCheckedChangeListener { view, checked ->
-            onCountrySelectionChanged?.invoke(view.isPressed, countryCode, checked)
-        }
     }
 }
