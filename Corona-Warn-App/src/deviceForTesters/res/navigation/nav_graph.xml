@@ -328,6 +328,9 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
