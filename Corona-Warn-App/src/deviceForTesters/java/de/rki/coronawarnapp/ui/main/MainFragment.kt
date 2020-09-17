@@ -156,7 +156,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
                 R.id.menu_test_risk_level -> {
                     findNavController().doNavigate(
-                        MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation()
+                        MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation(
+                            exampleArgument = null
+                        )
                     )
                     true
                 }
