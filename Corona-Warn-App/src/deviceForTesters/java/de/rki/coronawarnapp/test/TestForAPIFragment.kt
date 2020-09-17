@@ -30,6 +30,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -51,33 +52,9 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_enter_other_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_check_exposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_exposure_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_scan_qr_code
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_share_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_submit_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_test_start
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_calculate_risk_level
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_clear_db
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_insert_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_retrieve_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_duration_in_retention_period
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_intervals
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_attenuation
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_daysSinceLastExposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_matchedKeyCount
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_maximumRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_googlePlayServices_version
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_latest_key_date
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.qr_code_viewpager
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_background_notifications
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_scanned_key
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -269,6 +246,51 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         button_tracing_duration_in_retention_period.setOnClickListener {
             tracingViewModel.viewModelScope.launch {
                 showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
+            }
+        }
+
+        binding.testLogfileToggle.isChecked = CoronaWarnApplication.fileLogger?.isLogging ?: false
+        binding.testLogfileToggle.setOnClickListener { buttonView ->
+            CoronaWarnApplication.fileLogger?.let {
+                if (binding.testLogfileToggle.isChecked) {
+                    it.start()
+                } else {
+                    it.stop()
+                }
+            }
+        }
+
+        binding.testLogfileShare.setOnClickListener {
+            CoronaWarnApplication.fileLogger?.let {
+                lifecycleScope.launch {
+                    val targetPath = withContext(Dispatchers.IO) {
+                        async {
+                            if (!it.logFile.exists()) return@async null
+
+                            val externalPath = File(
+                                requireContext().getExternalFilesDir(null),
+                                "LogFile-${System.currentTimeMillis()}.log"
+                            )
+
+                            it.logFile.copyTo(externalPath)
+
+                            return@async externalPath
+                        }
+                    }.await()
+                    if (targetPath != null) {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Logfile copied to $targetPath",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireActivity(),
+                            "No log file available",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
     }

@@ -278,7 +278,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->

@@ -231,6 +231,11 @@
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
+            android:id="@+id/action_submissionTanFragment_to_submissionDispatcherFragment"
+            app:destination="@id/submissionDispatcherFragment"
+            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpToInclusive="true" />
+        <action
             android:id="@+id/action_submissionTanFragment_to_submissionResultFragment"
             app:destination="@id/submissionResultFragment"
             app:popUpTo="@id/submissionResultFragment"
