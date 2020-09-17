@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.storage.interoperability
 
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import de.rki.coronawarnapp.storage.LocalData
 import kotlinx.coroutines.runBlocking
 import java.util.Locale

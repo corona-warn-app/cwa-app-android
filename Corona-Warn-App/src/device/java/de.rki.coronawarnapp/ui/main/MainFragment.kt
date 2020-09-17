@@ -189,9 +189,9 @@ class MainFragment : Fragment() {
     }
 
     private fun checkShouldInteroperabilityOpened() {
-        if (tracingViewModel.isTracingEnabled.value == true
-            && !LocalData.interoperabilityWasShown()
-            && !LocalData.interoperabilityWasSkippedOnOnboarding()
+        if (tracingViewModel.isTracingEnabled.value == true &&
+            !LocalData.interoperabilityWasShown() &&
+            !LocalData.interoperabilityWasSkippedOnOnboarding()
         ) {
             // TODO: Display dialog for interoperability
         }

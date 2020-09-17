@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants
 import java.util.Locale
 
 class CountrySelectionList(context: Context, attrs: AttributeSet) :
