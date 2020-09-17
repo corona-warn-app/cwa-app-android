@@ -124,7 +124,7 @@ internal class GoogleQuotaCalculatorTest {
         assertEquals(false, classUnderTest.hasExceededQuota)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `getProgressTowardsQuota is reset but the reset value is no multiple of incrementByAmount`() {
         var latestCallNumberWithoutLimiting = 1
         for (callNumber in 1..5) {
@@ -177,7 +177,7 @@ internal class GoogleQuotaCalculatorTest {
         assertEquals(newProgressAfterReset, classUnderTest.getProgressTowardsQuota())
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `getProgressTowardsQuota is reset and the quota is not recalculated and the progress throws an error because of too high newProgress`() {
         var latestCallNumberWithoutLimiting = 1
         var progressBeforeReset: Int? = null
