@@ -406,8 +406,8 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
         myKeys
             ?.maxByOrNull { it.rollingStartIntervalNumber }
-            ?.rollingStartIntervalNumber.toLong()
-            .let {
+            ?.rollingStartIntervalNumber?.toLong()
+            ?.let {
                 val ms = it * 60L * 10L * 1000L
                 val dateString = DateTime(ms, DateTimeZone.UTC)
 
