@@ -13,8 +13,6 @@ import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.StartOfSymptoms
-import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
@@ -60,8 +58,8 @@ class SubmissionViewModel : ViewModel() {
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
 
-    val symptomIndication = MutableLiveData<SymptomIndication?>()
-    val symptomStart = MutableLiveData<StartOfSymptoms?>()
+    val symptomIndication = MutableLiveData<Symptoms.SymptomIndication?>()
+    val symptomStart = MutableLiveData<Symptoms.StartOfSymptoms?>()
 
     fun initSymptoms() {
         symptomIndication.postValue(null)
@@ -184,34 +182,34 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun onPositiveSymptomIndication() {
-        symptomIndication.postValue(SymptomIndication.POSITIVE)
+        symptomIndication.postValue(Symptoms.SymptomIndication.POSITIVE)
     }
 
     fun onNegativeSymptomIndication() {
-        symptomIndication.postValue(SymptomIndication.NEGATIVE)
+        symptomIndication.postValue(Symptoms.SymptomIndication.NEGATIVE)
     }
 
     fun onNoInformationSymptomIndication() {
-        symptomIndication.postValue(SymptomIndication.NO_INFORMATION)
+        symptomIndication.postValue(Symptoms.SymptomIndication.NO_INFORMATION)
     }
 
     fun onLastSevenDaysStart() {
-        symptomStart.postValue(StartOfSymptoms.LastSevenDays)
+        symptomStart.postValue(Symptoms.StartOfSymptoms.LastSevenDays)
     }
 
     fun onOneToTwoWeeksAgoStart() {
-        symptomStart.postValue(StartOfSymptoms.OneToTwoWeeksAgo)
+        symptomStart.postValue(Symptoms.StartOfSymptoms.OneToTwoWeeksAgo)
     }
 
     fun onMoreThanTwoWeeksStart() {
-        symptomStart.postValue(StartOfSymptoms.MoreThanTwoWeeks)
+        symptomStart.postValue(Symptoms.StartOfSymptoms.MoreThanTwoWeeks)
     }
 
     fun onNoInformationStart() {
-        symptomStart.postValue(StartOfSymptoms.NoInformation)
+        symptomStart.postValue(Symptoms.StartOfSymptoms.NoInformation)
     }
 
     fun onDateSelected(localDate: LocalDate?) {
-        symptomStart.postValue(if (localDate == null) null else StartOfSymptoms.Date(localDate.toDate().time))
+        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOfSymptoms.Date(localDate.toDate().time))
     }
 }

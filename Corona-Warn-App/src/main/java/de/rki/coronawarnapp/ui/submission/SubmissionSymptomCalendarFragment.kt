@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
-import de.rki.coronawarnapp.submission.StartOfSymptoms
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
@@ -56,7 +56,7 @@ class SubmissionSymptomCalendarFragment : Fragment() {
 
         submissionViewModel.symptomStart.observe(viewLifecycleOwner, Observer {
             updateButtons(it)
-            if (it !is StartOfSymptoms.Date) {
+            if (it !is Symptoms.StartOfSymptoms.Date) {
                 binding.symptomCalendarContainer.unsetSelection()
             }
         })
@@ -64,48 +64,48 @@ class SubmissionSymptomCalendarFragment : Fragment() {
         submissionViewModel.initSymptomStart()
     }
 
-    private fun updateButtons(symptomStart: StartOfSymptoms?) {
+    private fun updateButtons(symptomStart: Symptoms.StartOfSymptoms?) {
         binding.symptomCalendarChoiceSelection.calendarButtonSevenDays
             .findViewById<Button>(R.id.calendar_button_seven_days)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.LastSevenDays))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.LastSevenDays))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_seven_days).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, StartOfSymptoms.LastSevenDays
+                    symptomStart, Symptoms.StartOfSymptoms.LastSevenDays
                 )
             )
 
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_one_two_weeks)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.OneToTwoWeeksAgo))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.OneToTwoWeeksAgo))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_one_two_weeks).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, StartOfSymptoms.OneToTwoWeeksAgo
+                    symptomStart, Symptoms.StartOfSymptoms.OneToTwoWeeksAgo
                 )
             )
 
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_more_than_two_weeks)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.MoreThanTwoWeeks))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.MoreThanTwoWeeks))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_more_than_two_weeks).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, StartOfSymptoms.MoreThanTwoWeeks
+                    symptomStart, Symptoms.StartOfSymptoms.MoreThanTwoWeeks
                 )
             )
 
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.target_button_verify)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, StartOfSymptoms.NoInformation))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.NoInformation))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.target_button_verify).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, StartOfSymptoms.NoInformation
+                    symptomStart, Symptoms.StartOfSymptoms.NoInformation
                 )
             )
 

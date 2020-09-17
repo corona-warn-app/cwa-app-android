@@ -8,8 +8,8 @@ class TransmissionRiskVectorDeterminator {
     @Suppress("MagicNumber")
     fun determine(symptoms: Symptoms): TransmissionRiskVector = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
-            SymptomIndication.POSITIVE -> when (symptoms.startOfSymptoms) {
-                is StartOfSymptoms.Date -> when (
+            Symptoms.SymptomIndication.POSITIVE -> when (symptoms.startOfSymptoms) {
+                is Symptoms.StartOfSymptoms.Date -> when (
                     numberOfDays(symptoms.startOfSymptoms.millis)) {
                     0 -> intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                     1 -> intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
@@ -34,14 +34,14 @@ class TransmissionRiskVectorDeterminator {
                     20 -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2)
                     else -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                 }
-                is StartOfSymptoms.LastSevenDays -> intArrayOf(4, 5, 6, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1)
-                is StartOfSymptoms.MoreThanTwoWeeks -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5)
-                is StartOfSymptoms.NoInformation -> intArrayOf(5, 6, 8, 8, 8, 7, 5, 3, 2, 1, 1, 1, 1, 1, 1)
-                is StartOfSymptoms.OneToTwoWeeksAgo -> intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
+                is Symptoms.StartOfSymptoms.LastSevenDays -> intArrayOf(4, 5, 6, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1)
+                is Symptoms.StartOfSymptoms.MoreThanTwoWeeks -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5)
+                is Symptoms.StartOfSymptoms.NoInformation -> intArrayOf(5, 6, 8, 8, 8, 7, 5, 3, 2, 1, 1, 1, 1, 1, 1)
+                is Symptoms.StartOfSymptoms.OneToTwoWeeksAgo -> intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
                 else -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
             }
-            SymptomIndication.NEGATIVE -> intArrayOf(4, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-            SymptomIndication.NO_INFORMATION -> intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
+            Symptoms.SymptomIndication.NEGATIVE -> intArrayOf(4, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+            Symptoms.SymptomIndication.NO_INFORMATION -> intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
         }
     )
 

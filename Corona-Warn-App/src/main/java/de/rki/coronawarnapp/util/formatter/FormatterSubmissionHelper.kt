@@ -10,30 +10,41 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.submission.StartOfSymptoms
-import de.rki.coronawarnapp.submission.SymptomIndication
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 
-fun formatButtonStyleByState(currentState: SymptomIndication?, state: SymptomIndication?): Int =
+fun formatButtonStyleByState(
+    currentState: Symptoms.SymptomIndication?,
+    state: Symptoms.SymptomIndication?
+): Int =
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
 
-fun formatBackgroundButtonStyleByState(currentState: SymptomIndication?, state: SymptomIndication?): Int =
+fun formatBackgroundButtonStyleByState(
+    currentState: Symptoms.SymptomIndication?,
+    state: Symptoms.SymptomIndication?
+): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun formatCalendarButtonStyleByState(currentState: StartOfSymptoms?, state: StartOfSymptoms?): Int =
+fun formatCalendarButtonStyleByState(
+    currentState: Symptoms.StartOfSymptoms?,
+    state: Symptoms.StartOfSymptoms?
+): Int =
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
 
-fun formatCalendarBackgroundButtonStyleByState(currentState: StartOfSymptoms?, state: StartOfSymptoms?): Int =
+fun formatCalendarBackgroundButtonStyleByState(
+    currentState: Symptoms.StartOfSymptoms?,
+    state: Symptoms.StartOfSymptoms?
+): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun isEnableSymptomIntroButtonByState(currentState: SymptomIndication?): Boolean {
+fun isEnableSymptomIntroButtonByState(currentState: Symptoms.SymptomIndication?): Boolean {
     return currentState != null
 }
 
-fun isEnableSymptomCalendarButtonByState(currentState: StartOfSymptoms?): Boolean {
+fun isEnableSymptomCalendarButtonByState(currentState: Symptoms.StartOfSymptoms?): Boolean {
     return currentState != null
 }
 

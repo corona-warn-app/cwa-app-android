@@ -7,7 +7,7 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
 
-        <import type="de.rki.coronawarnapp.submission.StartOfSymptoms"/>
+        <import type="de.rki.coronawarnapp.submission.Symptoms.StartOfSymptoms"/>
 
         <variable
             name="submissionViewModel"
