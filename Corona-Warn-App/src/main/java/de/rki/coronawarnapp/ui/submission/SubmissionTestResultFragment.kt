@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.ui.submission
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -17,25 +15,22 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionTestResultFragment : Fragment() {
-    companion object {
-        private val TAG: String? = SubmissionTanFragment::class.simpleName
-    }
+class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result) {
 
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private var binding: FragmentSubmissionTestResultBinding by viewLifecycle()
+    private val binding: FragmentSubmissionTestResultBinding by viewBindingLazy()
 
     private var skipInitialTestResultRefresh = false
 
@@ -48,25 +43,6 @@ class SubmissionTestResultFragment : Fragment() {
                 )
             }
         }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionTestResultBinding.inflate(inflater)
-        binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
-        // registers callback when the os level back is pressed
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
-        // Inflate the layout for this fragment
-
-        skipInitialTestResultRefresh =
-            arguments?.getBoolean("skipInitialTestResultRefresh") ?: false
-
-        return binding.root
-    }
 
     private fun navigateToMainScreen() =
         findNavController().doNavigate(
@@ -113,6 +89,13 @@ class SubmissionTestResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.submissionViewModel = submissionViewModel
+        // registers callback when the os level back is pressed
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
+        skipInitialTestResultRefresh =
+            arguments?.getBoolean("skipInitialTestResultRefresh") ?: false
+
         setButtonOnClickListener()
 
         submissionViewModel.uiStateError.observeEvent(viewLifecycleOwner) {

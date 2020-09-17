@@ -137,6 +137,14 @@ android {
         jvmTarget = "1.8"
     }
 
+    def jvmCompilerArgs = ["-Xno-kotlin-nothing-value-exception"]
+
+    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
+        kotlinOptions {
+            freeCompilerArgs = jvmCompilerArgs
+        }
+    }
+
     lintOptions {
         checkAllWarnings = true
     }

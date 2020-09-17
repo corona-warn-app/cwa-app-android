@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,33 +15,21 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.android.synthetic.main.include_submission_tan.*
 
 /**
  * Fragment for TAN entry
  */
-class SubmissionTanFragment : Fragment() {
+class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
 
     private val viewModel: SubmissionTanViewModel by viewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var binding: FragmentSubmissionTanBinding by viewLifecycle()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // get the binding reference by inflating it with the current layout
-        binding = FragmentSubmissionTanBinding.inflate(inflater)
-        binding.viewmodel = viewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
+    private val binding: FragmentSubmissionTanBinding by viewBindingLazy()
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
@@ -94,6 +80,7 @@ class SubmissionTanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewmodel = viewModel
 
         binding.submissionTanContent.submissionTanInput.listener = { tan ->
             resetError()
