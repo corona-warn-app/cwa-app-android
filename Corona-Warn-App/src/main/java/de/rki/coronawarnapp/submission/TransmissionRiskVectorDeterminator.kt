@@ -47,8 +47,8 @@ class TransmissionRiskVectorDeterminator {
         }
     )
 
-    companion object{
-        fun numberOfDays(t0 : Long, t1 : Long) =
+    companion object {
+        fun numberOfDays(t0: Long, t1: Long) =
             Duration(Instant.ofEpochMilli(t0), Instant.ofEpochMilli(t1)).standardDays.toInt()
     }
 }

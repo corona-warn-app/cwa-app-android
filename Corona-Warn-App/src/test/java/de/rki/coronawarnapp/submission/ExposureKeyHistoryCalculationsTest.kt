@@ -6,13 +6,23 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class ExposureKeyDomainTest {
+class ExposureKeyHistoryCalculationsTest {
 
-    private lateinit var instance: ExposureKeyDomain
+    private lateinit var instance: ExposureKeyHistoryCalculations
+    private lateinit var converter: KeyConverter
 
     @Before
-    fun setup() {
-        instance = ExposureKeyDomain()
+    fun setUp() {
+        converter = object : KeyConverter {
+            override fun toExternalFormat(
+                key: TemporaryExposureKey,
+                riskValue: Int
+            ) =
+                KeyExportFormat.TemporaryExposureKey.newBuilder()
+                    .setRollingStartIntervalNumber(riskValue * 10)
+                    .build()
+        }
+        instance = ExposureKeyHistoryCalculations(TransmissionRiskVectorDeterminator(), converter)
     }
 
     @Test
@@ -79,16 +89,10 @@ class ExposureKeyDomainTest {
                     createKey(0),
                     createKey(1)
                 ),
-                TransmissionRiskVector(intArrayOf(0, 1, 2)),
-                ::fakeConverter
+                TransmissionRiskVector(intArrayOf(0, 1, 2))
             ).map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
         )
     }
-
-    private fun fakeConverter(key: TemporaryExposureKey, riskValue: Int) =
-        KeyExportFormat.TemporaryExposureKey.newBuilder()
-            .setRollingStartIntervalNumber(riskValue * 10)
-            .build()
 
     private fun createKey(rollingStartIntervalNumber: Int) =
         TemporaryExposureKey.TemporaryExposureKeyBuilder()

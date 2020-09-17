@@ -18,7 +18,7 @@ class TransmissionRiskVectorDeterminatorTest {
     }
 
     @Test
-    fun test_numberOfDays(){
+    fun test_numberOfDays() {
         Assert.assertEquals(
             4,
             TransmissionRiskVectorDeterminator.numberOfDays(

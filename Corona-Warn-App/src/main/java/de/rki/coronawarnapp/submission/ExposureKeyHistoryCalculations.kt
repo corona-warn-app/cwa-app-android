@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.submission
 
-import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 
-class ExposureKeyDomain {
+class ExposureKeyHistoryCalculations(
+    private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
+    private val keyConverter: KeyConverter
+) {
 
     fun transformToKeyHistoryInExternalFormat(
         keys: List<TemporaryExposureKey>,
-        transmissionRiskVector: TransmissionRiskVector,
-        converter: (TemporaryExposureKey, Int) -> (KeyExportFormat.TemporaryExposureKey)
+        symptoms: Symptoms
     ) =
         toExternalFormat(
             toSortedHistory(limitKeyCount(keys)),
-            transmissionRiskVector,
-            converter
+            transmissionRiskVectorDeterminator.determine(symptoms)
         )
 
     fun <T> limitKeyCount(keys: List<T>): List<T> =
@@ -21,13 +21,12 @@ class ExposureKeyDomain {
 
     fun toExternalFormat(
         keys: List<TemporaryExposureKey>,
-        transmissionRiskVector: TransmissionRiskVector,
-        converter: (TemporaryExposureKey, Int) -> (KeyExportFormat.TemporaryExposureKey)
+        transmissionRiskVector: TransmissionRiskVector
     ) =
         keys.mapIndexed { index, key ->
             // The latest key we receive is from yesterday (i.e. 1 day ago),
             // thus we need use index+1
-            converter.invoke(key, transmissionRiskVector.getRiskValue(index + 1))
+            keyConverter.toExternalFormat(key, transmissionRiskVector.getRiskValue(index + 1))
         }
 
     fun toSortedHistory(keys: List<TemporaryExposureKey>) =
