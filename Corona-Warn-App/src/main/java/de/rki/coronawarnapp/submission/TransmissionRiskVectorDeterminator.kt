@@ -5,6 +5,7 @@ import org.joda.time.Instant
 
 class TransmissionRiskVectorDeterminator {
 
+    @Suppress("MagicNumber")
     fun determine(symptoms: Symptoms): TransmissionRiskVector = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
             SymptomIndication.POSITIVE -> when (symptoms.startOfSymptoms) {
