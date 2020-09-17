@@ -56,7 +56,7 @@ class SubmissionSymptomCalendarFragment : Fragment() {
 
         submissionViewModel.symptomStart.observe(viewLifecycleOwner, Observer {
             updateButtons(it)
-            if (it !is Symptoms.StartOfSymptoms.Date) {
+            if (it !is Symptoms.StartOf.Date) {
                 binding.symptomCalendarContainer.unsetSelection()
             }
         })
@@ -64,48 +64,48 @@ class SubmissionSymptomCalendarFragment : Fragment() {
         submissionViewModel.initSymptomStart()
     }
 
-    private fun updateButtons(symptomStart: Symptoms.StartOfSymptoms?) {
+    private fun updateButtons(symptomStart: Symptoms.StartOf?) {
         binding.symptomCalendarChoiceSelection.calendarButtonSevenDays
             .findViewById<Button>(R.id.calendar_button_seven_days)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.LastSevenDays))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.LastSevenDays))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_seven_days).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, Symptoms.StartOfSymptoms.LastSevenDays
+                    symptomStart, Symptoms.StartOf.LastSevenDays
                 )
             )
 
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_one_two_weeks)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.OneToTwoWeeksAgo))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_one_two_weeks).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, Symptoms.StartOfSymptoms.OneToTwoWeeksAgo
+                    symptomStart, Symptoms.StartOf.OneToTwoWeeksAgo
                 )
             )
 
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_more_than_two_weeks)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.MoreThanTwoWeeks))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.MoreThanTwoWeeks))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.calendar_button_more_than_two_weeks).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, Symptoms.StartOfSymptoms.MoreThanTwoWeeks
+                    symptomStart, Symptoms.StartOf.MoreThanTwoWeeks
                 )
             )
 
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.target_button_verify)
-            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOfSymptoms.NoInformation))
+            .setTextColor(formatCalendarButtonStyleByState(symptomStart, Symptoms.StartOf.NoInformation))
         binding.symptomCalendarChoiceSelection.targetLayout
             .findViewById<Button>(R.id.target_button_verify).backgroundTintList =
             ColorStateList.valueOf(
                 formatCalendarBackgroundButtonStyleByState(
-                    symptomStart, Symptoms.StartOfSymptoms.NoInformation
+                    symptomStart, Symptoms.StartOf.NoInformation
                 )
             )
 

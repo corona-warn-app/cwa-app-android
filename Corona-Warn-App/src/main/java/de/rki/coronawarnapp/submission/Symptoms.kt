@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.submission
 
-class Symptoms(
-    val startOfSymptoms: StartOfSymptoms?,
-    val symptomIndication: SymptomIndication
+data class Symptoms(
+    val startOfSymptoms: StartOf?,
+    val symptomIndication: Indication
 ) {
-    sealed class StartOfSymptoms {
+    sealed class StartOf {
 
-        data class Date(val millis: Long) : StartOfSymptoms()
-        object LastSevenDays : StartOfSymptoms()
-        object OneToTwoWeeksAgo : StartOfSymptoms()
-        object MoreThanTwoWeeks : StartOfSymptoms()
-        object NoInformation : StartOfSymptoms()
+        data class Date(val millis: Long) : StartOf()
+        object LastSevenDays : StartOf()
+        object OneToTwoWeeksAgo : StartOf()
+        object MoreThanTwoWeeks : StartOf()
+        object NoInformation : StartOf()
     }
 
-    enum class SymptomIndication {
+    enum class Indication {
         POSITIVE,
         NEGATIVE,
         NO_INFORMATION

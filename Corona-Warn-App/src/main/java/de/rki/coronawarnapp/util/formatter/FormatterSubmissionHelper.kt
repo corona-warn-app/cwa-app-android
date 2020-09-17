@@ -17,34 +17,34 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 
 fun formatButtonStyleByState(
-    currentState: Symptoms.SymptomIndication?,
-    state: Symptoms.SymptomIndication?
+    currentState: Symptoms.Indication?,
+    state: Symptoms.Indication?
 ): Int =
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
 
 fun formatBackgroundButtonStyleByState(
-    currentState: Symptoms.SymptomIndication?,
-    state: Symptoms.SymptomIndication?
+    currentState: Symptoms.Indication?,
+    state: Symptoms.Indication?
 ): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
 fun formatCalendarButtonStyleByState(
-    currentState: Symptoms.StartOfSymptoms?,
-    state: Symptoms.StartOfSymptoms?
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
 ): Int =
     formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
 
 fun formatCalendarBackgroundButtonStyleByState(
-    currentState: Symptoms.StartOfSymptoms?,
-    state: Symptoms.StartOfSymptoms?
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
 ): Int =
     formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
 
-fun isEnableSymptomIntroButtonByState(currentState: Symptoms.SymptomIndication?): Boolean {
+fun isEnableSymptomIntroButtonByState(currentState: Symptoms.Indication?): Boolean {
     return currentState != null
 }
 
-fun isEnableSymptomCalendarButtonByState(currentState: Symptoms.StartOfSymptoms?): Boolean {
+fun isEnableSymptomCalendarButtonByState(currentState: Symptoms.StartOf?): Boolean {
     return currentState != null
 }
 

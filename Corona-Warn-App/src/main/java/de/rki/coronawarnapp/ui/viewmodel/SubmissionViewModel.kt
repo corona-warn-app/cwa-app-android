@@ -58,12 +58,13 @@ class SubmissionViewModel : ViewModel() {
     val deviceUiState: LiveData<DeviceUIState> =
         SubmissionRepository.deviceUIState
 
-    val symptomIndication = MutableLiveData<Symptoms.SymptomIndication?>()
-    val symptomStart = MutableLiveData<Symptoms.StartOfSymptoms?>()
+    val symptomIndication = MutableLiveData<Symptoms.Indication?>()
+    val symptomStart = MutableLiveData<Symptoms.StartOf?>()
 
     fun initSymptoms() {
         symptomIndication.postValue(null)
     }
+
     fun initSymptomStart() {
         symptomStart.postValue(null)
     }
@@ -182,34 +183,34 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun onPositiveSymptomIndication() {
-        symptomIndication.postValue(Symptoms.SymptomIndication.POSITIVE)
+        symptomIndication.postValue(Symptoms.Indication.POSITIVE)
     }
 
     fun onNegativeSymptomIndication() {
-        symptomIndication.postValue(Symptoms.SymptomIndication.NEGATIVE)
+        symptomIndication.postValue(Symptoms.Indication.NEGATIVE)
     }
 
     fun onNoInformationSymptomIndication() {
-        symptomIndication.postValue(Symptoms.SymptomIndication.NO_INFORMATION)
+        symptomIndication.postValue(Symptoms.Indication.NO_INFORMATION)
     }
 
     fun onLastSevenDaysStart() {
-        symptomStart.postValue(Symptoms.StartOfSymptoms.LastSevenDays)
+        symptomStart.postValue(Symptoms.StartOf.LastSevenDays)
     }
 
     fun onOneToTwoWeeksAgoStart() {
-        symptomStart.postValue(Symptoms.StartOfSymptoms.OneToTwoWeeksAgo)
+        symptomStart.postValue(Symptoms.StartOf.OneToTwoWeeksAgo)
     }
 
     fun onMoreThanTwoWeeksStart() {
-        symptomStart.postValue(Symptoms.StartOfSymptoms.MoreThanTwoWeeks)
+        symptomStart.postValue(Symptoms.StartOf.MoreThanTwoWeeks)
     }
 
     fun onNoInformationStart() {
-        symptomStart.postValue(Symptoms.StartOfSymptoms.NoInformation)
+        symptomStart.postValue(Symptoms.StartOf.NoInformation)
     }
 
     fun onDateSelected(localDate: LocalDate?) {
-        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOfSymptoms.Date(localDate.toDate().time))
+        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOf.Date(localDate.toDate().time))
     }
 }

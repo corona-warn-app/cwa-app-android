@@ -59,37 +59,37 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         submissionViewModel.initSymptoms()
     }
 
-    private fun updateButtons(symptomIndication: Symptoms.SymptomIndication?) {
+    private fun updateButtons(symptomIndication: Symptoms.Indication?) {
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply)
-            .setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.SymptomIndication.POSITIVE))
+            .setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.POSITIVE))
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply).backgroundTintList =
             ColorStateList.valueOf(
                 formatBackgroundButtonStyleByState(
                     symptomIndication,
-                    Symptoms.SymptomIndication.POSITIVE
+                    Symptoms.Indication.POSITIVE
                 )
             )
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject)
-            .setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.SymptomIndication.NEGATIVE))
+            .setTextColor(formatButtonStyleByState(symptomIndication, Symptoms.Indication.NEGATIVE))
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_reject).backgroundTintList =
             ColorStateList.valueOf(
                 formatBackgroundButtonStyleByState(
                     symptomIndication,
-                    Symptoms.SymptomIndication.NEGATIVE
+                    Symptoms.Indication.NEGATIVE
                 )
             )
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify)
             .setTextColor(
                 formatButtonStyleByState(
                     symptomIndication,
-                    Symptoms.SymptomIndication.NO_INFORMATION
+                    Symptoms.Indication.NO_INFORMATION
                 )
             )
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_verify).backgroundTintList =
             ColorStateList.valueOf(
                 formatBackgroundButtonStyleByState(
                     symptomIndication,
-                    Symptoms.SymptomIndication.NO_INFORMATION
+                    Symptoms.Indication.NO_INFORMATION
                 )
             )
         binding
@@ -101,7 +101,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
 
     private fun navigateToNext() {
 
-        if (submissionViewModel.symptomIndication.value!! == Symptoms.SymptomIndication.POSITIVE) {
+        if (submissionViewModel.symptomIndication.value!! == Symptoms.Indication.POSITIVE) {
             findNavController().doNavigate(
                 SubmissionSymptomIntroductionFragmentDirections
                     .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()

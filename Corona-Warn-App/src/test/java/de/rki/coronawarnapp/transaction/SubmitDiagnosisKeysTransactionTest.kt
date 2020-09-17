@@ -7,8 +7,6 @@ import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.submission.StartOfSymptoms
-import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -42,7 +40,7 @@ class SubmitDiagnosisKeysTransactionTest {
     private val authString = "authString"
     private val registrationToken = "123"
 
-    private val symptoms = Symptoms(StartOfSymptoms.OneToTwoWeeksAgo, SymptomIndication.POSITIVE)
+    private val symptoms = Symptoms(Symptoms.StartOf.OneToTwoWeeksAgo, Symptoms.Indication.POSITIVE)
 
     @Before
     fun setUp() {

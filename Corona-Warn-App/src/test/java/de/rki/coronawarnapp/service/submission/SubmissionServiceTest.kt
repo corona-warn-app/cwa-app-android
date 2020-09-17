@@ -6,8 +6,6 @@ import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.StartOfSymptoms
-import de.rki.coronawarnapp.submission.SymptomIndication
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
@@ -36,7 +34,7 @@ class SubmissionServiceTest {
     @MockK
     private lateinit var backgroundNoise: BackgroundNoise
 
-    private val symptoms = Symptoms(StartOfSymptoms.OneToTwoWeeksAgo, SymptomIndication.POSITIVE)
+    private val symptoms = Symptoms(Symptoms.StartOf.OneToTwoWeeksAgo, Symptoms.Indication.POSITIVE)
 
     @Before
     fun setUp() {
