@@ -37,7 +37,6 @@ class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
             logFile.delete()
             if (logWriter != null) logWriter!!.close()
         }
-
     }
 
     @Synchronized
@@ -85,4 +84,3 @@ class FileLoggerTree(private val logFile: File) : Timber.DebugTree() {
         }
     }
 }
-

@@ -73,8 +73,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-
-        if ((BuildConfig.FLAVOR != "deviceForTesters" || BuildConfig.DEBUG)) {
+        if ((BuildConfig.FLAVOR == "deviceForTesters" || BuildConfig.DEBUG)) {
             fileLogger = FileLogger(this)
         }
 
@@ -88,27 +87,9 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             ProcessLifecycleOwner.get().lifecycleScope.launch {
                 // we want a wakelock as the OS does not handle this for us like in the background
                 // job execution
-                val wakeLock: PowerManager.WakeLock =
-                    (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-                        newWakeLock(
-                            PowerManager.PARTIAL_WAKE_LOCK,
-                            TAG + "-WAKE-" + UUID.randomUUID().toString()
-                        ).apply {
-                            acquire(TEN_MINUTE_TIMEOUT_IN_MS)
-                        }
-                    }
-
+                val wakeLock = createWakeLock()
                 // we keep a wifi lock to wake up the wifi connection in case the device is dozing
-                val wifiLock: WifiManager.WifiLock =
-                    (getSystemService(Context.WIFI_SERVICE) as WifiManager).run {
-                        createWifiLock(
-                            WifiManager.WIFI_MODE_FULL_HIGH_PERF,
-                            TAG + "-WIFI-" + UUID.randomUUID().toString()
-                        ).apply {
-                            acquire()
-                        }
-                    }
-
+                val wifiLock = createWifiLock()
                 try {
                     BackgroundWorkHelper.sendDebugNotification(
                         "Automatic mode is on", "Check if we have downloaded keys already today"
@@ -134,6 +115,28 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
             if (LocalData.onboardingCompletedTimestamp() != null) BackgroundWorkScheduler.startWorkScheduler()
         }
     }
+
+    private fun createWakeLock(): PowerManager.WakeLock =
+        (getSystemService(Context.POWER_SERVICE) as PowerManager)
+            .run {
+                newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    TAG + "-WAKE-" + UUID.randomUUID().toString()
+                ).apply {
+                    acquire(TEN_MINUTE_TIMEOUT_IN_MS)
+                }
+            }
+
+    private fun createWifiLock(): WifiManager.WifiLock =
+        (getSystemService(Context.WIFI_SERVICE) as WifiManager)
+            .run {
+                createWifiLock(
+                    WifiManager.WIFI_MODE_FULL_HIGH_PERF,
+                    TAG + "-WIFI-" + UUID.randomUUID().toString()
+                ).apply {
+                    acquire()
+                }
+            }
 
     /**
      * Callback when the app is open but backgrounded

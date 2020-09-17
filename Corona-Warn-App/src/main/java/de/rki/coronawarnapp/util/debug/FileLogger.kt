@@ -37,5 +37,4 @@ class FileLogger constructor(private val context: Context) {
             loggerTree = null
         }
     }
-
 }
