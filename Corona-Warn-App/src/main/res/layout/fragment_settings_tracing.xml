@@ -87,11 +87,10 @@
 
                     <include
                         android:id="@+id/settings_tracing_status_location"
-                        layout="@layout/include_tracing_status_card"
+                        layout="@layout/include_tracing_status_card_location"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
                         android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityLocation(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
-                        app:body="@{@string/settings_tracing_status_location_body}"
                         app:buttonText="@{@string/settings_tracing_status_location_button}"
                         app:headline="@{@string/settings_tracing_status_location_headline}"
                         app:icon="@{@drawable/ic_location}"
