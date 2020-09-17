@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -23,7 +23,7 @@ class SubmissionSymptomCalendarFragment : Fragment() {
 
     private var _binding: FragmentSubmissionSymptomCalendarBinding? = null
     private val binding: FragmentSubmissionSymptomCalendarBinding get() = _binding!!
-    private val submissionViewModel: SubmissionViewModel by viewModels()
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
