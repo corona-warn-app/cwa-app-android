@@ -98,7 +98,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // set the viewmmodel variable that will be used for data binding
         binding.tracingViewModel = tracingViewModel
 
         val v: Long = PackageInfoCompat.getLongVersionCode(
@@ -251,7 +250,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         key?.let {
             binding.textScannedKey.text = prettyKey(key)
             binding.textScannedKey.visibility = View.VISIBLE
-//            text_scanned_key.movementMethod = ScrollingMovementMethod.getInstance()
         }
         otherExposureKeyList.add(key!!)
         otherExposureKey = key
@@ -408,7 +406,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
         myKeys
             ?.maxByOrNull { it.rollingStartIntervalNumber }
-            ?.rollingStartIntervalNumber?.toLong()
+            ?.rollingStartIntervalNumber.toLong()
             .let {
                 val ms = it * 60L * 10L * 1000L
                 val dateString = DateTime(ms, DateTimeZone.UTC)

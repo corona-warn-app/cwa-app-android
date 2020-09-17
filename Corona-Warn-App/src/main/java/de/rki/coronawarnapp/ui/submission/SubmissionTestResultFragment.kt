@@ -92,7 +92,6 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         binding.submissionViewModel = submissionViewModel
         // registers callback when the os level back is pressed
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
-        // Inflate the layout for this fragment
 
         skipInitialTestResultRefresh =
             arguments?.getBoolean("skipInitialTestResultRefresh") ?: false

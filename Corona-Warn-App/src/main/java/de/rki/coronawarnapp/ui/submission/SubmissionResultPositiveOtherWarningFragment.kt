@@ -107,10 +107,11 @@ class SubmissionResultPositiveOtherWarningFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.submissionViewModel = submissionViewModel
+
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
-        binding.submissionViewModel = submissionViewModel
 
         setButtonOnClickListener()
 
