@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.calendar
 
-import junit.framework.TestCase
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import org.junit.Assert
 import org.junit.Test
 
 class CalendarCalculationTest {
@@ -17,15 +17,15 @@ class CalendarCalculationTest {
         val dates = CalendarCalculation().getDates(dateTime)
 
         // First day - 3 of August
-        TestCase.assertEquals(3, dates.first().date.dayOfMonth)
-        TestCase.assertEquals(8, dates.first().date.monthOfYear)
+        Assert.assertEquals(3, dates.first().date.dayOfMonth)
+        Assert.assertEquals(8, dates.first().date.monthOfYear)
 
         // Last day - 30 of August
-        TestCase.assertEquals(30, dates.last().date.dayOfMonth)
-        TestCase.assertEquals(8, dates.last().date.monthOfYear)
+        Assert.assertEquals(30, dates.last().date.dayOfMonth)
+        Assert.assertEquals(8, dates.last().date.monthOfYear)
 
         val monthLabel = CalendarCalculation().getMonthText(dates.first().date, dates.last().date)
-        TestCase.assertEquals("August 2020", monthLabel)
+        Assert.assertEquals("August 2020", monthLabel)
     }
 
     @Test
@@ -36,15 +36,15 @@ class CalendarCalculationTest {
         val dates = CalendarCalculation().getDates(dateTime)
 
         // First day - 24 of August
-        TestCase.assertEquals(24, dates.first().date.dayOfMonth)
-        TestCase.assertEquals(8, dates.first().date.monthOfYear)
+        Assert.assertEquals(24, dates.first().date.dayOfMonth)
+        Assert.assertEquals(8, dates.first().date.monthOfYear)
 
         // Last day - 20 of September
-        TestCase.assertEquals(20, dates.last().date.dayOfMonth)
-        TestCase.assertEquals(9, dates.last().date.monthOfYear)
+        Assert.assertEquals(20, dates.last().date.dayOfMonth)
+        Assert.assertEquals(9, dates.last().date.monthOfYear)
 
         val monthLabel = CalendarCalculation().getMonthText(dates.first().date, dates.last().date)
-        TestCase.assertEquals("August - September 2020", monthLabel)
+        Assert.assertEquals("August - September 2020", monthLabel)
     }
 
     @Test
@@ -55,16 +55,16 @@ class CalendarCalculationTest {
         val dates = CalendarCalculation().getDates(dateTime)
 
         // First day - 21 of December 2020
-        TestCase.assertEquals(21, dates.first().date.dayOfMonth)
-        TestCase.assertEquals(12, dates.first().date.monthOfYear)
-        TestCase.assertEquals(2020, dates.first().date.year)
+        Assert.assertEquals(21, dates.first().date.dayOfMonth)
+        Assert.assertEquals(12, dates.first().date.monthOfYear)
+        Assert.assertEquals(2020, dates.first().date.year)
 
         // Last day - 17 of January 2021
-        TestCase.assertEquals(17, dates.last().date.dayOfMonth)
-        TestCase.assertEquals(1, dates.last().date.monthOfYear)
-        TestCase.assertEquals(2021, dates.last().date.year)
+        Assert.assertEquals(17, dates.last().date.dayOfMonth)
+        Assert.assertEquals(1, dates.last().date.monthOfYear)
+        Assert.assertEquals(2021, dates.last().date.year)
 
         val monthLabel = CalendarCalculation().getMonthText(dates.first().date, dates.last().date)
-        TestCase.assertEquals("December 2020 - January 2021", monthLabel)
+        Assert.assertEquals("December 2020 - January 2021", monthLabel)
     }
 }
