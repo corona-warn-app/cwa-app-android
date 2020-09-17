@@ -20,6 +20,11 @@
             android:layout_margin="@dimen/spacing_normal"
             android:orientation="vertical">
 
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/calendar_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:id="@+id/label_googlePlayServices_version"
                 android:layout_width="match_parent"

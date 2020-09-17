@@ -148,7 +148,7 @@ class MainFragment : Fragment() {
     private fun toSubmissionIntro() {
         findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-        )
+            )
     }
 
     private fun showPopup(view: View) {
