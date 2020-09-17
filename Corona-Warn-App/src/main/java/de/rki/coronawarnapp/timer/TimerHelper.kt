@@ -120,7 +120,6 @@ object TimerHelper {
      * @see getManualKeyRetrievalTimeLeft
      * @see SettingsRepository.updateManualKeyRetrievalEnabled
      * @see SettingsRepository.updateManualKeyRetrievalTime
-     * @see de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
      */
     private fun onManualKeyRetrievalTimerTick() {
         val timeDifference = getManualKeyRetrievalTimeLeft()

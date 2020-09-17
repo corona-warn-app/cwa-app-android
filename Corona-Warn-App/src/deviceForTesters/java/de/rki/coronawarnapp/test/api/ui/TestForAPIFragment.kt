@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test
+package de.rki.coronawarnapp.test.api.ui
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -51,32 +51,11 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_enter_other_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_check_exposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_get_exposure_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_scan_qr_code
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_share_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_submit_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_api_test_start
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_calculate_risk_level
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_clear_db
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_insert_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_retrieve_exposure_summary
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_duration_in_retention_period
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.button_tracing_intervals
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_attenuation
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_daysSinceLastExposure
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_matchedKeyCount
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_maximumRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_exposure_summary_summationRiskScore
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_googlePlayServices_version
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_latest_key_date
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.label_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.qr_code_viewpager
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_last_three_hours_from_server
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.test_api_switch_background_notifications
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_my_keys
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.text_scanned_key
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -86,9 +65,14 @@ import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.UUID
+import javax.inject.Inject
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
-class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
+class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback,
+    AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
         const val CONFIG_SCORE = 8
@@ -173,9 +157,11 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         val last3HoursSwitch = test_api_switch_last_three_hours_from_server as Switch
         last3HoursSwitch.isChecked = LocalData.last3HoursMode()
         last3HoursSwitch.setOnClickListener {
-            val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
-            showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
-            LocalData.last3HoursMode(isLast3HoursModeEnabled)
+            vm.setLast3HoursMode(last3HoursSwitch.isChecked)
+        }
+
+        vm.last3HourToggleEvent.observe2(this) {
+            showToast("Last 3 Hours Mode is activated: $it")
         }
 
         val backgroundNotificationSwitch = test_api_switch_background_notifications as Switch

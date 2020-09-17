@@ -241,6 +241,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.annotation:annotation:1.1.0'
 
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+
     // DAGGER
     implementation 'com.google.dagger:dagger:2.28.1'
     implementation 'com.google.dagger:dagger-android:2.28.1'
@@ -248,6 +251,8 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
     kapt 'com.google.dagger:dagger-android-processor:2.28.1'
 
+    compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
+    kapt 'com.squareup.inject:assisted-inject-processor-dagger2:0.5.2'
 
     // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }

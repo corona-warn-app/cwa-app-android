@@ -65,12 +65,12 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate() {
-        AppInjector.init(this)
-
-        super.onCreate()
         instance = this
+        super.onCreate()
+        AppInjector.init(this)
 
         if (CWADebug.isDebugBuildOrMode) System.setProperty("kotlinx.coroutines.debug", "on")
 
@@ -197,6 +197,4 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(errorReceiver, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
     }
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }
