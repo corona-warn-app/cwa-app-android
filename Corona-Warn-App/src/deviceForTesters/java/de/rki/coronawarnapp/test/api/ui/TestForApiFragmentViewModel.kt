@@ -17,5 +17,4 @@ class TestForApiFragmentViewModel @AssistedInject constructor() : CWAViewModel()
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<TestForApiFragmentViewModel>
-
 }

@@ -158,7 +158,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         last3HoursSwitch.isChecked = LocalData.last3HoursMode()
         last3HoursSwitch.setOnClickListener {
             vm.setLast3HoursMode(last3HoursSwitch.isChecked)
-
         }
 
         vm.last3HourToggleEvent.observe2(this) {
