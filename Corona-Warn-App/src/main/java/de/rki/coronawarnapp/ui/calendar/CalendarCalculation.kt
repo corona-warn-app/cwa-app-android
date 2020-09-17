@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.calendar
 
 import dagger.Reusable
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -91,7 +92,7 @@ class CalendarCalculation @Inject constructor() {
      * | -2| -1| 9 | +1| +2| +3| +4| <- Current Week (4th row)
      * Code: (DaysInWeekCount * (TotalWeeks - weekId)) * -1
      */
-    fun getDates(currentDate: DateTime = DateTime(Instant.now())): List<CalendarAdapter.Day> {
+    fun getDates(currentDate: DateTime = DateTime(Instant.now(), DateTimeZone.UTC)): List<CalendarAdapter.Day> {
         // Create mutable list of DateTime as a result
         val result = mutableListOf<CalendarAdapter.Day>()
         // Get current day of the week (where 1 = Monday, 7 = Sunday)
