@@ -62,6 +62,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         mockkObject(CWADebug)
+        every { CWADebug.isDebugBuildOrMode } returns false
+        every { settings.isLast3HourModeEnabled } returns false
 
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
             LocationCode("DE"),
@@ -70,9 +72,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
         coEvery { deviceStorage.checkSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
             every { isSpaceAvailable } returns true
         }
-
-        coEvery { settings.isLast3HourModeEnabled } returns false
-
 
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
             LocationCode("DE"), LocationCode("NL")

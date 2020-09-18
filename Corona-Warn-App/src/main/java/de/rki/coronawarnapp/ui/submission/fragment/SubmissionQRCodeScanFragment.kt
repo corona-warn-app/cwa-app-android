@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.ui.submission.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,35 +21,24 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment() {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan) {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1
-        private val TAG: String? = SubmissionQRCodeScanFragment::class.simpleName
     }
 
     private val viewModel: SubmissionViewModel by activityViewModels()
-    private var binding: FragmentSubmissionQrCodeScanBinding by viewLifecycle()
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        return binding.root
-    }
 
     private fun decodeCallback(result: BarcodeResult) {
         viewModel.validateAndStoreTestGUID(result.text)

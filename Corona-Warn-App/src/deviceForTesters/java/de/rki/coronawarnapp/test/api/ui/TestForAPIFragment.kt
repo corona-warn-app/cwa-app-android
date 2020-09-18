@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test
+package de.rki.coronawarnapp.test.api.ui
 
 import android.content.Context
 import android.content.Intent
@@ -52,10 +52,15 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -65,9 +70,14 @@ import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.util.UUID
+import javax.inject.Inject
 
 @SuppressWarnings("TooManyFunctions", "MagicNumber", "LongMethod")
-class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHelper.Callback {
+class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
+    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
         const val CONFIG_SCORE = 8
@@ -98,31 +108,14 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
 
     // Data and View binding
-    private var binding: FragmentTestForAPIBinding by viewLifecycle()
+    private val binding: FragmentTestForAPIBinding by viewBindingLazy()
 
     private var lastSetCountries: List<String>? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        // get the binding reference by inflating it with the current layout
-        binding = FragmentTestForAPIBinding.inflate(inflater)
-
-        // set the viewmmodel variable that will be used for data binding
-        binding.tracingViewModel = tracingViewModel
-
-        // set the lifecycleowner for LiveData
-        binding.lifecycleOwner = this
-
-        // Inflate the layout for this fragment
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tracingViewModel = tracingViewModel
 
         val v: Long = PackageInfoCompat.getLongVersionCode(
             activity?.packageManager!!.getPackageInfo(
@@ -170,9 +163,11 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         val last3HoursSwitch = binding.testApiSwitchLastThreeHoursFromServer
         last3HoursSwitch.isChecked = LocalData.last3HoursMode()
         last3HoursSwitch.setOnClickListener {
-            val isLast3HoursModeEnabled = last3HoursSwitch.isChecked
-            showToast("Last 3 Hours Mode is activated: $isLast3HoursModeEnabled")
-            LocalData.last3HoursMode(isLast3HoursModeEnabled)
+            vm.setLast3HoursMode(last3HoursSwitch.isChecked)
+        }
+
+        vm.last3HourToggleEvent.observe2(this) {
+            showToast("Last 3 Hours Mode is activated: $it")
         }
 
         val backgroundNotificationSwitch = binding.testApiSwitchBackgroundNotifications
@@ -354,7 +349,6 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         key?.let {
             binding.textScannedKey.text = prettyKey(key)
             binding.textScannedKey.visibility = View.VISIBLE
-//            text_scanned_key.movementMethod = ScrollingMovementMethod.getInstance()
         }
         otherExposureKeyList.add(key!!)
         otherExposureKey = key
@@ -512,7 +506,9 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
         binding.labelMyKeys.text = myKeysLabelAndCount
         binding.textMyKeys.text = myExposureKeysJSON
 
-        myKeys?.maxBy { it.rollingStartIntervalNumber }?.rollingStartIntervalNumber?.toLong()
+        myKeys
+            ?.maxByOrNull { it.rollingStartIntervalNumber }
+            ?.rollingStartIntervalNumber?.toLong()
             ?.let {
                 val ms = it * 60L * 10L * 1000L
                 val dateString = DateTime(ms, DateTimeZone.UTC)

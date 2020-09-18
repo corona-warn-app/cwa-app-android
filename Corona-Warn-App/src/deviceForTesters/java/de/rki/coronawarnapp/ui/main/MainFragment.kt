@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -16,12 +14,12 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,32 +34,19 @@ import kotlinx.coroutines.withContext
  * @see submissionViewModel
  * @see PopupMenu
  */
-class MainFragment : Fragment() {
-
-    companion object {
-        private val TAG: String? = MainFragment::class.simpleName
-    }
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var binding: FragmentMainBinding by viewLifecycle()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMainBinding.inflate(inflater)
-        binding.tracingViewModel = tracingViewModel
-        binding.settingsViewModel = settingsViewModel
-        binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
+    private val binding: FragmentMainBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tracingViewModel = tracingViewModel
+        binding.settingsViewModel = settingsViewModel
+        binding.submissionViewModel = submissionViewModel
+
         setButtonOnClickListener()
 
         showOneTimeTracingExplanationDialog()
@@ -171,7 +156,9 @@ class MainFragment : Fragment() {
                 }
                 R.id.menu_test_risk_level -> {
                     findNavController().doNavigate(
-                        MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation()
+                        MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation(
+                            exampleArgument = null
+                        )
                     )
                     true
                 }

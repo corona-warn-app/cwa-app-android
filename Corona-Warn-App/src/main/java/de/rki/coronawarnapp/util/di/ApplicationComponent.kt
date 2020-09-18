@@ -5,6 +5,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.nearby.NearbyModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigServer
@@ -28,6 +29,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
+        AssistedInjectModule::class,
         AndroidModule::class,
         ReceiverBinder::class,
         ServiceBinder::class,
@@ -36,7 +38,8 @@ import javax.inject.Singleton
         UtilModule::class,
         DeviceModule::class,
         HttpModule::class,
-        DiagnosisKeysModule::class
+        DiagnosisKeysModule::class,
+        NearbyModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
