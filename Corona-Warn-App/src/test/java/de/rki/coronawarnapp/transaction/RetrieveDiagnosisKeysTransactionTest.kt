@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import io.kotest.matchers.shouldBe
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
@@ -18,7 +17,6 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -72,23 +70,16 @@ class RetrieveDiagnosisKeysTransactionTest {
 
     @Test
     fun testTransactionNoFiles() {
-        val requestedCountries = listOf("DE")
-        coEvery {
-            RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
-                requestedCountries
-            )
-        } returns listOf<File>()
+        coEvery { RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>()) } returns listOf<File>()
 
         runBlocking {
-            RetrieveDiagnosisKeysTransaction.start(requestedCountries)
+            RetrieveDiagnosisKeysTransaction.start()
 
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
                 RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
-                RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
-                    requestedCountries
-                )
+                RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
                 RetrieveDiagnosisKeysTransaction["executeFetchDateUpdate"](any<Date>())
             }
         }
@@ -97,24 +88,19 @@ class RetrieveDiagnosisKeysTransactionTest {
     @Test
     fun testTransactionHasFiles() {
         val file = Paths.get("src", "test", "resources", "keys.bin").toFile()
-        val requestedCountries = listOf("DE")
 
-        coEvery {
-            RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
-                requestedCountries
-            )
-        } returns listOf(file)
+        coEvery { RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>()) } returns listOf(
+            file
+        )
 
         runBlocking {
-            RetrieveDiagnosisKeysTransaction.start(requestedCountries)
+            RetrieveDiagnosisKeysTransaction.start()
 
             coVerifyOrder {
                 RetrieveDiagnosisKeysTransaction["executeSetup"]()
                 RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
                 RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
-                RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](
-                    requestedCountries
-                )
+                RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
                 RetrieveDiagnosisKeysTransaction["executeAPISubmission"](
                     any<String>(),
                     listOf(file),
@@ -123,11 +109,6 @@ class RetrieveDiagnosisKeysTransactionTest {
                 RetrieveDiagnosisKeysTransaction["executeFetchDateUpdate"](any<Date>())
             }
         }
-    }
-
-    @Test
-    fun `conversion from date to localdate`() {
-        LocalDate.fromDateFields(Date(0)) shouldBe LocalDate.parse("1970-01-01")
     }
 
     @After

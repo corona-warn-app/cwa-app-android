@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -104,14 +102,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="Reset Risk Level" />
-
-            <Button
-                android:id="@+id/button_clear_diagnosis_key_cache"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Clear Diagnosis-Key cache" />
 
             <TextView
                 android:id="@+id/label_exposure_summary_title"

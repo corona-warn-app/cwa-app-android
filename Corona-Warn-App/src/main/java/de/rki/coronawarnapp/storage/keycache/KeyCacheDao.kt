@@ -17,37 +17,39 @@
  * under the License.                                                         *
  ******************************************************************************/
 
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.storage.keycache
 
-import android.annotation.SuppressLint
-import android.content.Context
-import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.FileStorageHelper
-import de.rki.coronawarnapp.storage.RiskLevelRepository
-import de.rki.coronawarnapp.util.security.SecurityHelper
-import timber.log.Timber
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
 
-/**
- * Helper for supplying functionality regarding Data Retention
- */
-object DataRetentionHelper {
-    private val TAG: String? = DataRetentionHelper::class.simpleName
+@Dao
+interface KeyCacheDao {
+    @Query("SELECT * FROM date WHERE type=0")
+    suspend fun getDates(): List<KeyCacheEntity>
 
-    /**
-     * Deletes all data known to the Application
-     *
-     */
-    @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
-    fun clearAllLocalData(context: Context) {
-        Timber.w("CWA LOCAL DATA DELETION INITIATED.")
-        // Database Reset
-        AppDatabase.reset(context)
-        // Shared Preferences Reset
-        SecurityHelper.resetSharedPrefs()
-        // Reset the current risk level stored in LiveData
-        RiskLevelRepository.reset()
-        // Export File Reset
-        FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
-        Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
-    }
+    @Query("SELECT * FROM date WHERE type=1")
+    suspend fun getHours(): List<KeyCacheEntity>
+
+    @Query("SELECT * FROM date")
+    suspend fun getAllEntries(): List<KeyCacheEntity>
+
+    @Query("SELECT * FROM date WHERE id IN (:idList)")
+    suspend fun getAllEntries(idList: List<String>): List<KeyCacheEntity>
+
+    @Query("DELETE FROM date")
+    suspend fun clear()
+
+    @Query("DELETE FROM date WHERE type=1")
+    suspend fun clearHours()
+
+    @Delete
+    suspend fun deleteEntry(entity: KeyCacheEntity)
+
+    @Delete
+    suspend fun deleteEntries(entities: List<KeyCacheEntity>)
+
+    @Insert
+    suspend fun insertEntry(keyCacheEntity: KeyCacheEntity): Long
 }

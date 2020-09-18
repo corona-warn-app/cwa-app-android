@@ -53,7 +53,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         binding.buttonRetrieveDiagnosisKeys.setOnClickListener { vm.retrieveDiagnosisKeys() }
         binding.buttonProvideKeyViaQr.setOnClickListener { vm.scanLocalQRCodeAndProvide() }
         binding.buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevel() }
-        binding.buttonClearDiagnosisKeyCache.setOnClickListener { vm.clearKeyCache() }
 
         binding.buttonResetRiskLevel.setOnClickListener { vm.resetRiskLevel() }
         vm.riskLevelResetEvent.observe2(this) {

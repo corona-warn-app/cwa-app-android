@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.api.ui
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -9,8 +8,6 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.pm.PackageInfoCompat
@@ -33,9 +30,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
@@ -54,7 +49,6 @@ import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -110,8 +104,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     // Data and View binding
     private val binding: FragmentTestForAPIBinding by viewBindingLazy()
 
-    private var lastSetCountries: List<String>? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -136,21 +128,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
-
-        // Load countries from App config and update Country UI element states
-        lifecycleScope.launch {
-            lastSetCountries =
-                ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                    .supportedCountriesList
-
-            binding.inputCountryCodesEditText.setText(
-                lastSetCountries?.joinToString(
-                    ","
-                )
-            )
-
-            updateCountryStatusLabel()
-        }
 
         binding.buttonApiTestStart.setOnClickListener {
             start()
@@ -263,77 +240,12 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
             }
         }
-
-        binding.buttonFilterCountryCodes.setOnClickListener {
-            filterCountryCodes()
-        }
-
-        binding.buttonRetrieveDiagnosisKeysAndCalcRiskLevel.setOnClickListener {
-            startKeyRetrievalAndRiskCalcBenchmark()
-        }
-
-        binding.inputMeasureRiskKeyRepeatCount.setOnEditorActionListener { v, actionCode, event ->
-            if (actionCode == EditorInfo.IME_ACTION_DONE) {
-                startKeyRetrievalAndRiskCalcBenchmark()
-            }
-            false
-        }
     }
 
     override fun onResume() {
         super.onResume()
 
         updateExposureSummaryDisplay(null)
-    }
-
-    private fun startKeyRetrievalAndRiskCalcBenchmark() {
-        hideKeyboard()
-        lifecycleScope.launch {
-            val repeatCount =
-                binding.inputMeasureRiskKeyRepeatCount.text.toString().toInt()
-            context?.let {
-                RiskLevelAndKeyRetrievalBenchmark(
-                    it,
-                    lastSetCountries ?: listOf("DE")
-                ).start(repeatCount) { status ->
-                    binding.labelTestApiMeasureCalcKeyStatus.text = status
-                }
-            }
-        }
-    }
-
-    private fun filterCountryCodes() {
-        hideKeyboard()
-        // Get user input country codes
-        val rawCountryCodes = binding.inputCountryCodesEditText.text.toString()
-
-        // Country codes can be separated by space or ,
-        var countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
-
-        lastSetCountries = countryCodes
-
-        // Trigger asyncFetchFiles which will use all Countries passed as parameter
-        lifecycleScope.launch {
-            val locationCodes = countryCodes.map { LocationCode(it) }
-            AppInjector.component.keyFileDownloader.asyncFetchKeyFiles(locationCodes)
-            updateCountryStatusLabel()
-        }
-    }
-
-    private fun hideKeyboard() {
-        activity?.currentFocus.let {
-            val inputManager =
-                context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(it?.windowToken, 0)
-        }
-    }
-
-    /**
-     * Updates the Label for country filter
-     */
-    private fun updateCountryStatusLabel() {
-        binding.labelCountryCodeFilterStatus.text = "Country filter applied for: \n " +
-                "${lastSetCountries?.joinToString(",")}"
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -421,10 +333,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             )
 
             val dir =
-                File(
-                    File(requireContext().getExternalFilesDir(null), "key-export"),
-                    token ?: ""
-                )
+                File(File(requireContext().getExternalFilesDir(null), "key-export"), token ?: "")
             dir.mkdirs()
 
             var googleFileList: List<File>

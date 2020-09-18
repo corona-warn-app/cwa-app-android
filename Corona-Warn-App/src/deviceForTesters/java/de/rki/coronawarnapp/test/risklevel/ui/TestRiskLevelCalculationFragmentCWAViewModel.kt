@@ -8,7 +8,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -19,6 +18,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.AppDatabase
+import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
@@ -43,8 +43,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     private val context: Context, // App context
-    private val exposureNotificationClient: ExposureNotificationClient,
-    private val keyCacheRepository: KeyCacheRepository
+    private val exposureNotificationClient: ExposureNotificationClient
 ) : CWAViewModel() {
 
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
@@ -88,7 +87,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     // Database Reset
                     AppDatabase.reset(context)
                     // Export File Reset
-                    keyCacheRepository.clear()
+                    FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
 
                     LocalData.lastCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
                     LocalData.lastSuccessfullyCalculatedRiskLevel(RiskLevel.UNDETERMINED.raw)
@@ -280,10 +279,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     fun scanLocalQRCodeAndProvide() {
         startLocalQRCodeScanEvent.postValue(Unit)
-    }
-
-    fun clearKeyCache() {
-        viewModelScope.launch { keyCacheRepository.clear() }
     }
 
     @AssistedInject.Factory

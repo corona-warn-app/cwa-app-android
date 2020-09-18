@@ -1,29 +1,12 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
+import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
-import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.di.AppInjector
 
 object ApplicationConfigurationService {
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfiguration {
-        return AppInjector.component.appConfigServer.downloadAppConfig().let {
-            if (CWADebug.isDebugBuildOrMode) {
-                // TODO: THIS IS A MOCK -> Remove after Backend is providing this information.
-                it.toBuilder()
-                    .clearSupportedCountries()
-                    .addAllSupportedCountries(
-                        listOf(
-                            "DE", "UK", "FR", "IT", "SP", "PL", "RO", "NL",
-                            "BE", "CZ", "EL", "SE", "PT", "HU", "AT", "CH", "BG", "DK", "FI", "SK",
-                            "NO", "IE", "HR", "SI", "LT", "LV", "EE", "CY", "LU", "MT", "IS"
-                        )
-                    )
-                    .build()
-            } else {
-                it
-            }
-        }
+        return WebRequestBuilder.getInstance().asyncGetApplicationConfigurationFromServer()
     }
 
     suspend fun asyncRetrieveExposureConfiguration(): ExposureConfiguration =

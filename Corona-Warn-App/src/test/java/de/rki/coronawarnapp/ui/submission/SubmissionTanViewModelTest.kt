@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

@@ -291,8 +291,6 @@ dependencies {
     testImplementation "io.kotest:kotest-runner-junit5:4.2.0"
     testImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
     testImplementation "io.kotest:kotest-property-jvm:4.2.0"
-    androidTestImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
-    androidTestImplementation "io.kotest:kotest-property-jvm:4.2.0"
 
     // Testing - Instrumentation
     androidTestImplementation 'androidx.test:runner:1.2.0'

@@ -8,11 +8,8 @@ import timber.log.Timber
 import java.security.KeyFactory
 import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class VerificationKeys @Inject constructor() {
+class VerificationKeys {
     companion object {
         private const val KEY_DELIMITER = ","
     }

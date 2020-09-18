@@ -12,8 +12,6 @@ message ApplicationConfiguration {
     AttenuationDuration attenuationDuration = 4;
 
     ApplicationVersionConfiguration appVersion = 5;
-
-    repeated string supportedCountries = 6;
 }
 
 message RiskScoreParameters {

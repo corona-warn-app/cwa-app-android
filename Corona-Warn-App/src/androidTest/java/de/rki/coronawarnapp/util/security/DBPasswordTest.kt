@@ -22,8 +22,7 @@ package de.rki.coronawarnapp.util.security
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
-import io.kotest.matchers.shouldBe
+import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
 import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SQLiteException
 import org.hamcrest.Matchers.equalTo
@@ -34,6 +33,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.util.UUID
+import kotlin.random.Random
 
 @RunWith(JUnit4::class)
 class DBPasswordTest {
@@ -69,14 +70,16 @@ class DBPasswordTest {
     @Test
     fun canLoadDataFromEncryptedDatabase() {
         runBlocking {
-            val from = 123L
-            val to = 456L
-            insertFakeEntity(from, to)
+            val id = UUID.randomUUID().toString()
+            val path = UUID.randomUUID().toString()
+            val type = Random.nextInt(1000)
 
-            loadFakeEntity().apply {
-                this.from shouldBe from
-                this.to shouldBe to
-            }
+            insertFakeEntity(id, path, type)
+            val keyCacheEntity = loadFakeEntity()
+
+            assertThat(keyCacheEntity.id, equalTo(id))
+            assertThat(keyCacheEntity.path, equalTo(path))
+            assertThat(keyCacheEntity.type, equalTo(type))
         }
     }
 
@@ -92,32 +95,34 @@ class DBPasswordTest {
     @Test(expected = SQLiteException::class)
     fun loadingDataFromDatabaseWillFailWhenPassphraseIsIncorrect() {
         runBlocking {
-            val from = 123L
-            val to = 456L
-            insertFakeEntity(from, to)
+            val id = UUID.randomUUID().toString()
+            val path = UUID.randomUUID().toString()
+            val type = Random.nextInt(1000)
+            insertFakeEntity(id, path, type)
 
             clearSharedPreferences()
             AppDatabase.resetInstance()
 
-            loadFakeEntity().apply {
-                this.from shouldBe from
-                this.to shouldBe to
-            }
+            val keyCacheEntity = loadFakeEntity()
+            assertThat(keyCacheEntity.id, equalTo(id))
+            assertThat(keyCacheEntity.path, equalTo(path))
+            assertThat(keyCacheEntity.type, equalTo(type))
         }
     }
 
     private suspend fun insertFakeEntity(
-        from: Long,
-        to: Long
+        id: String,
+        path: String,
+        type: Int
     ) {
-        db.tracingIntervalDao().insertInterval(TracingIntervalEntity().apply {
-            this.from = from
-            this.to = to
+        db.dateDao().insertEntry(KeyCacheEntity().apply {
+            this.id = id
+            this.path = path
+            this.type = type
         })
     }
 
-    private suspend fun loadFakeEntity(): TracingIntervalEntity =
-        db.tracingIntervalDao().getAllIntervals().first()
+    private suspend fun loadFakeEntity(): KeyCacheEntity = db.dateDao().getAllEntries().first()
 
     private fun clearSharedPreferences() =
         SecurityHelper.globalEncryptedSharedPreferencesInstance.edit().clear().commit()
