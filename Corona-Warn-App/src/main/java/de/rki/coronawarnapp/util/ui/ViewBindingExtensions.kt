@@ -13,22 +13,27 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 inline fun <FragmentT : Fragment, reified BindingT : ViewBinding> FragmentT.viewBindingLazy() =
-    viewBindingLazy {
-        val bindingMethod = BindingT::class.java.getMethod("bind", View::class.java)
-        val binding = bindingMethod(null, requireView()) as BindingT
-        if (binding is ViewDataBinding) {
-            binding.lifecycleOwner = this
-        }
-        binding
-    }
+    this.viewBindingLazy(
+        bindingProvider = {
+            val bindingMethod = BindingT::class.java.getMethod("bind", View::class.java)
+            val binding = bindingMethod(null, requireView()) as BindingT
+            if (binding is ViewDataBinding) {
+                binding.lifecycleOwner = this.viewLifecycleOwner
+            }
+            binding
+        },
+        lifecycleOwnerProvider = { viewLifecycleOwner }
+    )
 
 @Suppress("unused")
 fun <FragmentT : Fragment, BindingT : ViewBinding> FragmentT.viewBindingLazy(
-    bindingProvider: FragmentT.() -> BindingT
-) = ViewBindingProperty(bindingProvider)
+    bindingProvider: FragmentT.() -> BindingT,
+    lifecycleOwnerProvider: FragmentT.() -> LifecycleOwner
+) = ViewBindingProperty(bindingProvider, lifecycleOwnerProvider)
 
 class ViewBindingProperty<ComponentT : LifecycleOwner, BindingT : ViewBinding>(
-    private val bindingProvider: (ComponentT) -> BindingT
+    private val bindingProvider: (ComponentT) -> BindingT,
+    private val lifecycleOwnerProvider: ComponentT.() -> LifecycleOwner
 ) : ReadOnlyProperty<ComponentT, BindingT> {
 
     private val uiHandler = Handler(Looper.getMainLooper())
@@ -55,7 +60,8 @@ class ViewBindingProperty<ComponentT : LifecycleOwner, BindingT : ViewBinding>(
         }
 
         localRef = thisRef
-        thisRef.lifecycle.addObserver(onDestroyObserver)
+
+        lifecycleOwnerProvider(thisRef).lifecycle.addObserver(onDestroyObserver)
 
         return bindingProvider(thisRef).also { viewBinding = it }
     }
