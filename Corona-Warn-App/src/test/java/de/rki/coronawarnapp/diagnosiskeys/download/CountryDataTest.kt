@@ -238,4 +238,36 @@ class CountryDataTest : BaseTest() {
         cd.toMissingHours(cachedHours) shouldBe null
     }
 
+    @Test
+    fun `calculate approximate required space for day data`() {
+        CountryDays(LocationCode("DE"), emptyList()).approximateSizeInBytes shouldBe 0
+        CountryDays(
+            LocationCode("DE"),
+            listOf(LocalDate.parse("2222-12-30"))
+        ).approximateSizeInBytes shouldBe 512 * 1024L
+        CountryDays(
+            LocationCode("DE"),
+            listOf(LocalDate.parse("2222-12-30"), LocalDate.parse("2222-12-31"))
+        ).approximateSizeInBytes shouldBe 2 * 512 * 1024L
+    }
+
+    @Test
+    fun `calculate approximate required space for day hour`() {
+        CountryHours(LocationCode("DE"), emptyMap()).approximateSizeInBytes shouldBe 0
+        CountryHours(
+            LocationCode("DE"),
+            mapOf(LocalDate.parse("2222-12-30") to listOf(LocalTime.parse("23:00")))
+        ).approximateSizeInBytes shouldBe 22 * 1024L
+        CountryHours(
+            LocationCode("DE"),
+            mapOf(
+                LocalDate.parse("2222-12-30") to listOf(LocalTime.parse("23:00")),
+                LocalDate.parse("2222-12-31") to listOf(
+                    LocalTime.parse("22:00"),
+                    LocalTime.parse("23:00")
+                )
+
+            )
+        ).approximateSizeInBytes shouldBe 3 * 22 * 1024L
+    }
 }

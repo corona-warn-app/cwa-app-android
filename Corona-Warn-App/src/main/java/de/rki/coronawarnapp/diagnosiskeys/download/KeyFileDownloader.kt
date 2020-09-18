@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
-import de.rki.coronawarnapp.storage.InsufficientStorageException
 import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -33,13 +32,14 @@ class KeyFileDownloader @Inject constructor(
     private val settings: AppSettings
 ) {
 
-    private suspend fun checkStorageSpace(countries: List<LocationCode>): DeviceStorage.CheckResult {
-        val storageResult = deviceStorage.checkSpacePrivateStorage(
-            // 512KB per day file, for 15 days, for each country ~ 65MB for 9 countries
-            requiredBytes = countries.size * EXPECTED_STORAGE_PER_COUNTRY
-        )
-        Timber.tag(TAG).d("Storage check result: %s", storageResult)
-        return storageResult
+    private suspend fun requireStorageSpace(data: List<CountryData>): DeviceStorage.CheckResult {
+        val requiredBytes = data.fold(0L) { acc, item ->
+            acc + item.approximateSizeInBytes
+        }
+        Timber.d("%dB are required for %s", requiredBytes, data)
+        return deviceStorage.requireSpacePrivateStorage(requiredBytes).also {
+            Timber.tag(TAG).d("Storage check result: %s", it)
+        }
     }
 
     private suspend fun getCompletedKeyFiles(type: CachedKeyInfo.Type): List<CachedKeyInfo> {
@@ -76,9 +76,6 @@ class KeyFileDownloader @Inject constructor(
                 "Available=%s; Wanted=%s; Intersect=%s",
                 availableCountries, wantedCountries, filteredCountries
             )
-
-            val storageResult = checkStorageSpace(filteredCountries)
-            if (!storageResult.isSpaceAvailable) throw InsufficientStorageException(storageResult)
 
             val availableKeys =
                 if (CWADebug.isDebugBuildOrMode && settings.isLast3HourModeEnabled) {
@@ -131,6 +128,8 @@ class KeyFileDownloader @Inject constructor(
         availableCountries: List<LocationCode>
     ) = withContext(Dispatchers.IO) {
         val countriesWithMissingDays = determineMissingDays(availableCountries)
+
+        requireStorageSpace(countriesWithMissingDays)
 
         Timber.tag(TAG).d("Downloading missing days: %s", countriesWithMissingDays)
         val batchDownloadStart = System.currentTimeMillis()
@@ -265,6 +264,8 @@ class KeyFileDownloader @Inject constructor(
         )
         val missingHours = determineMissingHours(availableCountries, hourItemLimit)
         Timber.tag(TAG).d("Downloading missing hours: %s", missingHours)
+
+        requireStorageSpace(missingHours)
 
         val hourDownloads = missingHours.flatMap { country ->
             country.hourData.flatMap { (day, missingHours) ->

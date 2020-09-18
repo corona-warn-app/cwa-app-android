@@ -115,6 +115,15 @@ class DeviceStorage @Inject constructor(
     suspend fun checkSpacePrivateStorage(requiredBytes: Long = -1L): CheckResult =
         checkSpace(privateStorage, requiredBytes)
 
+    /**
+     * Like **[checkSpacePrivateStorage]** but throws **[InsufficientStorageException]**
+     * if not enough is available
+     */
+    suspend fun requireSpacePrivateStorage(requiredBytes: Long = -1L): CheckResult =
+        checkSpace(privateStorage, requiredBytes).apply {
+            if (!isSpaceAvailable) throw InsufficientStorageException(this)
+        }
+
     data class CheckResult(
         val path: File,
         val isSpaceAvailable: Boolean,
