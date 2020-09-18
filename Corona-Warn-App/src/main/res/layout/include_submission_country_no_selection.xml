@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="active"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_country_no_selection_container"
+        style="@style/cardGrey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@{FormatterSubmissionHelper.formatCountrySelectCardColor(active)}"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/submission_country_no_selection_header"
+            style="@style/headline5"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            android:focusable="true"
+            android:text="@string/submission_country_no_selection_headline"
+            android:textColor="@{FormatterSubmissionHelper.formatCountrySelectCardTextColor(active)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

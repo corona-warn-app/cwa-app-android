@@ -111,6 +111,9 @@
     <dimen name="submission_scan_qr_code_viewfinder_size">240dp</dimen>
     <dimen name="submission_scan_qr_code_viewfinder_center_offset">120dp</dimen>
 
+    <!-- Submission Country Select -->
+    <dimen name="submission_country_selection_country_icon_size">40dp</dimen>
+
     <!-- Bullet Points -->
     <dimen name="bullet_point_size">4dp</dimen>
     <dimen name="bullet_point_baseline_offset">8sp</dimen>
