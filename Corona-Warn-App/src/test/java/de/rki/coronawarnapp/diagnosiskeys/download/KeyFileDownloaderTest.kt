@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import android.database.SQLException
 import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
+import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -62,6 +63,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         mockkObject(CWADebug)
+        every { CWADebug.isDebugBuildOrMode } returns false
+        every { settings.isLast3HourModeEnabled } returns false
 
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
             LocationCode("DE"),
@@ -70,9 +73,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
             every { isSpaceAvailable } returns true
         }
-
-        coEvery { settings.isLast3HourModeEnabled } returns false
-
 
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
             LocationCode("DE"), LocationCode("NL")
@@ -104,7 +104,13 @@ class KeyFileDownloaderTest : BaseIOTest() {
             LocalTime.parse("22"), LocalTime.parse("23")
         )
         coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
-            mockDownloadServerDownload(arg(0), arg(1), arg(2), arg(3), arg(4))
+            mockDownloadServerDownload(
+                locationCode = arg(0),
+                day = arg(1),
+                hour = arg(2),
+                saveTo = arg(3),
+                precondition = arg(4)
+            )
         }
 
         coEvery { keyCache.createCacheEntry(any(), any(), any(), any()) } answers {
@@ -170,10 +176,15 @@ class KeyFileDownloaderTest : BaseIOTest() {
         day: LocalDate,
         hour: LocalTime? = null,
         saveTo: File,
-        validator: DiagnosisKeyServer.HeaderHook = object :
-            DiagnosisKeyServer.HeaderHook {}
-    ) {
+        precondition: suspend (DownloadInfo) -> Boolean = { true },
+        checksumServerMD5: String? = "serverMD5",
+        checksumLocalMD5: String? = "localMD5"
+    ): DownloadInfo {
         saveTo.writeText("$locationCode.$day.$hour")
+        return mockk<DownloadInfo>().apply {
+            every { serverMD5 } returns checksumServerMD5
+            every { localMD5 } returns checksumLocalMD5
+        }
     }
 
     private fun mockAddData(
@@ -185,8 +196,13 @@ class KeyFileDownloaderTest : BaseIOTest() {
     ): Pair<CachedKeyInfo, File> {
         val (keyInfo, file) = mockKeyCacheCreateEntry(type, location, day, hour)
         if (isCompleted) {
-            mockDownloadServerDownload(location, day, hour, file)
-            mockKeyCacheUpdateComplete(keyInfo, "checksum")
+            mockDownloadServerDownload(
+                locationCode = location,
+                day = day,
+                hour = hour,
+                saveTo = file
+            )
+            mockKeyCacheUpdateComplete(keyInfo, "serverMD5")
         }
         return keyRepoData[keyInfo.id]!! to file
     }
@@ -410,7 +426,13 @@ class KeyFileDownloaderTest : BaseIOTest() {
         coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
             if (dlCounter == 2) throw IOException("Timeout")
-            mockDownloadServerDownload(arg(0), arg(1), arg(2), arg(3), arg(4))
+            mockDownloadServerDownload(
+                locationCode = arg(0),
+                day = arg(1),
+                hour = arg(2),
+                saveTo = arg(3),
+                precondition = arg(4)
+            )
         }
 
         val downloader = createDownloader()
@@ -644,7 +666,13 @@ class KeyFileDownloaderTest : BaseIOTest() {
         coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
             if (dlCounter == 2) throw IOException("Timeout")
-            mockDownloadServerDownload(arg(0), arg(1), arg(2), arg(3), arg(4))
+            mockDownloadServerDownload(
+                locationCode = arg(0),
+                day = arg(1),
+                hour = arg(2),
+                saveTo = arg(3),
+                precondition = arg(4)
+            )
         }
 
         val downloader = createDownloader()
@@ -712,6 +740,76 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 any(),
                 any()
             )
+        }
+    }
+
+    @Test
+    fun `store server md5`() {
+        coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(LocationCode("DE"))
+        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
+            LocalDate.parse("2020-09-01")
+        )
+
+        val downloader = createDownloader()
+
+        runBlocking {
+            downloader.asyncFetchKeyFiles(
+                listOf(LocationCode("DE"))
+            ).size shouldBe 1
+        }
+
+        coVerify {
+            keyCache.createCacheEntry(
+                type = CachedKeyInfo.Type.COUNTRY_DAY,
+                location = LocationCode("DE"),
+                dayIdentifier = LocalDate.parse("2020-09-01"),
+                hourIdentifier = null
+            )
+        }
+        keyRepoData.size shouldBe 1
+        keyRepoData.values.forEach {
+            it.isDownloadComplete shouldBe true
+            it.checksumMD5 shouldBe "serverMD5"
+        }
+    }
+
+    @Test
+    fun `use local MD5 as fallback if there is none available from the server`() {
+        coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(LocationCode("DE"))
+        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
+            LocalDate.parse("2020-09-01")
+        )
+        coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
+            mockDownloadServerDownload(
+                locationCode = arg(0),
+                day = arg(1),
+                hour = arg(2),
+                saveTo = arg(3),
+                precondition = arg(4),
+                checksumServerMD5 = null
+            )
+        }
+
+        val downloader = createDownloader()
+
+        runBlocking {
+            downloader.asyncFetchKeyFiles(
+                listOf(LocationCode("DE"))
+            ).size shouldBe 1
+        }
+
+        coVerify {
+            keyCache.createCacheEntry(
+                type = CachedKeyInfo.Type.COUNTRY_DAY,
+                location = LocationCode("DE"),
+                dayIdentifier = LocalDate.parse("2020-09-01"),
+                hourIdentifier = null
+            )
+        }
+        keyRepoData.size shouldBe 1
+        keyRepoData.values.forEach {
+            it.isDownloadComplete shouldBe true
+            it.checksumMD5 shouldBe "localMD5"
         }
     }
 }
