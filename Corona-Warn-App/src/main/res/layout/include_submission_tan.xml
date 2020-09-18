@@ -11,7 +11,7 @@
 
         <variable
             name="viewmodel"
-            type="de.rki.coronawarnapp.ui.submission.SubmissionTanViewModel" />
+            type="de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel" />
     </data>
 
     <ScrollView

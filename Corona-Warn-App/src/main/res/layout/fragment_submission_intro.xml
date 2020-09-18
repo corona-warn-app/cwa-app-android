@@ -10,7 +10,7 @@
         android:contentDescription="@string/submission_intro_accessibility_title"
         android:fillViewport="true"
         android:focusable="true"
-        tools:context=".ui.submission.SubmissionIntroFragment">
+        tools:context=".ui.submission.fragment.SubmissionIntroFragment">
 
         <include
             android:id="@+id/submission_intro_header"

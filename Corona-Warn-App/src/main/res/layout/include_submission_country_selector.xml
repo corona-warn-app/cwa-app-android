@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <import type="de.rki.coronawarnapp.ui.submission.SubmissionCountry" />
+
+        <variable
+            name="active"
+            type="Boolean" />
+
+        <variable
+            name="countries"
+            type="List&lt;SubmissionCountry>" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/cardGrey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@{FormatterSubmissionHelper.formatCountrySelectCardColor(active)}"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/submission_country_selector_header"
+            style="@style/headline5"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:focusable="true"
+            android:text="@string/submission_country_selector_headline"
+            android:textColor="@{FormatterSubmissionHelper.formatCountrySelectCardTextColor(active)}"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/submission_country_selector_recyclerview"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_mega_tiny"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_mega_tiny"
+            android:background="@color/colorSurface1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submission_country_selector_header"
+            tools:listitem="@layout/include_submission_country_item" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

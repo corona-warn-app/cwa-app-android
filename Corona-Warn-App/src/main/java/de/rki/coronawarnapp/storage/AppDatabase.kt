@@ -7,27 +7,28 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import de.rki.coronawarnapp.storage.keycache.KeyCacheDao
-import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
+import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyEntity
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
-import de.rki.coronawarnapp.util.Converters
+import de.rki.coronawarnapp.util.database.CommonConverters
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SupportFactory
 import java.io.File
 
 @Database(
-    entities = [ExposureSummaryEntity::class, KeyCacheEntity::class, TracingIntervalEntity::class],
+    entities = [ExposureSummaryEntity::class, KeyCacheLegacyEntity::class, TracingIntervalEntity::class],
     version = 1,
     exportSchema = true
 )
-@TypeConverters(Converters::class)
+@TypeConverters(CommonConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun exposureSummaryDao(): ExposureSummaryDao
-    abstract fun dateDao(): KeyCacheDao
+    abstract fun dateDao(): KeyCacheLegacyDao
     abstract fun tracingIntervalDao(): TracingIntervalDao
 
     companion object {
@@ -54,7 +55,8 @@ abstract class AppDatabase : RoomDatabase() {
             resetInstance()
 
             // reset also the repo instances
-            KeyCacheRepository.resetInstance()
+            val keyRepository = AppInjector.component.keyCacheRepository
+            runBlocking { keyRepository.clear() } // TODO this is not nice
             TracingIntervalRepository.resetInstance()
             ExposureSummaryRepository.resetInstance()
         }
