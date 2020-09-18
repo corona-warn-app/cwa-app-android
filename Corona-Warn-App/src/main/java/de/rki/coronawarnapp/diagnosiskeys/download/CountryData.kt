@@ -8,12 +8,18 @@ import org.joda.time.LocalTime
 sealed class CountryData {
 
     abstract val country: LocationCode
+
+    abstract val approximateSizeInBytes: Long
 }
 
 internal data class CountryDays(
     override val country: LocationCode,
     val dayData: Collection<LocalDate>
 ) : CountryData() {
+
+    override val approximateSizeInBytes: Long by lazy {
+        dayData.size * APPROX_DAY_SIZE
+    }
 
     /**
      * Return a filtered list that contains all dates which are part of this wrapper, but not in the parameter.
@@ -38,12 +44,23 @@ internal data class CountryDays(
 
         return CountryDays(this.country, missingDays)
     }
+
+    companion object {
+        // ~512KB
+        private const val APPROX_DAY_SIZE = 512 * 1024L
+    }
 }
 
 internal data class CountryHours(
     override val country: LocationCode,
     val hourData: Map<LocalDate, List<LocalTime>>
 ) : CountryData() {
+
+    override val approximateSizeInBytes: Long by lazy {
+        hourData.values.fold(0L) { acc, hoursForDay ->
+            acc + hoursForDay.size * APPROX_HOUR_SIZE
+        }
+    }
 
     fun getMissingHours(cachedKeys: List<CachedKeyInfo>): Map<LocalDate, List<LocalTime>>? {
         val cachedHours = cachedKeys
@@ -62,5 +79,10 @@ internal data class CountryHours(
         if (missingHours == null || missingHours.isEmpty()) return null
 
         return CountryHours(this.country, missingHours)
+    }
+
+    companion object {
+        // ~22KB
+        private const val APPROX_HOUR_SIZE = 22 * 1024L
     }
 }

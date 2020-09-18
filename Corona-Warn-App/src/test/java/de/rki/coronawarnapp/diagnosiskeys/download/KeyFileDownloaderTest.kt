@@ -67,7 +67,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
             LocationCode("DE"),
             LocationCode("NL")
         )
-        coEvery { deviceStorage.checkSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
+        coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
             every { isSpaceAvailable } returns true
         }
 
@@ -204,7 +204,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `storage is checked before fetching`() {
+    fun `wanted country list is empty, day mode`() {
         val downloader = createDownloader()
         runBlocking {
             downloader.asyncFetchKeyFiles(emptyList()) shouldBe emptyList()
@@ -212,12 +212,39 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `fetching is aborted if not enough free storage`() {
-        coEvery { deviceStorage.checkSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
-            every { isSpaceAvailable } returns false
-            every { freeBytes } returns 1337L
-            every { requiredBytes } returns 5000L
+    fun `wanted country list is empty, hour mode`() {
+        every { CWADebug.isDebugBuildOrMode } returns true
+        every { settings.isLast3HourModeEnabled } returns true
+
+        val downloader = createDownloader()
+        runBlocking {
+            downloader.asyncFetchKeyFiles(emptyList()) shouldBe emptyList()
         }
+    }
+
+    @Test
+    fun `fetching is aborted in day if not enough free storage`() {
+        coEvery { deviceStorage.requireSpacePrivateStorage(1048576L) } throws InsufficientStorageException(
+            mockk(relaxed = true)
+        )
+
+        val downloader = createDownloader()
+
+        runBlocking {
+            shouldThrow<InsufficientStorageException> {
+                downloader.asyncFetchKeyFiles(listOf(LocationCode("DE")))
+            }
+        }
+    }
+
+    @Test
+    fun `fetching is aborted in hour if not enough free storage`() {
+        every { CWADebug.isDebugBuildOrMode } returns true
+        every { settings.isLast3HourModeEnabled } returns true
+
+        coEvery { deviceStorage.requireSpacePrivateStorage(67584L) } throws InsufficientStorageException(
+            mockk(relaxed = true)
+        )
 
         val downloader = createDownloader()
 
@@ -279,6 +306,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         }
         keyRepoData.size shouldBe 4
         keyRepoData.values.forEach { it.isDownloadComplete shouldBe true }
+        coVerify { deviceStorage.requireSpacePrivateStorage(2097152L) }
     }
 
     @Test
@@ -324,6 +352,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         coVerify(exactly = 2) { keyCache.createCacheEntry(any(), any(), any(), any()) }
         coVerify(exactly = 2) { keyCache.markKeyComplete(any(), any()) }
+
+        coVerify { deviceStorage.requireSpacePrivateStorage(1048576L) }
     }
 
     @Test
@@ -451,6 +481,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         keyRepoData.size shouldBe 6
         keyRepoData.values.forEach { it.isDownloadComplete shouldBe true }
+
+        coVerify { deviceStorage.requireSpacePrivateStorage(135168L) }
     }
 
     @Test
@@ -517,6 +549,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 any()
             )
         }
+        coVerify { deviceStorage.requireSpacePrivateStorage(90112L) }
     }
 
     @Test
