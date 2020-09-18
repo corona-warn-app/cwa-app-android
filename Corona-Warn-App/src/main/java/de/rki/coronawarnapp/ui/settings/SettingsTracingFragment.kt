@@ -100,9 +100,6 @@ class SettingsTracingFragment : Fragment(),
             // Make sure that listener is called by user interaction
             if (switch.tag != IGNORE_CHANGE_TAG) {
                 startStopTracing()
-                // Focus on the body text after to announce the tracing status for accessibility reasons
-                binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
-                    .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
             }
         }
         row.setOnClickListener {
@@ -164,6 +161,9 @@ class SettingsTracingFragment : Fragment(),
                 )
             }
         }
+        // Focus on the body text after to announce the tracing status for accessibility reasons
+        binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
+            .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
     }
 
     private fun showManualCheckingRequiredDialog() {
