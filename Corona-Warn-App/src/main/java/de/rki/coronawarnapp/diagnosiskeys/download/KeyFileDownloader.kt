@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
-import de.rki.coronawarnapp.diagnosiskeys.server.KeyFileHeaderHook
+import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -12,8 +12,6 @@ import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
-import de.rki.coronawarnapp.util.debug.measureTimeMillisWithResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -300,28 +298,25 @@ class KeyFileDownloader @Inject constructor(
         keyInfo: CachedKeyInfo,
         saveTo: File
     ): Pair<CachedKeyInfo, File>? = try {
-        val validation = KeyFileHeaderHook { headers ->
-            // tryMigration returns true when a file was migrated, meaning, no download necessary
-            return@KeyFileHeaderHook !legacyKeyCache.tryMigration(
-                headers.getPayloadChecksumMD5(),
-                saveTo
-            )
-        }
+        val preconditionHook: suspend (DownloadInfo) -> Boolean =
+            { downloadInfo ->
+                val continueDownload = !legacyKeyCache.tryMigration(
+                    downloadInfo.serverMD5, saveTo
+                )
+                continueDownload // Continue download if no migration happened
+            }
 
-        keyServer.downloadKeyFile(
+        val dlInfo = keyServer.downloadKeyFile(
             locationCode = keyInfo.location,
             day = keyInfo.day,
             hour = keyInfo.hour,
             saveTo = saveTo,
-            headerHook = validation
+            precondition = preconditionHook
         )
 
         Timber.tag(TAG).v("Dowwnload finished: %s -> %s", keyInfo, saveTo)
 
-        val (downloadedMD5, duration) = measureTimeMillisWithResult { saveTo.hashToMD5() }
-        Timber.tag(TAG).v("Hashed to MD5 in %dms: %s", duration, saveTo)
-
-        keyCache.markKeyComplete(keyInfo, downloadedMD5)
+        keyCache.markKeyComplete(keyInfo, dlInfo.serverMD5 ?: dlInfo.localMD5!!)
         keyInfo to saveTo
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Download failed: %s", keyInfo)
