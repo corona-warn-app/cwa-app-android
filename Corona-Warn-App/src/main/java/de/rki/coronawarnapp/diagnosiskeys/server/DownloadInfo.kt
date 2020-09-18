@@ -2,16 +2,16 @@ package de.rki.coronawarnapp.diagnosiskeys.server
 
 import okhttp3.Headers
 
-class KeyFileHeaderHook(
-    private val onEval: suspend KeyFileHeaderHook.(Headers) -> Boolean
-) : DiagnosisKeyServer.HeaderHook {
+data class DownloadInfo(
+    val headers: Headers,
+    val localMD5: String? = null
+) {
 
-    override suspend fun validate(headers: Headers): Boolean = onEval(headers)
+    val serverMD5 by lazy { headers.getPayloadChecksumMD5() }
 
-    fun Headers.getPayloadChecksumMD5(): String? {
-        // TODO Ping backend regarding alternative checksum sources
-        var fileMD5 = values("ETag").singleOrNull()
-        // The hash from these headers doesn't match, TODO EXPOSUREBACK-178
+    private fun Headers.getPayloadChecksumMD5(): String? {
+        // TODO EXPOSUREBACK-178
+        val fileMD5 = values("ETag").singleOrNull()
 //                var fileMD5 = headers.values("x-amz-meta-cwa-hash-md5").singleOrNull()
 //                if (fileMD5 == null) {
 //                    headers.values("x-amz-meta-cwa-hash").singleOrNull()

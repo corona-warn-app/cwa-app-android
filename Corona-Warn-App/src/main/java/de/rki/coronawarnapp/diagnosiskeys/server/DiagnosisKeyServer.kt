@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
 import dagger.Lazy
+import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
+import de.rki.coronawarnapp.util.debug.measureTimeMillisWithResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.Headers
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
@@ -44,10 +45,6 @@ class DiagnosisKeyServer @Inject constructor(
                 .map { hourString -> LocalTime.parse(hourString, HOUR_FORMATTER) }
         }
 
-    interface HeaderHook {
-        suspend fun validate(headers: Headers): Boolean = true
-    }
-
     /**
      * Retrieves Key Files from the Server
      * Leave **[hour]** null to download a day package
@@ -57,8 +54,8 @@ class DiagnosisKeyServer @Inject constructor(
         day: LocalDate,
         hour: LocalTime? = null,
         saveTo: File,
-        headerHook: HeaderHook = object : HeaderHook {}
-    ) = withContext(Dispatchers.IO) {
+        precondition: suspend (DownloadInfo) -> Boolean = { true }
+    ): DownloadInfo = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v(
             "Starting download: country=%s, day=%s, hour=%s -> %s.",
             locationCode, day, hour, saveTo
@@ -84,9 +81,11 @@ class DiagnosisKeyServer @Inject constructor(
             )
         }
 
-        if (!headerHook.validate(response.headers())) {
-            Timber.tag(TAG).d("validateHeaders() told us to abort.")
-            return@withContext
+        var downloadInfo = DownloadInfo(response.headers())
+
+        if (!precondition(downloadInfo)) {
+            Timber.tag(TAG).d("Precondition is not met, aborting.")
+            return@withContext downloadInfo
         }
         if (response.isSuccessful) {
             saveTo.outputStream().use { target ->
@@ -94,7 +93,14 @@ class DiagnosisKeyServer @Inject constructor(
                     source.copyTo(target, DEFAULT_BUFFER_SIZE)
                 }
             }
-            Timber.tag(TAG).v("Key file download successful: %s", saveTo)
+
+            val (localMD5, duration) = measureTimeMillisWithResult { saveTo.hashToMD5() }
+            Timber.v("Hashed to MD5 in %dms: %s", duration, saveTo)
+
+            downloadInfo = downloadInfo.copy(localMD5 = localMD5)
+            Timber.tag(TAG).v("Key file download successful: %s", downloadInfo)
+
+            return@withContext downloadInfo
         } else {
             throw HttpException(response)
         }
