@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_API_FAIL
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_GOOGLE_UPDATE_NEEDED
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.STATUS_CODE_REACHED_REQUEST_LIMIT
+import de.rki.coronawarnapp.util.withExtras
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -20,12 +21,12 @@ fun Throwable.report(
     prefix: String?,
     suffix: String?
 ) {
-    val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA, exceptionCategory.name)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_PREFIX_EXTRA, prefix)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA, suffix)
-    intent.putExtra(ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA, this.message)
-
+    val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL).withExtras(
+        ReportingConstants.ERROR_REPORT_CATEGORY_EXTRA to exceptionCategory.name,
+        ReportingConstants.ERROR_REPORT_PREFIX_EXTRA to prefix,
+        ReportingConstants.ERROR_REPORT_SUFFIX_EXTRA to suffix,
+        ReportingConstants.ERROR_REPORT_MESSAGE_EXTRA to this.message
+    )
     if (this is ReportedExceptionInterface) {
         intent.putExtra(ReportingConstants.ERROR_REPORT_CODE_EXTRA, this.code)
         this.resId?.let { intent.putExtra(ReportingConstants.ERROR_REPORT_RES_ID, it) }
@@ -68,8 +69,9 @@ fun Throwable.report(
 fun reportGeneric(
     stackString: String
 ) {
-    val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL)
-    intent.putExtra("category", ExceptionCategory.INTERNAL.name)
-    intent.putExtra("stack", stackString)
+    val intent = Intent(ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL).withExtras(
+        "category" to ExceptionCategory.INTERNAL.name,
+        "stack" to stackString
+    )
     LocalBroadcastManager.getInstance(CoronaWarnApplication.getAppContext()).sendBroadcast(intent)
 }
