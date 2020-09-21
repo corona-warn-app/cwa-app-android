@@ -39,9 +39,6 @@
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_testRiskLevelCalculation"
-            app:destination="@id/testRiskLevelCalculation" />
-        <action
             android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
             app:destination="@id/onboardingDeltaInteroperabilityFragment" />
     </fragment>
@@ -85,7 +82,7 @@
         android:id="@+id/settingsTracingFragment"
         android:name="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
-        tools:layout="@layout/fragment_settings_tracing" >
+        tools:layout="@layout/fragment_settings_tracing">
         <action
             android:id="@+id/action_settingsTracingFragment_to_interopCountryConfigurationFragment"
             app:destination="@id/interopCountryConfigurationFragment" />
@@ -100,7 +97,7 @@
         android:id="@+id/interopCountryConfigurationFragment"
         android:name="de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment"
         android:label="InteropCountryConfigurationFragment"
-        tools:layout="@layout/fragment_interoperability_configuration" >
+        tools:layout="@layout/fragment_interoperability_configuration">
         <action
             android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
             app:destination="@id/settingsTracingFragment"
@@ -328,4 +325,5 @@
             android:id="@+id/action_submissionContactFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
     </fragment>
+
 </navigation>

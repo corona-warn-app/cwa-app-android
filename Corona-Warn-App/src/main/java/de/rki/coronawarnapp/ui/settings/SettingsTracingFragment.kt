@@ -23,8 +23,6 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.PowerManagementHelper
-import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -85,9 +83,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     override fun onStartPermissionGranted() {
         tracingViewModel.refreshIsTracingEnabled()
         BackgroundWorkScheduler.startWorkScheduler()
-        if (!interopViewModel.interoperabilityWasShown) {
-            showInteroperabilityDialog()
-        }
     }
 
     override fun onFailure(exception: Exception?) {

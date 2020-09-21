@@ -50,11 +50,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         setButtonOnClickListener()
         setContentDescription()
-
-        tracingViewModel.isTracingEnabled.observe(viewLifecycleOwner) {
-            checkShouldInteroperabilityOpened()
-        }
-
+        checkShouldInteroperabilityOpened()
         showOneTimeTracingExplanationDialog()
     }
 
