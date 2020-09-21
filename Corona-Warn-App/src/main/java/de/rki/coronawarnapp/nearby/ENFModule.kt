@@ -17,7 +17,6 @@ class ENFModule {
     fun exposureNotificationClient(context: Context): ExposureNotificationClient =
         Nearby.getExposureNotificationClient(context)
 
-
     @Singleton
     @Provides
     fun diagnosisKeySubmitter(submitter: DefaultDiagnosisKeyProvider): DiagnosisKeyProvider =
