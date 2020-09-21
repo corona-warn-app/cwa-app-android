@@ -28,21 +28,16 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FETCH_DATE_UPDATE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FILES_FROM_WEB_REQUESTS
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.QUOTA_CALCULATION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.RETRIEVE_RISK_SCORE_PARAMS
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.SETUP
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
-import de.rki.coronawarnapp.util.GoogleQuotaCalculator
-import de.rki.coronawarnapp.util.QuotaCalculator
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.chrono.GJChronology
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -93,9 +88,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /** Initial Setup of the Transaction and Transaction ID Generation and Date Lock */
         SETUP,
 
-        /** calculates the Quota so that the rate limiting is caught gracefully*/
-        QUOTA_CALCULATION,
-
         /** Initialisation of the identifying token used during the entire transaction */
         TOKEN,
 
@@ -124,25 +116,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
-    private val progressTowardsQuotaForRollback = AtomicReference<Int>()
-
-    private const val QUOTA_RESET_PERIOD_IN_HOURS = 24
-
-    private val quotaCalculator: QuotaCalculator<Int> = GoogleQuotaCalculator(
-        incrementByAmount = 14,
-        quotaLimit = 20,
-        quotaResetPeriod = Duration.standardHours(QUOTA_RESET_PERIOD_IN_HOURS.toLong()),
-        quotaTimeZone = DateTimeZone.UTC,
-        quotaChronology = GJChronology.getInstanceUTC()
-    )
-
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
             LocalData.lastTimeDiagnosisKeysFromServerFetch(),
             DateTimeZone.UTC
         )
-
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
         ) {
@@ -170,18 +149,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
          * INIT TRANSACTION
          ****************************************************/
         val currentDate = executeSetup()
-
-        /****************************************************
-         * CALCULATE QUOTA FOR PROVIDE DIAGNOSIS KEYS
-         ****************************************************/
-        val hasExceededQuota = executeQuotaCalculation()
-
-        // When we are above the Quote, cancel the execution entirely
-        if (hasExceededQuota) {
-            Timber.tag(TAG).w("above quota, skipping RetrieveDiagnosisKeys")
-            executeClose()
-            return@lockAndExecuteUnique
-        }
 
         /****************************************************
          * RETRIEVE TOKEN
@@ -225,10 +192,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             if (TOKEN.isInStateStack()) {
                 rollbackToken()
             }
-            // we reset the quota only if the submission has not happened yet
-            if (QUOTA_CALCULATION.isInStateStack() && !API_SUBMISSION.isInStateStack()) {
-                rollbackProgressTowardsQuota()
-            }
         } catch (e: Exception) {
             // We handle every exception through a RollbackException to make sure that a single EntryPoint
             // is available for the caller.
@@ -246,11 +209,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         LocalData.googleApiToken(googleAPITokenForRollback.get())
     }
 
-    private fun rollbackProgressTowardsQuota() {
-        Timber.v("rollback $QUOTA_CALCULATION")
-        quotaCalculator.resetProgressTowardsQuota(progressTowardsQuotaForRollback.get())
-    }
-
     /**
      * Executes the INIT Transaction State
      */
@@ -259,16 +217,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         val currentDate = Date(System.currentTimeMillis())
         Timber.d("using $currentDate as current date in Transaction.")
         currentDate
-    }
-
-    /**
-     * Executes the QUOTA_CALCULATION Transaction State
-     */
-    private suspend fun executeQuotaCalculation() = executeState(
-        QUOTA_CALCULATION
-    ) {
-        progressTowardsQuotaForRollback.set(quotaCalculator.getProgressTowardsQuota())
-        quotaCalculator.calculateQuota()
     }
 
     /**
