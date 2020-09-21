@@ -87,7 +87,7 @@ class SettingsTracingFragment : Fragment(),
             findNavController()
                 .doNavigate(
                     ActionOnlyNavDirections(
-                        R.id.action_interopCountryConfigurationFragment_to_settingTracingFragmetn
+                        R.id.action_settingsTracingFragment_to_interopCountryConfigurationFragment
                     )
                 )
         }

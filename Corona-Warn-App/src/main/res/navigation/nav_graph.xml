@@ -87,10 +87,8 @@
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing" >
         <action
-            android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
-            app:destination="@id/interopCountryConfigurationFragment"
-            app:popUpTo="@id/interopCountryConfigurationFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_settingsTracingFragment_to_interopCountryConfigurationFragment"
+            app:destination="@id/interopCountryConfigurationFragment" />
     </fragment>
 
     <fragment
