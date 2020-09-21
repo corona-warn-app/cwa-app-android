@@ -18,6 +18,8 @@ interface DiagnosisKeyProvider {
      * @return
      */
     suspend fun provideDiagnosisKeys(
-        keyFiles: Collection<File>, configuration: ExposureConfiguration?, token: String
+        keyFiles: Collection<File>,
+        configuration: ExposureConfiguration?,
+        token: String
     ): Boolean
 }

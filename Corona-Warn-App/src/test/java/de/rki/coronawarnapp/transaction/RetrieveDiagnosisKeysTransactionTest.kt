@@ -84,7 +84,6 @@ class RetrieveDiagnosisKeysTransactionTest {
 
         coVerifyOrder {
             RetrieveDiagnosisKeysTransaction["executeSetup"]()
-            RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
             RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
             RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
         }
@@ -108,7 +107,6 @@ class RetrieveDiagnosisKeysTransactionTest {
 
         coVerifyOrder {
             RetrieveDiagnosisKeysTransaction["executeSetup"]()
-            RetrieveDiagnosisKeysTransaction["executeQuotaCalculation"]()
             RetrieveDiagnosisKeysTransaction["executeRetrieveRiskScoreParams"]()
             RetrieveDiagnosisKeysTransaction["executeFetchKeyFilesFromServer"](any<Date>())
             mockEnfClient.provideDiagnosisKeys(listOf(file), any(), any())
