@@ -9,8 +9,6 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterInteroperabilityHelper"></import>
-
         <variable
             name="tracingViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
