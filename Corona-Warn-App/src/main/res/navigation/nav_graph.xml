@@ -92,6 +92,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/onboardingDeltaInteroperabilityFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
+        android:label="OnboardingDeltaInteroperabilityFragment" />
+
+    <fragment
         android:id="@+id/interopCountryConfigurationFragment"
         android:name="de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment"
         android:label="InteropCountryConfigurationFragment"
@@ -330,8 +335,4 @@
         android:name="de.rki.coronawarnapp.TestRiskLevelCalculation"
         android:label="fragment_test_risk_level_calculation"
         tools:layout="@layout/fragment_test_risk_level_calculation" />
-    <fragment
-        android:id="@+id/onboardingDeltaInteroperabilityFragment"
-        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
-        android:label="OnboardingDeltaInteroperabilityFragment" />
 </navigation>

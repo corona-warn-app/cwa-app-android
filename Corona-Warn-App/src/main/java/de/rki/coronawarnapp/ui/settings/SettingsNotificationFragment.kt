@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
