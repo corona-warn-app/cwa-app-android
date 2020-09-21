@@ -171,6 +171,9 @@ class DeviceStorageTest : BaseIOTest() {
                 requiredBytes = Long.MAX_VALUE,
                 totalBytes = defaultTotalSpace
             )
+            shouldThrow<InsufficientStorageException> {
+                deviceStorage.requireSpacePrivateStorage(Long.MAX_VALUE)
+            }
         }
     }
 
