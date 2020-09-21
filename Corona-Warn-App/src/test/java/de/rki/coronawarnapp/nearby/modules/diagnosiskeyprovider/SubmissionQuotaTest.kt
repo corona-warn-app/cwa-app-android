@@ -10,6 +10,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
+import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -91,11 +92,36 @@ class SubmissionQuotaTest : BaseTest() {
     }
 
     @Test
+    fun `consumption of 0 quota is handled`() {
+        val quota = createQuota()
+
+        runBlocking {
+            quota.consumeQuota(0) shouldBe true
+            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(0) shouldBe true
+            quota.consumeQuota(1) shouldBe false
+        }
+    }
+
+    @Test
+    fun `partial consumption is not possible`() {
+        testStorageCurrentQuota shouldBe 20
+
+        val quota = createQuota()
+
+        runBlocking {
+            quota.consumeQuota(18) shouldBe true
+            quota.consumeQuota(1) shouldBe true
+            quota.consumeQuota(2) shouldBe false
+        }
+    }
+
+    @Test
     fun `quota consumption automatically fills up quota if possible`() {
         val quota = createQuota()
 
-        // Reset is at 00:00:00UTC, + safety margin, +1 to be AFTER our margin
-        val timeTravelTarget = Instant.parse("2020-08-02T00:01:00.001Z")
+        // Reset is at 00:00:00UTC, we trigger at 1 milisecond after midnight
+        val timeTravelTarget = Instant.parse("2020-12-24T00:00:00.001Z")
 
         runBlocking {
             quota.consumeQuota(20) shouldBe true
@@ -112,4 +138,91 @@ class SubmissionQuotaTest : BaseTest() {
         verify(exactly = 1) { enfData.lastQuotaResetAt = timeTravelTarget }
     }
 
+    @Test
+    fun `quota fill up is at midnight`() {
+        testStorageCurrentQuota = 20
+        testStorageLastQuotaReset = Instant.parse("2020-12-24T23:00:00.000Z")
+        val startTime = Instant.parse("2020-12-24T23:59:59.998Z")
+        every { timeStamper.nowUTC } returns startTime
+
+        val quota = createQuota()
+
+        runBlocking {
+            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(1) shouldBe false
+
+            every { timeStamper.nowUTC } returns startTime.plus(1)
+            quota.consumeQuota(1) shouldBe false
+
+            every { timeStamper.nowUTC } returns startTime.plus(2)
+            quota.consumeQuota(1) shouldBe false
+
+            every { timeStamper.nowUTC } returns startTime.plus(3)
+            quota.consumeQuota(1) shouldBe true
+
+            every { timeStamper.nowUTC } returns startTime.plus(4)
+            quota.consumeQuota(20) shouldBe false
+
+            every { timeStamper.nowUTC } returns startTime.plus(3).plus(Duration.standardDays(1))
+            quota.consumeQuota(20) shouldBe true
+        }
+    }
+
+    @Test
+    fun `large time gaps are no issue`() {
+        val startTime = Instant.parse("2020-12-24T20:00:00.000Z")
+
+        runBlocking {
+            every { timeStamper.nowUTC } returns startTime
+            val quota = createQuota()
+            quota.consumeQuota(17) shouldBe true
+        }
+
+        runBlocking {
+            every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365))
+            val quota = createQuota()
+            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(1) shouldBe false
+        }
+
+        runBlocking {
+            every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365 * 2))
+            val quota = createQuota()
+            quota.consumeQuota(17) shouldBe true
+        }
+        runBlocking {
+            every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365 * 3))
+            val quota = createQuota()
+            quota.consumeQuota(3) shouldBe true
+            quota.consumeQuota(17) shouldBe true
+            quota.consumeQuota(1) shouldBe false
+        }
+    }
+
+    @Test
+    fun `reverse timetravel is handled `() {
+        testStorageLastQuotaReset = Instant.parse("2020-12-24T23:00:00.000Z")
+        val startTime = Instant.parse("2020-12-24T23:59:59.999Z")
+        every { timeStamper.nowUTC } returns startTime
+
+        val quota = createQuota()
+
+        runBlocking {
+            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(1) shouldBe false
+
+            // Go forward and get a reset
+            every { timeStamper.nowUTC } returns startTime.plus(Duration.standardHours(1))
+            quota.consumeQuota(20) shouldBe true
+            quota.consumeQuota(1) shouldBe false
+
+            // Go backwards and don't gain a reset
+            every { timeStamper.nowUTC } returns startTime.minus(Duration.standardHours(1))
+            quota.consumeQuota(1) shouldBe false
+
+            // Go forward again, but no new reset happens
+            every { timeStamper.nowUTC } returns startTime.plus(Duration.standardHours(1))
+            quota.consumeQuota(1) shouldBe false
+        }
+    }
 }

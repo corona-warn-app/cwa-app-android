@@ -61,28 +61,27 @@ class SubmissionQuota @Inject constructor(
         val oldQuota = currentQuota
         val oldQuotaReset = lastQuotaReset
 
-        val newQuotaAt = oldQuotaReset
-            .plus(Duration.standardDays(1))
+        val now = timeStamper.nowUTC
+
+        val nextQuotaReset = lastQuotaReset
             .toDateTime(DateTimeZone.UTC)
             .withTimeAtStartOfDay()
-            .plusMinutes(1) // Safety margin
+            .plus(Duration.standardDays(1))
 
-        val now = timeStamper.nowUTC
-        if (now.isBefore(newQuotaAt)) {
+        if (now.isAfter(nextQuotaReset)) {
+            currentQuota = DEFAULT_QUOTA
+            lastQuotaReset = now
+
+            Timber.tag(TAG).i(
+                "Quota reset: oldQuota=%d, lastReset=%s -> newQuota=%d, thisReset=%s",
+                oldQuota, oldQuotaReset, currentQuota, now
+            )
+        } else {
             Timber.tag(TAG).d(
                 "No new quota available (now=%s, availableAt=%s)",
-                now, newQuotaAt
+                now, nextQuotaReset
             )
-            return
         }
-
-        currentQuota = DEFAULT_QUOTA
-        lastQuotaReset = now
-
-        Timber.tag(TAG).i(
-            "Quota reset: oldQuota=%d, lastReset=%s -> newQuota=%d",
-            oldQuota, oldQuotaReset, currentQuota
-        )
     }
 
     companion object {
