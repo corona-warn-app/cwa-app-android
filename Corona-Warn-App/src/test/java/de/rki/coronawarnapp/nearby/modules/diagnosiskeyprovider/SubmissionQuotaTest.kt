@@ -58,6 +58,23 @@ class SubmissionQuotaTest : BaseTest() {
     )
 
     @Test
+    fun `first init sets a sane default quota`() {
+        // The default lastQuotaReset is at 0L EPOCH Millis
+        testStorageLastQuotaReset = Instant.EPOCH
+
+        val quota = createQuota()
+
+        runBlocking {
+            quota.consumeQuota(5) shouldBe true
+        }
+
+        coVerify { enfData.currentQuota = 20 }
+
+        // Reset to 20, then consumed 5
+        testStorageCurrentQuota shouldBe 15
+    }
+
+    @Test
     fun `quota consumption return true if quota was available`() {
         testStorageCurrentQuota shouldBe 20
 

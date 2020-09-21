@@ -52,7 +52,9 @@ class SubmissionQuota @Inject constructor(
     }
 
     /**
-     * Sets a new quota
+     * Attempts to reset the quota
+     * On initial launch, the lastQuotaReset is set to Instant.EPOCH,
+     * thus the quota will be immediately set to 20.
      */
     private fun attemptQuotaReset() {
         val oldQuota = currentQuota
