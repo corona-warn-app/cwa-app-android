@@ -61,6 +61,7 @@ class OnboardingTracingFragment : Fragment(),
     ): View? {
         _binding = FragmentOnboardingTracingBinding.inflate(inflater)
         binding.interopViewModel = interoperabilityViewModel
+        interoperabilityViewModel.saveInteroperabilityUsed()
         return binding.root
     }
 
@@ -109,6 +110,7 @@ class OnboardingTracingFragment : Fragment(),
             R.string.onboarding_tracing_dialog_button_negative,
             true,
             {
+                navigate()
             })
         DialogHelper.showDialog(dialog)
     }

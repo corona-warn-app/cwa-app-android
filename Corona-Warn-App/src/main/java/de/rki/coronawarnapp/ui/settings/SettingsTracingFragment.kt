@@ -114,9 +114,10 @@ class SettingsTracingFragment : Fragment(),
 
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { _, _ ->
+        switch.setOnCheckedChangeListener { view, _ ->
+
             // Make sure that listener is called by user interaction
-            if (switch.tag != IGNORE_CHANGE_TAG) {
+            if (view.isPressed) {
                 startStopTracing()
                 // Focus on the body text after to announce the tracing status for accessibility reasons
                 binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody

@@ -71,10 +71,6 @@ class MainFragment : Fragment() {
         setButtonOnClickListener()
         setContentDescription()
 
-        if (LocalData.isOnboarded() && !LocalData.interoperabilityWasShown()) {
-            LocalData.saveInteroperabilitySkippedOnOnboarding()
-        }
-
         tracingViewModel.isTracingEnabled.observe(viewLifecycleOwner) {
             checkShouldInteroperabilityOpened()
         }
@@ -189,12 +185,15 @@ class MainFragment : Fragment() {
     }
 
     private fun checkShouldInteroperabilityOpened() {
-        if (tracingViewModel.isTracingEnabled.value == true &&
-            !LocalData.interoperabilityWasShown() &&
-            !LocalData.interoperabilityWasSkippedOnOnboarding()
-        ) {
-            // TODO: Display dialog for interoperability
+        if (!LocalData.interoperabilityWasShown()) {
+            navigateToInteroperability()
         }
+    }
+
+    private fun navigateToInteroperability() {
+        findNavController().doNavigate(
+            MainFragmentDirections.actionMainFragmentToInteropCountryConfigurationFragment()
+        )
     }
 
     private fun showOneTimeTracingExplanationDialog() {

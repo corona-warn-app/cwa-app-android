@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
 import java.util.Date
-import java.util.Locale
 
 /**
  * LocalData is responsible for all access to the shared preferences. Each preference is accessible
@@ -724,22 +723,6 @@ object LocalData {
         ).commit()
     }
 
-    fun saveInteroperabilitySkippedOnOnboarding() {
-        getSharedPreferenceInstance().edit().putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_interoperability_skipped_on_onboarding),
-            true
-        ).commit()
-    }
-
-    fun interoperabilityWasSkippedOnOnboarding(): Boolean {
-        return getSharedPreferenceInstance().getBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_interoperability_skipped_on_onboarding),
-            false
-        )
-    }
-
     fun interoperabilityWasShown(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
             CoronaWarnApplication.getAppContext()
@@ -747,31 +730,4 @@ object LocalData {
             false
         )
     }
-
-    var countryCodes: List<String>?
-        get() = getSharedPreferenceInstance().getStringSet(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_interoperability_selected_country_codes),
-            setOf()
-        )?.toList()
-        set(countryCodes) {
-            getSharedPreferenceInstance().edit().putStringSet(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_interoperability_selected_country_codes),
-                countryCodes?.map { it.toLowerCase(Locale.ROOT) }?.toSet()
-            ).commit()
-        }
-
-    var isAllCountriesSelected: Boolean
-        get() = getSharedPreferenceInstance().getBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_interoperability_all_countries_selected), false
-        )
-        set(selected) {
-            getSharedPreferenceInstance().edit().putBoolean(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_interoperability_all_countries_selected),
-                selected
-            ).commit()
-        }
 }
