@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.nearby.ENFClientLocalData
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.sync.Mutex
@@ -85,7 +86,9 @@ class SubmissionQuota @Inject constructor(
     }
 
     companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal const val DEFAULT_QUOTA = 20
+
         private val TAG: String = SubmissionQuota::class.java.simpleName
     }
 }
