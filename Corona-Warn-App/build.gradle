@@ -137,6 +137,14 @@ android {
         jvmTarget = "1.8"
     }
 
+    def jvmCompilerArgs = ["-Xno-kotlin-nothing-value-exception"]
+
+    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
+        kotlinOptions {
+            freeCompilerArgs = jvmCompilerArgs
+        }
+    }
+
     lintOptions {
         checkAllWarnings = true
     }
@@ -243,6 +251,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
 
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+
     // DAGGER
     implementation 'com.google.dagger:dagger:2.28.1'
     implementation 'com.google.dagger:dagger-android:2.28.1'
@@ -250,6 +261,8 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
     kapt 'com.google.dagger:dagger-android-processor:2.28.1'
 
+    compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
+    kapt 'com.squareup.inject:assisted-inject-processor-dagger2:0.5.2'
 
     // QR
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
@@ -280,6 +293,8 @@ dependencies {
     testImplementation "io.kotest:kotest-runner-junit5:4.2.0"
     testImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
     testImplementation "io.kotest:kotest-property-jvm:4.2.0"
+    androidTestImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
+    androidTestImplementation "io.kotest:kotest-property-jvm:4.2.0"
 
     // Testing - Instrumentation
     androidTestImplementation 'androidx.test:runner:1.2.0'

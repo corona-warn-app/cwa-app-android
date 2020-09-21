@@ -20,9 +20,11 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
+import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
@@ -34,7 +36,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
-import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.GoogleQuotaCalculator
 import de.rki.coronawarnapp.util.QuotaCalculator
@@ -131,6 +133,18 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val transactionScope: TransactionCoroutineScope by lazy {
         AppInjector.component.transRetrieveKeysInjection.transactionScope
     }
+    private val keyCacheRepository: KeyCacheRepository by lazy {
+        AppInjector.component.keyCacheRepository
+    }
+    private val keyFileDownloader: KeyFileDownloader by lazy {
+        AppInjector.component.keyFileDownloader
+    }
+
+    var onApiSubmissionStarted: (() -> Unit)? = null
+    var onApiSubmissionFinished: (() -> Unit)? = null
+
+    var onKeyFilesDownloadStarted: (() -> Unit)? = null
+    var onKeyFilesDownloadFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
 
     private const val QUOTA_RESET_PERIOD_IN_HOURS = 24
 
@@ -164,8 +178,14 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         }
     }
 
-    /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecute(unique = true, scope = transactionScope) {
+    /** initiates the transaction. This suspend function guarantees a successful transaction once completed.
+     * @param requestedCountries defines which countries (country codes) should be used. If not filled the
+     * country codes will be loaded from the ApplicationConfigurationService
+     */
+    suspend fun start(
+        requestedCountries: List<String>? = null
+    ) = lockAndExecute(unique = true, scope = transactionScope) {
+
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
          * in a background job. Also it acts as a failure catch in case the orchestration code did
@@ -206,7 +226,30 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /****************************************************
          * FILES FROM WEB REQUESTS
          ****************************************************/
-        val keyFiles = executeFetchKeyFilesFromServer(currentDate)
+        val countries = requestedCountries ?: ApplicationConfigurationService
+            .asyncRetrieveApplicationConfiguration()
+            .supportedCountriesList
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onKeyFilesDownloadStarted?.invoke()
+            onKeyFilesDownloadStarted = null
+        }
+
+        val keyFiles = executeFetchKeyFilesFromServer(countries)
+
+        if (CWADebug.isDebugBuildOrMode) {
+            val totalFileSize = keyFiles.fold(0L, { acc, file ->
+                file.length() + acc
+            })
+
+            onKeyFilesDownloadFinished?.invoke(keyFiles.size, totalFileSize)
+            onKeyFilesDownloadFinished = null
+        }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionStarted?.invoke()
+            onApiSubmissionStarted = null
+        }
 
         if (keyFiles.isNotEmpty()) {
             /****************************************************
@@ -216,10 +259,17 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         } else {
             Timber.tag(TAG).w("no key files, skipping submission to internal API.")
         }
+
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionFinished?.invoke()
+            onApiSubmissionFinished = null
+        }
+
         /****************************************************
          * Fetch Date Update
          ****************************************************/
         executeFetchDateUpdate(currentDate)
+
         /****************************************************
          * CLOSE TRANSACTION
          ****************************************************/
@@ -303,10 +353,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date
+        countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
-        FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate)
+        val locationCodes = countries.map { LocationCode(it) }
+        keyFileDownloader.asyncFetchKeyFiles(locationCodes)
     }
 
     /**

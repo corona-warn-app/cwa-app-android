@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_dispatcher_accessibility_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionDispatcherFragment">
+        tools:context=".ui.submission.fragment.SubmissionDispatcherFragment">
 
         <include
             android:id="@+id/submission_dispatcher_header"
