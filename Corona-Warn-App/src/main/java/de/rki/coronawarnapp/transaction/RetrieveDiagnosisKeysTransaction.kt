@@ -20,6 +20,7 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.FileStorageHelper
@@ -35,7 +36,6 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
-import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.GoogleQuotaCalculator
 import de.rki.coronawarnapp.util.QuotaCalculator
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -132,6 +132,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         AppInjector.component.transRetrieveKeysInjection.transactionScope
     }
 
+    private val enfClient: ENFClient
+        get() = AppInjector.component.transRetrieveKeysInjection.cwaEnfClient
+
     private const val QUOTA_RESET_PERIOD_IN_HOURS = 24
 
     private val quotaCalculator: QuotaCalculator<Int> = GoogleQuotaCalculator(
@@ -141,10 +144,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         quotaTimeZone = DateTimeZone.UTC,
         quotaChronology = GJChronology.getInstanceUTC()
     )
-
-    private val googleAPIVersion: GoogleAPIVersion by lazy {
-        AppInjector.component.transRetrieveKeysInjection.googleAPIVersion
-    }
 
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
@@ -193,36 +192,25 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             return@lockAndExecute
         }
 
-        /****************************************************
-         * RETRIEVE TOKEN
-         ****************************************************/
         val token = executeToken()
 
-        /****************************************************
-         * RETRIEVE RISK SCORE PARAMETERS
-         ****************************************************/
+        // RETRIEVE RISK SCORE PARAMETERS
         val exposureConfiguration = executeRetrieveRiskScoreParams()
 
-        /****************************************************
-         * FILES FROM WEB REQUESTS
-         ****************************************************/
-        val keyFiles = executeFetchKeyFilesFromServer(currentDate)
+        val availableKeyFiles = executeFetchKeyFilesFromServer(currentDate)
 
-        if (keyFiles.isNotEmpty()) {
-            /****************************************************
-             * SUBMIT FILES TO API
-             ****************************************************/
-            executeAPISubmission(token, keyFiles, exposureConfiguration)
-        } else {
-            Timber.tag(TAG).w("no key files, skipping submission to internal API.")
+        if (availableKeyFiles.isEmpty()) {
+            Timber.tag(TAG).w("No keyfiles were available!")
         }
-        /****************************************************
-         * Fetch Date Update
-         ****************************************************/
-        executeFetchDateUpdate(currentDate)
-        /****************************************************
-         * CLOSE TRANSACTION
-         ****************************************************/
+
+        val isSubmissionSuccessful = executeAPISubmission(
+            exportFiles = availableKeyFiles,
+            exposureConfiguration = exposureConfiguration,
+            token = token
+        )
+
+        if (isSubmissionSuccessful) executeFetchDateUpdate(currentDate)
+
         executeClose()
     }
 
@@ -309,34 +297,19 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         CachedKeyFileHolder.asyncFetchFiles(currentDate)
     }
 
-    /**
-     * Executes the API_SUBMISSION Transaction State
-     *
-     * We currently use Batch Size 1 and thus submit multiple times to the API.
-     * This means that instead of directly submitting all files at once, we have to split up
-     * our file list as this equals a different batch for Google every time.
-     */
     private suspend fun executeAPISubmission(
         token: String,
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
-    ) = executeState(API_SUBMISSION) {
-        if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
-            InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                exportFiles,
-                exposureConfiguration,
-                token
-            )
-        } else {
-            exportFiles.forEach { batch ->
-                InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                    listOf(batch),
-                    exposureConfiguration,
-                    token
-                )
-            }
-        }
-        Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
+    ): Boolean = executeState(API_SUBMISSION) {
+        Timber.tag(TAG).d("Attempting submission to ENF")
+        val success = enfClient.provideDiagnosisKeys(
+            keyFiles = exportFiles,
+            configuration = exposureConfiguration,
+            token = token
+        )
+        Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", success, token)
+        return@executeState success
     }
 
     /**
@@ -345,6 +318,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private suspend fun executeFetchDateUpdate(
         currentDate: Date
     ) = executeState(FETCH_DATE_UPDATE) {
+        Timber.tag(TAG).d("executeFetchDateUpdate(currentDate=%s)", currentDate)
         LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
     }
 
