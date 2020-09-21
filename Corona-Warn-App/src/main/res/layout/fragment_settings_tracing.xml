@@ -61,8 +61,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:headline="@{@string/settings_tracing_headline}"
-                    app:illustration="@{FormatterSettingsHelper.formatTracingStatusImage(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
-                    app:illustrationDescription="@{FormatterSettingsHelper.formatTracingIllustrationText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:illustration="@{FormatterSettingsHelper.formatTracingStatusImage(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:illustrationDescription="@{FormatterSettingsHelper.formatTracingIllustrationText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -73,13 +73,13 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    app:enabled="@{FormatterSettingsHelper.formatTracingSwitchEnabled(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:enabled="@{FormatterSettingsHelper.formatTracingSwitchEnabled(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header_details"
                     app:showDivider="@{true}"
-                    app:status="@{FormatterSettingsHelper.formatTracingSwitch(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
-                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:status="@{FormatterSettingsHelper.formatTracingSwitch(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
                 <include
@@ -106,11 +106,10 @@
 
                     <include
                         android:id="@+id/settings_tracing_status_location"
-                        layout="@layout/include_tracing_status_card"
+                        layout="@layout/include_tracing_status_card_location"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityLocation(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
-                        app:body="@{@string/settings_tracing_status_location_body}"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityLocation(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                         app:buttonText="@{@string/settings_tracing_status_location_button}"
                         app:headline="@{@string/settings_tracing_status_location_headline}"
                         app:icon="@{@drawable/ic_location}"
@@ -123,25 +122,11 @@
                         layout="@layout/include_tracing_status_card"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
                         app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
                         app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
                         app:icon="@{@drawable/ic_settings_tracing_bluetooth}"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                        app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <include
-                        android:id="@+id/settings_tracing_status_connection"
-                        layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusConnection(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
-                        app:body="@{@string/settings_tracing_status_connection_body}"
-                        app:buttonText="@{@string/settings_tracing_status_connection_button}"
-                        app:headline="@{@string/settings_tracing_status_connection_headline}"
-                        app:icon="@{@drawable/ic_settings_tracing_connection}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                         app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -152,7 +137,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isConnectionEnabled(), settingsViewModel.isLocationEnabled())}"
+                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent"

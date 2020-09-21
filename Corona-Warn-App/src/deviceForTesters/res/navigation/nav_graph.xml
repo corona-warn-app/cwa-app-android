@@ -196,7 +196,7 @@
     <!-- Submission -->
     <fragment
         android:id="@+id/testForAPIFragment"
-        android:name="de.rki.coronawarnapp.TestForAPIFragment"
+        android:name="de.rki.coronawarnapp.test.api.ui.TestForAPIFragment"
         android:label="@layout/fragment_test_for_a_p_i"
         tools:layout="@layout/fragment_test_for_a_p_i" />
 
@@ -337,7 +337,12 @@
     </fragment>
     <fragment
         android:id="@+id/testRiskLevelCalculation"
-        android:name="de.rki.coronawarnapp.TestRiskLevelCalculation"
+        android:name="de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment"
         android:label="fragment_test_risk_level_calculation"
-        tools:layout="@layout/fragment_test_risk_level_calculation" />
+        tools:layout="@layout/fragment_test_risk_level_calculation">
+        <argument
+            android:name="exampleArgument"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

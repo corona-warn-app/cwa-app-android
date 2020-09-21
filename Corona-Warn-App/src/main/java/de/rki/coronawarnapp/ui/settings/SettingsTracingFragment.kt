@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,7 +24,9 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.PowerManagementHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 
@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
  * @see InternalExposureNotificationClient
  * @see InternalExposureNotificationPermissionHelper
  */
-class SettingsTracingFragment : Fragment(),
+class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
@@ -48,31 +48,15 @@ class SettingsTracingFragment : Fragment(),
     private val interopViewModel: InteroperabilityViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentSettingsTracingBinding? = null
-    private val binding: FragmentSettingsTracingBinding get() = _binding!!
+    private val binding: FragmentSettingsTracingBinding by viewBindingLazy()
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSettingsTracingBinding.inflate(inflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.interopViewModel = interopViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
     }
 
@@ -115,7 +99,6 @@ class SettingsTracingFragment : Fragment(),
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
-        val connection = binding.settingsTracingStatusConnection.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
         val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
 
@@ -136,15 +119,12 @@ class SettingsTracingFragment : Fragment(),
                 tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
             val isBluetoothEnabled =
                 settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
-            val isConnectionEnabled =
-                settingsViewModel.isConnectionEnabled.value ?: throw IllegalArgumentException()
             val isLocationEnabled =
                 settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
             // check if the row is clickable, this adds the switch behaviour
             val isEnabled = formatTracingSwitchEnabled(
                 isTracingEnabled,
                 isBluetoothEnabled,
-                isConnectionEnabled,
                 isLocationEnabled
             )
             if (isEnabled) startStopTracing()
@@ -157,9 +137,6 @@ class SettingsTracingFragment : Fragment(),
         }
         location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
-        }
-        connection.setOnClickListener {
-            ExternalActionHelper.toConnections(requireContext())
         }
         interoperability.setOnClickListener {
             navigateToInteroperability()
@@ -193,7 +170,8 @@ class SettingsTracingFragment : Fragment(),
                         // activated during onboarding
                         showConsentDialog()
                         // check if background processing is switched off, if it is, show the manual calculation dialog explanation before turning on.
-                        if (!PowerManagementHelper.isIgnoringBatteryOptimizations(requireActivity())) {
+                        val activity = requireActivity() as MainActivity
+                        if (!activity.backgroundPrioritization.isBackgroundActivityPrioritized) {
                             showManualCheckingRequiredDialog()
                         }
                     }
@@ -207,20 +185,6 @@ class SettingsTracingFragment : Fragment(),
                 )
             }
         }
-    }
-
-    private fun showInteroperabilityDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.onboarding_manual_required_dialog_headline,
-            R.string.onboarding_manual_required_dialog_body,
-            R.string.onboarding_manual_required_dialog_button,
-            null,
-            false, {
-                navigateToInteroperability()
-            }
-        )
-        DialogHelper.showDialog(dialog)
     }
 
     private fun showManualCheckingRequiredDialog() {

@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -21,6 +19,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.coroutines.launch
 
 /**
@@ -29,7 +28,7 @@ import kotlinx.coroutines.launch
  * @see InternalExposureNotificationPermissionHelper
  * @see AlertDialog
  */
-class OnboardingTracingFragment : Fragment(),
+class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing),
     InternalExposureNotificationPermissionHelper.Callback {
 
     companion object {
@@ -37,8 +36,7 @@ class OnboardingTracingFragment : Fragment(),
     }
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
-    private var _binding: FragmentOnboardingTracingBinding? = null
-    private val binding: FragmentOnboardingTracingBinding get() = _binding!!
+    private val binding: FragmentOnboardingTracingBinding by viewBindingLazy()
     private val interoperabilityViewModel: InteroperabilityViewModel by activityViewModels()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -54,25 +52,10 @@ class OnboardingTracingFragment : Fragment(),
             InternalExposureNotificationPermissionHelper(this, this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentOnboardingTracingBinding.inflate(inflater)
-        binding.interopViewModel = interoperabilityViewModel
-        interoperabilityViewModel.saveInteroperabilityUsed()
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        interoperabilityViewModel.saveInteroperabilityUsed()
     }
 
     override fun onResume() {
@@ -133,7 +116,7 @@ class OnboardingTracingFragment : Fragment(),
             } catch (exception: Exception) {
                 exception.report(
                     ExceptionCategory.EXPOSURENOTIFICATION,
-                    OnboardingTracingFragment.TAG,
+                    TAG,
                     null
                 )
             }

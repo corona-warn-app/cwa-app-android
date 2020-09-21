@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.ui.submission.fragment
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,31 +25,20 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment() {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan) {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1
-        private val TAG: String? = SubmissionQRCodeScanFragment::class.simpleName
     }
 
     private val viewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentSubmissionQrCodeScanBinding? = null
-    private val binding: FragmentSubmissionQrCodeScanBinding get() = _binding!!
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSubmissionQrCodeScanBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        return binding.root
-    }
 
     private fun decodeCallback(result: BarcodeResult) {
         viewModel.validateAndStoreTestGUID(result.text)
@@ -61,20 +48,16 @@ class SubmissionQRCodeScanFragment : Fragment() {
         binding.submissionQrCodeScanPreview.decodeSingle { decodeCallback(it) }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title,
-                R.string.submission_error_dialog_web_test_paired_body,
-                R.string.submission_error_dialog_web_test_paired_button_positive,
-                null,
+                R.string.submission_qr_code_scan_invalid_dialog_headline,
+                R.string.submission_qr_code_scan_invalid_dialog_body,
+                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
                 true,
+                { startDecode() },
                 ::navigateToDispatchScreen
             )
             is CwaServerError -> DialogHelper.DialogInstance(

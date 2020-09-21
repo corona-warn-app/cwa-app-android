@@ -171,27 +171,10 @@ class FormatterRiskHelperTest {
         )
     }
 
-    private fun formatNextUpdateContentDescriptionBase(
-        iRiskLevelScore: Int?,
-        bIsBackgroundJobEnabled: Boolean?,
-        sValue: String
-    ) {
-        every { context.getString(R.string.risk_card_body_next_update) } returns R.string.risk_card_body_next_update.toString()
-        every { context.getString(R.string.accessibility_button) } returns R.string.accessibility_button.toString()
-
-        val result =
-            formatNextUpdateContentDescription(
-                riskLevelScore = iRiskLevelScore,
-                isBackgroundJobEnabled = bIsBackgroundJobEnabled
-            )
-        assertThat(
-            result, `is`(sValue)
-        )
-    }
-
     private fun formatRiskDetailsRiskLevelBodyBase(
         iRiskLevelScore: Int?,
         iDaysSinceLastExposure: Int?,
+        iMatchedKeysCount: Int?,
         sValue: String
     ) {
         every { context.getString(R.string.risk_details_information_body_outdated_risk) } returns R.string.risk_details_information_body_outdated_risk.toString()
@@ -200,7 +183,8 @@ class FormatterRiskHelperTest {
 
         val result = formatRiskDetailsRiskLevelBody(
             riskLevelScore = iRiskLevelScore,
-            daysSinceLastExposure = iDaysSinceLastExposure
+            daysSinceLastExposure = iDaysSinceLastExposure,
+            matchedKeysCount = iMatchedKeysCount
         )
         assertThat(
             result, `is`(sValue)
@@ -977,88 +961,17 @@ class FormatterRiskHelperTest {
     }
 
     @Test
-    fun formatNextUpdateContentDescription() {
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = null,
-            bIsBackgroundJobEnabled = null,
-            sValue = ""
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
-            bIsBackgroundJobEnabled = null,
-            sValue = ""
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-            bIsBackgroundJobEnabled = null,
-            sValue = ""
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            bIsBackgroundJobEnabled = null,
-            sValue = ""
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
-            bIsBackgroundJobEnabled = null,
-            sValue = ""
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-            bIsBackgroundJobEnabled = null,
-            sValue = ""
-        )
-
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = null,
-            bIsBackgroundJobEnabled = true,
-            sValue = ""
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
-            bIsBackgroundJobEnabled = true,
-            sValue = context.getString(
-                R.string.risk_card_body_next_update
-            ) + " " + context.getString(
-                R.string.accessibility_button
-            )
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-            bIsBackgroundJobEnabled = true,
-            sValue = ""
-        )
-
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
-            bIsBackgroundJobEnabled = true,
-            sValue = context.getString(
-                R.string.risk_card_body_next_update
-            ) + " " + context.getString(
-                R.string.accessibility_button
-            )
-        )
-        formatNextUpdateContentDescriptionBase(
-            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-            bIsBackgroundJobEnabled = true,
-            sValue = context.getString(
-                R.string.risk_card_body_next_update
-            ) + " " + context.getString(
-                R.string.accessibility_button
-            )
-        )
-    }
-
-    @Test
     fun formatRiskDetailsRiskLevelBody() {
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = null,
             iDaysSinceLastExposure = 0,
+            iMatchedKeysCount = 0,
             sValue = ""
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = resources.getQuantityString(
                 R.plurals.risk_details_information_body_increased_risk,
                 1,
@@ -1068,28 +981,34 @@ class FormatterRiskHelperTest {
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_outdated_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = ""
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_low_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             iDaysSinceLastExposure = 1,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_unknown_risk)
         )
 
-        formatRiskDetailsRiskLevelBodyBase(iRiskLevelScore = null, iDaysSinceLastExposure = null, sValue = "")
+        formatRiskDetailsRiskLevelBodyBase(iRiskLevelScore = null, iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0, sValue = "")
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = resources.getQuantityString(
                 R.plurals.risk_details_information_body_increased_risk,
                 0,
@@ -1099,21 +1018,25 @@ class FormatterRiskHelperTest {
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_outdated_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = ""
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_low_risk)
         )
         formatRiskDetailsRiskLevelBodyBase(
             iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             iDaysSinceLastExposure = null,
+            iMatchedKeysCount = 0,
             sValue = context.getString(R.string.risk_details_information_body_unknown_risk)
         )
     }

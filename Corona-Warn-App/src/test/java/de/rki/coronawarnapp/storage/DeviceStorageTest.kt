@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -84,14 +85,14 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `check private storage space`() {
         val deviceStorage = buildInstance()
-
-        deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
-
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = true,
+                freeBytes = defaultFreeSpace,
+                totalBytes = defaultTotalSpace
+            )
+        }
         verify { storageManager.getUuidForPath(any()) }
         verify(exactly = 0) { statsFsProvider.createStats(any()) }
 
@@ -101,14 +102,14 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `check private storage space, sub API26`() {
         val deviceStorage = buildInstance(level = legacyApiLevel)
-
-        deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
-
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = true,
+                freeBytes = defaultFreeSpace,
+                totalBytes = defaultTotalSpace
+            )
+        }
         verify(exactly = 0) { storageManager.getUuidForPath(any()) }
         verify { statsFsProvider.createStats(any()) }
     }
@@ -116,40 +117,45 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `request space from private storage successfully`() {
         val deviceStorage = buildInstance()
-
-        deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
-
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = true,
+                requiredBytes = defaultFreeSpace,
+                freeBytes = defaultFreeSpace,
+                totalBytes = defaultTotalSpace
+            )
+        }
         verify(exactly = 0) { storageManager.allocateBytes(any<UUID>(), any()) }
     }
 
     @Test
     fun `request space from private storage successfully, sub API26`() {
         val deviceStorage = buildInstance(level = legacyApiLevel)
-
-        deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = true,
+                requiredBytes = defaultFreeSpace,
+                freeBytes = defaultFreeSpace,
+                totalBytes = defaultTotalSpace
+            )
+        }
     }
 
     @Test
     fun `request space from private storage wth allocation`() {
         val deviceStorage = buildInstance()
-
-        val targetBytes = defaultFreeSpace + defaultAllocatableBytes
-        deviceStorage.checkSpacePrivateStorage(requiredBytes = targetBytes) shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = targetBytes,
-            totalBytes = defaultTotalSpace
-        )
+        runBlocking {
+            val targetBytes = defaultFreeSpace + defaultAllocatableBytes
+            deviceStorage.checkSpacePrivateStorage(requiredBytes = targetBytes) shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = true,
+                requiredBytes = targetBytes,
+                freeBytes = targetBytes,
+                totalBytes = defaultTotalSpace
+            )
+        }
 
         verify { storageManager.allocateBytes(privateDataDirUUID, defaultAllocatableBytes) }
     }
@@ -157,25 +163,32 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `request space from private storage unsuccessfully`() {
         val deviceStorage = buildInstance()
-
-        deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = false,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = false,
+                freeBytes = defaultFreeSpace,
+                requiredBytes = Long.MAX_VALUE,
+                totalBytes = defaultTotalSpace
+            )
+            shouldThrow<InsufficientStorageException> {
+                deviceStorage.requireSpacePrivateStorage(Long.MAX_VALUE)
+            }
+        }
     }
 
     @Test
     fun `request space from private storage unsuccessfully, sub API26`() {
         val deviceStorage = buildInstance(level = legacyApiLevel)
-
-        deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = false,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = false,
+                requiredBytes = Long.MAX_VALUE,
+                freeBytes = defaultFreeSpace,
+                totalBytes = defaultTotalSpace
+            )
+        }
     }
 
     @Test
@@ -183,13 +196,14 @@ class DeviceStorageTest : BaseIOTest() {
         every { storageManager.getUuidForPath(privateDataDir) } throws IOException("uh oh")
 
         val deviceStorage = buildInstance()
-
-        deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
-            path = privateDataDir,
-            isSpaceAvailable = true,
-            freeBytes = defaultFreeSpace,
-            totalBytes = defaultTotalSpace
-        )
+        runBlocking {
+            deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
+                path = privateDataDir,
+                isSpaceAvailable = true,
+                freeBytes = defaultFreeSpace,
+                totalBytes = defaultTotalSpace
+            )
+        }
 
         verify { statsFsProvider.createStats(privateDataDir) }
     }
@@ -199,7 +213,8 @@ class DeviceStorageTest : BaseIOTest() {
         every { statsFsProvider.createStats(privateDataDir) } throws IOException("uh oh")
 
         val deviceStorage = buildInstance(level = legacyApiLevel)
-
-        shouldThrow<IOException> { deviceStorage.checkSpacePrivateStorage() }
+        runBlocking {
+            shouldThrow<IOException> { deviceStorage.checkSpacePrivateStorage() }
+        }
     }
 }

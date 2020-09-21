@@ -139,7 +139,7 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s expunere cu risc redus"</item>
         <item quantity="other">"%1$s de expuneri cu risc redus"</item>
-        <item quantity="zero">"Nicio expunere până acum"</item>
+        <item quantity="zero">"Nicio expunere cu risc redus până acum"</item>
         <item quantity="two">"%1$s expuneri cu risc redus"</item>
         <item quantity="few">"%1$s expuneri cu risc redus"</item>
         <item quantity="many">"%1$s expuneri cu risc redus"</item>
@@ -296,6 +296,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Starea riscului dvs."</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Expuneri cu risc redus"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Riscul dvs. de infectare este redus"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Ați avut o întâlnire cu o persoană diagnosticată cu COVID-19. Totuși, pe baza datelor de înregistrare în jurnal a expunerilor, riscul dvs. de infectare este redus. Riscul este redus dacă întâlnirea dvs. a fost de scurtă durată sau s-a păstrat o anumită distanță. Nu este cazul să vă îngrijorați și nu este nevoie de nicio acțiune specială din partea dvs. Vă recomandăm să respectați regulile generale privind distanțarea și igiena."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Instrucțiuni"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +344,8 @@
     <string name="risk_details_information_body_outdated_risk">"Înregistrarea în jurnal a expunerilor dvs. nu a putut fi actualizată timp de peste 24 de ore."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu COVID-19 sau întâlnirile au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Riscul de infectare este calculat local pe dispozitivul dvs., utilizând datele de înregistrare în jurnal a expunerilor. Calculul poate ține cont și de distanța și durata expunerii la persoane diagnosticate cu COVID-19, precum și de potențiala contagiozitate a acestora. Riscul dvs. de infectare nu poate fi observat sau transmis mai departe niciunei alte persoane."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu COVID-19."</item>
@@ -412,10 +420,12 @@
     <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (utilizând intensitatea semnalului). Datele personale, precum numele, adresa, locația nu sunt înregistrate niciodată. Nu se pot identifica persoanele individuale."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informații despre aplicație în limbaj simplificat și în limbajul semnelor"</a></string>
+    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
+    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Declarație de consimțământ"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping on the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the COVID-19 Exposure Logging functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyses this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
+    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the COVID-19 Exposure Logging functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Activați înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -476,6 +486,17 @@
     <string name="onboarding_notifications_body">"Apoi vă puteți autoizola pentru a-i proteja pe ceilalți și aflați unde puteți face testul."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"O femeie primește o notificare de la Corona-Warn-App."</string>
+
+    <!-- ####################################
+             Onboarding sixteen include
+   ###################################### -->
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_title_text">"Limita de vârstă: începând cu 16 ani"</string>
+
+    <!-- XACT: onboarding(sixteen) title -->
+    <string name="sixteen_description_text">"Această aplicație este destinată persoanelor care locuiesc în Germania și care au vârsta de cel puțin 16 ani."</string>
+
 
     <!-- ####################################
                   Settings
@@ -606,9 +627,9 @@
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
     <string name="settings_background_priority_body_description">"Permiteți actualizări automate privind starea riscului"</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
-    <string name="settings_background_priority_headline">"Rulați aplicația Corona-Warn în fundal"</string>
+    <string name="settings_background_priority_headline">"Actualizare automată a stării de risc"</string>
     <!-- YTXT: settings(background priority) - description text -->
-    <string name="settings_background_priority_body">"Aplicația Corona-Warn rulează permanent în fundal dacă activați Activitate în fundal cu prioritate. Aceasta permite aplicației să determine starea riscului dvs. în orice moment."</string>
+    <string name="settings_background_priority_body">"Dacă activați activitatea în fundal cu prioritate, aplicația poate determina în orice moment starea riscului dvs. Această opțiune dezactivează optimizarea vieții bateriei doar pentru aplicația Corona-Warn."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
@@ -692,6 +713,10 @@
     <string name="information_legal_headline_contact">"Contact"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
     <string name="information_legal_subtitle_contact">"E-mail: CoronaWarnApp@rki.de"</string>
+    <!-- YTXT: subtitle for legal information page, open contact form : Only has to be translated in URL for English FOrm-->
+    <string name="information_legal_subtitle_contact_label">"Formular de contact"</string>
+    <!-- YTXT: subtitle for legal information page url : Only has to be translated in URL for English FOrm-->
+    <string name="information_legal_subtitle_contact_url">"https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html"</string>
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
     <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
@@ -716,9 +741,9 @@
     <string name="submission_error_dialog_web_generic_error_button_positive">"Înapoi"</string>
 
     <!-- XHED: Dialog title for already paired test error -->
-    <string name="submission_error_dialog_web_test_paired_title">"Eroare"</string>
+    <string name="submission_error_dialog_web_test_paired_title">"Codul QR este nevalabil"</string>
     <!-- XMSG: Dialog body for already paired test error -->
-    <string name="submission_error_dialog_web_test_paired_body">"Codul QR/TAN este nevalabil sau a fost deja utilizat. Reîncercați sau contactați hotline-ul tehnic accesând Informații aplicație -&gt; Hotline tehnic."</string>
+    <string name="submission_error_dialog_web_test_paired_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, veți fi notificat de autoritatea de sănătate publică."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Înapoi"</string>
 
@@ -765,7 +790,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Cod QR nevalabil"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, veți fi notificat de autoritatea de sănătate publică."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Reîncercați."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -824,7 +849,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului dvs. Primiți rezultatul testului dvs. de la centrul sau laboratorul de testare, independent de aplicație. Dacă sunteți diagnosticat cu COVID-19, veți fi notificat de autoritatea de sănătate publică."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Eliminare"</string>
     <!-- XBUT: Negative button for test removal -->

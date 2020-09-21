@@ -1,17 +1,18 @@
 package de.rki.coronawarnapp.ui.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * This is the setting notification page. Here the user sees his os notifications settings status.
@@ -21,33 +22,14 @@ import de.rki.coronawarnapp.util.ExternalActionHelper
  * @see TracingViewModel
  * @see SettingsViewModel
  */
-class SettingsNotificationFragment : Fragment() {
-    companion object {
-        private val TAG: String? = SettingsNotificationFragment::class.simpleName
-    }
+class SettingsNotificationFragment : Fragment(R.layout.fragment_settings_notifications) {
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentSettingsNotificationsBinding? = null
-    private val binding: FragmentSettingsNotificationsBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSettingsNotificationsBinding.inflate(inflater)
-        binding.settingsViewModel = settingsViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentSettingsNotificationsBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.settingsViewModel = settingsViewModel
         setButtonOnClickListener()
     }
 
@@ -55,7 +37,7 @@ class SettingsNotificationFragment : Fragment() {
         super.onResume()
         binding.settingsNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         // refresh required data
-        settingsViewModel.refreshNotificationsEnabled(requireContext())
+        settingsViewModel.refreshNotificationsEnabled()
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()
     }

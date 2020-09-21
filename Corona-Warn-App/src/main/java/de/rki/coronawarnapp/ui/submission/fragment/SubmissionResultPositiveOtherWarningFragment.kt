@@ -2,10 +2,9 @@ package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -24,44 +23,31 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
-class SubmissionResultPositiveOtherWarningFragment : Fragment(),
+class SubmissionResultPositiveOtherWarningFragment :
+    Fragment(R.layout.fragment_submission_positive_other_warning),
     InternalExposureNotificationPermissionHelper.Callback {
-
-    companion object {
-        private val TAG: String? = SubmissionResultPositiveOtherWarningFragment::class.simpleName
-    }
 
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
-    private var _binding: FragmentSubmissionPositiveOtherWarningBinding? = null
-    private val binding: FragmentSubmissionPositiveOtherWarningBinding get() = _binding!!
+    private val binding: FragmentSubmissionPositiveOtherWarningBinding by viewBindingLazy()
     private lateinit var internalExposureNotificationPermissionHelper:
             InternalExposureNotificationPermissionHelper
+
+    // Overrides default back behaviour
+    private val backCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleSubmissionCancellation()
+            }
+        }
 
     override fun onResume() {
         super.onResume()
         binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         tracingViewModel.refreshIsTracingEnabled()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        internalExposureNotificationPermissionHelper =
-            InternalExposureNotificationPermissionHelper(this, this)
-        _binding = FragmentSubmissionPositiveOtherWarningBinding.inflate(inflater)
-        binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
@@ -122,6 +108,12 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.submissionViewModel = submissionViewModel
+
+        internalExposureNotificationPermissionHelper =
+            InternalExposureNotificationPermissionHelper(this, this)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         setButtonOnClickListener()
 
         submissionViewModel.submissionError.observeEvent(viewLifecycleOwner) {
@@ -140,8 +132,28 @@ class SubmissionResultPositiveOtherWarningFragment : Fragment(),
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            navigateToSubmissionResultFragment()
+            handleSubmissionCancellation()
         }
+    }
+
+    /**
+     * Opens a Dialog that warns user
+     * when they're about to cancel the submission flow
+     * @see DialogHelper
+     * @see navigateToSubmissionResultFragment
+     */
+    fun handleSubmissionCancellation() {
+        DialogHelper.showDialog(
+            DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_confirm_cancellation_title,
+                R.string.submission_error_dialog_confirm_cancellation_body,
+                R.string.submission_error_dialog_confirm_cancellation_button_positive,
+                R.string.submission_error_dialog_confirm_cancellation_button_negative,
+                true,
+                ::navigateToSubmissionResultFragment
+            )
+        )
     }
 
     private fun navigateToSubmissionResultFragment() =

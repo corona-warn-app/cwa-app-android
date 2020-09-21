@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,41 +22,24 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.android.synthetic.main.include_submission_tan.*
 
 /**
  * Fragment for TAN entry
  */
-class SubmissionTanFragment : Fragment() {
+class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
 
     private val viewModel: SubmissionTanViewModel by viewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private var _binding: FragmentSubmissionTanBinding? = null
-    private val binding: FragmentSubmissionTanBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionTanBinding.inflate(inflater)
-        binding.viewmodel = viewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentSubmissionTanBinding by viewBindingLazy()
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title,
-                R.string.submission_error_dialog_web_test_paired_body,
+                R.string.submission_error_dialog_web_test_paired_title_tan,
+                R.string.submission_error_dialog_web_test_paired_body_tan,
                 R.string.submission_error_dialog_web_test_paired_button_positive,
                 null,
                 true,
@@ -102,6 +83,7 @@ class SubmissionTanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewmodel = viewModel
 
         binding.submissionTanContent.submissionTanInput.listener = { tan ->
             resetError()

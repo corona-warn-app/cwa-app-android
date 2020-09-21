@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.di.AppInjector
 
 object ApplicationConfigurationService {
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfiguration {
-        return WebRequestBuilder.getInstance().asyncGetApplicationConfigurationFromServer().let {
-            return if (CWADebug.isDebugBuildOrMode) {
+        return AppInjector.component.appConfigServer.downloadAppConfig().let {
+            if (CWADebug.isDebugBuildOrMode) {
                 // TODO: THIS IS A MOCK -> Remove after Backend is providing this information.
                 it.toBuilder()
                     .clearSupportedCountries()

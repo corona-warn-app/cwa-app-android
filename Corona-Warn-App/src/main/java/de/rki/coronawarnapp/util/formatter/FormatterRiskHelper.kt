@@ -330,45 +330,18 @@ fun formatNextUpdate(
 }
 
 /**
- * Formats the risk card content description of time when diagnosis keys will be updated
- * from server again when applicable but appends the word button at the end for screen reader accessibility reasons
- *
- * @param riskLevelScore
- * @param isBackgroundJobEnabled
- * @return
- */
-fun formatNextUpdateContentDescription(
-    riskLevelScore: Int?,
-    isBackgroundJobEnabled: Boolean?
-): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (isBackgroundJobEnabled != true) {
-        ""
-    } else {
-        return when (riskLevelScore) {
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-            RiskLevelConstants.LOW_LEVEL_RISK,
-            RiskLevelConstants.INCREASED_RISK -> appContext.getString(
-                R.string.risk_card_body_next_update
-            ) + " " + appContext.getString(
-                R.string.accessibility_button
-            )
-            else -> ""
-        }
-    }
-}
-
-/**
  * Formats the risk details text display for each risk level
  *
  * @param riskLevelScore
  * @param daysSinceLastExposure
+ * @param matchedKeysCount
  * @return
  */
-fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: Int?): String {
+fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: Int?, matchedKeysCount: Int?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     val resources = appContext.resources
     val days = daysSinceLastExposure ?: 0
+    val count = matchedKeysCount ?: 0
     return when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK ->
             resources.getQuantityString(
@@ -379,7 +352,11 @@ fun formatRiskDetailsRiskLevelBody(riskLevelScore: Int?, daysSinceLastExposure: 
         RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ->
             appContext.getString(R.string.risk_details_information_body_outdated_risk)
         RiskLevelConstants.LOW_LEVEL_RISK ->
-            appContext.getString(R.string.risk_details_information_body_low_risk)
+            appContext.getString(
+                if (count > 0)
+                    R.string.risk_details_information_body_low_risk_with_encounter
+                else
+                    R.string.risk_details_information_body_low_risk)
         RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
             appContext.getString(R.string.risk_details_information_body_unknown_risk)
         else -> ""

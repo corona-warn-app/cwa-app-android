@@ -20,27 +20,33 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FETCH_DATE_UPDATE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FILES_FROM_WEB_REQUESTS
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.QUOTA_CALCULATION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.RETRIEVE_RISK_SCORE_PARAMS
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.SETUP
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.TOKEN
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.util.GoogleAPIVersion
+import de.rki.coronawarnapp.util.GoogleQuotaCalculator
+import de.rki.coronawarnapp.util.QuotaCalculator
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.chrono.GJChronology
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -91,6 +97,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         /** Initial Setup of the Transaction and Transaction ID Generation and Date Lock */
         SETUP,
 
+        /** calculates the Quota so that the rate limiting is caught gracefully*/
+        QUOTA_CALCULATION,
+
         /** Initialisation of the identifying token used during the entire transaction */
         TOKEN,
 
@@ -119,11 +128,37 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    private val progressTowardsQuotaForRollback = AtomicReference<Int>()
+
+    private val transactionScope: TransactionCoroutineScope by lazy {
+        AppInjector.component.transRetrieveKeysInjection.transactionScope
+    }
+    private val keyCacheRepository: KeyCacheRepository by lazy {
+        AppInjector.component.keyCacheRepository
+    }
+    private val keyFileDownloader: KeyFileDownloader by lazy {
+        AppInjector.component.keyFileDownloader
+    }
+
     var onApiSubmissionStarted: (() -> Unit)? = null
     var onApiSubmissionFinished: (() -> Unit)? = null
 
     var onKeyFilesDownloadStarted: (() -> Unit)? = null
     var onKeyFilesDownloadFinished: ((keyCount: Int, fileSize: Long) -> Unit)? = null
+
+    private const val QUOTA_RESET_PERIOD_IN_HOURS = 24
+
+    private val quotaCalculator: QuotaCalculator<Int> = GoogleQuotaCalculator(
+        incrementByAmount = 14,
+        quotaLimit = 20,
+        quotaResetPeriod = Duration.standardHours(QUOTA_RESET_PERIOD_IN_HOURS.toLong()),
+        quotaTimeZone = DateTimeZone.UTC,
+        quotaChronology = GJChronology.getInstanceUTC()
+    )
+
+    private val googleAPIVersion: GoogleAPIVersion by lazy {
+        AppInjector.component.transRetrieveKeysInjection.googleAPIVersion
+    }
 
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
@@ -131,6 +166,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             LocalData.lastTimeDiagnosisKeysFromServerFetch(),
             DateTimeZone.UTC
         )
+
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
         ) {
@@ -143,12 +179,12 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed.
-     * @param countries defines which countries (country codes) should be used. If not filled the
+     * @param requestedCountries defines which countries (country codes) should be used. If not filled the
      * country codes will be loaded from the ApplicationConfigurationService
      */
     suspend fun start(
         requestedCountries: List<String>? = null
-    ) = lockAndExecuteUnique {
+    ) = lockAndExecute(unique = true, scope = transactionScope) {
 
         /**
          * Handles the case when the ENClient got disabled but the Transaction is still scheduled
@@ -158,12 +194,24 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         if (!InternalExposureNotificationClient.asyncIsEnabled()) {
             Timber.tag(TAG).w("EN is not enabled, skipping RetrieveDiagnosisKeys")
             executeClose()
-            return@lockAndExecuteUnique
+            return@lockAndExecute
         }
         /****************************************************
          * INIT TRANSACTION
          ****************************************************/
         val currentDate = executeSetup()
+
+        /****************************************************
+         * CALCULATE QUOTA FOR PROVIDE DIAGNOSIS KEYS
+         ****************************************************/
+        val hasExceededQuota = executeQuotaCalculation()
+
+        // When we are above the Quote, cancel the execution entirely
+        if (hasExceededQuota) {
+            Timber.tag(TAG).w("above quota, skipping RetrieveDiagnosisKeys")
+            executeClose()
+            return@lockAndExecute
+        }
 
         /****************************************************
          * RETRIEVE TOKEN
@@ -187,10 +235,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             onKeyFilesDownloadStarted = null
         }
 
-        val keyFiles = executeFetchKeyFilesFromServer(
-            currentDate,
-            countries
-        )
+        val keyFiles = executeFetchKeyFilesFromServer(countries)
 
         if (CWADebug.isDebugBuildOrMode) {
             val totalFileSize = keyFiles.fold(0L, { acc, file ->
@@ -240,8 +285,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             if (TOKEN.isInStateStack()) {
                 rollbackToken()
             }
-            if (FILES_FROM_WEB_REQUESTS.isInStateStack()) {
-                rollbackFilesFromWebRequests()
+            // we reset the quota only if the submission has not happened yet
+            if (QUOTA_CALCULATION.isInStateStack() && !API_SUBMISSION.isInStateStack()) {
+                rollbackProgressTowardsQuota()
             }
         } catch (e: Exception) {
             // We handle every exception through a RollbackException to make sure that a single EntryPoint
@@ -260,10 +306,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         LocalData.googleApiToken(googleAPITokenForRollback.get())
     }
 
-    private suspend fun rollbackFilesFromWebRequests() {
-        Timber.tag(TAG).v("rollback $FILES_FROM_WEB_REQUESTS")
-        KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
-            .clear()
+    private fun rollbackProgressTowardsQuota() {
+        Timber.tag(TAG).v("rollback $QUOTA_CALCULATION")
+        quotaCalculator.resetProgressTowardsQuota(progressTowardsQuotaForRollback.get())
     }
 
     /**
@@ -274,6 +319,16 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         val currentDate = Date(System.currentTimeMillis())
         Timber.tag(TAG).d("using $currentDate as current date in Transaction.")
         currentDate
+    }
+
+    /**
+     * Executes the QUOTA_CALCULATION Transaction State
+     */
+    private suspend fun executeQuotaCalculation() = executeState(
+        QUOTA_CALCULATION
+    ) {
+        progressTowardsQuotaForRollback.set(quotaCalculator.getProgressTowardsQuota())
+        quotaCalculator.calculateQuota()
     }
 
     /**
@@ -298,11 +353,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      * Executes the WEB_REQUESTS Transaction State
      */
     private suspend fun executeFetchKeyFilesFromServer(
-        currentDate: Date,
         countries: List<String>
     ) = executeState(FILES_FROM_WEB_REQUESTS) {
-        FileStorageHelper.initializeExportSubDirectory()
-        CachedKeyFileHolder.asyncFetchFiles(currentDate, countries)
+        val locationCodes = countries.map { LocationCode(it) }
+        keyFileDownloader.asyncFetchKeyFiles(locationCodes)
     }
 
     /**
@@ -317,12 +371,20 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         exportFiles: Collection<File>,
         exposureConfiguration: ExposureConfiguration?
     ) = executeState(API_SUBMISSION) {
-        exportFiles.forEach { batch ->
+        if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
             InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
-                listOf(batch),
+                exportFiles,
                 exposureConfiguration,
                 token
             )
+        } else {
+            exportFiles.forEach { batch ->
+                InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                    listOf(batch),
+                    exposureConfiguration,
+                    token
+                )
+            }
         }
         Timber.tag(TAG).d("Diagnosis Keys provided successfully, Token: $token")
     }

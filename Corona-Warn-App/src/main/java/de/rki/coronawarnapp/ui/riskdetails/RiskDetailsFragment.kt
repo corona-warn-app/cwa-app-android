@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.ui.riskdetails
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentRiskDetailsBinding
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * This is the detail view of the risk card if additional information for the user.
@@ -21,36 +21,16 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
  * @see TracingViewModel
  * @see SettingsViewModel
  */
-class RiskDetailsFragment : Fragment() {
-
-    companion object {
-        private val TAG: String? = RiskDetailsFragment::class.simpleName
-    }
+class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
-    private var _binding: FragmentRiskDetailsBinding? = null
-    private val binding: FragmentRiskDetailsBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentRiskDetailsBinding.inflate(inflater)
-        binding.tracingViewModel = tracingViewModel
-        binding.settingsViewModel = settingsViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentRiskDetailsBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tracingViewModel = tracingViewModel
+        binding.settingsViewModel = settingsViewModel
         setButtonOnClickListeners()
     }
 

@@ -1,37 +1,21 @@
 package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * The [SubmissionIntroFragment] displays information about how the corona warning system works
  */
-class SubmissionIntroFragment : Fragment() {
+class SubmissionIntroFragment : Fragment(R.layout.fragment_submission_intro) {
 
-    private var _binding: FragmentSubmissionIntroBinding? = null
-    private val binding: FragmentSubmissionIntroBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // get the binding reference by inflating it with the current layout
-        _binding = FragmentSubmissionIntroBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentSubmissionIntroBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

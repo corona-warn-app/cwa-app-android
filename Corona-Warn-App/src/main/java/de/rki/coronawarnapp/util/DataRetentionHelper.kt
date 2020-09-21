@@ -22,9 +22,10 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import android.content.Context
 import de.rki.coronawarnapp.storage.AppDatabase
-import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 /**
@@ -47,7 +48,8 @@ object DataRetentionHelper {
         // Reset the current risk level stored in LiveData
         RiskLevelRepository.reset()
         // Export File Reset
-        FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
+        // TODO runBlocking, but also all of the above is BLOCKING and should be called more nicely
+        runBlocking { AppInjector.component.keyCacheRepository.clear() }
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }

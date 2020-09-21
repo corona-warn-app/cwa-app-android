@@ -12,10 +12,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.io.BufferedWriter
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
 import java.nio.charset.Charset
 import java.util.Date
 import java.util.UUID
@@ -126,7 +123,7 @@ object KeyFileHelper {
 
     private fun TEKSignatureList.writeToFile(
         file: File
-    ) = FileOutputStream(file).use { stream ->
+    ) = file.outputStream().use { stream ->
         this.writeTo(stream)
     }
 
@@ -144,9 +141,9 @@ object KeyFileHelper {
 
     private fun getExportBinaryFileName(): String = "key-export-binary-${UUID.randomUUID()}.bin"
 
-    private fun File.appendBinaryHeader() = FileOutputStream(this).use { fos ->
-        OutputStreamWriter(fos, Charset.forName(EXPORT_FILE_HEADER_CHARSET)).use { osw ->
-            BufferedWriter(osw).use { bw ->
+    private fun File.appendBinaryHeader() = outputStream().use { fos ->
+        fos.writer(Charset.forName(EXPORT_FILE_HEADER_CHARSET)).use { osw ->
+            osw.buffered().use { bw ->
                 bw.write(EXPORT_FILE_HEADER)
             }
         }
