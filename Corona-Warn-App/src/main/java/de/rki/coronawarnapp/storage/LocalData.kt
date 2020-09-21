@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.util.security.SecurityHelper.globalEncryptedSharedPreferencesInstance
-import org.joda.time.Instant
 import java.util.Date
 
 /**
@@ -18,11 +17,6 @@ import java.util.Date
 object LocalData {
 
     private val TAG: String? = LocalData::class.simpleName
-
-    private const val PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS =
-        "preference_next_time_rate_limiting_unlocks"
-    private const val PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT =
-        "preference_google_api_provide_diagnosis_keys_call_count"
 
     /****************************************************
      * ONBOARDING DATA
@@ -395,40 +389,6 @@ object LocalData {
             )
         }
     }
-
-    var nextTimeRateLimitingUnlocks: Instant
-        get() {
-            return Instant.ofEpochMilli(
-                getSharedPreferenceInstance().getLong(
-                    PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS,
-                    0L
-                )
-            )
-        }
-        set(value) {
-            getSharedPreferenceInstance().edit(true) {
-                putLong(
-                    PREFERENCE_NEXT_TIME_RATE_LIMITING_UNLOCKS,
-                    value.millis
-                )
-            }
-        }
-
-    var googleAPIProvideDiagnosisKeysCallCount: Int
-        get() {
-            return getSharedPreferenceInstance().getInt(
-                PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT,
-                0
-            )
-        }
-        set(value) {
-            getSharedPreferenceInstance().edit(true) {
-                putInt(
-                    PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT,
-                    value
-                )
-            }
-        }
 
     /**
      * Gets the last time of successful risk level calculation as long
