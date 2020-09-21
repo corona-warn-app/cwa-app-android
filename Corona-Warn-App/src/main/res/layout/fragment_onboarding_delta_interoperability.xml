@@ -14,7 +14,6 @@
         android:id="@+id/onboarding_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/onboarding_interoperability_accessibility_title"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,16 +47,20 @@
 
         <include
             android:id="@+id/onboarding_include"
-            layout="@layout/include_country_list"
+            layout="@layout/include_interoperability"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
             android:focusable="false"
-            app:footerDescription="@{@string/interoperability_private_data_description}"
-            app:footerTitle="@{@string/interoperability_private_data_title}"
-            app:headerDescription="@{@string/interoperability_description}"
+            app:title="@{@string/interoperability_onboarding_title}"
+            app:subTitle="@{@string/interoperability_onboarding_delta_subtitle}"
+            app:subTitle2="@{@string/interoperability_onboarding_randomid_download_free}"
+            app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
             app:interopViewModel="@{interopViewModel}"
-            app:isOnboarding="@{true}"
+            app:isOnboarding="@{false}"
+            app:showFooter="@{true}"
+            app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"
+            app:footerDescription="@{@string/interoperability_onboarding_delta_footerDescription}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

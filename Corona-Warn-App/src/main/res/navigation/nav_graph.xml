@@ -42,8 +42,8 @@
             android:id="@+id/action_mainFragment_to_testRiskLevelCalculation"
             app:destination="@id/testRiskLevelCalculation" />
         <action
-            android:id="@+id/action_mainFragment_to_interopCountryConfigurationFragment"
-            app:destination="@id/interopCountryConfigurationFragment" />
+            android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
+            app:destination="@id/onboardingDeltaInteroperabilityFragment" />
     </fragment>
 
     <fragment
@@ -104,6 +104,7 @@
             app:popUpTo="@id/settingsTracingFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
@@ -331,4 +332,8 @@
         android:name="de.rki.coronawarnapp.TestRiskLevelCalculation"
         android:label="fragment_test_risk_level_calculation"
         tools:layout="@layout/fragment_test_risk_level_calculation" />
+    <fragment
+        android:id="@+id/onboardingDeltaInteroperabilityFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
+        android:label="OnboardingDeltaInteroperabilityFragment" />
 </navigation>

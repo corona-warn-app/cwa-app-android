@@ -184,15 +184,22 @@ class MainFragment : Fragment() {
         popup.show()
     }
 
+    /**
+     * Checks if the interoperability feature was shown at least once to the user
+     * if not displays it otherwise nothing happens
+     */
     private fun checkShouldInteroperabilityOpened() {
         if (!LocalData.interoperabilityWasShown()) {
-            navigateToInteroperability()
+            showInteroperabilityFeature()
         }
     }
 
-    private fun navigateToInteroperability() {
+    /**
+     * Navigates to the delta onboarding screen for interoperability
+     */
+    private fun showInteroperabilityFeature() {
         findNavController().doNavigate(
-            MainFragmentDirections.actionMainFragmentToInteropCountryConfigurationFragment()
+            MainFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
         )
     }
 

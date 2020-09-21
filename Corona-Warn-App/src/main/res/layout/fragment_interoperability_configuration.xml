@@ -37,12 +37,13 @@
 
             <include
                 android:id="@+id/country_list_view"
-                layout="@layout/include_country_list"
+                layout="@layout/include_interoperability"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:footerDescription="@{@string/interoperability_private_data_description}"
-                app:footerTitle="@{@string/interoperability_private_data_title}"
-                app:headerDescription="@{@string/interoperability_description}"
+                app:title="@{@string/interoperability_configuration_title}"
+                app:subTitle="@{@string/interoperability_configuration_subTitle}"
+                app:subTitle2="@{@string/interoperability_configuration_subTitle2}"
+                app:countryListTitle="@{@string/interoperability_configuration_list_title}"
                 app:interopViewModel="@{interopViewModel}"
                 app:isOnboarding="@{false}"
                 app:layout_constraintBottom_toBottomOf="parent"

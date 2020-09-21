@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
                Preference Keys
@@ -556,7 +557,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Eine Person hat Bluetooth auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive"/>
+    <string name="settings_tracing_location_illustration_description_inactive" />
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Eine Person hat die Internetverbindung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
 
@@ -621,7 +622,7 @@
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität einschalten, kann die App Ihren Risikostatus immer automatisch prüfen. Damit wird die Optimierung des Akku-Verbrauchs ausschließlich für die Corona-Warn-App deaktiviert."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
+    <string name="settings_background_priority_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -1189,26 +1190,23 @@
     <string name="country_name_sk">slowakei</string>
 
     <string name="interoperability_title">Europaweite\nRisiko-Ermittlung</string>
-    <string name="interoperability_description">Die Liste der teilnehmenden Länder wird stetig erweitert und umfasst derzeit die folgenden Lännder:</string>
-    <string name="interoperability_consent_info">Um den Infektionsschutz noch weiter zu verbessern und die App weiter wie gewohnt benutzen zu können, benötigen wir Ihre Zustimmung.</string>
-    <string name="interoperability_default_germany_title">Deutschlandweite Risiko-Ermittlung immer aktiv</string>
-    <string name="interoperability_default_germany_summary">Die Risiko-Ermittlung funktioniert deutschlandweit unabhängig von Ihrer Einstellung der europaweiten Risiko-Ermittlung</string>
-    <string name="interoperability_private_data_title">Hinweise zur Verarbeitung von personenbezogenen Daten</string>
-    <string name="interoperability_private_data_description">Lorem Ipsum</string>
 
-    <string name="onboarding_interoperability_privacy_data_header_info">Selbstverständlich werden keine persönlischen Daten ausgetauscht und es fallen Ihnen europaweit keine Kosten für das Datenvolumen der Corona-Warn-App an.</string>
+    <string name="settings_interoperability_title">Länderübergreifende Risiko-Ermittlung</string>
+    <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
+    <string name="interoperability_configuration_subTitle">Die Corona-Warn-App warnt länderübergreifend vor möglichen Infektionen, indem Daten über eine europäische Infrastruktur ausgetauscht werden.</string>
+    <string name="interoperability_configuration_subTitle2">Es werden keine persönlischen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
+    <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
-    <string name="onboarding_interoperability_title">Länderübergreifende\nRisiko-Ermittlung</string>
-    <string name="onboarding_interoperability_subtitle">Die Corona-Warn-App kann Sie europaweit über mögliche Infektionen informieren, indem auch Daten aus anderen Ländern empfangen werden. Die Europaweite Risiko-Ermittlung kann jederzeit in den Einstellungen der Risiko-Ermittlung gesteuert werden.</string>
+    <string name="interoperability_onboarding_title">Länderübergreifende\nRisiko-Ermittlung</string>
+    <string name="interoperability_onboarding_subtitle">Mehrere Länder in der EU arbeiten zusammen, um länderübergreifende Warnungen zu ermöglichen. Das heißt es können die Kontakte mit Nutzern der offiziellen Corona-Apps aller teilnehmenden Länder berücksichtigt werden.</string>
+    <string name="interoperability_onboarding_subtitle2">Hat ein Nutzer seine Zufalls-IDs über das von den teilnehmenden Ländern gemeinsam betriebene Serversystem zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmender Länder gewarnt werden.</string>
+    <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
+    <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
-    <string name="settings_interoperability_title">Europaweite Risiko-Ermittlung</string>
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
+    <string name="interoperability_onboarding_delta_footerDescription"></string>
+
     <string name="settings_interoperability_subtitle">Teilnehmende Länder</string>
-
-    <string name="interoperability_country_disabled_dialog_headline">Bitte erst 14 Tage nach Verlassen des Landes deaktivieren</string>
-    <string name="interoperability_country_disabled_dialog_body">Bitte lassen Sie die Risiko-Ermittlung für 14 weitere Tage aktiviert, nachdem Sie das jeweilige Land bereits verlassen haben. Nur so kann sichergestellt werden, dass Sie alle relevanten Daten erhalten und eine verlässliche Berechnung des Infektionsrisikos erfolgen kann. Das mobile Datenvolumen der Corona-Warn-App ist für Sie europaweit kostenlos.</string>
-    <string name="interoperability_country_disabled_dialog_positive_button">Zurück</string>
-    <string name="interoperability_country_disabled_dialog_negative_button">Deaktivieren</string>
-    <string name="onboarding_interoperability_accessibility_title">Einführung Seite 4 von 6: Wie Sie die europaweite Risiko Ermittlung ermöglichen</string>
-
 
 </resources>

@@ -79,9 +79,9 @@ class SettingsNotificationFragment : Fragment() {
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+        updateRiskNotificationSwitch.setOnCheckedChangeListener { view, _ ->
             // Make sure that listener is called by user interaction
-            if (updateRiskNotificationSwitch.tag != IGNORE_CHANGE_TAG) {
+            if (view.isPressed) {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
@@ -90,9 +90,9 @@ class SettingsNotificationFragment : Fragment() {
             if (updateRiskNotificationRow.isEnabled) settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+        updateTestNotificationSwitch.setOnCheckedChangeListener { view, _ ->
             // Make sure that listener is called by user interaction
-            if (updateTestNotificationSwitch.tag != IGNORE_CHANGE_TAG) {
+            if (view.isPressed) {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
         }
