@@ -1195,7 +1195,7 @@
     <string name="country_name_fr">Frankreich</string>
     <string name="country_name_uk">Großbritannien</string>
     <string name="country_name_gr">Griechenland</string>
-    <string name="country_name_hr">kroatien</string>
+    <string name="country_name_hr">Kroatien</string>
     <string name="country_name_hu">Ungarn</string>
     <string name="country_name_ie">Irland</string>
     <string name="country_name_is">Island</string>
@@ -1212,7 +1212,7 @@
     <string name="country_name_ro">Rumänien</string>
     <string name="country_name_se">Schweden</string>
     <string name="country_name_si">Slowenien</string>
-    <string name="country_name_sk">slowakei</string>
+    <string name="country_name_sk">Slowakei</string>
 
     <string name="interoperability_title">Europaweite\nRisiko-Ermittlung</string>
 
