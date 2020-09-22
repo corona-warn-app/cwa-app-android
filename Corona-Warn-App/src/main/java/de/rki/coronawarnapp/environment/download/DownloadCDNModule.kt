@@ -12,7 +12,7 @@ import okhttp3.TlsVersion
 import javax.inject.Singleton
 
 @Module
-class DownloadModule {
+class DownloadCDNModule {
 
     @Reusable
     @DownloadCDNHttpClient

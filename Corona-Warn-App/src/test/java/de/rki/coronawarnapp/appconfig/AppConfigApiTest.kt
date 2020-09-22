@@ -1,8 +1,7 @@
-package de.rki.coronawarnapp.diagnosiskeys.server
+package de.rki.coronawarnapp.appconfig
 
 import android.content.Context
-import de.rki.coronawarnapp.appconfig.AppConfigApiV1
-import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
+import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -30,12 +29,15 @@ class AppConfigApiTest : BaseIOTest() {
     private lateinit var serverAddress: String
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
-    private val appConfigCacheDir = File(testDir, "http_app-config")
+    private val cacheFiles = File(testDir, "cache")
+    private val privateFiles = File(testDir, "files")
+    private val newHttpCacheDir = File(privateFiles, "appconfig_httpstore")
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { context.cacheDir } returns testDir
+        every { context.filesDir } returns privateFiles
+        every { context.cacheDir } returns cacheFiles
 
         webServer = MockWebServer()
         webServer.start()
@@ -54,18 +56,18 @@ class AppConfigApiTest : BaseIOTest() {
         val defaultHttpClient = httpModule.defaultHttpClient()
         val gsonConverterFactory = httpModule.provideGSONConverter()
 
-        return DiagnosisKeysModule().let {
-            val downloadHttpClient = it.cdnHttpClient(defaultHttpClient)
-                .newBuilder()
-                .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
-                .build()
-            it.provideAppConfigApi(
-                context = context,
-                client = downloadHttpClient,
-                url = serverAddress,
-                gsonConverterFactory = gsonConverterFactory
-            )
-        }
+        val cdnHttpClient = DownloadCDNModule()
+            .cdnHttpClient(defaultHttpClient)
+            .newBuilder()
+            .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
+            .build()
+
+        return AppConfigModule().provideAppConfigApi(
+            context = context,
+            client = cdnHttpClient,
+            url = serverAddress,
+            gsonConverterFactory = gsonConverterFactory
+        )
     }
 
     @Test
@@ -85,7 +87,7 @@ class AppConfigApiTest : BaseIOTest() {
 
     @Test
     fun `application config download uses cache`() {
-        appConfigCacheDir.exists() shouldBe false
+        newHttpCacheDir.exists() shouldBe false
 
         val api = createAPI()
 
@@ -96,8 +98,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        appConfigCacheDir.exists() shouldBe true
-        appConfigCacheDir.listFiles()!!.size shouldBe 3
+        newHttpCacheDir.exists() shouldBe true
+        newHttpCacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
@@ -108,8 +110,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        appConfigCacheDir.exists() shouldBe true
-        appConfigCacheDir.listFiles()!!.size shouldBe 3
+        newHttpCacheDir.exists() shouldBe true
+        newHttpCacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(2, TimeUnit.SECONDS) shouldBe null
 
@@ -119,8 +121,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        appConfigCacheDir.exists() shouldBe true
-        appConfigCacheDir.listFiles()!!.size shouldBe 3
+        newHttpCacheDir.exists() shouldBe true
+        newHttpCacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
@@ -130,7 +132,7 @@ class AppConfigApiTest : BaseIOTest() {
 
     @Test
     fun `cache is used when connection is flaky`() {
-        appConfigCacheDir.exists() shouldBe false
+        newHttpCacheDir.exists() shouldBe false
 
         val api = createAPI()
 
@@ -141,8 +143,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        appConfigCacheDir.exists() shouldBe true
-        appConfigCacheDir.listFiles()!!.size shouldBe 3
+        newHttpCacheDir.exists() shouldBe true
+        newHttpCacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
@@ -154,5 +156,48 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
+    }
+
+    @Test
+    fun `fallback to last cached even if stale`() {
+        newHttpCacheDir.exists() shouldBe false
+
+        val api = createAPI()
+
+        val configResponse =
+            MockResponse().setBody("~appconfig").addHeader("Cache-Control: max-age=2")
+
+        webServer.enqueue(configResponse)
+        runBlocking {
+            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+        }
+        newHttpCacheDir.exists() shouldBe true
+        newHttpCacheDir.listFiles()!!.size shouldBe 3
+
+        webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
+            method shouldBe "GET"
+            path shouldBe "/version/v1/configuration/country/DE/app_config"
+        }
+
+        val errorResponse = MockResponse().setHttp2ErrorCode(500)
+        webServer.enqueue(errorResponse)
+
+        runBlocking {
+            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+        }
+        webServer.takeRequest(2, TimeUnit.SECONDS) shouldBe null
+
+        Thread.sleep(4000) // Let the cache expire
+
+        webServer.enqueue(errorResponse)
+        runBlocking {
+            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+        }
+        webServer.takeRequest(2, TimeUnit.SECONDS) shouldBe null
+    }
+
+    @Test
+    fun `timeout and retry behavior`() {
+        // TODO 10s timeout, 3 retries
     }
 }

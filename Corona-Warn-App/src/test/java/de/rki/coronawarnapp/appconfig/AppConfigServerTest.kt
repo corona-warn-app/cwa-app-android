@@ -1,8 +1,7 @@
-package de.rki.coronawarnapp.diagnosiskeys.server
+package de.rki.coronawarnapp.appconfig
 
 import dagger.Lazy
-import de.rki.coronawarnapp.appconfig.AppConfigApiV1
-import de.rki.coronawarnapp.appconfig.AppConfigServer
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.util.security.VerificationKeys

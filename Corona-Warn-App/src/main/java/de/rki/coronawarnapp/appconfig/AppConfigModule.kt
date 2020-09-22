@@ -36,7 +36,9 @@ class AppConfigModule {
             Timber.e(e, "Failed to migrate legacy AppConfig cache.")
         } finally {
             try {
-                legacyCache.deleteRecursively()
+                if (legacyCache.exists() && !legacyCache.deleteRecursively()) {
+                    Timber.w("Failed to delete legacy cache.")
+                }
             } catch (e: Exception) {
                 Timber.e(e, "Failed to delete legacy AppConfig cache.")
             }

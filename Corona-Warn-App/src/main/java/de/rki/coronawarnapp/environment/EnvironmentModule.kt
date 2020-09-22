@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.environment
 
 import dagger.Module
-import de.rki.coronawarnapp.environment.download.DownloadModule
+import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 
-@Module(includes = [DownloadModule::class])
+@Module(includes = [DownloadCDNModule::class])
 class EnvironmentModule
