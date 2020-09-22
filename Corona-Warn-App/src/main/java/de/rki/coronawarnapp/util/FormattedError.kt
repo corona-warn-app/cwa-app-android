@@ -6,8 +6,7 @@ interface FormattedError {
     fun getFormattedError(context: Context): String
 }
 
-fun Throwable.tryFormattedError(context: Context): String = when {
-    this is FormattedError -> this.getFormattedError(context)
-    localizedMessage != null -> localizedMessage!!
-    else -> this.toString()
+fun Throwable.tryFormattedError(context: Context): String = when (this) {
+    is FormattedError -> this.getFormattedError(context)
+    else -> localizedMessage ?: this.toString()
 }

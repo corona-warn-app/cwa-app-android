@@ -15,6 +15,6 @@ class InsufficientStorageException(
         val formattedRequired = Formatter.formatShortFileSize(context, result.requiredBytes)
         val formattedFree = Formatter.formatShortFileSize(context, result.freeBytes)
         // TODO Replace with localized message when the exception is logged via new error tracking.
-        return "Not enough free space: $formattedRequired are required and only $formattedFree are available.)"
+        return "Not enough free space: $formattedRequired are required and only $formattedFree are available."
     }
 }
