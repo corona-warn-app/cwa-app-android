@@ -1,7 +1,9 @@
-package de.rki.coronawarnapp.diagnosiskeys.server
+package de.rki.coronawarnapp.appconfig
 
 import com.google.protobuf.InvalidProtocolBufferException
 import dagger.Lazy
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
@@ -17,7 +19,7 @@ import javax.inject.Singleton
 class AppConfigServer @Inject constructor(
     private val appConfigAPI: Lazy<AppConfigApiV1>,
     private val verificationKeys: VerificationKeys,
-    @DownloadHomeCountry private val homeCountry: LocationCode
+    @DownloadCDNHomeCountry private val homeCountry: LocationCode
 ) {
 
     private val configApi: AppConfigApiV1

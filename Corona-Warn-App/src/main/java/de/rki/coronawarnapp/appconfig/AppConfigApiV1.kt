@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.diagnosiskeys.server
+package de.rki.coronawarnapp.appconfig
 
 import okhttp3.ResponseBody
 import retrofit2.http.GET

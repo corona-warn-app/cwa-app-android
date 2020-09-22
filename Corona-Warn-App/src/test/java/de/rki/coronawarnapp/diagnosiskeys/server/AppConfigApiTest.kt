@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.AppConfigApiV1
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe

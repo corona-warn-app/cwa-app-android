@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
-import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigServer
+import de.rki.coronawarnapp.appconfig.AppConfigServer
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.util.CWADebug
