@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="interopViewModel"
+            name="interoperabilityViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
     </data>
 
@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/interop_config_header"
+            android:id="@+id/interoperability_configuration_header"
             layout="@layout/include_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/country_list_container"
+            android:id="@+id/interoperability_configuration_country_list_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp"
@@ -33,18 +33,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interop_config_header">
+            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header">
 
             <include
-                android:id="@+id/country_list_view"
+                android:id="@+id/interoperability_configuration_country_list"
                 layout="@layout/include_interoperability"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:title="@{@string/interoperability_configuration_title}"
-                app:subTitle="@{@string/interoperability_configuration_subTitle}"
-                app:subTitle2="@{@string/interoperability_configuration_subTitle2}"
+                app:firstSection="@{@string/interoperability_configuration_first_section}"
+                app:secondSection="@{@string/interoperability_configuration_second_section}"
                 app:countryListTitle="@{@string/interoperability_configuration_list_title}"
-                app:interopViewModel="@{interopViewModel}"
+                app:interoperabilityViewModel="@{interoperabilityViewModel}"
                 app:isOnboarding="@{false}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

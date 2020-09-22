@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="interopViewModel"
+            name="interoperabilityViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
     </data>
 
@@ -60,7 +60,7 @@
             app:locationHeadlineCard="@{@string/onboarding_tracing_location_headline}"
             app:locationIconCard="@{@drawable/ic_location}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
-            app:interopViewModel="@{interopViewModel}"
+            app:interoperabilityViewModel="@{interoperabilityViewModel}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/onboarding_button_back"

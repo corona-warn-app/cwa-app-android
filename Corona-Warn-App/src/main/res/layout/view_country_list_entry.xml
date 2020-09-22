@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/spacing_tiny">
 
     <ImageView
-        android:id="@+id/img_country_flag"
+        android:id="@+id/country_list_entry_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/ic_country_eu" />
 
     <TextView
-        android:id="@+id/label_country_name"
+        android:id="@+id/country_list_entry_label"
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

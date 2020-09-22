@@ -55,7 +55,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        binding.interopViewModel = interoperabilityViewModel
+        binding.interoperabilityViewModel = interoperabilityViewModel
         interoperabilityViewModel.saveInteroperabilityUsed()
     }
 

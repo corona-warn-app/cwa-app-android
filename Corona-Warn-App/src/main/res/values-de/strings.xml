@@ -1180,58 +1180,105 @@
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
-    <string name="country_name_all">Alle Länder</string>
+    <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">Österreich</string>
+    <!-- XHED: Country Entry for Belgium -->
     <string name="country_name_be">Belgien</string>
+    <!-- XHED: Country Entry for Bulgaria -->
     <string name="country_name_bg">Bulgarien</string>
+    <!-- XHED: Country Entry for Switzerland -->
     <string name="country_name_ch">Schweiz</string>
+    <!-- XHED: Country Entry for Cyprus -->
     <string name="country_name_cy">Zypern</string>
+    <!-- XHED: Country Entry for Czech Republic -->
     <string name="country_name_cz">Tschechien</string>
+    <!-- XHED: Country Entry for Germany -->
     <string name="country_name_de">Deutschland</string>
+    <!-- XHED: Country Entry for Denmark -->
     <string name="country_name_dk">Dänemark</string>
+    <!-- XHED: Country Entry for Estonia -->
     <string name="country_name_ee">Estland</string>
+    <!-- XHED: Country Entry for Spain -->
     <string name="country_name_es">Spanien</string>
+    <!-- XHED: Country Entry for Finland -->
     <string name="country_name_fi">Finland</string>
+    <!-- XHED: Country Entry for France -->
     <string name="country_name_fr">Frankreich</string>
+    <!-- XHED: Country Entry for Great Britain -->
     <string name="country_name_uk">Großbritannien</string>
+    <!-- XHED: Country Entry for Greece -->
     <string name="country_name_gr">Griechenland</string>
+    <!-- XHED: Country Entry for Croatia -->
     <string name="country_name_hr">Kroatien</string>
+    <!-- XHED: Country Entry for Hungary -->
     <string name="country_name_hu">Ungarn</string>
+    <!-- XHED: Country Entry for Ireland -->
     <string name="country_name_ie">Irland</string>
+    <!-- XHED: Country Entry for Iceland -->
     <string name="country_name_is">Island</string>
+    <!-- XHED: Country Entry for Italy -->
     <string name="country_name_it">Italien</string>
+    <!-- XHED: Country Entry for Liechtenstein -->
     <string name="country_name_li">Liechtenstein</string>
+    <!-- XHED: Country Entry for Lithuania -->
     <string name="country_name_lt">Litauen</string>
+    <!-- XHED: Country Entry for Luxemburg -->
     <string name="country_name_lu">Luxemburg</string>
+    <!-- XHED: Country Entry for Latvia -->
     <string name="country_name_lv">Lettland</string>
+    <!-- XHED: Country Entry for Malta -->
     <string name="country_name_mt">Malta</string>
+    <!-- XHED: Country Entry for Netherlands -->
     <string name="country_name_nl">Niederlande</string>
+    <!-- XHED: Country Entry for Norway -->
     <string name="country_name_no">Norwegen</string>
+    <!-- XHED: Country Entry for Poland -->
     <string name="country_name_pl">Polen</string>
+    <!-- XHED: Country Entry for Portugal -->
     <string name="country_name_pt">Portugal</string>
+    <!-- XHED: Country Entry for Rumania -->
     <string name="country_name_ro">Rumänien</string>
+    <!-- XHED: Country Entry for Sweden -->
     <string name="country_name_se">Schweden</string>
+    <!-- XHED: Country Entry for Slovenia -->
     <string name="country_name_si">Slowenien</string>
+    <!-- XHED: Country Entry for Slovakia -->
     <string name="country_name_sk">Slowakei</string>
 
+    <!-- XHED: Title of the interoperbaility information view. -->
     <string name="interoperability_title">Europaweite\nRisiko-Ermittlung</string>
 
+    <!-- XHED: Setting title of interoperability in the tracing settings view -->
     <string name="settings_interoperability_title">Länderübergreifende Risiko-Ermittlung</string>
-    <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
-    <string name="interoperability_configuration_subTitle">Die Corona-Warn-App warnt länderübergreifend vor möglichen Infektionen, indem Daten über eine europäische Infrastruktur ausgetauscht werden.</string>
-    <string name="interoperability_configuration_subTitle2">Es werden keine persönlischen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
-    <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder teil:</string>
-
-    <string name="interoperability_onboarding_title">Länderübergreifende\nRisiko-Ermittlung</string>
-    <string name="interoperability_onboarding_subtitle">Mehrere Länder in der EU arbeiten zusammen, um länderübergreifende Warnungen zu ermöglichen. Das heißt es können die Kontakte mit Nutzern der offiziellen Corona-Apps aller teilnehmenden Länder berücksichtigt werden.</string>
-    <string name="interoperability_onboarding_subtitle2">Hat ein Nutzer seine Zufalls-IDs über das von den teilnehmenden Ländern gemeinsam betriebene Serversystem zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmender Länder gewarnt werden.</string>
-    <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
-    <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
-
-    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
-    <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
-    <string name="interoperability_onboarding_delta_footerDescription"></string>
-
+    <!-- XTXT: Settings description of the interoperability in the tracing settings view -->
     <string name="settings_interoperability_subtitle">Teilnehmende Länder</string>
 
+    <!-- XHED: Header of interoperability information/configuration view -->
+    <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
+    <!-- XTXT: First section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_first_section">Die Corona-Warn-App warnt länderübergreifend vor möglichen Infektionen, indem Daten über eine europäische Infrastruktur ausgetauscht werden.</string>
+    <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_second_section">Es werden keine persönlischen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
+    <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder teil:</string>
+
+    <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
+    <string name="interoperability_onboarding_title">Länderübergreifende\nRisiko-Ermittlung</string>
+    <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
+    <string name="interoperability_onboarding_first_section">Mehrere Länder in der EU arbeiten zusammen, um länderübergreifende Warnungen zu ermöglichen. Das heißt es können die Kontakte mit Nutzern der offiziellen Corona-Apps aller teilnehmenden Länder berücksichtigt werden.</string>
+    <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
+    <string name="interoperability_onboarding_second_section">Hat ein Nutzer seine Zufalls-IDs über das von den teilnehmenden Ländern gemeinsam betriebene Serversystem zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmender Länder gewarnt werden.</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
+    <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
+    <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
+
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">Europaweite\nRisiko-Ermittlung</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <!-- XHED: Header of private data in the delta onboarding interoperability view -->
+    <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
+    <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
+    <string name="interoperability_onboarding_delta_footerDescription"></string>
 </resources>

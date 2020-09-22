@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="interopViewModel"
+            name="interoperabilityViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
     </data>
 
@@ -52,11 +52,11 @@
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
             android:focusable="false"
-            app:title="@{@string/interoperability_onboarding_title}"
-            app:subTitle="@{@string/interoperability_onboarding_delta_subtitle}"
-            app:subTitle2="@{@string/interoperability_onboarding_randomid_download_free}"
+            app:title="@{@string/interoperability_onboarding_delta_title}"
+            app:firstSection="@{@string/interoperability_onboarding_delta_subtitle}"
+            app:secondSection="@{@string/interoperability_onboarding_randomid_download_free}"
             app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-            app:interopViewModel="@{interopViewModel}"
+            app:interoperabilityViewModel="@{interoperabilityViewModel}"
             app:isOnboarding="@{false}"
             app:showFooter="@{true}"
             app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"

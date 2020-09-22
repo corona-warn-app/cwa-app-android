@@ -21,11 +21,11 @@ class InteroperabilityConfigurationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.interopViewModel = interoperabilityViewModel
+        binding.interoperabilityViewModel = interoperabilityViewModel
         interoperabilityViewModel.saveInteroperabilityUsed()
 
         // register back button action
-        binding.interopConfigHeader.headerButtonBack.buttonIcon.setOnClickListener {
+        binding.interoperabilityConfigurationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             navBack()
         }
     }

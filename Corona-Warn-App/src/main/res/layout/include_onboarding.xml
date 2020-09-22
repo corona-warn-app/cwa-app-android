@@ -62,7 +62,7 @@
             type="android.view.View" />
 
         <variable
-            name="interopViewModel"
+            name="interoperabilityViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
 
     </data>
@@ -194,17 +194,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginBottom="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibility(interopViewModel != null)}"
+                android:visibility="@{FormatterHelper.formatVisibility(interoperabilityViewModel != null)}"
                 app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-                app:interopViewModel="@{interopViewModel}"
+                app:interoperabilityViewModel="@{interoperabilityViewModel}"
                 app:isOnboarding="@{true}"
                 app:layout_constraintBottom_toTopOf="@+id/onboarding_card"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_16_years"
-                app:subTitle="@{@string/interoperability_onboarding_subtitle}"
-                app:subTitle2="@{@string/interoperability_onboarding_subtitle2}"
-                app:subTitle3="@{@string/interoperability_onboarding_randomid_download_free}"
+                app:firstSection="@{@string/interoperability_onboarding_first_section}"
+                app:secondSection="@{@string/interoperability_onboarding_second_section}"
+                app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"
                 app:title="@{@string/interoperability_onboarding_title}" />
 
             <include

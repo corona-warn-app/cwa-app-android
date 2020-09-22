@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
@@ -43,7 +42,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         private val TAG: String? = SettingsTracingFragment::class.simpleName
     }
 
-    private val interopViewModel: InteroperabilityViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val binding: FragmentSettingsTracingBinding by viewBindingLazy()
@@ -54,7 +52,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
-        binding.interopViewModel = interopViewModel
         setButtonOnClickListener()
     }
 

@@ -18,7 +18,7 @@ class OnboardingDeltaInteroperabilityFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.interopViewModel = interoperabilityViewModel
+        binding.interoperabilityViewModel = interoperabilityViewModel
         interoperabilityViewModel.saveInteroperabilityUsed()
 
         binding.onboardingButtonNext.setOnClickListener(this)

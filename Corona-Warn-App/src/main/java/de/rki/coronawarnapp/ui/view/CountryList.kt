@@ -10,16 +10,16 @@ import androidx.core.content.res.ResourcesCompat
 import de.rki.coronawarnapp.R
 import java.util.Locale
 
-class CountrySelectionList(context: Context, attrs: AttributeSet) :
+class CountryList(context: Context, attrs: AttributeSet) :
     LinearLayout(context, attrs) {
 
-    private var _countryList: List<String>? = null
-    var countryList: List<String>?
+    private var _list: List<String>? = null
+    var list: List<String>?
         get() {
-            return _countryList?.map { it.toLowerCase(Locale.ROOT) }
+            return _list?.map { it.toLowerCase(Locale.ROOT) }
         }
         set(value) {
-            _countryList = value
+            _list = value
             buildList()
         }
 
@@ -32,7 +32,7 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
      */
     private fun buildList() {
         this.removeAllViews()
-        countryList
+        list
             ?.map { countryCode ->
                 val countryNameResourceId = context.resources.getIdentifier(
                     "country_name_$countryCode",
@@ -71,9 +71,9 @@ class CountrySelectionList(context: Context, attrs: AttributeSet) :
         val countryFlagDrawable = ResourcesCompat
             .getDrawable(context.resources, countryFlagImageDrawableId, null)
 
-        entry.findViewById<ImageView>(R.id.img_country_flag)
+        entry.findViewById<ImageView>(R.id.country_list_entry_image)
             .setImageDrawable(countryFlagDrawable)
 
-        entry.findViewById<TextView>(R.id.label_country_name).text = countryName
+        entry.findViewById<TextView>(R.id.country_list_entry_label).text = countryName
     }
 }
