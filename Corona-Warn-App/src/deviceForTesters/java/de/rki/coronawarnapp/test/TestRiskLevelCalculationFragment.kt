@@ -11,11 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
@@ -38,6 +36,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
 import kotlinx.coroutines.Dispatchers
@@ -63,8 +62,8 @@ class TestRiskLevelCalculationFragment : Fragment() {
     private var binding: FragmentTestRiskLevelCalculationBinding by viewLifecycle()
 
     // reference to the client from the Google framework with the given application context
-    private val exposureNotificationClient by lazy {
-        Nearby.getExposureNotificationClient(CoronaWarnApplication.getAppContext())
+    private val enfClient by lazy {
+        AppInjector.component.enfClient
     }
 
     override fun onCreateView(
@@ -214,7 +213,7 @@ class TestRiskLevelCalculationFragment : Fragment() {
                 Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                    InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                    enfClient.provideDiagnosisKeys(
                         googleFileList,
                         ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token
@@ -340,7 +339,7 @@ class TestRiskLevelCalculationFragment : Fragment() {
 
     suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
         suspendCoroutine { cont ->
-            exposureNotificationClient.getExposureInformation(token)
+            enfClient.internalClient.getExposureInformation(token)
                 .addOnSuccessListener {
                     cont.resume(it)
                 }.addOnFailureListener {

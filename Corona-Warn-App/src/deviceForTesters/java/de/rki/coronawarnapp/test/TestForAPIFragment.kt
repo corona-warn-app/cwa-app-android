@@ -52,6 +52,7 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewLifecycle
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -78,6 +79,10 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
             val listType: Type = object : TypeToken<Array<TemporaryExposureKey?>?>() {}.type
             return Gson().fromJson(json, listType)
         }
+    }
+
+    private val enfClient by lazy {
+        AppInjector.component.enfClient
     }
 
     private var myExposureKeysJSON: String? = null
@@ -397,7 +402,7 @@ class TestForAPIFragment : Fragment(), InternalExposureNotificationPermissionHel
                 Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
                 try {
                     // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                    InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                    enfClient.provideDiagnosisKeys(
                         googleFileList,
                         ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
                         token!!
