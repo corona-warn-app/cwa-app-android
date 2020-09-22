@@ -32,30 +32,31 @@
     2. Is using the App voluntary?
 </h2>
 <p>
-    Using the App is entirely voluntary. It is your decision alone whether and
-    how you use the App.
-</p>
-<p>
-    Although installing and using the App is voluntary, if you wish to use the
-    exposure logging feature you still have to grant the RKI your consent to
-    let the App process your personal data. You do this by tapping on the
-    “Enable Exposure Logging” button the first time you open the App. If the
-    App identifies a potential risk of infection for you, then your data also
-    includes health data. Your consent is necessary because otherwise the App
-    will not be able to access your smartphone’s exposure logging feature. You
-    can, however, use the toggle switch in the App to disable the exposure
-    logging feature at any time. Doing this will mean that you are unable to
-    use the full functionality of the App. Separate consent is also required
-    for the data processing performed for the following features:
+    Using the App is voluntary. It is therefore your decision alone whether you
+    install the App and which features you use. Your data (such as information
+    about your exposures and your risk of infection) will only be generated and
+    stored on your own smartphone. Your data will only be shared with the RKI,
+    your smartphone’s operating system or other users if you use one of the
+    following App features and have consented to the necessary data transfer in
+    the individual case:
 </p>
 <ul>
+    <li>
+        Risk identification (see 6 a.)
+    </li>
     <li>
         Registering a test (see 6 b.)
     </li>
     <li>
-        Sharing your test result (see 6 c.).
+        Warning others (see 6 c.).
     </li>
 </ul>
+<p>
+    You are not obliged to use these features. If you decide not to grant the
+    consent requested by one of these features, or if you subsequently withdraw
+    your consent, you will not suffer any disadvantages. This will only mean
+    that you cannot or can no longer use that consent-based feature of the App.
+</p>
 <p>
     The data processing performed in connection with these features is
     described in more detail in the following sections.
@@ -64,12 +65,12 @@
     3. On what legal basis is your data processed?
 </h2>
 <p>
-    In principle, the RKI will process your personal data only on the basis of
-    your consent granted pursuant to Article 6(1) Sentence 1(a) and Article
-    9(2)(a) of the General Data Protection Regulation (GDPR). If you have
-    granted your consent, you can withdraw it at any time. Further information
-    on your right of withdrawal and instructions on how to exercise this right
-    can be found under 11.
+    In principle, the RKI will process your data only on the basis of your
+    consent granted pursuant to Article 6(1) Sentence 1(a) and Article 9(2)(a)
+    of the General Data Protection Regulation (GDPR). If you have granted your
+    consent, you can withdraw it at any time. Further information on your right
+    of withdrawal and instructions on how to exercise this right can be found
+    under 11.
 </p>
 <h2>
     4. Who is the App aimed at?
@@ -95,28 +96,33 @@
     a. Access data
 </h3>
 <p>
-    Access data is generated when you use or enable the following features:
+    Every time data is exchanged over the internet between the App and the
+    App’s server system, the server system processes so-called access data.
+    This is necessary for the App to retrieve current data from the server
+    system or to transmit certain data stored on the smartphone to the server
+    system. The following App features require this type of data exchange with
+    the App’s server system:
 </p>
 <ul>
     <li>
-        Exposure Logging
+        Risk identification (retrieving the list of random IDs from users who
+        have tested positive)
     </li>
     <li>
-        Registering a test
+        Registering a test (transmitting the test code and retrieving the test
+        result)
     </li>
     <li>
-        Sharing your test result.
+        Warning others (transmitting your random IDs).
     </li>
 </ul>
 <p>
-    Each time data is retrieved from the App’s server system, your IP address
-    (on the upstream load balancer) is masked and no longer used within the
-    App’s server system.
-</p>
-<p>
-    The following data is also processed:
+    This access data comprises the following information:
 </p>
 <ul>
+    <li>
+        IP address
+    </li>
     <li>
         Date and time of retrieval (time stamp)
     </li>
@@ -133,19 +139,26 @@
     it is not possible to create a user profile. The IP address will not be
     saved beyond the end of the period of use.
 </p>
+<p>
+    In order to prevent unauthorised identification of your data by means of
+    your IP address when you use the App, the App accesses the server system
+    via a special access server. This access server then forwards the data
+    requested or transmitted by the App to the appropriate server, but without
+    your IP address, so that your IP address is no longer processed within the
+    server system.
+</p>
 <h3>
-    b. Contact data
+    b. Exposure data
 </h3>
 <p>
-    If you enable exposure logging in your smartphone’s operating system, which
-    serves to record encounters (contacts) with other users, then your
-    smartphone will continuously send out randomly generated identification
-    numbers (“<strong>random IDs</strong>”) via Bluetooth Low Energy, which
-    other smartphones in your vicinity can receive if exposure logging is also
-    enabled on them. Your smartphone, in turn, also receives the random IDs of
-    the other smartphones. In addition to the random IDs received from other
-    smartphones, your smartphone’s exposure logging functionality records and
-    stores the following contact data:
+    If you enable exposure logging in your smartphone’s operating system, then
+    your smartphone will continuously send out randomly generated
+    identification numbers (“<strong>random IDs</strong>”) via Bluetooth Low
+    Energy, which other smartphones in your vicinity can receive if exposure
+    logging is also enabled on them. Your smartphone, in turn, also receives
+    the random IDs of the other smartphones. In addition to the random IDs
+    received from other smartphones, your smartphone’s exposure logging
+    functionality records the following exposure data:
 </p>
 <ul>
     <li>
@@ -163,36 +176,47 @@
 </ul>
 <p>
     Your own random IDs and those received from other smartphones as well as
-    the other contact data (date and time of the contact, duration of the
+    the other exposure data (date and time of the contact, duration of the
     contact, signal strength of the contact and encrypted metadata) are
-    recorded by your smartphone in an exposure log and currently stored there
-    for 14 days.
+    recorded by your smartphone’s exposure logging functionality and currently
+    stored there for 14 days.
 </p>
 <p>
-    The functionality used to record encounters with other users is called
-    “COVID-19 Exposure Notifications” on Android smartphones and “COVID-19
-    Exposure Logging” on iPhones. Please note that this exposure logging
-    functionality is not part of the App, but an integral part of your
-    smartphone's operating system. This means that the exposure logging
-    functionality is provided to you by Apple (iPhones) or Google (Android
-    smartphones) and is subject to these companies’ respective privacy
-    policies. The RKI has no influence on data processing performed by the
-    operating system in connection with exposure logging.
+    The exposure logging functionality is called “COVID-19 Exposure
+    Notifications” on Android smartphones and “Exposure Notification” on
+    iPhones. Please note that this functionality is not part of the App, but an
+    integral part of your operating system. The exposure logging functionality
+    is therefore provided to you by Apple (iPhones) or Google (Android
+    smartphones). Accordingly, any data processing performed by the operating
+    system using this exposure logging functionality is subject to these
+    companies’ respective privacy policies. The RKI is not responsible for this
+    and has no influence on it.
 </p>
 <p>
-    More information about the exposure logging functionality on Android
-    smartphones is available at:
-    https://support.google.com/android/answer/9888358?hl=en.
+    More information about the exposure logging functionality is available from
+    the providers:
+</p>
+<ul>
+    <li>
+        Information from Google for Android smartphones:
+        https://support.google.com/android/answer/9888358?hl=en
+    </li>
+    <li>
+        Information from Apple for iPhones can be found on your device under “Settings”
+        &gt; "Exposure Notification“ and the link “How Exposure Notification
+        works…”.
+    </li>
+</ul>
+<p>
+    Please note that the actual named us, operating steps, and settings options
+    for the exposure logging functionality on your smartphone may differ from
+    those described in this privacy notice depending on the version and
+    configuration of your operating system.
 </p>
 <p>
-    More information about Apple’s exposure logging functionality can be found
-    in your iPhone’s settings under “Privacy” &gt; “Health” &gt; "COVID-19
-    Exposure Logging”. Please note that the exposure logging functionality is
-    only available if iOS version 13.5 or higher is installed on your iPhone.
-</p>
-<p>
-    The App will only process the contact data generated and stored by your
-    smartphone if the App’s exposure logging feature is enabled.
+    The App will only process the exposure data generated and stored by your
+    operating system’s exposure logging functionality if the App’s risk
+    identification feature is enabled.
 </p>
 <h3>
     c. Health data
@@ -204,67 +228,84 @@
     risk that the person has been infected with the coronavirus).
 </p>
 <p>
-    The following cases involve processing health data:
+    The App will process your health data if you use the following features:
 </p>
 <ul>
     <li>
-        If the exposure logging feature detects that you may have been in
-        contact with a person who has been infected with the coronavirus.
+        Risk identification, as soon as a potential exposure is detected (i.e.
+        you may have been in contact with a person who has been infected with
+        the coronavirus)
     </li>
     <li>
-        If you register your test.
+        Registering a test (test status and test result)
     </li>
     <li>
-        If you share a positive test result.
+        Warning others (test result, and possibly information about symptoms
+        and their onset).
     </li>
 </ul>
 <h2>
     6. App features
 </h2>
 <h3>
-    a. Exposure Logging
+    a. Risk identification
 </h3>
 <p>
-    The App’s core functionality is exposure logging. This serves to track
+    The App’s core functionality is risk identification. This serves to track
     possible contacts with other users of the App who are infected with the
-    coronavirus, to evaluate the risk that you yourself have been infected, and
-    – based on the risk identified – to provide you with health advice and
+    coronavirus (possible exposures), to evaluate the risk that you yourself
+    have been infected, and to provide you with health advice and
     recommendations for what to do next.
 </p>
 <p>
-    If you enable the exposure logging feature, then several times a day while
-    the App runs in the background (or when you tap on “Update”), the App will
-    retrieve a list from the App’s server system of random IDs from users who
-    have tested positive and shared their own random IDs. The App shares these
-    random IDs with your smartphone’s exposure logging functionality, which
-    then compares them with the random IDs stored in your smartphone’s exposure
-    log. If your smartphone’s exposure logging functionality detects a match,
-    it transfers the contact data (date, duration, signal strength) to the App,
-    but not the random ID of the contact in question.
+    If you enable the risk identification feature, then several times a day
+    while the App runs in the background (or when you tap on “Update”), the App
+    will retrieve a list from the App’s server system of random IDs, each with
+    a transmission risk value (a numerical value from 1–8) from users who have
+    tested positive and provided their own random IDs via the App using the
+    feature for warning others. The transmission risk value is an estimate of
+    the likelihood of infection on the day of the possible exposure in
+    question. Since infectiousness (i.e. the risk of infection for those who
+    come into contact with a person who has tested positive) is currently
+    believed to depend on the duration and course of the infection, it can be
+    taken into account, for example, that the more time has passed since the
+    onset of symptoms, the lower the risk of infection on the day of a possible
+    exposure.
 </p>
 <p>
-    In the event of a contact, the App analyses the contact data provided by
-    the exposure logging functionality in order to determine your individual
-    risk of infection. The evaluation algorithm which determines how the
-    contact data is interpreted (for example, how the duration of a contact
-    influences the risk of infection) is based on current scientific findings.
-    To account for new findings as and when they arise, the RKI can update the
-    evaluation algorithm by adjusting its settings. The settings for the
-    evaluation algorithm are sent to the App together with the list of random
-    IDs of infected users.
+    The App shares these random IDs with your smartphone’s exposure logging
+    functionality, which then compares them with the random
+    IDs logged by the exposure logging functionality. If your smartphone’s
+    exposure logging functionality detects a match, it transfers the exposure
+    data (date, duration, signal strength) to the App, but not the random ID of
+    the contact in question.
+</p>
+<p>
+    In the event of a potential exposure, the App analyses the exposure data
+    provided by the exposure logging functionality as well as the transmission
+    risk value in order to determine your individual risk of infection.
+</p>
+<p>
+    The evaluation algorithm which determines how the exposure data and the
+    transmission risk value are interpreted (for example, how the duration of a
+    contact influences the risk of infection) is based on current scientific
+    findings. To account for new findings as and when they arise, the RKI can
+    update the evaluation algorithm by adjusting its settings. The settings for
+    the evaluation algorithm are sent to the App together with the list of
+    random IDs of infected users.
 </p>
 <p>
     The identification of your risk of infection is only carried out locally on
-    your smartphone, meaning that the data is processed offline. Once
-    identified, the risk of infection is also only stored in the App and is not
-    passed on to any other recipients (including the RKI, Apple, Google and
-    other third parties).
+    your smartphone, meaning that the data is processed offline without
+    accessing the App’s server system. Once identified, the risk of infection
+    is also only calculated in the App and is not passed on to any other
+    recipients (including the RKI, Apple, Google and other third parties).
 </p>
 <p>
-    The legal basis for the processing of your access data, contact data and,
-    if applicable, health data (if the App determines that you may have been
-    infected) described above is your consent which you gave when enabling the
-    exposure logging feature.
+    The legal basis for the processing of your access data, exposure data and,
+    if applicable, health data (if the App determines a possible exposure)
+    described above is your consent which you gave when enabling the risk
+    identification feature.
 </p>
 <h3>
     b. Registering a test
@@ -320,7 +361,7 @@
     number. The test result database is operated by the RKI on a special server
     within the App’s server system. Based on the code number contained in the
     QR code issued to you, the testing laboratory also generates the hashed
-    code number using the same mathematical procedure as the App.
+    code number using the same mathematical procedure as the App.<u></u>
 </p>
 <p>
     <u>Retrieval of the test result</u>
@@ -351,22 +392,34 @@
     above is your consent to using the test registration feature.
 </p>
 <h3>
-    c. Sharing your test result
+    c. Warning others
 </h3>
 <p>
-    If you use the feature for sharing your test result in order to warn other
-    users, the App will transfer the random IDs generated and stored by your
-    smartphone from the last 14 days and the TAN to the App’s server system.
-    The server system first checks whether the TAN is valid and then adds your
-    random IDs to the list of random IDs of users who have shared a positive
-    test result. Your random IDs can now be downloaded by other users as part
-    of the exposure logging process.
+    If you use the feature for warning others, the App will transfer the random
+    IDs (including the respective transmission risk values) generated and
+    stored by your smartphone from the last 14 days and the TAN to the App’s
+    server system. The server system first checks whether the TAN is valid and
+    then adds your random IDs to the list of random IDs of users who have
+    provided a positive test result. Your random IDs can now be downloaded by
+    other users as part of the risk identification process.
+</p>
+<p>
+    The information about symptoms and symptom onset requested by the feature
+    for warning others is optional and not required to warn other users.
+    However, this information can help to calculate more accurately the risk of
+    infection to other users you have encountered. If you can’t or don’t want
+    to answer some or all of the questions, just select “no answer”. In this
+    case, the transmission risk values determined by the App and assigned to
+    your random IDs will be based on the time that has passed since your test
+    result was retrieved, assuming an average infection – meaning that the more
+    time has passed since using a random ID, the lower its transmission risk
+    value will be.
 </p>
 <p>
     <u>If you have not retrieved your test result in the App:</u>
 </p>
 <p>
-    Even if you have not retrieved a positive test result in the app, you can
+    Even if you have not retrieved a positive test result in the App, you can
     share the test result via the App to warn other users. In this case, the
     App prompts you to enter a so-called TeleTAN, which acts as a TAN.
 </p>
@@ -375,7 +428,7 @@
     7540002. The operator will first ask you some questions over the phone to
     check the plausibility of your call. These questions serve to prevent
     fraudulent reports of infections and any resulting incorrect warnings and
-    risk status. Once you have answered these questions sufficiently, you will
+    risk levels. Once you have answered these questions sufficiently, you will
     be asked for your mobile/telephone number. This is so that you can be
     called back later and given a TeleTAN to enter in the App. Your
     mobile/telephone number will only be temporarily stored for this purpose
@@ -393,7 +446,7 @@
 <p>
     The legal basis for this processing of your access data and health data
     (random IDs, test result, TAN and, if applicable, TeleTAN) is your consent
-    to using the feature for sharing your test result.
+    to using the feature for warning others.
 </p>
 <h3>
     d. Using the App for information purposes only
@@ -402,9 +455,10 @@
     As long as you use the App for information purposes only, i.e. do not use
     any of the App features mentioned above and do not enter any data, then
     processing only takes place locally on your smartphone and no personal data
-    is generated. Websites linked in the app, such as www.bundesregierung.de,
-    will open in your smartphone’s standard browser. The data processed here
-    depends on the browser used, your browser settings, and the data processing
+    is generated. Depending on your operating system, websites linked in the
+    App, such as www.bundesregierung.de, will
+    open in your smartphone’s standard browser (Android smartphones) or within
+    the App (iPhone). The data processed here depends on the data processing
     practices of the website you are visiting.
 </p>
 <h2>
@@ -428,9 +482,9 @@
     </li>
 </ul>
 <p>
-    The App requires an internet connection for the exposure logging feature,
-    and so that it can receive and transmit test results, so that it can
-    communicate with the App’s server system.
+    The App requires an internet connection for the risk identification
+    feature, and so that it can receive and transmit test results, so that it
+    can communicate with the App’s server system.
 </p>
 <ul>
     <li>
@@ -476,10 +530,10 @@
     </li>
 </ul>
 <p>
-    The App’s exposure logging feature requires this functionality. Otherwise,
-    no exposure log with the random IDs of your contacts will be available. The
-    functionality must be enabled within the App to allow the App to access the
-    exposure log.
+    The App’s risk identification feature requires this functionality.
+    Otherwise, no exposure log with the random IDs of your contacts will be
+    available. The functionality must be enabled within the App to allow the
+    App to access the exposure log.
 </p>
 <ul>
     <li>
@@ -521,14 +575,14 @@
 </p>
 <ul>
     <li>
-        COVID-19 Exposure Logging
+        Exposure Notification
     </li>
 </ul>
 <p>
-    The App’s exposure logging feature requires this functionality, otherwise
-    no exposure log with the random IDs of your contacts will be available. The
-    functionality must be enabled within the App to allow the App to access the
-    exposure log.
+    The App’s risk identification feature requires this functionality,
+    otherwise no exposure log with the random IDs of your contacts will be
+    available. The functionality must be enabled within the App to allow the
+    App to access the exposure log.
 </p>
 <ul>
     <li>
@@ -559,7 +613,7 @@
     the App features:
 </p>
 <h3>
-    a. Exposure Logging
+    a. Risk identification
 </h3>
 <ul>
     <li>
@@ -568,18 +622,18 @@
         deleted from your smartphone’s exposure log after 14 days.
     </li>
     <li>
-        The RKI has no way of influencing the deletion of contact data in your
-        smartphone’s exposure log (including your own random IDs) and contact
-        data on other smartphones, as this functionality is provided by Apple
-        or Google. In this case, the deletion depends on what Apple or Google
-        has determined. Currently, the data is automatically deleted after 14
-        days. It may also be possible, using the functionality provided by
-        Apple and Google, to manually delete data in your device’s system
-        settings.
+        The RKI has no way of influencing the deletion of exposure data in the
+        exposure log of your smartphone’s exposure logging functionality
+        (including your own random IDs) and exposure data on other smartphones,
+        as this functionality is provided by Apple or Google. In this case, the
+        deletion depends on what Apple or Google has determined. Currently, the
+        data is automatically deleted after 14 days. It may also be possible,
+        using the functionality provided by Apple and Google, to manually
+        delete data in your device’s system settings.
     </li>
     <li>
-        The risk status displayed in the App will be deleted as soon as a new
-        risk status has been determined. A new risk status is usually
+        The risk of infection displayed in the App will be deleted as soon as a
+        new risk level has been determined. A new risk level is usually
         determined after the App has received a new list of random IDs.
     </li>
 </ul>
@@ -602,18 +656,23 @@
         The token stored on the server system will be deleted after 21 days.
     </li>
     <li>
-        The token stored in the app will be deleted from the smartphone after
-        the App is deleted or after using the feature for sharing the test
-        result.
+        The token stored in the App will be deleted from the smartphone after
+        the App is deleted or after using the feature for warning others.
     </li>
 </ul>
 <h3>
-    c. Sharing your test result
+    c. Warning others
 </h3>
 <ul>
     <li>
-        Your smartphone’s own random IDs which are shared in the App will be
-        deleted from the server system after 14 days.
+        Your smartphone’s own random IDs and transmission risk values which
+        are provided via the App will be deleted from the server system after
+        14 days.
+    </li>
+    <li>
+        Your information about symptoms and the onset of symptoms will be
+        deleted from the App immediately after the random IDs and transmission
+        risk values have been provided.
     </li>
     <li>
         The copy of the TAN stored on the server system will be deleted after
@@ -621,11 +680,11 @@
     </li>
     <li>
         The TAN stored in the App will be deleted after the test result has
-        been shared.
+        been provided.
     </li>
     <li>
         The TeleTAN stored in the App will be deleted after the test result has
-        been shared.
+        been provided.
     </li>
     <li>
         The TeleTAN stored on the server system will be deleted after 21 days.
@@ -639,22 +698,23 @@
     </li>
     <li>
         The token stored in the App will be deleted after the test result has
-        been shared.
+        been provided.
     </li>
 </ul>
 <h2>
     9. Who will receive your data?
 </h2>
 <p>
-    If you share a test result to warn other users, your random IDs from the
-    last 14 days will be passed on to the App on other users’ smartphones.
+    If you provide a test result by using the feature for warning other users,
+    your random IDs and their transmission risk values from the last 14 days
+    will be passed on to the App on other users’ smartphones.
 </p>
 <p>
-    The RKI has commissioned T-Systems International GmbH and SAP Deutschland
-    SE &amp; Co. KG to operate and maintain part of the technical
-    infrastructure of the App (e.g. server system, hotline), meaning that these
-    two companies are processors under data protection law and acting on the
-    RKI’s behalf (Article 28 GDPR).
+    The RKI has commissioned Deutsche Telekom AG and SAP Deutschland SE &amp;
+    Co. KG to operate and maintain part of the technical infrastructure of the
+    App (e.g. server system, hotline), meaning that these two companies are
+    processors under data protection law and acting on the RKI’s behalf
+    (Article 28 GDPR).
 </p>
 <p>
     Otherwise, the RKI will only pass on personal data collected in connection
@@ -679,10 +739,10 @@
     affect the lawfulness of the processing before the withdrawal.
 </p>
 <p>
-    To withdraw your consent to the exposure logging feature, you can disable
-    the feature using the toggle switch in the App or delete the App. If you
-    decide to use the exposure logging feature again, you can toggle the
-    feature back on or reinstall the App.
+    To withdraw your consent to the risk identification feature, you can
+    disable the feature using the toggle switch in the App or delete the App.
+    If you decide to use the risk identification feature again, you can toggle
+    the feature back on or reinstall the App.
 </p>
 <p>
     To withdraw your consent to the test registration feature, you can delete
@@ -693,14 +753,15 @@
     consent again.
 </p>
 <p>
-    To withdraw your consent to the sharing of your test result, you must
-    delete the App. All of your random IDs stored in the App will then be
-    removed and can no longer be assigned to your smartphone. If you wish to
-    report another test result, you can reinstall the App and grant your
-    consent again. Alternatively, you may be able to delete your own random IDs
-    in the exposure log in your smartphone’s system settings. Please note that,
-    once transmitted, the RKI has no way of deleting your random IDs from the
-    lists and from other users’ smartphones.
+    To withdraw your consent to the feature for warning others, you must delete
+    the App. All of your random IDs stored in the App will then be removed and
+    can no longer be assigned to your smartphone. If you wish to report another
+    test result, you can reinstall the App and grant your consent again.
+    Alternatively, you may be able to delete your own random IDs in the
+    exposure logging functionality in your smartphone’s system settings. Please
+    note that, once transmitted, the RKI has no way of deleting your random IDs
+    and transmission risk values from the lists provided and from other users’
+    smartphones.
 </p>
 <h2>
     12. Your other rights under data protection law
@@ -714,8 +775,9 @@
         the rights under Articles 15, 16, 17, 18, 20 and 21 GDPR,
     </li>
     <li>
-        the right to contact the official RKI data protection officer and raise
-        your concerns (Article 38(4) GDPR) and
+        the right to contact the official RKI data protection officer
+        (https://www.rki.de/DE/Content/Institut/OrgEinheiten/Datenschutz/Datenschutz_node.html)
+        and raise your concerns (Article 38(4) GDPR) and
     </li>
     <li>
         the right to lodge a complaint with a competent data protection
@@ -741,5 +803,5 @@
     you which is not available to the RKI.
 </p>
 <p>
-    Last amended: 12 June 2020
+    Last amended: 05 October 2020
 </p>
