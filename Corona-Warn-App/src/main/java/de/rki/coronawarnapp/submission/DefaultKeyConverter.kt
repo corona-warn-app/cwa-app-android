@@ -6,16 +6,15 @@ import com.google.protobuf.ByteString
 
 class DefaultKeyConverter : KeyConverter {
 
+    companion object {
+        private const val ROLLING_PERIOD = 144
+    }
     override fun toExternalFormat(key: TemporaryExposureKey, riskValue: Int) =
         KeyExportFormat.TemporaryExposureKey.newBuilder()
             .setKeyData(ByteString.readFrom(key.keyData.inputStream()))
             .setRollingStartIntervalNumber(key.rollingStartIntervalNumber)
             .setRollingPeriod(ROLLING_PERIOD)
             .setTransmissionRiskLevel(riskValue)
-            .build()
+           .build()
 
-    companion object {
-
-        private const val ROLLING_PERIOD = 144
-    }
 }

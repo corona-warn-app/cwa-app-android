@@ -2,8 +2,14 @@ package de.rki.coronawarnapp.submission
 
 import org.joda.time.Duration
 import org.joda.time.Instant
+import timber.log.Timber
 
 class TransmissionRiskVectorDeterminator {
+
+    companion object {
+        fun numberOfDays(t0: Long, t1: Long = System.currentTimeMillis()) =
+            Duration(Instant.ofEpochMilli(t0), Instant.ofEpochMilli(t1)).standardDays.toInt()
+    }
 
     @Suppress("MagicNumber")
     fun determine(symptoms: Symptoms): TransmissionRiskVector = TransmissionRiskVector(
@@ -44,9 +50,4 @@ class TransmissionRiskVectorDeterminator {
             Symptoms.Indication.NO_INFORMATION -> intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
         }
     )
-
-    companion object {
-        fun numberOfDays(t0: Long, t1: Long = System.currentTimeMillis()) =
-            Duration(Instant.ofEpochMilli(t0), Instant.ofEpochMilli(t1)).standardDays.toInt()
-    }
 }
