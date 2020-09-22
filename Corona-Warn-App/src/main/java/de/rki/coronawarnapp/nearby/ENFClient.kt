@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
@@ -8,7 +10,6 @@ import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Suppress("DEPRECATION")
 @Singleton
 class ENFClient @Inject constructor(
     private val googleENFClient: ExposureNotificationClient,
@@ -25,14 +26,10 @@ class ENFClient @Inject constructor(
         configuration: ExposureConfiguration?,
         token: String
     ): Boolean {
-        Timber.tag(TAG).d(
+        Timber.d(
             "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
             keyFiles, configuration, token
         )
         return diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
-    }
-
-    companion object {
-        private val TAG: String = ENFClient::class.java.simpleName
     }
 }

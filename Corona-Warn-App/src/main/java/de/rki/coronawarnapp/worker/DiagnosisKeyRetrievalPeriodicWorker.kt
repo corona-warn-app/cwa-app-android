@@ -15,10 +15,6 @@ import timber.log.Timber
 class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisKeyRetrievalPeriodicWorker::class.simpleName
-    }
-
     /**
      * Work execution
      *
@@ -28,7 +24,7 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
      */
     override suspend fun doWork(): Result {
-        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         BackgroundWorkHelper.sendDebugNotification(
             "KeyPeriodic Executing: Start", "KeyPeriodic started. Run attempt: $runAttemptCount"
@@ -38,12 +34,12 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
-            Timber.tag(TAG).w(
+            Timber.w(
                 e, "$id: Error during BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()."
             )
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                Timber.tag(TAG).w(e, "$id: Retry attempts exceeded.")
+                Timber.w(e, "$id: Retry attempts exceeded.")
 
                 BackgroundWorkHelper.sendDebugNotification(
                     "KeyPeriodic Executing: Failure",
@@ -52,7 +48,7 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
 
                 return Result.failure()
             } else {
-                Timber.tag(TAG).d(e, "$id: Retrying.")
+                Timber.d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
@@ -61,7 +57,7 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
             "KeyPeriodic Executing: End", "KeyPeriodic result: $result "
         )
 
-        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
+        Timber.d("$id: doWork() finished with %s", result)
         return result
     }
 }

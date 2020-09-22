@@ -39,14 +39,14 @@ class SubmissionQuota @Inject constructor(
         attemptQuotaReset()
 
         if (currentQuota < wanted) {
-            Timber.tag(TAG).d("Not enough quota: want=%d, have=%d", wanted, currentQuota)
+            Timber.d("Not enough quota: want=%d, have=%d", wanted, currentQuota)
             return false
         }
 
         run {
             val oldQuota = currentQuota
             val newQuota = currentQuota - wanted
-            Timber.tag(TAG).d("Consuming quota: old=%d, new=%d", oldQuota, newQuota)
+            Timber.d("Consuming quota: old=%d, new=%d", oldQuota, newQuota)
             currentQuota = newQuota
         }
         return true
@@ -72,12 +72,12 @@ class SubmissionQuota @Inject constructor(
             currentQuota = DEFAULT_QUOTA
             lastQuotaReset = now
 
-            Timber.tag(TAG).i(
+            Timber.i(
                 "Quota reset: oldQuota=%d, lastReset=%s -> newQuota=%d, thisReset=%s",
                 oldQuota, oldQuotaReset, currentQuota, now
             )
         } else {
-            Timber.tag(TAG).d(
+            Timber.d(
                 "No new quota available (now=%s, availableAt=%s)",
                 now, nextQuotaReset
             )
@@ -87,7 +87,5 @@ class SubmissionQuota @Inject constructor(
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal const val DEFAULT_QUOTA = 20
-
-        private val TAG: String = SubmissionQuota::class.java.simpleName
     }
 }

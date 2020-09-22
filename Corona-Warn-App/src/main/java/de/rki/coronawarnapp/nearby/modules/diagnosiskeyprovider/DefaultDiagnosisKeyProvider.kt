@@ -27,12 +27,12 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
     ): Boolean {
         return try {
             if (keyFiles.isEmpty()) {
-                Timber.tag(TAG).d("No key files submitted, returning early.")
+                Timber.d("No key files submitted, returning early.")
                 return true
             }
 
             val usedConfiguration = if (configuration == null) {
-                Timber.tag(TAG).w("Passed configuration was NULL, creating fallback.")
+                Timber.w("Passed configuration was NULL, creating fallback.")
                 ExposureConfiguration.ExposureConfigurationBuilder().build()
             } else {
                 configuration
@@ -44,7 +44,7 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
                 provideKeysLegacy(keyFiles, usedConfiguration, token)
             }
         } catch (e: Exception) {
-            Timber.tag(TAG).e(
+            Timber.e(
                 e, "Error during provideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
                 keyFiles, configuration, token
             )
@@ -57,10 +57,10 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
         configuration: ExposureConfiguration,
         token: String
     ): Boolean {
-        Timber.tag(TAG).d("Using non-legacy key provision.")
+        Timber.d("Using non-legacy key provision.")
 
         if (!submissionQuota.consumeQuota(1)) {
-            Timber.tag(TAG).w("Not enough quota available.")
+            Timber.w("Not enough quota available.")
             // TODO Currently only logging, we'll be more strict in a future release
             // return false
         }
@@ -79,10 +79,10 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
         configuration: ExposureConfiguration,
         token: String
     ): Boolean {
-        Timber.tag(TAG).d("Using LEGACY key provision.")
+        Timber.d("Using LEGACY key provision.")
 
         if (!submissionQuota.consumeQuota(keyFiles.size)) {
-            Timber.tag(TAG).w("Not enough quota available.")
+            Timber.w("Not enough quota available.")
             // TODO What about proceeding with partial submission?
             // TODO Currently only logging, we'll be more strict in a future release
             // return false
@@ -97,14 +97,10 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
         configuration: ExposureConfiguration,
         token: String
     ): Void = suspendCoroutine { cont ->
-        Timber.tag(TAG).d("Performing key submission.")
+        Timber.d("Performing key submission.")
         enfClient
             .provideDiagnosisKeys(keyFiles.toList(), configuration, token)
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
-    }
-
-    companion object {
-        private val TAG: String = DefaultDiagnosisKeyProvider::class.java.simpleName
     }
 }
