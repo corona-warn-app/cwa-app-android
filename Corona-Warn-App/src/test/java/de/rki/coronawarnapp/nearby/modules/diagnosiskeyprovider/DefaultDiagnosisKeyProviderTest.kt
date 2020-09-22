@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
@@ -19,7 +21,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
 
-@Suppress("DEPRECATION")
 class DefaultDiagnosisKeyProviderTest : BaseTest() {
     @MockK
     lateinit var googleENFClient: ExposureNotificationClient
@@ -49,6 +50,8 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         }
         every { taskResult.addOnFailureListener(any()) } returns taskResult
         coEvery { googleENFClient.provideDiagnosisKeys(any(), any(), any()) } returns taskResult
+
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
     }
 
     @AfterEach
@@ -105,6 +108,93 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
                 exampleKeyFiles, exampleConfiguration, exampleToken
             )
             submissionQuota.consumeQuota(1)
+        }
+    }
+
+    @Test
+    fun `passing an a null configuration leads to constructing a fallback from defaults`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+
+        val provider = createProvider()
+        val fallback = ExposureConfiguration.ExposureConfigurationBuilder().build()
+
+        runBlocking {
+            provider.provideDiagnosisKeys(exampleKeyFiles, null, exampleToken)
+        }
+
+        coVerify(exactly = 1) {
+            googleENFClient.provideDiagnosisKeys(any(), any(), any())
+            googleENFClient.provideDiagnosisKeys(exampleKeyFiles, fallback, exampleToken)
+        }
+    }
+
+    @Test
+    fun `passing an a null configuration leads to constructing a fallback from defaults, legacy`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
+
+        val provider = createProvider()
+        val fallback = ExposureConfiguration.ExposureConfigurationBuilder().build()
+
+        runBlocking {
+            provider.provideDiagnosisKeys(exampleKeyFiles, null, exampleToken)
+        }
+
+        coVerify(exactly = 1) {
+            googleENFClient.provideDiagnosisKeys(
+                listOf(exampleKeyFiles[0]), fallback, exampleToken
+            )
+            googleENFClient.provideDiagnosisKeys(
+                listOf(exampleKeyFiles[1]), fallback, exampleToken
+            )
+            submissionQuota.consumeQuota(2)
+        }
+    }
+
+    @Test
+    fun `quota is consumed silenently`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns true
+        coEvery { submissionQuota.consumeQuota(any()) } returns false
+
+        val provider = createProvider()
+
+        runBlocking {
+            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+        }
+
+        coVerify(exactly = 1) {
+            googleENFClient.provideDiagnosisKeys(any(), any(), any())
+            googleENFClient.provideDiagnosisKeys(
+                exampleKeyFiles, exampleConfiguration, exampleToken
+            )
+            submissionQuota.consumeQuota(1)
+        }
+    }
+
+    @Test
+    fun `quota is consumed silently, legacy`() {
+        coEvery { googleAPIVersion.isAtLeast(GoogleAPIVersion.V16) } returns false
+        coEvery { submissionQuota.consumeQuota(any()) } returns false
+
+        val provider = createProvider()
+
+        runBlocking {
+            provider.provideDiagnosisKeys(exampleKeyFiles, exampleConfiguration, exampleToken)
+        }
+
+        coVerify(exactly = 0) {
+            googleENFClient.provideDiagnosisKeys(
+                exampleKeyFiles, exampleConfiguration, exampleToken
+            )
+        }
+
+        coVerify(exactly = 1) {
+            googleENFClient.provideDiagnosisKeys(
+                listOf(exampleKeyFiles[0]), exampleConfiguration, exampleToken
+            )
+            googleENFClient.provideDiagnosisKeys(
+                listOf(exampleKeyFiles[1]), exampleConfiguration, exampleToken
+            )
+            submissionQuota.consumeQuota(2)
         }
     }
 }

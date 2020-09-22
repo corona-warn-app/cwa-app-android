@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
@@ -28,10 +30,18 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
                 Timber.tag(TAG).d("No key files submitted, returning early.")
                 return true
             }
-            if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
-                provideKeys(keyFiles, configuration, token)
+
+            val usedConfiguration = if (configuration == null) {
+                Timber.tag(TAG).w("Passed configuration was NULL, creating fallback.")
+                ExposureConfiguration.ExposureConfigurationBuilder().build()
             } else {
-                provideKeysLegacy(keyFiles, configuration, token)
+                configuration
+            }
+
+            if (googleAPIVersion.isAtLeast(GoogleAPIVersion.V16)) {
+                provideKeys(keyFiles, usedConfiguration, token)
+            } else {
+                provideKeysLegacy(keyFiles, usedConfiguration, token)
             }
         } catch (e: Exception) {
             Timber.tag(TAG).e(
@@ -44,14 +54,15 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 
     private suspend fun provideKeys(
         files: Collection<File>,
-        configuration: ExposureConfiguration?,
+        configuration: ExposureConfiguration,
         token: String
     ): Boolean {
         Timber.tag(TAG).d("Using non-legacy key provision.")
 
         if (!submissionQuota.consumeQuota(1)) {
-            Timber.tag(TAG).i("Not enough quota available, aborting key provision.")
-            return false
+            Timber.tag(TAG).w("Not enough quota available.")
+            // TODO Currently only logging, we'll be more strict in a future release
+            // return false
         }
 
         performSubmission(files, configuration, token)
@@ -65,15 +76,16 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
      */
     private suspend fun provideKeysLegacy(
         keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
+        configuration: ExposureConfiguration,
         token: String
     ): Boolean {
         Timber.tag(TAG).d("Using LEGACY key provision.")
 
         if (!submissionQuota.consumeQuota(keyFiles.size)) {
-            Timber.tag(TAG).i("Not enough quota available, aborting key  provision.")
+            Timber.tag(TAG).w("Not enough quota available.")
             // TODO What about proceeding with partial submission?
-            return false
+            // TODO Currently only logging, we'll be more strict in a future release
+            // return false
         }
 
         keyFiles.forEach { performSubmission(listOf(it), configuration, token) }
@@ -82,19 +94,14 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 
     private suspend fun performSubmission(
         keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
+        configuration: ExposureConfiguration,
         token: String
-    ): Void {
-        Timber.tag(TAG).d("Enough quota was available, performing keysubmission.")
-        return suspendCoroutine { cont ->
-            val exposureConfiguration =
-                configuration ?: ExposureConfiguration.ExposureConfigurationBuilder().build()
-
-            enfClient
-                .provideDiagnosisKeys(keyFiles.toList(), exposureConfiguration, token)
-                .addOnSuccessListener { it -> cont.resume(it) }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
+    ): Void = suspendCoroutine { cont ->
+        Timber.tag(TAG).d("Performing key submission.")
+        enfClient
+            .provideDiagnosisKeys(keyFiles.toList(), configuration, token)
+            .addOnSuccessListener { cont.resume(it) }
+            .addOnFailureListener { cont.resumeWithException(it) }
     }
 
     companion object {
