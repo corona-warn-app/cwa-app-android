@@ -73,7 +73,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             showCancelDialog()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            (activity as OnboardingActivity).goBack()
+            (activity as? OnboardingActivity)?.goBack()
         }
     }
 

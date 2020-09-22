@@ -49,7 +49,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         setButtonOnClickListener()
         setContentDescription()
-        checkShouldInteroperabilityOpened()
+        checkShouldInteroperabilityBeOpened()
         showOneTimeTracingExplanationDialog()
     }
 
@@ -159,20 +159,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         popup.show()
     }
 
-    /**
-     * Checks if the interoperability feature was shown at least once to the user
-     * if not displays it otherwise nothing happens
-     */
-    private fun checkShouldInteroperabilityOpened() {
+    private fun checkShouldInteroperabilityBeOpened() {
         if (!LocalData.interoperabilityWasShown()) {
-            showInteroperabilityFeature()
+            navigateToInteroperabilityFeature()
         }
     }
 
-    /**
-     * Navigates to the delta onboarding screen for interoperability
-     */
-    private fun showInteroperabilityFeature() {
+    private fun navigateToInteroperabilityFeature() {
         findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
         )

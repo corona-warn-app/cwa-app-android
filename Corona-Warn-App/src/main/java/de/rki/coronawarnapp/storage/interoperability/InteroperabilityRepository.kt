@@ -16,8 +16,7 @@ object InteroperabilityRepository {
 
     /**
      * Gets all countries from @see ApplicationConfigurationService.asyncRetrieveApplicationConfiguration
-     * and filters out the CURRENT_COUNTRY from @see DiagnosisKeyConstants. Also changes every country code
-     * to lower case
+     * Also changes every country code to lower case
      */
     fun getAllCountries(): List<String> {
         return runBlocking {
