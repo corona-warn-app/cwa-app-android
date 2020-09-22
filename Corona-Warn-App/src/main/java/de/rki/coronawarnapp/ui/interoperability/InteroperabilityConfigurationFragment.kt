@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 class InteroperabilityConfigurationFragment :
@@ -24,9 +25,14 @@ class InteroperabilityConfigurationFragment :
         binding.interoperabilityViewModel = interoperabilityViewModel
         interoperabilityViewModel.saveInteroperabilityUsed()
 
-        // register back button action
         binding.interoperabilityConfigurationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            navBack()
+            interoperabilityViewModel.onBackPressed()
+        }
+
+        interoperabilityViewModel.navigateBack.observe2(this) {
+            if (it) {
+                navBack()
+            }
         }
     }
 

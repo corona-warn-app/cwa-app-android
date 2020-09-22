@@ -8,10 +8,11 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 class OnboardingDeltaInteroperabilityFragment :
-    Fragment(R.layout.fragment_onboarding_delta_interoperability), View.OnClickListener {
+    Fragment(R.layout.fragment_onboarding_delta_interoperability) {
 
     private val binding: FragmentOnboardingDeltaInteroperabilityBinding by viewBindingLazy()
     private val interoperabilityViewModel: InteroperabilityViewModel by activityViewModels()
@@ -21,15 +22,18 @@ class OnboardingDeltaInteroperabilityFragment :
         binding.interoperabilityViewModel = interoperabilityViewModel
         interoperabilityViewModel.saveInteroperabilityUsed()
 
-        binding.onboardingButtonNext.setOnClickListener(this)
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener(this)
+        binding.onboardingButtonBack.buttonIcon.setOnClickListener {
+            interoperabilityViewModel.onBackPressed()
+        }
+
+        interoperabilityViewModel.navigateBack.observe2(this) {
+            if (it) {
+                navigateBack()
+            }
+        }
     }
 
     private fun navigateBack() {
         (activity as? MainActivity)?.goBack()
-    }
-
-    override fun onClick(view: View?) {
-        navigateBack()
     }
 }

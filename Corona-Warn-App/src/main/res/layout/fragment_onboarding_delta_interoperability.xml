@@ -72,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_button_next"
+            android:onClick="@{() -> interoperabilityViewModel.onBackPressed()}"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />
