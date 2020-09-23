@@ -48,7 +48,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.submissionViewModel = submissionViewModel
 
         setButtonOnClickListener()
-
+        setContentDescription()
+        checkShouldInteroperabilityBeOpened()
         showOneTimeTracingExplanationDialog()
     }
 
@@ -66,9 +67,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    private fun setContentDescription() {
+        binding.mainHeaderShare.buttonIcon.contentDescription = getString(R.string.button_share)
+        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = getString(R.string.button_menu)
+        binding.mainAbout.mainCard.contentDescription = getString(R.string.hint_external_webpage)
     }
 
     private fun setButtonOnClickListener() {
@@ -166,6 +168,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
         popup.show()
+    }
+
+    private fun checkShouldInteroperabilityBeOpened() {
+        if (!LocalData.isInteroperabilityShownAtLeastOnce) {
+            navigateToInteroperabilityFeature()
+        }
+    }
+
+    private fun navigateToInteroperabilityFeature() {
+        findNavController().doNavigate(
+            MainFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
+        )
     }
 
     private fun showOneTimeTracingExplanationDialog() {

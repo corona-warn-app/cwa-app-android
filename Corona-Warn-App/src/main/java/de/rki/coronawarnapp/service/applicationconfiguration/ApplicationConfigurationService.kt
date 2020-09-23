@@ -14,8 +14,8 @@ object ApplicationConfigurationService {
                     .clearSupportedCountries()
                     .addAllSupportedCountries(
                         listOf(
-                            "DE", "UK", "FR", "IT", "SP", "PL", "RO", "NL",
-                            "BE", "CZ", "EL", "SE", "PT", "HU", "AT", "CH", "BG", "DK", "FI", "SK",
+                            "DE", "UK", "FR", "IT", "ES", "PL", "RO", "NL",
+                            "BE", "CZ", "SE", "PT", "HU", "AT", "CH", "BG", "DK", "FI", "SK",
                             "NO", "IE", "HR", "SI", "LT", "LV", "EE", "CY", "LU", "MT", "IS"
                         )
                     )

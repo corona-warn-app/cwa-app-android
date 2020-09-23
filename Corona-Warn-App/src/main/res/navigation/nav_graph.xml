@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionIntroFragment"
             app:destination="@id/submissionIntroFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
+            app:destination="@id/onboardingDeltaInteroperabilityFragment" />
     </fragment>
 
     <fragment
@@ -79,7 +82,27 @@
         android:id="@+id/settingsTracingFragment"
         android:name="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
-        tools:layout="@layout/fragment_settings_tracing" />
+        tools:layout="@layout/fragment_settings_tracing">
+        <action
+            android:id="@+id/action_settingsTracingFragment_to_interopCountryConfigurationFragment"
+            app:destination="@id/interopCountryConfigurationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingDeltaInteroperabilityFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
+        android:label="OnboardingDeltaInteroperabilityFragment" />
+
+    <fragment
+        android:id="@+id/interopCountryConfigurationFragment"
+        android:name="de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment"
+        android:label="InteropCountryConfigurationFragment"
+        tools:layout="@layout/fragment_interoperability_configuration">
+        <action
+            android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
+            app:destination="@id/settingsTracingFragment" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
@@ -336,4 +359,5 @@
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
+
 </navigation>
