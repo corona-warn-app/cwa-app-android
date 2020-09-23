@@ -1281,4 +1281,7 @@
     <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
     <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
     <string name="interoperability_onboarding_delta_footerDescription"></string>
+
+    <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
+    <string name="interoperability_eu_illustration_description">Eine Hand hält ein Smartphone. Im Hintergrund ist Europa und die europäische Flagge illustriert</string>
 </resources>

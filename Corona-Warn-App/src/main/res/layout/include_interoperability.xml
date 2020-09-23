@@ -53,7 +53,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@{title}">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +74,7 @@
                     android:id="@+id/interoperability_illustration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:accessibilityHeading="true"
+                    android:contentDescription="@{@string/interoperability_eu_illustration_description}"
                     android:src="@drawable/ic_illustration_interoperability"
                     android:visibility="@{FormatterHelper.formatVisibility(!isOnboarding)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +119,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:accessibilityHeading="true"
                     android:text="@{firstSection}"
                     android:visibility="@{FormatterHelper.formatVisibilityText(firstSection)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +131,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:accessibilityHeading="true"
                     android:text="@{secondSection}"
                     android:visibility="@{FormatterHelper.formatVisibilityText(secondSection)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +143,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:accessibilityHeading="true"
                     android:text="@{thirdSection}"
                     android:visibility="@{FormatterHelper.formatVisibilityText(thirdSection)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -181,7 +179,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_normal"
-                android:accessibilityHeading="true"
                 android:text="@{countryListHint}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(countryListHint)}"
                 app:layout_constraintTop_toBottomOf="@+id/countryList" />
@@ -216,7 +213,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:accessibilityHeading="true"
                     android:text="@{footerDescription}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

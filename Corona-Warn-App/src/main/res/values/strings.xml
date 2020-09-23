@@ -1294,4 +1294,6 @@
     <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
     <string name="interoperability_onboarding_delta_footerDescription"></string>
 
+    <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
+    <string name="interoperability_eu_illustration_description"></string>
 </resources>
