@@ -51,7 +51,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     private fun createDownloadServer(
         homeCountry: LocationCode = defaultHomeCountry
-    ) = AppConfigServer(
+    ) = AppConfigProvider(
         appConfigAPI = Lazy { api },
         verificationKeys = verificationKeys,
         homeCountry = homeCountry,

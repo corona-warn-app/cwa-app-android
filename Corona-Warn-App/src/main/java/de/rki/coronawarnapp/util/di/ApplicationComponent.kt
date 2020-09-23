@@ -6,7 +6,7 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.appconfig.AppConfigModule
-import de.rki.coronawarnapp.appconfig.AppConfigServer
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -61,7 +61,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val keyFileDownloader: KeyFileDownloader
     val serviceFactory: ServiceFactory
 
-    val appConfigServer: AppConfigServer
+    val appConfigProvider: AppConfigProvider
 
     @Component.Factory
     interface Factory {

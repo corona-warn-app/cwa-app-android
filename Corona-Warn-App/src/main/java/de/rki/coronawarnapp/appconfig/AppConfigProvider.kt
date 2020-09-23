@@ -14,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppConfigServer @Inject constructor(
+class AppConfigProvider @Inject constructor(
     private val appConfigAPI: Lazy<AppConfigApiV1>,
     private val verificationKeys: VerificationKeys,
     @DownloadCDNHomeCountry private val homeCountry: LocationCode,
@@ -47,36 +47,47 @@ class AppConfigServer @Inject constructor(
         return exportBinary!!
     }
 
+    private suspend fun getNewAppConfig(): ApplicationConfigurationOuterClass.ApplicationConfiguration? {
+        val newConfigRaw = try {
+            downloadAppConfig()
+        } catch (e: Exception) {
+            Timber.w(e, "Failed to download latest AppConfig.")
+            null
+        }
+
+        val newConfigParsed = try {
+            tryParseConfig(newConfigRaw)
+        } catch (e: Exception) {
+            Timber.w(e, "Failed to parse latest AppConfig.")
+            null
+        }
+
+        return newConfigParsed?.also {
+            Timber.v("Saving new valid config.")
+            configStorage.appConfigRaw = newConfigRaw
+        }
+    }
+
+    private fun getFallback(): ApplicationConfigurationOuterClass.ApplicationConfiguration {
+        val lastValidConfig = tryParseConfig(configStorage.appConfigRaw)
+        return if (lastValidConfig != null) {
+            Timber.d("Using fallback AppConfig.")
+            lastValidConfig
+        } else {
+            Timber.e("No valid fallback AppConfig available.")
+            throw ApplicationConfigurationInvalidException()
+        }
+    }
+
     suspend fun getAppConfig(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
         withContext(Dispatchers.IO) {
-            val newConfigRaw = try {
-                downloadAppConfig()
-            } catch (e: Exception) {
-                Timber.w(e, "Failed to download latest AppConfig.")
-                null
-            }
+            val newAppConfig = getNewAppConfig()
 
-            val newConfigParsed = try {
-                tryParseConfig(newConfigRaw)
-            } catch (e: Exception) {
-                Timber.w(e, "Failed to parse latest AppConfig.")
-                null
-            }
-
-            if (newConfigParsed != null) {
-                Timber.v("Saving new valid config.")
-                configStorage.appConfigRaw = newConfigRaw
-                return@withContext newConfigParsed
+            return@withContext if (newAppConfig != null) {
+                newAppConfig
             } else {
                 Timber.w("No new config available, using last valid.")
-                val lastValidConfig = tryParseConfig(configStorage.appConfigRaw)
-                return@withContext if (lastValidConfig == null) {
-                    Timber.e("No valid fallback AppConfig available.")
-                    throw ApplicationConfigurationInvalidException()
-                } else {
-                    Timber.d("Using fallback AppConfig.")
-                    lastValidConfig
-                }
+                getFallback()
             }
         }
 
@@ -87,7 +98,7 @@ class AppConfigServer @Inject constructor(
     }
 
     companion object {
-        private val TAG = AppConfigServer::class.java.simpleName
+        private val TAG = AppConfigProvider::class.java.simpleName
 
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
