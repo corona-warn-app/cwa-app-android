@@ -6,9 +6,9 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
-        <variable
+        <!--<variable
             name="interopViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
+            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />-->
 
         <variable
             name="countryListTitle"
