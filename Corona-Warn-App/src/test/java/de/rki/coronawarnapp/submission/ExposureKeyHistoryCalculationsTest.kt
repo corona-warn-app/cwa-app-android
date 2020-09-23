@@ -16,7 +16,8 @@ class ExposureKeyHistoryCalculationsTest {
         converter = object : KeyConverter {
             override fun toExternalFormat(
                 key: TemporaryExposureKey,
-                riskValue: Int
+                riskValue: Int,
+                daysSinceOnsetOfSymptoms: Int
             ) =
                 KeyExportFormat.TemporaryExposureKey.newBuilder()
                     .setRollingStartIntervalNumber(riskValue * 10)
