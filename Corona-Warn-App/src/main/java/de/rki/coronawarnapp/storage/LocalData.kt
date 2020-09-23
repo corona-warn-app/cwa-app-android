@@ -24,6 +24,9 @@ object LocalData {
     private const val PREFERENCE_GOOGLE_API_PROVIDE_DIAGNOSIS_KEYS_CALL_COUNT =
         "preference_google_api_provide_diagnosis_keys_call_count"
 
+    private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
+        "preference_interoperability_is_used_at_least_once"
+
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -750,4 +753,21 @@ object LocalData {
      ****************************************************/
 
     fun getSharedPreferenceInstance(): SharedPreferences = globalEncryptedSharedPreferencesInstance
+
+    /****************************************************
+     * INTEROPERABILITY
+     ****************************************************/
+
+    var isInteroperabilityShownAtLeastOnce: Boolean
+        get() {
+            return getSharedPreferenceInstance().getBoolean(
+                PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE,
+                false
+            )
+        }
+        set(value) {
+            getSharedPreferenceInstance().edit {
+                putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
+            }
+        }
 }

@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -60,9 +59,9 @@ class SettingsNotificationFragment : Fragment(R.layout.fragment_settings_notific
         val goBack =
             binding.settingsNotificationsHeader.headerButtonBack.buttonIcon
         // Update Risk
-        updateRiskNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+        updateRiskNotificationSwitch.setOnCheckedChangeListener { view, _ ->
             // Make sure that listener is called by user interaction
-            if (updateRiskNotificationSwitch.tag != IGNORE_CHANGE_TAG) {
+            if (view.isPressed) {
                 settingsViewModel.toggleNotificationsRiskEnabled()
             }
         }
@@ -71,9 +70,9 @@ class SettingsNotificationFragment : Fragment(R.layout.fragment_settings_notific
             if (updateRiskNotificationRow.isEnabled) settingsViewModel.toggleNotificationsRiskEnabled()
         }
         // Update Test
-        updateTestNotificationSwitch.setOnCheckedChangeListener { _, _ ->
+        updateTestNotificationSwitch.setOnCheckedChangeListener { view, _ ->
             // Make sure that listener is called by user interaction
-            if (updateTestNotificationSwitch.tag != IGNORE_CHANGE_TAG) {
+            if (view.isPressed) {
                 settingsViewModel.toggleNotificationsTestEnabled()
             }
         }

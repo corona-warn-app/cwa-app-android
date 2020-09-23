@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
                Preference Keys
@@ -75,6 +76,10 @@
     <string name="preference_risk_days_explanation_shown"><xliff:g id="preference">"preference_risk_days_explanation_shown"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_background_notification"><xliff:g id="preference">"preference_background_notification"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_interoperability_selected_country_codes"><xliff:g id="preference">"preference_interoperability_selected_country_codes"</xliff:g></string>
+    <!-- NOTR -->
+    <string name="preference_interoperability_all_countries_selected">preference_interoperability_all_countries_selected</string>
 
     <!-- ####################################
                      Generics
@@ -545,7 +550,7 @@
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
-    <string name="settings_tracing_status_location_body_url"/>
+    <string name="settings_tracing_status_location_body_url" />
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -1189,4 +1194,109 @@
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
     <!-- NOTR -->
     <string name="test_api_switch_background_notifications">"Background Notifications"</string>
+
+    <!-- XHED: Country Entry for Austria -->
+    <string name="country_name_at"></string>
+    <!-- XHED: Country Entry for Belgium -->
+    <string name="country_name_be"></string>
+    <!-- XHED: Country Entry for Bulgaria -->
+    <string name="country_name_bg"></string>
+    <!-- XHED: Country Entry for Switzerland -->
+    <string name="country_name_ch"></string>
+    <!-- XHED: Country Entry for Cyprus -->
+    <string name="country_name_cy"></string>
+    <!-- XHED: Country Entry for Czech Republic -->
+    <string name="country_name_cz"></string>
+    <!-- XHED: Country Entry for Germany -->
+    <string name="country_name_de"></string>
+    <!-- XHED: Country Entry for Denmark -->
+    <string name="country_name_dk"></string>
+    <!-- XHED: Country Entry for Estonia -->
+    <string name="country_name_ee"></string>
+    <!-- XHED: Country Entry for Spain -->
+    <string name="country_name_es"></string>
+    <!-- XHED: Country Entry for Finland -->
+    <string name="country_name_fi"></string>
+    <!-- XHED: Country Entry for France -->
+    <string name="country_name_fr"></string>
+    <!-- XHED: Country Entry for Great Britain -->
+    <string name="country_name_uk"></string>
+    <!-- XHED: Country Entry for Greece -->
+    <string name="country_name_gr"></string>
+    <!-- XHED: Country Entry for Croatia -->
+    <string name="country_name_hr"></string>
+    <!-- XHED: Country Entry for Hungary -->
+    <string name="country_name_hu"></string>
+    <!-- XHED: Country Entry for Ireland -->
+    <string name="country_name_ie"></string>
+    <!-- XHED: Country Entry for Iceland -->
+    <string name="country_name_is"></string>
+    <!-- XHED: Country Entry for Italy -->
+    <string name="country_name_it"></string>
+    <!-- XHED: Country Entry for Liechtenstein -->
+    <string name="country_name_li"></string>
+    <!-- XHED: Country Entry for Lithuania -->
+    <string name="country_name_lt"></string>
+    <!-- XHED: Country Entry for Luxemburg -->
+    <string name="country_name_lu"></string>
+    <!-- XHED: Country Entry for Latvia -->
+    <string name="country_name_lv"></string>
+    <!-- XHED: Country Entry for Malta -->
+    <string name="country_name_mt"></string>
+    <!-- XHED: Country Entry for Netherlands -->
+    <string name="country_name_nl"></string>
+    <!-- XHED: Country Entry for Norway -->
+    <string name="country_name_no"></string>
+    <!-- XHED: Country Entry for Poland -->
+    <string name="country_name_pl"></string>
+    <!-- XHED: Country Entry for Portugal -->
+    <string name="country_name_pt"></string>
+    <!-- XHED: Country Entry for Rumania -->
+    <string name="country_name_ro"></string>
+    <!-- XHED: Country Entry for Sweden -->
+    <string name="country_name_se"></string>
+    <!-- XHED: Country Entry for Slovenia -->
+    <string name="country_name_si"></string>
+    <!-- XHED: Country Entry for Slovakia -->
+    <string name="country_name_sk"></string>
+
+    <!-- XHED: Title of the interoperbaility information view. -->
+    <string name="interoperability_title"></string>
+
+    <!-- XHED: Setting title of interoperability in the tracing settings view -->
+    <string name="settings_interoperability_title"></string>
+    <!-- XTXT: Settings description of the interoperability in the tracing settings view -->
+    <string name="settings_interoperability_subtitle"></string>
+
+    <!-- XHED: Header of interoperability information/configuration view -->
+    <string name="interoperability_configuration_title"></string>
+    <!-- XTXT: First section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_first_section"></string>
+    <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_second_section"></string>
+    <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_list_title"></string>
+
+    <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
+    <string name="interoperability_onboarding_title"></string>
+    <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
+    <string name="interoperability_onboarding_first_section"></string>
+    <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
+    <string name="interoperability_onboarding_second_section"></string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_randomid_download_free"></string>
+    <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
+    <string name="interoperability_onboarding_list_title"></string>
+
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title"></string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle"></string>
+    <!-- XHED: Header of private data in the delta onboarding interoperability view -->
+    <string name="interoperability_onboarding_delta_footerTitle"></string>
+    <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
+    <string name="interoperability_onboarding_delta_footerDescription"></string>
+
+    <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
+    <string name="interoperability_eu_illustration_description"></string>
 </resources>

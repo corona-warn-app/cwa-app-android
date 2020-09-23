@@ -5,13 +5,13 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.nearby.NearbyModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigServer
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.http.ServiceFactory
+import de.rki.coronawarnapp.nearby.NearbyModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
