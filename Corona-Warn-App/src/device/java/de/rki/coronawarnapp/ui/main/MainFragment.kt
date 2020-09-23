@@ -160,7 +160,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun checkShouldInteroperabilityBeOpened() {
-        if (!LocalData.interoperabilityWasShown()) {
+        if (!LocalData.isInteroperabilityShownAtLeaseOnce) {
             navigateToInteroperabilityFeature()
         }
     }

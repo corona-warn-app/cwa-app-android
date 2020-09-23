@@ -82,7 +82,6 @@
                     layout="@layout/include_settings_plain_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    app:icon="@{@drawable/ic_country_eu}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"

@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class InteroperabilityRepository @Inject constructor() {
 
     fun saveInteroperabilityUsed() {
-        LocalData.saveInteroperabilityUsed()
+        LocalData.isInteroperabilityShownAtLeaseOnce = true
     }
 
     /**

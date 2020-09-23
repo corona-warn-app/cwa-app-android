@@ -160,6 +160,26 @@
                 tools:text="@string/onboarding_tracing_easy_language_explanation" />
 
             <include
+                android:id="@+id/onboarding_interoperability"
+                layout="@layout/include_interoperability"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:visibility="@{FormatterHelper.formatVisibility(interoperabilityViewModel != null)}"
+                app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
+                app:interoperabilityViewModel="@{interoperabilityViewModel}"
+                app:isOnboarding="@{true}"
+                app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language"
+                app:firstSection="@{@string/interoperability_onboarding_first_section}"
+                app:secondSection="@{@string/interoperability_onboarding_second_section}"
+                app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"
+                app:title="@{@string/interoperability_onboarding_title}" />
+
+            <include
                 android:id="@+id/onboarding_location_card"
                 layout="@layout/include_tracing_status_card"
                 android:layout_width="@dimen/match_constraint"
@@ -172,7 +192,7 @@
                 app:icon="@{locationIconCard}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_interoperability" />
 
             <include
                 android:id="@+id/onboarding_location_card_16_years"
@@ -189,25 +209,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card" />
 
             <include
-                layout="@layout/include_interoperability"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibility(interoperabilityViewModel != null)}"
-                app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-                app:interoperabilityViewModel="@{interoperabilityViewModel}"
-                app:isOnboarding="@{true}"
-                app:layout_constraintBottom_toTopOf="@+id/onboarding_card"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_16_years"
-                app:firstSection="@{@string/interoperability_onboarding_first_section}"
-                app:secondSection="@{@string/interoperability_onboarding_second_section}"
-                app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"
-                app:title="@{@string/interoperability_onboarding_title}" />
-
-            <include
                 android:id="@+id/onboarding_card"
                 layout="@layout/include_tracing_status_card"
                 android:layout_width="@dimen/match_constraint"
@@ -220,7 +221,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/include_country_list" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_16_years" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
