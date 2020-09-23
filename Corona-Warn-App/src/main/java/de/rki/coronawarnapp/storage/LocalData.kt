@@ -758,7 +758,7 @@ object LocalData {
      * INTEROPERABILITY
      ****************************************************/
 
-    var isInteroperabilityShownAtLeaseOnce: Boolean
+    var isInteroperabilityShownAtLeastOnce: Boolean
         get() {
             return getSharedPreferenceInstance().getBoolean(
                 PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE,

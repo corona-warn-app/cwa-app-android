@@ -68,12 +68,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun setContentDescription() {
-        val shareButtonString: String = getString(R.string.button_share)
-        val menuButtonString: String = getString(R.string.button_menu)
-        val mainCardString: String = getString(R.string.hint_external_webpage)
-        binding.mainHeaderShare.buttonIcon.contentDescription = shareButtonString
-        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = menuButtonString
-        binding.mainAbout.mainCard.contentDescription = mainCardString
+        binding.mainHeaderShare.buttonIcon.contentDescription = getString(R.string.button_share)
+        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = getString(R.string.button_menu)
+        binding.mainAbout.mainCard.contentDescription = getString(R.string.hint_external_webpage)
     }
 
     private fun setButtonOnClickListener() {
@@ -174,7 +171,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun checkShouldInteroperabilityBeOpened() {
-        if (!LocalData.isInteroperabilityShownAtLeaseOnce) {
+        if (!LocalData.isInteroperabilityShownAtLeastOnce) {
             navigateToInteroperabilityFeature()
         }
     }
