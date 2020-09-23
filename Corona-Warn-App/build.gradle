@@ -71,6 +71,17 @@ android {
                 buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
         }
 
+        buildConfigField "String", "TEST_ENVIRONMENT_DEFAULT_TYPE", "\"DEV\""
+
+        def testEnvironmentJsonFile = file("../test_environments.json")
+        if (testEnvironmentJsonFile.exists()) {
+            def rawJson = testEnvironmentJsonFile.text
+            def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "")
+            buildConfigField "String", "TEST_ENVIRONMENT_JSONDATA", "\"${escapedJson}\""
+        } else {
+            buildConfigField "String", "TEST_ENVIRONMENT_JSONDATA", "\"\""
+        }
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.environment.download
 
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
@@ -25,8 +24,9 @@ class DownloadCDNModuleTest : BaseIOTest() {
     }
 
     @Test
-    fun `download URL comes from BuildConfig`() {
-        val module = createModule()
-        module.provideDownloadServerUrl() shouldBe BuildConfig.DOWNLOAD_CDN_URL
+    fun `download URL comes from environment`() {
+        TODO()
+//        val module = createModule()
+//        module.provideDownloadServerUrl() shouldBe BuildConfig.DOWNLOAD_CDN_URL
     }
 }
