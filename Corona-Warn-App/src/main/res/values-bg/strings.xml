@@ -960,7 +960,7 @@
     <!-- XHED: Country selector headline for the submission country selection page -->
     <string name="submission_country_selector_headline">"Посетих следните държави"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Без коментар"</string>
+    <string name="submission_country_no_selection_headline">"Без отговор"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
     <string name="submission_country_selection_data_faq_body">"Въведените от Вас данни ще се използват единствено за оптимизиране на масива от данни.\n\nСписъкът съдържа всички участващи в момента държави и се актуализира постоянно."</string>
     <!-- XBUT: submission country selection continue button -->

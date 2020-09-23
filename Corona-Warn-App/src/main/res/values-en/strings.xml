@@ -960,7 +960,7 @@
     <!-- XHED: Country selector headline for the submission country selection page -->
     <string name="submission_country_selector_headline">"I have visited the following countries"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"No comment"</string>
+    <string name="submission_country_no_selection_headline">"No statement"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
     <string name="submission_country_selection_data_faq_body">"Your entry is used solely for optimizing the data volume.\n\nThe list contains all currently participating countries and is continuously updated."</string>
     <!-- XBUT: submission country selection continue button -->
