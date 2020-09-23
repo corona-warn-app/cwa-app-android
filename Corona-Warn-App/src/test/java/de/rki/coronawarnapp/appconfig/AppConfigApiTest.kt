@@ -22,21 +22,18 @@ import java.util.concurrent.TimeUnit
 
 class AppConfigApiTest : BaseIOTest() {
 
-    @MockK
-    private lateinit var context: Context
+    @MockK private lateinit var context: Context
 
     private lateinit var webServer: MockWebServer
     private lateinit var serverAddress: String
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val cacheFiles = File(testDir, "cache")
-    private val privateFiles = File(testDir, "files")
-    private val newHttpCacheDir = File(privateFiles, "appconfig_httpstore")
+    private val cacheDir = File(cacheFiles, "http_app-config")
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { context.filesDir } returns privateFiles
         every { context.cacheDir } returns cacheFiles
 
         webServer = MockWebServer()
@@ -87,7 +84,7 @@ class AppConfigApiTest : BaseIOTest() {
 
     @Test
     fun `application config download uses cache`() {
-        newHttpCacheDir.exists() shouldBe false
+        cacheDir.exists() shouldBe false
 
         val api = createAPI()
 
@@ -98,8 +95,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        newHttpCacheDir.exists() shouldBe true
-        newHttpCacheDir.listFiles()!!.size shouldBe 3
+        cacheDir.exists() shouldBe true
+        cacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
@@ -110,8 +107,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        newHttpCacheDir.exists() shouldBe true
-        newHttpCacheDir.listFiles()!!.size shouldBe 3
+        cacheDir.exists() shouldBe true
+        cacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(2, TimeUnit.SECONDS) shouldBe null
 
@@ -121,8 +118,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        newHttpCacheDir.exists() shouldBe true
-        newHttpCacheDir.listFiles()!!.size shouldBe 3
+        cacheDir.exists() shouldBe true
+        cacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
@@ -132,7 +129,7 @@ class AppConfigApiTest : BaseIOTest() {
 
     @Test
     fun `cache is used when connection is flaky`() {
-        newHttpCacheDir.exists() shouldBe false
+        cacheDir.exists() shouldBe false
 
         val api = createAPI()
 
@@ -143,8 +140,8 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-        newHttpCacheDir.exists() shouldBe true
-        newHttpCacheDir.listFiles()!!.size shouldBe 3
+        cacheDir.exists() shouldBe true
+        cacheDir.listFiles()!!.size shouldBe 3
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
             method shouldBe "GET"
@@ -156,44 +153,6 @@ class AppConfigApiTest : BaseIOTest() {
         runBlocking {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
-    }
-
-    @Test
-    fun `fallback to last cached even if stale`() {
-        newHttpCacheDir.exists() shouldBe false
-
-        val api = createAPI()
-
-        val configResponse =
-            MockResponse().setBody("~appconfig").addHeader("Cache-Control: max-age=2")
-
-        webServer.enqueue(configResponse)
-        runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
-        }
-        newHttpCacheDir.exists() shouldBe true
-        newHttpCacheDir.listFiles()!!.size shouldBe 3
-
-        webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
-            method shouldBe "GET"
-            path shouldBe "/version/v1/configuration/country/DE/app_config"
-        }
-
-        val errorResponse = MockResponse().setHttp2ErrorCode(500)
-        webServer.enqueue(errorResponse)
-
-        runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
-        }
-        webServer.takeRequest(2, TimeUnit.SECONDS) shouldBe null
-
-        Thread.sleep(4000) // Let the cache expire
-
-        webServer.enqueue(errorResponse)
-        runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
-        }
-        webServer.takeRequest(2, TimeUnit.SECONDS) shouldBe null
     }
 
     @Test

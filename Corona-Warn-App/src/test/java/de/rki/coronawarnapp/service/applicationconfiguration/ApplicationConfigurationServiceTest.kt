@@ -39,7 +39,7 @@ class ApplicationConfigurationServiceTest : BaseTest() {
         every { appConfigBuilder.build() } returns appConfig
 
         val downloadServer = mockk<AppConfigServer>()
-        coEvery { downloadServer.downloadAppConfig() } returns appConfig
+        coEvery { downloadServer.getAppConfig() } returns appConfig
 
         mockkObject(AppInjector)
         mockk<ApplicationComponent>().apply {
