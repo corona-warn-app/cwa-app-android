@@ -14,7 +14,9 @@ abstract class OnboardingDeltaInteroperabilityModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(OnboardingDeltaInteroperabilityFragmentViewModel::class)
-    abstract fun interopOnBoardingDeltaScreenVM(factory: OnboardingDeltaInteroperabilityFragmentViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun interopOnBoardingDeltaScreenVM(
+        factory: OnboardingDeltaInteroperabilityFragmentViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
     abstract fun interopOnBoardingDeltaScreen(): OnboardingDeltaInteroperabilityFragment

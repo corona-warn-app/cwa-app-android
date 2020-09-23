@@ -14,7 +14,9 @@ abstract class OnboardingTracingModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(OnboardingTracingFragmentViewModel::class)
-    abstract fun onboardingScreenVM(factory: OnboardingTracingFragmentViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun onboardingScreenVM(
+        factory: OnboardingTracingFragmentViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
     abstract fun onboardingScreen(): OnboardingFragment

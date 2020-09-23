@@ -12,5 +12,7 @@ abstract class InteroperabilityConfigurationFragmentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(InteroperabilityConfigurationFragmentViewModel::class)
-    abstract fun testRiskLevelFragment(factory: InteroperabilityConfigurationFragmentViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun testRiskLevelFragment(
+        factory: InteroperabilityConfigurationFragmentViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 }
