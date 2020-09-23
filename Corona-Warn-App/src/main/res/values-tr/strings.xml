@@ -952,6 +952,19 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Bir cihaz şifrelenmiş pozitif test tanısını sisteme aktarır."</string>
 
+    <!-- Submission Country Selector -->
+    <!-- XHED: Page title for the submission country selection page -->
+    <string name="submission_positive_country_selection_title">"Avrupa geneli uyarılar"</string>
+    <!-- XHED: Page headline for the submission country selection page -->
+    <string name="submission_positive_country_selection_headline">"Son 14 günde hangi ülkelere gittiniz?"</string>
+    <!-- XHED: Country selector headline for the submission country selection page -->
+    <string name="submission_country_selector_headline">"Şu ülkelere gittim:"</string>
+    <!-- XHED: Country no selection headline for the submission country selection page -->
+    <string name="submission_country_no_selection_headline">"Beyan yok"</string>
+    <!-- YTXT: Data FAQ for the submission country selection page -->
+    <string name="submission_country_selection_data_faq_body">"Girişiniz yalnızca veri hacmini optimize etmek için kullanılır.\n\nListe tüm güncel katılımcı ülkeleri içerir ve sürekli olarak güncellenir."</string>
+    <!-- XBUT: submission country selection continue button -->
+    <string name="submission_country_selection_button">"Sonraki"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -1210,5 +1223,4 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
-
 </resources>

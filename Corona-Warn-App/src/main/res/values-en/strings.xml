@@ -276,7 +276,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -952,6 +952,19 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A device transmits an encrypted positive test diagnosis to the system."</string>
 
+    <!-- Submission Country Selector -->
+    <!-- XHED: Page title for the submission country selection page -->
+    <string name="submission_positive_country_selection_title">"Europe-wide warnings"</string>
+    <!-- XHED: Page headline for the submission country selection page -->
+    <string name="submission_positive_country_selection_headline">"Which countries have you visited in the last 14 days?"</string>
+    <!-- XHED: Country selector headline for the submission country selection page -->
+    <string name="submission_country_selector_headline">"I have visited the following countries"</string>
+    <!-- XHED: Country no selection headline for the submission country selection page -->
+    <string name="submission_country_no_selection_headline">"No statement"</string>
+    <!-- YTXT: Data FAQ for the submission country selection page -->
+    <string name="submission_country_selection_data_faq_body">"Your entry is used solely for optimizing the data volume.\n\nThe list contains all currently participating countries and is continuously updated."</string>
+    <!-- XBUT: submission country selection continue button -->
+    <string name="submission_country_selection_button">"Next"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -1210,5 +1223,4 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
-
 </resources>
