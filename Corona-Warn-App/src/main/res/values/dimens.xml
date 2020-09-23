@@ -123,4 +123,13 @@
 
     <dimen name="match_constraint">0dp</dimen>
     <dimen name="no_padding">0dp</dimen>
+
+    <!-- Calendar -->
+    <dimen name="calendar_header_height">72dp</dimen>
+    <dimen name="calendar_header_initial_radius">1dp</dimen>
+    <dimen name="calendar_header_top_radius">4dp</dimen>
+    <dimen name="calendar_header_bottom_radius">4dp</dimen>
+    <dimen name="calendar_layout_stroke">2dp</dimen>
+    <dimen name="calendar_day_size">40dp</dimen>
+    <dimen name="calendar_day_spacing">4dp</dimen>
 </resources>

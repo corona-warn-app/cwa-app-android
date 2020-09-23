@@ -7,17 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AppInjector
+import javax.inject.Inject
 
 /**
  * This activity holds all the onboarding fragments and isn't used after a successful onboarding flow.
  *
  * @see LocalData
  */
-class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
+class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInjector {
     companion object {
         private val TAG: String? = OnboardingActivity::class.simpleName
 
@@ -26,6 +30,9 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
             context.startActivity(intent)
         }
     }
+
+    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
