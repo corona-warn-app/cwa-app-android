@@ -5,18 +5,17 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.nearby.NearbyModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigServer
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.http.ServiceFactory
+import de.rki.coronawarnapp.nearby.NearbyModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
@@ -53,8 +52,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val connectivityHelperInjection: ConnectivityHelperInjection
 
     val settingsRepository: SettingsRepository
-
-    val interoperabilityRepository: InteroperabilityRepository
 
     val keyCacheRepository: KeyCacheRepository
     val keyFileDownloader: KeyFileDownloader

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="interoperabilityViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
+            name="countryData"
+            type="java.util.List&lt;String&gt;" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +55,7 @@
             app:firstSection="@{@string/interoperability_onboarding_delta_subtitle}"
             app:secondSection="@{@string/interoperability_onboarding_randomid_download_free}"
             app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-            app:interoperabilityViewModel="@{interoperabilityViewModel}"
+            app:countryData="@{countryData}"
             app:isOnboarding="@{false}"
             app:showFooter="@{true}"
             app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"
@@ -72,7 +71,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_button_next"
-            android:onClick="@{() -> interoperabilityViewModel.onBackPressed()}"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />

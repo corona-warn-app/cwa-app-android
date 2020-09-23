@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="interoperabilityViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
+            name="countryData"
+            type="java.util.List&lt;String&gt;" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
                 app:firstSection="@{@string/interoperability_configuration_first_section}"
                 app:secondSection="@{@string/interoperability_configuration_second_section}"
                 app:countryListTitle="@{@string/interoperability_configuration_list_title}"
-                app:interoperabilityViewModel="@{interoperabilityViewModel}"
+                app:countryData="@{countryData}"
                 app:isOnboarding="@{false}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

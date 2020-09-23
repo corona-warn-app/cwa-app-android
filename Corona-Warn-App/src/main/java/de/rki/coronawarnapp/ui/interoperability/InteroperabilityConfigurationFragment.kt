@@ -3,40 +3,41 @@ package de.rki.coronawarnapp.ui.interoperability
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 class InteroperabilityConfigurationFragment :
-    Fragment(R.layout.fragment_interoperability_configuration) {
-    companion object {
-        private val TAG: String? = InteroperabilityConfigurationFragment::class.simpleName
-    }
+    Fragment(R.layout.fragment_interoperability_configuration), AutoInject {
 
-    private val interoperabilityViewModel: InteroperabilityViewModel by activityViewModels()
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: InteroperabilityConfigurationFragmentViewModel by cwaViewModels { viewModelFactory }
+
     private val binding: FragmentInteroperabilityConfigurationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.interoperabilityViewModel = interoperabilityViewModel
-        interoperabilityViewModel.saveInteroperabilityUsed()
+
+        vm.countryList.observe2(this) {
+            binding.countryData = it
+        }
+
+        vm.saveInteroperabilityUsed()
 
         binding.interoperabilityConfigurationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            interoperabilityViewModel.onBackPressed()
+            vm.onBackPressed()
         }
 
-        interoperabilityViewModel.navigateBack.observe2(this) {
+        vm.navigateBack.observe2(this) {
             if (it) {
-                navBack()
+                (requireActivity() as MainActivity).goBack()
             }
         }
-    }
-
-    private fun navBack() {
-        (activity as? MainActivity)?.goBack()
     }
 }

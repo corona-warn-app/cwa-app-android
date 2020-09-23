@@ -7,8 +7,8 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
         <variable
-            name="interoperabilityViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
+            name="countryData"
+            type="java.util.List&lt;String&gt;" />
 
         <variable
             name="title"
@@ -169,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:list="@{interoperabilityViewModel.allCountries}"
+                app:list="@{countryData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/country_header_description" />

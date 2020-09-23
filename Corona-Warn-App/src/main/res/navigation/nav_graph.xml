@@ -100,9 +100,7 @@
         tools:layout="@layout/fragment_interoperability_configuration">
         <action
             android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
-            app:destination="@id/settingsTracingFragment"
-            app:popUpTo="@id/settingsTracingFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsTracingFragment" />
     </fragment>
 
 

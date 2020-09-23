@@ -766,9 +766,8 @@ object LocalData {
             )
         }
         set(value) {
-            getSharedPreferenceInstance().edit().putBoolean(
-                PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE,
-                value
-            ).commit()
+            getSharedPreferenceInstance().edit {
+                putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
+            }
         }
 }

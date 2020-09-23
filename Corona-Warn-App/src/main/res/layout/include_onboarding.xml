@@ -62,8 +62,8 @@
             type="android.view.View" />
 
         <variable
-            name="interoperabilityViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />
+            name="countryData"
+            type="java.util.List&lt;String&gt;" />
 
     </data>
 
@@ -166,9 +166,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginBottom="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibility(interoperabilityViewModel != null)}"
+                android:visibility="@{FormatterHelper.formatVisibility(countryData != null)}"
                 app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-                app:interoperabilityViewModel="@{interoperabilityViewModel}"
+                app:countryData="@{countryData}"
                 app:isOnboarding="@{true}"
                 app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
