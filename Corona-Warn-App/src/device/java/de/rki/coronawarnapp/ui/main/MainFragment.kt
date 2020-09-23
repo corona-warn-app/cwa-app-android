@@ -35,6 +35,7 @@ import kotlinx.coroutines.withContext
  * @see PopupMenu
  */
 class MainFragment : Fragment(R.layout.fragment_main) {
+
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
@@ -45,11 +46,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
 
         setButtonOnClickListener()
         setContentDescription()
-
+        checkShouldInteroperabilityBeOpened()
         showOneTimeTracingExplanationDialog()
     }
 
@@ -133,7 +133,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun toSubmissionIntro() {
         findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-        )
+            )
     }
 
     private fun showPopup(view: View) {
@@ -157,6 +157,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
         popup.show()
+    }
+
+    private fun checkShouldInteroperabilityBeOpened() {
+        if (!LocalData.isInteroperabilityShownAtLeastOnce) {
+            navigateToInteroperabilityFeature()
+        }
+    }
+
+    private fun navigateToInteroperabilityFeature() {
+        findNavController().doNavigate(
+            MainFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
+        )
     }
 
     private fun showOneTimeTracingExplanationDialog() {

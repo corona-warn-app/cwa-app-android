@@ -173,7 +173,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         findNavController().doNavigate(
             SubmissionTestResultFragmentDirections
-                .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+                .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
         )
     }
 

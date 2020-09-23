@@ -23,7 +23,7 @@ class ScanResultTest {
 
     @Test
     fun containsValidGUID() {
-        //valid test
+        // valid test
         scanResult = QRScanResult("https://localhost/?$guid")
         scanResult.isValid shouldBe true
 
@@ -51,4 +51,3 @@ class ScanResultTest {
         QRScanResult("https://localhost/?$guid").guid shouldBe guid
     }
 }
-

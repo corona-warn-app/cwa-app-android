@@ -15,10 +15,6 @@ import timber.log.Timber
 class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisKeyRetrievalOneTimeWorker::class.simpleName
-    }
-
     /**
      * Work execution
      *
@@ -27,28 +23,40 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount ")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
+
         BackgroundWorkHelper.sendDebugNotification(
-            "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount ")
+            "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount "
+        )
 
         var result = Result.success()
         try {
             RetrieveDiagnosisKeysTransaction.startWithConstraints()
         } catch (e: Exception) {
+            Timber.w(
+                e, "$id: Error during RetrieveDiagnosisKeysTransaction.startWithConstraints()."
+            )
+
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                Timber.w(e, "$id: Retry attempts exceeded.")
 
                 BackgroundWorkHelper.sendDebugNotification(
-                    "KeyOneTime Executing: Failure", "KeyOneTime failed with $runAttemptCount attempts")
+                    "KeyOneTime Executing: Failure",
+                    "KeyOneTime failed with $runAttemptCount attempts"
+                )
 
                 return Result.failure()
             } else {
+                Timber.d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
 
         BackgroundWorkHelper.sendDebugNotification(
-            "KeyOneTime Executing: End", "KeyOneTime result: $result ")
+            "KeyOneTime Executing: End", "KeyOneTime result: $result "
+        )
 
+        Timber.d("$id: doWork() finished with %s", result)
         return result
     }
 }
