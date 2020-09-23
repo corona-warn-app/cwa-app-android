@@ -40,7 +40,6 @@ internal class GoogleAPIVersionTest {
         runBlockingTest {
             classUnderTest.isAtLeast(GoogleAPIVersion.V16) shouldBe true
         }
-
     }
 
     @Test
