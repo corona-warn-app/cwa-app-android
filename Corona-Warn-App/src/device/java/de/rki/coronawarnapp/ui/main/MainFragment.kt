@@ -133,7 +133,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun toSubmissionIntro() {
         findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-        )
+            )
     }
 
     private fun showPopup(view: View) {

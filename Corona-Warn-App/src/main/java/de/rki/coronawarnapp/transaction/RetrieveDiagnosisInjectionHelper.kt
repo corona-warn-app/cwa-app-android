@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.transaction
 
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -8,5 +9,6 @@ import javax.inject.Singleton
 @Singleton
 data class RetrieveDiagnosisInjectionHelper @Inject constructor(
     val transactionScope: TransactionCoroutineScope,
-    val googleAPIVersion: GoogleAPIVersion
+    val googleAPIVersion: GoogleAPIVersion,
+    val cwaEnfClient: ENFClient
 )

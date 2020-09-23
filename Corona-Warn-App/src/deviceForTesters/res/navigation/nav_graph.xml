@@ -234,8 +234,8 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_submissionResultFragment_to_submissionResultPositiveOtherWarningFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
+            android:id="@+id/action_submissionResultFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
     </fragment>
 
     <fragment
@@ -322,5 +322,30 @@
             android:name="exampleArgument"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionSymptomIntroductionFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
+        android:label="SubmissionSymptomIntroductionFragment" >
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
+            app:destination="@id/submissionSymptomCalendarFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultFragment"
+            app:destination="@id/submissionResultFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionSymptomCalendarFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
+        android:label="SubmissionSymptomCalendarFragment" >
+        <action
+            android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
+            app:destination="@id/submissionSymptomIntroductionFragment" />
+        <action
+            android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
 </navigation>

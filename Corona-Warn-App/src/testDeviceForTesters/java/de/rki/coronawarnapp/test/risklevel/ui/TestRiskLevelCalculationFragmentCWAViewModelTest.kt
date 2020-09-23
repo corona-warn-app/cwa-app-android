@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import io.kotest.matchers.shouldBe
@@ -12,6 +13,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifyOrder
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,6 +31,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var savedStateHandle: SavedStateHandle
+    @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var exposureNotificationClient: ExposureNotificationClient
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
 
@@ -42,6 +45,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
         coEvery { RiskLevelTransaction.start() } returns Unit
 
         coEvery { keyCacheRepository.clear() } returns Unit
+        every { enfClient.internalClient } returns exposureNotificationClient
     }
 
     @AfterEach
@@ -54,7 +58,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             handle = savedStateHandle,
             exampleArg = exampleArgs,
             context = context,
-            exposureNotificationClient = exposureNotificationClient,
+            enfClient = enfClient,
             keyCacheRepository = keyCacheRepository
         )
 
@@ -99,5 +103,4 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
         vm.startLocalQRCodeScanEvent.value shouldBe Unit
     }
-
 }

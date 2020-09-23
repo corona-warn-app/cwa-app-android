@@ -22,10 +22,16 @@
             android:layout_margin="@dimen/spacing_normal"
             android:orientation="vertical">
 
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/calendar_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:id="@+id/label_googlePlayServices_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
 
             <Switch
                 android:id="@+id/test_api_switch_last_three_hours_from_server"
@@ -42,6 +48,27 @@
                 android:layout_height="wrap_content"
                 android:text="@string/test_api_switch_background_notifications"
                 android:theme="@style/switchBase" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <Switch
+                    android:id="@+id/test_logfile_toggle"
+                    style="@style/body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logfile enabled"
+                    android:theme="@style/switchBase" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/test_logfile_share"
+                    android:text="Share log" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/label_exposure_summary"
