@@ -886,7 +886,7 @@
     <!-- YTXT: Error text for the tan submission page -->
     <string name="submission_tan_error">"Nieprawidłowy TAN, sprawdź swój wpis."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Nieprawidłowy wpis, sprawdź go."</string>
+    <string name="submission_tan_character_error">"Twój wpis zawiera nieprawidłowe znaki, Sprawdź swój wpis."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -946,9 +946,9 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Prywatność danych"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping on “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Dalej"</string>
+    <string name="submission_positive_other_warning_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
 
@@ -989,7 +989,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Gotowe"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Wszyscy w grupie się cieszą, ponieważ ktoś podzielił się wynikiem testu."</string>
+    <string name="submission_done_illustration_description">"Czy w ciągu ostatnich kilku dni wystąpił u Ciebie jeden lub kilka z wymienionych poniżej symptomów?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Symptomy"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Czy w ciągu ostatnich kilku dni wystąpił u Ciebie jeden lub kilka z wymienionych poniżej symptomów?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Podwyższona temperatura lub gorączka"</item>
+        <item>"Duszności"</item>
+        <item>"Utrata węchu/smaku"</item>
+        <item>"Kaszel"</item>
+        <item>"Katar"</item>
+        <item>"Ból gardła"</item>
+        <item>"Ból głowy i kończyn"</item>
+        <item>"Ogólne osłabienie i wyczerpanie"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Tak"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"Nie"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"Bez komentarza"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Dalej"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -1019,6 +1045,22 @@
     <string name="submission_contact_step_1_content">"Najpierw zadzwoń na infolinię i poproś o numer TAN. Numer infolinii to +49 800 7540002. Godziny pracy: od poniedziałku do piątku od 8:00 do 22:00 oraz w sobotę i niedzielę od 10:00 do 22:00. Połączenie jest bezpłatne."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Następnie zarejestruj test przy użyciu numeru TAN w aplikacji."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Początek wystąpienia symptomów"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"Kiedy zacząłeś(-łaś) odczutwać te symptomy? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Wybierz dokładną datę w kalendarzu lub, jeśli nie pamiętasz dokładnej daty, wybierz jedną z innych opcji."</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"W ciągu ostatnich 7 dni"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"1-2 tygodnie temu"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"Ponad 2 tygodnie temu"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"Bez komentarza"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1082,6 +1124,9 @@
         <item>"Pozostań w domu, dopóki nie poczujesz się znowu dobrze. Zarażenie się koronawirusem (SARS-CoV-2) w stanie osłabienia przez inną infekcję może prowadzić do poważnej choroby."</item>
         <item>"Nie idź do pracy, jeśli nie czujesz się dobrze, aby nie stwarzać zagrożenia dla innych osób. Jeśli objawy nasilą się, może być konieczne wykonanie kolejnego testu SARS-CoV-2."</item>
     </string-array>
+
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Dokładna data"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

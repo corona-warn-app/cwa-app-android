@@ -53,4 +53,11 @@
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
 
+    <!-- Calendar -->
+    <color name="colorCalendarSelectedDayBackground">#5D6F80</color>
+    <color name="colorCalendarTodayBorder">#007FAD</color>
+    <color name="colorCalendarTodayText">#007FAD</color>
+    <color name="colorCalendarMonthText">#DE000000</color>
+    <color name="colorCalendarLayoutFocusOn">#FF5D6F80</color>
+    <color name="colorCalendarLayoutFocusOff">#F5F5F5</color>
 </resources>

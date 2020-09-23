@@ -884,9 +884,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"TAN girişi"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"TAN geçersiz, lütfen girişinizi kontrol edin."</string>
+    <string name="submission_tan_error">"TAN geçersiz. Lütfen girişinizi kontrol edin."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Giriş geçersiz. Lütfen girişinizi kontrol edin."</string>
+    <string name="submission_tan_character_error">"Girişiniz geçersiz karakterler içeriyor. Lütfen girişinizi kontrol edin."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -946,9 +946,9 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Veri Gizliliği"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"\"Kabul et\" seçeneğine dokunduğunuzda, Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte uygulamanın sunucu sistemine göndermesine izin vermiş olursunuz, bu sayede maruz kalma günlüğünü etkinleştirmiş olan diğer Uygulama kullanıcıları otomatik şekilde bilgilendirilebilir. İletilen rastgele kimlikler, kimliğiniz ya da kişiliğinize ilişkin sonuç çıkartacak hiçbir bilgi içermez. \n\nTest sonucunuzun Uygulama aracılığıyla iletilmesi, isteğe bağlıdır. Test sonucunuzu iletmezseniz size hiçbir dezavantajı olmaz. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı anlayamadığımız ve kontrol edemediğimiz için enfeksiyonu bulaştırıp bulaştırmadığınızı sizden başka kimse öğrenemez.\n\nUygulamayı silerek, onayınızı dilediğinizde geri alabilirsiniz. Onayın geri alınmasıyla, geri almaya kadar yapılmış veri işlemelerin hukuka uygunlukları bu durumdan etkilenmez. \"Veri Gizliliği Bilgileri\" menüsünden diğer bilgilere ulaşabilirsiniz."</string>
+    <string name="submission_positive_other_warning_privacy_body">"\"Kabul Et\" seçeneğine dokunduğunuzda, Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte uygulamanın sunucu sistemine göndermesine izin vermiş olursunuz, bu sayede maruz kalma günlüğünü etkinleştirmiş olan diğer Uygulama kullanıcıları otomatik şekilde bilgilendirilebilir. İletilen rastgele kimlikler, kimliğiniz ya da kişiliğinize ilişkin sonuç çıkartacak hiçbir bilgi içermez. \n\nTest sonucunuzun Uygulama aracılığıyla iletilmesi, isteğe bağlıdır. Test sonucunuzu iletmezseniz size hiçbir dezavantajı olmaz. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı anlayamadığımız ve kontrol edemediğimiz için enfeksiyonu bulaştırıp bulaştırmadığınızı sizden başka kimse öğrenemez.\n\nUygulamayı silerek, onayınızı dilediğinizde geri alabilirsiniz. Onayın geri alınmasıyla, geri almaya kadar yapılmış veri işlemelerin hukuka uygunlukları bu durumdan etkilenmez. \"Veri Gizliliği\" menüsünden diğer bilgilere ulaşabilirsiniz."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Sonraki"</string>
+    <string name="submission_positive_other_warning_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Bir cihaz şifrelenmiş pozitif test tanısını sisteme aktarır."</string>
 
@@ -989,7 +989,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Tamamlandı"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Bir kişi test sonucunu paylaştığı için gruptaki herkes gülüyor."</string>
+    <string name="submission_done_illustration_description">"Son birkaç günde aşağıdaki belirtilerden birini veya daha fazlasını yaşadınız mı?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Belirtiler"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Son birkaç günde aşağıdaki belirtilerden birini veya daha fazlasını yaşadınız mı?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Artan vücut sıcaklığı veya ateş"</item>
+        <item>"Nefes darlığı"</item>
+        <item>"Koku/tat kaybı"</item>
+        <item>"Öksürük"</item>
+        <item>"Burun akıntısı"</item>
+        <item>"Boğaz ağrısı"</item>
+        <item>"Baş ağrısı ve kol/bacak ağrısı"</item>
+        <item>"Genel zayıflık ve bitkinlik"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Evet"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"Hayır"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"Yorum yok"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Sonraki"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -1019,6 +1045,22 @@
     <string name="submission_contact_step_1_content">"İlk adımda yardım hattını arayıp TAN\'nizi talep edersiniz. +49 800 7540002 numaralı telefondan yardım hattına ulaşabilirsiniz. Mesai saatleri, Pazartesi - Cuma 8.00 ile 22.00 ve Cumartesi ve Pazar günleri 10.00 ile 22.00 arasıdır. Arama ücretsizdir."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"İkinci adımda, TAN\'nizi kullanarak testinizi uygulamaya kaydedersiniz."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Belirtilerin başlangıcı"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"Bu belirtileri ilk kez ne zaman yaşamaya başladınız? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Takvimde tam tarihi seçin veya tam tarihi hatırlayamıyorsanız diğer seçeneklerden birini seçin."</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"Son 7 gün içinde"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"1-2 hafta önce"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"2 haftadan uzun süre önce"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"Yorum yok"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1082,6 +1124,9 @@
         <item>"Kendinizi yeniden iyi hissedene dek evde kalın. Başka bir enfeksiyon nedeniyle bağışıklığınız zayıflamışken koronavirüse (SARS-CoV-2) yakalanırsanız ciddi bir hastalıkla karşılaşabilirsiniz."</item>
         <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin. Belirtileriniz kötüleşirse ilave SARS-CoV-2 testi yapılması gerekebilir."</item>
     </string-array>
+
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Tam tarih"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

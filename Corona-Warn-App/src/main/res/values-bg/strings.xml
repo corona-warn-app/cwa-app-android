@@ -884,9 +884,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"Въвеждане на ТАН код"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"Невалиден ТАН код. Проверете въведените данни."</string>
+    <string name="submission_tan_error">"Невалиден ТАН код. Моля, проверете въведените данни!"</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Въведете данни са невалидни. Моля, проверете."</string>
+    <string name="submission_tan_character_error">"Въвели сте невалидни символи. Моля, проверете данните!"</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -946,9 +946,9 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Поверителност"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping on “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Напред"</string>
+    <string name="submission_positive_other_warning_button">"Приемам"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Устройство предава на системата информация за положителен резултат от тест."</string>
 
@@ -989,7 +989,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Готово"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Всички в групата аплодират, защото някой е споделил резултата от своя тест."</string>
+    <string name="submission_done_illustration_description">"Имали ли сте един или повече от следните симптоми през последните няколко дни?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Симптоми"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Имали ли сте един или повече от следните симптоми през последните няколко дни?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Повишена температура или треска"</item>
+        <item>"Затруднено дишане"</item>
+        <item>"Загуба на обоняние/вкус"</item>
+        <item>"Кашлица"</item>
+        <item>"Хрема"</item>
+        <item>"Болки в гърлото"</item>
+        <item>"Главоболие и болки в крайниците"</item>
+        <item>"Обща слабост и умора"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Да"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"Не"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"Без коментар"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Напред"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -1019,6 +1045,22 @@
     <string name="submission_contact_step_1_content">"В първата стъпка се обаждате на горещата линия, за да заявите ТАН код. Телефонният номер е +49 800 7540002. Работното време е от 8:00 до 22:00 ч. от понеделник до петък и от 10:00 до 22:00 ч в събота и неделя . Обаждането е безплатно."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Във втората стъпка регистрирате теста си, като въвеждате ТАН кода в приложението."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Начало на симптомите"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"Кога се появиха за първи път тези симптоми? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Изберете точната дата от календара или, ако не можете да си я спомните, някоя от другите опции."</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"През последните 7 дни"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"Преди 1-2 седмици"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"Преди повече от 2 седмици"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"Без коментар"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1082,6 +1124,9 @@
         <item>"Останете си вкъщи, докато се почувствате добре. Ако се заразите с коронавирус (SARS-CoV-2) в момент, когато организмът Ви е отслабен от друга инфекция, това може да доведе до сериозно заболяване."</item>
         <item>"Не ходете на работа, ако не се чувствате добре, за да не излагате други хора на риск. Ако симптомите Ви се влошат, може да се наложи да направите нов тест за SARS-CoV-2."</item>
     </string-array>
+
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Точна дата"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

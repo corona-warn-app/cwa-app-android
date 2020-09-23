@@ -53,4 +53,6 @@
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
 
+    <!-- Calendar -->
+    <color name="colorCalendarMonthText">#DEFFFFFF</color>
 </resources>
