@@ -730,6 +730,13 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
+    <!-- ####################################
+              Interoperability
+    ###################################### -->
+    <!-- XHED: headline for consent information  -->
+    <string name="interop_consent_headline"/>
+    <!-- YTXT: body for consent information -->
+    <string name="interop_consent_body"/>
 
     <!-- ####################################
              Submission
