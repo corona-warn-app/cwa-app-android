@@ -4,11 +4,11 @@ import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigur
 import de.rki.coronawarnapp.storage.LocalData
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object InteroperabilityRepository {
-    private val TAG: String? = InteroperabilityRepository::class.simpleName
-
-    fun interoperabilityWasShown(): Boolean = LocalData.interoperabilityWasShown()
+@Singleton
+class InteroperabilityRepository @Inject constructor() {
 
     fun saveInteroperabilityUsed() {
         LocalData.saveInteroperabilityUsed()

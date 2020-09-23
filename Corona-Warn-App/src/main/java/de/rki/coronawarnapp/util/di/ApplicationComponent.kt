@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
@@ -52,6 +53,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val connectivityHelperInjection: ConnectivityHelperInjection
 
     val settingsRepository: SettingsRepository
+
+    val interoperabilityRepository: InteroperabilityRepository
 
     val keyCacheRepository: KeyCacheRepository
     val keyFileDownloader: KeyFileDownloader

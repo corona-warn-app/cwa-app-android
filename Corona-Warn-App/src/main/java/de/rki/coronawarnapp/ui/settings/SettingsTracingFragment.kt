@@ -7,7 +7,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
@@ -23,6 +22,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -52,6 +52,13 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
+
+        tracingViewModel.navigateToInteroperability.observe2(this) {
+            if (it) {
+                navigateToInteroperability()
+            }
+        }
+
         setButtonOnClickListener()
     }
 
@@ -60,14 +67,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         // refresh required data
         tracingViewModel.refreshIsTracingEnabled()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-
-        binding.settingsInteroperabilityRow.settingsPlainRow.setOnClickListener {
-            findNavController()
-                .doNavigate(
-                    SettingsTracingFragmentDirections
-                        .actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
-                )
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -131,16 +130,15 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             ExternalActionHelper.toMainSettings(requireContext())
         }
         interoperability.setOnClickListener {
-            navigateToInteroperability()
+            tracingViewModel.onInteroperabilitySettingPressed()
         }
     }
 
     private fun navigateToInteroperability() {
         findNavController()
             .doNavigate(
-                ActionOnlyNavDirections(
-                    R.id.action_interopCountryConfigurationFragment_to_settingTracingFragment
-                )
+                SettingsTracingFragmentDirections
+                    .actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
             )
     }
 

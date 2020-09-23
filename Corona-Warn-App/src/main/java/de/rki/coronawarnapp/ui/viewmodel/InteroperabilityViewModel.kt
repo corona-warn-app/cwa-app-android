@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 
 /**
@@ -10,7 +11,11 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
  * @see InteroperabilityRepository
  */
 class InteroperabilityViewModel : ViewModel() {
-    val allCountries = InteroperabilityRepository.getAllCountries()
+    private val interoperabilityRepository by lazy {
+        AppInjector.component.interoperabilityRepository
+    }
+
+    val allCountries = interoperabilityRepository.getAllCountries()
     val navigateBack = SingleLiveEvent<Boolean>()
 
     fun onBackPressed() {
@@ -18,6 +23,6 @@ class InteroperabilityViewModel : ViewModel() {
     }
 
     fun saveInteroperabilityUsed() {
-        InteroperabilityRepository.saveInteroperabilityUsed()
+        interoperabilityRepository.saveInteroperabilityUsed()
     }
 }

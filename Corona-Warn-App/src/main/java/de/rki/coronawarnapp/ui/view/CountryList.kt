@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import de.rki.coronawarnapp.R
+import java.text.Collator
 import java.util.Locale
 
 class CountryList(context: Context, attrs: AttributeSet) :
@@ -41,7 +42,9 @@ class CountryList(context: Context, attrs: AttributeSet) :
                 )
                 Pair(countryCode, context.getString(countryNameResourceId))
             }
-            ?.sortedBy { it.second }
+            ?.sortedWith(Comparator { a, b ->
+                Collator.getInstance().compare(a.second, b.second)
+            })
             ?.forEachIndexed { index, country ->
                 inflate(context, R.layout.view_country_list_entry, this)
                 val child = this.getChildAt(index)
