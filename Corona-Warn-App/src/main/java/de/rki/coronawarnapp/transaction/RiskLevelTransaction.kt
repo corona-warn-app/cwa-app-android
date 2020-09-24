@@ -139,7 +139,7 @@ object RiskLevelTransaction : Transaction() {
      * The maximal runtime of the Risk Level transaction
      * In milliseconds
      */
-    private const val RISK_LEVEL_TRANSACTION_TIMEOUT = 420000L
+    private const val RISK_LEVEL_TRANSACTION_TIMEOUT = 480 * 1000L
 
     // @Inject lateinit var riskScoreAnalysis: RiskScoreAnalysis
     // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
