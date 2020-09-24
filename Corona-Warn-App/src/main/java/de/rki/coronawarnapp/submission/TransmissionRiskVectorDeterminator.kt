@@ -21,6 +21,7 @@ class TransmissionRiskVectorDeterminator(
         fun SubmissionStatus.add15thKeyTo(currentVector: IntArray) =
             intArrayOf(currentVector[0]) + transmissionRiskVector.raw
 
+        @Suppress("MagicNumber")
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun actuallyDetermine(symptoms: Symptoms) =
             when (symptoms.symptomIndication) {
@@ -61,7 +62,6 @@ class TransmissionRiskVectorDeterminator(
             }
     }
 
-    @Suppress("MagicNumber")
     fun determine(symptoms: Symptoms): TransmissionRiskVector {
         actuallyDetermine(symptoms).also {
             submissionStatusRepository.lastSubmission.also { submission: SubmissionStatus? ->
