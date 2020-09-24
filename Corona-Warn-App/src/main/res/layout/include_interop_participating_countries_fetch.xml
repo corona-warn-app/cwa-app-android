@@ -6,9 +6,9 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
-        <!--<variable
-            name="interopViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.InteroperabilityViewModel" />-->
+        <variable
+            name="countryData"
+            type="java.util.List&lt;String&gt;" />
 
         <variable
             name="countryListTitle"
@@ -38,12 +38,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <de.rki.coronawarnapp.ui.view.CountrySelectionList
+        <de.rki.coronawarnapp.ui.view.CountryList
             android:id="@+id/countryList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:countryList="@{interopViewModel.allCountries}"
+            app:list="@{countryData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/country_header_description" />
