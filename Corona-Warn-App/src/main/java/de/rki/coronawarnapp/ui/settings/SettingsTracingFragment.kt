@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -14,13 +15,14 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
-import de.rki.coronawarnapp.util.IGNORE_CHANGE_TAG
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -50,6 +52,13 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
+
+        tracingViewModel.navigateToInteroperability.observe2(this) {
+            if (it) {
+                navigateToInteroperability()
+            }
+        }
+
         setButtonOnClickListener()
     }
 
@@ -82,11 +91,14 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
         val location = binding.settingsTracingStatusLocation.tracingStatusCardButton
+        val interoperability = binding.settingsInteroperabilityRow.settingsPlainRow
+
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        switch.setOnCheckedChangeListener { _, _ ->
+        switch.setOnCheckedChangeListener { view, _ ->
+
             // Make sure that listener is called by user interaction
-            if (switch.tag != IGNORE_CHANGE_TAG) {
+            if (view.isPressed) {
                 startStopTracing()
                 // Focus on the body text after to announce the tracing status for accessibility reasons
                 binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
@@ -117,6 +129,17 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         location.setOnClickListener {
             ExternalActionHelper.toMainSettings(requireContext())
         }
+        interoperability.setOnClickListener {
+            tracingViewModel.onInteroperabilitySettingPressed()
+        }
+    }
+
+    private fun navigateToInteroperability() {
+        findNavController()
+            .doNavigate(
+                SettingsTracingFragmentDirections
+                    .actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
+            )
     }
 
     private fun startStopTracing() {
