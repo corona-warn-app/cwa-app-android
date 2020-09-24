@@ -135,6 +135,12 @@ object RiskLevelTransaction : Transaction() {
     // Injecting here will break Test
     private val riskLevelCalculation: RiskLevelCalculation = DefaultRiskLevelCalculation()
 
+    /**
+     * The maximal runtime of the Risk Level transaction
+     * In milliseconds
+     */
+    private const val RISK_LEVEL_TRANSACTION_TIMEOUT = 420000L
+
     // @Inject lateinit var riskScoreAnalysis: RiskScoreAnalysis
     // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
     // Injecting here will break Test
@@ -190,7 +196,10 @@ object RiskLevelTransaction : Transaction() {
     }
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
-    suspend fun start() = lockAndExecute(scope = transactionScope) {
+    suspend fun start() = lockAndExecute(
+        scope = transactionScope,
+        timeout = RISK_LEVEL_TRANSACTION_TIMEOUT
+    ) {
         /****************************************************
          * CHECK [NO_CALCULATION_POSSIBLE_TRACING_OFF] CONDITIONS
          ****************************************************/
