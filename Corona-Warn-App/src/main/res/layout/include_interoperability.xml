@@ -155,18 +155,30 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
-                android:id="@+id/country_list_no_fetch"
-                layout="@layout/include_interop_participating_countries_nofetch"
+                android:id="@+id/country_list_riskdetails_nofetch"
+                layout="@layout/include_interop_no_countries_infoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{countryData.empty ? View.VISIBLE : View.GONE}"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{countryData.empty &amp;&amp; isOnboarding ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
+
+            <include
+                android:id="@+id/country_list_no_fetch"
+                layout="@layout/include_interop_riskdetails_no_countries_infoview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{(countryData.empty &amp;&amp; !isOnboarding)  ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
             <include
                 android:id="@+id/country_list_fetch"
-                layout="@layout/include_interop_participating_countries_fetch"
+                layout="@layout/include_interop_list_participating_countries_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{countryData.empty ? View.GONE : View.VISIBLE}"

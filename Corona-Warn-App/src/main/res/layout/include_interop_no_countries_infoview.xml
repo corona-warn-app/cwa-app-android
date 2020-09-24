@@ -8,10 +8,6 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
 
-        <!-- <variable
-             name="tracingViewModel"
-             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />-->
-
     </data>
 
 
