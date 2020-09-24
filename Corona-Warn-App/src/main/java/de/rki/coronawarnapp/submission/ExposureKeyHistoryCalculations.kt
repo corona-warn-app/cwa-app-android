@@ -5,6 +5,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 
 class ExposureKeyHistoryCalculations(
     private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
+    private val daysSinceOnsetOfSymptomsVectorDeterminator: DaysSinceOnsetOfSymptomsVectorDeterminator,
     private val keyConverter: KeyConverter
 ) {
 
@@ -16,16 +17,11 @@ class ExposureKeyHistoryCalculations(
         keys: List<TemporaryExposureKey>,
         symptoms: Symptoms
     ) =
-        toExternalFormat(
-            toSortedHistory(limitKeyCount(keys)),
-            transmissionRiskVectorDeterminator.determine(symptoms),
-            determineDaysSinceOnsetOfSymptomsVector(symptoms, keys.size)
+    toExternalFormat(
+        toSortedHistory(limitKeyCount(keys)),
+        transmissionRiskVectorDeterminator.determine(symptoms),
+        daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms, keys.size)
         )
-
-    private fun determineDaysSinceOnsetOfSymptomsVector(symptoms: Symptoms, size: Int): DaysSinceOnsetOfSymptomsVector {
-        //TODO: Implement and extract function into a "determinator"
-        return IntArray(size)
-    }
 
     @VisibleForTesting
     internal fun <T> limitKeyCount(keys: List<T>): List<T> =
@@ -50,5 +46,4 @@ class ExposureKeyHistoryCalculations(
     @VisibleForTesting
     internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
         keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
-
 }

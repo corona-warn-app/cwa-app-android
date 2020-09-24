@@ -23,7 +23,10 @@ class ExposureKeyHistoryCalculationsTest {
                     .setRollingStartIntervalNumber(riskValue * 10)
                     .build()
         }
-        instance = ExposureKeyHistoryCalculations(TransmissionRiskVectorDeterminator(), converter)
+        instance = ExposureKeyHistoryCalculations(
+            TransmissionRiskVectorDeterminator(),
+            DaysSinceOnsetOfSymptomsVectorDeterminator(),
+            converter)
     }
 
     @Test
@@ -90,7 +93,8 @@ class ExposureKeyHistoryCalculationsTest {
                     createKey(0),
                     createKey(1)
                 ),
-                TransmissionRiskVector(intArrayOf(0, 1, 2))
+                TransmissionRiskVector(intArrayOf(0, 1, 2)),
+                intArrayOf(3998, 3999, 4000)
             ).map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
         )
     }

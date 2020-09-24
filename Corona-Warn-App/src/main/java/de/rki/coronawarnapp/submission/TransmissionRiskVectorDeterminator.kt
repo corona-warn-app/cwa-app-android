@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.submission
 
 import org.joda.time.Duration
 import org.joda.time.Instant
-import timber.log.Timber
 
 class TransmissionRiskVectorDeterminator {
 
@@ -12,7 +11,7 @@ class TransmissionRiskVectorDeterminator {
     }
 
     @Suppress("MagicNumber")
-    fun determine(symptoms: Symptoms): TransmissionRiskVector = TransmissionRiskVector(
+    internal fun determine(symptoms: Symptoms): TransmissionRiskVector = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
             Symptoms.Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
                 is Symptoms.StartOf.Date -> when (
