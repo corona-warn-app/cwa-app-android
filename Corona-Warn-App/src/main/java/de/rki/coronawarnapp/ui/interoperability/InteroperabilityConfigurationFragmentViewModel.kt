@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.interoperability
 
-import androidx.lifecycle.MutableLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -11,7 +10,7 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
     private val interoperabilityRepository: InteroperabilityRepository
 ) : CWAViewModel() {
 
-    val countryList = MutableLiveData(interoperabilityRepository.getAllCountries())
+    val countryList = interoperabilityRepository.countryList
     val navigateBack = SingleLiveEvent<Boolean>()
 
     fun onBackPressed() {
