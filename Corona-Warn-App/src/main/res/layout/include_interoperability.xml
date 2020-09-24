@@ -155,7 +155,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
-                android:id="@+id/country_list_riskdetails_nofetch"
+                android:id="@+id/no_countries_default_infoview"
                 layout="@layout/include_interop_no_countries_infoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
             <include
-                android:id="@+id/country_list_no_fetch"
+                android:id="@+id/no_countries_riskdetails_infoview"
                 layout="@layout/include_interop_riskdetails_no_countries_infoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
             <include
-                android:id="@+id/country_list_fetch"
+                android:id="@+id/country_list_overview"
                 layout="@layout/include_interop_list_participating_countries_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 app:barrierAllowsGoneWidgets="false"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="country_list_no_fetch,country_list_fetch"
+                app:constraint_referenced_ids="no_countries_riskdetails_infoview, no_countries_riskdetails_infoview,country_list_overview"
                 tools:layout_editor_absoluteY="411dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
