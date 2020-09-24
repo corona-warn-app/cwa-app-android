@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.ui.interoperability
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -32,6 +35,15 @@ class InteroperabilityConfigurationFragment :
 
         binding.interoperabilityConfigurationHeader.headerButtonBack.buttonIcon.setOnClickListener {
             vm.onBackPressed()
+        }
+
+        binding.interoperabilityConfigurationCountryList.noCountriesRiskdetailsInfoview.riskDetailsOpenSettingsButton.setOnClickListener {
+            val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+            } else {
+                Intent(Settings.ACTION_SETTINGS)
+            }
+            startActivity(intent)
         }
 
         vm.navigateBack.observe2(this) {

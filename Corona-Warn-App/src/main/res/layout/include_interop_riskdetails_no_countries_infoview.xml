@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@+id/no_network_title" />
 
         <Button
-            android:id="@+id/onboarding_button_next"
+            android:id="@+id/risk_details_open_settings_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
