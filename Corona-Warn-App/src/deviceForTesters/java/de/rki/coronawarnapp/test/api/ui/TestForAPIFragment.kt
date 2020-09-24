@@ -32,7 +32,6 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.google.zxing.qrcode.QRCodeWriter
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
@@ -54,14 +53,14 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -285,9 +284,9 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             false
         }
 
-        binding.testLogfileToggle.isChecked = CoronaWarnApplication.fileLogger?.isLogging ?: false
+        binding.testLogfileToggle.isChecked = CWADebug.fileLogger?.isLogging ?: false
         binding.testLogfileToggle.setOnClickListener { buttonView ->
-            CoronaWarnApplication.fileLogger?.let {
+            CWADebug.fileLogger?.let {
                 if (binding.testLogfileToggle.isChecked) {
                     it.start()
                 } else {
@@ -297,7 +296,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         }
 
         binding.testLogfileShare.setOnClickListener {
-            CoronaWarnApplication.fileLogger?.let {
+            CWADebug.fileLogger?.let {
                 lifecycleScope.launch {
                     val targetPath = withContext(Dispatchers.IO) {
                         async {
