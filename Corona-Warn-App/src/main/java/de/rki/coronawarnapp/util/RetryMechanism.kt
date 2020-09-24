@@ -52,8 +52,14 @@ object RetryMechanism {
         } else {
             val exp = 2.0.pow(attempt.count.toDouble())
             val calculatedDelay = (multiplier * exp).roundToLong()
-            val newDelay = calculatedDelay.coerceAtMost(maxDelay).coerceAtLeast(minDelay)
-            (attempt.lastDelay..newDelay).random()
+
+            val newDelay = if (calculatedDelay > attempt.lastDelay) {
+                (attempt.lastDelay..calculatedDelay).random()
+            } else {
+                (calculatedDelay..attempt.lastDelay).random()
+            }
+
+            newDelay.coerceAtMost(maxDelay).coerceAtLeast(minDelay)
         }
     }
 
