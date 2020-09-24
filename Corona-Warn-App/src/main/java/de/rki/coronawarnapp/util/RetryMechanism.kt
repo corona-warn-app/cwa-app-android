@@ -44,7 +44,7 @@ object RetryMechanism {
         maxTotalDelay: Long = 15 * 1000L, // 15 seconds total delay
         maxDelay: Long = 3 * 1000L, // 3 seconds max between retries
         minDelay: Long = 25, // Immediate retry
-        multiplier: Double = 1.0,
+        multiplier: Double = 1.5,
     ): (Attempt) -> Long? = { attempt ->
         if (attempt.totalDelay > maxTotalDelay) {
             Timber.w("Max retry duration exceeded.")

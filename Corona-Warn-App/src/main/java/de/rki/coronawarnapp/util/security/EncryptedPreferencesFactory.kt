@@ -29,6 +29,7 @@ class EncryptedPreferencesFactory @Inject constructor(
 
     fun create(fileName: String): SharedPreferences = try {
         RetryMechanism.retryWithBackOff {
+            Timber.d("Creating EncryptedSharedPreferences instance.")
             createInstance(fileName).also {
                 Timber.d("Instance created, %d entries.", it.all.size)
             }
