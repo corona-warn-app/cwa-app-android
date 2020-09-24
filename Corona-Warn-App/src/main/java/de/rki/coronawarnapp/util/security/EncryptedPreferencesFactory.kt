@@ -31,6 +31,7 @@ class EncryptedPreferencesFactory @Inject constructor(
         RetryMechanism.retryWithBackOff {
             createInstance(fileName).also {
                 Timber.d("Instance created, %d entries.", it.all.size)
+                throw RuntimeException()
             }
         }
     } catch (e: Exception) {

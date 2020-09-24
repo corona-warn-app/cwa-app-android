@@ -9,6 +9,7 @@ object RetryMechanism {
     fun <T> retryWithBackOff(
         delayCalculator: (Attempt) -> Long? = createDelayCalculator(),
         delayOperation: (Long) -> Unit = { Thread.sleep(it) },
+        retryCondition: (Attempt) -> Boolean = { true },
         action: () -> T
     ): T {
         var current = Attempt()
@@ -19,6 +20,8 @@ object RetryMechanism {
             } catch (e: Exception) {
                 current = current.copy(exception = e)
             }
+
+            if (!retryCondition(current)) throw current.exception!!
 
             val newDelay = delayCalculator(current)
 
@@ -38,17 +41,19 @@ object RetryMechanism {
     }
 
     fun createDelayCalculator(
-        maximumDelay: Long = 3 * 1000L, // 3 seconds max between retries
-        minimumDelay: Long = 0, // Immediate retry
+        maxTotalDelay: Long = 15 * 1000L, // 15 seconds total delay
+        maxDelay: Long = 3 * 1000L, // 3 seconds max between retries
+        minDelay: Long = 25, // Immediate retry
         multiplier: Double = 1.0,
     ): (Attempt) -> Long? = { attempt ->
-        if (attempt.totalDelay > 10 * 1000L) {
+        if (attempt.totalDelay > maxTotalDelay) {
             Timber.w("Max retry duration exceeded.")
             null
         } else {
             val exp = 2.0.pow(attempt.count.toDouble())
             val calculatedDelay = (multiplier * exp).roundToLong()
-            calculatedDelay.coerceAtMost(maximumDelay).coerceAtLeast(minimumDelay)
+            val newDelay = calculatedDelay.coerceAtMost(maxDelay).coerceAtLeast(minDelay)
+            (attempt.lastDelay..newDelay).random()
         }
     }
 
