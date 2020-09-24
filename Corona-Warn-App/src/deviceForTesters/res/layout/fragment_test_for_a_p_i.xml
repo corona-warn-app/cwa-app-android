@@ -43,6 +43,14 @@
                 android:text="@string/test_api_switch_background_notifications"
                 android:theme="@style/switchBase" />
 
+            <Switch
+                android:id="@+id/test_api_switch_test_countries"
+                style="@style/body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/test_api_switch_test_countries"
+                android:theme="@style/switchBase" />
+
             <TextView
                 android:id="@+id/label_exposure_summary"
                 style="@style/headline6"

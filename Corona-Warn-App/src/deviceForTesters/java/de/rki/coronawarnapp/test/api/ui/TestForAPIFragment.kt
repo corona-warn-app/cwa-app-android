@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -36,6 +37,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
@@ -60,7 +62,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -112,6 +113,8 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private var lastSetCountries: List<String>? = null
 
+    private var environmentSetup: EnvironmentSetup? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -127,6 +130,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             "Google Play Services version: " + v.toString()
 
         token = UUID.randomUUID().toString()
+        environmentSetup = context?.let { EnvironmentSetup(it) }
 
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
@@ -176,6 +180,15 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             val isBackgroundNotificationsActive = backgroundNotificationSwitch.isChecked
             showToast("Background Notifications are activated: $isBackgroundNotificationsActive")
             LocalData.backgroundNotification(isBackgroundNotificationsActive)
+        }
+
+        val testCountriesSwitch = binding.testApiSwitchTestCountries
+        testCountriesSwitch.isChecked = getSavedEnvironment()
+        testCountriesSwitch.setOnClickListener {
+            val testCountryActive = testCountriesSwitch.isChecked
+            showSnackBar(it, "Test Countries are activated: $testCountryActive" +
+                "\n YOU MUST FORCE RESTART THE APPLICATION")
+            saveEnvironment(testCountryActive)
         }
 
         binding.buttonApiGetCheckExposure.setOnClickListener {
@@ -520,6 +533,25 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     private fun showToast(message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
         toast.show()
+    }
+
+    fun getSavedEnvironment(): Boolean {
+        if (environmentSetup!!.currentEnvironment != EnvironmentSetup.Type.WRU_XA)
+            return false
+        return true
+    }
+
+    fun saveEnvironment(testCountryActive: Boolean) {
+        if (testCountryActive) {
+            environmentSetup!!.currentEnvironment = EnvironmentSetup.Type.WRU_XA
+        } else {
+            environmentSetup!!.currentEnvironment = environmentSetup!!.defaultEnvironment
+        }
+    }
+
+    private fun showSnackBar(view: View, message: String) {
+        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        snack.show()
     }
 
     override fun onFailure(exception: Exception?) {

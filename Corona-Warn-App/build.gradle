@@ -71,12 +71,12 @@ android {
                 buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
         }
 
-        buildConfigField "String", "TEST_ENVIRONMENT_DEFAULT_TYPE", "\"DEV\""
+        buildConfigField "String", "TEST_ENVIRONMENT_DEFAULT_TYPE", "\"WRU-XD\""
 
         def testEnvironmentJsonFile = file("../test_environments.json")
         if (testEnvironmentJsonFile.exists()) {
             def rawJson = testEnvironmentJsonFile.text
-            def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "")
+            def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "").replace("\r", "")
             buildConfigField "String", "TEST_ENVIRONMENT_JSONDATA", "\"${escapedJson}\""
         } else {
             buildConfigField "String", "TEST_ENVIRONMENT_JSONDATA", "\"\""

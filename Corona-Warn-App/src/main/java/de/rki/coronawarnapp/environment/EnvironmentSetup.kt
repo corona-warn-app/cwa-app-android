@@ -77,7 +77,7 @@ class EnvironmentSetup @Inject constructor(
         DEV("DEV"),
         WRU("WRU"),
         WRU_XA("WRU-XA"), // (aka ACME)
-        WRU_XD("WRU-XD"); //(aka Germany)
+        WRU_XD("WRU-XD") // (aka Germany)
     }
 
     private fun String.toEnvironmentType(): Type = Type.values().single {
