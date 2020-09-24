@@ -884,9 +884,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"TAN entry"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"Invalid TAN, please check your entry."</string>
+    <string name="submission_tan_error">"Invalid TAN. Please check your entry."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Invalid entry. Please check your entry."</string>
+    <string name="submission_tan_character_error">"Your entry contains invalid characters. Please check your entry."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -946,9 +946,9 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Data Privacy"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping on “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Next"</string>
+    <string name="submission_positive_other_warning_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A device transmits an encrypted positive test diagnosis to the system."</string>
 
@@ -989,7 +989,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Done"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Everyone in the group is cheering because someone has shared the test result."</string>
+    <string name="submission_done_illustration_description">"Have you experienced one or more of the following symptoms in the past few days?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Symptoms"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Have you experienced one or more of the following symptoms in the past few days?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Increased temperature or fever"</item>
+        <item>"Shortness of breath"</item>
+        <item>"Loss of sense of smell/taste"</item>
+        <item>"Cough"</item>
+        <item>"Runny nose"</item>
+        <item>"Sore throat"</item>
+        <item>"Headache and aching limbs"</item>
+        <item>"General weakness and exhaustion"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Yes"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"No"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"No comment"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Next"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -1019,6 +1045,22 @@
     <string name="submission_contact_step_1_content">"In the first step, you call the hotline and request your TAN. You can reach the hotline on +49 800 7540002. The business hours are Monday to Friday from 8 am to 10 pm and Saturday and Sunday from 10 am to 10 pm. The call is free of charge."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"In the second step, you register your test with your TAN in the app."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Start of Symptoms"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"When did you first start to experience these symptoms? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Select the exact date in the calendar or, if you cannot remember the exact date, choose one of the other options."</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"In the last 7 days"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"1-2 weeks ago"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"More than 2 weeks ago"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"No comment"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1082,6 +1124,9 @@
         <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
+
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Exact date"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

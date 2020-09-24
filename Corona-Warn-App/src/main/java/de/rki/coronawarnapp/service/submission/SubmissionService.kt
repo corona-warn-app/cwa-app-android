@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.http.playbook.BackgroundNoise
 import de.rki.coronawarnapp.http.playbook.PlaybookImpl
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -51,10 +52,10 @@ object SubmissionService {
         SubmissionRepository.updateTestResult(testResult)
     }
 
-    suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>) {
+    suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>, symptoms: Symptoms) {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        SubmitDiagnosisKeysTransaction.start(registrationToken, keys)
+        SubmitDiagnosisKeysTransaction.start(registrationToken, keys, symptoms)
     }
 
     suspend fun asyncRequestTestResult(): TestResult {

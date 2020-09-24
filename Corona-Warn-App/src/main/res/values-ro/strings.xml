@@ -884,9 +884,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"Intrare TAN"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"TAN nevalabil. Verificați intrarea."</string>
+    <string name="submission_tan_error">"TAN nevalabil. Verificați intrarea dvs."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Intrare nevalabilă. Verificați intrarea."</string>
+    <string name="submission_tan_character_error">"Intrarea dvs. conține caractere nevalabile. Vă rugăm să o verificați."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -946,9 +946,9 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Confidențialitatea datelor"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping on “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"Apăsând pe „Accept”, consimțiți ca aplicația să trimită rezultatul pozitiv al testului dvs. către sistemul de servere al aplicației, împreună cu ID-urile dvs. aleatorii din ultimele 14 zile, pentru ca ceilalți utilizatori ai aplicației care au activat caracteristica de înregistrare în jurnal a expunerilor să poată fi notificați automat că se poate să fi fost expuși la riscul de infectare. ID-urile aleatorii transmise în acest scop nu conțin informații care să poată permite tragerea unor concluzii privind identitatea dvs. sau persoana dvs. \n\nTransmiterea rezultatului testului prin intermediul aplicației este voluntară. Nu veți fi penalizat dacă nu transmiteți rezultatul testului. Din moment ce nu este posibilă urmărirea sau verificarea modului în care utilizați aplicația sau dacă o utilizați sau nu, doar dvs. veți ști dacă ați transmis informațiile că sunteți infectat.\n\nPuteți oricând să vă retrageți consimțământul prin ștergerea acestei aplicații. Retragerea consimțământului nu va afecta legalitatea procesării efectuate în baza consimțământului acordat înainte de retragerea acestuia. Pentru informații suplimentare, consultați meniul din „Confidențialitatea datelor”."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Înainte"</string>
+    <string name="submission_positive_other_warning_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Un dispozitiv transmite un diagnostic de test pozitiv criptat către sistem."</string>
 
@@ -989,7 +989,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Gata"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Toată lumea din grup aclamă deoarece o persoană și-a împărtășit rezultatul testului."</string>
+    <string name="submission_done_illustration_description">"Ați resimțit unul sau mai multe dintre următoarele simptome în ultimele zile?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Simptome"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Ați resimțit unul sau mai multe dintre următoarele simptome în ultimele zile?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Temperatură crescută sau febră"</item>
+        <item>"Scurtarea respirației"</item>
+        <item>"Pierderea mirosului/gustului"</item>
+        <item>"Tuse"</item>
+        <item>"Curgerea nasului"</item>
+        <item>"Durere în gât"</item>
+        <item>"Durere de cap și dureri de membre"</item>
+        <item>"Slăbiciune generală și epuizare"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Da"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"Nu"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"Nu comentez"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Înainte"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -1019,6 +1045,22 @@
     <string name="submission_contact_step_1_content">"Primul pas: sunați la hotline și solicitați codul dvs. TAN. Puteți contacta hotline-ul la numărul de telefon +49 800 7540002. Programul de lucru este: luni - vineri, 08:00 - 22.00 și sâmbătă - duminică, 10:00 - 22:00. Apelul este gratuit."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Al doilea pas: înregistrați-vă testul cu codul dvs. TAN în aplicație."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Începutul simptomelor"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"Când ați început să resimțiți aceste simptome? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Selectați data exactă din calendar sau, în cazul în care nu țineți minte data exactă, alegeți una dintre celelalte opțiuni:"</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"În ultimele 7 zile"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"Acum 1-2 săptămâni"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"Cu peste 2 săptămâni în urmă"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"Nu comentez"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1082,6 +1124,9 @@
         <item>"Rămâneți acasă până vă simțiți din nou bine. Dacă v-ați infecta cu coronavirus (SARS-CoV-2) în timp ce organismul dvs. este slăbit din cauza unei alte infecții, aceasta ar putea duce la o boală gravă."</item>
         <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane. Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un test SARS-CoV-2 suplimentar."</item>
     </string-array>
+
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Data exactă"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
