@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <import type="de.rki.coronawarnapp.submission.Symptoms.StartOf" />
+
+        <variable
+            name="submissionViewModel"
+            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/target_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <Button
+            android:id="@+id/calendar_button_seven_days"
+            style="@style/selectionButton"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@{@string/submission_symptom_less_seven}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Button
+            android:id="@+id/calendar_button_one_two_weeks"
+            style="@style/selectionButton"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@{@string/submission_symptom_one_two_weeks}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendar_button_seven_days" />
+
+        <Button
+            android:id="@+id/calendar_button_more_than_two_weeks"
+            style="@style/selectionButton"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@{@string/submission_symptom_more_two_weeks}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendar_button_one_two_weeks" />
+
+        <Button
+            android:id="@+id/target_button_verify"
+            style="@style/selectionButton"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@{@string/submission_symptom_verify}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendar_button_more_than_two_weeks" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
                Preference Keys
@@ -345,7 +346,7 @@
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
-    <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Endgerät berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
+    <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
@@ -390,7 +391,7 @@
     <!-- XTXT: onboarding - back description for screen reader -->
     <string name="onboarding_button_back_description">"Zurück"</string>
     <!-- XACT: Onboarding (together) page title -->
-    <string name="onboarding_onboarding_accessibility_title">"Einführung Seite 1 von 5: Gemeinsam Corona bekämpfen"</string>
+    <string name="onboarding_onboarding_accessibility_title">"Einführung Seite 1 von 6: Gemeinsam Corona bekämpfen"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Gemeinsam Corona bekämpfen"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
@@ -402,20 +403,20 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">"Einführung Seite 2 von 5. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung."</string>
+    <string name="onboarding_privacy_accessibility_title">"Einführung Seite 2 von 6. Datenschutz. Es folgt ein Langtext. Eine statische Weitertaste steht am unteren Rand des Bildschirms zur Verfügung."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Datenschutz"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
-    <string name="onboarding_privacy_illustration_description">"Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
+    <string name="onboarding_privacy_illustration_description">"Eine Frau mit einem Smartphone benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
     <!-- XACT: Onboarding (tracing) page title -->
-    <string name="onboarding_tracing_accessibility_title">"Einführung Seite 3 von 5: Wie Sie die Risiko Ermittlung ermöglichen"</string>
+    <string name="onboarding_tracing_accessibility_title">"Einführung Seite 3 von 6: Wie Sie die Risiko Ermittlung ermöglichen"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Wie Sie die Risiko-Ermittlung ermöglichen"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Handy per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."</string>
+    <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
@@ -467,7 +468,7 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: Onboarding (test) page title -->
-    <string name="onboarding_test_accessibility_title">"Einführung Seite 4 von 5: Falls Sie positiv getestet wurden"</string>
+    <string name="onboarding_test_accessibility_title">"Einführung Seite 5 von 6: Falls Sie positiv getestet wurden"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"Falls Sie Corona-positiv getestet werden …"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
@@ -477,7 +478,7 @@
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
     <!-- XACT: Onboarding (datashare) page title -->
-    <string name="onboarding_notifications_accessibility_title">"Einführung Seite 5 von 5: Warnungen erhalten und Risiken erkennen"</string>
+    <string name="onboarding_notifications_accessibility_title">"Einführung Seite 6 von 6: Warnungen erhalten und Risiken erkennen"</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Warnungen erhalten, Risiken kennen"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
@@ -521,7 +522,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Standortdienste deaktiviert"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert, indem Ihr Handy per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
+    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktiv"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -568,7 +569,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Eine Person hat Bluetooth auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive"/>
+    <string name="settings_tracing_location_illustration_description_inactive" />
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"Eine Person hat die Internetverbindung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
 
@@ -633,7 +634,7 @@
     <!-- YTXT: settings(background priority) - description text -->
     <string name="settings_background_priority_body">"Wenn Sie die Priorisierte Hintergrundaktivität einschalten, kann die App Ihren Risikostatus immer automatisch prüfen. Damit wird die Optimierung des Akku-Verbrauchs ausschließlich für die Corona-Warn-App deaktiviert."</string>
     <!-- XACT: settings(background priority) - illustraction description -->
-    <string name="settings_background_priority_illustration_description"/>
+    <string name="settings_background_priority_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
@@ -662,7 +663,7 @@
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
     <string name="information_privacy_title">"Datenschutz"</string>
     <!-- XACT: describes illustration -->
-    <string name="information_privacy_illustration_description">"Eine Frau mit einem Handy benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
+    <string name="information_privacy_illustration_description">"Eine Frau mit einem Smartphone benutzt die Corona-Warn-App, ein Vorhängeschloss auf einem Schild steht als Symbol für verschlüsselte Daten."</string>
     <!-- XTXT: Path to the full blown privacy html, to translate it exchange "_de" to "_en" and provide the corresponding html file -->
     <string name="information_privacy_html_path">"privacy_de.html"</string>
     <!-- XHED: Page title for terms of use information page, also menu item / button text -->
@@ -728,6 +729,13 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Eine Hand hält ein Smartphone mit viel Text, daneben ist ein Paragraphenzeichen als Symbol für das Impressum."</string>
 
+    <!-- ####################################
+              Interoperability
+    ###################################### -->
+    <!-- XHED: headline for consent information  -->
+    <string name="interop_consent_headline">"Einwilligungserklärung"</string>
+    <!-- YTXT: body for consent information -->
+    <string name="interop_consent_body">"Indem Sie „Einverstanden“ antippen, willigen Sie ein, dass Ihre Zufalls-IDs der letzten 14 Tage an das von den teilnehmenden Ländern&#42; gemeinsam betriebene europäische Serversystem übermittelt werden. Da Sie Corona-positiv getestet wurden, können Sie Nutzer der offiziellen Corona-Apps der teilnehmenden Länder warnen. Hierzu werden Ihre Zufalls-IDs den teilnehmenden Ländern übermittelt. Den Nutzern der offiziellen Corona-Apps anderer Länder, denen Sie begegnet sind, kann dann angezeigt werden, dass diese eine Risiko-Begegnung in den letzten 14 Tagen hatten.<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>Andere Nutzer können anhand Ihrer Zufalls-IDs nicht auf Ihre Identität, Ihren Namen oder andere persönliche Angaben schließen.<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>Die Übermittlung der Zufalls-IDs zur länderübergreifenden Warnung ist freiwillig. Wenn Sie die Daten nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen auch niemand, ob Sie Ihre Zufalls-IDs zur Verfügung stellen.<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen – auch zu den teilnehmenden Ländern und datenschutzrechtlich verantwortlichen Gesundheitsbehörden – finden Sie unter dem Menüpunkt „Datenschutz“."</string>
 
     <!-- ####################################
              Submission
@@ -749,7 +757,7 @@
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN ist ungültig"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
-    <string name="submission_error_dialog_web_test_paired_body_tan">"Die TAN ist ungültig oder wurde bereits verwendet. Bitte rufen Sie die unter „TAN anfragen" angegebene Nummer an, um weitere Informationen zu erhalten."</string>
+    <string name="submission_error_dialog_web_test_paired_body_tan">"Die TAN ist ungültig oder wurde bereits verwendet. Bitte rufen Sie die unter „TAN anfragen“ angegebene Nummer an, um weitere Informationen zu erhalten."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Zurück"</string>
 
@@ -884,9 +892,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"TAN-Eingabe"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"Ungültige TAN, bitte überprüfen Sie Ihre Eingabe."</string>
+    <string name="submission_tan_error">"Ungültige TAN. Bitte überprüfen Sie Ihre Eingabe."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Ungültige Eingabe, bitte überprüfen Sie das Zeichen."</string>
+    <string name="submission_tan_character_error">"Ihre Eingabe enthält ein ungültiges Zeichen. Bitte überprüfen Sie Ihre Eingabe."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -942,13 +950,13 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen.\n\nDa nur unpersönliche Zufallscodes übertragen werden, bleibt Ihre Identität unbekannt."</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen.\n\nDa ein Ansteckungsrisiko schon vor dem Erkrankungsbeginn bestehen und im Zeitverlauf variieren kann, bitten wir Sie auch anzugeben, wann eventuelle Corona-Symptome (z. B. Fieber oder Husten) zum ersten Mal bei Ihnen aufgetreten sind. Dadurch kann das Infektionsrisiko von anderen App-Nutzern, die Ihnen begegnet sind, genauer berechnet werden. Die Angabe des Symptombeginns ist optional. Wenn Sie keine Symptome haben oder keine Angaben machen möchten, können Sie „keine Angabe“ auswählen."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Datenschutz"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"Durch Antippen von „Weiter“ willigen Sie ein, dass die App Ihr positives Testergebnis zusammen mit Ihren Zufalls-IDs der letzten 14 Tage an das Serversystem der App übermittelt, damit andere App-Nutzer mit aktivierter Risiko-Ermittlung automatisch informiert werden können, dass sie möglicherweise einem Infektionsrisiko ausgesetzt waren. Die übermittelten Zufalls-IDs enthalten keine Angaben, die Rückschlüsse auf Ihre Identität oder Ihre Person zulassen.\n\nDie Übermittlung Ihres Testergebnisses per App ist freiwillig. Wenn Sie Ihr Testergebnis nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen niemand, ob Sie eine Infektion übermittelt haben.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutzinformation“."</string>
+    <string name="submission_positive_other_warning_privacy_body">"Durch Antippen von „Einverstanden“ willigen Sie ein, dass die App Ihr positives Testergebnis zusammen mit Ihren Zufalls-IDs der letzten 14 Tage an das Serversystem der App übermittelt, damit andere App-Nutzer mit aktivierter Risiko-Ermittlung automatisch informiert werden können, dass sie möglicherweise einem Infektionsrisiko ausgesetzt waren. Wenn Sie optionale Angaben zum Symptombeginn machen, enthalten die übermittelten Zufalls-IDs auch einen aus Ihren Angaben abgeleiteten Risikowert, der Ihr Ansteckungsrisiko am Gültigkeitstag der jeweiligen Zufalls-ID angibt. Die übermittelten Zufalls-IDs enthalten keine Angaben, die Rückschlüsse auf Ihre Identität oder Ihre Person zulassen.\n\nDie Übermittlung Ihres Testergebnisses per App ist freiwillig. Wenn Sie Ihr Testergebnis nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen niemand, ob Sie eine Infektion übermittelt haben.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „App-Informationen“ > „Datenschutz“."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Weiter"</string>
+    <string name="submission_positive_other_warning_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
 
@@ -989,7 +997,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Fertig"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Eine vielfältige Gruppe begrüßt durch Jubel, dass jemand sein Testergebnis mit anderen geteilt hat."</string>
+    <string name="submission_done_illustration_description">"Sind eines oder mehrere der folgenden Symptome in den letzten Tagen bei Ihnen neu aufgetreten?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Symptome"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Sind eines oder mehrere der folgenden Symptome in den letzten Tagen bei Ihnen neu aufgetreten?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Erhöhte Temperatur oder Fieber"</item>
+        <item>"Kurzatmigkeit"</item>
+        <item>"Verlust des Geruchs-/Geschmackssinns"</item>
+        <item>"Husten"</item>
+        <item>"Schnupfen"</item>
+        <item>"Halsschmerzen"</item>
+        <item>"Kopf- und Gliederschmerzen"</item>
+        <item>"Allgemeine Schwäche und Abgeschlagenheit"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Ja"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"Nein"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"Keine Angabe"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Weiter"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -1019,6 +1053,22 @@
     <string name="submission_contact_step_1_content">"Im ersten Schritt Hotline anrufen und TAN erfragen, unter der Rufnummer +49 800 7540002. Die Erreichbarkeit ist Montag bis Freitag von 8 bis 22 Uhr sowie Samstag und Sonntag von 10 bis 22 Uhr. Der Anruf ist kostenfrei."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Im zweiten Schritt registrieren Sie den Test per TAN-Eingabe in der App."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Symptom-Beginn"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"Wann sind die Symptome bei Ihnen aufgetreten? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Selektieren Sie entweder das genaue Datum in dem Kalender oder wenn Sie sich nicht genau erinnern, eine der anderen Optionen."</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"In den letzten 7 Tagen"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"Vor 1-2 Wochen"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"Vor mehr als 2 Wochen"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"Keine Angabe"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1082,6 +1132,9 @@
         <item>"Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen."</item>
         <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden. Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
     </string-array>
+
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Genaues Datum"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
@@ -1178,4 +1231,109 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+
+    <!-- XHED: Country Entry for Austria -->
+    <string name="country_name_at">Österreich</string>
+    <!-- XHED: Country Entry for Belgium -->
+    <string name="country_name_be">Belgien</string>
+    <!-- XHED: Country Entry for Bulgaria -->
+    <string name="country_name_bg">Bulgarien</string>
+    <!-- XHED: Country Entry for Switzerland -->
+    <string name="country_name_ch">Schweiz</string>
+    <!-- XHED: Country Entry for Cyprus -->
+    <string name="country_name_cy">Zypern</string>
+    <!-- XHED: Country Entry for Czech Republic -->
+    <string name="country_name_cz">Tschechien</string>
+    <!-- XHED: Country Entry for Germany -->
+    <string name="country_name_de">Deutschland</string>
+    <!-- XHED: Country Entry for Denmark -->
+    <string name="country_name_dk">Dänemark</string>
+    <!-- XHED: Country Entry for Estonia -->
+    <string name="country_name_ee">Estland</string>
+    <!-- XHED: Country Entry for Spain -->
+    <string name="country_name_es">Spanien</string>
+    <!-- XHED: Country Entry for Finland -->
+    <string name="country_name_fi">Finland</string>
+    <!-- XHED: Country Entry for France -->
+    <string name="country_name_fr">Frankreich</string>
+    <!-- XHED: Country Entry for Great Britain -->
+    <string name="country_name_uk">Großbritannien</string>
+    <!-- XHED: Country Entry for Greece -->
+    <string name="country_name_gr">Griechenland</string>
+    <!-- XHED: Country Entry for Croatia -->
+    <string name="country_name_hr">Kroatien</string>
+    <!-- XHED: Country Entry for Hungary -->
+    <string name="country_name_hu">Ungarn</string>
+    <!-- XHED: Country Entry for Ireland -->
+    <string name="country_name_ie">Irland</string>
+    <!-- XHED: Country Entry for Iceland -->
+    <string name="country_name_is">Island</string>
+    <!-- XHED: Country Entry for Italy -->
+    <string name="country_name_it">Italien</string>
+    <!-- XHED: Country Entry for Liechtenstein -->
+    <string name="country_name_li">Liechtenstein</string>
+    <!-- XHED: Country Entry for Lithuania -->
+    <string name="country_name_lt">Litauen</string>
+    <!-- XHED: Country Entry for Luxemburg -->
+    <string name="country_name_lu">Luxemburg</string>
+    <!-- XHED: Country Entry for Latvia -->
+    <string name="country_name_lv">Lettland</string>
+    <!-- XHED: Country Entry for Malta -->
+    <string name="country_name_mt">Malta</string>
+    <!-- XHED: Country Entry for Netherlands -->
+    <string name="country_name_nl">Niederlande</string>
+    <!-- XHED: Country Entry for Norway -->
+    <string name="country_name_no">Norwegen</string>
+    <!-- XHED: Country Entry for Poland -->
+    <string name="country_name_pl">Polen</string>
+    <!-- XHED: Country Entry for Portugal -->
+    <string name="country_name_pt">Portugal</string>
+    <!-- XHED: Country Entry for Rumania -->
+    <string name="country_name_ro">Rumänien</string>
+    <!-- XHED: Country Entry for Sweden -->
+    <string name="country_name_se">Schweden</string>
+    <!-- XHED: Country Entry for Slovenia -->
+    <string name="country_name_si">Slowenien</string>
+    <!-- XHED: Country Entry for Slovakia -->
+    <string name="country_name_sk">Slowakei</string>
+
+    <!-- XHED: Title of the interoperbaility information view. -->
+    <string name="interoperability_title">Europaweite\nRisiko-Ermittlung</string>
+
+    <!-- XHED: Setting title of interoperability in the tracing settings view -->
+    <string name="settings_interoperability_title">Länderübergreifende Risiko-Ermittlung</string>
+    <!-- XTXT: Settings description of the interoperability in the tracing settings view -->
+    <string name="settings_interoperability_subtitle">Teilnehmende Länder</string>
+
+    <!-- XHED: Header of interoperability information/configuration view -->
+    <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
+    <!-- XTXT: First section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_first_section">Die Corona-Warn-App warnt länderübergreifend vor möglichen Infektionen, indem Daten über eine europäische Infrastruktur ausgetauscht werden.</string>
+    <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_second_section">Es werden keine persönlischen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
+    <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder teil:</string>
+
+    <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
+    <string name="interoperability_onboarding_title">Länderübergreifende\nRisiko-Ermittlung</string>
+    <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
+    <string name="interoperability_onboarding_first_section">Mehrere Länder in der EU arbeiten zusammen, um länderübergreifende Warnungen zu ermöglichen. Das heißt es können die Kontakte mit Nutzern der offiziellen Corona-Apps aller teilnehmenden Länder berücksichtigt werden.</string>
+    <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
+    <string name="interoperability_onboarding_second_section">Hat ein Nutzer seine Zufalls-IDs über das von den teilnehmenden Ländern gemeinsam betriebene Serversystem zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmender Länder gewarnt werden.</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
+    <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
+    <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
+
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">Europaweite\nRisiko-Ermittlung</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <!-- XHED: Header of private data in the delta onboarding interoperability view -->
+    <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
+    <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
+    <string name="interoperability_onboarding_delta_footerDescription"></string>
+
+    <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
+    <string name="interoperability_eu_illustration_description">Eine Hand hält ein Smartphone. Im Hintergrund ist Europa und die europäische Flagge illustriert</string>
 </resources>

@@ -5,13 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskLevel
@@ -43,7 +42,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     private val context: Context, // App context
-    private val exposureNotificationClient: ExposureNotificationClient,
+    private val enfClient: ENFClient,
     private val keyCacheRepository: KeyCacheRepository
 ) : CWAViewModel() {
 
@@ -63,7 +62,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             try {
                 RetrieveDiagnosisKeysTransaction.start()
                 calculateRiskLevel()
-            } catch (e: TransactionException) {
+            } catch (e: Exception) {
                 e.report(ExceptionCategory.INTERNAL)
             }
         }
@@ -73,7 +72,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 RiskLevelTransaction.start()
-            } catch (e: TransactionException) {
+            } catch (e: Exception) {
                 e.report(ExceptionCategory.INTERNAL)
             }
         }
@@ -218,7 +217,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
 
     private suspend fun asyncGetExposureInformation(token: String): List<ExposureInformation> =
         suspendCoroutine { cont ->
-            exposureNotificationClient.getExposureInformation(token)
+            enfClient.internalClient.getExposureInformation(token)
                 .addOnSuccessListener {
                     cont.resume(it)
                 }.addOnFailureListener {
@@ -261,7 +260,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
             Timber.i("Provide ${googleFileList.count()} files with ${appleKeyList.size} keys with token $token")
             try {
                 // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
-                InternalExposureNotificationClient.asyncProvideDiagnosisKeys(
+                enfClient.provideDiagnosisKeys(
                     googleFileList,
                     ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
                     token

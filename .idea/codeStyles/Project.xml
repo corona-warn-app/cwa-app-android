@@ -1,6 +1,6 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-     <JetCodeStyleSettings>
+    <JetCodeStyleSettings>
       <option name="PACKAGES_TO_USE_STAR_IMPORTS">
         <value>
           <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
