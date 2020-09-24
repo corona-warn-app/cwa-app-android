@@ -15,13 +15,12 @@ class ExposureKeyHistoryCalculations(
     fun transformToKeyHistoryInExternalFormat(
         keys: List<TemporaryExposureKey>,
         symptoms: Symptoms
-    ) {
+    ) =
         toExternalFormat(
             toSortedHistory(limitKeyCount(keys)),
             transmissionRiskVectorDeterminator.determine(symptoms),
             determineDaysSinceOnsetOfSymptomsVector(symptoms, keys.size)
         )
-    }
 
     private fun determineDaysSinceOnsetOfSymptomsVector(symptoms: Symptoms, size: Int): DaysSinceOnsetOfSymptomsVector {
         //TODO: Implement and extract function into a "determinator"
