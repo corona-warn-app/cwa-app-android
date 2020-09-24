@@ -30,6 +30,9 @@ message SignatureInfo {
 message SubmissionPayload {
     repeated TemporaryExposureKey keys = 1;
     optional bytes padding = 2;
+    repeated string visitedCountries = 3;
+    optional string origin = 4;
+    optional bool consentToFederation = 5;
 }
 
 message TemporaryExposureKey {
