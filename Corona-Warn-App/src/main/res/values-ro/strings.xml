@@ -139,7 +139,7 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s expunere cu risc redus"</item>
         <item quantity="other">"%1$s de expuneri cu risc redus"</item>
-        <item quantity="zero">"Nicio expunere până acum"</item>
+        <item quantity="zero">"Nicio expunere cu risc redus până acum"</item>
         <item quantity="two">"%1$s expuneri cu risc redus"</item>
         <item quantity="few">"%1$s expuneri cu risc redus"</item>
         <item quantity="many">"%1$s expuneri cu risc redus"</item>
@@ -276,7 +276,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Expuneri"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Întâlniri de o durată lungă și în strânsă proximitate cu o persoană diagnosticată cu COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Întâlniri de o durată mai lungă și în strânsă proximitate cu persoane diagnosticate cu COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Notificarea de expunere"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -296,6 +296,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Starea riscului dvs."</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Expuneri cu risc redus"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Riscul dvs. de infectare este redus"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Ați avut o întâlnire cu o persoană diagnosticată cu COVID-19. Totuși, pe baza datelor de înregistrare în jurnal a expunerilor, riscul dvs. de infectare este redus. Riscul este redus dacă întâlnirea dvs. a fost de scurtă durată sau s-a păstrat o anumită distanță. Nu este cazul să vă îngrijorați și nu este nevoie de nicio acțiune specială din partea dvs. Vă recomandăm să respectați regulile generale privind distanțarea și igiena."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Instrucțiuni"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +344,8 @@
     <string name="risk_details_information_body_outdated_risk">"Înregistrarea în jurnal a expunerilor dvs. nu a putut fi actualizată timp de peste 24 de ore."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu COVID-19 sau întâlnirile au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Riscul de infectare este calculat local pe dispozitivul dvs., utilizând datele de înregistrare în jurnal a expunerilor. Calculul poate ține cont și de distanța și durata expunerii la persoane diagnosticate cu COVID-19, precum și de potențiala contagiozitate a acestora. Riscul dvs. de infectare nu poate fi observat sau transmis mai departe niciunei alte persoane."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu COVID-19."</item>
@@ -431,7 +439,7 @@
     <!-- YMSI: onboarding(tracing) - dialog about background jobs -->
     <string name="onboarding_background_fetch_dialog_body">"Ați dezactivat actualizările în fundal pentru aplicația Corona-Warn. Activați actualizările în fundal pentru a utiliza înregistrarea automată în jurnal a expunerilor. Dacă nu activați actualizările în fundal, puteți porni doar manual din aplicație înregistrarea în jurnal a expunerilor. Puteți activa actualizările în fundal pentru aplicație din setările dispozitivului dvs."</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, open device settings -->
-    <string name="onboarding_background_fetch_dialog_button_positive">"Deschideți setările dispozitivului"</string>
+    <string name="onboarding_background_fetch_dialog_button_positive">"Deschideți Setările dispozitivului"</string>
     <!-- XBUT: onboarding(tracing) - dialog about background jobs, continue in app -->
     <string name="onboarding_background_fetch_dialog_button_negative">"Porniți manual înregistrarea în jurnal a expunerilor"</string>
     <!-- XACT: onboarding(tracing) - dialog about energy optimized header text -->
@@ -455,7 +463,7 @@
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
     <string name="onboarding_tracing_location_body">"Locația dvs. nu poate fi accesată. Google și/sau Android necesită acces la locația dispozitivului dvs. pentru a utiliza Bluetooth-ul."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Deschideți setările dispozitivului"</string>
+    <string name="onboarding_tracing_location_button">"Deschideți Setările dispozitivului"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Pagina de înregistrare 4 din 5: Dacă sunteți diagnosticat cu COVID-19…"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -514,21 +522,21 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_bluetooth_headline">"Activați Bluetooth-ul"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if bluetooth is disabled -->
-    <string name="settings_tracing_status_bluetooth_body">"Bluetooth-ul trebuie să fie activat pentru ca înregistrarea în jurnal a expunerilor să funcționeze. Activați Bluetooth-ul în setările dispozitivului."</string>
+    <string name="settings_tracing_status_bluetooth_body">"Bluetooth-ul trebuie să fie pornit pentru ca înregistrarea în jurnal a expunerilor să funcționeze. Porniți Bluetooth-ul în setările dispozitivului."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_bluetooth_button">"Deschideți setările dispozitivului"</string>
+    <string name="settings_tracing_status_bluetooth_button">"Deschideți Setările dispozitivului"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Permiteți accesul la locație"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Locația dvs. nu poate fi accesată. Google și/sau Android necesită acces la locația dispozitivului dvs. pentru a utiliza Bluetooth-ul."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
-    <string name="settings_tracing_status_location_button">"Deschideți setările dispozitivului"</string>
+    <string name="settings_tracing_status_location_button">"Deschideți Setările dispozitivului"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_connection_headline">"Deschideți conexiunea la internet"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
     <string name="settings_tracing_status_connection_body">"Înregistrarea în jurnal a expunerilor necesită conexiunea la internet pentru a calcula expunerile. Porniți rețeaua Wi-Fi sau datele mobile din setările dispozitivului dvs."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Deschideți setările dispozitivului"</string>
+    <string name="settings_tracing_status_connection_button">"Deschideți Setările dispozitivului"</string>
     <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
     <plurals name="settings_tracing_status_body_active">
         <item quantity="one">"Înregistrarea în jurnal a expunerilor a fost activă o zi.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
@@ -570,7 +578,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_test">"Starea testului COVID-19"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Deschideți setările dispozitivului"</string>
+    <string name="settings_notifications_button_open_settings">"Deschideți Setările dispozitivului"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"O femeie primește o notificare de la Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -614,7 +622,7 @@
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
     <string name="settings_background_priority_card_body">"Dacă doriți să dezactivați activitatea în fundal cu prioritate, vă rugăm să faceți acest lucru din setările dispozitivului."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">"Deschideți setările dispozitivului"</string>
+    <string name="settings_background_priority_card_button">"Deschideți Setările dispozitivului"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
     <string name="settings_background_priority_card_headline">"Dezactivați activitatea în fundal cu prioritate"</string>
 
@@ -767,7 +775,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Cod QR nevalabil"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, veți fi notificat de autoritatea de sănătate publică."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Reîncercați."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -826,7 +834,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului dvs. Primiți rezultatul testului dvs. de la centrul sau laboratorul de testare, independent de aplicație. Dacă sunteți diagnosticat cu COVID-19, veți fi notificat de autoritatea de sănătate publică."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu COVID-19, direcția de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Eliminare"</string>
     <!-- XBUT: Negative button for test removal -->

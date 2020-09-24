@@ -139,7 +139,7 @@
     <plurals name="risk_card_body_contact_value">
         <item quantity="one">"%1$s kez düşük riskli maruz kalma"</item>
         <item quantity="other">"%1$s kez düşük riskli maruz kalma"</item>
-        <item quantity="zero">"Şu ana dek hiçbir maruz kalma yok"</item>
+        <item quantity="zero">"Şu ana dek hiçbir düşük riskli maruz kalma yok"</item>
         <item quantity="two">"%1$s kez düşük riskli maruz kalma"</item>
         <item quantity="few">"%1$s kez düşük riskli maruz kalma"</item>
         <item quantity="many">"%1$s kez düşük riskli maruz kalma"</item>
@@ -296,6 +296,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Risk Durumunuz"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Düşük riskli maruz kalmalar"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Enfeksiyon riskiniz neden düşük?"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Daha sonra COVID-19 tanısı konmuş bir kişiyle karşılaştınız. Ancak maruz kalma günlüğü verilerine göre enfeksiyon riskiniz düşük. Kısa süreyle ya da uzak mesafeyle karşılaşmanız durumunda risk düşük olur. Endişelenmeniz gerekmez ve eylem gerçekleştirmeniz özel bir ihtiyaç bulunmuyor. Mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Talimatlar"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +344,8 @@
     <string name="risk_details_information_body_outdated_risk">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Daha sonra COVID-19 tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Enfeksiyon riskiniz, maruz kalma günlüğünün verileri kullanılarak yerel olarak cihazınızda hesaplanır. Hesaplamada COVID-19 tanısı konan kişilere maruz kalma mesafesi ve süresinin yanında potansiyel enfeksiyon bulaştırma durumu da göz önünde bulundurulur. Enfeksiyon riskiniz bir başkası tarafından görüntülenemez ya da bir başkasına aktarılamaz."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"En son %1$s gün önce, COVID-19 tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
@@ -765,9 +773,9 @@
 
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
-    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR kod yanlış"</string>
+    <string name="submission_qr_code_scan_invalid_dialog_headline">"QR kod geçersiz"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR kod yanlış veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi tarafından bilgilendirileceksiniz."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR kod yanlış veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Lütfen tekrar deneyin."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -826,7 +834,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Testi silerseniz test sonucunuzu alamazsınız. Test sonucunuzu uygulamadan bağımsız olarak test merkezinden veya laboratuvardan alırsınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi tarafından bilgilendirileceksiniz."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Testi kaldırırsanız test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. COVID-19 tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Kaldır"</string>
     <!-- XBUT: Negative button for test removal -->

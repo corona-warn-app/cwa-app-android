@@ -88,6 +88,14 @@ class KeyCacheRepository(private val keyCacheDao: KeyCacheDao) {
         keyCacheDao.clear()
     }
 
+    suspend fun clear(idList: List<String>) {
+        if (idList.isNotEmpty()) {
+            val entries = keyCacheDao.getAllEntries(idList)
+            entries.forEach { deleteFileForEntry(it) }
+            keyCacheDao.deleteEntries(entries)
+        }
+    }
+
     suspend fun getFilesFromEntries() = keyCacheDao
         .getAllEntries()
         .map { File(it.path) }

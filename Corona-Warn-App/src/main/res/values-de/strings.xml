@@ -137,12 +137,12 @@
     <string name="risk_card_body_contact">"Bisher keine Risiko-Begegnungen"</string>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value">
-        <item quantity="one">"%1$s Risiko-Begegnung mit niedrigem Risiko"</item>
-        <item quantity="other">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="zero">"Bisher keine Risiko-Begegnungen"</item>
-        <item quantity="two">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="few">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
-        <item quantity="many">"%1$s Risiko-Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="one">"%1$s Begegnung mit niedrigem Risiko"</item>
+        <item quantity="other">"%1$s Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="zero">"Bisher keine Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="two">"%1$s Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="few">"%1$s Begegnungen mit niedrigem Risiko"</item>
+        <item quantity="many">"%1$s Begegnungen mit niedrigem Risiko"</item>
     </plurals>
     <!-- XTXT: risk card - number of contacts for one or more -->
     <plurals name="risk_card_body_contact_value_high_risk">
@@ -296,6 +296,12 @@
 
     <!-- XHED: risk details - page title, in toolbar -->
     <string name="risk_details_title">"Ihr Risikostatus"</string>
+    <!-- XHED: risk details - headline for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_title">"Begegnung mit niedrigem Risiko"</string>
+    <!-- XHED: risk details - subtitle for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_subtitle">"Deshalb ist Ihr Infektionsrisiko niedrig"</string>
+    <!-- XHED: risk details - text for additional info in case of encounter with low risk -->
+    <string name="risk_details_additional_info_text">"Sie hatten eine Begegnung mit einer später Corona-positiv getesteten Person. Ihr Infektionsrisiko wird auf Grundlage der Daten der Risiko-Ermittlung dennoch als niedrig eingestuft. Ein niedriges Risiko besteht insbesondere dann, wenn sich Ihre Begegnung auf einen kurzen Zeitraum oder einen größeren Abstand beschränkt hat. Sie müssen sich keine Sorgen machen und es besteht kein besonderer Handlungsbedarf. Es wird empfohlen, sich an die allgemein geltenden Abstands- und Hygieneregeln zu halten."</string>
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Verhalten"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
@@ -338,6 +344,8 @@
     <string name="risk_details_information_body_outdated_risk">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
+    <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
+    <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Endgerät berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
@@ -767,7 +775,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Erneut versuchen"</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -826,7 +834,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test kann nur einmal gescannt werden"</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test entfernen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der App. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test entfernen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Entfernen"</string>
     <!-- XBUT: Negative button for test removal -->
