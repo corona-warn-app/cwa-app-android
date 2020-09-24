@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
@@ -37,6 +38,7 @@ class SubmissionViewModel : ViewModel() {
 
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
+    private val interoperabilityRepository = InteroperabilityRepository()
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
@@ -61,6 +63,8 @@ class SubmissionViewModel : ViewModel() {
 
     val symptomIndication = MutableLiveData<Symptoms.Indication?>()
     val symptomStart = MutableLiveData<Symptoms.StartOf?>()
+
+    val countryList = MutableLiveData(interoperabilityRepository.getAllCountries())
 
     fun initSymptoms() {
         symptomIndication.postValue(null)
