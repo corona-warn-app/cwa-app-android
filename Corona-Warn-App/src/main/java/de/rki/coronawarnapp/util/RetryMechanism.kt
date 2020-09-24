@@ -41,7 +41,7 @@ object RetryMechanism {
     }
 
     private const val DEFAULT_TOTAL_MAX_RETRY = 15 * 1000L // 15 seconds total delay
-    private const val DEFAULT_MAX_DELAY = 3 * 1000L// 3 seconds max between retries
+    private const val DEFAULT_MAX_DELAY = 3 * 1000L // 3 seconds max between retries
     private const val DEFAULT_MIN_DELAY = 25L // Almost immediate retry
     private const val DEFAULT_RETRY_MULTIPLIER = 1.5
 
