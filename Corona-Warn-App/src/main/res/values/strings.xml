@@ -985,6 +985,8 @@
     <string name="submission_symptom_title">"Symptoms"</string>
     <!-- YTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Have you experienced one or more of the following symptoms in the past few days?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Wenn Sie angeben, ob und wann eventuelle Corona-Symptome bei Ihnen aufgetreten sind, kann das Infektionsrisiko von anderen App-Nutzern genauer berechnet werden. Sie müssen keine Angabe machen, wählen Sie dazu „Keine Angabe“."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Increased temperature or fever"</item>
