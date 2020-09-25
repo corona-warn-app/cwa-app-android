@@ -49,15 +49,6 @@ import kotlin.system.measureTimeMillis
  */
 abstract class Transaction {
 
-    companion object {
-        /**
-         * Transaction Timeout in Milliseconds, used to cancel any Transactions that run into never ending execution
-         * (e.g. due to a coroutine not being cancelled properly or an exception leading to unchecked behavior)
-         */
-        private val TRANSACTION_TIMEOUT_MS: Long
-            get() = TimeVariables.getTransactionTimeout()
-    }
-
     @Suppress("VariableNaming", "PropertyName") // Done as the Convention is TAG for every class
     abstract val TAG: String?
 
@@ -189,6 +180,7 @@ abstract class Transaction {
      *
      * @param unique Executes the transaction as Unique. This results in the next execution being omitted in case of a race towards the lock.
      * @param block the suspending function that should be used to execute the transaction.
+     * @param timeout the timeout for the transcation (in milliseconds)
      * @throws TransactionException the exception that wraps around any error that occurs inside the lock.
      *
      * @see executeState
@@ -197,6 +189,7 @@ abstract class Transaction {
     suspend fun lockAndExecute(
         unique: Boolean = false,
         scope: CoroutineScope,
+        timeout: Long = TimeVariables.getTransactionTimeout(),
         block: suspend CoroutineScope.() -> Unit
     ) {
 
@@ -213,7 +206,7 @@ abstract class Transaction {
                 executeState(INIT) { transactionId.set(UUID.randomUUID()) }
 
                 val duration = measureTimeMillis {
-                    withTimeout(TRANSACTION_TIMEOUT_MS) {
+                    withTimeout(timeout) {
                         block.invoke(this)
                     }
                 }

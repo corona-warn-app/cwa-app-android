@@ -21,6 +21,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -28,7 +29,10 @@ import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseIOTest
+import testhelpers.extensions.CoroutinesTestExtension
+import testhelpers.extensions.InstantExecutorExtension
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -36,6 +40,8 @@ import java.io.IOException
 /**
  * CachedKeyFileHolder test.
  */
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class KeyFileDownloaderTest : BaseIOTest() {
 
     @MockK
