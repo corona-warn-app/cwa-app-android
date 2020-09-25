@@ -55,7 +55,8 @@ class InteroperabilityConfigurationFragment :
             }
         }
 
-        binding.interoperabilityConfigurationCountryList.noCountriesRiskdetailsInfoview.riskDetailsOpenSettingsButton.setOnClickListener {
+        binding.interoperabilityConfigurationCountryList
+            .noCountriesRiskdetailsInfoview.riskDetailsOpenSettingsButton.setOnClickListener {
             val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
             } else {
