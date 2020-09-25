@@ -12,6 +12,8 @@ class ExposureKeyHistoryCalculations(
 ) {
 
     companion object {
+        const val VECTOR_LENGTH = 15
+
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
             keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
@@ -37,7 +39,7 @@ class ExposureKeyHistoryCalculations(
         toExternalFormat(
             limitKeyCount(toSortedHistory(keys)),
             transmissionRiskVectorDeterminator.determine(symptoms),
-            daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms, keys.size)
+            daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms, VECTOR_LENGTH)
         )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

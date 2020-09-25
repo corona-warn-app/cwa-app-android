@@ -35,6 +35,6 @@ class DaysSinceOnsetOfSymptomsVectorDeterminator {
         submissionDayValue: Int,
         size: Int
     ): DaysSinceOnsetOfSymptomsVector {
-        return ((submissionDayValue - size + 1) until submissionDayValue + 1).toList().toIntArray()
+        return (submissionDayValue downTo (submissionDayValue - size + 1)).toList().toIntArray()
     }
 }
