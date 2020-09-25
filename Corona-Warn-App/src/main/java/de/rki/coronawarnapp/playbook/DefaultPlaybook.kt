@@ -32,7 +32,7 @@ class DefaultPlaybook @Inject constructor(
         // real registration
         val (registrationToken, registrationException) =
             executeCapturingExceptions {
-                verificationServer.asyncGetRegistrationToken(
+                verificationServer.retrieveRegistrationToken(
                     key,
                     keyType
                 )
@@ -41,9 +41,9 @@ class DefaultPlaybook @Inject constructor(
         // if the registration succeeded continue with the real test result retrieval
         // if it failed, execute a dummy request to satisfy the required playbook pattern
         val (testResult, testResultException) = if (registrationToken != null) {
-            executeCapturingExceptions { verificationServer.asyncGetTestResult(registrationToken) }
+            executeCapturingExceptions { verificationServer.retrieveTestResults(registrationToken) }
         } else {
-            ignoreExceptions { verificationServer.asyncFakeVerification() }
+            ignoreExceptions { verificationServer.retrieveTanFake() }
             null to null
         }
 
@@ -65,18 +65,17 @@ class DefaultPlaybook @Inject constructor(
 
         // real test result
         val (testResult, exception) =
-            executeCapturingExceptions { verificationServer.asyncGetTestResult(registrationToken) }
+            executeCapturingExceptions { verificationServer.retrieveTestResults(registrationToken) }
 
         // fake verification
-        ignoreExceptions { verificationServer.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.retrieveTanFake() }
 
         // fake submission
         ignoreExceptions { submissionServer.submitKeysToServerFake() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
-        return testResult?.let { TestResult.fromInt(it) }
-            ?: propagateException(exception)
+        return testResult?.let { TestResult.fromInt(it) } ?: propagateException(exception)
     }
 
     override suspend fun submission(
@@ -85,11 +84,11 @@ class DefaultPlaybook @Inject constructor(
         Timber.i("[$uid] New Submission Playbook")
         // real auth code
         val (authCode, exception) = executeCapturingExceptions {
-            verificationServer.asyncGetTan(data.registrationToken)
+            verificationServer.retrieveTan(data.registrationToken)
         }
 
         // fake verification
-        ignoreExceptions { verificationServer.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.retrieveTanFake() }
 
         // real submission
         if (authCode != null) {
@@ -110,10 +109,10 @@ class DefaultPlaybook @Inject constructor(
 
     private suspend fun dummy(launchFollowUp: Boolean) {
         // fake verification
-        ignoreExceptions { verificationServer.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.retrieveTanFake() }
 
         // fake verification
-        ignoreExceptions { verificationServer.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.retrieveTanFake() }
 
         // fake submission
         ignoreExceptions { submissionServer.submitKeysToServerFake() }

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.submission.server
 
-import KeyExportFormat
-import okhttp3.ResponseBody
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -14,5 +13,5 @@ interface SubmissionApiV1 {
         @Header("cwa-fake") fake: String,
         @Header("cwa-header-padding") headerPadding: String?,
         @Body requestBody: KeyExportFormat.SubmissionPayload
-    ): ResponseBody
+    )
 }

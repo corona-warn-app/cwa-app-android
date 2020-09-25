@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.util.security
 
-import KeyExportFormat
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 import timber.log.Timber
 import java.security.KeyFactory
 import java.security.Signature

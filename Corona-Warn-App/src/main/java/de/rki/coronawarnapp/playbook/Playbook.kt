@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.playbook
 
-import KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
 

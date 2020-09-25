@@ -7,14 +7,14 @@ import retrofit2.http.POST
 
 interface VerificationApiV1 {
 
-    data class RegistrationTokenResponse(
-        @SerializedName("registrationToken") val registrationToken: String
-    )
-
     data class RegistrationTokenRequest(
         @SerializedName("keyType") val keyType: String? = null,
         @SerializedName("key") val key: String? = null,
         @SerializedName("requestPadding") val requestPadding: String? = null
+    )
+
+    data class RegistrationTokenResponse(
+        @SerializedName("registrationToken") val registrationToken: String
     )
 
     @POST("version/v1/registrationToken")

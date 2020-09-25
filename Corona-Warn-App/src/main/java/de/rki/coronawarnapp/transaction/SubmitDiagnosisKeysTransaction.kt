@@ -53,9 +53,8 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         AppInjector.component.transSubmitDiagnosisInjection.transactionScope
     }
 
-    private val playbook: Playbook by lazy {
-        AppInjector.component.transSubmitDiagnosisInjection.playbook
-    }
+    private val playbook: Playbook
+        get() = AppInjector.component.transSubmitDiagnosisInjection.playbook
 
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(

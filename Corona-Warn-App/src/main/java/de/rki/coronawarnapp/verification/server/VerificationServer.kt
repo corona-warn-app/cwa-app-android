@@ -16,7 +16,7 @@ class VerificationServer @Inject constructor(
     private val api: VerificationApiV1
         get() = verificationAPI.get()
 
-    suspend fun asyncGetRegistrationToken(
+    suspend fun retrieveRegistrationToken(
         key: String,
         keyType: VerificationKeyType
     ): String = withContext(Dispatchers.IO) {
@@ -35,14 +35,14 @@ class VerificationServer @Inject constructor(
             fake = "0",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
             requestBody = VerificationApiV1.RegistrationTokenRequest(
-                keyType.name,
-                keyStr,
-                requestPadding(paddingLength)
+                keyType = keyType.name,
+                key = keyStr,
+                requestPadding = requestPadding(paddingLength)
             )
         ).registrationToken
     }
 
-    suspend fun asyncGetTestResult(
+    suspend fun retrieveTestResults(
         registrationToken: String
     ): Int = withContext(Dispatchers.IO) {
         api.getTestResult(
@@ -55,7 +55,7 @@ class VerificationServer @Inject constructor(
         ).testResult
     }
 
-    suspend fun asyncGetTan(
+    suspend fun retrieveTan(
         registrationToken: String
     ): String = withContext(Dispatchers.IO) {
         api.getTAN(
@@ -68,7 +68,7 @@ class VerificationServer @Inject constructor(
         ).tan
     }
 
-    suspend fun asyncFakeVerification() = withContext(Dispatchers.IO) {
+    suspend fun retrieveTanFake() = withContext(Dispatchers.IO) {
         api.getTAN(
             fake = "1",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_TAN),

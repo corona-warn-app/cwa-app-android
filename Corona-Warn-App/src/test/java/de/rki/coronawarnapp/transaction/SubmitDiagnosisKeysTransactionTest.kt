@@ -1,61 +1,50 @@
 package de.rki.coronawarnapp.transaction
 
-import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.playbook.BackgroundNoise
+import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
-import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.slot
-import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class SubmitDiagnosisKeysTransactionTest {
 
-    @MockK
-    private lateinit var webRequestBuilder: WebRequestBuilder
+    @MockK lateinit var backgroundNoise: BackgroundNoise
+    @MockK lateinit var mockPlaybook: Playbook
+    @MockK lateinit var appComponent: ApplicationComponent
 
-    @MockK
-    private lateinit var backgroundNoise: BackgroundNoise
-
-    private val authString = "authString"
     private val registrationToken = "123"
 
     private val symptoms = Symptoms(Symptoms.StartOf.OneToTwoWeeksAgo, Symptoms.Indication.POSITIVE)
+    private val defaultCountries = listOf("DE")
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
+        every { appComponent.transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
+            TransactionCoroutineScope(), mockPlaybook
+        )
         mockkObject(AppInjector)
-        val appComponent = mockk<ApplicationComponent>().apply {
-            every { transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
-                TransactionCoroutineScope()
-            )
-        }
         every { AppInjector.component } returns appComponent
-
-        mockkObject(WebRequestBuilder.Companion)
-        every { WebRequestBuilder.getInstance() } returns webRequestBuilder
 
         mockkObject(BackgroundNoise.Companion)
         every { BackgroundNoise.getInstance() } returns backgroundNoise
@@ -66,54 +55,65 @@ class SubmitDiagnosisKeysTransactionTest {
         mockkObject(BackgroundWorkScheduler)
         every { BackgroundWorkScheduler.stopWorkScheduler() } just Runs
         every { LocalData.numberOfSuccessfulSubmissions(any()) } just Runs
-        coEvery { webRequestBuilder.asyncGetTan(registrationToken) } returns authString
+    }
+
+    @AfterEach
+    fun cleanUp() {
+        clearAllMocks()
     }
 
     @Test
-    fun testTransactionNoKeys() {
+    fun `submission without keys`(): Unit = runBlocking {
+        coEvery { mockPlaybook.submission(any()) } returns Unit
         coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf()
-        coEvery { webRequestBuilder.asyncSubmitKeysToServer(authString, listOf()) } just Runs
 
-        runBlocking {
-            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)
+        SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)
 
-            coVerifyOrder {
-                webRequestBuilder.asyncSubmitKeysToServer(authString, listOf())
-                SubmissionService.submissionSuccessful()
-            }
+        coVerifySequence {
+            mockPlaybook.submission(
+                Playbook.SubmissionData(
+                    registrationToken = registrationToken,
+                    temporaryExposureKeys = emptyList(),
+                    consentToFederation = true,
+                    visistedCountries = defaultCountries
+                )
+            )
+            SubmissionService.submissionSuccessful()
         }
     }
 
     @Test
-    fun testTransactionHasKeys() {
+    fun `submission with keys`(): Unit = runBlocking {
         val key = TemporaryExposureKey.TemporaryExposureKeyBuilder()
             .setKeyData(ByteArray(1))
             .setRollingPeriod(1)
             .setRollingStartIntervalNumber(1)
             .setTransmissionRiskLevel(1)
             .build()
-        val testList = slot<List<KeyExportFormat.TemporaryExposureKey>>()
+
         coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf(
             key
         )
-        coEvery {
-            webRequestBuilder.asyncSubmitKeysToServer(authString, capture(testList))
-        } just Runs
-
-        runBlocking {
-            SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key), symptoms)
-
-            coVerifyOrder {
-                webRequestBuilder.asyncSubmitKeysToServer(authString, any())
-                SubmissionService.submissionSuccessful()
+        coEvery { mockPlaybook.submission(any()) } answers {
+            arg<Playbook.SubmissionData>(0).also {
+                it.registrationToken shouldBe registrationToken
+                it.temporaryExposureKeys.single().apply {
+                    keyData.toByteArray() shouldBe ByteArray(1)
+                    rollingPeriod shouldBe 144
+                    rollingStartIntervalNumber shouldBe 1
+                    transmissionRiskLevel shouldBe 1
+                }
+                it.consentToFederation shouldBe true
+                it.visistedCountries shouldBe defaultCountries
             }
-            assertThat(testList.isCaptured, `is`(true))
-            assertThat(testList.captured.size, `is`(1))
+            Unit
         }
-    }
 
-    @After
-    fun cleanUp() {
-        unmockkAll()
+        SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key), symptoms)
+
+        coVerifySequence {
+            mockPlaybook.submission(any())
+            SubmissionService.submissionSuccessful()
+        }
     }
 }

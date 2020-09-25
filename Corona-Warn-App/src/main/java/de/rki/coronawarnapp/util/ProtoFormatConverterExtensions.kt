@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.util
 
-import KeyExportFormat
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 
 object ProtoFormatConverterExtensions {
 

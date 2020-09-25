@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.submission
 
-import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.protobuf.ByteString
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 
 class DefaultKeyConverter : KeyConverter {
 

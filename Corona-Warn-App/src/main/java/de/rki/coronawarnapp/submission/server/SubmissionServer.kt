@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.submission.server
 
-import KeyExportFormat
 import com.google.protobuf.ByteString
 import dagger.Lazy
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 import de.rki.coronawarnapp.util.PaddingTool.requestPadding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -21,8 +21,7 @@ class SubmissionServer @Inject constructor(
 
     data class SubmissionData(
         val authCode: String,
-        // TODO workaround due to protobuf/dagger issue
-        val keyList: List<Any>,
+        val keyList: List<KeyExportFormat.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visistedCountries: List<String>
     )
@@ -32,7 +31,7 @@ class SubmissionServer @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         Timber.d("submitKeysToServer()")
         val authCode = data.authCode
-        val keyList = data.keyList as List<KeyExportFormat.TemporaryExposureKey>
+        val keyList = data.keyList
         Timber.d("Writing ${keyList.size} Keys to the Submission Payload.")
 
         val randomAdditions = 0 // prepare for random addition of keys
@@ -45,7 +44,10 @@ class SubmissionServer @Inject constructor(
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .setConsentToFederation(data.consentToFederation)
+            .addAllVisitedCountries(data.visistedCountries)
             .build()
+
         api.submitKeys(
             authCode = authCode,
             fake = "0",
