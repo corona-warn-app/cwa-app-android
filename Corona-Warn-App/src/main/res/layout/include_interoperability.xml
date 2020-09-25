@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{countryData.empty ? View.VISIBLE : View.GONE}"
+                android:visibility="@{FormatterHelper.formatVisibility(countryData.empty)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
@@ -175,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{(countryData.empty &amp;&amp; isRiskdetection)  ? View.VISIBLE : View.GONE}"
+                android:visibility="@{FormatterHelper.formatVisibility(countryData.empty &amp;&amp; isRiskdetection)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
@@ -185,7 +185,7 @@
                 layout="@layout/include_interop_list_participating_countries_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{countryData.empty ? View.GONE : View.VISIBLE}"
+                android:visibility="@{FormatterHelper.formatVisibilityInverted(countryData.empty)}"
                 app:countryData="@{countryData}"
                 app:countryListHint="@{countryListHint}"
                 app:countryListTitle="@{countryListTitle}"
