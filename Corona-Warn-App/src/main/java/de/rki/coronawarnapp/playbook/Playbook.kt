@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.http.playbook
+package de.rki.coronawarnapp.playbook
 
 import KeyExportFormat
-import de.rki.coronawarnapp.service.submission.KeyType
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.verification.server.VerificationKeyType
 
 /**
  * The concept of Plausible Deniability aims to hide the existence of a positive test result by always using a defined “playbook pattern” of requests to the Verification Server and CWA Backend so it is impossible for an attacker to identify which communication was done.
@@ -13,17 +13,19 @@ interface Playbook {
 
     suspend fun initialRegistration(
         key: String,
-        keyType: KeyType
+        keyType: VerificationKeyType
     ): Pair<String, TestResult> /* registration token & test result*/
 
-    suspend fun testResult(
-        registrationToken: String
-    ): TestResult
+    suspend fun testResult(registrationToken: String): TestResult
 
-    suspend fun submission(
-        registrationToken: String,
-        keys: List<KeyExportFormat.TemporaryExposureKey>
+    data class SubmissionData(
+        val registrationToken: String,
+        val temporaryExposureKeys: List<KeyExportFormat.TemporaryExposureKey>,
+        val consentToFederation: Boolean,
+        val visistedCountries: List<String>
     )
+
+    suspend fun submission(data: SubmissionData)
 
     suspend fun dummy()
 }

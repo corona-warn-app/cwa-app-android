@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.http.HttpErrorParser
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
 import de.rki.coronawarnapp.http.service.SubmissionService
-import de.rki.coronawarnapp.http.service.VerificationService
+import de.rki.coronawarnapp.verification.VerificationService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer

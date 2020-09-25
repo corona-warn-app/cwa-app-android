@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.http.playbook.PlaybookImpl
+import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.submission.DefaultKeyConverter
+import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
@@ -54,39 +53,41 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         AppInjector.component.transSubmitDiagnosisInjection.transactionScope
     }
 
+    private val playbook: Playbook by lazy {
+        AppInjector.component.transSubmitDiagnosisInjection.playbook
+    }
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         registrationToken: String,
         keys: List<TemporaryExposureKey>,
         symptoms: Symptoms
     ) = lockAndExecute(unique = true, scope = transactionScope) {
-        /****************************************************
-         * RETRIEVE TEMPORARY EXPOSURE KEY HISTORY
-         ****************************************************/
+
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
             ExposureKeyHistoryCalculations(
                 TransmissionRiskVectorDeterminator(),
                 DefaultKeyConverter()
             ).transformToKeyHistoryInExternalFormat(keys, symptoms)
         }
-        /****************************************************
-         * RETRIEVE TAN & SUBMIT KEYS
-         ****************************************************/
+
+        // TODO take from appconfig
+        val visistedCountries = listOf("DE")
+
         executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
-            PlaybookImpl(WebRequestBuilder.getInstance()).submission(
-                registrationToken,
-                temporaryExposureKeyList
+            val submissionData = Playbook.SubmissionData(
+                registrationToken = registrationToken,
+                temporaryExposureKeys = temporaryExposureKeyList,
+                consentToFederation = true,
+                visistedCountries = visistedCountries
             )
+            playbook.submission(submissionData)
         }
-        /****************************************************
-         * STORE SUCCESS
-         ****************************************************/
+
         executeState(STORE_SUCCESS) {
             SubmissionService.submissionSuccessful()
         }
-        /****************************************************
-         * CLOSE TRANSACTION
-         ****************************************************/
+
         executeState(CLOSE) {}
     }
 }

@@ -1,9 +1,15 @@
 package de.rki.coronawarnapp.http.playbook
 
 import de.rki.coronawarnapp.exception.http.InternalServerErrorException
+import de.rki.coronawarnapp.http.WebRequestBuilder
+import de.rki.coronawarnapp.playbook.DefaultPlaybook
 import de.rki.coronawarnapp.service.submission.KeyType
+import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.newWebRequestBuilder
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -12,8 +18,29 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import testhelpers.BaseTest
 
-class PlaybookImplTest {
+class PlaybookImplTest : BaseTest() {
+
+    @MockK lateinit var submissionServer: SubmissionServer
+    @MockK lateinit var webRequestBuilder: WebRequestBuilder
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+    }
+
+    @AfterEach
+    fun teardown() {
+        clearAllMocks()
+    }
+
+    private fun createPlaybook() = DefaultPlaybook(
+        webRequestBuilder = webRequestBuilder,
+        submissionServer = submissionServer
+    )
 
     @Test
     fun hasRequestPattern_initialRegistration(): Unit = runBlocking {
@@ -24,7 +51,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        DefaultPlaybook(server.newWebRequestBuilder())
             .initialRegistration("9A3B578UMG", KeyType.TELETAN)
 
         // ensure request order is 2x verification and 1x submission
@@ -40,7 +67,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        DefaultPlaybook(server.newWebRequestBuilder())
             .submission("token", listOf())
 
         // ensure request order is 2x verification and 1x submission
@@ -56,7 +83,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        DefaultPlaybook(server.newWebRequestBuilder())
             .testResult("token")
 
         // ensure request order is 2x verification and 1x submission
@@ -72,7 +99,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
         server.enqueue(MockResponse().setBody("{}"))
 
-        PlaybookImpl(server.newWebRequestBuilder())
+        DefaultPlaybook(server.newWebRequestBuilder())
             .dummy()
 
         // ensure request order is 2x verification and 1x submission
@@ -90,7 +117,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("""{"testResult":${expectedTestResult.value}}"""))
         server.enqueue(MockResponse().setResponseCode(500))
 
-        val (registrationToken, testResult) = PlaybookImpl(server.newWebRequestBuilder())
+        val (registrationToken, testResult) = DefaultPlaybook(server.newWebRequestBuilder())
             .initialRegistration("key", KeyType.GUID)
 
         assertThat(registrationToken, equalTo(expectedRegistrationToken))
@@ -108,7 +135,7 @@ class PlaybookImplTest {
 
         try {
 
-            PlaybookImpl(server.newWebRequestBuilder())
+            DefaultPlaybook(server.newWebRequestBuilder())
                 .initialRegistration("9A3B578UMG", KeyType.TELETAN)
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {
@@ -128,7 +155,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
 
         try {
-            PlaybookImpl(server.newWebRequestBuilder())
+            DefaultPlaybook(server.newWebRequestBuilder())
                 .initialRegistration("9A3B578UMG", KeyType.TELETAN)
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {
@@ -149,7 +176,7 @@ class PlaybookImplTest {
 
         try {
 
-            PlaybookImpl(server.newWebRequestBuilder())
+            DefaultPlaybook(server.newWebRequestBuilder())
                 .testResult("token")
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {
@@ -169,7 +196,7 @@ class PlaybookImplTest {
         server.enqueue(MockResponse().setBody("{}"))
 
         try {
-            PlaybookImpl(server.newWebRequestBuilder())
+            DefaultPlaybook(server.newWebRequestBuilder())
                 .submission("token", listOf())
             fail("exception propagation expected")
         } catch (e: InternalServerErrorException) {

@@ -1,10 +1,9 @@
-package de.rki.coronawarnapp.http.playbook
+package de.rki.coronawarnapp.playbook
 
-import KeyExportFormat
-import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.service.submission.KeyType
-import de.rki.coronawarnapp.service.submission.SubmissionConstants
+import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.formatter.TestResult
+import de.rki.coronawarnapp.verification.server.VerificationKeyType
+import de.rki.coronawarnapp.verification.server.VerificationServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,9 +11,13 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PlaybookImpl(
-    private val webRequestBuilder: WebRequestBuilder
+@Singleton
+class DefaultPlaybook @Inject constructor(
+    private val verificationServer: VerificationServer,
+    private val submissionServer: SubmissionServer
 ) : Playbook {
 
     private val uid = UUID.randomUUID().toString()
@@ -22,25 +25,30 @@ class PlaybookImpl(
 
     override suspend fun initialRegistration(
         key: String,
-        keyType: KeyType
+        keyType: VerificationKeyType
     ): Pair<String, TestResult> {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
         val (registrationToken, registrationException) =
-            executeCapturingExceptions { webRequestBuilder.asyncGetRegistrationToken(key, keyType) }
+            executeCapturingExceptions {
+                verificationServer.asyncGetRegistrationToken(
+                    key,
+                    keyType
+                )
+            }
 
         // if the registration succeeded continue with the real test result retrieval
         // if it failed, execute a dummy request to satisfy the required playbook pattern
         val (testResult, testResultException) = if (registrationToken != null) {
-            executeCapturingExceptions { webRequestBuilder.asyncGetTestResult(registrationToken) }
+            executeCapturingExceptions { verificationServer.asyncGetTestResult(registrationToken) }
         } else {
-            ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+            ignoreExceptions { verificationServer.asyncFakeVerification() }
             null to null
         }
 
         // fake submission
-        ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
+        ignoreExceptions { submissionServer.submitKeysToServerFake() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
@@ -57,13 +65,13 @@ class PlaybookImpl(
 
         // real test result
         val (testResult, exception) =
-            executeCapturingExceptions { webRequestBuilder.asyncGetTestResult(registrationToken) }
+            executeCapturingExceptions { verificationServer.asyncGetTestResult(registrationToken) }
 
         // fake verification
-        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.asyncFakeVerification() }
 
         // fake submission
-        ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
+        ignoreExceptions { submissionServer.submitKeysToServerFake() }
 
         coroutineScope.launch { followUpPlaybooks() }
 
@@ -72,27 +80,29 @@ class PlaybookImpl(
     }
 
     override suspend fun submission(
-        registrationToken: String,
-        keys: List<KeyExportFormat.TemporaryExposureKey>
+        data: Playbook.SubmissionData
     ) {
         Timber.i("[$uid] New Submission Playbook")
-
         // real auth code
         val (authCode, exception) = executeCapturingExceptions {
-            webRequestBuilder.asyncGetTan(
-                registrationToken
-            )
+            verificationServer.asyncGetTan(data.registrationToken)
         }
 
         // fake verification
-        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.asyncFakeVerification() }
 
         // real submission
         if (authCode != null) {
-            webRequestBuilder.asyncSubmitKeysToServer(authCode, keys)
+            val serverSubmissionData = SubmissionServer.SubmissionData(
+                authCode = authCode,
+                keyList = data.temporaryExposureKeys,
+                consentToFederation = data.consentToFederation,
+                visistedCountries = data.visistedCountries
+            )
+            submissionServer.submitKeysToServer(serverSubmissionData)
             coroutineScope.launch { followUpPlaybooks() }
         } else {
-            webRequestBuilder.asyncFakeSubmission()
+            submissionServer.submitKeysToServerFake()
             coroutineScope.launch { followUpPlaybooks() }
             propagateException(exception)
         }
@@ -100,13 +110,13 @@ class PlaybookImpl(
 
     private suspend fun dummy(launchFollowUp: Boolean) {
         // fake verification
-        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.asyncFakeVerification() }
 
         // fake verification
-        ignoreExceptions { webRequestBuilder.asyncFakeVerification() }
+        ignoreExceptions { verificationServer.asyncFakeVerification() }
 
         // fake submission
-        ignoreExceptions { webRequestBuilder.asyncFakeSubmission() }
+        ignoreExceptions { submissionServer.submitKeysToServerFake() }
 
         if (launchFollowUp)
             coroutineScope.launch { followUpPlaybooks() }
@@ -116,15 +126,15 @@ class PlaybookImpl(
 
     private suspend fun followUpPlaybooks() {
         val runsToExecute = IntRange(
-            SubmissionConstants.minNumberOfSequentialPlaybooks - 1 /* one was already executed */,
-            SubmissionConstants.maxNumberOfSequentialPlaybooks - 1 /* one was already executed */
+            MIN_NUMBER_OF_SEQUENTIAL_PLAYBOOKS - 1 /* one was already executed */,
+            MAX_NUMBER_OF_SEQUENTIAL_PLAYBOOKS - 1 /* one was already executed */
         ).random()
         Timber.i("[$uid] Follow Up: launching $runsToExecute follow up playbooks")
 
         repeat(runsToExecute) {
             val executionDelay = IntRange(
-                SubmissionConstants.minDelayBetweenSequentialPlaybooks,
-                SubmissionConstants.maxDelayBetweenSequentialPlaybooks
+                MIN_DELAY_BETWEEN_SEQUENTIAL_PLAYBOOKS,
+                MAX_DELAY_BETWEEN_SEQUENTIAL_PLAYBOOKS
             ).random()
             Timber.i("[$uid] Follow Up: (${it + 1}/$runsToExecute) waiting $executionDelay[s]...")
             delay(TimeUnit.SECONDS.toMillis(executionDelay.toLong()))
@@ -153,5 +163,13 @@ class PlaybookImpl(
 
     private fun propagateException(vararg exceptions: Exception?): Nothing {
         throw exceptions.filterNotNull().firstOrNull() ?: IllegalStateException()
+    }
+
+    companion object {
+        const val PROBABILITY_TO_EXECUTE_PLAYBOOK_ON_APP_OPEN = 0f
+        const val MIN_NUMBER_OF_SEQUENTIAL_PLAYBOOKS = 1
+        const val MAX_NUMBER_OF_SEQUENTIAL_PLAYBOOKS = 1
+        const val MIN_DELAY_BETWEEN_SEQUENTIAL_PLAYBOOKS = 0
+        const val MAX_DELAY_BETWEEN_SEQUENTIAL_PLAYBOOKS = 0
     }
 }

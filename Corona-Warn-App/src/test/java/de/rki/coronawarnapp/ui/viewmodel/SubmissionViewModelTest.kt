@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import de.rki.coronawarnapp.http.WebRequestBuilder
-import de.rki.coronawarnapp.http.playbook.BackgroundNoise
+import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import io.mockk.MockKAnnotations
