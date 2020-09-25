@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.submission
 import KeyExportFormat
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import org.joda.time.Days
+import org.joda.time.Instant
 
 class ExposureKeyHistoryCalculations(
     private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
@@ -12,6 +14,7 @@ class ExposureKeyHistoryCalculations(
 
     companion object {
         const val VECTOR_LENGTH = 15
+        const val TEN_MINUTES_IN_MILLIS = (10 * 60 * 1000).toLong()
     }
 
     fun transformToKeyHistoryInExternalFormat(
@@ -36,7 +39,8 @@ class ExposureKeyHistoryCalculations(
     ): List<KeyExportFormat.TemporaryExposureKey> {
         val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
         keys.groupBy { it.daysAgo }.forEach { entry ->
-            val index = daysSinceOnsetOfSymptomsVector.indexOf(entry.key)
+            val daysAgo = entry.key
+            val index = daysSinceOnsetOfSymptomsVector.indexOf(daysAgo)
             entry.value.forEach {
                 result.add(
                     keyConverter.toExternalFormat(
@@ -56,5 +60,9 @@ class ExposureKeyHistoryCalculations(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val TemporaryExposureKey.daysAgo: Int
-        get() = rollingStartIntervalNumber // FIXME
+        get() = daysAgo(Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS))
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun daysAgo(instant: Instant, now: Instant = Instant()) =
+        Days.daysBetween(instant, now).days
 }
