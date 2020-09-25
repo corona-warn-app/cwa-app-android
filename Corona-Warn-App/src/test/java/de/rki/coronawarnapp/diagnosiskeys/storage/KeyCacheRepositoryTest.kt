@@ -203,5 +203,4 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             keyFilePath.exists() shouldBe false
         }
     }
-
 }

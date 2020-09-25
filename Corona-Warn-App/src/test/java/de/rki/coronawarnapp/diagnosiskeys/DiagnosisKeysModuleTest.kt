@@ -19,5 +19,4 @@ class DiagnosisKeysModuleTest : BaseIOTest() {
     fun `download URL comes from BuildConfig`() {
         module.provideDownloadServerUrl() shouldBe BuildConfig.DOWNLOAD_CDN_URL
     }
-
 }

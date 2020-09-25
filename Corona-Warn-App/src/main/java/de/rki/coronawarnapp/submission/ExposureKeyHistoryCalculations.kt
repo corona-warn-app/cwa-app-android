@@ -11,39 +11,44 @@ class ExposureKeyHistoryCalculations(
 
     companion object {
         private const val MAXIMUM_KEYS = 14
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
+            keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun getIndex(
+            temporaryExposureKey: TemporaryExposureKey,
+            daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector
+        ) = daysSinceOnsetOfSymptomsVector.size // FIXME
     }
 
     fun transformToKeyHistoryInExternalFormat(
         keys: List<TemporaryExposureKey>,
         symptoms: Symptoms
     ) =
-    toExternalFormat(
-        toSortedHistory(limitKeyCount(keys)),
-        transmissionRiskVectorDeterminator.determine(symptoms),
-        daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms, keys.size)
+        toExternalFormat(
+            limitKeyCount(toSortedHistory(keys)),
+            transmissionRiskVectorDeterminator.determine(symptoms),
+            daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms, keys.size)
         )
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun <T> limitKeyCount(keys: List<T>): List<T> =
         keys.take(MAXIMUM_KEYS)
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun toExternalFormat(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector
     ) =
-        keys.mapIndexed { index, key ->
-            // The latest key we receive is from yesterday (i.e. 1 day ago),
-            // thus we need use index+1
-            val i = index + 1
+        keys.map {
+            val index = getIndex(it, daysSinceOnsetOfSymptomsVector)
             keyConverter.toExternalFormat(
-                key,
-                transmissionRiskVector.getRiskValue(i),
-                daysSinceOnsetOfSymptomsVector[i])
+                it,
+                transmissionRiskVector.getRiskValue(index),
+                daysSinceOnsetOfSymptomsVector[index]
+            )
         }
-
-    @VisibleForTesting
-    internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
-        keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
 }

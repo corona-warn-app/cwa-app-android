@@ -34,7 +34,7 @@ class PreferencesSubmissionStatusRepository : SubmissionStatusRepository {
                 return null
             }
         }
-        set(value) {//TODO call this
+        set(value) { // TODO call this
             globalEncryptedSharedPreferencesInstance.edit()
                 .putLong(KEY_TIMESTAMP, value?.timestamp?.millis ?: -1)
                 .putBoolean(KEY_SUCCESS, value?.succeeded ?: false)
