@@ -13,6 +13,7 @@ class ExposureKeyHistoryCalculations(
 ) {
 
     companion object {
+        const val MAX_DAYS_IN_PAST = 14
         const val VECTOR_LENGTH = 15
         const val TEN_MINUTES_IN_MILLIS = (10 * 60 * 1000).toLong()
     }
@@ -29,7 +30,7 @@ class ExposureKeyHistoryCalculations(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun limitKeyCount(keys: List<TemporaryExposureKey>) =
-        keys.filter { it.daysAgo <= 14 }
+        keys.filter { it.daysAgo <= MAX_DAYS_IN_PAST }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun toExternalFormat(

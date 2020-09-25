@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import org.joda.time.Duration
 import org.joda.time.Instant
 
-class TransmissionRiskVectorDeterminator() {
+class TransmissionRiskVectorDeterminator {
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
