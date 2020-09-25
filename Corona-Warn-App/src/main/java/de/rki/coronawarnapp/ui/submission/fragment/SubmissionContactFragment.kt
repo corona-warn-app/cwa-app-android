@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
-import kotlinx.android.synthetic.main.include_submission_contact.view.*
 
 /**
  * The [SubmissionContactFragment] allows requesting a teletan via phone
@@ -37,7 +36,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         binding.submissionContactButtonCall.setOnClickListener {
             dial()
         }
-        binding.submissionContactRoot.submission_contact_step_1_number.setOnClickListener {
+        binding.includeSubmissionContact.submissionContactStep1Number.setOnClickListener {
             dial()
         }
         binding.submissionContactButtonEnter.setOnClickListener {
