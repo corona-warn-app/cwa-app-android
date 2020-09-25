@@ -12,8 +12,6 @@ class ExposureKeyHistoryCalculations(
 ) {
 
     companion object {
-        private const val MAXIMUM_KEYS = 14
-
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
             keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
@@ -23,10 +21,13 @@ class ExposureKeyHistoryCalculations(
             get() = !succeeded
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun getIndex(
-            temporaryExposureKey: TemporaryExposureKey,
-            daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector
-        ) = daysSinceOnsetOfSymptomsVector.size // FIXME
+        val TemporaryExposureKey.daysAgo: Int
+            get() = rollingStartIntervalNumber // FIXME
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun DaysSinceOnsetOfSymptomsVector.indexOf(
+            temporaryExposureKey: TemporaryExposureKey
+        ) = indexOf(temporaryExposureKey.daysAgo)
     }
 
     fun transformToKeyHistoryInExternalFormat(
@@ -40,8 +41,8 @@ class ExposureKeyHistoryCalculations(
         )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun <T> limitKeyCount(keys: List<T>): List<T> =
-        keys.take(MAXIMUM_KEYS)
+    internal fun limitKeyCount(keys: List<TemporaryExposureKey>) =
+        keys.filter { it.daysAgo <= 14 }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun toExternalFormat(
@@ -51,9 +52,9 @@ class ExposureKeyHistoryCalculations(
     ): List<KeyExportFormat.TemporaryExposureKey> {
         submissionStatusRepository.lastSubmission.also { submissionStatus ->
             return if (submissionStatus != null && submissionStatus.is15thKeyNeeded) {
-                emptyList()
+                emptyList() // FIXME
             } else keys.map {
-                val index = getIndex(it, daysSinceOnsetOfSymptomsVector)
+                val index = daysSinceOnsetOfSymptomsVector.indexOf(it)
                 keyConverter.toExternalFormat(
                     it,
                     transmissionRiskVector.getRiskValue(index),
