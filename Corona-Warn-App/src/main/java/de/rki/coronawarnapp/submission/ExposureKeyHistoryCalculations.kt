@@ -5,7 +5,6 @@ import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 
 class ExposureKeyHistoryCalculations(
-    private val submissionStatusRepository: SubmissionStatusRepository,
     private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
     private val daysSinceOnsetOfSymptomsVectorDeterminator: DaysSinceOnsetOfSymptomsVectorDeterminator,
     private val keyConverter: KeyConverter
@@ -38,7 +37,6 @@ class ExposureKeyHistoryCalculations(
         val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
         keys.groupBy { it.daysAgo }.forEach { entry ->
             val index = daysSinceOnsetOfSymptomsVector.indexOf(entry.key)
-            val today = entry.key == 0
             entry.value.forEach {
                 result.add(
                     keyConverter.toExternalFormat(
@@ -48,10 +46,6 @@ class ExposureKeyHistoryCalculations(
                     )
                 )
             }
-            val submissionStatus = submissionStatusRepository.lastSubmission
-            if (today && submissionStatus != null && submissionStatus.is15thKeyNeeded) {
-                // FIXME create new key
-            }
         }
         return result.toList()
     }
@@ -59,10 +53,6 @@ class ExposureKeyHistoryCalculations(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
         keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val SubmissionStatus.is15thKeyNeeded: Boolean
-        get() = !succeeded
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val TemporaryExposureKey.daysAgo: Int
