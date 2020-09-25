@@ -739,9 +739,9 @@
               Interoperability
     ###################################### -->
     <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline"/>
+    <string name="interop_consent_headline" />
     <!-- YTXT: body for consent information -->
-    <string name="interop_consent_body"/>
+    <string name="interop_consent_body" />
 
     <!-- ####################################
              Submission
@@ -1345,15 +1345,15 @@
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description"></string>
 
-    <!-- XHED: Title for the interoperability onboarding if country download fails -->
+    <!-- XTXT: Title for the interoperability onboarding if country download fails -->
     <string name="interoperability_onboarding_list_title_failrequest"></string>
-    <!-- XHED: Subtitle for the interoperability onboarding if country download fails -->
+    <!-- XTXT: Subtitle for the interoperability onboarding if country download fails -->
     <string name="interoperability_onboarding_list_subtitle_failrequest"></string>
 
-    <!-- XHED: Title for the interoperability onboarding if country download fails for Risk Details -->
+    <!-- YDES: Title for the interoperability onboarding if country download fails for Risk Details -->
     <string name="interoperability_onboarding_list_title_riskdetection_no_network"></string>
-    <!-- XHED: Subtitle for the interoperability onboarding if country download fails -->
+    <!-- YMSW: Subtitle for the interoperability onboarding if country download fails -->
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network"></string>
-    <!-- XHED: Title for the interoperability onboarding Settings-Button if no network is available -->
+    <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
     <string name="interoperability_onboarding_list_button_title_no_network"></string>
 </resources>
