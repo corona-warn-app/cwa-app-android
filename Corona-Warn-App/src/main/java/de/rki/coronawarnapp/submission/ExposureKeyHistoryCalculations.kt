@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.submission
 
+import KeyExportFormat
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 
 class ExposureKeyHistoryCalculations(
+    private val submissionStatusRepository: SubmissionStatusRepository,
     private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
     private val daysSinceOnsetOfSymptomsVectorDeterminator: DaysSinceOnsetOfSymptomsVectorDeterminator,
     private val keyConverter: KeyConverter
@@ -15,6 +17,10 @@ class ExposureKeyHistoryCalculations(
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
             keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        val SubmissionStatus.is15thKeyNeeded: Boolean
+            get() = !succeeded
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun getIndex(
@@ -42,13 +48,18 @@ class ExposureKeyHistoryCalculations(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector
-    ) =
-        keys.map {
-            val index = getIndex(it, daysSinceOnsetOfSymptomsVector)
-            keyConverter.toExternalFormat(
-                it,
-                transmissionRiskVector.getRiskValue(index),
-                daysSinceOnsetOfSymptomsVector[index]
-            )
+    ): List<KeyExportFormat.TemporaryExposureKey> {
+        submissionStatusRepository.lastSubmission.also { submissionStatus ->
+            return if (submissionStatus != null && submissionStatus.is15thKeyNeeded) {
+                emptyList()
+            } else keys.map {
+                val index = getIndex(it, daysSinceOnsetOfSymptomsVector)
+                keyConverter.toExternalFormat(
+                    it,
+                    transmissionRiskVector.getRiskValue(index),
+                    daysSinceOnsetOfSymptomsVector[index]
+                )
+            }
         }
+    }
 }
