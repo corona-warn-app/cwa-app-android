@@ -40,11 +40,16 @@ object RetryMechanism {
         }
     }
 
+    private const val DEFAULT_TOTAL_MAX_RETRY = 15 * 1000L // 15 seconds total delay
+    private const val DEFAULT_MAX_DELAY = 3 * 1000L // 3 seconds max between retries
+    private const val DEFAULT_MIN_DELAY = 25L // Almost immediate retry
+    private const val DEFAULT_RETRY_MULTIPLIER = 1.5
+
     fun createDelayCalculator(
-        maxTotalDelay: Long = 15 * 1000L, // 15 seconds total delay
-        maxDelay: Long = 3 * 1000L, // 3 seconds max between retries
-        minDelay: Long = 25, // Immediate retry
-        multiplier: Double = 1.5,
+        maxTotalDelay: Long = DEFAULT_TOTAL_MAX_RETRY,
+        maxDelay: Long = DEFAULT_MAX_DELAY,
+        minDelay: Long = DEFAULT_MIN_DELAY,
+        multiplier: Double = DEFAULT_RETRY_MULTIPLIER
     ): (Attempt) -> Long? = { attempt ->
         if (attempt.totalDelay > maxTotalDelay) {
             Timber.w("Max retry duration exceeded.")

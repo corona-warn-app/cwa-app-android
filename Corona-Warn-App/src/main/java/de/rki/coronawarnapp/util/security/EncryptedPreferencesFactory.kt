@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class EncryptedPreferencesFactory @Inject constructor(
-    private val context: Context,
+    private val context: Context
 ) {
 
     private val masterKeyAlias by lazy {
