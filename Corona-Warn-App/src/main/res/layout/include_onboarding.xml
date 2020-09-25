@@ -171,6 +171,7 @@
                 app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
                 app:firstSection="@{@string/interoperability_onboarding_first_section}"
                 app:isOnboarding="@{true}"
+                app:isRiskdetection="@{false}"
                 app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"

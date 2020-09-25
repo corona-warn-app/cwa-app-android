@@ -50,6 +50,10 @@
             type="Boolean" />
 
         <variable
+            name="isRiskdetection"
+            type="Boolean" />
+
+        <variable
             name="showFooter"
             type="Boolean" />
     </data>
@@ -160,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{countryData.empty &amp;&amp; isOnboarding ? View.VISIBLE : View.GONE}"
+                android:visibility="@{countryData.empty ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
@@ -171,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{(countryData.empty &amp;&amp; !isOnboarding)  ? View.VISIBLE : View.GONE}"
+                android:visibility="@{(countryData.empty &amp;&amp; isRiskdetection)  ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
