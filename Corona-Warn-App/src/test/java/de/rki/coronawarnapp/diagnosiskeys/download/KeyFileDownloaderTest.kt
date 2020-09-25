@@ -164,7 +164,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     private fun mockKeyCacheUpdateComplete(
-        keyInfo: CachedKeyInfo, checksum: String
+        keyInfo: CachedKeyInfo,
+        checksum: String
     ) {
         keyRepoData[keyInfo.id] = keyInfo.copy(
             isDownloadComplete = checksum != null, checksumMD5 = checksum

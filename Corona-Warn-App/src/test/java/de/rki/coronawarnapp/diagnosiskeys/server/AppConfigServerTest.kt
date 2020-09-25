@@ -71,7 +71,6 @@ class AppConfigServerTest : BaseIOTest() {
                 appVersion.android.latest.major shouldBe 1
                 appVersion.android.latest.minor shouldBe 0
                 appVersion.android.latest.patch shouldBe 4
-
             }
         }
 

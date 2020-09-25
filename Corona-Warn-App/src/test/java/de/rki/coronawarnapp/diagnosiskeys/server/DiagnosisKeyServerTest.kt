@@ -96,7 +96,6 @@ class DiagnosisKeyServerTest : BaseIOTest() {
         coVerify { api.getHourIndex("DE", "2000-01-01") }
     }
 
-
     @Test
     fun `download key files for day`() {
         val downloadServer = createDownloadServer()

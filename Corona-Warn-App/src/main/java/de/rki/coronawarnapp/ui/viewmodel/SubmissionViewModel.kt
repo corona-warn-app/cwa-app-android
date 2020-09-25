@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import timber.log.Timber
@@ -63,8 +64,13 @@ class SubmissionViewModel : ViewModel() {
 
     val symptomIndication = MutableLiveData<Symptoms.Indication?>()
     val symptomStart = MutableLiveData<Symptoms.StartOf?>()
-
-    val countryList = MutableLiveData(interoperabilityRepository.getAllCountries())
+    val countryList: MutableLiveData<List<String>> by lazy {
+        MutableLiveData<List<String>>().apply {
+            viewModelScope.launch(context = Dispatchers.Default) {
+                postValue(interoperabilityRepository.getAllCountries())
+            }
+        }
+    }
 
     fun initSymptoms() {
         symptomIndication.postValue(null)
