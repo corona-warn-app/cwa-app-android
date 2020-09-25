@@ -343,7 +343,7 @@
     <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
     <string name="risk_details_information_body_outdated_risk">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- YTXT: risk details - low risk explanation text -->
-    <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
+    <string name="risk_details_information_body_low_risk">"Sie hatten eine Begegnung mit einer nachweislich Corona-positiv getesteten Person. Ihr Infektionsrisiko ist dennoch niedrig, weil Ihre Begegnung aufgrund der kurzen Dauer oder größeren Entfernung als ein geringes Risiko eingestuft wird. Weitere Informationen finden Sie [in der FAQ](https://www.coronawarn.app/de/faq/#encounter_but_green)."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
