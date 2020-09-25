@@ -13,23 +13,6 @@ class ExposureKeyHistoryCalculations(
 
     companion object {
         const val VECTOR_LENGTH = 15
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
-            keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        val SubmissionStatus.is15thKeyNeeded: Boolean
-            get() = !succeeded
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        val TemporaryExposureKey.daysAgo: Int
-            get() = rollingStartIntervalNumber // FIXME
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun DaysSinceOnsetOfSymptomsVector.indexOf(
-            temporaryExposureKey: TemporaryExposureKey
-        ) = indexOf(temporaryExposureKey.daysAgo)
     }
 
     fun transformToKeyHistoryInExternalFormat(
@@ -52,17 +35,36 @@ class ExposureKeyHistoryCalculations(
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector
     ): List<KeyExportFormat.TemporaryExposureKey> {
-        submissionStatusRepository.lastSubmission.also { submissionStatus ->
-            return if (submissionStatus != null && submissionStatus.is15thKeyNeeded) {
-                emptyList() // FIXME
-            } else keys.map {
-                val index = daysSinceOnsetOfSymptomsVector.indexOf(it)
-                keyConverter.toExternalFormat(
-                    it,
-                    transmissionRiskVector.getRiskValue(index),
-                    daysSinceOnsetOfSymptomsVector[index]
+        val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
+        keys.groupBy { it.daysAgo }.forEach { entry ->
+            val index = daysSinceOnsetOfSymptomsVector.indexOf(entry.key)
+            val today = index == 0
+            entry.value.forEach {
+                result.add(
+                    keyConverter.toExternalFormat(
+                        it,
+                        transmissionRiskVector.getRiskValue(index),
+                        daysSinceOnsetOfSymptomsVector[index]
+                    )
                 )
             }
+            val submissionStatus = submissionStatusRepository.lastSubmission
+            if (today && submissionStatus != null && submissionStatus.is15thKeyNeeded) {
+                // FIXME create new key
+            }
         }
+        return result.toList()
     }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun toSortedHistory(keys: List<TemporaryExposureKey>) =
+        keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val SubmissionStatus.is15thKeyNeeded: Boolean
+        get() = !succeeded
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val TemporaryExposureKey.daysAgo: Int
+        get() = rollingStartIntervalNumber // FIXME
 }
