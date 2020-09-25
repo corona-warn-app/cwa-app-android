@@ -53,7 +53,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         vm.countryList.observe2(this) {
             binding.countryData = it
         }
-        //vm.saveInteroperabilityUsed()
+        vm.saveInteroperabilityUsed()
     }
 
     override fun onResume() {

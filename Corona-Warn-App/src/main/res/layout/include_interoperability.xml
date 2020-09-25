@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 app:barrierAllowsGoneWidgets="false"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="no_countries_riskdetails_infoview, no_countries_riskdetails_infoview,country_list_overview"
+                app:constraint_referenced_ids="country_list_overview, no_countries_default_infoview"
                 tools:layout_editor_absoluteY="411dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
