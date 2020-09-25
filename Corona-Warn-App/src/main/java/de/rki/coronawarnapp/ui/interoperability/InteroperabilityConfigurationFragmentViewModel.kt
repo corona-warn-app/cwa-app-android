@@ -21,6 +21,10 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
         interoperabilityRepository.saveInteroperabilityUsed()
     }
 
+    fun getAllCountries() {
+        interoperabilityRepository.getAllCountries()
+    }
+
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<InteroperabilityConfigurationFragmentViewModel>
 }
