@@ -38,7 +38,7 @@ class ExposureKeyHistoryCalculations(
         val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
         keys.groupBy { it.daysAgo }.forEach { entry ->
             val index = daysSinceOnsetOfSymptomsVector.indexOf(entry.key)
-            val today = index == 0
+            val today = entry.key == 0
             entry.value.forEach {
                 result.add(
                     keyConverter.toExternalFormat(
