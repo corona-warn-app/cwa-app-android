@@ -5,10 +5,12 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.appconfig.AppConfigModule
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
-import de.rki.coronawarnapp.diagnosiskeys.server.AppConfigServer
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.environment.EnvironmentModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
@@ -43,7 +45,9 @@ import javax.inject.Singleton
         DeviceModule::class,
         ENFModule::class,
         HttpModule::class,
+        EnvironmentModule::class,
         DiagnosisKeysModule::class,
+        AppConfigModule::class,
         SubmissionModule::class,
         VerificationModule::class,
         PlaybookModule::class
@@ -63,7 +67,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val keyCacheRepository: KeyCacheRepository
     val keyFileDownloader: KeyFileDownloader
 
-    val appConfigServer: AppConfigServer
+    val appConfigProvider: AppConfigProvider
 
     val enfClient: ENFClient
 

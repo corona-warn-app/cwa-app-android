@@ -86,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:checked="@{status}"
+                android:importantForAccessibility="no"
                 android:enabled="@{enabled}"
                 android:contentDescription="@{FormatterSettingsHelper.formatSwitchContentDescription(subtitle, statusText)}"
                 android:theme="@style/switchBase"
