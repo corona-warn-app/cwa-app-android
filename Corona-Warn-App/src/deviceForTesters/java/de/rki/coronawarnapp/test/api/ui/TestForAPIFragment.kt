@@ -37,7 +37,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.RiskLevelAndKeyRetrievalBenchmark
 import de.rki.coronawarnapp.databinding.FragmentTestForAPIBinding
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
@@ -113,8 +112,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private var lastSetCountries: List<String>? = null
 
-    private var environmentSetup: EnvironmentSetup? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -130,7 +127,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             "Google Play Services version: " + v.toString()
 
         token = UUID.randomUUID().toString()
-        environmentSetup = context?.let { EnvironmentSetup(it) }
 
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
@@ -183,12 +179,14 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         }
 
         val testCountriesSwitch = binding.testApiSwitchTestCountries
-        testCountriesSwitch.isChecked = getSavedEnvironment()
+        testCountriesSwitch.isChecked = vm.isTestCountyCurrentEnvironment()
         testCountriesSwitch.setOnClickListener {
-            val testCountryActive = testCountriesSwitch.isChecked
-            showSnackBar(it, "Test Countries are activated: $testCountryActive" +
+            vm.toggleEnvironment(testCountriesSwitch.isChecked)
+        }
+
+        vm.environmentSetupToggleEvent.observe2(this) {
+            showSnackBar("Test Countries are activated: $it" +
                 "\n YOU MUST FORCE RESTART THE APPLICATION")
-            saveEnvironment(testCountryActive)
         }
 
         binding.buttonApiGetCheckExposure.setOnClickListener {
@@ -535,23 +533,8 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         toast.show()
     }
 
-    fun getSavedEnvironment(): Boolean {
-        if (environmentSetup!!.currentEnvironment != EnvironmentSetup.Type.WRU_XA)
-            return false
-        return true
-    }
-
-    fun saveEnvironment(testCountryActive: Boolean) {
-        if (testCountryActive) {
-            environmentSetup!!.currentEnvironment = EnvironmentSetup.Type.WRU_XA
-        } else {
-            environmentSetup!!.currentEnvironment = environmentSetup!!.defaultEnvironment
-        }
-    }
-
-    private fun showSnackBar(view: View, message: String) {
-        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-        snack.show()
+    private fun showSnackBar(message: String) {
+        view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
     }
 
     override fun onFailure(exception: Exception?) {

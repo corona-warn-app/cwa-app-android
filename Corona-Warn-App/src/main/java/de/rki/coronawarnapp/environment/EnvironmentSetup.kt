@@ -21,7 +21,7 @@ class EnvironmentSetup @Inject constructor(
         context.getSharedPreferences("environment_setup", Context.MODE_PRIVATE)
     }
 
-    private val environmentJson: JsonObject by lazy {
+    val environmentJson: JsonObject by lazy {
         val gson = GsonBuilder().create()
         gson.fromJson(BuildConfigWrap.TEST_ENVIRONMENT_JSONDATA, JsonObject::class.java).also {
             Timber.d("Parsed test environment: %s", it)
