@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.util.RetryMechanism.createDelayCalculator
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.longs.beInRange
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -74,15 +75,15 @@ class RetryMechanismTest : BaseTest() {
     @Test
     fun `test clamping`() {
         val calculator = createDelayCalculator()
-        RetryMechanism.Attempt(count = -5, lastDelay = 25).let {
-            calculator(it) shouldBe 25
+        RetryMechanism.Attempt(count = -5, lastDelay = 20).let {
+            calculator(it) shouldBe 25 // -X .. 20  -> clamp to min (25)
         }
         RetryMechanism.Attempt(count = 100, lastDelay = 3 * 1000L).let {
-            calculator(it) shouldBe 3 * 1000L
+            calculator(it) shouldBe 3 * 1000L // lastDelay .. HugeNewDelay -> clamp to max (3k)
         }
 
-        RetryMechanism.Attempt(count = 1, lastDelay = 16 * 1000L).let {
-            calculator(it) shouldBe 3 * 1000L
+        RetryMechanism.Attempt(count = 10, lastDelay = 16 * 1000L).let {
+            calculator(it) shouldBe beInRange(1536L..3000L)
         }
         RetryMechanism.Attempt(count = 100, lastDelay = 1).let {
             calculator(it) shouldBe 3 * 1000L
