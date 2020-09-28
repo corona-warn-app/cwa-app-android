@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.submission
 import KeyExportFormat
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import org.joda.time.Days
+import de.rki.coronawarnapp.util.TimeAndDateExtensions
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 
 class ExposureKeyHistoryCalculations(
@@ -28,7 +30,10 @@ class ExposureKeyHistoryCalculations(
         )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun removeOldKeys(keys: List<TemporaryExposureKey>, now: Instant = Instant()) =
+    internal fun removeOldKeys(
+        keys: List<TemporaryExposureKey>,
+        now: DateTime = Instant().toDateTime(DateTimeZone.UTC)
+    ) =
         keys.filter { it.ageInDays(now) in 0..MAX_AGE_IN_DAYS }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -36,7 +41,7 @@ class ExposureKeyHistoryCalculations(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector,
-        now: Instant = Instant()
+        now: DateTime = Instant().toDateTime(DateTimeZone.UTC)
     ): List<KeyExportFormat.TemporaryExposureKey> {
         val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
         keys.groupBy { it.ageInDays(now) }.forEach { entry ->
@@ -59,13 +64,10 @@ class ExposureKeyHistoryCalculations(
         keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun TemporaryExposureKey.ageInDays(now: Instant = Instant()): Int =
-        ageInDays(
-            Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS),
+    internal fun TemporaryExposureKey.ageInDays(now: DateTime = Instant().toDateTime(DateTimeZone.UTC)): Int =
+        TimeAndDateExtensions.ageInDays(
+            Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS).toDateTime(
+                DateTimeZone.UTC),
             now
         )
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun ageInDays(instant: Instant, now: Instant = Instant()) =
-        Days.daysBetween(instant, now).days
 }

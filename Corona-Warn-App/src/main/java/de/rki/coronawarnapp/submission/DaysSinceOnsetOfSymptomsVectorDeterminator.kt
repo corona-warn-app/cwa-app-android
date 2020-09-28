@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.submission
 
-import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator.Companion.numberOfDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 
 class DaysSinceOnsetOfSymptomsVectorDeterminator {
 
@@ -15,7 +15,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminator {
                 when (symptoms.startOfSymptoms) {
                     is Symptoms.StartOf.Date ->
                         createDaysSinceOnsetOfSymptomsVectorWith(
-                            numberOfDays(symptoms.startOfSymptoms.millis)
+                            ageInDays(symptoms.startOfSymptoms.millis)
                         )
                     is Symptoms.StartOf.LastSevenDays ->
                         createDaysSinceOnsetOfSymptomsVectorWith(701)

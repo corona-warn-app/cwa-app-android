@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.calculateDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
 import io.mockk.MockKAnnotations
@@ -12,6 +13,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -41,6 +43,22 @@ class TimeAndDateExtensionsTest {
 
         val result = calculateDays(firstDate = lFirstDate, secondDate = lSecondDate)
         MatcherAssert.assertThat(result, CoreMatchers.`is`(TimeUnit.MILLISECONDS.toDays(lSecondDate - lFirstDate)))
+    }
+
+    @Test
+    fun test_daysAgo() {
+        Assert.assertEquals(
+            0, ageInDays(
+                DateTime(2012, 3, 4, 1, 2),
+                DateTime(2012, 3, 4, 16, 9)
+            )
+        )
+        Assert.assertEquals(
+            2, ageInDays(
+                DateTime(2013, 12, 31, 1, 2),
+                DateTime(2014, 1, 2, 16, 9)
+            )
+        )
     }
 
     @After

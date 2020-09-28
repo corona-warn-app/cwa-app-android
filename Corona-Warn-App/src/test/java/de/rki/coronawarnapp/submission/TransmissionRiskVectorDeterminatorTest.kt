@@ -16,13 +16,4 @@ class TransmissionRiskVectorDeterminatorTest {
             ).raw
         )
     }
-
-    @Test
-    fun test_numberOfDays() {
-        Assert.assertEquals(
-            4,
-            TransmissionRiskVectorDeterminator.numberOfDays(
-                0,
-                1000 * 3600 * (24 * 4 + 2)))
-    }
 }

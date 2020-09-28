@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.common.math.DoubleMath.roundToLong
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
@@ -75,4 +76,10 @@ object TimeAndDateExtensions {
         val millionSeconds = secondDate - firstDate
         return TimeUnit.MILLISECONDS.toDays(millionSeconds)
     }
+
+    fun ageInDays(dateTime: DateTime, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
+        Days.daysBetween(dateTime, now).days
+
+    fun ageInDays(millis: Long, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
+        ageInDays(Instant.ofEpochMilli(millis).toDateTime(DateTimeZone.UTC), now)
 }
