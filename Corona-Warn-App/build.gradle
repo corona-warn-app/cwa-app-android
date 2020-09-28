@@ -323,7 +323,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.6'
 
     // SECURITY
-    implementation "androidx.security:security-crypto:1.0.0-rc02"
+    implementation "androidx.security:security-crypto:1.0.0-rc03"
     implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
     implementation 'org.conscrypt:conscrypt-android:2.4.0'
 
