@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.DefaultKeyConverter
@@ -56,6 +57,9 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     private val playbook: Playbook
         get() = AppInjector.component.transSubmitDiagnosisInjection.playbook
 
+    private val appConfigProvider: AppConfigProvider
+        get() = AppInjector.component.transSubmitDiagnosisInjection.appConfigProvider
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         registrationToken: String,
@@ -70,8 +74,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
             ).transformToKeyHistoryInExternalFormat(keys, symptoms)
         }
 
-        // TODO take from appconfig
-        val visistedCountries = listOf("DE")
+        val visistedCountries = appConfigProvider.getAppConfig().supportedCountriesList
 
         executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
             val submissionData = Playbook.SubmissionData(

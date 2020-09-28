@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.Symptoms
@@ -29,19 +31,25 @@ class SubmitDiagnosisKeysTransactionTest {
 
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var mockPlaybook: Playbook
+    @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appComponent: ApplicationComponent
 
     private val registrationToken = "123"
 
     private val symptoms = Symptoms(Symptoms.StartOf.OneToTwoWeeksAgo, Symptoms.Indication.POSITIVE)
-    private val defaultCountries = listOf("DE")
+    private val defaultCountries = listOf("DE", "NL", "FR")
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
+        val appConfig = ApplicationConfigurationOuterClass.ApplicationConfiguration.newBuilder()
+            .addAllSupportedCountries(defaultCountries)
+            .build()
+        coEvery { appConfigProvider.getAppConfig() } returns appConfig
+
         every { appComponent.transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
-            TransactionCoroutineScope(), mockPlaybook
+            TransactionCoroutineScope(), mockPlaybook, appConfigProvider
         )
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent
@@ -70,6 +78,7 @@ class SubmitDiagnosisKeysTransactionTest {
         SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)
 
         coVerifySequence {
+            appConfigProvider.getAppConfig()
             mockPlaybook.submission(
                 Playbook.SubmissionData(
                     registrationToken = registrationToken,
@@ -112,6 +121,7 @@ class SubmitDiagnosisKeysTransactionTest {
         SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(key), symptoms)
 
         coVerifySequence {
+            appConfigProvider.getAppConfig()
             mockPlaybook.submission(any())
             SubmissionService.submissionSuccessful()
         }

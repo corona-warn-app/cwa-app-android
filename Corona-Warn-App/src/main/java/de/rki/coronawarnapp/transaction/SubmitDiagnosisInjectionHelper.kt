@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.transaction
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.playbook.Playbook
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -8,5 +9,6 @@ import javax.inject.Singleton
 @Singleton
 data class SubmitDiagnosisInjectionHelper @Inject constructor(
     val transactionScope: TransactionCoroutineScope,
-    val playbook: Playbook
+    val playbook: Playbook,
+    val appConfigProvider: AppConfigProvider
 )
