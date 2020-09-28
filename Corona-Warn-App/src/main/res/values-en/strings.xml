@@ -728,6 +728,11 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"A hand holds a smartphone displaying a large body of text on the screen. Next to the text is a section symbol representing the imprint."</string>
 
+    <!-- ####################################
+              Interoperability
+    ###################################### -->
+    <!-- XTXT: Path to the full blown privacy html, no translation - lawyers text only -->
+    <string name="interop_consent_html_path">"consent_en.html"</string>
 
     <!-- ####################################
              Submission

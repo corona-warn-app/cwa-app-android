@@ -738,10 +738,8 @@
     <!-- ####################################
               Interoperability
     ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline" />
-    <!-- YTXT: body for consent information -->
-    <string name="interop_consent_body" />
+    <!-- XTXT: Path to the full blown privacy html, no translation - lawyers text only -->
+    <string name="interop_consent_html_path">"consent_en.html"</string>
 
     <!-- ####################################
              Submission

@@ -728,6 +728,11 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"Bir kişi ekranında uzun bir metin olan bir akıllı telefon tutuyor. Metnin yanında baskıyı temsil eden bir bölüm bulunuyor."</string>
 
+    <!-- ####################################
+              Interoperability
+    ###################################### -->
+    <!-- XTXT: Path to the full blown privacy html, no translation - lawyers text only -->
+    <string name="interop_consent_html_path">"consent_tr.html"</string>
 
     <!-- ####################################
              Submission

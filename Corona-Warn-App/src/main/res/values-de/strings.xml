@@ -732,10 +732,8 @@
     <!-- ####################################
               Interoperability
     ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"Einwilligungserklärung"</string>
-    <!-- YTXT: body for consent information -->
-    <string name="interop_consent_body">"Indem Sie „Einverstanden“ antippen, willigen Sie ein, dass Ihre Zufalls-IDs der letzten 14 Tage an das von den teilnehmenden Ländern&#42; gemeinsam betriebene europäische Serversystem übermittelt werden. Da Sie Corona-positiv getestet wurden, können Sie Nutzer der offiziellen Corona-Apps der teilnehmenden Länder warnen. Hierzu werden Ihre Zufalls-IDs den teilnehmenden Ländern übermittelt. Den Nutzern der offiziellen Corona-Apps anderer Länder, denen Sie begegnet sind, kann dann angezeigt werden, dass diese eine Risiko-Begegnung in den letzten 14 Tagen hatten.<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>Andere Nutzer können anhand Ihrer Zufalls-IDs nicht auf Ihre Identität, Ihren Namen oder andere persönliche Angaben schließen.<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>Die Übermittlung der Zufalls-IDs zur länderübergreifenden Warnung ist freiwillig. Wenn Sie die Daten nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen auch niemand, ob Sie Ihre Zufalls-IDs zur Verfügung stellen.<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen – auch zu den teilnehmenden Ländern und datenschutzrechtlich verantwortlichen Gesundheitsbehörden – finden Sie unter dem Menüpunkt „Datenschutz“."</string>
+    <!-- XTXT: Path to the full blown privacy html, no translation - lawyers text only -->
+    <string name="interop_consent_html_path">"consent_de.html"</string>
 
     <!-- ####################################
              Submission
