@@ -57,6 +57,7 @@
             app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
             app:countryData="@{countryData}"
             app:isOnboarding="@{false}"
+            app:isRiskdetection="@{false}"
             app:showFooter="@{true}"
             app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"
             app:footerDescription="@{@string/interoperability_onboarding_delta_footerDescription}"
