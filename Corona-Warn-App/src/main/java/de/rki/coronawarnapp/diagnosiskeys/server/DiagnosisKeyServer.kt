@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
 import dagger.Lazy
+import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import de.rki.coronawarnapp.util.debug.measureTimeMillisWithResult
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class DiagnosisKeyServer @Inject constructor(
     private val diagnosisKeyAPI: Lazy<DiagnosisKeyApiV1>,
-    @DownloadHomeCountry private val homeCountry: LocationCode
+    @DownloadCDNHomeCountry private val homeCountry: LocationCode
 ) {
 
     private val keyApi: DiagnosisKeyApiV1
