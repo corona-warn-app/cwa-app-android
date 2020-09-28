@@ -12,7 +12,7 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     val last3HourToggleEvent = SingleLiveEvent<Boolean>()
-    val environmentSetupToggleEvent = SingleLiveEvent<Boolean>()
+    val environmentChangeEvent = SingleLiveEvent<EnvironmentSetup.Type>()
 
     fun setLast3HoursMode(isLast3HoursModeEnabled: Boolean) {
         LocalData.last3HoursMode(isLast3HoursModeEnabled)
@@ -25,7 +25,7 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
         } else {
             envSetup.currentEnvironment = envSetup.defaultEnvironment
         }
-        environmentSetupToggleEvent.postValue(isTestCountyEnabled)
+        environmentChangeEvent.postValue(envSetup.currentEnvironment)
     }
 
     fun isTestCountyCurrentEnvironment(): Boolean {

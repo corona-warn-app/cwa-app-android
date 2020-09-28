@@ -13,7 +13,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,6 +25,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.protobuf.ByteString
@@ -57,9 +57,9 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.coroutines.Dispatchers
@@ -190,9 +190,11 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             vm.toggleEnvironment(testCountriesSwitch.isChecked)
         }
 
-        vm.environmentSetupToggleEvent.observe2(this) {
-            showSnackBar("Test Countries are activated: $it" +
-                "\n YOU MUST FORCE RESTART THE APPLICATION")
+        vm.environmentChangeEvent.observe2(this) {
+            showSnackBar(
+                "Environment changed to: $it" +
+                    "\nForce stop & restart the app!"
+            )
         }
 
         binding.buttonApiGetCheckExposure.setOnClickListener {

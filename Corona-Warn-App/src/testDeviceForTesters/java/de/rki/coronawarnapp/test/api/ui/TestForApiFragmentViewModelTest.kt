@@ -55,9 +55,9 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         currentEnvironment = EnvironmentSetup.Type.WRU_XA
         vm.isTestCountyCurrentEnvironment() shouldBe true
 
-        vm.environmentSetupToggleEvent.value shouldBe null
+        vm.environmentChangeEvent.value shouldBe null
         vm.toggleEnvironment(true)
-        vm.environmentSetupToggleEvent.value shouldBe true
+        vm.environmentChangeEvent.value shouldBe EnvironmentSetup.Type.WRU_XA
         verify { environmentSetup.currentEnvironment = EnvironmentSetup.Type.WRU_XA }
         vm.toggleEnvironment(false)
         verify { environmentSetup.currentEnvironment = EnvironmentSetup.Type.DEV }
