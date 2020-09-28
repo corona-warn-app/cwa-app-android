@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.util.di.AppInjector
 
 object ApplicationConfigurationService {
     suspend fun asyncRetrieveApplicationConfiguration(): ApplicationConfiguration {
-        return AppInjector.component.appConfigServer.downloadAppConfig().let {
+        return AppInjector.component.appConfigProvider.getAppConfig().let {
             if (CWADebug.isDebugBuildOrMode) {
                 // TODO: THIS IS A MOCK -> Remove after Backend is providing this information.
                 it.toBuilder()
