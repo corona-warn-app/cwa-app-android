@@ -14,8 +14,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -29,8 +28,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -44,8 +42,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -59,8 +56,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -73,8 +69,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.LastSevenDays,
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -87,8 +82,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.OneToTwoWeeksAgo,
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -101,8 +95,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.MoreThanTwoWeeks,
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -115,8 +108,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     Symptoms.StartOf.NoInformation,
                     Symptoms.Indication.POSITIVE
-                ),
-                15
+                )
             )
         )
     }
@@ -129,8 +121,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     null,
                     Symptoms.Indication.NO_INFORMATION
-                ),
-                15
+                )
             )
         )
     }
@@ -143,8 +134,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
                 Symptoms(
                     null,
                     Symptoms.Indication.NEGATIVE
-                ),
-                15
+                )
             )
         )
     }
