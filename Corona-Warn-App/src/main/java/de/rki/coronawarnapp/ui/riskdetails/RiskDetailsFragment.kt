@@ -68,7 +68,7 @@ class RiskDetailsFragment : Fragment() {
      */
     private fun setUpWebLinks() {
         binding.riskDetailsInformationLowriskBodyUrl
-            .convertToHyperlink(getString(R.string.onboarding_tracing_easy_language_explanation))
+            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_body_with_link))
     }
 
     private fun setButtonOnClickListeners() {
