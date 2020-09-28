@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
+import de.rki.coronawarnapp.appconfig.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.ui.LauncherActivity
