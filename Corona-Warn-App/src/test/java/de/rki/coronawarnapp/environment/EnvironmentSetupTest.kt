@@ -81,16 +81,24 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `switching the default type is persisted in storage (preferences)`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
-        createEnvSetup().apply {
-            defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-            currentEnvironment shouldBe EnvironmentSetup.Type.DEV
-            currentEnvironment = EnvironmentSetup.Type.WRU
-            currentEnvironment shouldBe EnvironmentSetup.Type.WRU
-        }
-        createEnvSetup().apply {
-            defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-            currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+        if (CWADebug.isDebugBuildOrMode) {
+            createEnvSetup().apply {
+                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment = EnvironmentSetup.Type.WRU
+                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+            }
+            createEnvSetup().apply {
+                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+            }
+        } else {
+            createEnvSetup().apply {
+                defaultEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
+                currentEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
+                currentEnvironment = EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
+            }
         }
     }
 
