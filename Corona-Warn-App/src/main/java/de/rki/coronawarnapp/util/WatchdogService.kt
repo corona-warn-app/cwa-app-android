@@ -32,6 +32,7 @@ class WatchdogService @Inject constructor(private val context: Context) {
             return
         }
 
+        Timber.v("Acquiring wakelocks for watchdog routine.")
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()

@@ -44,8 +44,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         super.onCreate()
         CWADebug.init(this)
 
+        Timber.v("onCreate(): Initializing Dagger")
         AppInjector.init(this)
 
+        Timber.v("onCreate(): Initializing WorkManager")
         Configuration.Builder()
             .apply { setMinimumLoggingLevel(android.util.Log.DEBUG) }.build()
             .let { WorkManager.initialize(this, it) }
