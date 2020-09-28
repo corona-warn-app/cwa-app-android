@@ -9,6 +9,6 @@ class TransmissionRiskVector(private val values: IntArray) {
     val raw: IntArray
         get() = values
 
-    fun getRiskValue(index: Int) =
+    operator fun get(index: Int) =
         if (index < values.size) values[index] else DEFAULT_TRANSMISSION_RISK_LEVEL
 }

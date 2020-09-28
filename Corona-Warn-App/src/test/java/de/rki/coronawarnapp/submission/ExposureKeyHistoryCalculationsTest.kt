@@ -41,7 +41,7 @@ class ExposureKeyHistoryCalculationsTest {
         val tek2 = createKey(2012, 10, 1)
         Assert.assertArrayEquals(
             arrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
-            instance.limitKeyCount(
+            instance.removeOldKeys(
                 listOf(
                     tek1,
                     tek2,
@@ -55,7 +55,7 @@ class ExposureKeyHistoryCalculationsTest {
     @Test
     fun test_toSortedHistory() {
         Assert.assertArrayEquals(
-            intArrayOf(8, 4, 3, 2, 1), instance.toSortedHistory(
+            intArrayOf(8, 4, 3, 2, 1), instance.sortWithRecentKeyFirst(
                 listOf(
                     createKey(3),
                     createKey(8),
@@ -94,13 +94,13 @@ class ExposureKeyHistoryCalculationsTest {
     @Test
     fun test_daysAgo() {
         Assert.assertEquals(
-            0, instance.daysAgo(
+            0, instance.ageInDays(
                 DateTime(2012, 3, 4, 1, 2).toInstant(),
                 DateTime(2012, 3, 4, 16, 9).toInstant()
             )
         )
         Assert.assertEquals(
-            2, instance.daysAgo(
+            2, instance.ageInDays(
                 DateTime(2013, 12, 31, 1, 2).toInstant(),
                 DateTime(2014, 1, 2, 16, 9).toInstant()
             )
