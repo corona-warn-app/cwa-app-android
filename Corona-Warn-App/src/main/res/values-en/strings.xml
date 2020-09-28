@@ -276,7 +276,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Exposures"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Encounters over an extended period and in close proximity to a person diagnosed with COVID-19."</string>
+    <string name="main_overview_body_glossary_contact">"Encounters over a longer duration and close proximity to people diagnosed with COVID-19."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Exposure Notification"</string>
     <!-- YTXT: App overview body for glossary notifications -->
@@ -425,7 +425,7 @@
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Declaration of Consent"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the COVID-19 Exposure Logging functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
+    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the \"Exposure Notifications\" functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Activate Exposure Logging"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -495,7 +495,7 @@
     <string name="sixteen_title_text">"Age Limit: 16 and Up"</string>
 
     <!-- XACT: onboarding(sixteen) title -->
-    <string name="sixteen_description_text">"This app is intended for people who reside in Germany and who are at least 16 years of age."</string>
+    <string name="sixteen_description_text">"The use of this app is intended for persons who are at least 16 years of age and who reside in Germany."</string>
 
 
     <!-- ####################################
@@ -541,7 +541,9 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Allow location access"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">"Your location cannot be accessed. Google and/or Android requires access to your device\'s location to use Bluetooth."</string>
+    <string name="settings_tracing_status_location_body">"Activate your location services. Bluetooth Low Energy requires activated location services to calculate physical distances, but does not access your location. For further information, please see our FAQ page."</string>
+    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
+    <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Open Device Settings"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -720,7 +722,7 @@
     <!-- NOTR: subtitle for legal information page, open contact form for languages other than English and German -->
     <string name="information_legal_subtitle_contact_form_non_en_de">"Contact Form in "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/en/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"English"</a>" or "<a href="https://www.rki.de/SharedDocs/Kontaktformulare/weitere/Corona-Warn-App/Corona-Warn-App_Integrator.html">"German"</a></string>
     <!-- XHED: Headline for legal information page, tax section -->
-    <string name="information_legal_headline_taxid">"VAT identification number"</string>
+    <string name="information_legal_headline_taxid">"VAT identification\nnumber"</string>
     <!-- YTXT: subtitle for legal information page, tax section -->
     <string name="information_legal_subtitle_taxid">"DE 165 893 430"</string>
     <!-- XACT: describes illustration -->
@@ -740,10 +742,14 @@
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Back"</string>
 
-    <!-- XHED: Dialog title for already paired test error -->
+    <!-- XHED: Dialog title for already paired test error: qr -->
     <string name="submission_error_dialog_web_test_paired_title">"QR code is invalid"</string>
-    <!-- XMSG: Dialog body for already paired test error -->
+    <!-- XMSG: Dialog body for already paired test error: qr -->
     <string name="submission_error_dialog_web_test_paired_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with COVID-19, you will be notified by the public health authority."</string>
+    <!-- XHED: Dialog title for already paired test error: tan -->
+    <string name="submission_error_dialog_web_test_paired_title_tan">"TAN is invalid"</string>
+    <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
+    <string name="submission_error_dialog_web_test_paired_body_tan">"The TAN is invalid or has already been used. For further information, call the number listed under \"Request TAN\"."</string>
     <!-- XBUT: Positive button for already paired test error -->
     <string name="submission_error_dialog_web_test_paired_button_positive">"Back"</string>
 
@@ -767,6 +773,15 @@
     <string name="submission_error_dialog_web_tan_redeemed_body">"There was a problem evaluating your test. Your QR code has already expired."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
+
+    <!-- XHED: Dialog title for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_title">"Do you want to cancel?"</string>
+    <!-- XMSG: Dialog body for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_body">"Your entries will not be saved."</string>
+    <!-- XBUT: Positive button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_positive">"Yes"</string>
+    <!-- XBUT: Negative button for keys submission process cancellation -->
+    <string name="submission_error_dialog_confirm_cancellation_button_negative">"No"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
@@ -869,9 +884,9 @@
     <!-- XACT: Submission Tan page title -->
     <string name="submission_tan_accessibility_title">"TAN entry"</string>
     <!-- YTXT: Error text for the tan submission page -->
-    <string name="submission_tan_error">"Invalid TAN, please check your entry."</string>
+    <string name="submission_tan_error">"Invalid TAN. Please check your entry."</string>
     <!-- YTXT: Error text for the tan submission page (wrong characters) -->
-    <string name="submission_tan_character_error">"Invalid entry. Please check your entry."</string>
+    <string name="submission_tan_character_error">"Your entry contains invalid characters. Please check your entry."</string>
 
     <!-- Submission Intro -->
     <!-- XHED: Page title for menu at the start of the submission process  -->
@@ -931,12 +946,25 @@
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Data Privacy"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping on “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
-    <string name="submission_positive_other_warning_button">"Next"</string>
+    <string name="submission_positive_other_warning_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A device transmits an encrypted positive test diagnosis to the system."</string>
 
+    <!-- Submission Country Selector -->
+    <!-- XHED: Page title for the submission country selection page -->
+    <string name="submission_positive_country_selection_title">"Europe-wide warnings"</string>
+    <!-- XHED: Page headline for the submission country selection page -->
+    <string name="submission_positive_country_selection_headline">"Which countries have you visited in the last 14 days?"</string>
+    <!-- XHED: Country selector headline for the submission country selection page -->
+    <string name="submission_country_selector_headline">"I have visited the following countries"</string>
+    <!-- XHED: Country no selection headline for the submission country selection page -->
+    <string name="submission_country_no_selection_headline">"No statement"</string>
+    <!-- YTXT: Data FAQ for the submission country selection page -->
+    <string name="submission_country_selection_data_faq_body">"Your entry is used solely for optimizing the data volume.\n\nThe list contains all currently participating countries and is continuously updated."</string>
+    <!-- XBUT: submission country selection continue button -->
+    <string name="submission_country_selection_button">"Next"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -961,7 +989,33 @@
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Done"</string>
     <!-- XACT: submission finished - illustration description, explanation image -->
-    <string name="submission_done_illustration_description">"Everyone in the group is cheering because someone has shared the test result."</string>
+    <string name="submission_done_illustration_description">"Have you experienced one or more of the following symptoms in the past few days?"</string>
+
+    <!-- Submission Symptoms -->
+    <!-- XHED: Page title for symptom screens -->
+    <string name="submission_symptom_title">"Symptoms"</string>
+    <!-- YTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Have you experienced one or more of the following symptoms in the past few days?"</string>
+    <!-- YTXT: Bullet points for symptoms -->
+    <string-array name="submission_symptom_symptom_bullets">
+        <item>"Increased temperature or fever"</item>
+        <item>"Shortness of breath"</item>
+        <item>"Loss of sense of smell/taste"</item>
+        <item>"Cough"</item>
+        <item>"Runny nose"</item>
+        <item>"Sore throat"</item>
+        <item>"Headache and aching limbs"</item>
+        <item>"General weakness and exhaustion"</item>
+    </string-array>
+    <!-- XBUT: symptom initial screen yes button -->
+    <string name="submission_symptom_positive_button">"Yes"</string>
+    <!-- XBUT:  symptom initial screen no button -->
+    <string name="submission_symptom_negative_button">"No"</string>
+    <!-- XBUT:  symptom initial screen no information button -->
+    <string name="submission_symptom_no_information_button">"No comment"</string>
+    <!-- XBUT:  symptom initial screen continue button -->
+    <string name="submission_symptom_further_button">"Next"</string>
+
 
     <!-- Submission Contact -->
     <!-- XHED: Page title for contact page in submission flow -->
@@ -991,6 +1045,22 @@
     <string name="submission_contact_step_1_content">"In the first step, you call the hotline and request your TAN. You can reach the hotline on +49 800 7540002. The business hours are Monday to Friday from 8 am to 10 pm and Saturday and Sunday from 10 am to 10 pm. The call is free of charge."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"In the second step, you register your test with your TAN in the app."</string>
+
+    <!-- Submission Symptom Calendar -->
+    <!-- XHED: Page title for calendar page in submission symptom flow -->
+    <string name="submission_symptom_calendar_title">"Start of Symptoms"</string>
+    <!-- XHED: Page headline for calendar page in symptom submission flow -->
+    <string name="submission_symptom_calendar_headline">"When did you first start to experience these symptoms? "</string>
+    <!-- YTXT: Body text for calendar page in symptom submission flow-->
+    <string name="submission_symptom_calendar_body">"Select the exact date in the calendar or, if you cannot remember the exact date, choose one of the other options."</string>
+    <!-- XBUT: symptom calendar screen less than 7 days button -->
+    <string name="submission_symptom_less_seven">"In the last 7 days"</string>
+    <!-- XBUT: symptom calendar screen 1-2 weeks button -->
+    <string name="submission_symptom_one_two_weeks">"1-2 weeks ago"</string>
+    <!-- XBUT: symptom calendar screen more than 2 weeks button -->
+    <string name="submission_symptom_more_two_weeks">"More than 2 weeks ago"</string>
+    <!-- XBUT: symptom calendar screen verify button -->
+    <string name="submission_symptom_verify">"No comment"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1055,6 +1125,9 @@
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk. If your symptoms worsen, you might need a further SARS-CoV-2 test."</item>
     </string-array>
 
+    <!-- XBUT Symptoms exact date button -->
+    <string name="symptoms_calendar_exact_date_button">"Exact date"</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
@@ -1083,7 +1156,7 @@
     <!-- XTXT: error dialog - detailed text if there is an error during external navigation / external action -->
     <string name="errors_external_action">"You cannot perform this action. Please contact the hotline."</string>
     <!-- XTXT: error dialog - phone still needs Google Play Services or Google Mobile Services update -->
-    <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 exposure notifications\" service is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
+    <string name="errors_google_update_needed">"Your Corona-Warn-App is correctly installed, but the \"COVID-19 Exposure Notifications System\" is not available on your smartphone\'s operating system. This means that you cannot use the Corona-Warn-App. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
     <!-- XTXT: error dialog - either Google API Error (10) or reached request limit per day -->
     <string name="errors_google_api_error">"The Corona-Warn-App is running correctly, but we cannot update your current risk status. Exposure logging remains active and is working correctly. For further information, please see our FAQ page: https://www.coronawarn.app/en/faq/"</string>
 
@@ -1150,5 +1223,4 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
-
 </resources>

@@ -89,6 +89,7 @@
                         android:layout_marginTop="@dimen/spacing_small"
                         android:text="@string/submission_contact_number_display"
                         android:textColor="@color/colorTextTint"
+                        android:clickable="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_body" />

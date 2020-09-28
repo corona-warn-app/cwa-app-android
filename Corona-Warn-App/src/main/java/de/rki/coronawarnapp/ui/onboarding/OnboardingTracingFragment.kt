@@ -6,19 +6,18 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
-import kotlinx.coroutines.launch
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * This fragment ask the user if he wants to enable tracing.
@@ -27,14 +26,13 @@ import kotlinx.coroutines.launch
  * @see AlertDialog
  */
 class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing),
-    InternalExposureNotificationPermissionHelper.Callback {
-
-    companion object {
-        private val TAG: String? = OnboardingTracingFragment::class.simpleName
-    }
+    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
     private val binding: FragmentOnboardingTracingBinding by viewBindingLazy()
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: OnboardingTracingFragmentViewModel by cwaViewModels { viewModelFactory }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         internalExposureNotificationPermissionHelper.onResolutionComplete(
@@ -52,12 +50,16 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        vm.countryList.observe2(this) {
+            binding.countryData = it
+        }
+        vm.saveInteroperabilityUsed()
     }
 
     override fun onResume() {
         super.onResume()
         binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        resetTracing()
+        vm.resetTracing()
     }
 
     private fun setButtonOnClickListener() {
@@ -68,7 +70,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             showCancelDialog()
         }
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            (activity as OnboardingActivity).goBack()
+            (requireActivity() as OnboardingActivity).goBack()
         }
     }
 
@@ -98,24 +100,5 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         findNavController().doNavigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
-    }
-
-    private fun resetTracing() {
-        // Reset tracing state in onboarding
-        lifecycleScope.launch {
-            try {
-                if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    InternalExposureNotificationClient.asyncStop()
-                    // Reset initial activation timestamp
-                    LocalData.initialTracingActivationTimestamp(0L)
-                }
-            } catch (exception: Exception) {
-                exception.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION,
-                    TAG,
-                    null
-                )
-            }
-        }
     }
 }
