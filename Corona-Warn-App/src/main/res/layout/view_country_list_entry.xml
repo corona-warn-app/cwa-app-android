@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/country_list_entry_label"
-        style="@style/headline6"
+        style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
