@@ -9,7 +9,7 @@ object RiskLevelRepository {
     /**
      * LiveData variables that can be consumed in a ViewModel to observe RiskLevel changes
      */
-    val riskLevelScore = MutableLiveData(RiskLevelConstants.LOW_LEVEL_RISK)
+    val riskLevelScore = MutableLiveData(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
     val riskLevelScoreLastSuccessfulCalculated =
         MutableLiveData(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
 
@@ -23,7 +23,7 @@ object RiskLevelRepository {
      * @param riskLevel
      */
     fun setRiskLevelScore(riskLevel: RiskLevel) {
-        val rawRiskLevel = 2//riskLevel.raw
+        val rawRiskLevel = riskLevel.raw
         riskLevelScore.postValue(rawRiskLevel)
 
         setLastCalculatedScore(rawRiskLevel)
@@ -37,7 +37,7 @@ object RiskLevelRepository {
      *
      */
     fun reset() {
-        riskLevelScore.postValue(RiskLevelConstants.LOW_LEVEL_RISK)
+        riskLevelScore.postValue(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
     }
 
     /**
@@ -103,4 +103,3 @@ object RiskLevelRepository {
         }
     }
 }
-
