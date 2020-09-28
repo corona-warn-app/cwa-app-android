@@ -23,6 +23,7 @@
             app:title="@{@string/submission_contact_title}" />
 
         <include
+            android:id="@+id/include_submission_contact"
             layout="@layout/include_submission_contact"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"

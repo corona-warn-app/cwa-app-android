@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
+import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
@@ -35,17 +36,17 @@ class DiagnosisKeyApiTest : BaseIOTest() {
         val defaultHttpClient = httpModule.defaultHttpClient()
         val gsonConverterFactory = httpModule.provideGSONConverter()
 
-        return DiagnosisKeysModule().let {
-            val downloadHttpClient = it.cdnHttpClient(defaultHttpClient)
-                .newBuilder()
-                .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
-                .build()
-            it.provideDiagnosisKeyApi(
-                client = downloadHttpClient,
-                url = serverAddress,
-                gsonConverterFactory = gsonConverterFactory
-            )
-        }
+        val cdnHttpClient = DownloadCDNModule()
+            .cdnHttpClient(defaultHttpClient)
+            .newBuilder()
+            .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
+            .build()
+
+        return DiagnosisKeysModule().provideDiagnosisKeyApi(
+            client = cdnHttpClient,
+            url = serverAddress,
+            gsonConverterFactory = gsonConverterFactory
+        )
     }
 
     @Test
