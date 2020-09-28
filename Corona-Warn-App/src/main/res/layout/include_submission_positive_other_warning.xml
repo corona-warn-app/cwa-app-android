@@ -11,10 +11,6 @@
             name="countryData"
             type="java.util.List&lt;String&gt;" />
 
-        <variable
-            name="countryListTitle"
-            type="String" />
-
     </data>
 
     <ScrollView
