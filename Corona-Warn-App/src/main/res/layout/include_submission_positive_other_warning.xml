@@ -82,7 +82,7 @@
                 layout="@layout/include_16_years"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:focusable="true"
                 app:body="@{@string/sixteen_description_text}"
                 app:headline="@{@string/sixteen_title_text}"
