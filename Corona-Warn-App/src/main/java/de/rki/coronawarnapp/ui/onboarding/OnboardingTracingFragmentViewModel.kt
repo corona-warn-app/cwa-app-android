@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.onboarding
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -16,7 +15,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     private val interoperabilityRepository: InteroperabilityRepository
 ) : CWAViewModel() {
 
-    val countryList = MutableLiveData(interoperabilityRepository.getAllCountries())
+    val countryList = interoperabilityRepository.countryList
 
     fun saveInteroperabilityUsed() {
         interoperabilityRepository.saveInteroperabilityUsed()

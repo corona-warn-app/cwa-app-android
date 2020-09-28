@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <import type="android.view.View" />
 
         <variable
             name="countryData"
@@ -44,6 +47,10 @@
 
         <variable
             name="isOnboarding"
+            type="Boolean" />
+
+        <variable
+            name="isRiskdetection"
             type="Boolean" />
 
         <variable
@@ -151,37 +158,49 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/country_header_description"
-                style="@style/headline6"
+            <include
+                android:id="@+id/no_countries_default_infoview"
+                layout="@layout/include_interop_no_countries_infoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:accessibilityHeading="true"
-                android:text="@{countryListTitle}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(countryListTitle)}"
+                android:visibility="@{FormatterHelper.formatVisibility(countryData.empty)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
-            <de.rki.coronawarnapp.ui.view.CountryList
-                android:id="@+id/countryList"
+            <include
+                android:id="@+id/no_countries_riskdetails_infoview"
+                layout="@layout/include_interop_riskdetails_no_countries_infoview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                app:list="@{countryData}"
+                android:visibility="@{FormatterHelper.formatVisibility(countryData.empty &amp;&amp; isRiskdetection)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/country_header_description" />
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
-            <TextView
-                android:id="@+id/interoperability_label_country_selection_information"
+            <include
+                android:id="@+id/country_list_overview"
+                layout="@layout/include_interop_list_participating_countries_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:text="@{countryListHint}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(countryListHint)}"
-                app:layout_constraintTop_toBottomOf="@+id/countryList" />
+                android:visibility="@{FormatterHelper.formatVisibilityInverted(countryData.empty)}"
+                app:countryData="@{countryData}"
+                app:countryListHint="@{countryListHint}"
+                app:countryListTitle="@{countryListTitle}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/country_list_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierAllowsGoneWidgets="false"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="country_list_overview, no_countries_default_infoview"
+                tools:layout_editor_absoluteY="411dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/cardTracing"
@@ -192,8 +211,7 @@
                 android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/interoperability_label_country_selection_information">
-                app:layout_constraintTop_toBottomOf="@+id/countryList"/>
+                app:layout_constraintTop_toBottomOf="@+id/country_list_barrier">
 
                 <TextView
                     android:id="@+id/interoperability_footer_title"
@@ -218,7 +236,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/interoperability_footer_title" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

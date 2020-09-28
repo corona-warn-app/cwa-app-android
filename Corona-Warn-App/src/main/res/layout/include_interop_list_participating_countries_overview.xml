@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+
+        <variable
+            name="countryData"
+            type="java.util.List&lt;String&gt;" />
+
+        <variable
+            name="countryListTitle"
+            type="String" />
+
+        <variable
+            name="countryListHint"
+            type="String" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/country_header_description"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
+            android:text="@{countryListTitle}"
+            android:visibility="@{FormatterHelper.formatVisibilityText(countryListTitle)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.rki.coronawarnapp.ui.view.CountryList
+            android:id="@+id/countryList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_header_description"
+            app:list="@{countryData}" />
+
+        <TextView
+            android:id="@+id/label_country_selection_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:accessibilityHeading="true"
+            android:text="@{countryListHint}"
+            android:visibility="@{FormatterHelper.formatVisibilityText(countryListHint)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countryList" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
