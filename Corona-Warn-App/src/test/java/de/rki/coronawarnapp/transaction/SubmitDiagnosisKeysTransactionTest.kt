@@ -28,6 +28,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.time.Instant
 
 class SubmitDiagnosisKeysTransactionTest {
 
@@ -89,7 +90,7 @@ class SubmitDiagnosisKeysTransactionTest {
         val key = TemporaryExposureKey.TemporaryExposureKeyBuilder()
             .setKeyData(ByteArray(1))
             .setRollingPeriod(1)
-            .setRollingStartIntervalNumber(1)
+            .setRollingStartIntervalNumber((Instant.now().toEpochMilli() / (60 * 10 * 1000)).toInt())
             .setTransmissionRiskLevel(1)
             .build()
         val testList = slot<List<KeyExportFormat.TemporaryExposureKey>>()

@@ -4,30 +4,38 @@ import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator.Compan
 
 class DaysSinceOnsetOfSymptomsVectorDeterminator {
 
+    companion object {
+        const val VECTOR_LENGTH = 15
+    }
+
     @Suppress("MagicNumber")
-    internal fun determine(symptoms: Symptoms, size: Int): DaysSinceOnsetOfSymptomsVector {
+    internal fun determine(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
         return when (symptoms.symptomIndication) {
             Symptoms.Indication.POSITIVE -> {
                 when (symptoms.startOfSymptoms) {
                     is Symptoms.StartOf.Date ->
                         createDaysSinceOnsetOfSymptomsVectorWith(
                             numberOfDays(symptoms.startOfSymptoms.millis),
-                            size
+                            VECTOR_LENGTH
                         )
                     is Symptoms.StartOf.LastSevenDays ->
-                        createDaysSinceOnsetOfSymptomsVectorWith(701, size)
+                        createDaysSinceOnsetOfSymptomsVectorWith(701,
+                            VECTOR_LENGTH)
                     is Symptoms.StartOf.OneToTwoWeeksAgo ->
-                        createDaysSinceOnsetOfSymptomsVectorWith(708, size)
+                        createDaysSinceOnsetOfSymptomsVectorWith(708,
+                            VECTOR_LENGTH)
                     is Symptoms.StartOf.MoreThanTwoWeeks ->
-                        createDaysSinceOnsetOfSymptomsVectorWith(715, size)
+                        createDaysSinceOnsetOfSymptomsVectorWith(715,
+                            VECTOR_LENGTH)
                     else ->
-                        createDaysSinceOnsetOfSymptomsVectorWith(2000, size)
+                        createDaysSinceOnsetOfSymptomsVectorWith(2000,
+                            VECTOR_LENGTH)
                 }
             }
             Symptoms.Indication.NO_INFORMATION ->
-                createDaysSinceOnsetOfSymptomsVectorWith(4000, size)
+                createDaysSinceOnsetOfSymptomsVectorWith(4000, VECTOR_LENGTH)
             Symptoms.Indication.NEGATIVE ->
-                createDaysSinceOnsetOfSymptomsVectorWith(3000, size)
+                createDaysSinceOnsetOfSymptomsVectorWith(3000, VECTOR_LENGTH)
         }
     }
 

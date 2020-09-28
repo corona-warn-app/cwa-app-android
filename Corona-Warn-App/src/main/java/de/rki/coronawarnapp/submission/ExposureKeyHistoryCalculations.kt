@@ -14,7 +14,6 @@ class ExposureKeyHistoryCalculations(
 
     companion object {
         const val MAX_DAYS_IN_PAST = 14
-        const val VECTOR_LENGTH = 15
         const val TEN_MINUTES_IN_MILLIS = (10 * 60 * 1000).toLong()
     }
 
@@ -25,7 +24,7 @@ class ExposureKeyHistoryCalculations(
         toExternalFormat(
             limitKeyCount(toSortedHistory(keys)),
             transmissionRiskVectorDeterminator.determine(symptoms),
-            daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms, VECTOR_LENGTH)
+            daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms)
         )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
