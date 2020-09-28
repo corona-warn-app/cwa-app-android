@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EndPoint.DOWNLOAD
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EndPoint.SUBMISSION
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EndPoint.VERIFICATION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.DOWNLOAD
+import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUBMISSION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION_KEYS
 import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,58 +22,65 @@ class EnvironmentSetup @Inject constructor(
         context.getSharedPreferences("environment_setup", Context.MODE_PRIVATE)
     }
 
-    val environmentJson: JsonObject by lazy {
+    private val environmentJson: JsonObject by lazy {
         val gson = GsonBuilder().create()
-        gson.fromJson(BuildConfigWrap.TEST_ENVIRONMENT_JSONDATA, JsonObject::class.java).also {
+        gson.fromJson(BuildConfigWrap.ENVIRONMENT_JSONDATA, JsonObject::class.java).also {
             Timber.d("Parsed test environment: %s", it)
         }
     }
 
-    val defaultEnvironment: Type by lazy {
-        BuildConfigWrap.TEST_ENVIRONMENT_DEFAULTTYPE.toEnvironmentType()
-    }
+    val defaultEnvironment: Type
+        get() = BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
+
+    val alternativeEnvironment: Type
+        get() = BuildConfigWrap.ENVIRONMENT_TYPE_ALTERNATIVE.toEnvironmentType()
 
     var currentEnvironment: Type
-        get() = if (CWADebug.isDebugBuildOrMode) {
-            prefs
+        get() {
+            return prefs
                 .getString(PKEY_CURRENT_ENVINROMENT, null)
                 ?.toEnvironmentType() ?: defaultEnvironment
-        } else {
-            Type.PRODUCTION
         }
         set(value) {
-            prefs.edit {
-                putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
+            if (CWADebug.isDebugBuildOrMode) {
+                prefs.edit {
+                    putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
+                }
+            } else {
+                Timber.w("Tried to change currentEnvironment in PRODUCTION mode.")
             }
         }
 
-    private fun getEndpointUrl(endpoint: EndPoint): String = if (!CWADebug.isDebugBuildOrMode) {
-        when (endpoint) {
-            SUBMISSION -> BuildConfigWrap.SUBMISSION_CDN_URL
-            VERIFICATION -> BuildConfigWrap.VERIFICATION_CDN_URL
-            DOWNLOAD -> BuildConfigWrap.DOWNLOAD_CDN_URL
-        }
-    } else {
+    private fun getEnvironmentValue(variableKey: ENVKEY): String = run {
         try {
+            val targetEnvKey = if (environmentJson.has(currentEnvironment.rawKey)) {
+                currentEnvironment.rawKey
+            } else {
+                Timber.e("Tried to use unavailable environment: $variableKey on $currentEnvironment")
+                Type.PRODUCTION.rawKey
+            }
             environmentJson
-                .getAsJsonObject(currentEnvironment.rawKey)
-                .getAsJsonPrimitive(endpoint.key)
+                .getAsJsonObject(targetEnvKey)
+                .getAsJsonPrimitive(variableKey.rawKey)
                 .asString
         } catch (e: Exception) {
-            Timber.e(e, "Failed to retrieve endpoint URL for %s", endpoint)
+            Timber.e(e, "Failed to retrieve endpoint URL for $currentEnvironment:$variableKey")
             throw IllegalStateException("Failed to setup test environment", e)
         }
-    }.also { Timber.v("getEndpointUrl(endpoint=%s): %s", endpoint, it) }
+    }.also { Timber.v("getEndpointUrl(endpoint=%s): %s", variableKey, it) }
 
-    val cdnUrlSubmission: String
-        get() = getEndpointUrl(SUBMISSION)
-    val cdnUrlVerification: String
-        get() = getEndpointUrl(VERIFICATION)
-    val cdnUrlDownload: String
-        get() = getEndpointUrl(DOWNLOAD)
+    val submissionCdnUrl: String
+        get() = getEnvironmentValue(SUBMISSION)
+    val verificationCdnUrl: String
+        get() = getEnvironmentValue(VERIFICATION)
+    val downloadCdnUrl: String
+        get() = getEnvironmentValue(DOWNLOAD)
+
+    val appConfigVerificationKey: String
+        get() = getEnvironmentValue(VERIFICATION_KEYS)
 
     enum class Type(val rawKey: String) {
-        PRODUCTION(""),
+        PRODUCTION("PROD"),
         INT("INT"),
         DEV("DEV"),
         WRU("WRU"),
@@ -84,10 +92,11 @@ class EnvironmentSetup @Inject constructor(
         it.rawKey == this
     }
 
-    enum class EndPoint(val key: String) {
+    enum class ENVKEY(val rawKey: String) {
         SUBMISSION("SUBMISSION_CDN_URL"),
         VERIFICATION("VERIFICATION_CDN_URL"),
-        DOWNLOAD("DOWNLOAD_CDN_URL")
+        DOWNLOAD("DOWNLOAD_CDN_URL"),
+        VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION")
     }
 
     companion object {

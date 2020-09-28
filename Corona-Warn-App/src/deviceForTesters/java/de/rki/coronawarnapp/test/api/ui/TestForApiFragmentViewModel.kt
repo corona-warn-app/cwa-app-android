@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.api.ui
 
-import android.content.Context
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.storage.LocalData
@@ -9,7 +8,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class TestForApiFragmentViewModel @AssistedInject constructor(
-    private val environmentSetup: EnvironmentSetup
+    private val envSetup: EnvironmentSetup
 ) : CWAViewModel() {
 
     val last3HourToggleEvent = SingleLiveEvent<Boolean>()
@@ -22,17 +21,15 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
 
     fun toggleEnvironment(isTestCountyEnabled: Boolean) {
         if (isTestCountyEnabled) {
-            environmentSetup.currentEnvironment = EnvironmentSetup.Type.WRU_XA
+            envSetup.currentEnvironment = envSetup.alternativeEnvironment
         } else {
-            environmentSetup.currentEnvironment = environmentSetup.defaultEnvironment
+            envSetup.currentEnvironment = envSetup.defaultEnvironment
         }
         environmentSetupToggleEvent.postValue(isTestCountyEnabled)
     }
 
     fun isTestCountyCurrentEnvironment(): Boolean {
-        if (environmentSetup.currentEnvironment != EnvironmentSetup.Type.WRU_XA)
-            return false
-        return true
+        return envSetup.currentEnvironment == envSetup.alternativeEnvironment
     }
 
     @AssistedInject.Factory

@@ -13,7 +13,7 @@ class SubmissionCDNModule : BaseEnvironmentModule() {
     @SubmissionCDNServerUrl
     @Provides
     fun provideSubmissionUrl(environment: EnvironmentSetup): String {
-        val url = environment.cdnUrlSubmission
+        val url = environment.submissionCdnUrl
         requireValidUrl(url)
         return url
     }

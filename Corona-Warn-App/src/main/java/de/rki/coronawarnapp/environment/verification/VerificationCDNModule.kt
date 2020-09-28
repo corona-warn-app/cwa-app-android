@@ -13,7 +13,7 @@ class VerificationCDNModule : BaseEnvironmentModule() {
     @VerificationCDNServerUrl
     @Provides
     fun provideVerificationUrl(environment: EnvironmentSetup): String {
-        val url = environment.cdnUrlVerification
+        val url = environment.verificationCdnUrl
         requireValidUrl(url)
         return url
     }

@@ -24,6 +24,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'jacoco'
 
+
+def environmentExtrator = { File path ->
+    def rawJson = path.text
+    def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "").replace("\r", "")
+    "\"${escapedJson}\""
+}
+
 android {
     ndkVersion "21.2.6472646"
     compileSdkVersion 29
@@ -40,46 +47,16 @@ android {
 
         resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
-        buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
-        buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
-        buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
-        buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
+        buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"PROD\""
+        buildConfigField "String", "ENVIRONMENT_TYPE_ALTERNATIVE", "\"PROD\""
 
-        //override URLs. Use local.properties if exist.
-        // If environment.properties also exist, override local.properties
-        def propertiesFile = project.rootProject.file('local.properties')
+        def prodEnvJson = environmentExtrator(file("../prod_environments.json"))
+        buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
 
-
-        if (propertiesFile.exists()) {
-            Properties overridingProperties = new Properties()
-            overridingProperties.load(propertiesFile.newDataInputStream())
-
-            def DOWNLOAD_CDN_URL = overridingProperties.getProperty('DOWNLOAD_CDN_URL')
-            if (DOWNLOAD_CDN_URL)
-                buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
-
-            def SUBMISSION_CDN_URL = overridingProperties.getProperty('SUBMISSION_CDN_URL')
-            if (SUBMISSION_CDN_URL)
-                buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
-
-            def VERIFICATION_CDN_URL = overridingProperties.getProperty('VERIFICATION_CDN_URL')
-            if (VERIFICATION_CDN_URL)
-                buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
-
-            def PUB_KEYS_SIGNATURE_VERIFICATION = overridingProperties.getProperty('PUB_KEYS_SIGNATURE_VERIFICATION')
-            if (PUB_KEYS_SIGNATURE_VERIFICATION)
-                buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
-        }
-
-        buildConfigField "String", "TEST_ENVIRONMENT_DEFAULT_TYPE", "\"WRU-XD\""
-
-        def testEnvironmentJsonFile = file("../test_environments.json")
-        if (testEnvironmentJsonFile.exists()) {
-            def rawJson = testEnvironmentJsonFile.text
-            def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "").replace("\r", "")
-            buildConfigField "String", "TEST_ENVIRONMENT_JSONDATA", "\"${escapedJson}\""
-        } else {
-            buildConfigField "String", "TEST_ENVIRONMENT_JSONDATA", "\"\""
+        def devEnvironmentFile = file("../test_environments.json")
+        if(devEnvironmentFile.exists()) {
+            def devEnvJson = environmentExtrator(devEnvironmentFile)
+            buildConfigField "String", "ENVIRONMENT_JSONDATA", devEnvJson
         }
 
         javaCompileOptions {
@@ -90,6 +67,9 @@ android {
     }
 
     buildTypes {
+        debug {
+
+        }
         release {
             minifyEnabled true
             shrinkResources true
@@ -111,27 +91,8 @@ android {
             resValue "string", "app_name", "CWA TEST"
             applicationIdSuffix '.dev'
 
-            def environmentPropertiesFile = project.rootProject.file('environment.properties')
-            if (environmentPropertiesFile.exists()) {
-                Properties overridingProperties = new Properties()
-                overridingProperties.load(environmentPropertiesFile.newDataInputStream())
-
-                def DOWNLOAD_CDN_URL = overridingProperties.getProperty('DOWNLOAD_CDN_URL')
-                if (DOWNLOAD_CDN_URL)
-                    buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
-
-                def SUBMISSION_CDN_URL = overridingProperties.getProperty('SUBMISSION_CDN_URL')
-                if (SUBMISSION_CDN_URL)
-                    buildConfigField "String", "SUBMISSION_CDN_URL", "\"$SUBMISSION_CDN_URL\""
-
-                def VERIFICATION_CDN_URL = overridingProperties.getProperty('VERIFICATION_CDN_URL')
-                if (VERIFICATION_CDN_URL)
-                    buildConfigField "String", "VERIFICATION_CDN_URL", "\"$VERIFICATION_CDN_URL\""
-
-                def PUB_KEYS_SIGNATURE_VERIFICATION = overridingProperties.getProperty('PUB_KEYS_SIGNATURE_VERIFICATION')
-                if (PUB_KEYS_SIGNATURE_VERIFICATION)
-                    buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
-            }
+            buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"DEV\""
+            buildConfigField "String", "ENVIRONMENT_TYPE_ALTERNATIVE", "\"WRU-XA\""
         }
     }
 
