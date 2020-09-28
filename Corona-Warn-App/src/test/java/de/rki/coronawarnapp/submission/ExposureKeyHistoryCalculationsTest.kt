@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.submission
 
 import KeyExportFormat
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import io.mockk.mockk
+import org.joda.time.DateTime
+import org.joda.time.Instant
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -21,56 +22,33 @@ class ExposureKeyHistoryCalculationsTest {
                 daysSinceOnsetOfSymptoms: Int
             ) =
                 KeyExportFormat.TemporaryExposureKey.newBuilder()
-                    .setRollingStartIntervalNumber(riskValue * 10)
+                    .setRollingStartIntervalNumber(key.rollingStartIntervalNumber)
+                    .setTransmissionRiskLevel(riskValue)
+                    .setDaysSinceOnsetOfSymptoms(daysSinceOnsetOfSymptoms)
                     .build()
         }
 
-        val submissionStatusRepository = mockk<SubmissionStatusRepository>()
-
         instance = ExposureKeyHistoryCalculations(
-            TransmissionRiskVectorDeterminator(submissionStatusRepository),
+            TransmissionRiskVectorDeterminator(),
             DaysSinceOnsetOfSymptomsVectorDeterminator(),
-            converter)
+            converter
+        )
     }
 
     @Test
     fun test_limitKeyCount() {
-        val rollingStartIntervalNumber = 0
-        createKey(rollingStartIntervalNumber)
-        Assert.assertEquals(0, instance.limitKeyCount(emptyList<String>()).size)
-        Assert.assertEquals(
-            7, instance.limitKeyCount(
+        val tek1 = createKey(2012, 10, 15)
+        val tek2 = createKey(2012, 10, 1)
+        Assert.assertArrayEquals(
+            arrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
+            instance.limitKeyCount(
                 listOf(
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7"
-                )
-            ).size
-        )
-        Assert.assertEquals(
-            14, instance.limitKeyCount(
-                listOf(
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10",
-                    "11",
-                    "12",
-                    "13",
-                    "14",
-                    "15"
-                )
-            ).size
+                    tek1,
+                    tek2,
+                    createKey(2012, 9, 30)
+                ),
+                DateTime(2012, 10, 15, 0, 0).toInstant()
+            ).map { it.rollingStartIntervalNumber }.toTypedArray()
         )
     }
 
@@ -91,19 +69,51 @@ class ExposureKeyHistoryCalculationsTest {
 
     @Test
     fun test_toExternalFormat() {
+        val tek1 = createKey(2012, 10, 2)
+        val tek2 = createKey(2012, 10, 1)
+        val toExternalFormat = instance.toExternalFormat(
+            listOf(tek1, tek2),
+            TransmissionRiskVector(intArrayOf(0, 1, 2)),
+            intArrayOf(3998, 3999, 4000),
+            DateTime(2012, 10, 2, 1, 1).toInstant()
+        )
         Assert.assertArrayEquals(
-            intArrayOf(10, 20), instance.toExternalFormat(
-                listOf(
-                    createKey(0),
-                    createKey(1)
-                ),
-                TransmissionRiskVector(intArrayOf(0, 1, 2)),
-                intArrayOf(3998, 3999, 4000)
-            ).map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
+            intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
+            toExternalFormat.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(3998, 3999),
+            toExternalFormat.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(0, 1),
+            toExternalFormat.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+        )
+    }
+
+    @Test
+    fun test_daysAgo() {
+        Assert.assertEquals(
+            0, instance.daysAgo(
+                DateTime(2012, 3, 4, 1, 2).toInstant(),
+                DateTime(2012, 3, 4, 16, 9).toInstant()
+            )
+        )
+        Assert.assertEquals(
+            2, instance.daysAgo(
+                DateTime(2013, 12, 31, 1, 2).toInstant(),
+                DateTime(2014, 1, 2, 16, 9).toInstant()
+            )
         )
     }
 
     private fun createKey(rollingStartIntervalNumber: Int) =
         TemporaryExposureKey.TemporaryExposureKeyBuilder()
             .setRollingStartIntervalNumber(rollingStartIntervalNumber).build()
+
+    private fun createKey(instant: Instant) =
+        createKey((instant.millis / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS).toInt())
+
+    private fun createKey(year: Int, month: Int, day: Int) =
+        createKey(DateTime(year, month, day, 0, 0).toInstant())
 }

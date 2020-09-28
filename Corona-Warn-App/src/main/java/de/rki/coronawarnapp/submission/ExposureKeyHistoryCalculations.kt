@@ -29,17 +29,18 @@ class ExposureKeyHistoryCalculations(
         )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun limitKeyCount(keys: List<TemporaryExposureKey>) =
-        keys.filter { it.daysAgo <= MAX_DAYS_IN_PAST }
+    internal fun limitKeyCount(keys: List<TemporaryExposureKey>, now: Instant = Instant()) =
+        keys.filter { it.daysAgo(now) <= MAX_DAYS_IN_PAST }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun toExternalFormat(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
-        daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector
+        daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector,
+        now: Instant = Instant()
     ): List<KeyExportFormat.TemporaryExposureKey> {
         val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
-        keys.groupBy { it.daysAgo }.forEach { entry ->
+        keys.groupBy { it.daysAgo(now) }.forEach { entry ->
             val daysAgo = entry.key
             entry.value.forEach {
                 result.add(
@@ -59,10 +60,13 @@ class ExposureKeyHistoryCalculations(
         keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val TemporaryExposureKey.daysAgo: Int
-        get() = daysAgo(Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS))
+    internal fun TemporaryExposureKey.daysAgo(now: Instant = Instant()): Int =
+        daysAgo(
+            Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS),
+            now
+        )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun daysAgo(instant: Instant, now: Instant = Instant()) =
+    internal fun daysAgo(instant: Instant, now: Instant = Instant()) =
         Days.daysBetween(instant, now).days
 }
