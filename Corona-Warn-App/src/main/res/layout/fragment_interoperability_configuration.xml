@@ -46,6 +46,7 @@
                 app:countryListTitle="@{@string/interoperability_configuration_list_title}"
                 app:countryData="@{countryData}"
                 app:isOnboarding="@{false}"
+                app:isRiskdetection="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
