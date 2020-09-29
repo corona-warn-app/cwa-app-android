@@ -21,7 +21,7 @@ import testhelpers.BaseIOTest
 import java.io.File
 import java.io.IOException
 
-class AppConfigServerTest : BaseIOTest() {
+class AppConfigProviderTest : BaseIOTest() {
 
     @MockK lateinit var api: AppConfigApiV1
     @MockK lateinit var verificationKeys: VerificationKeys
@@ -182,6 +182,16 @@ class AppConfigServerTest : BaseIOTest() {
 
         runBlocking {
             createDownloadServer().getAppConfig().minRiskScore shouldBe 11
+        }
+    }
+
+    @Test
+    fun `if supportedCountryList is empty, we insert DE as fallback`() {
+        coEvery { api.getApplicationConfiguration("DE") } returns APPCONFIG_BUNDLE.toResponseBody()
+        every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
+
+        runBlocking {
+            createDownloadServer().getAppConfig().supportedCountriesList shouldBe listOf("DE")
         }
     }
 

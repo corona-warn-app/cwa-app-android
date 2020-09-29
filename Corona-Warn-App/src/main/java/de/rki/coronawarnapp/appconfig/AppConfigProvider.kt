@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +47,13 @@ class AppConfigProvider @Inject constructor(
         return exportBinary!!
     }
 
-    private suspend fun getNewAppConfig(): ApplicationConfigurationOuterClass.ApplicationConfiguration? {
+    private fun tryParseConfig(byteArray: ByteArray?): ApplicationConfiguration? {
+        Timber.v("Parsing config (size=%dB)", byteArray?.size)
+        if (byteArray == null) return null
+        return ApplicationConfiguration.parseFrom(byteArray)
+    }
+
+    private suspend fun getNewAppConfig(): ApplicationConfiguration? {
         val newConfigRaw = try {
             downloadAppConfig()
         } catch (e: Exception) {
@@ -68,7 +74,7 @@ class AppConfigProvider @Inject constructor(
         }
     }
 
-    private fun getFallback(): ApplicationConfigurationOuterClass.ApplicationConfiguration {
+    private fun getFallback(): ApplicationConfiguration {
         val lastValidConfig = tryParseConfig(configStorage.appConfigRaw)
         return if (lastValidConfig != null) {
             Timber.d("Using fallback AppConfig.")
@@ -79,27 +85,34 @@ class AppConfigProvider @Inject constructor(
         }
     }
 
-    suspend fun getAppConfig(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
-        withContext(Dispatchers.IO) {
-            val newAppConfig = getNewAppConfig()
+    suspend fun getAppConfig(): ApplicationConfiguration = withContext(Dispatchers.IO) {
+        val newAppConfig = getNewAppConfig()
 
-            return@withContext if (newAppConfig != null) {
-                newAppConfig
-            } else {
-                Timber.w("No new config available, using last valid.")
-                getFallback()
+        return@withContext if (newAppConfig != null) {
+            newAppConfig
+        } else {
+            Timber.w("No new config available, using last valid.")
+            getFallback()
+        }
+    }.performSanityChecks()
+
+    private fun ApplicationConfiguration.performSanityChecks(): ApplicationConfiguration {
+        var sanityChecked = this
+
+        if (sanityChecked.supportedCountriesList.isEmpty()) {
+            sanityChecked = sanityChecked.toNewConfig {
+                addSupportedCountries(FALLBACK_COUNTRY)
             }
+            Timber.w("Country list was empty, corrected: %s", sanityChecked.supportedCountriesList)
         }
 
-    private fun tryParseConfig(byteArray: ByteArray?): ApplicationConfigurationOuterClass.ApplicationConfiguration? {
-        Timber.v("Parsing config (size=%dB)", byteArray?.size)
-        if (byteArray == null) return null
-        return ApplicationConfigurationOuterClass.ApplicationConfiguration.parseFrom(byteArray)
+        return sanityChecked
     }
 
     companion object {
         private val TAG = AppConfigProvider::class.java.simpleName
 
+        private const val FALLBACK_COUNTRY = "DE"
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
     }
