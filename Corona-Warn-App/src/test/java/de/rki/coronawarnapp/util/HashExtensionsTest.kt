@@ -50,9 +50,9 @@ class HashExtensionsTest : BaseIOTest() {
         val testFile = File(testDir, fileName)
         try {
             testFile.printWriter().use { out ->
-                out.println("This is a test")
+                out.print("This is a test")
             }
-            testFile.hashToMD5() shouldBe "ff22941336956098ae9a564289d1bf1b"
+            testFile.hashToMD5() shouldBe "ce114e4501d2f4e2dcea3e17b546f339"
         } finally {
             testFile.delete()
         }
