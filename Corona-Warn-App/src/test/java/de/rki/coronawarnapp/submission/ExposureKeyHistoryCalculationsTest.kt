@@ -72,9 +72,10 @@ class ExposureKeyHistoryCalculationsTest {
 
     @Test
     fun test_toExternalFormat() {
-        val tek1 = createKey(now)
-        val tek2 = createKey(now.minusDays(1))
-        val toExternalFormat = instance.toExternalFormat(
+        // regular case
+        var tek1 = createKey(now)
+        var tek2 = createKey(now.minusDays(1))
+        var result = instance.toExternalFormat(
             listOf(tek1, tek2),
             TransmissionRiskVector(intArrayOf(0, 1, 2)),
             intArrayOf(3998, 3999, 4000),
@@ -82,15 +83,59 @@ class ExposureKeyHistoryCalculationsTest {
         )
         Assert.assertArrayEquals(
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
-            toExternalFormat.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
+            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
         )
         Assert.assertArrayEquals(
             intArrayOf(3998, 3999),
-            toExternalFormat.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
+            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
         )
         Assert.assertArrayEquals(
             intArrayOf(0, 1),
-            toExternalFormat.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+        )
+
+        // gap
+        tek1 = createKey(now)
+        tek2 = createKey(now.minusDays(7))
+        result = instance.toExternalFormat(
+            listOf(tek1, tek2),
+            TransmissionRiskVector(intArrayOf(0, 1, 2, 3, 4, 5, 6, 7)),
+            intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
+            now
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
+            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(3998, 4005),
+            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(0, 7),
+            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+        )
+
+        // several keys in one day
+        tek1 = createKey(now)
+        tek2 = createKey(now)
+        result = instance.toExternalFormat(
+            listOf(tek1, tek2),
+            TransmissionRiskVector(intArrayOf(0, 1, 2, 3, 4, 5, 6, 7)),
+            intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
+            now
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(tek1.rollingStartIntervalNumber, tek1.rollingStartIntervalNumber),
+            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(3998, 3998),
+            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
+        )
+        Assert.assertArrayEquals(
+            intArrayOf(0, 0),
+            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
         )
     }
 
