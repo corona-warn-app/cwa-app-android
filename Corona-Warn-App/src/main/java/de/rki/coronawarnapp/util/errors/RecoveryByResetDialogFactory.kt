@@ -27,5 +27,4 @@ class RecoveryByResetDialogFactory(private val fragment: Fragment) {
             .setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
             .show()
     }
-
 }
