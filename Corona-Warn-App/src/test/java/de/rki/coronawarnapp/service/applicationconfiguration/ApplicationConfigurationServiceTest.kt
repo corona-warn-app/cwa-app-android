@@ -47,7 +47,6 @@ class ApplicationConfigurationServiceTest : BaseTest() {
             every { AppInjector.component } returns this@apply
         }
 
-
         runBlocking {
             ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
             verify(exactly = 1) { appConfigBuilder.addAllSupportedCountries(any()) }
