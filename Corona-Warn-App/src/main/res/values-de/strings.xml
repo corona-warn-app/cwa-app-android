@@ -1164,6 +1164,10 @@
     <string name="errors_generic_button_negative">"Details"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Ein unbekannter Fehler ist aufgetreten."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aufgrund eines technischen Problems wurde Ihre App zurückgesetzt. Das hat jedoch keine Auswirkungen auf die Verwendung der App. Sie werden weiterhin über Risiko-Begegnungen benachrichtigt und können andere warnen, falls Sie positiv auf COVID-19 getestet wurden."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002"</string>
 
     <!-- ####################################
            Just for Development
