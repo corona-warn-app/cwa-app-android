@@ -59,9 +59,9 @@
             <TextView
                 android:id="@+id/submission_country_header_description"
                 style="@style/headline6"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{@string/submission_interoperability_list_title}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -69,7 +69,7 @@
 
             <de.rki.coronawarnapp.ui.view.CountryList
                 android:id="@+id/countryList"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="@+id/submission_country_header_description"
