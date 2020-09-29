@@ -26,8 +26,7 @@ class DownloadCDNModule : BaseEnvironmentModule() {
     @Provides
     fun provideDownloadServerUrl(environment: EnvironmentSetup): String {
         val url = environment.downloadCdnUrl
-        requireValidUrl(url)
-        return url
+        return requireValidUrl(url)
     }
 
     @Singleton

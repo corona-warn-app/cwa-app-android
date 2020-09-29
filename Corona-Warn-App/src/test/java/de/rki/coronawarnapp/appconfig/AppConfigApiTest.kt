@@ -154,9 +154,4 @@ class AppConfigApiTest : BaseIOTest() {
             api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
         }
     }
-
-    @Test
-    fun `timeout and retry behavior`() {
-        // TODO 10s timeout, 3 retries
-    }
 }

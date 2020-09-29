@@ -25,7 +25,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'jacoco'
 
 
-def environmentExtrator = { File path ->
+def environmentExtractor = { File path ->
     def rawJson = path.text
     def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "").replace("\r", "")
     "\"${escapedJson}\""
@@ -50,12 +50,12 @@ android {
         buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"PROD\""
         buildConfigField "String", "ENVIRONMENT_TYPE_ALTERNATIVE", "\"PROD\""
 
-        def prodEnvJson = environmentExtrator(file("../prod_environments.json"))
+        def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
 
         def devEnvironmentFile = file("../test_environments.json")
         if(devEnvironmentFile.exists()) {
-            def devEnvJson = environmentExtrator(devEnvironmentFile)
+            def devEnvJson = environmentExtractor(devEnvironmentFile)
             buildConfigField "String", "ENVIRONMENT_JSONDATA", devEnvJson
         }
 
@@ -68,7 +68,6 @@ android {
 
     buildTypes {
         debug {
-
         }
         release {
             minifyEnabled true

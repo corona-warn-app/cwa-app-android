@@ -51,9 +51,9 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         val vm = createViewModel()
 
         currentEnvironment = EnvironmentSetup.Type.DEV
-        vm.isTestCountyCurrentEnvironment() shouldBe false
+        vm.isCurrentEnvironmentAlternate() shouldBe false
         currentEnvironment = EnvironmentSetup.Type.WRU_XA
-        vm.isTestCountyCurrentEnvironment() shouldBe true
+        vm.isCurrentEnvironmentAlternate() shouldBe true
 
         vm.environmentChangeEvent.value shouldBe null
         vm.toggleEnvironment(true)

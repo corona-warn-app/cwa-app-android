@@ -20,15 +20,11 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
     }
 
     fun toggleEnvironment(isTestCountyEnabled: Boolean) {
-        if (isTestCountyEnabled) {
-            envSetup.currentEnvironment = envSetup.alternativeEnvironment
-        } else {
-            envSetup.currentEnvironment = envSetup.defaultEnvironment
-        }
+        envSetup.currentEnvironment = if (isTestCountyEnabled) envSetup.alternativeEnvironment else envSetup.defaultEnvironment
         environmentChangeEvent.postValue(envSetup.currentEnvironment)
     }
 
-    fun isTestCountyCurrentEnvironment(): Boolean {
+    fun isCurrentEnvironmentAlternate(): Boolean {
         return envSetup.currentEnvironment == envSetup.alternativeEnvironment
     }
 

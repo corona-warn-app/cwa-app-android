@@ -14,7 +14,6 @@ class VerificationCDNModule : BaseEnvironmentModule() {
     @Provides
     fun provideVerificationUrl(environment: EnvironmentSetup): String {
         val url = environment.verificationCdnUrl
-        requireValidUrl(url)
-        return url
+        return requireValidUrl(url)
     }
 }

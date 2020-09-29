@@ -17,6 +17,25 @@ import javax.inject.Singleton
 class EnvironmentSetup @Inject constructor(
     private val context: Context
 ) {
+    companion object {
+        private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
+    }
+
+    enum class ENVKEY(val rawKey: String) {
+        SUBMISSION("SUBMISSION_CDN_URL"),
+        VERIFICATION("VERIFICATION_CDN_URL"),
+        DOWNLOAD("DOWNLOAD_CDN_URL"),
+        VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION")
+    }
+
+    enum class Type(val rawKey: String) {
+        PRODUCTION("PROD"),
+        INT("INT"),
+        DEV("DEV"),
+        WRU("WRU"),
+        WRU_XA("WRU-XA"), // (aka ACME)
+        WRU_XD("WRU-XD") // (aka Germany)
+    }
 
     private val prefs by lazy {
         context.getSharedPreferences("environment_setup", Context.MODE_PRIVATE)
@@ -79,27 +98,7 @@ class EnvironmentSetup @Inject constructor(
     val appConfigVerificationKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS)
 
-    enum class Type(val rawKey: String) {
-        PRODUCTION("PROD"),
-        INT("INT"),
-        DEV("DEV"),
-        WRU("WRU"),
-        WRU_XA("WRU-XA"), // (aka ACME)
-        WRU_XD("WRU-XD") // (aka Germany)
-    }
-
     private fun String.toEnvironmentType(): Type = Type.values().single {
         it.rawKey == this
-    }
-
-    enum class ENVKEY(val rawKey: String) {
-        SUBMISSION("SUBMISSION_CDN_URL"),
-        VERIFICATION("VERIFICATION_CDN_URL"),
-        DOWNLOAD("DOWNLOAD_CDN_URL"),
-        VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION")
-    }
-
-    companion object {
-        private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
     }
 }

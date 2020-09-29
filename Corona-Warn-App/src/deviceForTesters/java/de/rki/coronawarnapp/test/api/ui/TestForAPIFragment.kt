@@ -185,7 +185,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         }
 
         val testCountriesSwitch = binding.testApiSwitchTestCountries
-        testCountriesSwitch.isChecked = vm.isTestCountyCurrentEnvironment()
+        testCountriesSwitch.isChecked = vm.isCurrentEnvironmentAlternate()
         testCountriesSwitch.setOnClickListener {
             vm.toggleEnvironment(testCountriesSwitch.isChecked)
         }
@@ -587,7 +587,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     }
 
     private fun showSnackBar(message: String) {
-        view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
+            view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
     }
 
     override fun onFailure(exception: Exception?) {
