@@ -37,6 +37,7 @@
             layout="@layout/include_submission_positive_other_warning"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
+            app:countryData="@{submissionViewModel.countryList}"
             app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
