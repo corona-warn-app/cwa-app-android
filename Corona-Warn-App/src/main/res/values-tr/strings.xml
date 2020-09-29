@@ -373,7 +373,7 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -1164,6 +1164,10 @@
     <string name="errors_generic_button_negative">"Ayrıntılar"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Bilinmeyen bir hata oluştu."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Uygulamanız teknik bir problem nedeniyle sıfırlandı. Bunun, uygulamanın işlevi üzerinde hiçbir etkisi yoktur. Maruz kalmalar hakkında bildirim almaya ve COVID-19 testiniz pozitif çıkarsa diğer kullanıcıları uyarmaya devam edebileceksiniz."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
 
     <!-- ####################################
            Just for Development

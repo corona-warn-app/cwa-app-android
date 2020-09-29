@@ -373,7 +373,7 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -1164,6 +1164,10 @@
     <string name="errors_generic_button_negative">"Detalii"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"A apărut o eroare necunoscută."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aplicația dvs. a fost resetată din cauza unei probleme tehnice. Acest lucru nu are efect asupra funcționalității aplicației. Veți continua să primiți notificări despre expuneri și îi veți putea avertiza pe ceilalți în continuare, în cazul în care sunteți testat pozitiv la COVID-19."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
 
     <!-- ####################################
            Just for Development
