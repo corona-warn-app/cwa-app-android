@@ -35,7 +35,7 @@ class InteroperabilityConfigurationFragmentViewModelTest {
     }
 
     @Test
-    fun testNoFetch() {
+    fun countryListIsEmptyIfRepositoryReturnsNoData() {
         val countryList =
             interoperabilityConfigurationFragmentViewModel.countryList.getOrAwaitValue()
 
@@ -43,7 +43,7 @@ class InteroperabilityConfigurationFragmentViewModelTest {
     }
 
     @Test
-    fun testFetch() {
+    fun testFetchCountryList() {
         val countryListFetched = listOf(
             "DE", "UK", "FR", "IT", "ES", "PL", "RO", "NL",
             "BE", "CZ", "SE", "PT", "HU", "AT", "CH", "BG", "DK", "FI", "SK",
@@ -56,14 +56,13 @@ class InteroperabilityConfigurationFragmentViewModelTest {
         val countryList =
             interoperabilityConfigurationFragmentViewModel.countryList.getOrAwaitValue()
 
-        assertTrue(countryList.isNotEmpty())
         assertEquals(countryList.size, countryListFetched.size)
         assertTrue(countryList == countryListFetched)
         verify { interoperabilityRepository.getAllCountries() }
     }
 
     @Test
-    fun testBackPress() {
+    fun testBackPressButton() {
         interoperabilityConfigurationFragmentViewModel.onBackPressed()
 
         assertTrue(interoperabilityConfigurationFragmentViewModel.navigateBack.getOrAwaitValue())
