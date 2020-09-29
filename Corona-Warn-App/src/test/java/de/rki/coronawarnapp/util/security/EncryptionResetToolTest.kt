@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util.security
 
 import android.content.Context
+import de.rki.coronawarnapp.exception.CwaSecurityException
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -139,6 +140,25 @@ class EncryptionResetToolTest : BaseIOTest() {
         createInstance().tryResetIfNecessary(
             GeneralSecurityException("decryption failed")
         ) shouldBe false
+
+        encryptedPrefsFile.exists() shouldBe false
+        encryptedDatabaseFile.exists() shouldBe false
+
+        mockPreferences.dataMapPeek.apply {
+            this["ea1851.reset.performedAt"] shouldNotBe null
+            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.shownotice"] shouldBe true
+        }
+    }
+
+    @Test
+    fun `reset is also warranted if the exception has our desired exception as cause`() {
+        // We only perform the reset for users who encounter it the first time after the upgrade
+        createMockFiles()
+
+        createInstance().tryResetIfNecessary(
+            CwaSecurityException(RuntimeException(GeneralSecurityException("decryption failed")))
+        ) shouldBe true
 
         encryptedPrefsFile.exists() shouldBe false
         encryptedDatabaseFile.exists() shouldBe false
