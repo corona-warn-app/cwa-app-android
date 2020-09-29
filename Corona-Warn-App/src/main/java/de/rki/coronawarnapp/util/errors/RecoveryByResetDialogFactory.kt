@@ -18,7 +18,7 @@ class RecoveryByResetDialogFactory(private val fragment: Fragment) {
     ) {
         AlertDialog.Builder(context)
             .setTitle(R.string.errors_generic_headline)
-            .setMessage(R.string.errors_generic_headline) // TODO replace with correct string
+            .setMessage(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
             .setCancelable(false)
             .setOnDismissListener { onDismiss() }
             .setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->

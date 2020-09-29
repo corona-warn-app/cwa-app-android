@@ -25,7 +25,7 @@ class EncryptionResetToolTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val privateFilesDir = File(testDir, "files")
-    private val encryptedPrefsFile = File(testDir, "shared_prefs/shared_preferences_cwa")
+    private val encryptedPrefsFile = File(testDir, "shared_prefs/shared_preferences_cwa.xml")
     private val encryptedDatabaseFile = File(testDir, "databases/coronawarnapp-db")
 
     @BeforeEach

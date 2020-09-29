@@ -28,7 +28,7 @@ class EncryptionErrorResetTool @Inject constructor(
     private val encryptedPreferencesFile by lazy {
         val appbaseDir = context.filesDir.parentFile!!
         val sharedPrefsDir = File(appbaseDir, "shared_prefs")
-        File(sharedPrefsDir, SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE)
+        File(sharedPrefsDir, "${SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE}.xml")
     }
     private val encryptedDatabaseFile by lazy {
         context.getDatabasePath(DATABASE_NAME)
@@ -87,7 +87,7 @@ class EncryptionErrorResetTool @Inject constructor(
         if (!encryptedPreferencesFile.exists()) {
             // The error we are looking for can only happen if there already is an encrypted preferences file
             Timber.w(
-                "Error fits, but where is nthe existing preference file (%s)? -> no reset.",
+                "Error fits, but where is the existing preference file (%s)? -> no reset.",
                 encryptedPreferencesFile
             )
             return false
