@@ -140,9 +140,9 @@ class TracingViewModel : ViewModel() {
                 val isBackgroundJobEnabled =
                     ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
 
-                Timber.v("Keys were not retrieved today $keysWereNotRetrievedToday")
-                Timber.v("Network is enabled $isNetworkEnabled")
-                Timber.v("Background jobs are enabled $isBackgroundJobEnabled")
+                Timber.tag(TAG).v("Keys were not retrieved today $keysWereNotRetrievedToday")
+                Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
+                Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
 
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
                     TracingRepository.isRefreshing.value = true
@@ -219,7 +219,7 @@ class TracingViewModel : ViewModel() {
                     ExposureSummaryRepository.getExposureSummaryRepository()
                         .getLatestExposureSummary(token)
                 }
-                Timber.v("retrieved latest exposure summary from db")
+                Timber.tag(TAG).v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(
                     de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION,
