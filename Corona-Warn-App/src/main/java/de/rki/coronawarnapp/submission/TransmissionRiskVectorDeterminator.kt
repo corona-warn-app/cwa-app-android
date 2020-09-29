@@ -1,15 +1,18 @@
 package de.rki.coronawarnapp.submission
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.numberOfDayChanges
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 
 class TransmissionRiskVectorDeterminator {
 
     @Suppress("MagicNumber")
-    fun determine(symptoms: Symptoms) = TransmissionRiskVector(
+    fun determine(symptoms: Symptoms, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
             Symptoms.Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
                 is Symptoms.StartOf.Date -> {
-                    when (numberOfDayChanges(symptoms.startOfSymptoms.millis)) {
+                    when (numberOfDayChanges(symptoms.startOfSymptoms.millis, now)) {
                         0 -> intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                         1 -> intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
                         2 -> intArrayOf(6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1)

@@ -187,7 +187,6 @@ class ExposureKeyHistoryCalculationsTest {
             intArrayOf(0, 1, 1),
             result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
         )
-
     }
 
     private fun createKey(rollingStartIntervalNumber: Int) =
