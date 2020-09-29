@@ -44,9 +44,8 @@ class EncryptionErrorResetTool @Inject constructor(
         }
 
     private var resetPerformedAt: Instant?
-        get() {
-            val performedAt = prefs.getLong(PKEY_EA1851_RESET_PERFORMED_AT, -1)
-            return if (performedAt == -1L) null else Instant.ofEpochMilli(performedAt)
+        get() = prefs.getLong(PKEY_EA1851_RESET_PERFORMED_AT, -1).let {
+            if (it == -1L) null else Instant.ofEpochMilli(it)
         }
         set(value) = prefs.edit {
             if (value != null) {
@@ -107,7 +106,6 @@ class EncryptionErrorResetTool @Inject constructor(
 
     private fun performReset(): Boolean {
         // Delete encrypted shared preferences file
-
         if (!encryptedPreferencesFile.delete()) {
             Timber.w("Couldn't delete %s", encryptedPreferencesFile)
             // The encrypted preferences are a prerequisite for this error case
