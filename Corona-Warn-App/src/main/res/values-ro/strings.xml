@@ -1164,6 +1164,10 @@
     <string name="errors_generic_button_negative">"Detalii"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"A apărut o eroare necunoscută."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aplicația dvs. a fost resetată din cauza unei probleme tehnice. Acest lucru nu are efect asupra funcționalității aplicației. Veți continua să primiți notificări despre expuneri și îi veți putea avertiza pe ceilalți în continuare, în cazul în care sunteți testat pozitiv la COVID-19."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
 
     <!-- ####################################
            Just for Development
