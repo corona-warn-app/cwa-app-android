@@ -9,7 +9,7 @@ class EnvironmentModuleTest : BaseTest() {
     private fun createModule() = EnvironmentModule()
 
     @Test
-    fun `sideeffect free instantiation`() {
+    fun `side effect free instantiation`() {
         shouldNotThrowAny {
             createModule()
         }

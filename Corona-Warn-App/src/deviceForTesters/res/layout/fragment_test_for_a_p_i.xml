@@ -10,10 +10,9 @@
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/spacing_normal"
         android:fillViewport="true">
 
         <LinearLayout
@@ -21,11 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
             android:orientation="vertical">
-
-            <de.rki.coronawarnapp.ui.calendar.CalendarView
-                android:id="@+id/calendar_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/label_googlePlayServices_version"
@@ -36,7 +30,7 @@
             <Switch
                 android:id="@+id/test_api_switch_last_three_hours_from_server"
                 style="@style/body1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/test_api_switch_last_three_hours_from_server"
                 android:theme="@style/switchBase" />
@@ -44,29 +38,42 @@
             <Switch
                 android:id="@+id/test_api_switch_background_notifications"
                 style="@style/body1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:text="@string/test_api_switch_background_notifications"
+                android:theme="@style/switchBase" />
+
+            <Switch
+                android:id="@+id/test_api_switch_test_countries"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="Switch server environment"
                 android:theme="@style/switchBase" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
+                android:paddingTop="8dp"
                 android:layout_height="wrap_content">
-
-                <Switch
-                    android:id="@+id/test_logfile_toggle"
-                    style="@style/body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Logfile enabled"
-                    android:theme="@style/switchBase" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/test_logfile_share"
                     android:text="Share log" />
+
+                <Switch
+                    android:id="@+id/test_logfile_toggle"
+                    style="@style/body1"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Logfile enabled"
+                    android:theme="@style/switchBase" />
+
 
             </LinearLayout>
 
@@ -75,6 +82,7 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:accessibilityHeading="true"
                 android:text="@string/test_api_exposure_summary_headline" />
 
@@ -330,62 +338,11 @@
                 android:layout_height="wrap_content"
                 android:text="Result: " />
 
-            <TextView
-                style="@style/headline4"
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/calendar_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:accessibilityHeading="true"
-                android:text="headline4" />
+                android:layout_height="match_parent" />
 
-            <TextView
-                style="@style/headline5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:accessibilityHeading="true"
-                android:text="headline5" />
-
-            <TextView
-                style="@style/headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:accessibilityHeading="true"
-                android:text="headline6" />
-
-            <TextView
-                style="@style/subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="subtitle" />
-
-            <TextView
-                style="@style/subtitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="subtitleMedium" />
-
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="body1" />
-
-            <TextView
-                style="@style/body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="body2" />
-
-            <TextView
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="body2medium" />
-
-            <TextView
-                style="@style/bodyButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="button" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

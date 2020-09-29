@@ -1,6 +1,5 @@
-package de.rki.coronawarnapp.environment.download
+package de.rki.coronawarnapp.environment.submission
 
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrowAny
@@ -12,10 +11,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 
-class DownloadCDNModuleTest : BaseIOTest() {
+class SubmissionCDNModuleTest : BaseIOTest() {
 
-    private val validUrl = "https://coronawarn-test.com/Download"
-    private val inValidUrl = "Biryani"
+    private val validUrl = "https://coronawarn-test.com/Submission"
+    private val inValidUrl = "Tiramisu"
 
     @MockK
     private lateinit var environmentSetup: EnvironmentSetup
@@ -23,10 +22,10 @@ class DownloadCDNModuleTest : BaseIOTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { environmentSetup.downloadCdnUrl } returns validUrl
+        every { environmentSetup.submissionCdnUrl } returns validUrl
     }
 
-    private fun createModule() = DownloadCDNModule()
+    private fun createModule() = SubmissionCDNModule()
 
     @Test
     fun `sideeffect free instantiation`() {
@@ -36,23 +35,17 @@ class DownloadCDNModuleTest : BaseIOTest() {
     }
 
     @Test
-    fun `home country should be DE`() {
-        val module = createModule()
-        module.provideDiagnosisHomeCountry() shouldBe LocationCode("DE")
-    }
-
-    @Test
     fun `valid downloaded URL comes from environment`() {
         val module = createModule()
-        module.provideDownloadServerUrl(environmentSetup) shouldBe validUrl
+        module.provideSubmissionUrl(environmentSetup) shouldBe validUrl
     }
 
     @Test
     fun `invalid downloaded URL comes from environment`() {
-        every { environmentSetup.downloadCdnUrl } returns inValidUrl
+        every { environmentSetup.submissionCdnUrl } returns inValidUrl
         val module = createModule()
         shouldThrowAny {
-            module.provideDownloadServerUrl(environmentSetup) shouldBe validUrl
+            module.provideSubmissionUrl(environmentSetup)
         }
     }
 }
