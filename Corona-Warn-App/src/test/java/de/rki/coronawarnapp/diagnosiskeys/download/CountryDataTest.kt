@@ -233,7 +233,6 @@ class CountryDataTest : BaseTest() {
             createCachedKey("2222-12-31", "23:00")
         )
 
-
         cd.getMissingHours(cachedHours) shouldBe emptyMap()
         cd.toMissingHours(cachedHours) shouldBe null
     }
