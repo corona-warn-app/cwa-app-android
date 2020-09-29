@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
 import de.rki.coronawarnapp.util.device.DeviceModule
+import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
+import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import javax.inject.Singleton
 
 @Singleton
@@ -46,6 +48,9 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val settingsRepository: SettingsRepository
 
     val enfClient: ENFClient
+
+    val encryptedPreferencesFactory: EncryptedPreferencesFactory
+    val errorResetTool: EncryptionErrorResetTool
 
     @Component.Factory
     interface Factory {

@@ -22,6 +22,8 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -47,6 +49,10 @@ class MainFragment : Fragment() {
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private var binding: FragmentMainBinding by viewLifecycle()
 
+    private val errorResetTool by lazy {
+        AppInjector.component.errorResetTool
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,6 +72,19 @@ class MainFragment : Fragment() {
         setContentDescription()
 
         showOneTimeTracingExplanationDialog()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if (errorResetTool.isResetNoticeToBeShown) {
+            RecoveryByResetDialogFactory(this).showDialog(
+                detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
+                onDismiss = {
+                    errorResetTool.isResetNoticeToBeShown = false
+                }
+            )
+        }
     }
 
     override fun onResume() {
@@ -148,7 +167,7 @@ class MainFragment : Fragment() {
     private fun toSubmissionIntro() {
         findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-            )
+        )
     }
 
     private fun showPopup(view: View) {
