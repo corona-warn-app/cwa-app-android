@@ -372,6 +372,8 @@
     <string name="risk_details_explanation_dialog_title">"Informații despre funcționalitatea de înregistrare în jurnal a expunerilor"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -940,13 +942,13 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Avertizarea altor persoane"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Să ne ajutăm împreună!"</string>
+    <string name="submission_positive_other_warning_headline">"Puteți fi de ajutor!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Apoi, puteți să vă asigurați că aplicația Corona-Warn trimite altor persoane ID-urile aleatorii din ultimele 14 zile. Prin aceasta, puteți avertiza și alte persoane și puteți contribui la întreruperea lanțului de infectare\n\nDeoarece poate exista un risc de infectare înainte de instalarea bolii și acesta poate varia în timp, vă putem solicita să menționați când ați observat prima dată orice simptom de coronavirus (de exemplu, febră sau tuse). Acest lucru va permite Aplicației să calculeze mai precis riscul de infectare pentru alți utilizatori ai aplicației cu care v-ați întâlnit. Furnizarea informațiilor privind instalarea simptomelor dvs. este opțională. Dacă nu aveți niciun fel de simptopme sau nu doriți să partajați aceste informații, puteți selecta „niciun răspuns”."</string>
+    <string name="submission_positive_other_warning_body">"Dacă doriți, acum îi puteți permite aplicației să transmită ID-urile dvs. aleatorii memorate local din ultimele 14 zile către ceilalți. În acest mod, îi puteți avertiza pe ceilalți utilizatori și puteți contribui la întreruperea lanțului de infectare.\n\nAplicația va transmite doar ID-urile aleatorii și informațiile pe care le-ați furnizat despre debutul simptomelor. Identitatea dvs. nu va fi dezvăluită."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Confidențialitatea datelor"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"Apăsând pe „Accept”, consimțiți ca aplicația să trimită rezultatul pozitiv al testului dvs. către sistemul de servere al aplicației, împreună cu ID-urile dvs. aleatorii din ultimele 14 zile, pentru ca ceilalți utilizatori ai aplicației care au activat caracteristica de înregistrare în jurnal a expunerilor să poată fi notificați automat că se poate să fi fost expuși la riscul de infectare. Dacă furnizați informații opționale privind instalarea simptomelor dvs., ID-urile aleatorii transmise vor include și o valoare a riscului derivată din informațiile dvs., indicând riscul infectării de către dvs. a altor persoane în ziua în care respectivul ID aleatoriu este valabil. ID-urile aleatorii transmise în acest scop nu conțin informații care să poată permite tragerea unor concluzii privind identitatea dvs. sau persoana dvs. \n\nTransmiterea rezultatului testului prin intermediul aplicației este voluntară. Nu veți fi penalizat dacă nu transmiteți rezultatul testului. Din moment ce nu este posibilă urmărirea sau verificarea modului în care utilizați aplicația sau dacă o utilizați sau nu, doar dvs. veți ști dacă ați transmis informațiile că sunteți infectat.\n\nPuteți oricând să vă retrageți consimțământul prin ștergerea acestei aplicații. Retragerea consimțământului nu va afecta legalitatea procesării efectuate în baza consimțământului acordat înainte de retragerea acestuia. Pentru informații suplimentare, consultați meniul din „Informații aplicație” &gt; „Confidențialitatea datelor”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the risk identification feature can be automatically notified that they may have been exposed to a risk of infection. If you provided optional information about the onset of your symptoms, the random IDs will be transmitted with a risk value derived from your information, indicating your risk of having infected others on the day the random ID is valid. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person.\n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected. \n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out on the basis of the consent prior to the withdrawal. Further information can be found under “App Information”&gt; “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -981,8 +983,10 @@
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Simptome"</string>
-    <!-- YTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Ați resimțit unul sau mai multe dintre următoarele simptome în ultimele zile?"</string>
+    <!-- XTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Ați resimțit unul sau mai multe dintre următoarele simptome?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Puteți indica momentul când și dacă ați observat simptomele specifice coronavirusului pentru a-i permite aplicației să calculeze mai exact riscul de infectare al altor utilizatori ai aplicației. Dacă nu doriți să furnizați aceste informații, selectați „Nu răspund”."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Temperatură crescută sau febră"</item>
@@ -999,7 +1003,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Nu"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Nu comentez"</string>
+    <string name="submission_symptom_no_information_button">"Nu răspund"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Înainte"</string>
 
@@ -1047,7 +1051,7 @@
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"Cu peste 2 săptămâni în urmă"</string>
     <!-- XBUT: symptom calendar screen verify button -->
-    <string name="submission_symptom_verify">"Nu comentez"</string>
+    <string name="submission_symptom_verify">"Nu răspund"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->

@@ -372,6 +372,8 @@
     <string name="risk_details_explanation_dialog_title">"Информация относно функционалността за регистриране на излагания на риск"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
+    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"За повече информация вижте страницата „ЧЗВ“."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -940,13 +942,13 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Предупредете другите"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Моля, помогнете на всички нас!"</string>
+    <string name="submission_positive_other_warning_headline">"Можете да помогнете!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Като следваща стъпка може да позволите на Corona-Warn-App да сподели Вашите случайни ИД кодове за последните 14 дни с останалите потребители. По този начин може да предупредите други хора и да помогнете за прекъсване на веригата на заразяване.\n\nТъй като риск от заразяване може да съществува и преди проявата на заболяването и може да варира във времето, Ви молим също да заявите кога за пръв път сте забелязали симптоми на инфеция с коронавирус (напр. висока температура или кашлица). Това ще позволи на приложението да изчисли по-точно риска от заразяване за другите потребители, с които сте имали контакт. Изборът дали да предоставите информация за развитието на симптомите е Ваш. Ако нямате симтоми или не желаете да споделите тази информация, можете да изберете опцията \"без отговор\"."</string>
+    <string name="submission_positive_other_warning_body">"Ако желаете, вече можете да разрешите на системата на приложението да съобщава локално съхранените ИД от последните 14 дни на останалите. По този начин ще предупредите останалите потребители и ще помогнете да се прекъсне веригата на заразяване.\n\nПриложението изпраща само случайно генерирани ИД и предоставената от Вас информация за симптоми. Самоличността Ви не се разкрива."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Поверителност"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping \"Accept\", you consent to the App sending your positive test result to the App\'s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. If you provide optional information about the onset of your symptoms, the random IDs transmitted will also include a risk value derived from your information, indicating your risk of having infected others on the day the random ID is valid. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person.\n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under \"App Information\" &gt; \"Data Privacy\"."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the risk identification feature can be automatically notified that they may have been exposed to a risk of infection. If you provided optional information about the onset of your symptoms, the random IDs will be transmitted with a risk value derived from your information, indicating your risk of having infected others on the day the random ID is valid. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person.\n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected. \n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out on the basis of the consent prior to the withdrawal. Further information can be found under “App Information”&gt; “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Приемам"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -981,8 +983,10 @@
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Симптоми"</string>
-    <!-- YTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Имали ли сте един или повече от следните симптоми през последните няколко дни?"</string>
+    <!-- XTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Имали ли сте един или повече от следните симптоми?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Можете да посочвате дали и кога сте проявили симпотми на COVID-19, за да позволите на приложението да оценява по-точно риска от заразяване за останалите потребители. Ако не желаете да предоставяте такава информация, просто изберете \"Без отговор\"."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Повишена температура или треска"</item>
