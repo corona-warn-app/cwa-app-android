@@ -23,12 +23,15 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Base64
-import de.rki.coronawarnapp.CoronaWarnApplication
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.exception.CwaSecurityException
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.security.SecurityConstants.CWA_APP_SQLITE_DB_PW
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MAX_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.DB_PASSWORD_MIN_LENGTH
 import de.rki.coronawarnapp.util.security.SecurityConstants.ENCRYPTED_SHARED_PREFERENCES_FILE
+import timber.log.Timber
 import java.security.SecureRandom
 
 /**
@@ -36,11 +39,26 @@ import java.security.SecureRandom
  */
 object SecurityHelper {
 
-    val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
-        val factory = EncryptedPreferencesFactory(CoronaWarnApplication.getAppContext())
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal val encryptedPreferencesProvider: (ApplicationComponent) -> SharedPreferences = {
+        val factory = it.encryptedPreferencesFactory
+        val encryptionErrorResetTool = it.errorResetTool
         withSecurityCatch {
-            factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
+            try {
+                factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
+            } catch (e: Exception) {
+                if (encryptionErrorResetTool.tryResetIfNecessary(e)) {
+                    Timber.w("We could recovery from this error via reset. Now retrying.")
+                    factory.create(ENCRYPTED_SHARED_PREFERENCES_FILE)
+                } else {
+                    throw e
+                }
+            }
         }
+    }
+
+    val globalEncryptedSharedPreferencesInstance: SharedPreferences by lazy {
+        encryptedPreferencesProvider(AppInjector.component)
     }
 
     private val String.toPreservedByteArray: ByteArray
