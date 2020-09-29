@@ -372,6 +372,8 @@
     <string name="risk_details_explanation_dialog_title">"Maruz kalma günlüğü işlevi hakkında bilgi"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -940,13 +942,13 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Diğer Kullanıcıları Uyarma"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Lütfen hepimize yardımcı olun!"</string>
+    <string name="submission_positive_other_warning_headline">"Yardımcı olabilirsiniz!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Corona-Warn-App\'in son 14 güne ait rastgele kimliklerinizi diğer kullanıcılarla paylaşmasını sağlayabilirsiniz. Bu sayede başkalarını uyarabilir ve enfeksiyon zincirini kırmaları için onlara yardımcı olabilirsiniz.\n\nEnfeksiyon riski, hastalığın başlangıcından önce meydana geldiğinden ve zaman içerisinde değişebileceğinden, olası korona bulgularının (ör. ateş ya da öksürük) ilk ne zaman ortaya çıktığını da bildirmenizi rica ederiz. Bu sayede, sizinle temas eden diğer uygulama kullanıcılarının enfeksiyon riski de daha doğru hesaplanabilir. Bulgu başlangıcına ilişkin bildirim, isteğe bağlıdır. Bulgu yoksa ya da bilgi vermek istemiyorsanız, \"Bilgi yok\" seçeneğini seçebilirsiniz."</string>
+    <string name="submission_positive_other_warning_body">"Dilerseniz Uygulama sisteminin son 14 güne ait rastgele kimliklerinizi diğer kullanıcılarla paylaşmasını sağlayabilirsiniz. Bu sayede başkalarını uyarabilir ve enfeksiyon zincirini kırmaları için onlara yardımcı olabilirsiniz.\n\nUygulama, yalnızca rastgele kimliklerinizi ve belirtilerin başlangıcı hakkında sağladığınız bilgileri aktarır. Kimliğiniz açıklanmaz."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Veri Gizliliği"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"\"Kabul Et\" seçeneğine dokunduğunuzda, Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte uygulamanın sunucu sistemine göndermesine izin vermiş olursunuz, bu sayede maruz kalma günlüğünü etkinleştirmiş olan diğer Uygulama kullanıcıları otomatik şekilde bilgilendirilebilir. İsteğe bağlı bu bilgileri bulgu başlangıcında verirseniz, iletilen rastgele kimlikler, ilgili rastgele kimliğin geçerli olduğu gün itibariyle enfeksiyon riskini içeren, bilgileriniz aracılığıyla hesaplanan toplam risk puanını da içerir. İletilen rastgele kimlikler, kimliğiniz ya da kişiliğinize ilişkin sonuç çıkartacak hiçbir bilgi içermez. \n\nTest sonucunuzun Uygulama aracılığıyla iletilmesi, isteğe bağlıdır. Test sonucunuzu iletmezseniz size hiçbir dezavantajı olmaz. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı anlayamadığımız ve kontrol edemediğimiz için enfeksiyonu bulaştırıp bulaştırmadığınızı sizden başka kimse öğrenemez.\n\nUygulamayı silerek, onayınızı dilediğinizde geri alabilirsiniz. Onayın geri alınmasıyla, geri almaya kadar yapılmış veri işlemelerin hukuka uygunlukları bu durumdan etkilenmez. Bu konuya ilişkin diğer bilgileri \"Uygulama Bilgileri\" &gt; \"Veri Gizliliği\" menüsünde bulabilirsiniz."</string>
+    <string name="submission_positive_other_warning_privacy_body">"\"Kabul Et\" seçeneğine dokunduğunuzda, Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte uygulamanın sunucu sistemine göndermesine izin vermiş olursunuz, bu sayede risk belirleme özelliği etkinleştirmiş olan diğer Uygulama kullanıcıları otomatik şekilde bilgilendirilebilir. Belirtilerinizin başlangıcına ilişkin isteğe bağlı bu bilgileri verirseniz rastgele kimlikler, bilgilerinizden elde edilen risk değeri ile birlikte iletilerek ilgili rastgele kimliğin geçerli olduğu gün itibarıyla başkalarını enfekte etmiş olma riskinizi belirtir. Bu amaçla iletilen rastgele kimlikler, kimliğiniz ya da kişiliğinize ilişkin sonuç çıkartacak hiçbir bilgi içermez.\n\nTest sonucunuzun Uygulama aracılığıyla iletilmesi, isteğe bağlıdır. Test sonucunuzu iletmezseniz size hiçbir dezavantajı olmaz. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı anlayamadığımız ve kontrol edemediğimiz için enfeksiyonu bulaştırıp bulaştırmadığınızı sizden başka kimse öğrenemez.\n\nUygulamayı silerek, onayınızı dilediğinizde geri alabilirsiniz. Onayın geri alınmasıyla, geri almaya kadar yapılmış veri işlemelerin hukuka uygunlukları bu durumdan etkilenmez. Bu konuya ilişkin diğer bilgileri \"Uygulama Bilgileri\" &gt; \"Veri Gizliliği\" bölümünde bulabilirsiniz."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -981,8 +983,10 @@
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Belirtiler"</string>
-    <!-- YTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Son birkaç günde aşağıdaki belirtilerden birini veya daha fazlasını yaşadınız mı?"</string>
+    <!-- XTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Aşağıdaki belirtilerden birini veya daha fazlasını yaşadınız mı?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Uygulamanın, diğer kullanıcılar açısından enfeksiyon riskini daha doğru bir biçimde hesaplayabilmesi için herhangi bir korona belirtisi fark edip etmediğinizi ve ne zaman fark ettiğinizi belirtebilirsiniz. Bu bilgileri sağlamak istemiyorsanız \"bilgi yok\" seçeneğini belirlemeniz yeterlidir."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Artan vücut sıcaklığı veya ateş"</item>
@@ -999,7 +1003,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Hayır"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Beyan yok"</string>
+    <string name="submission_symptom_no_information_button">"Bilgi yok"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Sonraki"</string>
 
@@ -1047,7 +1051,7 @@
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"2 haftadan uzun süre önce"</string>
     <!-- XBUT: symptom calendar screen verify button -->
-    <string name="submission_symptom_verify">"Beyan yok"</string>
+    <string name="submission_symptom_verify">"Bilgi yok"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
