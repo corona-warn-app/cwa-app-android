@@ -982,7 +982,7 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Sie sind ansteckend."</string>
+    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Bitte isolieren Sie sich von anderen Personen."</string>
     <!-- XHED: Title for further info -->
@@ -1106,7 +1106,7 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden."</string>
+    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufallscodes, damit andere gewarnt werden können."</string>
 
