@@ -148,6 +148,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
             currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
         ) {
+            Timber.tag(TAG).d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
             BackgroundWorkHelper.sendDebugNotification(
                 "Start RetrieveDiagnosisKeysTransaction",
                 "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"

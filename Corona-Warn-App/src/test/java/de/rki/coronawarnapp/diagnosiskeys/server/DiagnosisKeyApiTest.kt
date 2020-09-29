@@ -124,5 +124,4 @@ class DiagnosisKeyApiTest : BaseIOTest() {
         request.method shouldBe "GET"
         request.path shouldBe "/version/v1/diagnosis-keys/country/DE/date/2020-09-09/hour/23"
     }
-
 }

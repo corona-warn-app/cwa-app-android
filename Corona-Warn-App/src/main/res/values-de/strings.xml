@@ -679,7 +679,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Wie können wir Ihnen helfen?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere technische Hotline wenden."</string>
+    <string name="information_contact_body">"Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere technische Hotline wenden.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie in Ihrem App Store / Play Store herunterladen."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -950,7 +950,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen.\n\nDa ein Ansteckungsrisiko schon vor dem Erkrankungsbeginn bestehen und im Zeitverlauf variieren kann, bitten wir Sie auch anzugeben, wann eventuelle Corona-Symptome (z. B. Fieber oder Husten) zum ersten Mal bei Ihnen aufgetreten sind. Dadurch kann das Infektionsrisiko von anderen App-Nutzern, die Ihnen begegnet sind, genauer berechnet werden. Die Angabe des Symptombeginns ist optional. Wenn Sie keine Symptome haben oder keine Angaben machen möchten, können Sie „keine Angabe“ auswählen."</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen über mögliche Risiko-Begegnungen gewarnt werden. Hierfür können Sie Ihre bislang nur auf Ihrem Smartphone gespeicherten Zufalls-IDs an das von den teilnehmenden Ländern gemeinsam betriebene europäische Serversystem zur Verfügung stellen. Von dort werden die Zufalls-IDs durch die teilnehmenden Länder an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. Nach dem täglichen Download der Zufalls-IDs werden die Nutzerinnen und Nutzer, mit denen Sie Kontakt hatten, dann gewarnt, sofern eine Risiko-Begegnung stattfand. Es werden nur Zufalls-IDs übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Datenschutz"</string>
     <!-- YTXT: Body text for the privacy card-->
@@ -959,6 +959,8 @@
     <string name="submission_positive_other_warning_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
+    <!-- XHED: Title for the interop country list-->
+    <string name="submission_interoperability_list_title">"Derzeit nehmen die folgenden Länder an der länderübergreifenden Risiko-Ermittlung teil:"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -982,7 +984,7 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Sie sind ansteckend."</string>
+    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Bitte isolieren Sie sich von anderen Personen."</string>
     <!-- XHED: Title for further info -->
@@ -1106,7 +1108,7 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden."</string>
+    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufallscodes, damit andere gewarnt werden können."</string>
 
