@@ -77,9 +77,8 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         if (errorResetTool.isResetNoticeToBeShown) {
-            // TODO replace with correct string
             RecoveryByResetDialogFactory(this).showDialog(
-                detailsLink = R.string.main_about_link,
+                detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
                 onDismiss = {
                     errorResetTool.isResetNoticeToBeShown = false
                 }
