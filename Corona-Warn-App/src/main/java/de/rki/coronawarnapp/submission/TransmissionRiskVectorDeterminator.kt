@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.submission
 
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.numberOfDayChanges
 
 class TransmissionRiskVectorDeterminator {
 
@@ -9,7 +9,7 @@ class TransmissionRiskVectorDeterminator {
         when (symptoms.symptomIndication) {
             Symptoms.Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
                 is Symptoms.StartOf.Date -> {
-                    when (ageInDays(symptoms.startOfSymptoms.millis)) {
+                    when (numberOfDayChanges(symptoms.startOfSymptoms.millis)) {
                         0 -> intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                         1 -> intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
                         2 -> intArrayOf(6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1)

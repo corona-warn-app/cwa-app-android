@@ -77,9 +77,11 @@ object TimeAndDateExtensions {
         return TimeUnit.MILLISECONDS.toDays(millionSeconds)
     }
 
-    fun ageInDays(dateTime: DateTime, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
-        Days.daysBetween(dateTime, now).days
+    fun numberOfDayChanges(then: DateTime, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
+        Days.daysBetween(
+            then.withTime(0, 0, 0, 0),
+            now.withTime(0, 0, 0, 0)).days
 
-    fun ageInDays(millis: Long, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
-        ageInDays(Instant.ofEpochMilli(millis).toDateTime(DateTimeZone.UTC), now)
+    fun numberOfDayChanges(millis: Long, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
+        numberOfDayChanges(Instant.ofEpochMilli(millis).toDateTime(DateTimeZone.UTC), now)
 }

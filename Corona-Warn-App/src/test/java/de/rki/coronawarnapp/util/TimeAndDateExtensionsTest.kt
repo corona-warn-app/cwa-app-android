@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.numberOfDayChanges
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.calculateDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
 import io.mockk.MockKAnnotations
@@ -48,15 +48,21 @@ class TimeAndDateExtensionsTest {
     @Test
     fun test_daysAgo() {
         Assert.assertEquals(
-            0, ageInDays(
+            0, numberOfDayChanges(
                 DateTime(2012, 3, 4, 1, 2),
                 DateTime(2012, 3, 4, 16, 9)
             )
         )
         Assert.assertEquals(
-            2, ageInDays(
+            2, numberOfDayChanges(
                 DateTime(2013, 12, 31, 1, 2),
                 DateTime(2014, 1, 2, 16, 9)
+            )
+        )
+        Assert.assertEquals(
+            3, numberOfDayChanges(
+                DateTime(2014, 5, 2, 17, 2),
+                DateTime(2014, 5, 5, 4, 9)
             )
         )
     }

@@ -65,7 +65,7 @@ class ExposureKeyHistoryCalculations(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun TemporaryExposureKey.ageInDays(now: DateTime = Instant().toDateTime(DateTimeZone.UTC)): Int =
-        TimeAndDateExtensions.ageInDays(
+        TimeAndDateExtensions.numberOfDayChanges(
             Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS).toDateTime(
                 DateTimeZone.UTC),
             now
