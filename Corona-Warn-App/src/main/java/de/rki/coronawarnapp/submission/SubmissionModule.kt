@@ -4,12 +4,11 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
 import de.rki.coronawarnapp.submission.server.SubmissionApiV1
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
-import de.rki.coronawarnapp.submission.server.SubmissionServerUrl
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
@@ -36,7 +35,7 @@ class SubmissionModule {
     fun provideSubmissionApi(
         context: Context,
         @SubmissionHttpClient client: OkHttpClient,
-        @SubmissionServerUrl url: String,
+        @SubmissionCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
         gsonConverterFactory: GsonConverterFactory
     ): SubmissionApiV1 {
@@ -53,15 +52,6 @@ class SubmissionModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(SubmissionApiV1::class.java)
-    }
-
-    @Singleton
-    @SubmissionServerUrl
-    @Provides
-    fun provideSubmissionServerUrl(): String {
-        val url = BuildConfig.SUBMISSION_CDN_URL
-        if (!url.startsWith("https://")) throw IllegalStateException("Innvalid: $url")
-        return url
     }
 
     companion object {
