@@ -4,6 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.util.TimeStamper
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.joda.time.Instant
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -16,8 +20,17 @@ class ExposureKeyHistoryCalculationsTest {
     private lateinit var thisMorning: DateTime
     private lateinit var thisEvening: DateTime
 
+    @MockK
+    lateinit var timeStamper: TimeStamper
+
     @Before
     fun setUp() {
+        todayMidnight = DateTime(2012, 10, 15, 0, 0, DateTimeZone.UTC)
+        thisMorning = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
+        thisEvening = DateTime(2012, 10, 15, 20, 0, DateTimeZone.UTC)
+
+        every { timeStamper.nowUTC } returns thisMorning.toInstant()
+
         converter = object : KeyConverter {
             override fun toExternalFormat(
                 key: TemporaryExposureKey,
@@ -32,14 +45,11 @@ class ExposureKeyHistoryCalculationsTest {
         }
 
         instance = ExposureKeyHistoryCalculations(
-            TransmissionRiskVectorDeterminator(),
-            DaysSinceOnsetOfSymptomsVectorDeterminator(),
-            converter
+            TransmissionRiskVectorDeterminator(timeStamper),
+            DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper),
+            converter,
+            timeStamper
         )
-
-        todayMidnight = DateTime(2012, 10, 15, 0, 0, DateTimeZone.UTC)
-        thisMorning = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
-        thisEvening = DateTime(2012, 10, 15, 20, 0, DateTimeZone.UTC)
     }
 
     @Test
@@ -55,7 +65,7 @@ class ExposureKeyHistoryCalculationsTest {
                     tek2,
                     tek3
                 ),
-                thisMorning
+                thisMorning.toLocalDate()
             ).map { it.rollingStartIntervalNumber }.toTypedArray()
         )
     }
@@ -84,7 +94,7 @@ class ExposureKeyHistoryCalculationsTest {
             listOf(tek1, tek2),
             TransmissionRiskVector(intArrayOf(0, 1, 2)),
             intArrayOf(3998, 3999, 4000),
-            thisMorning
+            thisMorning.toLocalDate()
         )
         Assert.assertArrayEquals(
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
@@ -106,7 +116,7 @@ class ExposureKeyHistoryCalculationsTest {
             listOf(tek1, tek2),
             TransmissionRiskVector(intArrayOf(0, 1, 2, 3, 4, 5, 6, 7)),
             intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
-            thisEvening
+            thisMorning.toLocalDate()
         )
         Assert.assertArrayEquals(
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
@@ -128,7 +138,7 @@ class ExposureKeyHistoryCalculationsTest {
             listOf(tek1, tek2),
             TransmissionRiskVector(intArrayOf(0, 1, 2, 3, 4, 5, 6, 7)),
             intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
-            todayMidnight
+            thisMorning.toLocalDate()
         )
         Assert.assertArrayEquals(
             intArrayOf(tek1.rollingStartIntervalNumber, tek1.rollingStartIntervalNumber),
@@ -150,7 +160,7 @@ class ExposureKeyHistoryCalculationsTest {
             listOf(tek1, tek2),
             TransmissionRiskVector(intArrayOf(0, 1, 2)),
             intArrayOf(3998, 3999, 4000),
-            thisEvening
+            thisEvening.toLocalDate()
         )
         Assert.assertArrayEquals(
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
@@ -173,7 +183,7 @@ class ExposureKeyHistoryCalculationsTest {
             listOf(tek3, tek2, tek1),
             TransmissionRiskVector(intArrayOf(0, 1, 2, 3, 4, 5, 6, 7)),
             intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
-            thisMorning
+            thisMorning.toLocalDate()
         )
         Assert.assertArrayEquals(
             intArrayOf(tek3.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber, tek1.rollingStartIntervalNumber),
