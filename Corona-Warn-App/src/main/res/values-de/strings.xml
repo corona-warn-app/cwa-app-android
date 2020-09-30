@@ -1300,7 +1300,7 @@
     <string name="country_name_sk">Slowakei</string>
 
     <!-- XHED: Title of the interoperbaility information view. -->
-    <string name="interoperability_title">Europaweite\nRisiko-Ermittlung</string>
+    <string name="interoperability_title">Länderübergreifende\nRisiko-Ermittlung</string>
 
     <!-- XHED: Setting title of interoperability in the tracing settings view -->
     <string name="settings_interoperability_title">Länderübergreifende Risiko-Ermittlung</string>
@@ -1312,7 +1312,7 @@
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">Die Corona-Warn-App warnt länderübergreifend vor möglichen Infektionen, indem Daten über eine europäische Infrastruktur ausgetauscht werden.</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">Es werden keine persönlischen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
+    <string name="interoperability_configuration_second_section">Es werden keine persönlichen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
@@ -1328,7 +1328,7 @@
     <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
-    <string name="interoperability_onboarding_delta_title">Europaweite\nRisiko-Ermittlung</string>
+    <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- XHED: Header of private data in the delta onboarding interoperability view -->
