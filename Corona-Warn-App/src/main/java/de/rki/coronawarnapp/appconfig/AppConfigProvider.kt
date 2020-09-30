@@ -96,7 +96,6 @@ class AppConfigProvider @Inject constructor(
         }
     }
 
-
     companion object {
         private val TAG = AppConfigProvider::class.java.simpleName
 
