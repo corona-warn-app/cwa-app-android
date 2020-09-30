@@ -10,7 +10,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 1
         DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
+                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13)
@@ -21,7 +21,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 0
         DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
+                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14)
@@ -32,7 +32,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 5
         DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
+                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9)
@@ -43,7 +43,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 21
         DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo + 2)),
+                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7)
