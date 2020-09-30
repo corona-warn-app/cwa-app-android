@@ -264,6 +264,20 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/risk_details_information_body" />
 
+                    <TextView
+                        android:id="@+id/risk_details_information_lowrisk_body_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:text="@string/risk_details_explanation_faq_body_with_link"
+                        android:visibility="@{FormatterRiskHelper.formatVisibilityBehaviorLowLevelRisk(tracingViewModel.riskLevel)}"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:linksClickable="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/risk_details_information_body_notice" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.Guideline
@@ -271,7 +285,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                    app:layout_constraintGuide_begin="@dimen/guideline_top" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_end"
