@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -25,7 +24,6 @@ class ApplicationConfigurationServiceTest : BaseTest() {
 
         CWADebug.isDebugBuildOrMode shouldBe true
 
-        mockkObject(WebRequestBuilder)
         val appConfig = mockk<ApplicationConfigurationOuterClass.ApplicationConfiguration>()
         val appConfigBuilder =
             mockk<ApplicationConfigurationOuterClass.ApplicationConfiguration.Builder>()

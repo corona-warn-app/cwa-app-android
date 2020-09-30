@@ -1,4 +1,6 @@
 syntax = "proto2";
+package de.rki.coronawarnapp.server.protocols;
+
 message TemporaryExposureKeyExport {
     // Time window of keys in this batch based on arrival to server, in UTC seconds
     optional fixed64 start_timestamp = 1;
@@ -30,6 +32,9 @@ message SignatureInfo {
 message SubmissionPayload {
     repeated TemporaryExposureKey keys = 1;
     optional bytes padding = 2;
+    repeated string visitedCountries = 3;
+    optional string origin = 4;
+    optional bool consentToFederation = 5;
 }
 
 message TemporaryExposureKey {
