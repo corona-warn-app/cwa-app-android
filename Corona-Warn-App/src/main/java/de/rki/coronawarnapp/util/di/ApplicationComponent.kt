@@ -12,13 +12,15 @@ import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
 import de.rki.coronawarnapp.http.HttpModule
-import de.rki.coronawarnapp.http.ServiceFactory
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
+import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
@@ -28,6 +30,7 @@ import de.rki.coronawarnapp.util.UtilModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.verification.VerificationModule
 import javax.inject.Singleton
 
 @Singleton
@@ -47,7 +50,9 @@ import javax.inject.Singleton
         EnvironmentModule::class,
         DiagnosisKeysModule::class,
         AppConfigModule::class,
-        EnvironmentModule::class
+        SubmissionModule::class,
+        VerificationModule::class,
+        PlaybookModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
@@ -63,7 +68,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     val keyCacheRepository: KeyCacheRepository
     val keyFileDownloader: KeyFileDownloader
-    val serviceFactory: ServiceFactory
 
     val appConfigProvider: AppConfigProvider
 
@@ -71,6 +75,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     val encryptedPreferencesFactory: EncryptedPreferencesFactory
     val errorResetTool: EncryptionErrorResetTool
+
+    val playbook: Playbook
 
     @Component.Factory
     interface Factory {
