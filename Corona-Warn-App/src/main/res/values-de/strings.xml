@@ -1342,7 +1342,7 @@
     <!-- XTXT: Title for the interoperability onboarding if country download fails -->
     <string name="interoperability_onboarding_list_title_failrequest">Teilnehmende Länder</string>
     <!-- XTXT: Subtitle for the interoperability onboarding if country download fails -->
-    <string name="interoperability_onboarding_list_subtitle_failrequest">Die teilnehmenden Länder können Sie jederzeit einsehen in den Details zur Risiko-Ermittlung.</string>
+    <string name="interoperability_onboarding_list_subtitle_failrequest">Die teilnehmenden Länder können Sie jederzeit in den Details zur Risiko-Ermittlung einsehen.</string>
 
     <!-- YDES: Title for the interoperability onboarding if country download fails for Risk Details -->
     <string name="interoperability_onboarding_list_title_riskdetection_no_network">Länder können im Moment nicht angezeigt werden.</string>
