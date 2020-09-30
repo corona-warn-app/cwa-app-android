@@ -1,8 +1,15 @@
 package de.rki.coronawarnapp.submission
 
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.numberOfDayChanges
+import dagger.Reusable
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeStamper
+import javax.inject.Inject
 
-class DaysSinceOnsetOfSymptomsVectorDeterminator {
+@Reusable
+class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
+    private val timeStamper: TimeStamper
+) {
 
     @Suppress("MagicNumber")
     internal fun determine(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
@@ -21,7 +28,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminator {
         return when (symptoms.startOfSymptoms) {
             is Symptoms.StartOf.Date ->
                 createDaysSinceOnsetOfSymptomsVectorWith(
-                    numberOfDayChanges(symptoms.startOfSymptoms.millis)
+                    symptoms.startOfSymptoms.date.ageInDays(timeStamper.nowUTC.toLocalDate())
                 )
             is Symptoms.StartOf.LastSevenDays ->
                 createDaysSinceOnsetOfSymptomsVectorWith(701)

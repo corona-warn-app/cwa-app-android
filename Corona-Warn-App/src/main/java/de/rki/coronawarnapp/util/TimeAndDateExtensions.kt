@@ -6,6 +6,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Days
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -77,11 +78,7 @@ object TimeAndDateExtensions {
         return TimeUnit.MILLISECONDS.toDays(millionSeconds)
     }
 
-    fun numberOfDayChanges(then: DateTime, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
-        Days.daysBetween(
-            then.withTime(0, 0, 0, 0),
-            now.withTime(0, 0, 0, 0)).days
+    fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
-    fun numberOfDayChanges(millis: Long, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) =
-        numberOfDayChanges(Instant.ofEpochMilli(millis).toDateTime(DateTimeZone.UTC), now)
+    fun Instant.toLocalDate() = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 }

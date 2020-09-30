@@ -54,6 +54,11 @@ class SubmissionModule {
             .create(SubmissionApiV1::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideKeyConverter(defaultKeyConverter: DefaultKeyConverter): KeyConverter =
+        defaultKeyConverter
+
     companion object {
         private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
     }

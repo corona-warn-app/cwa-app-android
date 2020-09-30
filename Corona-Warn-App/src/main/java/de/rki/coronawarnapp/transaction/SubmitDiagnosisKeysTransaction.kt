@@ -65,6 +65,9 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     private val appConfigProvider: AppConfigProvider
         get() = AppInjector.component.transSubmitDiagnosisInjection.appConfigProvider
 
+    private val exposureKeyHistoryCalculations: ExposureKeyHistoryCalculations
+        get() = AppInjector.component.transSubmitDiagnosisInjection.exposureKeyHistoryCalculations
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         registrationToken: String,
@@ -73,11 +76,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     ) = lockAndExecute(unique = true, scope = transactionScope) {
 
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
-            ExposureKeyHistoryCalculations(
-                TransmissionRiskVectorDeterminator(),
-                DaysSinceOnsetOfSymptomsVectorDeterminator(),
-                DefaultKeyConverter()
-            ).transformToKeyHistoryInExternalFormat(keys, symptoms)
+            exposureKeyHistoryCalculations.transformToKeyHistoryInExternalFormat(keys, symptoms)
         }
 
         val visistedCountries =

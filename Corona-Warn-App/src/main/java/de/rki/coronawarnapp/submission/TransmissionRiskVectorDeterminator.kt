@@ -1,18 +1,25 @@
 package de.rki.coronawarnapp.submission
 
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.numberOfDayChanges
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import dagger.Reusable
+import de.rki.coronawarnapp.submission.Symptoms.Indication
+import de.rki.coronawarnapp.submission.Symptoms.StartOf
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.LocalDate
+import javax.inject.Inject
 
-class TransmissionRiskVectorDeterminator {
+@Reusable
+class TransmissionRiskVectorDeterminator @Inject constructor(
+    private val timeStamper: TimeStamper
+) {
 
     @Suppress("MagicNumber")
-    fun determine(symptoms: Symptoms, now: DateTime = Instant().toDateTime(DateTimeZone.UTC)) = TransmissionRiskVector(
+    fun determine(symptoms: Symptoms, now: LocalDate = timeStamper.nowUTC.toLocalDate()) = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
-            Symptoms.Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
-                is Symptoms.StartOf.Date -> {
-                    when (numberOfDayChanges(symptoms.startOfSymptoms.millis, now)) {
+            Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
+                is StartOf.Date -> {
+                    when (symptoms.startOfSymptoms.date.ageInDays(now)) {
                         0 -> intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                         1 -> intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
                         2 -> intArrayOf(6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1)
@@ -37,13 +44,13 @@ class TransmissionRiskVectorDeterminator {
                         else -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                     }
                 }
-                is Symptoms.StartOf.LastSevenDays -> intArrayOf(4, 5, 6, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1)
-                is Symptoms.StartOf.MoreThanTwoWeeks -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5)
-                is Symptoms.StartOf.NoInformation -> intArrayOf(5, 6, 8, 8, 8, 7, 5, 3, 2, 1, 1, 1, 1, 1, 1)
-                is Symptoms.StartOf.OneToTwoWeeksAgo -> intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
+                is StartOf.LastSevenDays -> intArrayOf(4, 5, 6, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1)
+                is StartOf.MoreThanTwoWeeks -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5)
+                is StartOf.NoInformation -> intArrayOf(5, 6, 8, 8, 8, 7, 5, 3, 2, 1, 1, 1, 1, 1, 1)
+                is StartOf.OneToTwoWeeksAgo -> intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
                 else -> intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
             }
-            Symptoms.Indication.NEGATIVE -> intArrayOf(4, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-            Symptoms.Indication.NO_INFORMATION -> intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
+            Indication.NEGATIVE -> intArrayOf(4, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+            Indication.NO_INFORMATION -> intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
         })
 }

@@ -1,47 +1,46 @@
 package de.rki.coronawarnapp.submission
 
-import KeyExportFormat
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.util.TimeAndDateExtensions
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExposureKeyHistoryCalculations(
+@Singleton
+class ExposureKeyHistoryCalculations @Inject constructor(
     private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
     private val daysSinceOnsetOfSymptomsVectorDeterminator: DaysSinceOnsetOfSymptomsVectorDeterminator,
-    private val keyConverter: KeyConverter
+    private val keyConverter: KeyConverter,
+    private val timeStamper: TimeStamper
 ) {
-
-    companion object {
-        const val MAX_AGE_IN_DAYS = 14
-        const val TEN_MINUTES_IN_MILLIS = (10 * 60 * 1000).toLong()
-    }
 
     fun transformToKeyHistoryInExternalFormat(
         keys: List<TemporaryExposureKey>,
         symptoms: Symptoms
-    ) =
-        toExternalFormat(
-            removeOldKeys(sortWithRecentKeyFirst(keys)),
-            transmissionRiskVectorDeterminator.determine(symptoms),
-            daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms)
-        )
+    ) = toExternalFormat(
+        removeOldKeys(sortWithRecentKeyFirst(keys)),
+        transmissionRiskVectorDeterminator.determine(symptoms),
+        daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms)
+    )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun removeOldKeys(
         keys: List<TemporaryExposureKey>,
-        now: DateTime = Instant().toDateTime(DateTimeZone.UTC)
-    ) =
-        keys.filter { it.ageInDays(now) in 0..MAX_AGE_IN_DAYS }
+        now: LocalDate = timeStamper.nowUTC.toLocalDate()
+    ) = keys.filter { it.ageInDays(now) in 0..MAX_AGE_IN_DAYS }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun toExternalFormat(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector,
-        now: DateTime = Instant().toDateTime(DateTimeZone.UTC)
+        now: LocalDate = timeStamper.nowUTC.toLocalDate()
     ): List<KeyExportFormat.TemporaryExposureKey> {
         val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
         keys.groupBy { it.ageInDays(now) }.forEach { entry ->
@@ -64,10 +63,12 @@ class ExposureKeyHistoryCalculations(
         keys.sortedWith(compareByDescending { it.rollingStartIntervalNumber })
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun TemporaryExposureKey.ageInDays(now: DateTime = Instant().toDateTime(DateTimeZone.UTC)): Int =
-        TimeAndDateExtensions.numberOfDayChanges(
-            Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS).toDateTime(
-                DateTimeZone.UTC),
-            now
-        )
+    internal fun TemporaryExposureKey.ageInDays(now: LocalDate): Int =
+        Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS)
+            .toLocalDate().ageInDays(now)
+
+    companion object {
+        const val MAX_AGE_IN_DAYS = 14
+        val TEN_MINUTES_IN_MILLIS = Duration.standardMinutes(10).millis
+    }
 }
