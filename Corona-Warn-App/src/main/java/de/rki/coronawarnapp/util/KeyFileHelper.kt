@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.util
 
-import KeyExportFormat
-import KeyExportFormat.TEKSignatureList
-import KeyExportFormat.TEKSignatureList.newBuilder
-import KeyExportFormat.TemporaryExposureKeyExport
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignature
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignatureList
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TemporaryExposureKeyExport
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.convertToGoogleKey
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.logUTCFormat
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +50,7 @@ object KeyFileHelper {
                         .setStartTimestamp(file.header.startTimestamp)
                         .setEndTimestamp(file.header.endTimestamp)
                         .build(),
-                    KeyExportFormat.TEKSignature.newBuilder()
+                    TEKSignature.newBuilder()
                         .setBatchNum(file.header.batchNum)
                         .setBatchSize(file.header.batchSize)
                         .setSignatureInfo(SignatureHelper.clientSig)
@@ -75,7 +74,7 @@ object KeyFileHelper {
     private suspend fun createBinaryFile(
         storageDirectory: File?,
         zipFileName: String,
-        sourceWithTEKSignature: Pair<TemporaryExposureKeyExport, KeyExportFormat.TEKSignature>
+        sourceWithTEKSignature: Pair<TemporaryExposureKeyExport, TEKSignature>
     ): File {
         return withContext(Dispatchers.IO) {
             val exportFile = async {
@@ -88,7 +87,9 @@ object KeyFileHelper {
             val exportSignatureFile = async {
                 generateSignatureFile(
                     storageDirectory,
-                    newBuilder().addAllSignatures(listOf(sourceWithTEKSignature.second)).build()
+                    TEKSignatureList.newBuilder()
+                        .addAllSignatures(listOf(sourceWithTEKSignature.second))
+                        .build()
                 )
             }
 
