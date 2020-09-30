@@ -8,7 +8,7 @@
    <a href="https://sonarcloud.io/component_measures?id=corona-warn-app_cwa-app-android&metric=Coverage&view=list" title="Coverage"><img src="https://sonarcloud.io/api/project_badges/measure?project=corona-warn-app_cwa-app-android&metric=coverage"></a>
     <a href="./LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg"></a>
 </p>
-
+#p tag is for pragraphy inspection.
 <p align="center">
   <a href="#development">Development</a> •
   <a href="#architecture--documentation">Documentation</a> •
