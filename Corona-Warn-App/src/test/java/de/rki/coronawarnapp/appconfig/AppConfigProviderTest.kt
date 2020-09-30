@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.appconfig
 
-import dagger.Lazy
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
@@ -52,7 +51,7 @@ class AppConfigProviderTest : BaseIOTest() {
     private fun createDownloadServer(
         homeCountry: LocationCode = defaultHomeCountry
     ) = AppConfigProvider(
-        appConfigAPI = Lazy { api },
+        appConfigAPI = { api },
         verificationKeys = verificationKeys,
         homeCountry = homeCountry,
         configStorage = appConfigStorage
@@ -185,13 +184,14 @@ class AppConfigProviderTest : BaseIOTest() {
         }
     }
 
+    // Because the UI requires this to detect when to show alternative UI elements
     @Test
-    fun `if supportedCountryList is empty, we insert DE as fallback`() {
+    fun `if supportedCountryList is empty, we do not insert DE as fallback`() {
         coEvery { api.getApplicationConfiguration("DE") } returns APPCONFIG_BUNDLE.toResponseBody()
         every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
 
         runBlocking {
-            createDownloadServer().getAppConfig().supportedCountriesList shouldBe listOf("DE")
+            createDownloadServer().getAppConfig().supportedCountriesList shouldBe emptyList()
         }
     }
 

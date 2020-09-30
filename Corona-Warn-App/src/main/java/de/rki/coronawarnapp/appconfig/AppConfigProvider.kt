@@ -94,25 +94,12 @@ class AppConfigProvider @Inject constructor(
             Timber.w("No new config available, using last valid.")
             getFallback()
         }
-    }.performSanityChecks()
-
-    private fun ApplicationConfiguration.performSanityChecks(): ApplicationConfiguration {
-        var sanityChecked = this
-
-        if (sanityChecked.supportedCountriesList.isEmpty()) {
-            sanityChecked = sanityChecked.toNewConfig {
-                addSupportedCountries(FALLBACK_COUNTRY)
-            }
-            Timber.w("Country list was empty, corrected: %s", sanityChecked.supportedCountriesList)
-        }
-
-        return sanityChecked
     }
+
 
     companion object {
         private val TAG = AppConfigProvider::class.java.simpleName
 
-        private const val FALLBACK_COUNTRY = "DE"
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
     }

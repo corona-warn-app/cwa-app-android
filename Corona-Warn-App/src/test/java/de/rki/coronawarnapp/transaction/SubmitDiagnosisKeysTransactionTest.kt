@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.Symptoms
@@ -43,7 +43,7 @@ class SubmitDiagnosisKeysTransactionTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        val appConfig = ApplicationConfigurationOuterClass.ApplicationConfiguration.newBuilder()
+        val appConfig = ApplicationConfiguration.newBuilder()
             .addAllSupportedCountries(defaultCountries)
             .build()
         coEvery { appConfigProvider.getAppConfig() } returns appConfig
@@ -85,6 +85,29 @@ class SubmitDiagnosisKeysTransactionTest {
                     temporaryExposureKeys = emptyList(),
                     consentToFederation = true,
                     visistedCountries = defaultCountries
+                )
+            )
+            SubmissionService.submissionSuccessful()
+        }
+    }
+
+    @Test
+    fun `submission without keys and fallback country`(): Unit = runBlocking {
+        val appConfig = ApplicationConfiguration.newBuilder().build()
+        coEvery { appConfigProvider.getAppConfig() } returns appConfig
+        coEvery { mockPlaybook.submission(any()) } returns Unit
+        coEvery { InternalExposureNotificationClient.asyncGetTemporaryExposureKeyHistory() } returns listOf()
+
+        SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)
+
+        coVerifySequence {
+            appConfigProvider.getAppConfig()
+            mockPlaybook.submission(
+                Playbook.SubmissionData(
+                    registrationToken = registrationToken,
+                    temporaryExposureKeys = emptyList(),
+                    consentToFederation = true,
+                    visistedCountries = listOf("DE")
                 )
             )
             SubmissionService.submissionSuccessful()
