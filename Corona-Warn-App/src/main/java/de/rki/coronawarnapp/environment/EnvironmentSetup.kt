@@ -58,7 +58,7 @@ class EnvironmentSetup @Inject constructor(
                 ?.toEnvironmentType() ?: defaultEnvironment
         }
         set(value) {
-            if (CWADebug.isDebugBuildOrMode) {
+            if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
                 prefs.edit {
                     putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
                 }
