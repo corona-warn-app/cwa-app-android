@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util.security
 import KeyExportFormat
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import timber.log.Timber
 import java.security.KeyFactory
 import java.security.Signature
@@ -12,9 +12,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VerificationKeys @Inject constructor() {
+class VerificationKeys @Inject constructor(
+    private val environmentSetup: EnvironmentSetup
+) {
     companion object {
         private const val KEY_DELIMITER = ","
+        private val TAG = VerificationKeys::class.java.simpleName
     }
 
     private val keyFactory = KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC)
@@ -28,8 +31,8 @@ class VerificationKeys @Inject constructor() {
         signature.getValidSignaturesForExport(export, signatureListBinary)
             .isEmpty()
             .also {
-                if (it) Timber.d("export is invalid")
-                else Timber.d("export is valid")
+                if (it) Timber.tag(TAG).d("export is invalid")
+                else Timber.tag(TAG).d("export is valid")
             }
     }
 
@@ -46,20 +49,20 @@ class VerificationKeys @Inject constructor() {
             }
             verified
         }
-        .also { Timber.v("${it.size} valid signatures found") }
+        .also { Timber.tag(TAG).v("${it.size} valid signatures found") }
 
     private fun getKeysForSignatureVerificationFilteredByEnvironment() =
-        BuildConfig.PUB_KEYS_SIGNATURE_VERIFICATION.split(KEY_DELIMITER)
+        environmentSetup.appConfigVerificationKey.split(KEY_DELIMITER)
             .mapNotNull { delimitedString ->
                 Base64.decode(delimitedString, Base64.DEFAULT)
             }.map { binaryPublicKey ->
-            keyFactory.generatePublic(
-                X509EncodedKeySpec(
-                    binaryPublicKey
+                keyFactory.generatePublic(
+                    X509EncodedKeySpec(
+                        binaryPublicKey
+                    )
                 )
-            )
-        }
-            .onEach { Timber.v("$it") }
+            }
+            .onEach { Timber.tag(TAG).v("$it") }
 
     private fun getTEKSignaturesForEnvironment(
         signatureListBinary: ByteArray?
@@ -67,6 +70,6 @@ class VerificationKeys @Inject constructor() {
         .parseFrom(signatureListBinary)
         .signaturesList
         .asSequence()
-        .onEach { Timber.v(it.toString()) }
+        .onEach { Timber.tag(TAG).v(it.toString()) }
         .mapNotNull { it.signature.toByteArray() }
 }

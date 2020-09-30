@@ -679,7 +679,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Wie können wir Ihnen helfen?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere technische Hotline wenden."</string>
+    <string name="information_contact_body">"Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere technische Hotline wenden.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie in Ihrem App Store / Play Store herunterladen."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -950,7 +950,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen.\n\nDa ein Ansteckungsrisiko schon vor dem Erkrankungsbeginn bestehen und im Zeitverlauf variieren kann, bitten wir Sie auch anzugeben, wann eventuelle Corona-Symptome (z. B. Fieber oder Husten) zum ersten Mal bei Ihnen aufgetreten sind. Dadurch kann das Infektionsrisiko von anderen App-Nutzern, die Ihnen begegnet sind, genauer berechnet werden. Die Angabe des Symptombeginns ist optional. Wenn Sie keine Symptome haben oder keine Angaben machen möchten, können Sie „keine Angabe“ auswählen."</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen über mögliche Risiko-Begegnungen gewarnt werden. Hierfür können Sie Ihre bislang nur auf Ihrem Smartphone gespeicherten Zufalls-IDs an das von den teilnehmenden Ländern gemeinsam betriebene europäische Serversystem zur Verfügung stellen. Von dort werden die Zufalls-IDs durch die teilnehmenden Länder an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. Nach dem täglichen Download der Zufalls-IDs werden die Nutzerinnen und Nutzer, mit denen Sie Kontakt hatten, dann gewarnt, sofern eine Risiko-Begegnung stattfand. Es werden nur Zufalls-IDs übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Datenschutz"</string>
     <!-- YTXT: Body text for the privacy card-->
@@ -959,6 +959,8 @@
     <string name="submission_positive_other_warning_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
+    <!-- XHED: Title for the interop country list-->
+    <string name="submission_interoperability_list_title">"Derzeit nehmen die folgenden Länder an der länderübergreifenden Risiko-Ermittlung teil:"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -982,7 +984,7 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Sie sind ansteckend."</string>
+    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Bitte isolieren Sie sich von anderen Personen."</string>
     <!-- XHED: Title for further info -->
@@ -1106,7 +1108,7 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen telefonisch oder schriftlich bei Ihnen melden."</string>
+    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufallscodes, damit andere gewarnt werden können."</string>
 
@@ -1332,8 +1334,21 @@
     <!-- XHED: Header of private data in the delta onboarding interoperability view -->
     <string name="interoperability_onboarding_delta_footerTitle">Hinweis zur Datenverarbeitung</string>
     <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
-    <string name="interoperability_onboarding_delta_footerDescription"></string>
+    <string name="interoperability_onboarding_delta_footerDescription">Um zu erfahren, ob Sie Risiko-Begegnungen mit Nutzern der offiziellen Corona-Apps teilnehmender Länder* hatten und für Sie ein Infektionsrisiko besteht, müssen Sie nichts ändern. Es muss nur weiterhin die Funktion „Risiko-Ermittlung“ in der App aktiviert sein.\n\nBei aktivierter Kontaktaufzeichnung erzeugt Ihr iPhone kontinuierlich Zufalls-IDs und versendet diese per Bluetooth, die jetzt auch von Smartphones mit offizieller Corona-App der anderen teilnehmenden Länder in Ihrer Umgebung empfangen werden können. Umgekehrt empfängt Ihr iPhone die Zufalls-IDs der anderen Smartphones. Die eigenen und die von anderen Smartphones empfangenen Zufalls-IDs werden im COVID-19-Kontaktprotokoll aufgezeichnet und dort für 14 Tage gespeichert.\n\nFür die Risiko-Ermittlung lädt die App täglich oder auf Abfrage eine Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über das europäische Serversystem geteilt haben, nachdem sie Corona-positiv getestet wurden. Diese Liste wird dann mit den im COVID-19-Kontaktprotokoll gespeicherten Zufalls-IDs verglichen.\n\nWenn dabei festgestellt wird, dass Sie eine Risiko-Begegnung hatten, werden Sie darüber von der App informiert. In diesem Fall erhält die App außerdem Zugriff auf weitere im COVID-19-Kontaktprotokoll Ihres iPhone gespeicherte Daten (Datum und Dauer sowie Bluetooth-Signalstärke des Kontakts).\n\nAus der Bluetooth-Signalstärke wird der räumliche Abstand zu dem anderen Nutzer abgeleitet (je stärker das Signal, desto geringer der Abstand). Diese Angaben werden von der App ausgewertet, um Ihr Gesundheitsrisiko abzuschätzen und Ihnen Empfehlungen für die nächsten Schritte zu geben. Diese Auswertung wird ausschließlich lokal auf Ihrem iPhone durchgeführt. Außer Ihnen erfährt niemand (auch nicht die Gesundheitsbehörden), ob Sie eine Risiko-Begegnung hatten und welches Risiko für Sie ermittelt wurde.\n\nDie Datenschutzhinweise der App (einschließlich Informationen zur Datenverarbeitung für die Risiko-Ermittlung) finden Sie unter dem Menüpunkt „Datenschutz“.</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">Eine Hand hält ein Smartphone. Im Hintergrund ist Europa und die europäische Flagge illustriert</string>
+
+    <!-- XTXT: Title for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_title_failrequest">Teilnehmende Länder</string>
+    <!-- XTXT: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest">Die teilnehmenden Länder können Sie jederzeit einsehen in den Details zur Risiko-Ermittlung.</string>
+
+    <!-- YDES: Title for the interoperability onboarding if country download fails for Risk Details -->
+    <string name="interoperability_onboarding_list_title_riskdetection_no_network">Länder können im Moment nicht angezeigt werden.</string>
+    <!-- YMSW: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind.</string>
+    <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
+    <string name="interoperability_onboarding_list_button_title_no_network">Geräte-Einstellungen öffnen</string>
+
 </resources>

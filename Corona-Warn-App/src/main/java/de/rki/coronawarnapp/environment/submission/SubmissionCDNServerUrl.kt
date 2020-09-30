@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.diagnosiskeys.server
+package de.rki.coronawarnapp.environment.submission
 
 import javax.inject.Qualifier
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DownloadServerUrl
+annotation class SubmissionCDNServerUrl

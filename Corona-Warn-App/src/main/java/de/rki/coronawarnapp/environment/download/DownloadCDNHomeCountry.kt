@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.diagnosiskeys.server
+package de.rki.coronawarnapp.environment.download
 
 import javax.inject.Qualifier
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DownloadHttpClient
+annotation class DownloadCDNHomeCountry

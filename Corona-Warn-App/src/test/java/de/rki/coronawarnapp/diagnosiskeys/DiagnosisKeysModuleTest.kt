@@ -1,23 +1,17 @@
 package de.rki.coronawarnapp.diagnosiskeys
 
-import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import io.kotest.matchers.shouldBe
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import org.junit.jupiter.api.Test
-import testhelpers.BaseIOTest
+import testhelpers.BaseTest
 
-class DiagnosisKeysModuleTest : BaseIOTest() {
+class DiagnosisKeysModuleTest : BaseTest() {
 
-    private val module = DiagnosisKeysModule()
-
-    @Test
-    fun `home country should be DE`() {
-        module.provideDiagnosisHomeCountry() shouldBe LocationCode("DE")
-    }
+    private fun createModule() = DiagnosisKeysModule()
 
     @Test
-    fun `download URL comes from BuildConfig`() {
-        module.provideDownloadServerUrl() shouldBe BuildConfig.DOWNLOAD_CDN_URL
+    fun `sideeffect free instantiation`() {
+        shouldNotThrowAny {
+            createModule()
+        }
     }
-
 }

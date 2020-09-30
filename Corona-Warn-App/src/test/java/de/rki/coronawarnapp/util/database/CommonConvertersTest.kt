@@ -52,7 +52,6 @@ class CommonConvertersTest : BaseTest() {
         }
     }
 
-
     @Test
     fun `path conversion`() {
         converters.apply {
