@@ -25,6 +25,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.protobuf.ByteString
@@ -56,12 +57,11 @@ import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_for_a_p_i.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -182,6 +182,19 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             val isBackgroundNotificationsActive = backgroundNotificationSwitch.isChecked
             showToast("Background Notifications are activated: $isBackgroundNotificationsActive")
             LocalData.backgroundNotification(isBackgroundNotificationsActive)
+        }
+
+        val testCountriesSwitch = binding.testApiSwitchTestCountries
+        testCountriesSwitch.isChecked = vm.isCurrentEnvironmentAlternate()
+        testCountriesSwitch.setOnClickListener {
+            vm.toggleEnvironment(testCountriesSwitch.isChecked)
+        }
+
+        vm.environmentChangeEvent.observe2(this) {
+            showSnackBar(
+                "Environment changed to: $it" +
+                    "\nForce stop & restart the app!"
+            )
         }
 
         binding.buttonApiGetCheckExposure.setOnClickListener {
@@ -571,6 +584,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     private fun showToast(message: String) {
         val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
         toast.show()
+    }
+
+    private fun showSnackBar(message: String) {
+            view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
     }
 
     override fun onFailure(exception: Exception?) {

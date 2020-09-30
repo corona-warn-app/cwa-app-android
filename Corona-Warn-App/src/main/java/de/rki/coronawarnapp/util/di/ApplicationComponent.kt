@@ -44,7 +44,8 @@ import javax.inject.Singleton
         HttpModule::class,
         EnvironmentModule::class,
         DiagnosisKeysModule::class,
-        AppConfigModule::class
+        AppConfigModule::class,
+        EnvironmentModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.http
 
-import android.webkit.URLUtil
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.exception.http.ServiceFactoryException
+import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
+import de.rki.coronawarnapp.environment.verification.VerificationCDNServerUrl
 import de.rki.coronawarnapp.http.service.SubmissionService
 import de.rki.coronawarnapp.http.service.VerificationService
 import okhttp3.Cache
@@ -18,6 +17,8 @@ import java.io.File
 import javax.inject.Inject
 
 class ServiceFactory @Inject constructor(
+    @VerificationCDNServerUrl private val verificationCdnUrl: String,
+    @SubmissionCDNServerUrl private val submissionCdnUrl: String,
     private val gsonConverterFactory: GsonConverterFactory,
     private val protoConverterFactory: ProtoConverterFactory,
     @HttpClientDefault private val defaultHttpClient: OkHttpClient
@@ -37,9 +38,6 @@ class ServiceFactory @Inject constructor(
             .build()
     }
 
-    private val verificationCdnUrl
-        get() = getValidUrl(BuildConfig.VERIFICATION_CDN_URL)
-
     fun verificationService(): VerificationService = verificationService
     private val verificationService by lazy {
         Retrofit.Builder()
@@ -50,9 +48,6 @@ class ServiceFactory @Inject constructor(
             .create(VerificationService::class.java)
     }
 
-    private val submissionCdnUrl
-        get() = getValidUrl(BuildConfig.SUBMISSION_CDN_URL)
-
     fun submissionService(): SubmissionService = submissionService
     private val submissionService by lazy {
         Retrofit.Builder()
@@ -62,13 +57,6 @@ class ServiceFactory @Inject constructor(
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(SubmissionService::class.java)
-    }
-
-    private fun getValidUrl(url: String): String {
-        if (!URLUtil.isHttpsUrl(url)) {
-            throw ServiceFactoryException(IllegalArgumentException("the url is invalid"))
-        }
-        return url
     }
 
     companion object {
