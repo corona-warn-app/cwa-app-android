@@ -17,9 +17,6 @@ import javax.inject.Singleton
 class EnvironmentSetup @Inject constructor(
     private val context: Context
 ) {
-    companion object {
-        private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
-    }
 
     enum class ENVKEY(val rawKey: String) {
         SUBMISSION("SUBMISSION_CDN_URL"),
@@ -100,5 +97,9 @@ class EnvironmentSetup @Inject constructor(
 
     private fun String.toEnvironmentType(): Type = Type.values().single {
         it.rawKey == this
+    }
+
+    companion object {
+        private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
     }
 }

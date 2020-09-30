@@ -58,6 +58,3 @@
 # and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
 -if interface * { @retrofit2.http.* <methods>; }
 -keep,allowobfuscation interface <1>
-
--keep class de.rki.coronawarnapp.http.requests.* { *; }
--keep class de.rki.coronawarnapp.http.responses.* { *; }
