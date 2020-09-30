@@ -373,6 +373,8 @@
     <string name="risk_details_explanation_dialog_title">"Information zur Funktionsweise der Risiko-Ermittlung"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
+    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">Weitere Informationen finden Sie in den FAQ.</a></string>
 
     <!-- ####################################
               Onboarding
@@ -950,11 +952,11 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen über mögliche Risiko-Begegnungen gewarnt werden. Hierfür können Sie Ihre bislang nur auf Ihrem Smartphone gespeicherten Zufalls-IDs an das von den teilnehmenden Ländern gemeinsam betriebene europäische Serversystem zur Verfügung stellen. Von dort werden die Zufalls-IDs durch die teilnehmenden Länder an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. Nach dem täglichen Download der Zufalls-IDs werden die Nutzerinnen und Nutzer, mit denen Sie Kontakt hatten, dann gewarnt, sofern eine Risiko-Begegnung stattfand. Es werden nur Zufalls-IDs übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen.\n\nEs werden nur unpersönliche Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Ihre Identität wird hierdurch nicht offengelegt. "</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Datenschutz"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"Durch Antippen von „Einverstanden“ willigen Sie ein, dass die App Ihr positives Testergebnis zusammen mit Ihren Zufalls-IDs der letzten 14 Tage an das Serversystem der App übermittelt, damit andere App-Nutzer mit aktivierter Risiko-Ermittlung automatisch informiert werden können, dass sie möglicherweise einem Infektionsrisiko ausgesetzt waren. Wenn Sie optionale Angaben zum Symptombeginn machen, enthalten die übermittelten Zufalls-IDs auch einen aus Ihren Angaben abgeleiteten Risikowert, der Ihr Ansteckungsrisiko am Gültigkeitstag der jeweiligen Zufalls-ID angibt. Die übermittelten Zufalls-IDs enthalten keine Angaben, die Rückschlüsse auf Ihre Identität oder Ihre Person zulassen.\n\nDie Übermittlung Ihres Testergebnisses per App ist freiwillig. Wenn Sie Ihr Testergebnis nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen niemand, ob Sie eine Infektion übermittelt haben.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „App-Informationen“ > „Datenschutz“."</string>
+    <string name="submission_positive_other_warning_privacy_body">"Durch Antippen von „Einverstanden“ willigen Sie ein, dass die App Ihr positives Testergebnis zusammen mit Ihren Zufalls-IDs der letzten 14 Tage an das Serversystem der App übermittelt, damit andere App-Nutzer mit aktivierter Risiko-Ermittlung automatisch informiert werden können, dass sie möglicherweise einem Infektionsrisiko ausgesetzt waren. Wenn Sie optionale Angaben zum Symptombeginn gemacht haben, wird mit den Zufalls-IDs auch ein aus Ihren Angaben abgeleiteter Risikowert übermittelt, der Ihr Ansteckungsrisiko am Gültigkeitstag der jeweiligen Zufalls-ID angibt. Die übermittelten Zufalls-IDs enthalten keine Angaben, die Rückschlüsse auf Ihre Identität oder Ihre Person zulassen.\n\nDie Übermittlung Ihres Testergebnisses per App ist freiwillig. Wenn Sie Ihr Testergebnis nicht übermitteln, entstehen Ihnen keine Nachteile. Da weder nachvollzogen noch kontrolliert werden kann, ob und wie Sie die App verwenden, erfährt außer Ihnen niemand, ob Sie eine Infektion übermittelt haben.\n\nSie können Ihre Einwilligung jederzeit widerrufen, indem Sie die App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „App-Informationen“ > „Datenschutz“."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1004,8 +1006,10 @@
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Symptome"</string>
-    <!-- YTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Sind eines oder mehrere der folgenden Symptome in den letzten Tagen bei Ihnen neu aufgetreten?"</string>
+    <!-- XTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Sind bei Ihnen in den letzten Tagen folgende Symptome aufgetreten?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Wenn Sie angeben, ob und wann eventuelle Corona-Symptome bei Ihnen aufgetreten sind, kann das Infektionsrisiko von anderen App-Nutzern genauer berechnet werden. Sie müssen keine Angabe machen, wählen Sie dazu „Keine Angabe“."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Erhöhte Temperatur oder Fieber"</item>
@@ -1183,6 +1187,10 @@
     <string name="errors_generic_button_negative">"Details"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Ein unbekannter Fehler ist aufgetreten."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aufgrund eines technischen Problems wurde Ihre App zurückgesetzt. Das hat jedoch keine Auswirkungen auf die Verwendung der App. Sie werden weiterhin über Risiko-Begegnungen benachrichtigt und können andere warnen, falls Sie positiv auf COVID-19 getestet wurden."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002"</string>
 
     <!-- ####################################
            Just for Development

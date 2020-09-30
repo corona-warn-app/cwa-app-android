@@ -584,6 +584,16 @@ fun formatVisibilityBehaviorIncreasedRisk(riskLevelScore: Int?): Int =
     formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK)
 
 /**
+ * Format the risk details include display for suggested behavior depending on risk level
+ * Only applied in special case for low level risk
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatVisibilityBehaviorLowLevelRisk(riskLevelScore: Int?): Int =
+    formatVisibility(riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
+
+/**
  * Format the risk details period logged card display  depending on risk level
  * applied in case of low and high risk levels
  *
