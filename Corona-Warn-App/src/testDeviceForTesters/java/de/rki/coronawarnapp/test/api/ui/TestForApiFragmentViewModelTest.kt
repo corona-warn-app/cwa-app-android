@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.test.api.ui
 
 import android.content.Context
 import androidx.lifecycle.Observer
-import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -12,7 +11,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.AfterEach
@@ -22,7 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.flakyTest
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class TestForApiFragmentViewModelTest : BaseTest() {
@@ -62,7 +63,7 @@ class TestForApiFragmentViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `toggeling the env works`() {
+    fun `toggeling the env works`() = flakyTest {
         currentEnvironment = EnvironmentSetup.Type.DEV
         val vm = createViewModel()
 

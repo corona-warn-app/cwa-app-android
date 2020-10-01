@@ -31,13 +31,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseIOTest
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.flakyTest
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import kotlin.time.ExperimentalTime
 
 /**
  * CachedKeyFileHolder test.
  */
+@ExperimentalTime
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class KeyFileDownloaderTest : BaseIOTest() {
@@ -125,11 +128,10 @@ class KeyFileDownloaderTest : BaseIOTest() {
             val type = arg<CachedKeyInfo.Type>(0)
             keyRepoData.values.filter { it.type == type }.map { it to File(testDir, it.id) }
         }
-        coEvery { keyCache.getAllCachedKeys() } returns keyRepoData.values.map {
-            it to File(
-                testDir,
-                it.id
-            )
+        coEvery { keyCache.getAllCachedKeys() } answers {
+            keyRepoData.values.map {
+                it to File(testDir, it.id)
+            }
         }
         coEvery { keyCache.delete(any()) } answers {
             val keyInfos = arg<List<CachedKeyInfo>>(0)
@@ -223,7 +225,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `wanted country list is empty, day mode`() {
+    fun `wanted country list is empty, day mode`() = flakyTest {
+
         val downloader = createDownloader()
         runBlocking {
             downloader.asyncFetchKeyFiles(emptyList()) shouldBe emptyList()
@@ -231,7 +234,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `wanted country list is empty, hour mode`() {
+    fun `wanted country list is empty, hour mode`() = flakyTest {
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -241,7 +244,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `fetching is aborted in day if not enough free storage`() {
+    fun `fetching is aborted in day if not enough free storage`() = flakyTest {
         coEvery { deviceStorage.requireSpacePrivateStorage(1048576L) } throws InsufficientStorageException(
             mockk(relaxed = true)
         )
@@ -256,7 +259,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `fetching is aborted in hour if not enough free storage`() {
+    fun `fetching is aborted in hour if not enough free storage`() = flakyTest {
         every { settings.isLast3HourModeEnabled } returns true
 
         coEvery { deviceStorage.requireSpacePrivateStorage(67584L) } throws InsufficientStorageException(
@@ -273,7 +276,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `error during country index fetch`() {
+    fun `error during country index fetch`() = flakyTest {
         coEvery { diagnosisKeyServer.getCountryIndex() } throws IOException()
 
         val downloader = createDownloader()
@@ -286,7 +289,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch without prior data`() {
+    fun `day fetch without prior data`() = flakyTest {
         val downloader = createDownloader()
 
         runBlocking {
@@ -327,7 +330,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch with existing data`() {
+    fun `day fetch with existing data`() = flakyTest {
         mockAddData(
             type = CachedKeyInfo.Type.COUNTRY_DAY,
             location = LocationCode("DE"),
@@ -374,7 +377,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch deletes stale data`() {
+    fun `day fetch deletes stale data`() = flakyTest {
         coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
             LocalDate.parse("2020-09-02")
         )
@@ -422,7 +425,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch skips single download failures`() {
+    fun `day fetch skips single download failures`() = flakyTest {
         var dlCounter = 0
         coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
@@ -449,7 +452,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `last3Hours fetch without prior data`() {
+    fun `last3Hours fetch without prior data`() = flakyTest {
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -508,7 +511,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `last3Hours fetch with prior data`() {
+    fun `last3Hours fetch with prior data`() = flakyTest {
         every { settings.isLast3HourModeEnabled } returns true
 
         mockAddData(
@@ -574,7 +577,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `last3Hours fetch deletes stale data`() {
+    fun `last3Hours fetch deletes stale data`() = flakyTest {
         every { settings.isLast3HourModeEnabled } returns true
 
         val (staleKey1, _) = mockAddData(
@@ -656,7 +659,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `last3Hours fetch skips single download failures`() {
+    fun `last3Hours fetch skips single download failures`() = flakyTest {
         every { settings.isLast3HourModeEnabled } returns true
 
         var dlCounter = 0
@@ -685,7 +688,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `not completed cache entries are overwritten`() {
+    fun `not completed cache entries are overwritten`() = flakyTest {
         mockAddData(
             type = CachedKeyInfo.Type.COUNTRY_DAY,
             location = LocationCode("DE"),
@@ -713,7 +716,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `database errors do not abort the whole process`() {
+    fun `database errors do not abort the whole process`() = flakyTest {
         var completionCounter = 0
         coEvery { keyCache.markKeyComplete(any(), any()) } answers {
             completionCounter++
@@ -741,7 +744,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `store server md5`() {
+    fun `store server md5`() = flakyTest {
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(LocationCode("DE"))
         coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
             LocalDate.parse("2020-09-01")
@@ -771,7 +774,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `use local MD5 as fallback if there is none available from the server`() {
+    fun `use local MD5 as fallback if there is none available from the server`() = flakyTest {
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(LocationCode("DE"))
         coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
             LocalDate.parse("2020-09-01")
