@@ -945,11 +945,7 @@
     <string name="submission_positive_other_warning_headline">"Yardımcı olabilirsiniz!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
     <string name="submission_positive_other_warning_body">"Dilerseniz Uygulama sisteminin son 14 güne ait rastgele kimliklerinizi diğer kullanıcılarla paylaşmasını sağlayabilirsiniz. Bu sayede başkalarını uyarabilir ve enfeksiyon zincirini kırmaları için onlara yardımcı olabilirsiniz.\n\nUygulama, yalnızca rastgele kimliklerinizi ve belirtilerin başlangıcı hakkında sağladığınız bilgileri aktarır. Kimliğiniz açıklanmaz."</string>
-    <!-- XHED: Title for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_title">"Veri Gizliliği"</string>
-    <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"\"Kabul Et\" seçeneğine dokunduğunuzda, Uygulamanın pozitif test sonucunuzu son 14 güne ait rastgele kimliklerinizle birlikte uygulamanın sunucu sistemine göndermesine izin vermiş olursunuz, bu sayede risk belirleme özelliği etkinleştirmiş olan diğer Uygulama kullanıcıları otomatik şekilde bilgilendirilebilir. Belirtilerinizin başlangıcına ilişkin isteğe bağlı bu bilgileri verirseniz rastgele kimlikler, bilgilerinizden elde edilen risk değeri ile birlikte iletilerek ilgili rastgele kimliğin geçerli olduğu gün itibarıyla başkalarını enfekte etmiş olma riskinizi belirtir. Bu amaçla iletilen rastgele kimlikler, kimliğiniz ya da kişiliğinize ilişkin sonuç çıkartacak hiçbir bilgi içermez.\n\nTest sonucunuzun Uygulama aracılığıyla iletilmesi, isteğe bağlıdır. Test sonucunuzu iletmezseniz size hiçbir dezavantajı olmaz. Uygulamayı kullanıp kullanmadığınızı ve nasıl kullandığınızı anlayamadığımız ve kontrol edemediğimiz için enfeksiyonu bulaştırıp bulaştırmadığınızı sizden başka kimse öğrenemez.\n\nUygulamayı silerek, onayınızı dilediğinizde geri alabilirsiniz. Onayın geri alınmasıyla, geri almaya kadar yapılmış veri işlemelerin hukuka uygunlukları bu durumdan etkilenmez. Bu konuya ilişkin diğer bilgileri \"Uygulama Bilgileri\" &gt; \"Veri Gizliliği\" bölümünde bulabilirsiniz."</string>
-    <!-- XBUT: other warning continue button -->
+<!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Bir akıllı telefon şifrelenmiş pozitif test tanısını sisteme aktarır."</string>
