@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.calendar
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -133,10 +132,10 @@ class CalendarView @JvmOverloads constructor(
         recyclerView.adapter = adapter
 
         // Setup day legend
-        setUpDayLegend(this)
+        setUpDayLegend()
 
         // Setup month
-        setUpMonthTextView(this)
+        setUpMonthTextView()
     }
 
     /**
@@ -160,10 +159,8 @@ class CalendarView @JvmOverloads constructor(
      * SetUp day legend (week day)
      *
      * NOTE: DaysOfWeek is impossible to use due to API 23
-     *
-     * @param view View - CalendarView
      */
-    private fun setUpDayLegend(view: View) {
+    private fun setUpDayLegend() {
         // Get day legend layout
         val dayLegendLayout = findViewById<LinearLayout>(R.id.calendar_day_legend)
         // Get current week day
@@ -173,8 +170,10 @@ class CalendarView @JvmOverloads constructor(
             val dayOfWeek = CalendarWeekDayView(context)
             val weekDay = date.withDayOfWeek(dayId).dayOfWeek()
             // weekDay.getAsText returns in either "Fri" or "Friday" format, substring first latter
-            dayOfWeek.setUp(weekDay.getAsText(Locale.getDefault()).take(1),
-                weekDay.get() == currentWeekDay)
+            dayOfWeek.setUp(
+                weekDay.getAsText(Locale.getDefault()).take(1),
+                weekDay.get() == currentWeekDay
+            )
             dayLegendLayout.addView(dayOfWeek)
         }
     }
@@ -182,11 +181,9 @@ class CalendarView @JvmOverloads constructor(
     /**
      * SetUp month text view
      *
-     * @param view View - CalendarView
-     *
      * @see CalendarCalculation.getMonthText
      */
-    private fun setUpMonthTextView(view: View) {
+    private fun setUpMonthTextView() {
         // Get month text view
         val monthTextView = findViewById<TextView>(R.id.calendar_month)
 
