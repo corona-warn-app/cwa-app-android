@@ -53,7 +53,7 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `mapping between function and JSON variable names is correct`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
+        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         val envSetup = createEnvSetup()
 
         EnvironmentSetup.Type.values().forEach { type ->
@@ -77,7 +77,7 @@ class EnvironmentSetupTest : BaseTest() {
     @Test
     fun `switching the default type is persisted in storage (preferences)`() {
         every { BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT } returns EnvironmentSetup.Type.DEV.rawKey
-        if (CWADebug.isDebugBuildOrMode) {
+        if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
             createEnvSetup().apply {
                 defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
                 currentEnvironment shouldBe defaultEnvironment
