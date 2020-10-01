@@ -742,8 +742,6 @@
     ###################################### -->
     <!-- XHED: headline for consent information  -->
     <string name="interop_consent_headline" />
-    <!-- YTXT: body for consent information -->
-    <string name="interop_consent_body" />
 
     <!-- ####################################
              Submission
