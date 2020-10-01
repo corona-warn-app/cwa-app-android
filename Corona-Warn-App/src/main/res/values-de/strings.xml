@@ -950,7 +950,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass das Corona-Warn-System Ihre lokal gespeicherten Zufallscodes der letzten 14 Tage an andere verteilt. So können Sie Ihre Mitmenschen warnen und helfen, die Infektionskette zu unterbrechen.\n\nEs werden nur unpersönliche Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Ihre Identität wird hierdurch nicht offengelegt. "</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen vor einer möglichen Infektion gewarnt werden.\n\nHierfür können Sie Ihre eigenen Zufalls-IDs der letzten 14 Tage und optional auch Angaben zum ersten Auftreten von eventuellen Corona-Symptomen an den von den teilnehmenden Ländern gemeinsam betriebenen Austausch-Server übertragen. Von dort werden Ihre Zufalls-IDs und eventuelle weitere Angaben an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. So können die anderen Nutzer, mit denen Sie Kontakt hatten, vor einer eventuellen Ansteckung gewarnt werden.\n\nEs werden nur Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Datenschutz"</string>
     <!-- YTXT: Body text for the privacy card-->
@@ -960,7 +960,7 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
     <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"Derzeit nehmen die folgenden Länder an der länderübergreifenden Risiko-Ermittlung teil:"</string>
+    <string name="submission_interoperability_list_title">"Folgende Länder nehmen derzeit an der länderübergreifenden Risiko-Ermittlung teil:"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
