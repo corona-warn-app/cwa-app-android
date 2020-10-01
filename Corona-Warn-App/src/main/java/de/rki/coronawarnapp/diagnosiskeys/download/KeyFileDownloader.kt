@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
-import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -78,9 +77,7 @@ class KeyFileDownloader @Inject constructor(
             )
 
             val availableKeys =
-                if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS &&
-                    settings.isLast3HourModeEnabled
-                ) {
+                if (settings.isLast3HourModeEnabled) {
                     syncMissing3Hours(filteredCountries, DEBUG_HOUR_LIMIT)
                     keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
                 } else {

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -20,7 +19,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -68,8 +66,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        mockkObject(CWADebug)
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns false
 
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
@@ -236,7 +232,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `wanted country list is empty, hour mode`() {
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -262,7 +257,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `fetching is aborted in hour if not enough free storage`() {
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns true
 
         coEvery { deviceStorage.requireSpacePrivateStorage(67584L) } throws InsufficientStorageException(
@@ -456,7 +450,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch without prior data`() {
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -516,7 +509,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch with prior data`() {
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns true
 
         mockAddData(
@@ -583,7 +575,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch deletes stale data`() {
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns true
 
         val (staleKey1, _) = mockAddData(
@@ -666,7 +657,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch skips single download failures`() {
-        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         every { settings.isLast3HourModeEnabled } returns true
 
         var dlCounter = 0
