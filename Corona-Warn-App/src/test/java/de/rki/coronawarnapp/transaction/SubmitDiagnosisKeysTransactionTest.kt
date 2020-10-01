@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -23,14 +24,9 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import kotlinx.coroutines.runBlocking
+import org.junit.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
 import java.time.Instant
 
 class SubmitDiagnosisKeysTransactionTest {
@@ -39,6 +35,7 @@ class SubmitDiagnosisKeysTransactionTest {
     @MockK lateinit var mockPlaybook: Playbook
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appComponent: ApplicationComponent
+    @MockK lateinit var exposureKeyHistoryCalculations: ExposureKeyHistoryCalculations
 
     private val registrationToken = "123"
 
@@ -55,7 +52,8 @@ class SubmitDiagnosisKeysTransactionTest {
         coEvery { appConfigProvider.getAppConfig() } returns appConfig
 
         every { appComponent.transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
-            TransactionCoroutineScope(), mockPlaybook, appConfigProvider
+            TransactionCoroutineScope(), mockPlaybook, appConfigProvider,
+            exposureKeyHistoryCalculations
         )
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent

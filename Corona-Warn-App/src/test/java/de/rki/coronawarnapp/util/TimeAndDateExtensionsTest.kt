@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.numberOfDayChanges
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.calculateDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
 import io.mockk.MockKAnnotations
@@ -12,6 +12,7 @@ import org.hamcrest.MatcherAssert
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -48,21 +49,21 @@ class TimeAndDateExtensionsTest {
     @Test
     fun test_daysAgo() {
         Assert.assertEquals(
-            0, numberOfDayChanges(
-                DateTime(2012, 3, 4, 1, 2),
-                DateTime(2012, 3, 4, 16, 9)
+            0,
+                LocalDate(2012, 3, 4).ageInDays(
+                    LocalDate(2012, 3, 4)
             )
         )
         Assert.assertEquals(
-            2, numberOfDayChanges(
-                DateTime(2013, 12, 31, 1, 2),
-                DateTime(2014, 1, 2, 16, 9)
+            2,
+            LocalDate(2013, 12, 31).ageInDays(
+            LocalDate(2014, 1, 2)
             )
         )
         Assert.assertEquals(
-            3, numberOfDayChanges(
-                DateTime(2014, 5, 2, 17, 2),
-                DateTime(2014, 5, 5, 4, 9)
+            3,
+            LocalDate(2014, 5, 2).ageInDays(
+            LocalDate(2014, 5, 5)
             )
         )
     }
