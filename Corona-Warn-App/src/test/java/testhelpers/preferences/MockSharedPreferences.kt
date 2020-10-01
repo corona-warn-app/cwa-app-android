@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 
 class MockSharedPreferences : SharedPreferences {
     private val dataMap = mutableMapOf<String, Any>()
+    val dataMapPeek: Map<String, Any>
+        get() = dataMap.toMap()
 
     override fun getAll(): MutableMap<String, *> = dataMap
 
