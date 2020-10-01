@@ -156,7 +156,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun showPopup(view: View) = PopupMenu(requireContext(), view).apply {
         inflate(R.menu.menu_main)
-        menu.findItem(R.id.menu_test).isVisible = CWADebug.isDebugBuildOrMode
+        menu.findItem(R.id.menu_test).isVisible = CWADebug.isDeviceForTestersBuild
         setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {

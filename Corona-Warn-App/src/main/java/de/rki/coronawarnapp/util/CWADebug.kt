@@ -25,6 +25,8 @@ object CWADebug {
     val buildFlavor: BuildFlavor
         get() = BuildFlavor.values().single { it.rawValue == BuildConfig.FLAVOR }
 
+    val isDeviceForTestersBuild: Boolean = buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
+
     enum class BuildFlavor(val rawValue: String) {
         DEVICE("device"),
         DEVICE_FOR_TESTERS("deviceForTesters")
