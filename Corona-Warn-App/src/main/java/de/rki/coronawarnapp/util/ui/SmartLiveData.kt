@@ -16,7 +16,7 @@ fun <T : Any> ViewModel.smartLiveData(
 
 class SmartLiveDataProperty<T : Any>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    private val initialValueProvider: suspend () -> T,
+    private val initialValueProvider: suspend () -> T
 ) : ReadOnlyProperty<ViewModel, SmartLiveData<T>> {
 
     private var liveData: SmartLiveData<T>? = null
@@ -40,7 +40,7 @@ class SmartLiveDataProperty<T : Any>(
 
 class SmartLiveData<T : Any>(
     private val viewModel: ViewModel,
-    private val dispatcher: CoroutineDispatcher,
+    private val dispatcher: CoroutineDispatcher
 ) : MutableLiveData<T>() {
 
     fun update(updateAction: (T) -> T) {
