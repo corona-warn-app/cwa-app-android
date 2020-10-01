@@ -1,23 +1,32 @@
 package de.rki.coronawarnapp.test.api.ui
 
+import android.content.Context
+import androidx.lifecycle.Observer
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
-@ExtendWith(InstantExecutorExtension::class)
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class TestForApiFragmentViewModelTest : BaseTest() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
+    @MockK private lateinit var context: Context
 
     var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -27,6 +36,9 @@ class TestForApiFragmentViewModelTest : BaseTest() {
 
         every { environmentSetup.defaultEnvironment } returns EnvironmentSetup.Type.DEV
         every { environmentSetup.alternativeEnvironment } returns EnvironmentSetup.Type.WRU_XA
+        every { environmentSetup.submissionCdnUrl } returns "submissionUrl"
+        every { environmentSetup.downloadCdnUrl } returns "downloadUrl"
+        every { environmentSetup.verificationCdnUrl } returns "verificationUrl"
 
         every { environmentSetup.currentEnvironment = any() } answers {
             currentEnvironment = arg(0)
@@ -42,24 +54,48 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createViewModel(): TestForApiFragmentViewModel {
-        return TestForApiFragmentViewModel(environmentSetup)
-    }
+    private fun createViewModel(): TestForApiFragmentViewModel = TestForApiFragmentViewModel(
+        envSetup = environmentSetup,
+        context = context
+    )
 
     @Test
     fun `toggeling the env works`() {
+        currentEnvironment = EnvironmentSetup.Type.DEV
         val vm = createViewModel()
 
-        currentEnvironment = EnvironmentSetup.Type.DEV
-        vm.isCurrentEnvironmentAlternate() shouldBe false
-        currentEnvironment = EnvironmentSetup.Type.WRU_XA
-        vm.isCurrentEnvironmentAlternate() shouldBe true
+        val states = mutableListOf<EnvironmentState>()
+        val observerState = mockk<Observer<EnvironmentState>>()
+        every { observerState.onChanged(capture(states)) } just Runs
+        vm.environmentState.observeForever(observerState)
 
-        vm.environmentChangeEvent.value shouldBe null
-        vm.toggleEnvironment(true)
-        vm.environmentChangeEvent.value shouldBe EnvironmentSetup.Type.WRU_XA
-        verify { environmentSetup.currentEnvironment = EnvironmentSetup.Type.WRU_XA }
-        vm.toggleEnvironment(false)
-        verify { environmentSetup.currentEnvironment = EnvironmentSetup.Type.DEV }
+        val events = mutableListOf<EnvironmentSetup.Type>()
+        val observerEvent = mockk<Observer<EnvironmentSetup.Type>>()
+        every { observerEvent.onChanged(capture(events)) } just Runs
+        vm.environmentChangeEvent.observeForever(observerEvent)
+
+        vm.setAlternativeEnvironmentEnabled(false)
+        vm.setAlternativeEnvironmentEnabled(true)
+
+        verify(exactly = 3, timeout = 3000) { observerState.onChanged(any()) }
+        verify(exactly = 2, timeout = 3000) { observerEvent.onChanged(any()) }
+
+        states[0].apply {
+            current shouldBe EnvironmentSetup.Type.DEV
+            isAlternative shouldBe false
+        }
+
+        states[1].apply {
+            current shouldBe EnvironmentSetup.Type.DEV
+            isAlternative shouldBe false
+        }
+        events[0] shouldBe EnvironmentSetup.Type.DEV
+
+
+        states[2].apply {
+            current shouldBe EnvironmentSetup.Type.WRU_XA
+            isAlternative shouldBe true
+        }
+        events[1] shouldBe EnvironmentSetup.Type.WRU_XA
     }
 }

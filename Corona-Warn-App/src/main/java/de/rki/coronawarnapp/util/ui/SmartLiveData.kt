@@ -44,8 +44,10 @@ class SmartLiveData<T : Any>(
 ) : MutableLiveData<T>() {
 
     fun update(updateAction: (T) -> T) {
-        viewModel.viewModelScope.launch(context = dispatcher) {
-            postValue(updateAction(value!!))
+        observeOnce {
+            viewModel.viewModelScope.launch(context = dispatcher) {
+                postValue(updateAction(it))
+            }
         }
     }
 }
