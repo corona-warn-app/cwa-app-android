@@ -7,7 +7,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
@@ -120,7 +119,7 @@ class SubmissionResultPositiveOtherWarningFragment :
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.submissionState.observe(viewLifecycleOwner, {
             if (it == ApiRequestState.SUCCESS) {
                 navigateToSubmissionDoneFragment()
             }
@@ -205,5 +204,6 @@ class SubmissionResultPositiveOtherWarningFragment :
     }
 
     override fun onFailure(exception: Exception?) {
+        // NOOP
     }
 }
