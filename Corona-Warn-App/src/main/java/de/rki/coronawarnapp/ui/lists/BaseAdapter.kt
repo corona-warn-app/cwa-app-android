@@ -4,10 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T : BaseAdapter.VH> : RecyclerView.Adapter<T>() {
@@ -31,10 +28,5 @@ abstract class BaseAdapter<T : BaseAdapter.VH> : RecyclerView.Adapter<T>() {
     ) {
 
         val context: Context = parent.context
-
-        fun getColor(@ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
-
-        fun getString(@StringRes stringRes: Int, vararg args: Any): String =
-            context.getString(stringRes, *args)
     }
 }
