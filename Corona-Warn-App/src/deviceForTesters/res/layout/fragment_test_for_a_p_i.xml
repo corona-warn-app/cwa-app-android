@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     tools:ignore="HardcodedText">
 
     <data>
@@ -19,20 +19,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                style="@style/card"
                 android:id="@+id/debug_container"
+                style="@style/card"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/debug_container_title"
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/debug_container_title"
                     android:text="Debug options"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +44,7 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:paddingTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:text="@string/test_api_switch_last_three_hours_from_server"
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="@string/test_api_switch_background_notifications"
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -68,8 +68,8 @@
                     style="@style/body1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:layout_weight="1"
-                    android:paddingTop="8dp"
                     android:text="Logfile enabled"
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -80,24 +80,24 @@
                     android:id="@+id/test_logfile_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="Share log"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/test_logfile_toggle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                style="@style/card"
                 android:id="@+id/environment_container"
-                android:layout_height="wrap_content">
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny">
 
                 <TextView
+                    android:id="@+id/environment_title"
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/environment_title"
                     android:text="Server environment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,37 +108,39 @@
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    tools:text="Download: ?"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/environment_title"
+                    tools:text="Download: ?" />
 
                 <TextView
                     android:id="@+id/environment_cdnurl_submission"
+                    style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="Submission: ?"
-                    style="@style/body2"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_download" />
+                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_download"
+                    tools:text="Submission: ?" />
 
                 <TextView
                     android:id="@+id/environment_cdnurl_verification"
+                    style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/body2"
-                    tools:text="Verification: ?"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_submission" />
+                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_submission"
+                    tools:text="Verification: ?" />
 
                 <RadioGroup
                     android:id="@+id/environment_toggle_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -147,17 +149,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                style="@style/card"
                 android:id="@+id/gms_container"
-                android:layout_height="wrap_content">
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny">
 
                 <TextView
+                    android:id="@+id/gms_container_title"
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/gms_container_title"
                     android:text="GMS Infos"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +170,7 @@
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="Google Play Services Version: ?"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -177,20 +179,20 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                style="@style/card"
                 android:id="@+id/exposure_summary_container"
-                android:layout_height="wrap_content">
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/label_exposure_summary"
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/test_api_exposure_summary_headline"
-                    android:paddingBottom="8dp" />
+                    android:layout_marginBottom="@dimen/spacing_tiny"
+                    android:text="@string/test_api_exposure_summary_headline" />
 
                 <TextView
                     android:id="@+id/label_exposure_summary_matchedKeyCount"
@@ -248,19 +250,19 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                style="@style/card"
                 android:id="@+id/mykeys_container"
-                android:layout_height="wrap_content">
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/label_my_keys"
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="@dimen/spacing_tiny"
                     android:text="@string/test_api_body_my_keys" />
 
                 <TextView
@@ -297,12 +299,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                style="@style/card"
                 android:id="@+id/testactions_container"
-                android:layout_height="wrap_content">
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/button_api_test_start"
@@ -385,12 +387,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                style="@style/card"
                 android:id="@+id/country_container"
-                android:layout_height="wrap_content">
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/label_country_filter"
@@ -441,7 +443,7 @@
 
                     <EditText
                         android:id="@+id/input_measure_risk_key_repeat_count"
-                        android:layout_width="98dp"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:text="1" />
