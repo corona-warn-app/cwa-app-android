@@ -94,5 +94,4 @@ class SecurityHelperTest : BaseTest() {
             errorResetTool.tryResetIfNecessary(ourException!!)
         }
     }
-
 }
