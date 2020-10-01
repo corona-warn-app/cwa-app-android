@@ -26,7 +26,7 @@ jobs:
     steps:
       - run:
           name: Test check directory
-          command: ls -al
+          command: find . -type d -ls
       - run:
           name: Quick Build
           command: ./gradlew quickBuild
@@ -38,7 +38,7 @@ jobs:
     steps:
       - run:
           name: Test check directory
-          command: ls -al
+          command: ls -lR
       - run:
           name: Quick Build
           command: ./gradlew quickBuildTest
