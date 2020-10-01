@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.environment
 
 import android.content.Context
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -70,33 +71,20 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `default environment type is set correctly`() {
-        if (CWADebug.isDebugBuildOrMode) {
-            createEnvSetup().defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-        } else {
-            createEnvSetup().defaultEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-        }
+        createEnvSetup().defaultEnvironment shouldBe BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
     }
 
     @Test
     fun `switching the default type is persisted in storage (preferences)`() {
-        if (CWADebug.isDebugBuildOrMode) {
-            createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-                currentEnvironment shouldBe EnvironmentSetup.Type.DEV
-                currentEnvironment = EnvironmentSetup.Type.WRU
-                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
-            }
-            createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
-            }
-        } else {
-            createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-                currentEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-                currentEnvironment = EnvironmentSetup.Type.DEV
-                currentEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-            }
+        createEnvSetup().apply {
+            defaultEnvironment shouldBe BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
+            currentEnvironment shouldBe defaultEnvironment
+            currentEnvironment = EnvironmentSetup.Type.WRU
+            currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+        }
+        createEnvSetup().apply {
+            defaultEnvironment shouldBe BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
+            currentEnvironment shouldBe EnvironmentSetup.Type.WRU
         }
     }
 
