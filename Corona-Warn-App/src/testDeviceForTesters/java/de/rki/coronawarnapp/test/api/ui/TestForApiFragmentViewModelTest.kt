@@ -35,7 +35,6 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { environmentSetup.defaultEnvironment } returns EnvironmentSetup.Type.DEV
-        every { environmentSetup.alternativeEnvironment } returns EnvironmentSetup.Type.WRU_XA
         every { environmentSetup.submissionCdnUrl } returns "submissionUrl"
         every { environmentSetup.downloadCdnUrl } returns "downloadUrl"
         every { environmentSetup.verificationCdnUrl } returns "verificationUrl"
@@ -74,27 +73,24 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         every { observerEvent.onChanged(capture(events)) } just Runs
         vm.environmentChangeEvent.observeForever(observerEvent)
 
-        vm.setAlternativeEnvironmentEnabled(false)
-        vm.setAlternativeEnvironmentEnabled(true)
+        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.DEV.rawKey)
+        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.WRU_XA.rawKey)
 
         verify(exactly = 3, timeout = 3000) { observerState.onChanged(any()) }
         verify(exactly = 2, timeout = 3000) { observerEvent.onChanged(any()) }
 
         states[0].apply {
             current shouldBe EnvironmentSetup.Type.DEV
-            isAlternative shouldBe false
         }
 
         states[1].apply {
             current shouldBe EnvironmentSetup.Type.DEV
-            isAlternative shouldBe false
         }
         events[0] shouldBe EnvironmentSetup.Type.DEV
 
 
         states[2].apply {
             current shouldBe EnvironmentSetup.Type.WRU_XA
-            isAlternative shouldBe true
         }
         events[1] shouldBe EnvironmentSetup.Type.WRU_XA
     }

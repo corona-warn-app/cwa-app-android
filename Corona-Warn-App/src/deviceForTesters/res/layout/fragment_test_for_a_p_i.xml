@@ -134,13 +134,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_submission" />
 
-                <Switch
-                    android:id="@+id/environment_toggle"
-                    style="@style/switchBase"
+                <RadioGroup
+                    android:id="@+id/environment_toggle_group"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="4dp"
                     android:layout_height="wrap_content"
-                    android:text="Enable alternative environment"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

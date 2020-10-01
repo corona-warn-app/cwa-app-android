@@ -83,7 +83,6 @@ android {
 
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
-                envTypeAlt = [debug: "WRU", release: "PROD"]
             }
         }
         deviceForTesters {
@@ -95,7 +94,6 @@ android {
 
             ext {
                 envTypeDefault = [debug: "INT", release: "WRU-XD"]
-                envTypeAlt = [debug: "WRU", release: "WRU-XA"]
             }
         }
     }
@@ -103,7 +101,6 @@ android {
         def flavor = variant.productFlavors[0]
         def typeName = variant.buildType.name // debug/release
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
-        variant.buildConfigField "String", "ENVIRONMENT_TYPE_ALTERNATIVE", "\"${flavor.envTypeAlt[typeName]}\""
     }
 
     buildFeatures {

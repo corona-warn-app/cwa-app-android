@@ -13,7 +13,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat.generateViewId
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -163,12 +167,36 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         vm.logShareEvent.observe2(this) { showToast("Logfile copied to $it") }
 
         // Server environment card
-        binding.environmentToggle.apply {
-            setOnClickListener { vm.setAlternativeEnvironmentEnabled(isChecked) }
+        binding.environmentToggleGroup.apply {
+            setOnCheckedChangeListener { group, checkedId ->
+                val chip = group.findViewById<RadioButton>(checkedId)
+                if (!chip.isPressed) return@setOnCheckedChangeListener
+                vm.selectEnvironmentTytpe(chip.text.toString())
+            }
         }
+
         vm.environmentState.observe2(this) { state ->
             binding.apply {
-                environmentToggle.isChecked = state.isAlternative
+                if (environmentToggleGroup.childCount != state.available.size) {
+                    environmentToggleGroup.removeAllViews()
+                    state.available.forEach { type ->
+                        RadioButton(requireContext()).apply {
+                            id = generateViewId()
+                            text = type.rawKey
+                            layoutParams = RadioGroup.LayoutParams(
+                                RadioGroup.LayoutParams.MATCH_PARENT,
+                                RadioGroup.LayoutParams.WRAP_CONTENT
+                            )
+                            environmentToggleGroup.addView(this)
+                        }
+                    }
+                }
+
+                environmentToggleGroup.children.forEach {
+                    it as RadioButton
+                    it.isChecked = it.text == state.current.rawKey
+                }
+
                 environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
                 environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
                 environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"

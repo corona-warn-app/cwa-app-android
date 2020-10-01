@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.GoogleApiAvailability
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -49,13 +50,9 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
     }
     val environmentChangeEvent = SingleLiveEvent<EnvironmentSetup.Type>()
 
-    fun setAlternativeEnvironmentEnabled(enableAlternative: Boolean) {
+    fun selectEnvironmentTytpe(type: String) {
         environmentState.update {
-            envSetup.currentEnvironment = if (enableAlternative) {
-                envSetup.alternativeEnvironment
-            } else {
-                envSetup.defaultEnvironment
-            }
+            envSetup.currentEnvironment = type.toEnvironmentType()
             environmentChangeEvent.postValue(envSetup.currentEnvironment)
             envSetup.toEnvironmentState()
         }

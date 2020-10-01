@@ -72,10 +72,8 @@ class EnvironmentSetupTest : BaseTest() {
     fun `default environment type is set correctly`() {
         if (CWADebug.isDebugBuildOrMode) {
             createEnvSetup().defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-            createEnvSetup().alternativeEnvironment shouldBe EnvironmentSetup.Type.WRU_XA
         } else {
             createEnvSetup().defaultEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-            createEnvSetup().alternativeEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
         }
     }
 
