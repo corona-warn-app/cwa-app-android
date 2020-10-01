@@ -25,6 +25,9 @@ jobs:
     executor: android/android
     steps:
       - run:
+          name: Test check directory
+          command: ls
+      - run:
           name: Quick Build
           command: ./gradlew quickBuild
           environment:
@@ -33,6 +36,9 @@ jobs:
   quick_build_test:
     executor: android/android
     steps:
+      - run:
+          name: Test check directory
+          command: ls
       - run:
           name: Quick Build
           command: ./gradlew quickBuildTest
