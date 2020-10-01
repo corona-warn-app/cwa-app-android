@@ -76,15 +76,30 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `switching the default type is persisted in storage (preferences)`() {
-        createEnvSetup().apply {
-            defaultEnvironment shouldBe BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
-            currentEnvironment shouldBe defaultEnvironment
-            currentEnvironment = EnvironmentSetup.Type.WRU
-            currentEnvironment shouldBe EnvironmentSetup.Type.WRU
-        }
-        createEnvSetup().apply {
-            defaultEnvironment shouldBe BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
-            currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+        every { BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT } returns EnvironmentSetup.Type.DEV.rawKey
+        if (CWADebug.isDebugBuildOrMode) {
+            createEnvSetup().apply {
+                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe defaultEnvironment
+                currentEnvironment = EnvironmentSetup.Type.WRU
+                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+            }
+            mockPreferences.dataMapPeek.values.single() shouldBe EnvironmentSetup.Type.WRU.rawKey
+            createEnvSetup().apply {
+                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+            }
+        } else {
+            createEnvSetup().apply {
+                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe defaultEnvironment
+                currentEnvironment = EnvironmentSetup.Type.WRU
+                currentEnvironment shouldBe defaultEnvironment
+            }
+            mockPreferences.dataMapPeek.values shouldBe emptyList()
+            createEnvSetup().apply {
+                currentEnvironment shouldBe defaultEnvironment
+            }
         }
     }
 
