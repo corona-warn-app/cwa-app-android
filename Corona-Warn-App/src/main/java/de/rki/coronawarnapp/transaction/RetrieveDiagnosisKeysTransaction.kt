@@ -20,12 +20,10 @@
 package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.FETCH_DATE_UPDATE
@@ -36,6 +34,10 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.Retriev
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.rollback
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.start
 import de.rki.coronawarnapp.util.CachedKeyFileHolder
+import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -114,6 +116,23 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     /** atomic reference for the rollback value for created files during the transaction */
     private val exportFilesForRollback = AtomicReference<List<File>>()
 
+    suspend fun startWithConstraints() {
+        val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+        val lastFetch = DateTime(
+            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+            DateTimeZone.UTC
+        )
+        if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+        ) {
+            BackgroundWorkHelper.sendDebugNotification(
+                "Start RetrieveDiagnosisKeysTransaction",
+                "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
+            )
+            start()
+        }
+    }
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start() = lockAndExecuteUnique {
         /**
@@ -173,9 +192,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             if (TOKEN.isInStateStack()) {
                 rollbackToken()
             }
-            if (FILES_FROM_WEB_REQUESTS.isInStateStack()) {
-                rollbackFilesFromWebRequests()
-            }
         } catch (e: Exception) {
             // We handle every exception through a RollbackException to make sure that a single EntryPoint
             // is available for the caller.
@@ -191,12 +207,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private fun rollbackToken() {
         Timber.v("rollback $TOKEN")
         LocalData.googleApiToken(googleAPITokenForRollback.get())
-    }
-
-    private suspend fun rollbackFilesFromWebRequests() {
-        Timber.v("rollback $FILES_FROM_WEB_REQUESTS")
-        KeyCacheRepository.getDateRepository(CoronaWarnApplication.getAppContext())
-            .clear()
     }
 
     /**

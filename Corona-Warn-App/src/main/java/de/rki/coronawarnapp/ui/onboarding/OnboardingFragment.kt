@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,12 @@ class OnboardingFragment : Fragment() {
                 OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
             )
         }
+        setLinks()
+    }
+
+    private fun setLinks() {
+        binding.onboardingInclude.onboardingEasyLanguage
+            .movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onResume() {

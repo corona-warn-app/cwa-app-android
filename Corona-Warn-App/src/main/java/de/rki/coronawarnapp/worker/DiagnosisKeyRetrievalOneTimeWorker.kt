@@ -3,11 +3,7 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
 import timber.log.Timber
 
 /**
@@ -31,27 +27,40 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount ")
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount "
+        )
 
         var result = Result.success()
         try {
-            val currentDate = DateTime(Instant.now(), DateTimeZone.getDefault())
-            val lastFetch = DateTime(
-                LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                DateTimeZone.getDefault()
-            )
-            if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
-            ) {
-                RetrieveDiagnosisKeysTransaction.start()
-            }
+            RetrieveDiagnosisKeysTransaction.startWithConstraints()
         } catch (e: Exception) {
+            Timber.tag(TAG).w(
+                e, "$id: Error during RetrieveDiagnosisKeysTransaction.startWithConstraints()."
+            )
+
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                Timber.tag(TAG).w(e, "$id: Retry attempts exceeded.")
+
+                BackgroundWorkHelper.sendDebugNotification(
+                    "KeyOneTime Executing: Failure",
+                    "KeyOneTime failed with $runAttemptCount attempts"
+                )
+
                 return Result.failure()
             } else {
+                Timber.tag(TAG).d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "KeyOneTime Executing: End", "KeyOneTime result: $result "
+        )
+
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
         return result
     }
 }

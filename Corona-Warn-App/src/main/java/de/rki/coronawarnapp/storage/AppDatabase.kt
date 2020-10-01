@@ -2,14 +2,17 @@ package de.rki.coronawarnapp.storage
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import androidx.annotation.VisibleForTesting
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.storage.keycache.KeyCacheDao
 import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
+import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
+import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.Converters
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import net.sqlcipher.database.SupportFactory
@@ -37,6 +40,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun resetInstance() = synchronized(this) {
             instance = null
         }
@@ -48,6 +52,11 @@ abstract class AppDatabase : RoomDatabase() {
                 SQLiteDatabase.deleteDatabase(dbFile)
             }
             resetInstance()
+
+            // reset also the repo instances
+            KeyCacheRepository.resetInstance()
+            TracingIntervalRepository.resetInstance()
+            ExposureSummaryRepository.resetInstance()
         }
 
         private fun buildDatabase(context: Context): AppDatabase {

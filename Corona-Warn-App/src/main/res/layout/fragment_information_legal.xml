@@ -106,6 +106,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_contact" />
 
                 <include
+                    android:id="@+id/information_legal_contact_form"
+                    layout="@layout/include_contact_form"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_subtitle_contact" />
+
+                <include
                     android:id="@+id/information_legal_divider_taxid"
                     layout="@layout/include_divider"
                     android:layout_width="@dimen/match_constraint"
@@ -113,7 +122,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_legal_subtitle_contact" />
+                    app:layout_constraintTop_toBottomOf="@+id/information_legal_contact_form" />
 
                 <TextView
                     android:id="@+id/information_legal_headline_taxid"

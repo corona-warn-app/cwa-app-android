@@ -23,7 +23,13 @@ enum class RiskLevel(val raw: Int) {
 
     // mapped to: unknown risk - outdated results
     // This risk status is shown if timeSinceLastExposureCalculation > maxStaleExposureRiskRange
+    // and background jobs are enabled
     UNKNOWN_RISK_OUTDATED_RESULTS(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS),
+
+    // mapped to: unknown risk - outdated results manual
+    // This risk status is shown if timeSinceLastExposureCalculation > maxStaleExposureRiskRange
+    // and background jobs are disabled
+    UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL(RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL),
 
     // mapped to no UI state
     // this should never happen
@@ -37,6 +43,7 @@ enum class RiskLevel(val raw: Int) {
                 RiskLevelConstants.LOW_LEVEL_RISK -> LOW_LEVEL_RISK
                 RiskLevelConstants.INCREASED_RISK -> INCREASED_RISK
                 RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> UNKNOWN_RISK_OUTDATED_RESULTS
+                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
                 else -> UNDETERMINED
             }
         }
@@ -46,7 +53,8 @@ enum class RiskLevel(val raw: Int) {
             arrayOf(
                 UNDETERMINED,
                 NO_CALCULATION_POSSIBLE_TRACING_OFF,
-                UNKNOWN_RISK_OUTDATED_RESULTS
+                UNKNOWN_RISK_OUTDATED_RESULTS,
+                UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
             )
         private val HIGH_RISK_LEVELS = arrayOf(INCREASED_RISK)
         private val LOW_RISK_LEVELS = arrayOf(
@@ -54,6 +62,7 @@ enum class RiskLevel(val raw: Int) {
             NO_CALCULATION_POSSIBLE_TRACING_OFF,
             LOW_LEVEL_RISK,
             UNKNOWN_RISK_OUTDATED_RESULTS,
+            UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
             UNDETERMINED
         )
 

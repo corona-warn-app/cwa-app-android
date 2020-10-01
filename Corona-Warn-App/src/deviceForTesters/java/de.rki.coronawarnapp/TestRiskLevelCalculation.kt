@@ -37,7 +37,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.transmission_number
+import kotlinx.android.synthetic.deviceForTesters.fragment_test_risk_level_calculation.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -107,10 +107,10 @@ class TestRiskLevelCalculation : Fragment() {
             tracingViewModel.viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     try {
-                        // Database Reset
-                        AppDatabase.getInstance(requireContext()).clearAllTables()
-                        // Delete Database Instance
+                        // Preference reset
                         SecurityHelper.resetSharedPrefs()
+                        // Database Reset
+                        AppDatabase.reset(requireContext())
                         // Export File Reset
                         FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
 
@@ -124,7 +124,7 @@ class TestRiskLevelCalculation : Fragment() {
                 }
                 RiskLevelTransaction.start()
                 Toast.makeText(
-                    requireContext(), "Resetted, please fetch diagnosis keys from server again",
+                    requireContext(), "Reset done, please fetch diagnosis keys from server again",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -159,7 +159,7 @@ class TestRiskLevelCalculation : Fragment() {
         try {
             RetrieveDiagnosisKeysTransaction.start()
             calculateRiskLevel()
-        } catch (e: TransactionException) {
+        } catch (e: Exception) {
             e.report(ExceptionCategory.INTERNAL)
         }
     }

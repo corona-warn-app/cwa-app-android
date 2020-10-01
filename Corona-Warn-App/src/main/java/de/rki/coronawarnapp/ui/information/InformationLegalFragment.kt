@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.information
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,17 @@ class InformationLegalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+        setUpContactFormLinks()
+    }
+
+    /**
+     * Make the links clickable
+     */
+    private fun setUpContactFormLinks() {
+        binding.informationLegalContactForm.informationLegalContactForm
+            .movementMethod = LinkMovementMethod.getInstance()
+        binding.informationLegalContactForm.informationLegalContactFormNonEnDe
+            .movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onResume() {

@@ -6,19 +6,31 @@ import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.view.WindowManager
+import android.os.PowerManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.work.Configuration
+import androidx.work.WorkManager
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.debug.FileLogger
+import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
+import java.util.UUID
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
@@ -36,6 +48,9 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
         fun getAppContext(): Context =
             instance.applicationContext
+
+        const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
+        var fileLogger: FileLogger? = null
     }
 
     private lateinit var errorReceiver: ErrorReportReceiver
@@ -43,6 +58,12 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        val configuration = Configuration.Builder()
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
+        WorkManager.initialize(this, configuration)
+
         NotificationHelper.createNotificationChannel()
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
@@ -52,7 +73,70 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        if ((BuildConfig.FLAVOR == "deviceForTesters" || BuildConfig.DEBUG)) {
+            fileLogger = FileLogger(this)
+        }
+
+        // notification to test the WakeUpService from Google when the app
+        // was force stopped
+        BackgroundWorkHelper.sendDebugNotification(
+            "Application onCreate", "App was woken up"
+        )
+        // Only do this if the background jobs are enabled
+        if (ConnectivityHelper.autoModeEnabled(applicationContext)) {
+            ProcessLifecycleOwner.get().lifecycleScope.launch {
+                // we want a wakelock as the OS does not handle this for us like in the background
+                // job execution
+                val wakeLock = createWakeLock()
+                // we keep a wifi lock to wake up the wifi connection in case the device is dozing
+                val wifiLock = createWifiLock()
+                try {
+                    BackgroundWorkHelper.sendDebugNotification(
+                        "Automatic mode is on", "Check if we have downloaded keys already today"
+                    )
+                    RetrieveDiagnosisKeysTransaction.startWithConstraints()
+                } catch (e: Exception) {
+                    BackgroundWorkHelper.sendDebugNotification(
+                        "RetrieveDiagnosisKeysTransaction failed",
+                        (e.localizedMessage
+                            ?: "Unknown exception occurred in onCreate") + "\n\n" + (e.cause
+                            ?: "Cause is unknown").toString()
+                    )
+                    // retry the key retrieval in case of an error with a scheduled work
+                    BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
+                }
+
+                if (wifiLock.isHeld) wifiLock.release()
+                if (wakeLock.isHeld) wakeLock.release()
+            }
+
+            // if the user is onboarded we will schedule period background jobs
+            // in case the app was force stopped and woken up again by the Google WakeUpService
+            if (LocalData.onboardingCompletedTimestamp() != null) BackgroundWorkScheduler.startWorkScheduler()
+        }
     }
+
+    private fun createWakeLock(): PowerManager.WakeLock =
+        (getSystemService(Context.POWER_SERVICE) as PowerManager)
+            .run {
+                newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    TAG + "-WAKE-" + UUID.randomUUID().toString()
+                ).apply {
+                    acquire(TEN_MINUTE_TIMEOUT_IN_MS)
+                }
+            }
+
+    private fun createWifiLock(): WifiManager.WifiLock =
+        (getSystemService(Context.WIFI_SERVICE) as WifiManager)
+            .run {
+                createWifiLock(
+                    WifiManager.WIFI_MODE_FULL_HIGH_PERF,
+                    TAG + "-WIFI-" + UUID.randomUUID().toString()
+                ).apply {
+                    acquire()
+                }
+            }
 
     /**
      * Callback when the app is open but backgrounded
@@ -95,15 +179,6 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        // prevents screenshot of the app for all activities,
-        // except for deviceForTesters build flavor, which is used for testing
-        if (BuildConfig.FLAVOR != "deviceForTesters") {
-            activity.window.setFlags(
-                WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE
-            )
-        }
-
         // set screen orientation to portrait
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
     }

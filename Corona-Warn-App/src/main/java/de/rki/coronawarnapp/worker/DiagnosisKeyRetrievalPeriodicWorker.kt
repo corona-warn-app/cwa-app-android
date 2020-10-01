@@ -28,18 +28,40 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
      * @see BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
      */
     override suspend fun doWork(): Result {
-        Timber.d("Background job started. Run attempt: $runAttemptCount")
+        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "KeyPeriodic Executing: Start", "KeyPeriodic started. Run attempt: $runAttemptCount"
+        )
 
         var result = Result.success()
         try {
             BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
         } catch (e: Exception) {
+            Timber.tag(TAG).w(
+                e, "$id: Error during BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()."
+            )
+
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                Timber.tag(TAG).w(e, "$id: Retry attempts exceeded.")
+
+                BackgroundWorkHelper.sendDebugNotification(
+                    "KeyPeriodic Executing: Failure",
+                    "KeyPeriodic failed with $runAttemptCount attempts"
+                )
+
                 return Result.failure()
             } else {
+                Timber.tag(TAG).d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
+
+        BackgroundWorkHelper.sendDebugNotification(
+            "KeyPeriodic Executing: End", "KeyPeriodic result: $result "
+        )
+
+        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
         return result
     }
 }

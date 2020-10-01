@@ -39,6 +39,10 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
                         .also { instance = it }
             }
 
+        fun resetInstance() = synchronized(this) {
+            instance = null
+        }
+
         fun getDateRepository(context: Context): TracingIntervalRepository {
             return getInstance(
                 AppDatabase.getInstance(context.applicationContext)
@@ -57,14 +61,12 @@ class TracingIntervalRepository(private val tracingIntervalDao: TracingIntervalD
     }
 
     suspend fun getIntervals(): List<Pair<Long, Long>> {
-        deleteOutdatedInterval()
-        return tracingIntervalDao.getAllIntervals().map {
-            Pair(it.from, it.to)
-        }.also {
-            Timber.d("Intervals: $it")
-        }
-    }
+        val retentionTimestamp = System.currentTimeMillis() - TimeVariables.getDefaultRetentionPeriodInMS()
+        tracingIntervalDao.deleteOutdatedIntervals(retentionTimestamp)
 
-    private suspend fun deleteOutdatedInterval() = tracingIntervalDao
-        .deleteOutdatedIntervals(System.currentTimeMillis() - TimeVariables.getDefaultRetentionPeriodInMS())
+        return tracingIntervalDao
+            .getAllIntervals()
+            .map { Pair(maxOf(it.from, retentionTimestamp), it.to) }
+            .also { Timber.d("Intervals: $it") }
+    }
 }
