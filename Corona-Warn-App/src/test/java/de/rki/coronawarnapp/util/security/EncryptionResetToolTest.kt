@@ -94,7 +94,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         instance.isResetNoticeToBeShown = false
         mockPreferences.dataMapPeek["ea1851.reset.shownotice"] shouldBe false
         instance.isResetNoticeToBeShown shouldBe false
-
     }
 
     @Test
@@ -201,7 +200,6 @@ class EncryptionResetToolTest : BaseIOTest() {
         encryptedPrefsFile.exists() shouldBe true
         encryptedDatabaseFile.exists() shouldBe true
 
-
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null
             this["ea1851.reset.windowconsumed"] shouldBe true
@@ -268,5 +266,4 @@ class EncryptionResetToolTest : BaseIOTest() {
             this["ea1851.reset.shownotice"] shouldBe null
         }
     }
-
 }
