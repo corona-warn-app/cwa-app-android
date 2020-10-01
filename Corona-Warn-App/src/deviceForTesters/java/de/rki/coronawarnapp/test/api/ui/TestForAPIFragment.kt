@@ -52,6 +52,7 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
+import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.CWADebug
@@ -82,6 +83,11 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     private val vm: TestForApiFragmentViewModel by cwaViewModels { viewModelFactory }
 
     companion object {
+        val MENU_ITEM = TestMenuItem(
+            title = "Test for API",
+            description = "A mix of API related test options.",
+            targetId = R.id.test_for_api_fragment
+        )
         const val CONFIG_SCORE = 8
 
         fun keysToJson(keys: List<TemporaryExposureKey>): String {
@@ -397,7 +403,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
      */
     private fun updateCountryStatusLabel() {
         binding.labelCountryCodeFilterStatus.text = "Country filter applied for: \n " +
-                "${lastSetCountries?.joinToString(",")}"
+            "${lastSetCountries?.joinToString(",")}"
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -587,7 +593,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     }
 
     private fun showSnackBar(message: String) {
-            view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
+        view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
     }
 
     override fun onFailure(exception: Exception?) {

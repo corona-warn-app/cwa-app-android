@@ -81,12 +81,10 @@ android {
     productFlavors {
         device {
             dimension "version"
-            buildConfigField "String", "BUILD_VARIANT", "\"device\""
             resValue "string", "app_name", "Corona-Warn"
         }
         deviceForTesters {
             dimension "version"
-            buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
             resValue "string", "app_name", "CWA TEST"
             applicationIdSuffix '.dev'
 

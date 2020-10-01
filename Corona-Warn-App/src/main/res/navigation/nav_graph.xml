@@ -5,6 +5,8 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
+    <include app:graph="@navigation/test_nav_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
@@ -41,6 +43,9 @@
         <action
             android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
             app:destination="@id/onboardingDeltaInteroperabilityFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_test_nav_graph"
+            app:destination="@id/test_nav_graph" />
     </fragment>
 
     <fragment

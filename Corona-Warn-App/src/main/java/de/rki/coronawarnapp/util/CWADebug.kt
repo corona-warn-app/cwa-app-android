@@ -23,7 +23,7 @@ object CWADebug {
         get() = BuildConfig.DEBUG || buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
 
     val buildFlavor: BuildFlavor
-        get() = BuildFlavor.values().single { it.rawValue == BuildConfig.BUILD_VARIANT }
+        get() = BuildFlavor.values().single { it.rawValue == BuildConfig.FLAVOR }
 
     enum class BuildFlavor(val rawValue: String) {
         DEVICE("device"),

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test_nav_graph"
+    app:startDestination="@id/test_menu_fragment">
+
+    <fragment
+        android:id="@+id/test_menu_fragment"
+        android:name="de.rki.coronawarnapp.test.menu.ui.TestMenuFragment"
+        android:label="TestMenuFragment">
+        <action
+            android:id="@+id/action_testMenuFragment_to_testForAPIFragment"
+            app:destination="@id/test_for_api_fragment" />
+        <action
+            android:id="@+id/action_testMenuFragment_to_testRiskLevelCalculation"
+            app:destination="@id/test_risklevel_calculation_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/test_for_api_fragment"
+        android:name="de.rki.coronawarnapp.test.api.ui.TestForAPIFragment"
+        android:label="@layout/fragment_test_for_a_p_i"
+        tools:layout="@layout/fragment_test_for_a_p_i" />
+
+    <fragment
+        android:id="@+id/test_risklevel_calculation_fragment"
+        android:name="de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment"
+        android:label="fragment_test_risk_level_calculation"
+        tools:layout="@layout/fragment_test_risk_level_calculation">
+        <argument
+            android:name="exampleArgument"
+            app:argType="string"
+            app:defaultValue="null"
+            app:nullable="true" />
+    </fragment>
+
+</navigation>

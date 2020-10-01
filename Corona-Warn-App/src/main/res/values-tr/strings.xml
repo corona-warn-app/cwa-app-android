@@ -1188,10 +1188,6 @@
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
     <!-- NOTR -->
-    <string name="menu_test_api">"Test API"</string>
-    <!-- NOTR -->
-    <string name="menu_test_risk_level">"Test Risk Level"</string>
-    <!-- NOTR -->
     <string name="menu_test_notification">"Test Notification"</string>
     <!-- NOTR -->
     <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
