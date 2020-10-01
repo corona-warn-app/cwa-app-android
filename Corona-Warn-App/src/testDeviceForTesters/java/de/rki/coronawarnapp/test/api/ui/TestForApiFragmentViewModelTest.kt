@@ -30,11 +30,12 @@ class TestForApiFragmentViewModelTest : BaseTest() {
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var context: Context
 
-    var currentEnvironment = EnvironmentSetup.Type.DEV
+    private var currentEnvironment = EnvironmentSetup.Type.DEV
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        currentEnvironment = EnvironmentSetup.Type.DEV
 
         every { environmentSetup.defaultEnvironment } returns EnvironmentSetup.Type.DEV
         every { environmentSetup.submissionCdnUrl } returns "submissionUrl"

@@ -78,7 +78,9 @@ class KeyFileDownloader @Inject constructor(
             )
 
             val availableKeys =
-                if (CWADebug.isDebugBuildOrMode && settings.isLast3HourModeEnabled) {
+                if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS &&
+                    settings.isLast3HourModeEnabled
+                ) {
                     syncMissing3Hours(filteredCountries, DEBUG_HOUR_LIMIT)
                     keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
                 } else {
