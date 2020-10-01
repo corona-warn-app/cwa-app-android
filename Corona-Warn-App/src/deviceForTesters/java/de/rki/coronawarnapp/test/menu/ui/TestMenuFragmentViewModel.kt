@@ -8,9 +8,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class TestMenuFragmentViewModel @AssistedInject constructor(
-
-) : CWAViewModel() {
+class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
 
     val testMenuData = MutableLiveData<List<TestMenuItem>>()
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()
@@ -19,10 +17,10 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
         loadMenu()
     }
 
-    fun loadMenu() {
+    private fun loadMenu() {
         val menuItems = listOf(
             TestForAPIFragment.MENU_ITEM,
-            TestRiskLevelCalculationFragment.MENU_ITEM,
+            TestRiskLevelCalculationFragment.MENU_ITEM
         )
         testMenuData.postValue(menuItems)
     }
