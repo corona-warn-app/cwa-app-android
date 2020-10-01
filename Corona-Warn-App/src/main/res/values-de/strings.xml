@@ -1316,11 +1316,13 @@
     <!-- XHED: Header of interoperability information/configuration view -->
     <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_first_section">Die Corona-Warn-App warnt länderübergreifend vor möglichen Infektionen, indem Daten über eine europäische Infrastruktur ausgetauscht werden.</string>
+    <string name="interoperability_configuration_first_section">Mehrere Länder arbeiten zusammen, um über den gemeinsam betriebenen Austausch- Server  länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung auch die Kontakte  mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">Es werden keine persönlichen Daten ausgetauscht. Für den länderübergreifenden Datenaustausch über die Corona-Warn-App fallen keine zusätzlichen Kosten für Sie an.</string>
+    <string name="interoperability_configuration_second_section">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs  verglichen. Der tägliche Download der Liste mit den Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
-    <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder teil:</string>
+    <string name="interoperability_configuration_list_title">Derzeit nehmen die folgenden Länder an der länderübergreifenden Risiko-Ermittlung teil:</string>
+    <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_information">Die Datenschutzerklärung der App (einschließlich Informationen zur Datenverarbeitung für die länderübergreifende Risiko-Ermittlung) finden Sie unter dem Menüpunkt „App-Informationen“ > „Datenschutz“.</string>
 
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">Länderübergreifende\nRisiko-Ermittlung</string>
