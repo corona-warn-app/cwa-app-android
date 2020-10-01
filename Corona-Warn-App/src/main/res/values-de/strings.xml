@@ -821,6 +821,18 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"QR-Code Scan"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Scannen Sie nur Ihren eigenen Test."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"Jeder Test kann <b>nur einmal</b>b> gescannt werden."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"Die App kann <b>nicht</b> gleichzeitig mehrere Tests verwalten."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"Wenn Ihnen ein aktuellerer Test vorliegt, löschen Sie den vorhandenen Test und scannen Sie den QR-Code des aktuellen Tests ein."</string>
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
