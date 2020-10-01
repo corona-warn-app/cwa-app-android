@@ -246,7 +246,7 @@
     <!-- XHED: App overview subtitle for tracing explanation-->
     <string name="main_overview_subtitle_tracing">"Rejestrowanie narażenia"</string>
     <!-- YTXT: App overview body text about tracing -->
-    <string name="main_overview_body_tracing">"Rejestrowanie narażenia jest jedną z trzech głównych funkcji aplikacji. Po jej aktywacji rejestrowane są kontakty z urządzeniami innych osób. Nie musisz robić nic więcej."</string>
+    <string name="main_overview_body_tracing">"Rejestrowanie narażenia jest jedną z trzech głównych funkcji aplikacji. Po jej aktywacji rejestrowane są kontakty ze smartfonami innych osób. Nie musisz robić nic więcej."</string>
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Ryzyko zakażenia"</string>
     <!-- YTXT: App overview body text about risk levels -->
@@ -345,7 +345,7 @@
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano COVID-19, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
-    <string name="risk_details_information_body_low_risk_with_encounter">"Ryzyko zakażenia jest obliczane lokalnie na Twoim urządzeniu na podstawie danych rejestrowania narażenia. Ta kalkulacja uwzględnia również dystans i czas trwania narażenia na kontakt z osobami, u których zdiagnozowano COVID-19, a także potencjalną podatność na zakażenie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
+    <string name="risk_details_information_body_low_risk_with_encounter">"Ryzyko zakażenia jest obliczane lokalnie na Twoim smartfonie na podstawie danych rejestrowania narażenia. Ta kalkulacja uwzględnia również dystans i czas trwania narażenia na kontakt z osobami, u których zdiagnozowano COVID-19, a także potencjalną podatność na zakażenie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Masz podwyższone ryzyko zakażenia, ponieważ %1$s dni temu byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano COVID-19."</item>
@@ -358,9 +358,9 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for low risk -->
-    <string name="risk_details_information_body_notice_low">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako niskie. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
+    <string name="risk_details_information_body_notice_low">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako niskie. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie na smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
+    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie na smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -371,7 +371,9 @@
     <!-- XHED: one time risk explanation dialog title  -->
     <string name="risk_details_explanation_dialog_title">"Informacje o funkcjonalności rejestrowania narażenia"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie Często zadawane pytania."</string>
+    <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -396,9 +398,9 @@
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
     <string name="onboarding_subtitle">"Większa ochrona dla Ciebie i dla nas wszystkich. Korzystając z aplikacji Corona-Warn-App, możemy znacznie szybciej przerwać łańcuchy zakażeń."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Zmień swoje urządzenie w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której w ciągu ostatnich 14 dni zdiagnozowano COVID-19."</string>
+    <string name="onboarding_body">"Zmień swój smartfon w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której w ciągu ostatnich 14 dni zdiagnozowano COVID-19."</string>
     <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Aplikacja rejestruje kontakty między osobami poprzez wymianę zaszyfrowanych, losowych identyfikatorów między ich urządzeniami bez uzyskiwania dostępu do danych osobowych."</string>
+    <string name="onboarding_body_emphasized">"Aplikacja rejestruje kontakty między osobami poprzez wymianę zaszyfrowanych, losowych identyfikatorów między ich smartfonami bez uzyskiwania dostępu do danych osobowych."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -415,7 +417,7 @@
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"Aby ustalić występowanie ryzyka zakażenia, musisz aktywować funkcję rejestrowania narażenia."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twoje urządzenie za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich własnych, losowych identyfikatorów do ich urządzeń. Funkcję tę można wyłączyć w dowolnym momencie."</string>
+    <string name="onboarding_tracing_body">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich własnych, losowych identyfikatorów do ich smartfonów. Funkcję tę można wyłączyć w dowolnym momencie."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"Zaszyfrowane losowe identyfikatory przekazują innym osobom jedynie informacje o dacie, czasie trwania i bliskości (przy wykorzystaniu mocy sygnału). Dane osobowe, takie jak nazwisko, adres, lokalizacja, nie są nigdy rejestrowane. Ustalenie tożsamości osób nie jest możliwe."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
@@ -425,7 +427,7 @@
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Oświadczenia o wyrażeniu zgody"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the \"Exposure Notifications\" functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
+    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the \"Enable\" button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the \"Exposure Notifications\" functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your smartphone sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App\'s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under \"Data Privacy Information\"."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Aktywuj rejestrowanie narażenia"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -459,7 +461,7 @@
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
-    <string name="onboarding_tracing_illustration_description">"Trzy osoby aktywowały rejestrowanie narażenia na swoich urządzeniach, które będą rejestrować ich wzajemne kontakty."</string>
+    <string name="onboarding_tracing_illustration_description">"Trzy osoby aktywowały rejestrowanie narażenia na swoich smartfonach, które będą rejestrować ich wzajemne kontakty."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Zezwól na dostęp do lokalizacji"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
@@ -473,7 +475,7 @@
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">"… zgłoś ten fakt w Corona-Warn-App. Udostępnianie wyników testu jest dobrowolne i bezpieczne. Zrób to ze względu na zdrowie innych osób."</string>
     <!-- YTXT: onboarding(test) - explain test -->
-    <string name="onboarding_test_body">"Twoje powiadomienie jest szyfrowane w bezpieczny sposób i przetwarzane na bezpiecznym serwerze. Osoby, których zaszyfrowane losowe identyfikatory zostały zgromadzone przez Twoje urządzenie, otrzymają teraz ostrzeżenie wraz z informacją na temat dalszych kroków postępowania."</string>
+    <string name="onboarding_test_body">"Twoje powiadomienie jest szyfrowane w bezpieczny sposób i przetwarzane na bezpiecznym serwerze. Osoby, których zaszyfrowane losowe identyfikatory zostały zgromadzone przez Twój smartfon, otrzymają wtedy ostrzeżenie wraz z informacją na temat dalszych kroków postępowania."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu, który będzie teraz ostrzegał innych użytkowników."</string>
     <!-- XACT: Onboarding (datashare) page title -->
@@ -521,7 +523,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Usługi lokalizacji dezaktywowane"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twoje urządzenie za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich losowych identyfikatorów do ich urządzeń. Funkcję tę można wyłączyć w dowolnym momencie. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Identyfikatory przekazują w sposób zaszyfrowany wyłącznie informacje o dacie, czasie trwania i odległości (przy wykorzystaniu mocy sygnału) od innych użytkowników aplikacji. Dane osobowe, takie jak nazwisko, adres, lokalizacja, nie są nigdy rejestrowane. Ustalenie tożsamości osób nie jest możliwe."</string>
+    <string name="settings_tracing_body_text">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich losowych identyfikatorów do ich smartfonów. Funkcję tę można wyłączyć w dowolnym momencie. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Identyfikatory przekazują w sposób zaszyfrowany wyłącznie informacje o dacie, czasie trwania i odległości (przy wykorzystaniu mocy sygnału) od innych użytkowników aplikacji. Dane osobowe, takie jak nazwisko, adres, lokalizacja, nie są nigdy rejestrowane. Ustalenie tożsamości osób nie jest możliwe."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktywne"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -562,7 +564,7 @@
         <item quantity="many">"Rejestrowanie narażenia jest aktywne od %1$s dni.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestracja narażenia jest aktywowana na stałe."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_active">"Trzy osoby aktywowały rejestrowanie narażenia na swoich urządzeniach, które będą rejestrować ich wzajemne kontakty."</string>
+    <string name="settings_tracing_illustration_description_active">"Trzy osoby aktywowały rejestrowanie narażenia na swoich smartfonach, które będą rejestrować ich wzajemne kontakty."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_inactive">"Jedna osoba dezaktywowała rejestrowanie narażenia na swoim smartfonie, więc kontakt z dwiema pozostałymi osobami nie jest rejestrowany."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -656,7 +658,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Instytut Roberta Kocha (RKI) to niemiecka federalna instytucja zdrowia publicznego. RKI publikuje aplikację Corona-Warn-App w imieniu rządu federalnego. Aplikacja ta służy jako cyfrowe uzupełnienie już wprowadzonych środków ochrony zdrowia publicznego, takich jak zachowanie dystansu społecznego, dbanie o higienę oraz noszenie maseczek."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Wszystkie osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim urządzeniu. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
+    <string name="information_about_body">"Wszystkie osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim smartfonie. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -920,7 +922,7 @@
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Oświadczenia o wyrażeniu zgody"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping on “Accept”, you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping \"Accept\", you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under \"Data Privacy Information\"."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Akceptuj"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -940,13 +942,13 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Ostrzeganie innych"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Pomóż nam wszystkim!"</string>
+    <string name="submission_positive_other_warning_headline">"Możesz pomóc!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Teraz możesz aktywować udostępnianie Twoich losowych identyfikatorów z ostatnich 14 dni. W ten sposób ostrzeżesz inne osoby i pomożesz w przerwaniu łańcucha zakażeń.\n\nZachowasz anonimowość, ponieważ przekazywane są tylko bezosobowe, losowe identyfikatory."</string>
+    <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz aktywować w aplikacji udostępnianie innym Twoich losowych identyfikatorów z ostatnich 14 dni. W ten sposób ostrzeżesz inne osoby i pomożesz w przerwaniu łańcucha zakażeń.\n\nAplikacja udostępnie losowe identyfikatory i podane przez Ciebie informacje o wystąpieniu symptomów. Twoja tożsamość nie zostanie ujawniona."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Prywatność danych"</string>
     <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the exposure logging feature can be automatically notified that they may have been exposed to a risk of infection. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person. \n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected.\n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out based on the consent prior to the withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
+    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the risk identification feature can be automatically notified that they may have been exposed to a risk of infection. If you provided optional information about the onset of your symptoms, the random IDs will be transmitted with a risk value derived from your information, indicating your risk of having infected others on the day the random ID is valid. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person.\n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected. \n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out on the basis of the consent prior to the withdrawal. Further information can be found under “App Information”&gt; “Data Privacy”."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -994,8 +996,10 @@
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Symptomy"</string>
-    <!-- YTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Czy w ciągu ostatnich kilku dni wystąpił u Ciebie jeden lub kilka z wymienionych poniżej symptomów?"</string>
+    <!-- XTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Czy wystąpił u Ciebie jeden lub kilka z wymienionych poniżej symptomów?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Możesz podać, czy i kiedy zauważyłeś(-łaś) symptomy koronawirusa, aby umożliwić aplikacji dokładniejsze obliczenie ryzyka zakażenia innych użytkowników aplikacji. Jeśli nie chcesz podawać tych informacji, wybierz „brak odpowiedzi”."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Podwyższona temperatura lub gorączka"</item>
@@ -1012,7 +1016,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Nie"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Bez komentarza"</string>
+    <string name="submission_symptom_no_information_button">"Brak odpowiedzi"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Dalej"</string>
 
@@ -1060,7 +1064,7 @@
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"Ponad 2 tygodnie temu"</string>
     <!-- XBUT: symptom calendar screen verify button -->
-    <string name="submission_symptom_verify">"Bez komentarza"</string>
+    <string name="submission_symptom_verify">"Brak odpowiedzi"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1173,6 +1177,10 @@
     <string name="errors_generic_button_negative">"Szczegóły"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Wystąpił nieznany błąd."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Twoja aplikacja została zresetowana z powodu problemu technicznego. Nie będzie to miało wpływu na funkcjonalność aplikacji. Nadal będziesz otrzymywać powiadomienia o narażeniach i będziesz w stanie ostrzegać innych w razie pozytywnego wyniku testu na COVID-19."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
 
     <!-- ####################################
            Just for Development

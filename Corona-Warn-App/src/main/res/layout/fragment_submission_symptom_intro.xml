@@ -59,15 +59,27 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_symptom_initial_headline" />
 
+            <TextView
+                android:id="@+id/submission_symptom_intro_explanation"
+                style="@style/subtitleMedium"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/submission_symptom_initial_explanation"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/further_info_text" />
+
             <include
                 android:id="@+id/symptom_choice_selection"
                 layout="@layout/include_submission_target_selection"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/further_info_text" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_symptom_intro_explanation" />
 
             <Button
                 android:id="@+id/symptom_button_next"

@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.convertToHyperlink
 
 /**
  * This is the detail view of the risk card if additional information for the user.
@@ -32,6 +33,7 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         setButtonOnClickListeners()
+        setUpWebLinks()
     }
 
     override fun onResume() {
@@ -43,6 +45,14 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
         TimerHelper.checkManualKeyRetrievalTimer()
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    /**
+     * Make the links clickable and convert to hyperlink
+     */
+    private fun setUpWebLinks() {
+        binding.riskDetailsInformationLowriskBodyUrl
+            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_body_with_link))
     }
 
     private fun setButtonOnClickListeners() {
