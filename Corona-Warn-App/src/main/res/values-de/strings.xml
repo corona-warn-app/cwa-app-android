@@ -510,7 +510,7 @@
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Risiko-Ermittlung"</string>
     <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"So funktioniert die Begegnungs-Aufzeichnung"</string>
+    <string name="settings_tracing_headline">"So funktioniert die Risiko-Ermittlung"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Erlauben Sie Erfassung und Weitergabe von COVID-19-Zufallscodes."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
