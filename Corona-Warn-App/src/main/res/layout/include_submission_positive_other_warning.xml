@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -78,16 +77,6 @@
                 app:list="@{countryData}" />
 
             <include
-                android:id="@+id/submission_consent"
-                layout="@layout/include_interop_consent_card"
-                android:layout_width="@dimen/match_constraint"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/countryList" />
-
-            <include
                 android:id="@+id/submission_positive_location_card_16_years"
                 layout="@layout/include_16_years"
                 android:layout_width="@dimen/match_constraint"
@@ -98,7 +87,7 @@
                 app:headline="@{@string/sixteen_title_text}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_consent" />
+                app:layout_constraintTop_toBottomOf="@+id/countryList" />
 
             <include
                 android:id="@+id/submission_positive_other_privacy"
