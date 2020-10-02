@@ -1,16 +1,21 @@
 package de.rki.coronawarnapp.submission
 
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 
 class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
+    private var timeStamper = TimeStamper()
+
     @Test
     fun `match a positive symptom indication to the exact date of yesterday`() {
         val daysAgo = 1
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13)
@@ -19,9 +24,9 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication to the exact date of today`() {
         val daysAgo = 0
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14)
@@ -30,9 +35,9 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication to the exact date 5 days ago`() {
         val daysAgo = 5
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9)
@@ -41,9 +46,9 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication to the exact date 21 days ago`() {
         val daysAgo = 21
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                Symptoms.StartOf.Date(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7)
@@ -51,7 +56,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
     @Test
     fun `match a positive symptom indication to a range within the last 7 days`() {
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
                 Symptoms.StartOf.LastSevenDays,
                 Symptoms.Indication.POSITIVE
@@ -61,7 +66,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
     @Test
     fun `match a positive symptom indication to a range within the last two weeks`() {
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
                 Symptoms.StartOf.OneToTwoWeeksAgo,
                 Symptoms.Indication.POSITIVE
@@ -71,7 +76,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
     @Test
     fun `match a positive symptom indication to a range more than two weeks ago`() {
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
                 Symptoms.StartOf.MoreThanTwoWeeks,
                 Symptoms.Indication.POSITIVE
@@ -81,7 +86,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
     @Test
     fun `match a positive symptom indication with other or no detailed information`() {
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
                 Symptoms.StartOf.NoInformation,
                 Symptoms.Indication.POSITIVE
@@ -91,7 +96,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
     @Test
     fun `match no information about symptoms`() {
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
                 null,
                 Symptoms.Indication.NO_INFORMATION
@@ -101,11 +106,13 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
     @Test
     fun `match no symptoms`() {
-        DaysSinceOnsetOfSymptomsVectorDeterminator().determine(
+        DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
                 null,
                 Symptoms.Indication.NEGATIVE
             )
         ) shouldBe intArrayOf(3000, 2999, 2998, 2997, 2996, 2995, 2994, 2993, 2992, 2991, 2990, 2989, 2988, 2987, 2986)
     }
+
+    private fun createDate(millis: Long) = Symptoms.StartOf.Date(Instant.ofEpochMilli(millis).toLocalDate())
 }
