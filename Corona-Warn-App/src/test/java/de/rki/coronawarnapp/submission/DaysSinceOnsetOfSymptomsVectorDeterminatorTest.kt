@@ -3,19 +3,35 @@ package de.rki.coronawarnapp.submission
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
-    private var timeStamper = TimeStamper()
+    private lateinit var thisMorning: DateTime
+
+    @MockK
+    private lateinit var timeStamper: TimeStamper
+
+    @BeforeEach
+    fun setUp() {
+        MockKAnnotations.init(this)
+        thisMorning = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
+        every { timeStamper.nowUTC } returns thisMorning.toInstant()
+    }
 
     @Test
     fun `match a positive symptom indication to the exact date of yesterday`() {
         val daysAgo = 1
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(thisMorning.millis - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13)
@@ -26,7 +42,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 0
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(thisMorning.millis - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14)
@@ -37,7 +53,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 5
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(thisMorning.millis - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9)
@@ -48,7 +64,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         val daysAgo = 21
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
             Symptoms(
-                createDate(System.currentTimeMillis() - 1000 * 3600 * (24 * daysAgo)),
+                createDate(thisMorning.millis - 1000 * 3600 * (24 * daysAgo)),
                 Symptoms.Indication.POSITIVE
             )
         ) shouldBe intArrayOf(21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7)

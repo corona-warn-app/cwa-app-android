@@ -7,7 +7,7 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class DefaultKeyConverter @Inject constructor(): KeyConverter {
+class DefaultKeyConverter @Inject constructor() : KeyConverter {
     override fun toExternalFormat(
         key: TemporaryExposureKey,
         riskValue: Int,

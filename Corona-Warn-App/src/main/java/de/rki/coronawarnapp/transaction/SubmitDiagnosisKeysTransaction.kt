@@ -6,11 +6,8 @@ import de.rki.coronawarnapp.appconfig.toNewConfig
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.submission.DaysSinceOnsetOfSymptomsVectorDeterminator
-import de.rki.coronawarnapp.submission.DefaultKeyConverter
 import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN_AND_SUBMIT_KEYS
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
