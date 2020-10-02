@@ -1325,7 +1325,7 @@
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
     <string name="interoperability_onboarding_second_section">Hat ein Nutzer seine Zufalls-IDs über den von den teilnehmenden Ländern gemeinsam betriebenen Austausch-Server zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmenden Länder gewarnt werden.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_randomid_download_free">Hat ein Nutzer seine Zufalls-IDs über den von den teilnehmenden Ländern gemeinsam betriebenen Austausch-Server zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der  eilnehmenden Länder gewarnt werden.</string>
+    <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Liste mit den Zufalls-IDs ist für Sie in der Regel kostenlos. Das heißt: Das von der App verursachte Datenvolumen wird von den Mobilfunk-Betreibern nicht angerechnet und im EU-Ausland werden Ihnen keine Roaming-Gebühren berechnet. Näheres erfahren Sie von Ihrem Mobilfunk-Betreiber.</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
     <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
