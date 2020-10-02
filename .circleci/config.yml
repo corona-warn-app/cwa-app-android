@@ -123,6 +123,7 @@ jobs:
   quick_build_test:
     executor: android/android
     resource_class: large
+    parallelism: 4
     steps:
       - checkout
       - install-ndk:

@@ -161,7 +161,6 @@ android {
             }
         }
     }
-
 }
 
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
