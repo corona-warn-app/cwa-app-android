@@ -85,6 +85,7 @@ jobs:
 #      - scan-sonar
   quick_build:
     executor: android/android
+    resource_class: large
     steps:
       - checkout
       - install-ndk:
@@ -121,6 +122,7 @@ jobs:
       - scan-sonar
   quick_build_test:
     executor: android/android
+    resource_class: large
     steps:
       - checkout
       - install-ndk:
