@@ -97,7 +97,11 @@
     <fragment
         android:id="@+id/onboardingDeltaInteroperabilityFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
-        android:label="OnboardingDeltaInteroperabilityFragment" />
+        android:label="OnboardingDeltaInteroperabilityFragment" >
+        <action
+            android:id="@+id/action_onboardingDeltaInteroperabilityFragment_to_informationTermsFragment"
+            app:destination="@id/informationTermsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/interopCountryConfigurationFragment"
