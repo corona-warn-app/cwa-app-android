@@ -420,7 +420,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer Nutzer empfängt und Ihre eigenen Zufalls-IDs an deren Smartphones weitergibt. Die Risiko-Ermittlung lässt sich jederzeit deaktivieren. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
+    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
