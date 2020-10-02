@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.test.api.ui
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 
 data class EnvironmentState(
-    val current: EnvironmentSetup.Type,
-    val available: List<EnvironmentSetup.Type>,
+    val current: EnvironmentSetup.EnvType,
+    val available: List<EnvironmentSetup.EnvType>,
     val urlSubmission: String,
     val urlDownload: String,
     val urlVerification: String
@@ -12,7 +12,7 @@ data class EnvironmentState(
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
             current = currentEnvironment,
-            available = EnvironmentSetup.Type.values().toList(),
+            available = EnvironmentSetup.EnvType.values().toList(),
             urlSubmission = submissionCdnUrl,
             urlDownload = downloadCdnUrl,
             urlVerification = verificationCdnUrl

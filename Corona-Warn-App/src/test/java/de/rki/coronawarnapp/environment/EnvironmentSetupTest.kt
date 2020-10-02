@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.environment
 
 import android.content.Context
-import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvType.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -56,16 +56,16 @@ class EnvironmentSetupTest : BaseTest() {
         every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
         val envSetup = createEnvSetup()
 
-        EnvironmentSetup.Type.values().forEach { type ->
+        EnvironmentSetup.EnvType.values().forEach { env ->
             envSetup.apply {
-                currentEnvironment = type
-                currentEnvironment shouldBe type
+                currentEnvironment = env
+                currentEnvironment shouldBe env
 
-                supportsEURKeyPackages shouldBe type.rawKey.contains("-FED")
-                downloadCdnUrl shouldBe "https://download-${type.rawKey}"
-                submissionCdnUrl shouldBe "https://submission-${type.rawKey}"
-                verificationCdnUrl shouldBe "https://verification-${type.rawKey}"
-                appConfigVerificationKey shouldBe "12345678-${type.rawKey}"
+                supportsEURKeyPackages shouldBe ENVS_WITH_EUR_PKGS.contains(env)
+                downloadCdnUrl shouldBe "https://download-${env.rawKey}"
+                submissionCdnUrl shouldBe "https://submission-${env.rawKey}"
+                verificationCdnUrl shouldBe "https://verification-${env.rawKey}"
+                appConfigVerificationKey shouldBe "12345678-${env.rawKey}"
             }
         }
     }
@@ -77,24 +77,24 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `switching the default type is persisted in storage (preferences)`() {
-        every { BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT } returns EnvironmentSetup.Type.DEV.rawKey
+        every { BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT } returns EnvironmentSetup.EnvType.DEV.rawKey
         if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
             createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                defaultEnvironment shouldBe EnvironmentSetup.EnvType.DEV
                 currentEnvironment shouldBe defaultEnvironment
-                currentEnvironment = EnvironmentSetup.Type.WRU
-                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+                currentEnvironment = EnvironmentSetup.EnvType.WRU
+                currentEnvironment shouldBe EnvironmentSetup.EnvType.WRU
             }
-            mockPreferences.dataMapPeek.values.single() shouldBe EnvironmentSetup.Type.WRU.rawKey
+            mockPreferences.dataMapPeek.values.single() shouldBe EnvironmentSetup.EnvType.WRU.rawKey
             createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-                currentEnvironment shouldBe EnvironmentSetup.Type.WRU
+                defaultEnvironment shouldBe EnvironmentSetup.EnvType.DEV
+                currentEnvironment shouldBe EnvironmentSetup.EnvType.WRU
             }
         } else {
             createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                defaultEnvironment shouldBe EnvironmentSetup.EnvType.DEV
                 currentEnvironment shouldBe defaultEnvironment
-                currentEnvironment = EnvironmentSetup.Type.WRU
+                currentEnvironment = EnvironmentSetup.EnvType.WRU
                 currentEnvironment shouldBe defaultEnvironment
             }
             mockPreferences.dataMapPeek.values shouldBe emptyList()
@@ -106,77 +106,76 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `test enum mapping values`() {
-        EnvironmentSetup.Type.PRODUCTION.rawKey shouldBe "PROD"
-        EnvironmentSetup.Type.INT.rawKey shouldBe "INT"
-        EnvironmentSetup.Type.INT_FED.rawKey shouldBe "INT-FED"
-        EnvironmentSetup.Type.WRU.rawKey shouldBe "WRU"
-        EnvironmentSetup.Type.WRU_XA.rawKey shouldBe "WRU-XA"
-        EnvironmentSetup.Type.WRU_XD.rawKey shouldBe "WRU-XD"
-        EnvironmentSetup.Type.values().size shouldBe 7
+        EnvironmentSetup.EnvType.PRODUCTION.rawKey shouldBe "PROD"
+        EnvironmentSetup.EnvType.INT.rawKey shouldBe "INT"
+        EnvironmentSetup.EnvType.INT_FED.rawKey shouldBe "INT-FED"
+        EnvironmentSetup.EnvType.WRU.rawKey shouldBe "WRU"
+        EnvironmentSetup.EnvType.WRU_XA.rawKey shouldBe "WRU-XA"
+        EnvironmentSetup.EnvType.WRU_XD.rawKey shouldBe "WRU-XD"
+        EnvironmentSetup.EnvType.values().size shouldBe 7
 
-        EnvironmentSetup.ENVKEY.SUPPORTS_EUR_KEYPKGS.rawKey shouldBe "SUPPORTS_EUR_KEYPKGS"
-        EnvironmentSetup.ENVKEY.SUBMISSION.rawKey shouldBe "SUBMISSION_CDN_URL"
-        EnvironmentSetup.ENVKEY.VERIFICATION.rawKey shouldBe "VERIFICATION_CDN_URL"
-        EnvironmentSetup.ENVKEY.DOWNLOAD.rawKey shouldBe "DOWNLOAD_CDN_URL"
-        EnvironmentSetup.ENVKEY.VERIFICATION_KEYS.rawKey shouldBe "PUB_KEYS_SIGNATURE_VERIFICATION"
-        EnvironmentSetup.ENVKEY.values().size shouldBe 5
+        EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS.rawKey shouldBe "USE_EUR_KEY_PKGS"
+        EnvironmentSetup.EnvKey.SUBMISSION.rawKey shouldBe "SUBMISSION_CDN_URL"
+        EnvironmentSetup.EnvKey.VERIFICATION.rawKey shouldBe "VERIFICATION_CDN_URL"
+        EnvironmentSetup.EnvKey.DOWNLOAD.rawKey shouldBe "DOWNLOAD_CDN_URL"
+        EnvironmentSetup.EnvKey.VERIFICATION_KEYS.rawKey shouldBe "PUB_KEYS_SIGNATURE_VERIFICATION"
+        EnvironmentSetup.EnvKey.values().size shouldBe 5
     }
 
     companion object {
         private const val BAD_JSON = "{ environmentType: {\n \"SUBMISSION_CDN_U"
+        private val ENVS_WITH_EUR_PKGS = listOf(
+            EnvironmentSetup.EnvType.PRODUCTION,
+            EnvironmentSetup.EnvType.INT_FED,
+            EnvironmentSetup.EnvType.WRU_XD,
+            EnvironmentSetup.EnvType.WRU_XA
+        )
         private const val GOOD_JSON = """
             {
                 "PROD": {
-                    "SUPPORTS_EUR_KEYPKGS" : false,
+                    "USE_EUR_KEY_PKGS" : true,
                     "SUBMISSION_CDN_URL": "https://submission-PROD",
                     "DOWNLOAD_CDN_URL": "https://download-PROD",
                     "VERIFICATION_CDN_URL": "https://verification-PROD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD"
                 },
                 "DEV": {
-                    "SUPPORTS_EUR_KEYPKGS" : false,
+                    "USE_EUR_KEY_PKGS" : false,
                     "SUBMISSION_CDN_URL": "https://submission-DEV",
                     "DOWNLOAD_CDN_URL": "https://download-DEV",
                     "VERIFICATION_CDN_URL": "https://verification-DEV",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV"
                 },
-                "DEV-FED": {
-                    "SUPPORTS_EUR_KEYPKGS" : true,
-                    "SUBMISSION_CDN_URL": "https://submission-DEV-FED",
-                    "DOWNLOAD_CDN_URL": "https://download-DEV-FED",
-                    "VERIFICATION_CDN_URL": "https://verification-DEV-FED",
-                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV-FED"
-                },
                 "INT": {
-                    "SUPPORTS_EUR_KEYPKGS" : false,
+                    "USE_EUR_KEY_PKGS" : false,
                     "SUBMISSION_CDN_URL": "https://submission-INT",
                     "DOWNLOAD_CDN_URL": "https://download-INT",
                     "VERIFICATION_CDN_URL": "https://verification-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT"
                 },
                 "INT-FED": {
-                    "SUPPORTS_EUR_KEYPKGS" : true,
+                    "USE_EUR_KEY_PKGS" : true,
                     "SUBMISSION_CDN_URL": "https://submission-INT-FED",
                     "DOWNLOAD_CDN_URL": "https://download-INT-FED",
                     "VERIFICATION_CDN_URL": "https://verification-INT-FED",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT-FED"
                 },
                 "WRU": {
-                    "SUPPORTS_EUR_KEYPKGS" : false,
+                    "USE_EUR_KEY_PKGS" : false,
                     "SUBMISSION_CDN_URL": "https://submission-WRU",
                     "DOWNLOAD_CDN_URL": "https://download-WRU",
                     "VERIFICATION_CDN_URL": "https://verification-WRU",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU"
                 },
                 "WRU-XD": {
-                    "SUPPORTS_EUR_KEYPKGS" : false,
+                    "USE_EUR_KEY_PKGS" : true,
                     "SUBMISSION_CDN_URL": "https://submission-WRU-XD",
                     "DOWNLOAD_CDN_URL": "https://download-WRU-XD",
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD"
                 },
                 "WRU-XA": {
-                    "SUPPORTS_EUR_KEYPKGS" : false,
+                    "USE_EUR_KEY_PKGS" : true,
                     "SUBMISSION_CDN_URL": "https://submission-WRU-XA",
                     "DOWNLOAD_CDN_URL": "https://download-WRU-XA",
                     "VERIFICATION_CDN_URL": "https://verification-WRU-XA",

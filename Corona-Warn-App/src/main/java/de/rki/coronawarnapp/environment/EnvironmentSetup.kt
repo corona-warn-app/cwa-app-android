@@ -5,12 +5,12 @@ import androidx.core.content.edit
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.DOWNLOAD
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUBMISSION
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUPPORTS_EUR_KEYPKGS
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION_KEYS
-import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SUBMISSION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEYS
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvType.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,15 +21,15 @@ class EnvironmentSetup @Inject constructor(
     private val context: Context
 ) {
 
-    enum class ENVKEY(val rawKey: String) {
-        SUPPORTS_EUR_KEYPKGS("SUPPORTS_EUR_KEYPKGS"),
+    enum class EnvKey(val rawKey: String) {
+        USE_EUR_KEY_PKGS("USE_EUR_KEY_PKGS"),
         SUBMISSION("SUBMISSION_CDN_URL"),
         VERIFICATION("VERIFICATION_CDN_URL"),
         DOWNLOAD("DOWNLOAD_CDN_URL"),
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION")
     }
 
-    enum class Type(val rawKey: String) {
+    enum class EnvType(val rawKey: String) {
         PRODUCTION("PROD"),
         INT("INT"),
         INT_FED("INT-FED"),
@@ -39,7 +39,7 @@ class EnvironmentSetup @Inject constructor(
         WRU_XD("WRU-XD"); // (aka Germany)
 
         companion object {
-            internal fun String.toEnvironmentType(): Type = values().single {
+            internal fun String.toEnvironmentType(): EnvType = values().single {
                 it.rawKey == this
             }
         }
@@ -56,10 +56,10 @@ class EnvironmentSetup @Inject constructor(
         }
     }
 
-    val defaultEnvironment: Type
+    val defaultEnvironment: EnvType
         get() = BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
 
-    var currentEnvironment: Type
+    var currentEnvironment: EnvType
         get() {
             return prefs
                 .getString(PKEY_CURRENT_ENVINROMENT, null)
@@ -75,13 +75,13 @@ class EnvironmentSetup @Inject constructor(
             }
         }
 
-    private fun getEnvironmentValue(variableKey: ENVKEY): JsonPrimitive = run {
+    private fun getEnvironmentValue(variableKey: EnvKey): JsonPrimitive = run {
         try {
             val targetEnvKey = if (environmentJson.has(currentEnvironment.rawKey)) {
                 currentEnvironment.rawKey
             } else {
                 Timber.e("Tried to use unavailable environment: $variableKey on $currentEnvironment")
-                Type.PRODUCTION.rawKey
+                EnvType.PRODUCTION.rawKey
             }
             environmentJson
                 .getAsJsonObject(targetEnvKey)
@@ -103,7 +103,7 @@ class EnvironmentSetup @Inject constructor(
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString
 
     val supportsEURKeyPackages: Boolean
-        get() = getEnvironmentValue(SUPPORTS_EUR_KEYPKGS).asBoolean
+        get() = getEnvironmentValue(USE_EUR_KEY_PKGS).asBoolean
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
