@@ -65,7 +65,10 @@ class SubmissionViewModel : ViewModel() {
 
     val symptomIndication = MutableLiveData<Symptoms.Indication?>()
     val symptomStart = MutableLiveData<Symptoms.StartOf?>()
-    val countryList = MutableLiveData(interoperabilityRepository.countryList)
+
+    val countryList by lazy {
+        MutableLiveData(interoperabilityRepository.countryList)
+    }
 
     fun initSymptoms() {
         symptomIndication.postValue(null)
