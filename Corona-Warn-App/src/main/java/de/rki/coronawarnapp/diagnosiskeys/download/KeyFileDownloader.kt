@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -28,7 +29,8 @@ class KeyFileDownloader @Inject constructor(
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
     private val legacyKeyCache: LegacyKeyCacheMigration,
-    private val settings: AppSettings
+    private val settings: AppSettings,
+    private val dispatcherProvider: DispatcherProvider
 ) {
 
     private suspend fun requireStorageSpace(data: List<CountryData>): DeviceStorage.CheckResult {
@@ -68,7 +70,7 @@ class KeyFileDownloader @Inject constructor(
      * @return list of all files from both the cache and the diff query
      */
     suspend fun asyncFetchKeyFiles(wantedCountries: List<LocationCode>): List<File> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcherProvider.IO) {
             val availableCountries = keyServer.getCountryIndex()
             val filteredCountries = availableCountries.filter { wantedCountries.contains(it) }
             Timber.tag(TAG).v(
