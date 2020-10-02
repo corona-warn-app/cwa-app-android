@@ -132,8 +132,8 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
-          name: test splitting output 1
-          command: circleci tests glob "**/test/**/*Test.kt"
+          name: test splitting output
+          command: circleci tests glob "**/test/**/*Test.kt" | circleci tests split --split-by=timings | xargs -n 1 echo
       - run:
           name: Quick Build
           command: ./gradlew deviceReleaseTest
