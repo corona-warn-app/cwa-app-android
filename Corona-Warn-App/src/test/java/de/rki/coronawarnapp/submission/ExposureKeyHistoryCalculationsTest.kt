@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.submission
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import de.rki.coronawarnapp.server.protocols.KeyExportFormat
 import de.rki.coronawarnapp.util.TimeStamper
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -19,16 +17,13 @@ class ExposureKeyHistoryCalculationsTest {
     private lateinit var thisMorning: DateTime
     private lateinit var thisEvening: DateTime
 
-    @MockK
-    lateinit var timeStamper: TimeStamper
+    private var timeStamper = TimeStamper()
 
     @Before
     fun setUp() {
         todayMidnight = DateTime(2012, 10, 15, 0, 0, DateTimeZone.UTC)
         thisMorning = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
         thisEvening = DateTime(2012, 10, 15, 20, 0, DateTimeZone.UTC)
-
-        every { timeStamper.nowUTC } returns thisMorning.toInstant()
 
         converter = object : KeyConverter {
             override fun toExternalFormat(
@@ -95,17 +90,11 @@ class ExposureKeyHistoryCalculationsTest {
             intArrayOf(3998, 3999, 4000),
             thisMorning.toLocalDate()
         )
-        Assert.assertArrayEquals(
+        f(
+            result,
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
-            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
             intArrayOf(3998, 3999),
-            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
-            intArrayOf(0, 1),
-            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+            intArrayOf(0, 1)
         )
 
         // gap
@@ -117,17 +106,11 @@ class ExposureKeyHistoryCalculationsTest {
             intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
             thisMorning.toLocalDate()
         )
-        Assert.assertArrayEquals(
+        f(
+            result,
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
-            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
             intArrayOf(3998, 4005),
-            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
-            intArrayOf(0, 7),
-            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+            intArrayOf(0, 7)
         )
 
         // several keys in one day
@@ -139,17 +122,11 @@ class ExposureKeyHistoryCalculationsTest {
             intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
             thisMorning.toLocalDate()
         )
-        Assert.assertArrayEquals(
+        f(
+            result,
             intArrayOf(tek1.rollingStartIntervalNumber, tek1.rollingStartIntervalNumber),
-            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
             intArrayOf(3998, 3998),
-            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
-            intArrayOf(0, 0),
-            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+            intArrayOf(0, 0)
         )
 
         // submitting later that day
@@ -161,17 +138,11 @@ class ExposureKeyHistoryCalculationsTest {
             intArrayOf(3998, 3999, 4000),
             thisEvening.toLocalDate()
         )
-        Assert.assertArrayEquals(
+        f(
+            result,
             intArrayOf(tek1.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber),
-            result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
             intArrayOf(3998, 3999),
-            result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
-        )
-        Assert.assertArrayEquals(
-            intArrayOf(0, 1),
-            result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
+            intArrayOf(0, 1)
         )
 
         // several keys yesterday
@@ -184,16 +155,31 @@ class ExposureKeyHistoryCalculationsTest {
             intArrayOf(3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005),
             thisMorning.toLocalDate()
         )
+        f(
+            result, intArrayOf(
+                tek3.rollingStartIntervalNumber,
+                tek2.rollingStartIntervalNumber,
+                tek1.rollingStartIntervalNumber
+            ), intArrayOf(3998, 3999, 3999), intArrayOf(0, 1, 1)
+        )
+    }
+
+    private fun f(
+        result: List<KeyExportFormat.TemporaryExposureKey>,
+        intArrayOf: IntArray,
+        intArrayOf1: IntArray,
+        intArrayOf2: IntArray
+    ) {
         Assert.assertArrayEquals(
-            intArrayOf(tek3.rollingStartIntervalNumber, tek2.rollingStartIntervalNumber, tek1.rollingStartIntervalNumber),
+            intArrayOf,
             result.map { it.rollingStartIntervalNumber }.toTypedArray().toIntArray()
         )
         Assert.assertArrayEquals(
-            intArrayOf(3998, 3999, 3999),
+            intArrayOf1,
             result.map { it.daysSinceOnsetOfSymptoms }.toTypedArray().toIntArray()
         )
         Assert.assertArrayEquals(
-            intArrayOf(0, 1, 1),
+            intArrayOf2,
             result.map { it.transmissionRiskLevel }.toTypedArray().toIntArray()
         )
     }
