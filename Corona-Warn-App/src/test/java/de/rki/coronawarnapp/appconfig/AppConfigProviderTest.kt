@@ -38,6 +38,7 @@ class AppConfigProviderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
+        every { appConfigStorage.isAppConfigAvailable } answers { mockConfigStorage != null }
         every { appConfigStorage.appConfigRaw } answers { mockConfigStorage }
         every { appConfigStorage.appConfigRaw = any() } answers { mockConfigStorage = arg(0) }
     }
