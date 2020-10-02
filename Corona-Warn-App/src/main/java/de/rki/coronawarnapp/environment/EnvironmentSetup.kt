@@ -102,7 +102,7 @@ class EnvironmentSetup @Inject constructor(
     val appConfigVerificationKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS).asString
 
-    val supportsEURKeyPackages: Boolean
+    val useEuropeKeyPackageFiles: Boolean
         get() = getEnvironmentValue(USE_EUR_KEY_PKGS).asBoolean
 
     companion object {

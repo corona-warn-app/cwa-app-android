@@ -66,7 +66,7 @@ class RetrieveDiagnosisKeysTransactionTest {
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch(any()) } just Runs
         every { LocalData.googleApiToken() } returns UUID.randomUUID().toString()
 
-        every { environmentSetup.supportsEURKeyPackages } returns false
+        every { environmentSetup.useEuropeKeyPackageFiles } returns false
     }
 
     @AfterEach
@@ -129,7 +129,7 @@ class RetrieveDiagnosisKeysTransactionTest {
 
     @Test
     fun `successful submission with EUR`() {
-        every { environmentSetup.supportsEURKeyPackages } returns true
+        every { environmentSetup.useEuropeKeyPackageFiles } returns true
         val file = Paths.get("src", "test", "resources", "keys.bin").toFile()
         coEvery { mockEnfClient.provideDiagnosisKeys(listOf(file), any(), any()) } returns true
         val requestedCountries = listOf("EUR")

@@ -61,7 +61,7 @@ class EnvironmentSetupTest : BaseTest() {
                 currentEnvironment = env
                 currentEnvironment shouldBe env
 
-                supportsEURKeyPackages shouldBe ENVS_WITH_EUR_PKGS.contains(env)
+                useEuropeKeyPackageFiles shouldBe ENVS_WITH_EUR_PKGS.contains(env)
                 downloadCdnUrl shouldBe "https://download-${env.rawKey}"
                 submissionCdnUrl shouldBe "https://submission-${env.rawKey}"
                 verificationCdnUrl shouldBe "https://verification-${env.rawKey}"
@@ -107,6 +107,7 @@ class EnvironmentSetupTest : BaseTest() {
     @Test
     fun `test enum mapping values`() {
         EnvironmentSetup.EnvType.PRODUCTION.rawKey shouldBe "PROD"
+        EnvironmentSetup.EnvType.DEV.rawKey shouldBe "DEV"
         EnvironmentSetup.EnvType.INT.rawKey shouldBe "INT"
         EnvironmentSetup.EnvType.INT_FED.rawKey shouldBe "INT-FED"
         EnvironmentSetup.EnvType.WRU.rawKey shouldBe "WRU"

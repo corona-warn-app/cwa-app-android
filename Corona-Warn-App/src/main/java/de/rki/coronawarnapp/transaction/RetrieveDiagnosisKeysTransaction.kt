@@ -192,7 +192,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         // RETRIEVE RISK SCORE PARAMETERS
         val exposureConfiguration = executeRetrieveRiskScoreParams()
 
-        val countries = if (environmentSetup.supportsEURKeyPackages) {
+        val countries = if (environmentSetup.useEuropeKeyPackageFiles) {
             listOf("EUR")
         } else {
             requestedCountries ?: ApplicationConfigurationService
