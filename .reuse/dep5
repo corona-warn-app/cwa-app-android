@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: cwa-app-android
+Upstream-Contact: The Corona Warn App Team <corona-warn-app.opensource@sap.com>
+Source: https://github.com/corona-warn-app/cwa-app-android
+
+Files: **
+Copyright:  2020 SAP SE or an SAP affiliate company and cwa-app-android contributors
+License: Apache-2.0
