@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRiskLevelCalculationBinding
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.sharing.ExposureSharingService
+import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -121,5 +122,10 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
     companion object {
         val TAG: String = TestRiskLevelCalculationFragment::class.simpleName!!
+        val MENU_ITEM = TestMenuItem(
+            title = "Risklevel Calculation",
+            description = "Risklevel calculation related test options.",
+            targetId = R.id.test_risklevel_calculation_fragment
+        )
     }
 }
