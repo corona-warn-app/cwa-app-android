@@ -124,9 +124,16 @@ android {
         unitTests.all {
             useJUnitPlatform()
 
+            beforeTest { descriptor ->
+                logger.lifecycle("Running test: ${descriptor}")
+            }
+
             if (project.hasProperty('testFilter')) {
-                println 'Has filter:'
-                println testFilter
+                List<String> props = project.getProperties().get("testFilter").split("\\s+")
+                props.each {
+                    include(it.replace("Corona-Warn-App/src/test/java/", "**/")
+                            .replace(".kt", ".class"))
+                }
             }
         }
         unitTests {
