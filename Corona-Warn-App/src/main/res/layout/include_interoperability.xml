@@ -30,6 +30,10 @@
             type="String" />
 
         <variable
+            name="fourthSection"
+            type="String" />
+
+        <variable
             name="footerTitle"
             type="String" />
 
@@ -192,6 +196,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
+
+            <TextView
+                android:id="@+id/label_interoperability_subtitle4"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@{fourthSection}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(fourthSection)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/country_list_overview" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/country_list_barrier"
