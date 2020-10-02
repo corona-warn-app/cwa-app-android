@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.DOWNLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUBMISSION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUPPORTS_EUR_KEYPKGS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION_KEYS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
@@ -20,6 +22,7 @@ class EnvironmentSetup @Inject constructor(
 ) {
 
     enum class ENVKEY(val rawKey: String) {
+        SUPPORTS_EUR_KEYPKGS("SUPPORTS_EUR_KEYPKGS"),
         SUBMISSION("SUBMISSION_CDN_URL"),
         VERIFICATION("VERIFICATION_CDN_URL"),
         DOWNLOAD("DOWNLOAD_CDN_URL"),
@@ -29,6 +32,7 @@ class EnvironmentSetup @Inject constructor(
     enum class Type(val rawKey: String) {
         PRODUCTION("PROD"),
         INT("INT"),
+        INT_FED("INT-FED"),
         DEV("DEV"),
         WRU("WRU"),
         WRU_XA("WRU-XA"), // (aka ACME)
@@ -71,7 +75,7 @@ class EnvironmentSetup @Inject constructor(
             }
         }
 
-    private fun getEnvironmentValue(variableKey: ENVKEY): String = run {
+    private fun getEnvironmentValue(variableKey: ENVKEY): JsonPrimitive = run {
         try {
             val targetEnvKey = if (environmentJson.has(currentEnvironment.rawKey)) {
                 currentEnvironment.rawKey
@@ -82,7 +86,6 @@ class EnvironmentSetup @Inject constructor(
             environmentJson
                 .getAsJsonObject(targetEnvKey)
                 .getAsJsonPrimitive(variableKey.rawKey)
-                .asString
         } catch (e: Exception) {
             Timber.e(e, "Failed to retrieve endpoint URL for $currentEnvironment:$variableKey")
             throw IllegalStateException("Failed to setup test environment", e)
@@ -90,14 +93,17 @@ class EnvironmentSetup @Inject constructor(
     }.also { Timber.v("getEndpointUrl(endpoint=%s): %s", variableKey, it) }
 
     val submissionCdnUrl: String
-        get() = getEnvironmentValue(SUBMISSION)
+        get() = getEnvironmentValue(SUBMISSION).asString
     val verificationCdnUrl: String
-        get() = getEnvironmentValue(VERIFICATION)
+        get() = getEnvironmentValue(VERIFICATION).asString
     val downloadCdnUrl: String
-        get() = getEnvironmentValue(DOWNLOAD)
+        get() = getEnvironmentValue(DOWNLOAD).asString
 
     val appConfigVerificationKey: String
-        get() = getEnvironmentValue(VERIFICATION_KEYS)
+        get() = getEnvironmentValue(VERIFICATION_KEYS).asString
+
+    val supportsEURKeyPackages: Boolean
+        get() = getEnvironmentValue(SUPPORTS_EUR_KEYPKGS).asBoolean
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
