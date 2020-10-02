@@ -850,7 +850,7 @@
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Andere warnen"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Ihre Zufallscodes der letzten 14 Tage teilen, um andere zu schützen und die Infektionskette zu unterbrechen."</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"Teilen Sie Ihre Zufalls-IDs und warnen Sie andere.\nHelfen Sie, das Infektionsrisiko für andere genauer zu bestimmen, indem Sie auch angeben, wann eventuelle Corona-Symptome zum ersten Mal aufgetreten sind."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Weiter"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
