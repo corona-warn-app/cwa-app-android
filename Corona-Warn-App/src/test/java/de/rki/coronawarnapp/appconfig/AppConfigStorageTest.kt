@@ -37,21 +37,6 @@ class AppConfigStorageTest : BaseIOTest() {
     private fun createStorage() = AppConfigStorage(context)
 
     @Test
-    fun `config availability is determined by file existence and min size`() {
-        storageDir.mkdirs()
-        val storage = createStorage()
-        storage.isAppConfigAvailable shouldBe false
-        configPath.createNewFile()
-        storage.isAppConfigAvailable shouldBe false
-
-        configPath.writeBytes(ByteArray(128) { 1 })
-        storage.isAppConfigAvailable shouldBe false
-
-        configPath.writeBytes(ByteArray(129) { 1 })
-        storage.isAppConfigAvailable shouldBe true
-    }
-
-    @Test
     fun `simple read and write config`() {
         configPath.exists() shouldBe false
         val storage = createStorage()
