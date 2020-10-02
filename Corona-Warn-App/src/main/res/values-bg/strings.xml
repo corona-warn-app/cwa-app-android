@@ -735,8 +735,7 @@
     ###################################### -->
     <!-- XHED: headline for consent information  -->
     <string name="interop_consent_headline">"Съгласие"</string>
-    <!-- YTXT: body for consent information -->
-    <string name="interop_consent_body">"By tapping “Consent”, you consent to sending your random IDs from the last 14 days to the European server system operated jointly by the participating countries*. Since you have been diagnosed with COVID-19, you can warn users of the official corona apps in the participating countries. To enable this, the random IDs are transmitted to the participating countries. The users of the official corona apps in other countries can then be warned that they have had a potential exposure in the last 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The random IDs do not reveal any information about your identity, your name, or other personal information to others."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The transfer of random IDs in support of transnational warning is optional. You do not incur a disadvantage if you opt not to share your data. As it is not possible to trace or control whether and how you use the app, nobody but you will know whether or not you are submitting your random IDs."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"You can revoke your consent at any time by deleting the App. By revoking your consent, the lawfulness of data processing, granted up to the point of revocation by your consent, is not affected. For further information – including the participating contries and the public health authorities responsible for data privacy – see \"Data Privacy\"."</string>
+
 
     <!-- ####################################
              Submission
