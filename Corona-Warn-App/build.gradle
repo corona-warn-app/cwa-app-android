@@ -123,6 +123,11 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
+
+            if (project.hasProperty('testFilter')) {
+                println 'Has filter:'
+                println testFilter
+            }
         }
         unitTests {
             includeAndroidResources = true
@@ -160,17 +165,6 @@ android {
                 srcDirs = ['src/device']
             }
         }
-    }
-}
-
-task deviceReleaseCustomTest (
-        type: Test,
-        dependsOn: 'testDeviceReleaseUnitTest' ) {
-
-    println 'DeviceReleaseCustomTest. Tests:'
-
-    if (project.hasProperty('testFilter')) {
-        println testFilter
     }
 }
 
