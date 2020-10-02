@@ -6,10 +6,8 @@ import de.rki.coronawarnapp.appconfig.toNewConfig
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
-import de.rki.coronawarnapp.submission.DefaultKeyConverter
 import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.submission.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.CLOSE
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TAN_AND_SUBMIT_KEYS
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
@@ -64,6 +62,9 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     private val appConfigProvider: AppConfigProvider
         get() = AppInjector.component.transSubmitDiagnosisInjection.appConfigProvider
 
+    private val exposureKeyHistoryCalculations: ExposureKeyHistoryCalculations
+        get() = AppInjector.component.transSubmitDiagnosisInjection.exposureKeyHistoryCalculations
+
     /** initiates the transaction. This suspend function guarantees a successful transaction once completed. */
     suspend fun start(
         registrationToken: String,
@@ -72,10 +73,7 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
     ) = lockAndExecute(unique = true, scope = transactionScope) {
 
         val temporaryExposureKeyList = executeState(RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY) {
-            ExposureKeyHistoryCalculations(
-                TransmissionRiskVectorDeterminator(),
-                DefaultKeyConverter()
-            ).transformToKeyHistoryInExternalFormat(keys, symptoms)
+            exposureKeyHistoryCalculations.transformToKeyHistoryInExternalFormat(keys, symptoms)
         }
 
         val visistedCountries =

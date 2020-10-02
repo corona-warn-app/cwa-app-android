@@ -229,6 +229,6 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun onDateSelected(localDate: LocalDate?) {
-        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOf.Date(localDate.toDate().time))
+        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOf.Date(localDate))
     }
 }
