@@ -32,7 +32,8 @@ class OnboardingDeltaInteroperabilityFragment :
         }
         vm.saveInteroperabilityUsed()
 
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.convertToHyperlink(getString(R.string.information_terms_html_path))
+        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
+            .convertToHyperlink(getString(R.string.information_terms_html_path))
         binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
             .movementMethod = LinkMovementMethod.getInstance()
 
