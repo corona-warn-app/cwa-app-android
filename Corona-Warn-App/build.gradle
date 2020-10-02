@@ -164,6 +164,14 @@ android {
 
 }
 
+tasks.whenTaskAdded { task ->
+    // Let the testers build fail early if there is no test environments file
+    // We don't want to silently fallback to prod_environments.json
+    if (task.name ==~ /assembleDeviceForTesters.*/) {
+        task.doFirst() { assert file("../test_environments.json").exists() }
+    }
+}
+
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
     group = "Reporting"
     description = "Generate Jacoco coverage reports for the DeviceRelease build."
