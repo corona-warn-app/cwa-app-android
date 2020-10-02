@@ -1,11 +1,15 @@
 package de.rki.coronawarnapp.ui.onboarding
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -27,6 +31,14 @@ class OnboardingDeltaInteroperabilityFragment :
             binding.countryData = it
         }
         vm.saveInteroperabilityUsed()
+
+        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.convertToHyperlink(getString(R.string.information_terms_html_path))
+        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
+            .movementMethod = LinkMovementMethod.getInstance()
+
+        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
+            findNavController().doNavigate(OnboardingDeltaInteroperabilityFragmentDirections.actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment())
+        }
 
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
             vm.onBackPressed()
