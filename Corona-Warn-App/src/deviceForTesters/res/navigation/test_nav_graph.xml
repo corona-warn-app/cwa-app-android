@@ -31,7 +31,7 @@
         <argument
             android:name="exampleArgument"
             app:argType="string"
-            app:defaultValue="null"
+            android:defaultValue="null"
             app:nullable="true" />
     </fragment>
 
