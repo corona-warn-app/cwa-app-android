@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 // Need this to improve testing
 // Can currently only replace the main-thread dispatcher.
 // https://github.com/Kotlin/kotlinx.coroutines/issues/1365
-@Suppress("PropertyName")
+@Suppress("PropertyName", "VariableNaming")
 interface DispatcherProvider {
     val Default: CoroutineDispatcher
         get() = Dispatchers.Default
