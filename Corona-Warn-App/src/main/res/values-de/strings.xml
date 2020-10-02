@@ -213,7 +213,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
+    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die CoronaWarn-App. Sie werden auf eine externe Website der Bundesregierung weitergeleitet."</string>
     <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
@@ -418,9 +418,9 @@
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."</string>
+    <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer Nutzer empfängt und Ihre eigenen Zufalls-IDs an deren Smartphones weitergibt. Die Risiko-Ermittlung lässt sich jederzeit deaktivieren. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
+    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -520,7 +520,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Standortdienste deaktiviert"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufallscodes anderer Nutzerinnen und Nutzer empfängt und Ihren eigenen Zufallscode an deren Smartphones weitergibt. Die Funktion lässt sich jederzeit wieder deaktivieren."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Konkrete Rückschlüsse auf Personen sind nicht möglich."</string>
+    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch RisikoBegegnungen mit Nutzern von  anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer Nutzer empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich eine  Liste mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die diese freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem  Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer verglichen, um Ihr Infektionsrisiko zu berechnen und Sie zu warnen. Die Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden über die App zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf Ihre Identität, Ihren Namen oder andere  persönliche Angaben sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktiv"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -850,7 +850,7 @@
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Andere warnen"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Ihre Zufallscodes der letzten 14 Tage teilen, um andere zu schützen und die Infektionskette zu unterbrechen."</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"Teilen Sie Ihre Zufalls-IDs und warnen Sie andere.\nHelfen Sie, das Infektionsrisiko für andere genauer zu bestimmen, indem Sie auch angeben, wann eventuelle Corona-Symptome zum ersten Mal aufgetreten sind."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Weiter"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
@@ -898,7 +898,7 @@
     <!-- XHED: Page headline for menu the at start of the submission process  -->
     <string name="submission_intro_headline">"So funktioniert das Corona-Warn-System"</string>
     <!-- YTXT: submission introduction text -->
-    <string name="submission_intro_text">"Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiv getesteten Personen angewiesen.\n\nDa nur verschlüsselte Zufallscodes ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:"</string>
+    <string name="submission_intro_text">"Damit die Corona-Warn-App funktioniert, sind wir auf die Mithilfe von Corona-positiv getesteten Personen angewiesen.\n\nDa nur verschlüsselte Zufalls-IDs ausgetauscht werden, bleiben Sie unerkannt. Sie können jetzt wie folgt vorgehen:"</string>
     <!-- XBUT: Submission introduction next button-->
     <string name="submission_intro_button_next">"Weiter"</string>
     <!-- XACT: Submission intro - illustration description, explanation image -->
@@ -1321,11 +1321,11 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">Mehrere Länder in der EU arbeiten zusammen, um länderübergreifende Warnungen zu ermöglichen. Das heißt es können die Kontakte mit Nutzern der offiziellen Corona-Apps aller teilnehmenden Länder berücksichtigt werden.</string>
+    <string name="interoperability_onboarding_first_section">Mehrere Länder arbeiten zusammen, um länderübergreifende Warnungen zu ermöglichen. Das heißt es können die Kontakte mit Nutzern der offiziellen Corona-Apps aller teilnehmenden Länder berücksichtigt werden.</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
-    <string name="interoperability_onboarding_second_section">Hat ein Nutzer seine Zufalls-IDs über das von den teilnehmenden Ländern gemeinsam betriebene Serversystem zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmender Länder gewarnt werden.</string>
+    <string name="interoperability_onboarding_second_section">Hat ein Nutzer seine Zufalls-IDs über den von den teilnehmenden Ländern gemeinsam betriebenen Austausch-Server zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der teilnehmenden Länder gewarnt werden.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_randomid_download_free">Der tägliche Download der Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
+    <string name="interoperability_onboarding_randomid_download_free">Hat ein Nutzer seine Zufalls-IDs über den von den teilnehmenden Ländern gemeinsam betriebenen Austausch-Server zur Verfügung gestellt, können Nutzer der offiziellen Corona-Apps der  eilnehmenden Länder gewarnt werden.</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
     <string name="interoperability_onboarding_list_title">Derzeit nehmen die folgenden Länder teil:</string>
 
