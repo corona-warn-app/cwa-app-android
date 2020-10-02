@@ -37,7 +37,8 @@ class OnboardingDeltaInteroperabilityFragment :
             .movementMethod = LinkMovementMethod.getInstance()
 
         binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
-            findNavController().doNavigate(OnboardingDeltaInteroperabilityFragmentDirections.actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment())
+            findNavController().doNavigate(OnboardingDeltaInteroperabilityFragmentDirections
+                .actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment())
         }
 
         binding.onboardingButtonBack.buttonIcon.setOnClickListener {
