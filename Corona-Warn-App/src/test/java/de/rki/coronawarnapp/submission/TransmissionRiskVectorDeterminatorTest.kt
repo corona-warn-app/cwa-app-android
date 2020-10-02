@@ -36,7 +36,6 @@ class TransmissionRiskVectorDeterminatorTest {
             thisMorning.toLocalDate()
         ).raw shouldBe intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
-
         TransmissionRiskVectorDeterminator(timeStamper).determine(
             Symptoms(
                 createSpecificStart(thisMorning.minusDays(1).toLocalDate()),
@@ -45,7 +44,6 @@ class TransmissionRiskVectorDeterminatorTest {
             thisMorning.toLocalDate()
         ).raw shouldBe intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
 
-
         TransmissionRiskVectorDeterminator(timeStamper).determine(
             Symptoms(
                 createSpecificStart(thisMorning.minusDays(5).toLocalDate()),
@@ -53,8 +51,6 @@ class TransmissionRiskVectorDeterminatorTest {
             ),
             thisMorning.toLocalDate()
         ).raw shouldBe intArrayOf(2, 3, 5, 6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1)
-
-
 
         TransmissionRiskVectorDeterminator(timeStamper).determine(
             Symptoms(
@@ -72,7 +68,6 @@ class TransmissionRiskVectorDeterminatorTest {
             )
         ).raw shouldBe intArrayOf(4, 5, 6, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1)
 
-
         // positive - OneToTwoWeeksAgo
         TransmissionRiskVectorDeterminator(timeStamper).determine(
             Symptoms(
@@ -80,7 +75,6 @@ class TransmissionRiskVectorDeterminatorTest {
                 Symptoms.Indication.POSITIVE
             )
         ).raw shouldBe intArrayOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 6, 6, 4)
-
 
         // positive - MoreThanTwoWeeks
         TransmissionRiskVectorDeterminator(timeStamper).determine(
@@ -112,7 +106,6 @@ class TransmissionRiskVectorDeterminatorTest {
                 null, Symptoms.Indication.NO_INFORMATION
             )
         ).raw shouldBe intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
-
     }
 
     private fun createSpecificStart(localDate: LocalDate): Symptoms.StartOf.Date =

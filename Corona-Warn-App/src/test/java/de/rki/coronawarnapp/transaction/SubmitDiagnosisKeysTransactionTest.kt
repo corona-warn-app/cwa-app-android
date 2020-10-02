@@ -126,7 +126,7 @@ class SubmitDiagnosisKeysTransactionTest {
     }
 
     @Test
-    fun `submission with keys`(): Unit {
+    fun `submission with keys`() {
         val intervalNumber = (Instant.now().toEpochMilli() / (60 * 10 * 1000)).toInt()
         runBlocking {
             val key = TemporaryExposureKey.TemporaryExposureKeyBuilder()
