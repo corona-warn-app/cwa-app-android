@@ -130,7 +130,7 @@ class SubmissionViewModel : ViewModel() {
         deviceUiState.value?.let {
             if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
                 refresh = false
-                Timber.d("refreshDeviceUIState: Change refresh to false because state ${it.name} doesn't require a refresh")
+                Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
             }
         }
         executeRequestWithState(
