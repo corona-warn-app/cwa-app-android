@@ -246,7 +246,7 @@
     <!-- XHED: App overview subtitle for tracing explanation-->
     <string name="main_overview_subtitle_tracing">"Rejestrowanie narażenia"</string>
     <!-- YTXT: App overview body text about tracing -->
-    <string name="main_overview_body_tracing">"Rejestrowanie narażenia jest jedną z trzech głównych funkcji aplikacji. Po jej aktywacji rejestrowane są kontakty ze smartfonami innych osób. Nie musisz robić nic więcej."</string>
+    <string name="main_overview_body_tracing">"Rejestrowanie narażenia jest jedną z trzech głównych funkcji aplikacji. Po jej aktywacji rejestrowane są kontakty z urządzeniami innych osób. Nie musisz robić nic więcej."</string>
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Ryzyko zakażenia"</string>
     <!-- YTXT: App overview body text about risk levels -->
@@ -358,9 +358,9 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for low risk -->
-    <string name="risk_details_information_body_notice_low">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako niskie. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie na smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
+    <string name="risk_details_information_body_notice_low">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako niskie. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie na smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
+    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -371,9 +371,9 @@
     <!-- XHED: one time risk explanation dialog title  -->
     <string name="risk_details_explanation_dialog_title">"Informacje o funkcjonalności rejestrowania narażenia"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
-    <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
+    <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie Często zadawane pytania."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -392,26 +392,26 @@
     <!-- XTXT: onboarding - back description for screen reader -->
     <string name="onboarding_button_back_description">"Wstecz"</string>
     <!-- XACT: Onboarding (together) page title -->
-    <string name="onboarding_onboarding_accessibility_title">"Strona wprowadzenia 1 z 5: Wspólna walka z koronawirusem"</string>
+    <string name="onboarding_onboarding_accessibility_title">"Strona wprowadzenia 1 z 6: Wspólna walka z koronawirusem"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Razem pokonajmy koronawirusa"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
     <string name="onboarding_subtitle">"Większa ochrona dla Ciebie i dla nas wszystkich. Korzystając z aplikacji Corona-Warn-App, możemy znacznie szybciej przerwać łańcuchy zakażeń."</string>
     <!-- YTXT: onboarding(together) - inform about the app -->
-    <string name="onboarding_body">"Zmień swój smartfon w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której w ciągu ostatnich 14 dni zdiagnozowano COVID-19."</string>
+    <string name="onboarding_body">"Zmień swoje urządzenie w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której w ciągu ostatnich 14 dni zdiagnozowano COVID-19."</string>
     <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Aplikacja rejestruje kontakty między osobami poprzez wymianę zaszyfrowanych, losowych identyfikatorów między ich smartfonami bez uzyskiwania dostępu do danych osobowych."</string>
+    <string name="onboarding_body_emphasized">"Aplikacja rejestruje kontakty między osobami poprzez wymianę zaszyfrowanych, losowych identyfikatorów między ich urządzeniami bez uzyskiwania dostępu do danych osobowych."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">"Strona wprowadzenia 2 z 5: Prywatność danych. W dalszej części znajduje się opis. Aby kontynuować w dowolnym momencie, użyj przycisku w dolnej części ekranu."</string>
+    <string name="onboarding_privacy_accessibility_title">"Strona wprowadzenia 2 z 6: Prywatność danych. W dalszej części znajduje się opis. Aby kontynuować w dowolnym momencie, użyj przycisku w dolnej części ekranu."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Prywatność danych"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">"Kobieta używa Corona-Warn-App na swoim smartfonie. Ikona przedstawiająca kłódkę na tle tarczy symbolizuje zaszyfrowane dane."</string>
     <!-- XACT: Onboarding (tracing) page title -->
-    <string name="onboarding_tracing_accessibility_title">"Strona wprowadzenia 3 z 5: Jak włączyć rejestrowanie narażenia"</string>
+    <string name="onboarding_tracing_accessibility_title">"Strona wprowadzenia 3 z 6: Jak włączyć rejestrowanie narażenia"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Jak włączyć rejestrowanie narażenia"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
@@ -427,7 +427,7 @@
     <!-- XHED: onboarding(tracing) - headline for consent information -->
     <string name="onboarding_tracing_headline_consent">"Oświadczenia o wyrażeniu zgody"</string>
     <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the \"Enable\" button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the \"Exposure Notifications\" functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your smartphone sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App\'s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under \"Data Privacy Information\"."</string>
+    <string name="onboarding_tracing_body_consent">"Aby dowiedzieć się, czy istnieje prawdopodobieństwo, że byłeś(-łaś) narażony(-a) na kontakt z osobą zarażoną w kraju* oficjalnie korzystającym z aplikacji Corona, musisz włączyć funkcję rejestrowania narażenia. Dotykając przycisku „Włącz” wyrażasz zgodę na włączenie funkcji rejestrowania narażenia oraz przetwarzanie powiązanych danych."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aby korzystać z funkcji rejestrowania narażenia w aplikacji, musisz włączyć funkcjonalność „Powiadomienia o narażeniu” udostępnianą przez Google na Twoim smartfonie i udzielić aplikacji Corona-Warn-App praw do jej używania."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Po włączeniu rejestrowania narażenia Twój smartfon będzie generował i udostępniał przez Bluetooth losowe identyfikatory, które mogą odbierać inne smartfony z systemem Android lub Apple w Twoim otoczeniu, jeśli rejestrowanie narażenia jest w nich również włączone. Twój smartfon z kolei będzie odbierał losowe identyfikatory innych smartfonów. Twoje własne losowe identyfikatory i te otrzymane z innych smartfonów są rejestrowane w logu narażeń i przechowywane w nim przez 14 dni."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aby zidentyfikować ryzyko zakażenia, aplikacja wczytuje listę – kilka razy na dzień lub na żądanie – losowych identyfikatorów wszystkich użytkowników, którzy powiadomili aplikację, że zostali zakażeni koronawirusem. Lista jest następnie porównywana z losowymi identyfikatorami przechowywanymi w logu narażeń. Jeśli aplikacja wykryje, że miałeś(-łaś) kontakt z zakażonym użytkownikiem, poinformuje Cię o tym i powiadomi o istnieniu ryzyka, że się również zaraziłeś(-łaś). W takim przypadku aplikacja uzyska również dostęp do innych danych przechowywanych w logu narażeń Twojego smartfona (data, czas trwania i siła sygnału Bluetooth kontaktu)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Siła sygnału Bluetooth jest wykorzystywana w celu określenia fizycznej odległości (im silniejszy sygnał, tym mniejsza odległość). Następnie aplikacja analizuje te informacje w celu oceny prawdopodobieństwa zakażenia koronawirusem i przekazania zaleceń dotyczących dalszego postępowania. Ta analiza jest wykonywana tylko lokalnie na Twoim smartfonie. Oprócz Ciebie nikt (nawet RKI) nie dowie się, czy miałeś(-łaś) kontakt z zarażoną osobą i jakie ponosisz ryzyko."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aby wycofać swoją zgodę na włączenie funkcji rejestrowania narażenia, możesz ją wyłączyć za pomocą przełącznika w aplikacji lub usunąć aplikację. Jeśli się ponownie zdecydujesz na używanie funkcji rejestrowania narażenia, możesz z powrotem włączyć tę funkcję lub przeinstalować aplikację. Jeśli wyłączysz funkcję rejestrowania narażenia, aplikacja nie będzie już sprawdzać, czy miałeś(-łaś) kontakt z zarażonym użytkownikiem. Jeśli chcesz, by Twoje urządzenie już nie wysyłało i nie odbierało losowych identyfikatorów, musisz wyłączyć Rejestrowanie narażenia na COVID-19 w swoich ustawieniach smartfona. Pamiętaj, że Twoje własne losowe identyfikatory i te odebrane z innych smartfonów, które są przechowywane w logu narażenia, nie zostaną usunięte w aplikacji. Możesz tylko trwale usunąć dane przechowywane w logu narażeń w ustawieniach Twojego smartfona."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Informacje aplikacji o prywatności danych (łącznie z wyjaśnieniem dotyczącym przetwarzania danych wykonywanego dla funkcji rejestrowania narażenia) można znaleźć w menu w sekcji „Informacje o ochronie danych”."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Aktywuj rejestrowanie narażenia"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -461,7 +461,7 @@
     <!-- XBUT: onboarding(tracing) - dialog about manual checking button -->
     <string name="onboarding_manual_required_dialog_button">"OK"</string>
     <!-- XACT: onboarding(tracing) - illustraction description, header image -->
-    <string name="onboarding_tracing_illustration_description">"Trzy osoby aktywowały rejestrowanie narażenia na swoich smartfonach, które będą rejestrować ich wzajemne kontakty."</string>
+    <string name="onboarding_tracing_illustration_description">"Trzy osoby aktywowały rejestrowanie narażenia na swoich urządzeniach, które będą rejestrować ich wzajemne kontakty."</string>
     <!-- XHED: onboarding(tracing) - location explanation for bluetooth headline -->
     <string name="onboarding_tracing_location_headline">"Zezwól na dostęp do lokalizacji"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
@@ -469,17 +469,17 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Otwórz ustawienia urządzenia"</string>
     <!-- XACT: Onboarding (test) page title -->
-    <string name="onboarding_test_accessibility_title">"Strona wprowadzenia 4 z 5: Jeśli zdiagnozowano u Ciebie COVID-19..."</string>
+    <string name="onboarding_test_accessibility_title">"Strona wprowadzenia 5 z 6: Jeśli zdiagnozowano u Ciebie COVID-19..."</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"Jeśli zdiagnozowano u Ciebie COVID-19..."</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">"… zgłoś ten fakt w Corona-Warn-App. Udostępnianie wyników testu jest dobrowolne i bezpieczne. Zrób to ze względu na zdrowie innych osób."</string>
     <!-- YTXT: onboarding(test) - explain test -->
-    <string name="onboarding_test_body">"Twoje powiadomienie jest szyfrowane w bezpieczny sposób i przetwarzane na bezpiecznym serwerze. Osoby, których zaszyfrowane losowe identyfikatory zostały zgromadzone przez Twój smartfon, otrzymają wtedy ostrzeżenie wraz z informacją na temat dalszych kroków postępowania."</string>
+    <string name="onboarding_test_body">"Twoje powiadomienie jest szyfrowane w bezpieczny sposób i przetwarzane na bezpiecznym serwerze. Osoby, których zaszyfrowane losowe identyfikatory zostały zgromadzone przez Twoje urządzenie, otrzymają teraz ostrzeżenie wraz z informacją na temat dalszych kroków postępowania."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu, który będzie teraz ostrzegał innych użytkowników."</string>
     <!-- XACT: Onboarding (datashare) page title -->
-    <string name="onboarding_notifications_accessibility_title">"Strona wprowadzenia 5 z 5: Otrzymuj ostrzeżenia i ustal ryzyko"</string>
+    <string name="onboarding_notifications_accessibility_title">"Strona wprowadzenia 6 z 6: Otrzymuj ostrzeżenia i ustal ryzyko"</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Otrzymuj ostrzeżenia i ustal ryzyko"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
@@ -564,7 +564,7 @@
         <item quantity="many">"Rejestrowanie narażenia jest aktywne od %1$s dni.\nSprawdzanie narażeń jest wiarygodne tylko wtedy, gdy rejestracja narażenia jest aktywowana na stałe."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_active">"Trzy osoby aktywowały rejestrowanie narażenia na swoich smartfonach, które będą rejestrować ich wzajemne kontakty."</string>
+    <string name="settings_tracing_illustration_description_active">"Trzy osoby aktywowały rejestrowanie narażenia na swoich urządzeniach, które będą rejestrować ich wzajemne kontakty."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_inactive">"Jedna osoba dezaktywowała rejestrowanie narażenia na swoim smartfonie, więc kontakt z dwiema pozostałymi osobami nie jest rejestrowany."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -658,7 +658,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Instytut Roberta Kocha (RKI) to niemiecka federalna instytucja zdrowia publicznego. RKI publikuje aplikację Corona-Warn-App w imieniu rządu federalnego. Aplikacja ta służy jako cyfrowe uzupełnienie już wprowadzonych środków ochrony zdrowia publicznego, takich jak zachowanie dystansu społecznego, dbanie o higienę oraz noszenie maseczek."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Wszystkie osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim smartfonie. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
+    <string name="information_about_body">"Wszystkie osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim urządzeniu. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -680,7 +680,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Jak możemy Ci pomóc?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"W przypadku pytań technicznych dotyczących Corona-Warn-App prosimy o kontakt z naszą infolinią."</string>
+    <string name="information_contact_body">"W przypadku pytań technicznych dotyczących aplikacji Corona-Warn-App proszę się skontaktować z naszą infolinią.\n\nOsoby niedosłyszące mogą skorzystać z usług Tess Relay (tłumaczenie z pisanego języka niemieckiego na język migowy i odwrotnie) w celu skontaktowania się z infolinią. To oprogramowanie można pobrać z App Store/Google Play."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Infolinia techniczna:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -730,6 +730,13 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"W ręce trzymany jest smartfon z dużą ilością tekstu na ekranie. Obok tekstu znajduje się symbol paragrafu reprezentujący impressum."</string>
 
+    <!-- ####################################
+              Interoperability
+    ###################################### -->
+    <!-- XHED: headline for consent information  -->
+    <string name="interop_consent_headline">"Zgoda"</string>
+    <!-- YTXT: body for consent information -->
+    <string name="interop_consent_body">"Dotknięcie opcji „Zgoda” oznacza wyrażenie zgody na wysyłanie Twoich losowych ID z ostatnich 14 dni do europejskiego systemu serwera obsługiwanego wspólnie przez kraje uczestniczące*. Jeśli zdiagnozowano u Ciebie COVID-19, możesz ostrzec użytkowników oficjalnych aplikacji Corona w krajach uczestniczących. W tym celu losowe identyfikatory są udostępniane krajom uczestniczącym. Użytkownicy oficjalnych aplikacji Corona w innych krajach mogą otrzymać ostrzeżenie o potencjalnym narażeniu w ciągu ostatnich 14 dni."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Losowe identyfikatory nie ujawniają innym użytkownikom żadnych informacji o Twojej tożsamości, nazwisku lub innych danych osobowych."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Udostępnianie losowych identyfikatorów w celu wsparcia transgranicznych ostrzeżeń jest opcjonalne. Jeśli zdecydujesz się nie udostępniać swoich danych, nie będzie to powodować dla Ciebie żadnych niedogodności. Ponieważ nie jest możliwe śledzenie ani kontrolowanie, czy i jak używasz aplikacji, nikt oprócz Ciebie nie będzie wiedział, czy udostępniasz swoje losowe ID, czy nie."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"W każdej chwili możesz wycofać swoją zgodę usuwając aplikację. Odwołanie zgody nie ma wpływu na legalność przetwarzania Twoich danych wykonywanego do momentu wycofania Twojej zgody. Więcej informacji – dotyczących krajów uczestniczących i organów ds. zdrowia publicznego odpowiedzialnych za ochronę danych – znajduje się w sekcji „Ochrona danych”."</string>
 
     <!-- ####################################
              Submission
@@ -922,7 +929,7 @@
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Oświadczenia o wyrażeniu zgody"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping \"Accept\", you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under \"Data Privacy Information\"."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping on “Accept”, you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Akceptuj"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -942,9 +949,9 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Ostrzeganie innych"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Możesz pomóc!"</string>
+    <string name="submission_positive_other_warning_headline">"Pomóż nam wszystkim!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz aktywować w aplikacji udostępnianie innym Twoich losowych identyfikatorów z ostatnich 14 dni. W ten sposób ostrzeżesz inne osoby i pomożesz w przerwaniu łańcucha zakażeń.\n\nAplikacja udostępnie losowe identyfikatory i podane przez Ciebie informacje o wystąpieniu symptomów. Twoja tożsamość nie zostanie ujawniona."</string>
+    <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz aktywować w aplikacji udostępnianie innym Twoich losowych identyfikatorów z ostatnich 14 dni. W ten sposób ostrzeżesz inne osoby i pomożesz w przerwaniu łańcucha zakażeń.\n\nAplikacja udostępnia losowe identyfikatory i podane przez Ciebie informacje o wystąpieniu symptomów. Twoja tożsamość nie zostanie ujawniona."</string>
     <!-- XHED: Title for the privacy card-->
     <string name="submission_positive_other_warning_privacy_title">"Prywatność danych"</string>
     <!-- YTXT: Body text for the privacy card-->
@@ -953,6 +960,8 @@
     <string name="submission_positive_other_warning_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
+    <!-- XHED: Title for the interop country list-->
+    <string name="submission_interoperability_list_title">"Następujące kraje uczestniczą obecnie w międzynarodowym rejestrowaniu narażenia:"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -976,7 +985,7 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Uwaga:"</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Możesz zarażać."</string>
+    <string name="submission_done_contagious">"Organ ds. zdrowia publicznego skontaktuje się z Tobą w ciągu kilku najbliższych dni."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Izoluj się od innych osób."</string>
     <!-- XHED: Title for further info -->
@@ -1016,7 +1025,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Nie"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Brak odpowiedzi"</string>
+    <string name="submission_symptom_no_information_button">"Bez komentarza"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Dalej"</string>
 
@@ -1064,7 +1073,7 @@
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"Ponad 2 tygodnie temu"</string>
     <!-- XBUT: symptom calendar screen verify button -->
-    <string name="submission_symptom_verify">"Brak odpowiedzi"</string>
+    <string name="submission_symptom_verify">"Bez komentarza"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1102,7 +1111,7 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Możesz zarażać. Izoluj się od innych osób."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Organ ds. zdrowia publicznego skontaktuje się z Tobą w ciągu kilku najbliższych dni telefonicznie lub listownie."</string>
+    <string name="submission_status_card_positive_result_contact">"Organ ds. zdrowia publicznego skontaktuje się z Tobą w ciągu kilku najbliższych dni."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Udostępnij swoje losowe identyfikatory, aby umożliwić ostrzeganie innych osób."</string>
 
@@ -1231,4 +1240,122 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+
+    <!-- XHED: Country Entry for Austria -->
+    <string name="country_name_at">"Austria"</string>
+    <!-- XHED: Country Entry for Belgium -->
+    <string name="country_name_be">"Belgia"</string>
+    <!-- XHED: Country Entry for Bulgaria -->
+    <string name="country_name_bg">"Bułgaria"</string>
+    <!-- XHED: Country Entry for Switzerland -->
+    <string name="country_name_ch">"Szwajcaria"</string>
+    <!-- XHED: Country Entry for Cyprus -->
+    <string name="country_name_cy">"Cypr"</string>
+    <!-- XHED: Country Entry for Czech Republic -->
+    <string name="country_name_cz">"Republika Czeska"</string>
+    <!-- XHED: Country Entry for Germany -->
+    <string name="country_name_de">"Niemcy"</string>
+    <!-- XHED: Country Entry for Denmark -->
+    <string name="country_name_dk">"Dania"</string>
+    <!-- XHED: Country Entry for Estonia -->
+    <string name="country_name_ee">"Estonia"</string>
+    <!-- XHED: Country Entry for Spain -->
+    <string name="country_name_es">"Hiszpania"</string>
+    <!-- XHED: Country Entry for Finland -->
+    <string name="country_name_fi">"Finlandia"</string>
+    <!-- XHED: Country Entry for France -->
+    <string name="country_name_fr">"Francja"</string>
+    <!-- XHED: Country Entry for Great Britain -->
+    <string name="country_name_uk">"Wielka Brytania"</string>
+    <!-- XHED: Country Entry for Greece -->
+    <string name="country_name_gr">"Grecja"</string>
+    <!-- XHED: Country Entry for Croatia -->
+    <string name="country_name_hr">"Chorwacja"</string>
+    <!-- XHED: Country Entry for Hungary -->
+    <string name="country_name_hu">"Węgry"</string>
+    <!-- XHED: Country Entry for Ireland -->
+    <string name="country_name_ie">"Irlandia"</string>
+    <!-- XHED: Country Entry for Iceland -->
+    <string name="country_name_is">"Islandia"</string>
+    <!-- XHED: Country Entry for Italy -->
+    <string name="country_name_it">"Włochy"</string>
+    <!-- XHED: Country Entry for Liechtenstein -->
+    <string name="country_name_li">"Liechtenstein"</string>
+    <!-- XHED: Country Entry for Lithuania -->
+    <string name="country_name_lt">"Litwa"</string>
+    <!-- XHED: Country Entry for Luxemburg -->
+    <string name="country_name_lu">"Luksemburg"</string>
+    <!-- XHED: Country Entry for Latvia -->
+    <string name="country_name_lv">"Łotwa"</string>
+    <!-- XHED: Country Entry for Malta -->
+    <string name="country_name_mt">"Malta"</string>
+    <!-- XHED: Country Entry for Netherlands -->
+    <string name="country_name_nl">"Holandia"</string>
+    <!-- XHED: Country Entry for Norway -->
+    <string name="country_name_no">"Norwegia"</string>
+    <!-- XHED: Country Entry for Poland -->
+    <string name="country_name_pl">"Polska"</string>
+    <!-- XHED: Country Entry for Portugal -->
+    <string name="country_name_pt">"Portugalia"</string>
+    <!-- XHED: Country Entry for Rumania -->
+    <string name="country_name_ro">"Rumunia"</string>
+    <!-- XHED: Country Entry for Sweden -->
+    <string name="country_name_se">"Szwecja"</string>
+    <!-- XHED: Country Entry for Slovenia -->
+    <string name="country_name_si">"Słowenia"</string>
+    <!-- XHED: Country Entry for Slovakia -->
+    <string name="country_name_sk">"Słowacja"</string>
+
+    <!-- XHED: Title of the interoperbaility information view. -->
+    <string name="interoperability_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
+
+    <!-- XHED: Setting title of interoperability in the tracing settings view -->
+    <string name="settings_interoperability_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
+    <!-- XTXT: Settings description of the interoperability in the tracing settings view -->
+    <string name="settings_interoperability_subtitle">"Kraje uczestniczące"</string>
+
+    <!-- XHED: Header of interoperability information/configuration view -->
+    <string name="interoperability_configuration_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
+    <!-- XTXT: First section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_first_section">"Corona-Warn-App ostrzega Cię o potencjalnym zakażeniu w skali międzynarodowej, dzięki wymianie danych w całej infrastrukturze krajów europejskich."</string>
+    <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_second_section">"Nie są udostępniane dane osobowe. Nie ponosisz żadnych dodatkowych kosztów z tytułu transgranicznego udostępniania danych przez Corona-Warn-App"</string>
+    <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_list_title">"Obecnie uczestniczą następujące kraje:"</string>
+
+    <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
+    <string name="interoperability_onboarding_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
+    <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
+    <string name="interoperability_onboarding_first_section">"Wiele krajów w UE współpracuje w zakresie aktywowania międzynarodowych ostrzeżeń. Innymi słowy, można teraz określić Twoje potencjalne narażenie wobec użytkowników oficjalnych aplikacji Corona we wszystkich uczestniczących krajach."</string>
+    <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
+    <string name="interoperability_onboarding_second_section">"Gdy użytkownik przesyła swój losowy identyfikator do systemu serwera obsługiwanego wspólnie przez kraje uczestniczące, użytkownicy oficjalnych aplikacji Corona we wszystkich tych krajach mogą zostać ostrzeżeni o potencjalnym narażeniu."</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_randomid_download_free">"Codzienne pobieranie losowych identyfikatorów jest bezpłatne – Twój wolumen danych nie jest związany z żadną opłatą ani kosztami roamingu w innych krajach europejskich."</string>
+    <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
+    <string name="interoperability_onboarding_list_title">"Obecnie uczestniczą następujące kraje:"</string>
+
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">"Funkcje aplikacji Corona-Warn-App zostały rozszerzone. Wiele krajów UE połączyło siły w celu aktywacji międzynarodowych ostrzeżeń, na podstawie wspólnie obsługiwanego systemu serwera. Podczas oceny ryzyka narażenia można teraz wziąć pod uwagę narażenie wobec użytkowników oficjalnych aplikacji Corona w innych krajach uczestniczących."</string>
+    <!-- XHED: Header of private data in the delta onboarding interoperability view -->
+    <string name="interoperability_onboarding_delta_footerTitle">"Informacje o przetwarzaniu danych"</string>
+    <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
+    <string name="interoperability_onboarding_delta_footerDescription">"Aby się dowiedzieć, czy istnieje ryzyko, że byłeś(-łaś) narażony(-a) na kontakt z osobami zarażonymi w kraju* uczestniczącym oficjalnie korzystającym z aplikacji Corona, nie musisz nic zmieniać. Musi być tylko cały czas aktywowana funkcja „Rejestrowanie narażenia” w aplikacji.\n\nPo włączeniu rejestrowania narażenia Twój iPhone będzie nadal generował i udostępniał przez Bluetooth losowe identyfikatory, które teraz mogą odbierać również smartfony z oficjalną aplikacją Corona innych uczestniczących krajów w Twoim otoczeniu. Twój iPhone z kolei będzie odbierał losowe identyfikatory innych smartfonów. Twoje własne losowe identyfikatory i te otrzymane z innych smartfonów są rejestrowane w logu narażeń na kontakty z osobami zakażonymi COVID-19 i przechowywane w nim przez 14 dni.\n\nAby zidentyfikować ryzyko zakażenia, aplikacja wczytuje listę losowych identyfikatorów wszystkich użytkowników, którzy je udostępnili poprzez europejski system serwera po otrzymaniu pozytywnego wyniku testu na koronawirusa. Lista ta jest następnie porównywana z losowymi identyfikatorami przechowywanymi w logu narażeń na kontakty z osobami zakażonymi COVID-19.\n\nJeśli aplikacja wykryje, że miałeś(-łaś) kontakt z zakażonym użytkownikiem, poinformuje Cię o tym i powiadomi o istnieniu ryzyka, że się również zaraziłeś(-łaś). W takim przypadku aplikacja uzyska również dostęp do innych danych przechowywanych w logu narażeń na COVID-19 w Twoim iPhonie (data, czas trwania i siła sygnału Bluetooth kontaktu).\n\nSiła sygnału Bluetooth jest wykorzystywana w celu określenia fizycznej odległości od innego użytkownika (im silniejszy sygnał, tym mniejsza odległość). Następnie aplikacja analizuje te informacje w celu oceny prawdopodobieństwa zakażenia koronawirusem i przekazania zaleceń dotyczących dalszego postępowania. Ta analiza jest wykonywana tylko lokalnie na Twoim iPhonie. Oprócz Ciebie nikt (nawet organy służby zdrowia) nie dowie się, czy miałeś(-łaś) kontakt z zarażoną osobą i jakie ponosisz ryzyko.\n\nInformacje o prywatności danych (łącznie z wyjaśnieniem dotyczącym przetwarzania danych wykonywanego dla funkcji rejestrowania narażenia) można znaleźć w menu w sekcji „Informacje o ochronie danych“."</string>
+
+    <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
+    <string name="interoperability_eu_illustration_description">"Ręka trzyma smartfon. Europa i flaga europejska są przedstawione w tle."</string>
+
+    <!-- XTXT: Title for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_title_failrequest">"Kraje uczestniczące"</string>
+    <!-- XTXT: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest">"Możesz wyświetlić kraje uczestniczące w danych rejestrowania narażenia."</string>
+
+    <!-- YDES: Title for the interoperability onboarding if country download fails for Risk Details -->
+    <string name="interoperability_onboarding_list_title_riskdetection_no_network">"Nie można teraz wyświetlić krajów"</string>
+    <!-- YMSW: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">"Twoje połączenie z Internetem mogło zostać utracone. Upewnij się, że masz połączenie z Internetem."</string>
+    <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
+    <string name="interoperability_onboarding_list_button_title_no_network">"Otwórz ustawienia urządzenia"</string>
+
 </resources>
