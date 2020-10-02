@@ -1315,6 +1315,8 @@
     <string name="interoperability_configuration_first_section">"The Corona-Warn-App warns you of potential infection internationally, by exchanging data over a European infrastructure."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_second_section">"No personal data is shared. You will not incur any additional costs by using the transnational information sharing feature of the Corona-Warn-App."</string>
+    <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_information"></string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
     <string name="interoperability_configuration_list_title">"The following countries currently participate:"</string>
 
