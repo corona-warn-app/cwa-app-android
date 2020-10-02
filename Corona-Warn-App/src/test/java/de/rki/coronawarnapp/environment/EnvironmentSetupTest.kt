@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.environment
 
 import android.content.Context
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -70,34 +71,34 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `default environment type is set correctly`() {
-        if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
-            createEnvSetup().defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-            createEnvSetup().alternativeEnvironment shouldBe EnvironmentSetup.Type.WRU_XA
-        } else {
-            createEnvSetup().defaultEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-            createEnvSetup().alternativeEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-        }
+        createEnvSetup().defaultEnvironment shouldBe BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
     }
 
     @Test
     fun `switching the default type is persisted in storage (preferences)`() {
+        every { BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT } returns EnvironmentSetup.Type.DEV.rawKey
         if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
             createEnvSetup().apply {
                 defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
-                currentEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe defaultEnvironment
                 currentEnvironment = EnvironmentSetup.Type.WRU
                 currentEnvironment shouldBe EnvironmentSetup.Type.WRU
             }
+            mockPreferences.dataMapPeek.values.single() shouldBe EnvironmentSetup.Type.WRU.rawKey
             createEnvSetup().apply {
                 defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
                 currentEnvironment shouldBe EnvironmentSetup.Type.WRU
             }
         } else {
             createEnvSetup().apply {
-                defaultEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-                currentEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
-                currentEnvironment = EnvironmentSetup.Type.DEV
-                currentEnvironment shouldBe EnvironmentSetup.Type.PRODUCTION
+                defaultEnvironment shouldBe EnvironmentSetup.Type.DEV
+                currentEnvironment shouldBe defaultEnvironment
+                currentEnvironment = EnvironmentSetup.Type.WRU
+                currentEnvironment shouldBe defaultEnvironment
+            }
+            mockPreferences.dataMapPeek.values shouldBe emptyList()
+            createEnvSetup().apply {
+                currentEnvironment shouldBe defaultEnvironment
             }
         }
     }

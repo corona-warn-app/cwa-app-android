@@ -58,7 +58,12 @@ class AppConfigProvider @Inject constructor(
             downloadAppConfig()
         } catch (e: Exception) {
             Timber.w(e, "Failed to download latest AppConfig.")
-            null
+            if (configStorage.isAppConfigAvailable) {
+                null
+            } else {
+                Timber.e("No fallback available, rethrowing!")
+                throw e
+            }
         }
 
         val newConfigParsed = try {

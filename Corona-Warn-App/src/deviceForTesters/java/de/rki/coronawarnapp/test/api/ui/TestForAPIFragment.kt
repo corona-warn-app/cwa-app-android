@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.test.api.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -12,16 +13,17 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.content.pm.PackageInfoCompat
+import androidx.core.view.ViewCompat.generateViewId
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
@@ -52,18 +54,16 @@ import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -108,7 +108,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     private var token: String? = null
 
     // ViewModel for MainActivity
-    private val tracingViewModel: TracingViewModel by activityViewModels()
+    private val tracingVM: TracingViewModel by activityViewModels()
 
     private lateinit var qrPager: ViewPager2
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
@@ -118,19 +118,11 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private var lastSetCountries: List<String>? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tracingViewModel = tracingViewModel
-
-        val v: Long = PackageInfoCompat.getLongVersionCode(
-            activity?.packageManager!!.getPackageInfo(
-                GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE,
-                0
-            )
-        )
-        binding.labelGooglePlayServicesVersion.text =
-            "Google Play Services version: " + v.toString()
+        binding.tracingViewModel = tracingVM
 
         token = UUID.randomUUID().toString()
 
@@ -143,6 +135,160 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
 
+        // Debug card
+        binding.threeHourModeToggle.apply {
+            setOnClickListener { vm.setLast3HoursMode(isChecked) }
+        }
+        vm.last3HourToggleEvent.observe2(this) {
+            showToast("Last 3 Hours Mode is activated: $it")
+        }
+        binding.backgroundNotificationsToggle.apply {
+            setOnClickListener { vm.setBackgroundNotifications(isChecked) }
+        }
+        vm.backgroundNotificationsToggleEvent.observe2(this@TestForAPIFragment) {
+            showToast("Background Notifications are activated: $it")
+        }
+        vm.debugOptionsState.observe2(this) { state ->
+            binding.apply {
+                backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
+                threeHourModeToggle.isChecked = state.is3HourModeEnabled
+            }
+        }
+        binding.testLogfileToggle.apply {
+            setOnClickListener { vm.setLoggerEnabled(isChecked) }
+        }
+        vm.loggerState.observe2(this) { state ->
+            binding.apply {
+                testLogfileToggle.isChecked = state.isLogging
+                testLogfileShare.setGone(!state.isLogging)
+            }
+        }
+        binding.testLogfileShare.setOnClickListener { vm.shareLogFile() }
+        vm.logShareEvent.observe2(this) { showToast("Logfile copied to $it") }
+
+        // Server environment card
+        binding.environmentToggleGroup.apply {
+            setOnCheckedChangeListener { group, checkedId ->
+                val chip = group.findViewById<RadioButton>(checkedId)
+                if (!chip.isPressed) return@setOnCheckedChangeListener
+                vm.selectEnvironmentTytpe(chip.text.toString())
+            }
+        }
+
+        vm.environmentState.observe2(this) { state ->
+            binding.apply {
+                if (environmentToggleGroup.childCount != state.available.size) {
+                    environmentToggleGroup.removeAllViews()
+                    state.available.forEach { type ->
+                        RadioButton(requireContext()).apply {
+                            id = generateViewId()
+                            text = type.rawKey
+                            layoutParams = RadioGroup.LayoutParams(
+                                RadioGroup.LayoutParams.MATCH_PARENT,
+                                RadioGroup.LayoutParams.WRAP_CONTENT
+                            )
+                            environmentToggleGroup.addView(this)
+                        }
+                    }
+                }
+
+                environmentToggleGroup.children.forEach {
+                    it as RadioButton
+                    it.isChecked = it.text == state.current.rawKey
+                }
+
+                environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
+                environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
+                environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
+            }
+        }
+        vm.environmentChangeEvent.observe2(this) {
+            showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
+        }
+
+        // GMS Info card
+        vm.gmsState.observe2(this) { state ->
+            binding.googlePlayServicesVersionInfo.text =
+                "Google Play Services version: ${state.version}"
+        }
+
+        // Test action card
+        binding.apply {
+            buttonApiTestStart.setOnClickListener { start() }
+            buttonApiGetExposureKeys.setOnClickListener { getExposureKeys() }
+            buttonApiGetCheckExposure.setOnClickListener { checkExposure() }
+
+            buttonApiScanQrCode.setOnClickListener {
+                IntentIntegrator.forSupportFragment(this@TestForAPIFragment)
+                    .setOrientationLocked(false)
+                    .setBeepEnabled(false)
+                    .initiateScan()
+            }
+
+            buttonApiShareMyKeys.setOnClickListener { shareMyKeys() }
+            buttonApiEnterOtherKeys.setOnClickListener { enterOtherKeys() }
+
+            buttonApiSubmitKeys.setOnClickListener {
+                tracingVM.viewModelScope.launch {
+                    try {
+                        internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+
+                        // SubmitDiagnosisKeysTransaction.start("123")
+                        withContext(Dispatchers.Main) {
+                            showToast("Key submission successful")
+                        }
+                    } catch (e: TransactionException) {
+                        e.report(INTERNAL)
+                    }
+                }
+            }
+
+            buttonCalculateRiskLevel.setOnClickListener { vm.calculateRiskLevelClicked() }
+
+            buttonInsertExposureSummary.setOnClickListener {
+                // Now broadcasts them to the worker.
+                val intent = Intent(
+                    context,
+                    ExposureStateUpdateReceiver::class.java
+                )
+                intent.action = ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
+                context?.sendBroadcast(intent)
+            }
+
+            buttonRetrieveExposureSummary.setOnClickListener {
+                tracingVM.viewModelScope.launch {
+                    showToast(
+                        ExposureSummaryRepository.getExposureSummaryRepository()
+                            .getExposureSummaryEntities().toString()
+                    )
+                }
+            }
+
+            buttonClearDb.setOnClickListener {
+                tracingVM.viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        AppDatabase.getInstance(requireContext()).clearAllTables()
+                    }
+                }
+            }
+
+            buttonTracingIntervals.setOnClickListener {
+                tracingVM.viewModelScope.launch {
+                    showToast(
+                        TracingIntervalRepository.getDateRepository(requireContext()).getIntervals()
+                            .toString()
+                    )
+                }
+            }
+
+            buttonTracingDurationInRetentionPeriod.setOnClickListener {
+                tracingVM.viewModelScope.launch {
+                    showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
+                }
+            }
+        }
+
+        // Country benchmark card
         // Load countries from App config and update Country UI element states
         lifecycleScope.launch {
             lastSetCountries =
@@ -150,143 +296,12 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                     .supportedCountriesList
 
             binding.inputCountryCodesEditText.setText(
-                lastSetCountries?.joinToString(
-                    ","
-                )
+                lastSetCountries?.joinToString(",")
             )
 
             updateCountryStatusLabel()
         }
-
-        binding.buttonApiTestStart.setOnClickListener {
-            start()
-        }
-
-        binding.buttonApiGetExposureKeys.setOnClickListener {
-            getExposureKeys()
-        }
-
-        val last3HoursSwitch = binding.testApiSwitchLastThreeHoursFromServer
-        last3HoursSwitch.isChecked = LocalData.last3HoursMode()
-        last3HoursSwitch.setOnClickListener {
-            vm.setLast3HoursMode(last3HoursSwitch.isChecked)
-        }
-
-        vm.last3HourToggleEvent.observe2(this) {
-            showToast("Last 3 Hours Mode is activated: $it")
-        }
-
-        val backgroundNotificationSwitch = binding.testApiSwitchBackgroundNotifications
-        backgroundNotificationSwitch.isChecked = LocalData.backgroundNotification()
-        backgroundNotificationSwitch.setOnClickListener {
-            val isBackgroundNotificationsActive = backgroundNotificationSwitch.isChecked
-            showToast("Background Notifications are activated: $isBackgroundNotificationsActive")
-            LocalData.backgroundNotification(isBackgroundNotificationsActive)
-        }
-
-        val testCountriesSwitch = binding.testApiSwitchTestCountries
-        testCountriesSwitch.isChecked = vm.isCurrentEnvironmentAlternate()
-        testCountriesSwitch.setOnClickListener {
-            vm.toggleEnvironment(testCountriesSwitch.isChecked)
-        }
-
-        vm.environmentChangeEvent.observe2(this) {
-            showSnackBar(
-                "Environment changed to: $it" +
-                    "\nForce stop & restart the app!"
-            )
-        }
-
-        binding.buttonApiGetCheckExposure.setOnClickListener {
-            checkExposure()
-        }
-
-        binding.buttonApiScanQrCode.setOnClickListener {
-            IntentIntegrator.forSupportFragment(this)
-                .setOrientationLocked(false)
-                .setBeepEnabled(false)
-                .initiateScan()
-        }
-
-        binding.buttonApiShareMyKeys.setOnClickListener {
-            shareMyKeys()
-        }
-
-        binding.buttonApiEnterOtherKeys.setOnClickListener {
-            enterOtherKeys()
-        }
-
-        binding.buttonApiSubmitKeys.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                try {
-                    internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
-
-                    // SubmitDiagnosisKeysTransaction.start("123")
-                    withContext(Dispatchers.Main) {
-                        showToast("Key submission successful")
-                    }
-                } catch (e: TransactionException) {
-                    e.report(INTERNAL)
-                }
-            }
-        }
-
-        binding.buttonCalculateRiskLevel.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                try {
-                    RiskLevelTransaction.start()
-                } catch (e: TransactionException) {
-                    e.report(INTERNAL)
-                }
-            }
-        }
-
-        binding.buttonInsertExposureSummary.setOnClickListener {
-            // Now broadcasts them to the worker.
-            val intent = Intent(
-                context,
-                ExposureStateUpdateReceiver::class.java
-            )
-            intent.action = ExposureNotificationClient.ACTION_EXPOSURE_STATE_UPDATED
-            context?.sendBroadcast(intent)
-        }
-
-        binding.buttonRetrieveExposureSummary.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                showToast(
-                    ExposureSummaryRepository.getExposureSummaryRepository()
-                        .getExposureSummaryEntities().toString()
-                )
-            }
-        }
-
-        binding.buttonClearDb.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    AppDatabase.getInstance(requireContext()).clearAllTables()
-                }
-            }
-        }
-
-        binding.buttonTracingIntervals.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                showToast(
-                    TracingIntervalRepository.getDateRepository(requireContext()).getIntervals()
-                        .toString()
-                )
-            }
-        }
-
-        binding.buttonTracingDurationInRetentionPeriod.setOnClickListener {
-            tracingViewModel.viewModelScope.launch {
-                showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
-            }
-        }
-
-        binding.buttonFilterCountryCodes.setOnClickListener {
-            filterCountryCodes()
-        }
-
+        binding.buttonFilterCountryCodes.setOnClickListener { filterCountryCodes() }
         binding.buttonRetrieveDiagnosisKeysAndCalcRiskLevel.setOnClickListener {
             startKeyRetrievalAndRiskCalcBenchmark()
         }
@@ -296,51 +311,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                 startKeyRetrievalAndRiskCalcBenchmark()
             }
             false
-        }
-
-        binding.testLogfileToggle.isChecked = CWADebug.fileLogger?.isLogging ?: false
-        binding.testLogfileToggle.setOnClickListener { buttonView ->
-            CWADebug.fileLogger?.let {
-                if (binding.testLogfileToggle.isChecked) {
-                    it.start()
-                } else {
-                    it.stop()
-                }
-            }
-        }
-
-        binding.testLogfileShare.setOnClickListener {
-            CWADebug.fileLogger?.let {
-                lifecycleScope.launch {
-                    val targetPath = withContext(Dispatchers.IO) {
-                        async {
-                            if (!it.logFile.exists()) return@async null
-
-                            val externalPath = File(
-                                requireContext().getExternalFilesDir(null),
-                                "LogFile-${System.currentTimeMillis()}.log"
-                            )
-
-                            it.logFile.copyTo(externalPath)
-
-                            return@async externalPath
-                        }
-                    }.await()
-                    if (targetPath != null) {
-                        Toast.makeText(
-                            requireActivity(),
-                            "Logfile copied to $targetPath",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            requireActivity(),
-                            "No log file available",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
         }
     }
 
@@ -372,7 +342,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         val rawCountryCodes = binding.inputCountryCodesEditText.text.toString()
 
         // Country codes can be separated by space or ,
-        var countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
+        val countryCodes = rawCountryCodes.split(',', ' ').filter { it.isNotEmpty() }
 
         lastSetCountries = countryCodes
 
@@ -397,7 +367,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
      */
     private fun updateCountryStatusLabel() {
         binding.labelCountryCodeFilterStatus.text = "Country filter applied for: \n " +
-                "${lastSetCountries?.joinToString(",")}"
+            "${lastSetCountries?.joinToString(",")}"
     }
 
     private val prettyKey = { key: AppleLegacyKeyExchange.Key ->
@@ -428,7 +398,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents == null) {
-                Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_LONG).show()
+                showToast("Cancelled")
             } else {
                 ExposureSharingService.getOthersKeys(result.contents, onScannedKey)
             }
@@ -484,11 +454,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
                     .build()
             )
 
-            val dir =
-                File(
-                    File(requireContext().getExternalFilesDir(null), "key-export"),
-                    token ?: ""
-                )
+            val dir = File(
+                File(requireContext().getExternalFilesDir(null), "key-export"),
+                token ?: ""
+            )
             dir.mkdirs()
 
             var googleFileList: List<File>
@@ -582,12 +551,11 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     }
 
     private fun showToast(message: String) {
-        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
-        toast.show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     private fun showSnackBar(message: String) {
-            view?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }?.show()
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onFailure(exception: Exception?) {
@@ -605,50 +573,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
         updateKeysDisplay()
     }
-
-    private fun getCustomConfig(): ExposureConfiguration = ExposureConfiguration
-        .ExposureConfigurationBuilder()
-        .setAttenuationScores(
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE
-        )
-        .setDaysSinceLastExposureScores(
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE
-        )
-        .setDurationScores(
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE
-        )
-        .setTransmissionRiskScores(
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE,
-            CONFIG_SCORE
-        )
-        .build()
 
     private inner class QRPagerAdapter :
         RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>() {
