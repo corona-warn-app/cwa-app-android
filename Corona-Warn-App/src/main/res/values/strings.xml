@@ -1335,15 +1335,6 @@
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
     <string name="interoperability_onboarding_list_title"></string>
 
-    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
-    <string name="interoperability_onboarding_delta_title"></string>
-    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle"></string>
-    <!-- XHED: Header of private data in the delta onboarding interoperability view -->
-    <string name="interoperability_onboarding_delta_footerTitle"></string>
-    <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
-    <string name="interoperability_onboarding_delta_footerDescription"></string>
-
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description"></string>
 
