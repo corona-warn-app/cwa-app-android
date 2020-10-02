@@ -6,6 +6,11 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
 import javax.inject.Inject
 
+/**
+ * The determination of the values for days since onset of symptoms follows the documentation
+ * described in great detail in this tech spec:
+ * https://github.com/corona-warn-app/cwa-app-tech-spec/blob/master/docs/spec/days-since-onset-of-symptoms.md
+ */
 @Reusable
 class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
     private val timeStamper: TimeStamper
