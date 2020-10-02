@@ -124,12 +124,21 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    fun refreshDeviceUIState(refreshTestResult: Boolean = true) =
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
+        var refresh = refreshTestResult
+
+        deviceUiState.value?.let {
+            if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
+                refresh = false
+                Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
+            }
+        }
         executeRequestWithState(
-            { SubmissionRepository.refreshUIState(refreshTestResult) },
+            { SubmissionRepository.refreshUIState(refresh) },
             _uiStateState,
             _uiStateError
         )
+    }
 
     fun validateAndStoreTestGUID(rawResult: String) {
         val scanResult = QRScanResult(rawResult)
@@ -220,6 +229,6 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun onDateSelected(localDate: LocalDate?) {
-        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOf.Date(localDate.toDate().time))
+        symptomStart.postValue(if (localDate == null) null else Symptoms.StartOf.Date(localDate))
     }
 }

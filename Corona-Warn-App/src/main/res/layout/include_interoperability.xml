@@ -30,6 +30,10 @@
             type="String" />
 
         <variable
+            name="fourthSection"
+            type="String" />
+
+        <variable
             name="footerTitle"
             type="String" />
 
@@ -193,6 +197,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
+            <TextView
+                android:id="@+id/label_interoperability_subtitle4"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@{fourthSection}"
+                android:visibility="@{FormatterHelper.formatVisibilityText(fourthSection)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/country_list_overview" />
+
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/country_list_barrier"
                 android:layout_width="wrap_content"
@@ -203,6 +219,7 @@
                 tools:layout_editor_absoluteY="411dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/interoperability_footer"
                 style="@style/cardTracing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -236,6 +253,54 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/interoperability_footer_title" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/expanded_terms_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/interoperability_footer">
+
+            <TextView
+                android:id="@+id/onboarding_delta_expanded_terms_text_part_1"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/button_icon_margin"
+                android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/onboarding_delta_expanded_terms_text_link"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/button_icon_margin"
+                android:text="@string/interoperability_onboarding_delta_terms_link"
+                android:linksClickable="true"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_delta_expanded_terms_text_part_1"/>
+
+            <TextView
+                android:id="@+id/onboarding_delta_expanded_terms_text_part_2"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/button_icon_margin"
+                android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_delta_expanded_terms_text_link"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
