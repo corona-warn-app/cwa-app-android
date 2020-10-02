@@ -28,7 +28,7 @@ apply plugin: 'jacoco'
 def environmentExtractor = { File path ->
     def rawJson = path.text
     def escapedJson = rawJson.replace("\"", "\\\"").replace("\n", "").replace("\r", "")
-    "\"${escapedJson}\""
+    return "\"${escapedJson}\""
 }
 
 android {
@@ -47,14 +47,11 @@ android {
 
         resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
-        buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"PROD\""
-        buildConfigField "String", "ENVIRONMENT_TYPE_ALTERNATIVE", "\"PROD\""
-
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
 
         def devEnvironmentFile = file("../test_environments.json")
-        if(devEnvironmentFile.exists()) {
+        if (devEnvironmentFile.exists()) {
             def devEnvJson = environmentExtractor(devEnvironmentFile)
             buildConfigField "String", "ENVIRONMENT_JSONDATA", devEnvJson
         }
@@ -76,21 +73,32 @@ android {
         }
     }
 
-    // One version contains our Test Fragments
+
     flavorDimensions "version"
     productFlavors {
         device {
             dimension "version"
             resValue "string", "app_name", "Corona-Warn"
+
+            ext {
+                envTypeDefault = [debug: "INT", release: "PROD"]
+            }
         }
         deviceForTesters {
+            // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
             applicationIdSuffix '.dev'
 
-            buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"DEV\""
-            buildConfigField "String", "ENVIRONMENT_TYPE_ALTERNATIVE", "\"WRU-XA\""
+            ext {
+                envTypeDefault = [debug: "INT", release: "WRU-XD"]
+            }
         }
+    }
+    applicationVariants.all { variant ->
+        def flavor = variant.productFlavors[0]
+        def typeName = variant.buildType.name // debug/release
+        variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
     }
 
     buildFeatures {

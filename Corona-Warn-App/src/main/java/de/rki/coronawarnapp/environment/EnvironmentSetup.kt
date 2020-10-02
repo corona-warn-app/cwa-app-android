@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.DOWNLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUBMISSION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION_KEYS
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,7 +32,13 @@ class EnvironmentSetup @Inject constructor(
         DEV("DEV"),
         WRU("WRU"),
         WRU_XA("WRU-XA"), // (aka ACME)
-        WRU_XD("WRU-XD") // (aka Germany)
+        WRU_XD("WRU-XD"); // (aka Germany)
+
+        companion object {
+            internal fun String.toEnvironmentType(): Type = values().single {
+                it.rawKey == this
+            }
+        }
     }
 
     private val prefs by lazy {
@@ -47,9 +54,6 @@ class EnvironmentSetup @Inject constructor(
 
     val defaultEnvironment: Type
         get() = BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
-
-    val alternativeEnvironment: Type
-        get() = BuildConfigWrap.ENVIRONMENT_TYPE_ALTERNATIVE.toEnvironmentType()
 
     var currentEnvironment: Type
         get() {
@@ -94,10 +98,6 @@ class EnvironmentSetup @Inject constructor(
 
     val appConfigVerificationKey: String
         get() = getEnvironmentValue(VERIFICATION_KEYS)
-
-    private fun String.toEnvironmentType(): Type = Type.values().single {
-        it.rawKey == this
-    }
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
