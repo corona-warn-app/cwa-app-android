@@ -95,3 +95,7 @@ task quickBuildWithFixes {
     dependsOn ':Corona-Warn-App:ktlintDeviceReleaseCheck'
     dependsOn ':Corona-Warn-App:detekt'
 }
+
+task deviceReleaseTest {
+    dependsOn ':Corona-Warn-App:testDeviceReleaseUnitTest'
+}
