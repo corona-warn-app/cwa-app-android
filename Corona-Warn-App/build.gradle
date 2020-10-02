@@ -31,6 +31,8 @@ def environmentExtractor = { File path ->
     "\"${escapedJson}\""
 }
 
+def testEnvironmentsFile = file("../test_environments.json")
+
 android {
     ndkVersion "21.2.6472646"
     compileSdkVersion 29
@@ -53,9 +55,8 @@ android {
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
 
-        def devEnvironmentFile = file("../test_environments.json")
-        if(devEnvironmentFile.exists()) {
-            def devEnvJson = environmentExtractor(devEnvironmentFile)
+        if(testEnvironmentsFile.exists()) {
+            def devEnvJson = environmentExtractor(testEnvironmentsFile)
             buildConfigField "String", "ENVIRONMENT_JSONDATA", devEnvJson
         }
 
@@ -168,7 +169,7 @@ tasks.whenTaskAdded { task ->
     // Let the testers build fail early if there is no test environments file
     // We don't want to silently fallback to prod_environments.json
     if (task.name ==~ /assembleDeviceForTesters.*/) {
-        task.doFirst() { assert file("../test_environments.json").exists() }
+        task.doFirst() { assert testEnvironmentsFile.exists() }
     }
 }
 
