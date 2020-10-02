@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
@@ -127,7 +126,7 @@ class KeyFileDownloader @Inject constructor(
      */
     private suspend fun syncMissingDays(
         availableCountries: List<LocationCode>
-    ) = withContext(Dispatchers.IO) {
+    ) = withContext(dispatcherProvider.IO) {
         val countriesWithMissingDays = determineMissingDays(availableCountries)
 
         requireStorageSpace(countriesWithMissingDays)
@@ -258,7 +257,7 @@ class KeyFileDownloader @Inject constructor(
     private suspend fun syncMissing3Hours(
         availableCountries: List<LocationCode>,
         hourItemLimit: Int
-    ) = withContext(Dispatchers.IO) {
+    ) = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).v(
             "asyncHandleLast3HoursFilesFetch(availableCountries=%s, hourLimit=%d)",
             availableCountries, hourItemLimit
