@@ -137,7 +137,7 @@ jobs:
           command: circleci tests glob "**/test/**/*Test.kt" | circleci tests split --split-by=timings | xargs -n 1 echo
       - run:
           name: Custom Test
-          command: ./gradlew deviceReleaseCustomTest -i -PtestFilter="`circleci tests glob "**/test/**/*Test.kt" | circleci tests split --split-by=timings`"
+          command: ./gradlew :Corona-Warn-App:deviceReleaseCustomTest -i -PtestFilter="`circleci tests glob "**/test/**/*Test.kt" | circleci tests split --split-by=timings`"
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false

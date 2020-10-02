@@ -99,13 +99,3 @@ task quickBuildWithFixes {
 task deviceReleaseTest {
     dependsOn ':Corona-Warn-App:testDeviceReleaseUnitTest'
 }
-
-task deviceReleaseCustomTest (
-    type: Test,
-    description: 'Run integration tests only. Pass in \'-Pintegration=true\'',
-    dependsOn: [':Corona-Warn-App:testDeviceReleaseUnitTest'] ) {
-
-    if (project.hasProperty('testFilter')) {
-        println testFilter
-    }
-}

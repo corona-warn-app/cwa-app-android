@@ -163,6 +163,17 @@ android {
     }
 }
 
+task deviceReleaseCustomTest (
+        type: Test,
+        dependsOn: 'testDeviceReleaseUnitTest' ) {
+
+    println 'DeviceReleaseCustomTest. Tests:'
+
+    if (project.hasProperty('testFilter')) {
+        println testFilter
+    }
+}
+
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
     group = "Reporting"
     description = "Generate Jacoco coverage reports for the DeviceRelease build."
