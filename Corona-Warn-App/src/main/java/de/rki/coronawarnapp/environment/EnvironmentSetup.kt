@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SUBMISSION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEYS
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvType.Companion.toEnvironmentType
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class EnvironmentSetup @Inject constructor(
         VERIFICATION_KEYS("PUB_KEYS_SIGNATURE_VERIFICATION")
     }
 
-    enum class EnvType(val rawKey: String) {
+    enum class Type(val rawKey: String) {
         PRODUCTION("PROD"),
         INT("INT"),
         INT_FED("INT-FED"),
@@ -39,7 +39,7 @@ class EnvironmentSetup @Inject constructor(
         WRU_XD("WRU-XD"); // (aka Germany)
 
         companion object {
-            internal fun String.toEnvironmentType(): EnvType = values().single {
+            internal fun String.toEnvironmentType(): Type = values().single {
                 it.rawKey == this
             }
         }
@@ -56,10 +56,10 @@ class EnvironmentSetup @Inject constructor(
         }
     }
 
-    val defaultEnvironment: EnvType
+    val defaultEnvironment: Type
         get() = BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
 
-    var currentEnvironment: EnvType
+    var currentEnvironment: Type
         get() {
             return prefs
                 .getString(PKEY_CURRENT_ENVINROMENT, null)
@@ -81,7 +81,7 @@ class EnvironmentSetup @Inject constructor(
                 currentEnvironment.rawKey
             } else {
                 Timber.e("Tried to use unavailable environment: $variableKey on $currentEnvironment")
-                EnvType.PRODUCTION.rawKey
+                Type.PRODUCTION.rawKey
             }
             environmentJson
                 .getAsJsonObject(targetEnvKey)

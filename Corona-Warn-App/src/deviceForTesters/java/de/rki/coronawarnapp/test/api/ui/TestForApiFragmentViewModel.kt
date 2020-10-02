@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.GoogleApiAvailability
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvType.Companion.toEnvironmentType
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -48,7 +48,7 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
     val environmentState by smartLiveData {
         envSetup.toEnvironmentState()
     }
-    val environmentChangeEvent = SingleLiveEvent<EnvironmentSetup.EnvType>()
+    val environmentChangeEvent = SingleLiveEvent<EnvironmentSetup.Type>()
 
     fun selectEnvironmentTytpe(type: String) {
         environmentState.update {

@@ -31,14 +31,14 @@ class TestForApiFragmentViewModelTest : BaseTest() {
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var context: Context
 
-    private var currentEnvironment = EnvironmentSetup.EnvType.DEV
+    private var currentEnvironment = EnvironmentSetup.Type.DEV
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        currentEnvironment = EnvironmentSetup.EnvType.DEV
+        currentEnvironment = EnvironmentSetup.Type.DEV
 
-        every { environmentSetup.defaultEnvironment } returns EnvironmentSetup.EnvType.DEV
+        every { environmentSetup.defaultEnvironment } returns EnvironmentSetup.Type.DEV
         every { environmentSetup.submissionCdnUrl } returns "submissionUrl"
         every { environmentSetup.downloadCdnUrl } returns "downloadUrl"
         every { environmentSetup.verificationCdnUrl } returns "verificationUrl"
@@ -64,7 +64,7 @@ class TestForApiFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `toggeling the env works`() = flakyTest {
-        currentEnvironment = EnvironmentSetup.EnvType.DEV
+        currentEnvironment = EnvironmentSetup.Type.DEV
         val vm = createViewModel()
 
         val states = mutableListOf<EnvironmentState>()
@@ -72,30 +72,30 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         every { observerState.onChanged(capture(states)) } just Runs
         vm.environmentState.observeForever(observerState)
 
-        val events = mutableListOf<EnvironmentSetup.EnvType>()
-        val observerEvent = mockk<Observer<EnvironmentSetup.EnvType>>()
+        val events = mutableListOf<EnvironmentSetup.Type>()
+        val observerEvent = mockk<Observer<EnvironmentSetup.Type>>()
         every { observerEvent.onChanged(capture(events)) } just Runs
         vm.environmentChangeEvent.observeForever(observerEvent)
 
-        vm.selectEnvironmentTytpe(EnvironmentSetup.EnvType.DEV.rawKey)
-        vm.selectEnvironmentTytpe(EnvironmentSetup.EnvType.WRU_XA.rawKey)
+        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.DEV.rawKey)
+        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.WRU_XA.rawKey)
 
         verify(exactly = 3, timeout = 3000) { observerState.onChanged(any()) }
         verify(exactly = 2, timeout = 3000) { observerEvent.onChanged(any()) }
 
         states[0].apply {
-            current shouldBe EnvironmentSetup.EnvType.DEV
+            current shouldBe EnvironmentSetup.Type.DEV
         }
 
         states[1].apply {
-            current shouldBe EnvironmentSetup.EnvType.DEV
+            current shouldBe EnvironmentSetup.Type.DEV
         }
-        events[0] shouldBe EnvironmentSetup.EnvType.DEV
+        events[0] shouldBe EnvironmentSetup.Type.DEV
 
 
         states[2].apply {
-            current shouldBe EnvironmentSetup.EnvType.WRU_XA
+            current shouldBe EnvironmentSetup.Type.WRU_XA
         }
-        events[1] shouldBe EnvironmentSetup.EnvType.WRU_XA
+        events[1] shouldBe EnvironmentSetup.Type.WRU_XA
     }
 }
