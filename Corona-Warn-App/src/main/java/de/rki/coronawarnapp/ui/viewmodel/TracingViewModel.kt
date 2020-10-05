@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.riskdetails.DefaultRiskDetailPresenter
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -65,9 +64,6 @@ class TracingViewModel @Inject constructor(
 
     val additionalInformationVisibility = MediatorLiveData<Int>()
     val informationBodyNoticeVisibility = MediatorLiveData<Int>()
-
-    // event for interoperability navigation
-    val navigateToInteroperability = SingleLiveEvent<Boolean>()
 
     init {
         additionalInformationVisibility.addSource(riskLevel) {
@@ -246,9 +242,5 @@ class TracingViewModel @Inject constructor(
 
     fun refreshLastSuccessfullyCalculatedScore() {
         RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
-    }
-
-    fun onInteroperabilitySettingPressed() {
-        navigateToInteroperability.postValue(true)
     }
 }
