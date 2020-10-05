@@ -1,16 +1,19 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import javax.inject.Inject
 
 /**
  * ViewModel for everything settings related.
  *
  * @see SettingsRepository
  */
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel @Inject constructor(
+
+) : CWAViewModel() {
 
     private val settingsRepository by lazy {
         AppInjector.component.settingsRepository
