@@ -12,6 +12,15 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
+      - run:
+          name: Check if assemble required
+          command: |
+            last_commit = $(git log -1 --pretty=%B)
+            echo $last_commit
+            if [[ $last_commit != *"Version bump"* ]]; then
+              circleci-agent step halt
+              echo "Skipping job"
+            fi
       - checkout
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
@@ -212,6 +221,7 @@ workflows:
   version: 2
   quick_build:
     jobs:
+      - quick_build_release_no_tests
       - device_release_unit_tests
       - device_for_testers_unit_tests
       - lint_device_release_check
