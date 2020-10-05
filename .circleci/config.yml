@@ -114,7 +114,7 @@ jobs:
       - checkout
       - run:
           name: Lint check device release
-          command: ./gradlew :Corona-Warn-App:lintDeviceRelease --profile
+          command: ./gradlew --profile :Corona-Warn-App:lintDeviceRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -142,7 +142,7 @@ jobs:
       - checkout
       - run:
           name: Lint check device for testers
-          command: ./gradlew :Corona-Warn-App:lintDeviceForTestersRelease --profile
+          command: ./gradlew --profile :Corona-Warn-App:lintDeviceForTestersRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
