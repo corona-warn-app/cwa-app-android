@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
 import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
+import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
@@ -39,6 +40,7 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         AssistedInjectModule::class,
+        CoroutineModule::class,
         AndroidModule::class,
         ReceiverBinder::class,
         ServiceBinder::class,
