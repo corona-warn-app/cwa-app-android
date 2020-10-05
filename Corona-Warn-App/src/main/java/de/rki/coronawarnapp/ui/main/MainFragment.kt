@@ -17,8 +17,11 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,6 +44,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val binding: FragmentMainBinding by viewBindingLazy()
 
+    private val errorResetTool by lazy {
+        AppInjector.component.errorResetTool
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
@@ -51,6 +58,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setContentDescription()
         checkShouldInteroperabilityBeOpened()
         showOneTimeTracingExplanationDialog()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if (errorResetTool.isResetNoticeToBeShown) {
+            RecoveryByResetDialogFactory(this).showDialog(
+                detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
+                onDismiss = {
+                    errorResetTool.isResetNoticeToBeShown = false
+                }
+            )
+        }
     }
 
     override fun onResume() {
@@ -68,12 +88,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun setContentDescription() {
-        val shareButtonString: String = getString(R.string.button_share)
-        val menuButtonString: String = getString(R.string.button_menu)
-        val mainCardString: String = getString(R.string.hint_external_webpage)
-        binding.mainHeaderShare.buttonIcon.contentDescription = shareButtonString
-        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = menuButtonString
-        binding.mainAbout.mainCard.contentDescription = mainCardString
+        binding.mainHeaderShare.buttonIcon.contentDescription = getString(R.string.button_share)
+        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription =
+            getString(R.string.button_menu)
+        binding.mainAbout.mainCard.contentDescription = getString(R.string.hint_external_webpage)
     }
 
     private fun setButtonOnClickListener() {
@@ -133,13 +151,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun toSubmissionIntro() {
         findNavController().doNavigate(
             MainFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-            )
+        )
     }
 
-    private fun showPopup(view: View) {
-        val popup = PopupMenu(requireContext(), view)
-        popup.inflate(R.menu.menu_main)
-        popup.setOnMenuItemClickListener {
+    private fun showPopup(view: View) = PopupMenu(requireContext(), view).apply {
+        inflate(R.menu.menu_main)
+        menu.findItem(R.id.menu_test).isVisible = CWADebug.isDeviceForTestersBuild
+        setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToMainOverviewFragment())
@@ -153,11 +171,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
                     true
                 }
+                R.id.menu_test -> {
+                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestNavGraph())
+                    true
+                }
                 else -> super.onOptionsItemSelected(it)
             }
         }
-        popup.show()
-    }
+    }.show()
 
     private fun checkShouldInteroperabilityBeOpened() {
         if (!LocalData.isInteroperabilityShownAtLeastOnce) {

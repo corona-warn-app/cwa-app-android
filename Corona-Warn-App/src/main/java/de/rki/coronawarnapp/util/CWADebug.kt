@@ -14,11 +14,21 @@ object CWADebug {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        if ((BuildConfig.FLAVOR == "deviceForTesters" || BuildConfig.DEBUG)) {
+        if ((buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS || BuildConfig.DEBUG)) {
             fileLogger = FileLogger(application)
         }
     }
 
     val isDebugBuildOrMode: Boolean
-        get() = BuildConfig.DEBUG || BuildConfig.BUILD_VARIANT == "deviceForTesters"
+        get() = BuildConfig.DEBUG || buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
+
+    val buildFlavor: BuildFlavor
+        get() = BuildFlavor.values().single { it.rawValue == BuildConfig.FLAVOR }
+
+    val isDeviceForTestersBuild: Boolean = buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS
+
+    enum class BuildFlavor(val rawValue: String) {
+        DEVICE("device"),
+        DEVICE_FOR_TESTERS("deviceForTesters")
+    }
 }

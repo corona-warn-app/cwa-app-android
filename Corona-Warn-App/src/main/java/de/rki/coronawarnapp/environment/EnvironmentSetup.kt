@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.DOWNLOAD
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.SUBMISSION
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION
-import de.rki.coronawarnapp.environment.EnvironmentSetup.ENVKEY.VERIFICATION_KEYS
+import com.google.gson.JsonPrimitive
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SUBMISSION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEYS
+import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,7 +21,8 @@ class EnvironmentSetup @Inject constructor(
     private val context: Context
 ) {
 
-    enum class ENVKEY(val rawKey: String) {
+    enum class EnvKey(val rawKey: String) {
+        USE_EUR_KEY_PKGS("USE_EUR_KEY_PKGS"),
         SUBMISSION("SUBMISSION_CDN_URL"),
         VERIFICATION("VERIFICATION_CDN_URL"),
         DOWNLOAD("DOWNLOAD_CDN_URL"),
@@ -28,10 +32,17 @@ class EnvironmentSetup @Inject constructor(
     enum class Type(val rawKey: String) {
         PRODUCTION("PROD"),
         INT("INT"),
+        INT_FED("INT-FED"),
         DEV("DEV"),
         WRU("WRU"),
         WRU_XA("WRU-XA"), // (aka ACME)
-        WRU_XD("WRU-XD") // (aka Germany)
+        WRU_XD("WRU-XD"); // (aka Germany)
+
+        companion object {
+            internal fun String.toEnvironmentType(): Type = values().single {
+                it.rawKey == this
+            }
+        }
     }
 
     private val prefs by lazy {
@@ -48,9 +59,6 @@ class EnvironmentSetup @Inject constructor(
     val defaultEnvironment: Type
         get() = BuildConfigWrap.ENVIRONMENT_TYPE_DEFAULT.toEnvironmentType()
 
-    val alternativeEnvironment: Type
-        get() = BuildConfigWrap.ENVIRONMENT_TYPE_ALTERNATIVE.toEnvironmentType()
-
     var currentEnvironment: Type
         get() {
             return prefs
@@ -58,7 +66,7 @@ class EnvironmentSetup @Inject constructor(
                 ?.toEnvironmentType() ?: defaultEnvironment
         }
         set(value) {
-            if (CWADebug.isDebugBuildOrMode) {
+            if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
                 prefs.edit {
                     putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
                 }
@@ -67,7 +75,7 @@ class EnvironmentSetup @Inject constructor(
             }
         }
 
-    private fun getEnvironmentValue(variableKey: ENVKEY): String = run {
+    private fun getEnvironmentValue(variableKey: EnvKey): JsonPrimitive = run {
         try {
             val targetEnvKey = if (environmentJson.has(currentEnvironment.rawKey)) {
                 currentEnvironment.rawKey
@@ -78,7 +86,6 @@ class EnvironmentSetup @Inject constructor(
             environmentJson
                 .getAsJsonObject(targetEnvKey)
                 .getAsJsonPrimitive(variableKey.rawKey)
-                .asString
         } catch (e: Exception) {
             Timber.e(e, "Failed to retrieve endpoint URL for $currentEnvironment:$variableKey")
             throw IllegalStateException("Failed to setup test environment", e)
@@ -86,18 +93,17 @@ class EnvironmentSetup @Inject constructor(
     }.also { Timber.v("getEndpointUrl(endpoint=%s): %s", variableKey, it) }
 
     val submissionCdnUrl: String
-        get() = getEnvironmentValue(SUBMISSION)
+        get() = getEnvironmentValue(SUBMISSION).asString
     val verificationCdnUrl: String
-        get() = getEnvironmentValue(VERIFICATION)
+        get() = getEnvironmentValue(VERIFICATION).asString
     val downloadCdnUrl: String
-        get() = getEnvironmentValue(DOWNLOAD)
+        get() = getEnvironmentValue(DOWNLOAD).asString
 
     val appConfigVerificationKey: String
-        get() = getEnvironmentValue(VERIFICATION_KEYS)
+        get() = getEnvironmentValue(VERIFICATION_KEYS).asString
 
-    private fun String.toEnvironmentType(): Type = Type.values().single {
-        it.rawKey == this
-    }
+    val useEuropeKeyPackageFiles: Boolean
+        get() = getEnvironmentValue(USE_EUR_KEY_PKGS).asBoolean
 
     companion object {
         private const val PKEY_CURRENT_ENVINROMENT = "environment.current"

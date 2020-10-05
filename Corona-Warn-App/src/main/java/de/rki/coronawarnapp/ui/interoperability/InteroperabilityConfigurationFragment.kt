@@ -33,6 +33,7 @@ class InteroperabilityConfigurationFragment :
         }
 
         override fun onNetworkUnavailable() {
+            // NOOP
         }
     }
 

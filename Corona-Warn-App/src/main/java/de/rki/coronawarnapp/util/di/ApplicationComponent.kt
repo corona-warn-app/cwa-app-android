@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
@@ -28,6 +29,8 @@ import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
 import de.rki.coronawarnapp.util.device.DeviceModule
+import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
+import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.verification.VerificationModule
 import javax.inject.Singleton
 
@@ -71,7 +74,12 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     val enfClient: ENFClient
 
+    val encryptedPreferencesFactory: EncryptedPreferencesFactory
+    val errorResetTool: EncryptionErrorResetTool
+
     val playbook: Playbook
+
+    val interoperabilityRepository: InteroperabilityRepository
 
     @Component.Factory
     interface Factory {

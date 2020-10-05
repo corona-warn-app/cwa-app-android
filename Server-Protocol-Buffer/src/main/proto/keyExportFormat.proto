@@ -46,6 +46,21 @@ message TemporaryExposureKey {
     optional int32 rolling_start_interval_number = 3;
     // Increments of 10 minutes describing how long a key is valid
     optional int32 rolling_period = 4 [default = 144]; // defaults to 24 hours
+    // Type of diagnosis associated with a key.
+    optional ReportType report_type = 5 [default = CONFIRMED_CLINICAL_DIAGNOSIS];
+    // Number of days elapsed between symptom onset and the TEK being used.
+    // E.g. 2 means TEK is 2 days after onset of symptoms.
+    optional sint32 days_since_onset_of_symptoms = 6;
+}
+
+// Data type representing why this key was published.
+enum ReportType {
+  UNKNOWN = 0;  // Never returned by the client API.
+  CONFIRMED_TEST = 1;
+  CONFIRMED_CLINICAL_DIAGNOSIS = 2;
+  SELF_REPORT = 3;
+  RECURSIVE = 4;  // Reserved for future use.
+  REVOKED = 5;  // Used to revoke a key, never returned by client API.
 }
 
 message TEKSignatureList {
