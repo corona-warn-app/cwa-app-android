@@ -29,9 +29,7 @@ import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
-class SubmissionViewModel @Inject constructor(
-
-) : CWAViewModel() {
+class SubmissionViewModel @Inject constructor() : CWAViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
     private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))

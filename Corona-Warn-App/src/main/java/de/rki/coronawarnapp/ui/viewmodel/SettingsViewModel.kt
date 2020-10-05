@@ -11,9 +11,7 @@ import javax.inject.Inject
  *
  * @see SettingsRepository
  */
-class SettingsViewModel @Inject constructor(
-
-) : CWAViewModel() {
+class SettingsViewModel @Inject constructor() : CWAViewModel() {
 
     private val settingsRepository by lazy {
         AppInjector.component.settingsRepository

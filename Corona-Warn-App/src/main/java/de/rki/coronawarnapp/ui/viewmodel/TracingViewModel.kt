@@ -36,9 +36,7 @@ import javax.inject.Inject
  * @see TracingRepository
  * @see RiskLevelRepository
  */
-class TracingViewModel @Inject constructor(
-
-) : CWAViewModel() {
+class TracingViewModel @Inject constructor() : CWAViewModel() {
 
     companion object {
         val TAG: String? = TracingViewModel::class.simpleName

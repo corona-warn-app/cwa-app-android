@@ -39,6 +39,68 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.settingsViewModel = vm.settingsViewModel
         binding.submissionViewModel = vm.submissionViewModel
 
+        setupToolbar()
+
+        setupTestResultCard()
+
+        binding.mainTracing.setOnClickListener {
+            findNavController().doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
+        }
+
+        setupRiskCard()
+
+        binding.mainAbout.mainCard.apply {
+            setOnClickListener {
+                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+            }
+            contentDescription = getString(R.string.hint_external_webpage)
+        }
+
+        vm.showInteropDeltaOnboarding.observe2(this) {
+            findNavController().doNavigate(
+                HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
+            )
+        }
+
+        vm.showTracingExplanation.observe2(this) { activeTracingDaysInRetentionPeriod ->
+            tracingExplanationDialog.show(activeTracingDaysInRetentionPeriod) { vm.tracingExplanationWasShown() }
+        }
+
+        vm.showErrorResetDialog.observe2(this) {
+            RecoveryByResetDialogFactory(this).showDialog(
+                detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
+                onDismiss = { vm.errorResetDialogDismissed() }
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // refresh required data
+        vm.refreshRequiredData()
+        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun setupRiskCard() {
+        binding.mainRisk.apply {
+            riskCard.setOnClickListener {
+                findNavController().doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment()
+                )
+            }
+            riskCardButtonUpdate.setOnClickListener {
+                vm.tracingViewModel.refreshDiagnosisKeys()
+                vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
+            }
+            riskCardButtonEnableTracing.setOnClickListener {
+                findNavController().doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment()
+                )
+            }
+        }
+    }
+
+    private fun setupTestResultCard() {
         binding.apply {
             val toSubmissionResult = {
                 findNavController().doNavigate(
@@ -70,37 +132,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
             }
         }
+    }
 
-        binding.mainTracing.setOnClickListener {
-            findNavController().doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
-        }
-
-        binding.mainRisk.apply {
-            riskCard.setOnClickListener {
-                findNavController().doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-            }
-            riskCardButtonUpdate.setOnClickListener {
-                vm.tracingViewModel.refreshDiagnosisKeys()
-                vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
-            }
-            riskCardButtonEnableTracing.setOnClickListener {
-                findNavController().doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
-            }
-        }
-
-        binding.mainAbout.mainCard.apply {
-            setOnClickListener {
-                ExternalActionHelper.openUrl(
-                    this@HomeFragment, getString(R.string.main_about_link)
-                )
-            }
-            contentDescription = getString(R.string.hint_external_webpage)
-        }
-
+    private fun setupToolbar() {
         binding.mainHeaderShare.buttonIcon.apply {
             contentDescription = getString(R.string.button_share)
             setOnClickListener {
-                findNavController().doNavigate(HomeFragmentDirections.actionMainFragmentToMainSharingFragment())
+                findNavController().doNavigate(
+                    HomeFragmentDirections.actionMainFragmentToMainSharingFragment()
+                )
             }
         }
 
@@ -108,31 +148,5 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
         }
-
-        vm.showInteropDeltaOnboarding.observe2(this) {
-            findNavController().doNavigate(
-                HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
-            )
-        }
-
-        vm.showTracingExplanation.observe2(this) { activeTracingDaysInRetentionPeriod ->
-            tracingExplanationDialog.show(activeTracingDaysInRetentionPeriod) {
-                vm.tracingExplanationWasShown()
-            }
-        }
-
-        vm.showErrorResetDialog.observe2(this) {
-            RecoveryByResetDialogFactory(this).showDialog(
-                detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                onDismiss = { vm.errorResetDialogDismissed() }
-            )
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // refresh required data
-        vm.refreshRequiredData()
-        binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
