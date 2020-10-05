@@ -218,7 +218,4 @@ workflows:
       - lint_device_for_testers_check
       - ktlint_device_release_check
       - ktlint_device_for_testers_check
-#      - jococo_report
       - detekt
-#      - quick_build_release_no_tests
-#      - quick_build_for_testers_no_tests
