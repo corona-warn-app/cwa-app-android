@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Check if assemble required
           command: |
-            echo git log -1 --pretty=%B
+            git log -1 --pretty=%B echo
 #            echo $last_commit
 #            if [[ $last_commit != *"Version bump"* ]]; then
 #              circleci-agent step halt
