@@ -1321,14 +1321,12 @@
     <string name="interoperability_onboarding_randomid_download_free">"The daily download of the list with the random IDs is usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, and nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
     <string name="interoperability_onboarding_list_title">"The following countries currently participate:"</string>
-
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 1 -->
     <string name="interoperability_onboarding_delta_expanded_terms_text_part_1">"The terms of use have also been updated, to reflect the functional enhancements in the app."</string>
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
     <string name="interoperability_onboarding_delta_terms_link">"Display terms of use"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
     <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"The Terms of Use and privacy notice can also be found in the menu under “App Information” and in the app description in your app store. The changes will not affect how you use the app. If you continue to use the app or reopen it, we will assume that you agree to the updated Terms of Use."</string>
-
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"A hand holds a smartphone. Europe and the European flag are illustrated in the background."</string>
 
