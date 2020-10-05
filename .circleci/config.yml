@@ -17,7 +17,6 @@ jobs:
           name: Check if assemble required
           command: |
             last_commit=$(git log -1 --pretty=%B)
-            echo $last_commit
             if [[ $last_commit != *"Version bump"* ]]; then
               circleci-agent step halt
               echo "Skipping job"
