@@ -6,7 +6,7 @@
     <a href="https://github.com/corona-warn-app/cwa-app-android/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/corona-warn-app/cwa-app-android"></a>
     <a href="https://circleci.com/gh/corona-warn-app/cwa-app-android" title="Build Status"><img src="https://circleci.com/gh/corona-warn-app/cwa-app-android.png?circle-token=c26c689ad7833b8c0786752d3e65f56f25f906f3&style=shield"></a>
    <a href="https://sonarcloud.io/component_measures?id=corona-warn-app_cwa-app-android&metric=Coverage&view=list" title="Coverage"><img src="https://sonarcloud.io/api/project_badges/measure?project=corona-warn-app_cwa-app-android&metric=coverage"></a>
-    <a href="./LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg"></a>
+    <a href="./LICENSES/Apache-2.0.txt" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg"></a>
     <a href="https://api.reuse.software/badge/github.com/corona-warn-app/cwa-app-android" title="REUSE Status"><img src="https://api.reuse.software/badge/github.com/corona-warn-app/cwa-app-android"></a>
 </p>
 
