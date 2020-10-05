@@ -10,9 +10,9 @@
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainFragment"
+        android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
@@ -50,13 +50,13 @@
 
     <fragment
         android:id="@+id/mainSharingFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainShareFragment"
+        android:name="de.rki.coronawarnapp.ui.main.share.MainShareFragment"
         android:label="@layout/fragment_main_share"
         tools:layout="@layout/fragment_main_share" />
 
     <fragment
         android:id="@+id/mainOverviewFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainOverviewFragment"
+        android:name="de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment"
         android:label="@layout/fragment_main_overview"
         tools:layout="@layout/fragment_main_overview" />
 
