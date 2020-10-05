@@ -8,81 +8,6 @@ commands:
   save-build-cache: android/save-build-cache
   scan-sonar: sonarcloud/scan
 jobs:
-#  prepare_build:
-#    executor: android/android
-#    steps:
-#      - checkout
-#      - install-ndk:
-#          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
-#          ndk-version: "android-ndk-r21c"
-#      - run:
-#          name: Test check directory
-#          command: ls -al
-#  restore_cache:
-#    executor: android/android
-#    steps:
-#      - restore-build-cache
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-#      - run:
-#          name: Test check directory
-#          command: ls -al
-#  quick_build:
-#    executor: android/android
-#    steps:
-#      - run:
-#          name: Test check directory
-#          command: ls -al
-#      - run:
-#          name: Quick Build
-#          command: ./gradlew quickBuild
-#          environment:
-#            JVM_OPTS: -Xmx2048m
-#            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-#  quick_build_test:
-#    executor: android/android
-#    steps:
-#      - run:
-#          name: Test check directory
-#          command: ls -al
-#      - run:
-#          name: Quick Build
-#          command: ./gradlew quickBuildTest
-#          environment:
-#            JVM_OPTS: -Xmx2048m
-#            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-#  save_cache:
-#    executor: android/android
-#    steps:
-#      - save-build-cache
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-#  jococo_report:
-#    executor: android/android
-#    steps:
-#      - run:
-#          name: JaCoCo report
-#          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
-#          environment:
-#            JVM_OPTS: -Xmx2048m
-#            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-#  store_results:
-#    executor: android/android
-#    steps:
-#      - store_artifacts:
-#          path: Corona-Warn-App/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: Corona-Warn-App/build/test-results
-#  sonar_cloud:
-#    executor: android/android
-#    steps:
-#      - run:
-#          name: Skip SonarCloud for external Pull Requests
-#          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
-#      - scan-sonar
   assemble_device_release:
     executor: android/android
     resource_class: large
@@ -206,80 +131,18 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-#  quickBuildReleaseWithTestsAndChecks:
-#    executor: android/android
-#    steps:
-#      - checkout
-#      - install-ndk:
-#          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
-#          ndk-version: "android-ndk-r21c"
-#      - restore-build-cache
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-#      - run:
-#          name: Quick Build
-#          command: ./gradlew quickBuild quickBuildTest
-#          environment:
-#            JVM_OPTS: -Xmx2048m
-#            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-#      - save-build-cache
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-#      - run:
-#          name: JaCoCo report
-#          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
-#          environment:
-#            JVM_OPTS: -Xmx2048m
-#            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-#      - store_artifacts:
-#          path: Corona-Warn-App/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: Corona-Warn-App/build/test-results
-#      - run:
-#          name: Skip SonarCloud for external Pull Requests
-#          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
-#      - scan-sonar
 workflows:
   version: 2
   quick_build:
     jobs:
       - lint_check
-      - device_release_unit_tests
+      - device_release_unit_tests:
           requires:
             - lint_check
-      - device_for_testers_unit_tests
+      - device_for_testers_unit_tests:
           requires:
             - lint_check
-      - assemble_device_release
+      - assemble_device_release:
           requires:
             - device_release_unit_tests
             - device_for_testers_unit_tests
-#      - prepare_build
-#      - restore_cache:
-#          requires:
-#            - prepare_build
-#      - quick_build:
-#          requires:
-#            - restore_cache
-#      - quick_build_test:
-#          requires:
-#            - restore_cache
-#      - save_cache:
-#          requires:
-#            - quick_build
-#            - quick_build_test
-#      - jococo_report:
-#          requires:
-#            - save_cache
-#      - store_results:
-#          requires:
-#            - jococo_report
-#      - sonar_cloud:
-#          requires:
-#            - store_results
-#  workflow:
-#    jobs:
-#      - quickBuildReleaseWithTestsAndChecks
