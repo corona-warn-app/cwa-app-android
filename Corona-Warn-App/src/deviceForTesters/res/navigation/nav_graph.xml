@@ -219,11 +219,11 @@
             android:id="@+id/action_submissionDispatcherFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
         <action
-            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeScanFragment"
-            app:destination="@id/submissionQRCodeScanFragment" />
-        <action
             android:id="@+id/action_submissionDispatcherFragment_to_submissionContactFragment"
             app:destination="@id/submissionContactFragment" />
+        <action
+            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeInfoFragment"
+            app:destination="@id/submissionQRCodeInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
@@ -298,6 +298,16 @@
             android:id="@+id/deepLink"
             app:uri="coronawarnapp://launch" />
     </activity>
+
+    <fragment
+        android:id="@+id/submissionQRCodeInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment"
+        android:label="SubmissionQRCodeInfoFragment">
+        <action
+            android:id="@+id/action_submissionQRCodeInfoFragment_to_submissionQRCodeScanFragment"
+            app:destination="@id/submissionQRCodeScanFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/submissionQRCodeScanFragment"
         android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment"

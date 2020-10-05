@@ -827,7 +827,7 @@
     <!-- YTXT: Body text for for QR Scan info point 1  -->
     <string name="submission_qr_info_point_1_body">"Scannen Sie nur Ihren eigenen Test."</string>
     <!-- YTXT: Body text for for QR Scan info point 2  -->
-    <string name="submission_qr_info_point_2_body">"Jeder Test kann <b>nur einmal</b>b> gescannt werden."</string>
+    <string name="submission_qr_info_point_2_body">"Jeder Test kann <b>nur einmal</b> gescannt werden."</string>
     <!-- YTXT: Body text for for QR Scan info point 3  -->
     <string name="submission_qr_info_point_3_body">"Die App kann <b>nicht</b> gleichzeitig mehrere Tests verwalten."</string>
     <!-- YTXT:Body text for for QR Scan info point 4 -->

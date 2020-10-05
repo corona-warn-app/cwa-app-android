@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="submissionCountrySelectViewModel"
+            type="de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_done_container"
         android:contentDescription="@string/submission_done_title"
@@ -241,7 +247,7 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/submission_done_button_done"
+            android:id="@+id/submission_qr_info_button_next"
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
