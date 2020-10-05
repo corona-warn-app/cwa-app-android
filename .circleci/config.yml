@@ -134,7 +134,7 @@ jobs:
           destination: reports
   ktlint_device_release_check:
     executor: android/android
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - run:
@@ -162,7 +162,7 @@ jobs:
           destination: reports
   ktlint_device_for_testers_check:
     executor: android/android
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - run:
@@ -176,7 +176,7 @@ jobs:
           destination: reports
   detekt:
     executor: android/android
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - run:
