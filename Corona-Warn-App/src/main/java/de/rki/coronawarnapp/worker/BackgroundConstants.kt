@@ -109,7 +109,7 @@ object BackgroundConstants {
     const val POLLING_VALIDITY_MAX_DAYS = 21
 
     /**
-     * Backoff initial delay
+     * Backoff initial delay in minutes
      *
      * @see TimeUnit.MINUTES
      */
