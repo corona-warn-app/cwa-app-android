@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import timber.log.Timber
@@ -38,7 +39,8 @@ class SubmissionViewModel : ViewModel() {
 
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
-    private val interoperabilityRepository = InteroperabilityRepository()
+    private val interoperabilityRepository: InteroperabilityRepository
+        get() = AppInjector.component.interoperabilityRepository
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
@@ -63,7 +65,10 @@ class SubmissionViewModel : ViewModel() {
 
     val symptomIndication = MutableLiveData<Symptoms.Indication?>()
     val symptomStart = MutableLiveData<Symptoms.StartOf?>()
-    val countryList = MutableLiveData(interoperabilityRepository.countryList)
+
+    val countryList by lazy {
+        MutableLiveData(interoperabilityRepository.countryList)
+    }
 
     fun initSymptoms() {
         symptomIndication.postValue(null)

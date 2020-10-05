@@ -11,7 +11,7 @@
 
         <variable
             name="countryData"
-            type="java.util.List&lt;String&gt;" />
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
 
         <variable
             name="title"
