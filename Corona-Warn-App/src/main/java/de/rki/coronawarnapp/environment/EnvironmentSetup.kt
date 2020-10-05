@@ -12,13 +12,14 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEYS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EnvironmentSetup @Inject constructor(
-    private val context: Context
+    @AppContext private val context: Context
 ) {
 
     enum class EnvKey(val rawKey: String) {

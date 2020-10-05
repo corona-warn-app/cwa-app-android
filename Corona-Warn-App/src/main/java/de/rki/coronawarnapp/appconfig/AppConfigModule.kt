@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
+import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.joda.time.Duration
@@ -20,7 +21,7 @@ class AppConfigModule {
     @Singleton
     @Provides
     fun provideAppConfigApi(
-        context: Context,
+        @AppContext context: Context,
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory
