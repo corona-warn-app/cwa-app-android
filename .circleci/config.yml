@@ -107,41 +107,99 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-  lint_check:
+  lint_device_release_check:
     executor: android/android
     resource_class: large
     steps:
       - checkout
-      - restore-build-cache
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
-          name: Lint check for release and testers version
-          command: ./gradlew lintCheck
+          name: Lint check device release
+          command: ./gradlew :Corona-Warn-App:lintDeviceRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - save-build-cache
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-      - store_test_results:
-          path: Corona-Warn-App/build/test-results
+  ktlint_device_release_check:
+    executor: android/android
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Ktlint check device release
+          command: ./gradlew :Corona-Warn-App:ktlintDeviceReleaseCheck
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+  lint_device_for_testers_check:
+    executor: android/android
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Lint check device for testers
+          command: ./gradlew :Corona-Warn-App:lintDeviceForTestersRelease
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+  ktlint_device_for_testers_check:
+    executor: android/android
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Ktlint check device for testers
+          command: ./gradlew :Corona-Warn-App:ktlintDeviceForTestersReleaseCheck
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
+  detekt:
+    executor: android/android
+    resource_class: large
+    steps:
+      - checkout
+      - run:
+          name: Detekt check
+          command: ./gradlew :Corona-Warn-App:detekt
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
 workflows:
   version: 2
   quick_build:
     jobs:
-      - lint_check
+      - lint_device_release_check
+      - ktlint_device_release_check
+      - lint_device_for_testers_check
+      - ktlint_device_for_testers_check
+      - detekt
       - device_release_unit_tests:
           requires:
-            - lint_check
+            - lint_device_release_check
+            - ktlint_device_release_check
+            - lint_device_for_testers_check
+            - ktlint_device_for_testers_check
+            - detekt
       - device_for_testers_unit_tests:
           requires:
-            - lint_check
+            - lint_device_release_check
+            - ktlint_device_release_check
+            - lint_device_for_testers_check
+            - ktlint_device_for_testers_check
+            - detekt
       - assemble_device_release:
           requires:
             - device_release_unit_tests
