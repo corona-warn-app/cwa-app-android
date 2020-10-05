@@ -50,7 +50,7 @@ jobs:
     resource_class: large
     steps:
       - checkout
-          - run:
+      - run:
           name: Check if assemble required
           command: |
             last_commit=$(git log -1 --pretty=%B)
