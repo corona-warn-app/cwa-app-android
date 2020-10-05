@@ -269,7 +269,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:text="@string/risk_details_explanation_faq_body_with_link"
+                        android:text="@string/risk_details_explanation_faq_body"
                         android:visibility="@{FormatterRiskHelper.formatVisibilityBehaviorLowLevelRisk(tracingViewModel.riskLevel)}"
                         android:focusable="true"
                         android:clickable="true"

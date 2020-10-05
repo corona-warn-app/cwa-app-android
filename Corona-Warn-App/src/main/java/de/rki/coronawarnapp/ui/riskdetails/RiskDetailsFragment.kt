@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.ui.riskdetails
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -14,7 +18,6 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
-import de.rki.coronawarnapp.util.convertToHyperlink
 
 /**
  * This is the detail view of the risk card if additional information for the user.
@@ -51,8 +54,8 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
      * Make the links clickable and convert to hyperlink
      */
     private fun setUpWebLinks() {
-        binding.riskDetailsInformationLowriskBodyUrl
-            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_body_with_link))
+        activity?.let { binding.riskDetailsInformationLowriskBodyUrl
+            .setHyperLink(it, getString(R.string.risk_details_explanation_faq_body_link_url)) }
     }
 
     private fun setButtonOnClickListeners() {
@@ -68,5 +71,15 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
                 RiskDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
         }
+    }
+}
+
+fun TextView.setHyperLink(activity: FragmentActivity, text: String) {
+    this.setOnClickListener {
+        val browserIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(text)
+        )
+        activity.startActivity(browserIntent)
     }
 }
