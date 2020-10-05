@@ -6,11 +6,13 @@ import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFra
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
+import de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragmentModule
 
 @Module(
     includes = [
         OnboardingDeltaInteroperabilityModule::class,
-        HomeFragmentModule::class
+        HomeFragmentModule::class,
+        RiskDetailsFragmentModule::class
     ]
 )
 abstract class MainActivityModule {
