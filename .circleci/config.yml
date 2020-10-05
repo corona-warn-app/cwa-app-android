@@ -65,7 +65,7 @@ jobs:
   device_release_unit_tests:
     executor: android/android
     resource_class: large
-    parallelism: 5
+    parallelism: 4
     steps:
       - checkout
       - restore-build-cache
@@ -93,7 +93,7 @@ jobs:
   device_for_testers_unit_tests:
     executor: android/android
     resource_class: large
-    parallelism: 5
+    parallelism: 4
     steps:
       - checkout
       - restore-build-cache
