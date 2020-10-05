@@ -63,10 +63,6 @@ android {
         }
     }
 
-    signingConfigs {
-        release {}
-    }
-
     def signingPropFile = file("../keystore.properties")
     if (signingPropFile.canRead()) {
         Properties signingProps = new Properties()
@@ -88,7 +84,10 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
