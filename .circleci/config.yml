@@ -21,7 +21,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
           name: Quick Build
-          command: ./gradlew quickBuildReleaseNoTests
+          command: ./gradlew quickBuildRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -50,7 +50,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
           name: Quick Build
-          command: ./gradlew quickBuildForTestersNoTests
+          command: ./gradlew quickBuildForTesters
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -206,23 +206,23 @@ workflows:
   version: 2
   quick_build:
     jobs:
-      - device_release_unit_tests
-      - device_for_testers_unit_tests
+#      - device_release_unit_tests
+#      - device_for_testers_unit_tests
       - ktlint_device_release_check
       - ktlint_device_for_testers_check
       - jococo_report
       - detekt
       - quick_build_release_no_tests:
           requires:
-            - device_release_unit_tests
-            - device_for_testers_unit_tests
+#            - device_release_unit_tests
+#            - device_for_testers_unit_tests
             - ktlint_device_release_check
             - ktlint_device_for_testers_check
             - detekt
       - quick_build_for_testers_no_tests:
           requires:
-            - device_release_unit_tests
-            - device_for_testers_unit_tests
+#            - device_release_unit_tests
+#            - device_for_testers_unit_tests
             - ktlint_device_release_check
             - ktlint_device_for_testers_check
             - detekt

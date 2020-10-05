@@ -96,12 +96,14 @@ task quickBuildWithFixes {
     dependsOn ':Corona-Warn-App:detekt'
 }
 
-task quickBuildReleaseNoTests {
+task quickBuildRelease {
     dependsOn ':Corona-Warn-App:assembleDeviceRelease'
+    dependsOn ':Corona-Warn-App:testDeviceReleaseUnitTest'
     dependsOn ':Corona-Warn-App:lintDeviceRelease'
 }
 
-task quickBuildForTestersNoTests {
+task quickBuildForTesters {
     dependsOn ':Corona-Warn-App:assembleDeviceForTestersRelease'
+    dependsOn ':Corona-Warn-App:testDeviceForTestersReleaseUnitTest'
     dependsOn ':Corona-Warn-App:lintDeviceForTestersRelease'
 }
