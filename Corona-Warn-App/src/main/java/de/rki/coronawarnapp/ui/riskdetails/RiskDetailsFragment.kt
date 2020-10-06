@@ -53,7 +53,7 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
     private fun setUpWebLinks() {
         binding.riskDetailsInformationLowriskBodyUrl.setUrl(
             R.string.risk_details_explanation_dialog_faq_body,
-            "FAQ",
+            getString(R.string.risk_details_explanation_dialog_faq_body_hyperlink_text),
             getString(R.string.risk_details_explanation_faq_body_with_link)
         )
     }
