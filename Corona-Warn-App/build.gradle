@@ -129,6 +129,13 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
+            if(project.hasProperty('testFilter')){
+                List<String>props=project.getProperties().get("testFilter").split("\\s+")
+                props.each{
+                    include(it.replace("Corona-Warn-App/src/test/java/","**/")
+                            .replace(".kt",".class"))
+                }
+            }
         }
         unitTests {
             includeAndroidResources = true
