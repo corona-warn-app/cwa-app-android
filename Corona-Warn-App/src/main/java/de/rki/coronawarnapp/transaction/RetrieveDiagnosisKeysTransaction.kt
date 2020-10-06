@@ -214,7 +214,6 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
             onKeyFilesDownloadFinished?.invoke(availableKeyFiles.size, totalFileSize)
             onKeyFilesDownloadFinished = null
-
             invokeSubmissionStartedInDebugOrBuildMode()
         }
 
