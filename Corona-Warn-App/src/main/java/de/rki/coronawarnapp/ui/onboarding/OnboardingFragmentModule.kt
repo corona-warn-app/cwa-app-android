@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.onboarding.OnboardingFragment
+package de.rki.coronawarnapp.ui.onboarding
 
 import dagger.Binds
 import dagger.Module

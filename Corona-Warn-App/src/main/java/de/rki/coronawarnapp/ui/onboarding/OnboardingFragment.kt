@@ -10,8 +10,6 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.onboarding.OnboardingFragment.OnboardingFragmentDirections
-import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentDirections
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
