@@ -17,11 +17,12 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -88,7 +89,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setContentDescription() {
         binding.mainHeaderShare.buttonIcon.contentDescription = getString(R.string.button_share)
-        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription = getString(R.string.button_menu)
+        binding.mainHeaderOptionsMenu.buttonIcon.contentDescription =
+            getString(R.string.button_menu)
         binding.mainAbout.mainCard.contentDescription = getString(R.string.hint_external_webpage)
     }
 
@@ -152,12 +154,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         )
     }
 
-    private fun showPopup(view: View) {
-        val popup = PopupMenu(requireContext(), view)
-        popup.inflate(R.menu.menu_main)
-        // TODO we shouldn't have to duplicate the whole fragment to add these items
-        // In the future we'd like a DI'ed class that changes the navigation for this MainFragment?
-        popup.setOnMenuItemClickListener {
+    private fun showPopup(view: View) = PopupMenu(requireContext(), view).apply {
+        inflate(R.menu.menu_main)
+        menu.findItem(R.id.menu_test).isVisible = CWADebug.isDeviceForTestersBuild
+        setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when (it.itemId) {
                 R.id.menu_help -> {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToMainOverviewFragment())
@@ -171,23 +171,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
                     true
                 }
-                R.id.menu_test_api -> {
-                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestForAPIFragment())
-                    true
-                }
-                R.id.menu_test_risk_level -> {
-                    findNavController().doNavigate(
-                        MainFragmentDirections.actionMainFragmentToTestRiskLevelCalculation(
-                            exampleArgument = null
-                        )
-                    )
+                R.id.menu_test -> {
+                    findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestNavGraph())
                     true
                 }
                 else -> super.onOptionsItemSelected(it)
             }
         }
-        popup.show()
-    }
+    }.show()
 
     private fun checkShouldInteroperabilityBeOpened() {
         if (!LocalData.isInteroperabilityShownAtLeastOnce) {

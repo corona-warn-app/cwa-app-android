@@ -58,7 +58,12 @@ class AppConfigProvider @Inject constructor(
             downloadAppConfig()
         } catch (e: Exception) {
             Timber.w(e, "Failed to download latest AppConfig.")
-            null
+            if (configStorage.isAppConfigAvailable) {
+                null
+            } else {
+                Timber.e("No fallback available, rethrowing!")
+                throw e
+            }
         }
 
         val newConfigParsed = try {
@@ -69,7 +74,8 @@ class AppConfigProvider @Inject constructor(
         }
 
         return newConfigParsed?.also {
-            Timber.v("Saving new valid config.")
+            Timber.d("Saving new valid config.")
+            Timber.v("New Config.supportedCountries: %s", it.supportedCountriesList)
             configStorage.appConfigRaw = newConfigRaw
         }
     }
@@ -94,12 +100,32 @@ class AppConfigProvider @Inject constructor(
             Timber.w("No new config available, using last valid.")
             getFallback()
         }
+    }.performSanityChecks()
+
+    private fun ApplicationConfiguration.performSanityChecks(): ApplicationConfiguration {
+        var sanityChecked = this
+
+        if (sanityChecked.supportedCountriesList == null) {
+            sanityChecked = sanityChecked.toNewConfig {
+                clearSupportedCountries()
+                addAllSupportedCountries(emptyList<String>())
+            }
+        }
+
+        val countryCheck = sanityChecked.supportedCountriesList
+        if (countryCheck.size == 1 && !VALID_CC.matches(countryCheck.single())) {
+            Timber.w("Invalid country data, clearing. (%s)", this.supportedCountriesList)
+            sanityChecked = sanityChecked.toNewConfig {
+                clearSupportedCountries()
+            }
+        }
+        return sanityChecked
     }
 
     companion object {
-        private val TAG = AppConfigProvider::class.java.simpleName
-
+        private val VALID_CC = "^([A-Z]{2,3})$".toRegex()
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
+        private val TAG = AppConfigProvider::class.java.simpleName
     }
 }
