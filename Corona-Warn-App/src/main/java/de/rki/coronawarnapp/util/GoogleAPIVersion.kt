@@ -22,9 +22,13 @@ class GoogleAPIVersion @Inject constructor() {
             val currentVersion = InternalExposureNotificationClient.getVersion()
             currentVersion >= compareVersion
         } catch (apiException: ApiException) {
-            if (apiException.statusCode != CommonStatusCodes.API_NOT_CONNECTED) throw apiException
-            else return false
+            isGoogleAPIConnected(apiException)
         }
+    }
+
+    private fun isGoogleAPIConnected(apiException: ApiException): Boolean {
+        if (apiException.statusCode != CommonStatusCodes.API_NOT_CONNECTED) throw apiException
+        else return false
     }
 
     // check if a raw long has the correct length to be considered an API version
