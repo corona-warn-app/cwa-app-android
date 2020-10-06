@@ -373,7 +373,7 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie Często zadawane pytania."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
 
     <!-- ####################################
               Onboarding
