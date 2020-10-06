@@ -33,6 +33,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private val binding: FragmentSubmissionTestResultBinding by viewBindingLazy()
 
     private var skipInitialTestResultRefresh = false
+    private var skipSymptomSubmission = false
 
     // Overrides default back behaviour
     private val backCallback: OnBackPressedCallback =
@@ -148,6 +149,11 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             continueIfTracingEnabled()
         }
 
+        binding.submissionTestResultButtonPositiveContinueWithoutSymptoms.setOnClickListener {
+            skipSymptomSubmission = true
+            continueIfTracingEnabled()
+        }
+
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
             removeTestAfterConfirmation()
         }
@@ -171,10 +177,18 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             return
         }
 
-        findNavController().doNavigate(
-            SubmissionTestResultFragmentDirections
-                .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-        )
+        if (skipSymptomSubmission) {
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+            )
+        }
+        else
+        {
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+            )
+        }
     }
 
     private fun removeTestAfterConfirmation() {
