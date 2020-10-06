@@ -16,8 +16,7 @@ jobs:
       - run:
           name: Check if assemble required
           command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
+            if [[ $(git diff -U0 HEAD^^ build.gradle) != *"versionCode"* ]]; then
               circleci-agent step halt
               echo "Skipping job"
             fi
@@ -53,8 +52,7 @@ jobs:
       - run:
           name: Check if assemble required
           command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
+            if [[ $(git diff -U0 HEAD^^ build.gradle) != *"versionCode"* ]]; then
               circleci-agent step halt
               echo "Skipping job"
             fi
