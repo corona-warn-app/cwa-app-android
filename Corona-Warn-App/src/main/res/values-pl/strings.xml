@@ -282,7 +282,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Wyświetlanie narażeń w Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Losowe identyfikatory"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Identyfikator losowy"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"Identyfikatory losowe są kombinacją cyfr i liter generowanych losowo. Są one wymieniane pomiędzy urządzeniami znajdującymi się w bliskiej odległości od siebie. Identyfikatorów losowych nie można przypisać do konkretnej osoby. Są one automatycznie usuwane po 14 dniach. Osoby, u których zdiagnozowano COVID-19, mogą zdecydować się na udostępnienie swoich losowych identyfikatorów z ostatnich 14 dni innym użytkownikom aplikacji."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -373,7 +373,7 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie Często zadawane pytania."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -419,7 +419,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich własnych, losowych identyfikatorów do ich smartfonów. Rejestrowanie narażenia można wyłączyć w dowolnym momencie."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Zaszyfrowane losowe identyfikatory przekazują innym osobom jedynie informacje o dacie kontaktu, czasie trwania i odległości (przy wykorzystaniu mocy sygnału) od innych użytkowników aplikacji. Ustalenie tożsamości osób na podstawie losowych identyfikatorów nie jest możliwe."</string>
+    <string name="onboarding_tracing_body_emphasized">"Zaszyfrowane losowe identyfikatory przekazują innym osobom jedynie informacje o dacie kontaktu, czasie trwania i odległości (obliczonej na podstawie mocy sygnału) od innych użytkowników aplikacji. Ustalenie tożsamości osób na podstawie losowych identyfikatorów nie jest możliwe."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informacja o aplikacji w języku uproszczonym i języku migowym"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -511,7 +511,7 @@
     <!-- XHED: settings(tracing) - headline bellow illustration -->
     <string name="settings_tracing_headline">"Jak działa funkcja rejestrowania narażenia"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Zezwól na generowanie i udostępnianie losowych identyfikatorów COVID-19."</string>
+    <string name="settings_tracing_body_description">"Zezwól na tworzenie i udostępnianie losowych identyfikatorów COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Rejestrowanie narażenia aktywne"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -654,7 +654,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Instytut Roberta Kocha (RKI) to niemiecka federalna instytucja zdrowia publicznego. RKI publikuje aplikację Corona-Warn-App w imieniu rządu federalnego. Aplikacja ta służy jako cyfrowe uzupełnienie już wprowadzonych środków ochrony zdrowia publicznego, takich jak zachowanie dystansu społecznego, dbanie o higienę oraz noszenie maseczek."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Wszystkie osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim urządzeniu. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
+    <string name="information_about_body">"Osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim urządzeniu. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -852,6 +852,10 @@
     <string name="submission_test_result_positive_steps_warning_others_body">"Udostępnij swoje losowe identyfikatory, aby ostrzegać innych.\nPomóż innym dokładniej ocenić ryzyko zakażenia, wysyłając informację, gdy dostrzeżesz u siebie symptomy koronawirusa."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Dalej"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Wprowadź symptomy"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Nie wprowadzaj symptomów"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Twój wynik testu"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
