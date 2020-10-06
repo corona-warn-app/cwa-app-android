@@ -5,14 +5,14 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 
 class SubmissionQRCodeInfoFragmentViewModel : ViewModel() {
 
-    val navigateBack = SingleLiveEvent<Boolean>()
-    val navigateForward = SingleLiveEvent<Boolean>()
+    val navigateToDispatcher = SingleLiveEvent<Unit>()
+    val navigateToQRScan = SingleLiveEvent<Unit>()
 
     fun onBackPressed() {
-        navigateBack.postValue(true)
+        navigateToDispatcher.postValue(Unit)
     }
 
     fun onNextPressed() {
-        navigateForward.postValue(true)
+        navigateToQRScan.postValue(Unit)
     }
 }
