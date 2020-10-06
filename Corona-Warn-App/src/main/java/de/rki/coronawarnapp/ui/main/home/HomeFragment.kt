@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,7 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         setupTestResultCard()
 
         binding.mainTracing.setOnClickListener {
-            findNavController().doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
+            doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
         setupRiskCard()
@@ -56,21 +55,26 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.showInteropDeltaOnboarding.observe2(this) {
-            findNavController().doNavigate(
-                HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
-            )
-        }
+        vm.events.observe2(this) {
+            when (it) {
+                HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
+                    doNavigate(
+                        HomeFragmentDirections.actionMainFragmentToOnboardingDeltaInteroperabilityFragment()
+                    )
+                }
+                is HomeFragmentEvents.ShowTracingExplanation -> {
+                    tracingExplanationDialog.show(it.activeTracingDaysInRetentionPeriod) {
+                        vm.tracingExplanationWasShown()
+                    }
+                }
+                HomeFragmentEvents.ShowErrorResetDialog -> {
+                    RecoveryByResetDialogFactory(this).showDialog(
+                        detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
+                        onDismiss = { vm.errorResetDialogDismissed() }
+                    )
+                }
+            }
 
-        vm.showTracingExplanation.observe2(this) { activeTracingDaysInRetentionPeriod ->
-            tracingExplanationDialog.show(activeTracingDaysInRetentionPeriod) { vm.tracingExplanationWasShown() }
-        }
-
-        vm.showErrorResetDialog.observe2(this) {
-            RecoveryByResetDialogFactory(this).showDialog(
-                detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                onDismiss = { vm.errorResetDialogDismissed() }
-            )
         }
     }
 
@@ -83,18 +87,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     private fun setupRiskCard() {
         binding.mainRisk.apply {
             riskCard.setOnClickListener {
-                findNavController().doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment()
-                )
+                doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
             }
             riskCardButtonUpdate.setOnClickListener {
                 vm.tracingViewModel.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
             }
             riskCardButtonEnableTracing.setOnClickListener {
-                findNavController().doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment()
-                )
+                doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
             }
         }
     }
@@ -102,24 +102,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     private fun setupTestResultCard() {
         binding.apply {
             val toSubmissionResult = {
-                findNavController().doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment()
-                )
+                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionResultFragment())
             }
             mainTestUnregistered.apply {
                 val toSubmissionIntro = {
-                    findNavController().doNavigate(
-                        HomeFragmentDirections.actionMainFragmentToSubmissionIntroFragment()
-                    )
+                    doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionIntroFragment())
                 }
                 submissionStatusCardUnregistered.setOnClickListener { toSubmissionIntro() }
                 submissionStatusCardUnregisteredButton.setOnClickListener { toSubmissionIntro() }
             }
 
             mainTestDone.submissionStatusCardDone.setOnClickListener {
-                findNavController().doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToSubmissionDoneFragment()
-                )
+                doNavigate(HomeFragmentDirections.actionMainFragmentToSubmissionDoneFragment())
             }
             mainTestResult.apply {
                 submissionStatusCardContent.setOnClickListener { toSubmissionResult() }
@@ -137,9 +131,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderShare.buttonIcon.apply {
             contentDescription = getString(R.string.button_share)
             setOnClickListener {
-                findNavController().doNavigate(
-                    HomeFragmentDirections.actionMainFragmentToMainSharingFragment()
-                )
+                doNavigate(HomeFragmentDirections.actionMainFragmentToMainSharingFragment())
             }
         }
 

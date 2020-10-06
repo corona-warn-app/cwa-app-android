@@ -4,6 +4,9 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -24,22 +27,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
     childViewModels = listOf(tracingViewModel, settingsViewModel, submissionViewModel)
 ) {
 
-    val showInteropDeltaOnboarding = SingleLiveEvent<Unit>()
-    val showTracingExplanation = SingleLiveEvent<Long>()
-    val showErrorResetDialog = SingleLiveEvent<Unit>()
+    val events = SingleLiveEvent<HomeFragmentEvents>()
 
     init {
         if (!LocalData.isInteroperabilityShownAtLeastOnce) {
-            showInteropDeltaOnboarding.postValue(Unit)
+            events.postValue(ShowInteropDeltaOnboarding)
         } else {
             launch {
                 if (!LocalData.tracingExplanationDialogWasShown()) {
-                    showTracingExplanation.postValue(TimeVariables.getActiveTracingDaysInRetentionPeriod())
+                    events.postValue(
+                        ShowTracingExplanation(TimeVariables.getActiveTracingDaysInRetentionPeriod())
+                    )
                 }
             }
             launch {
                 if (errorResetTool.isResetNoticeToBeShown) {
-                    showErrorResetDialog.postValue(Unit)
+                    events.postValue(ShowErrorResetDialog)
                 }
             }
         }
