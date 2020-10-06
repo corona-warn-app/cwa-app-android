@@ -22,8 +22,8 @@ class GoogleAPIVersion @Inject constructor() {
             val currentVersion = InternalExposureNotificationClient.getVersion()
             currentVersion >= compareVersion
         } catch (apiException: ApiException) {
-            if (apiException.statusCode == CommonStatusCodes.API_NOT_CONNECTED) false
-            else throw apiException
+            if (apiException.statusCode != CommonStatusCodes.API_NOT_CONNECTED) throw apiException
+            else false
         }
     }
 
