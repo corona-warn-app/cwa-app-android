@@ -26,7 +26,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val showInteropDeltaOnboarding = SingleLiveEvent<Unit>()
     val showTracingExplanation = SingleLiveEvent<Long>()
-    val showErrorResetDialog = SingleLiveEvent<Boolean>()
+    val showErrorResetDialog = SingleLiveEvent<Unit>()
 
     init {
         if (!LocalData.isInteroperabilityShownAtLeastOnce) {
@@ -39,7 +39,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
             launch {
                 if (errorResetTool.isResetNoticeToBeShown) {
-                    showErrorResetDialog.postValue(true)
+                    showErrorResetDialog.postValue(Unit)
                 }
             }
         }

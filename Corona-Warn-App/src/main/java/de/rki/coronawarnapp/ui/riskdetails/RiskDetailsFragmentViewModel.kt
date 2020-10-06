@@ -18,7 +18,6 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
 ) {
 
     fun refreshData() {
-        // refresh required data
         tracingViewModel.refreshRiskLevel()
         tracingViewModel.refreshExposureSummary()
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()

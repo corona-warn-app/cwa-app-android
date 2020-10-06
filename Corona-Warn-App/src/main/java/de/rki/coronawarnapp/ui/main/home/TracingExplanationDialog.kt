@@ -22,8 +22,6 @@ class TracingExplanationDialog @Inject constructor(
             )
         val infoFAQ = context.getString(R.string.risk_details_explanation_dialog_faq_body)
 
-        // display the dialog
-
         val data = DialogHelper.DialogInstance(
             context = context,
             title = context.getString(R.string.risk_details_explanation_dialog_title),

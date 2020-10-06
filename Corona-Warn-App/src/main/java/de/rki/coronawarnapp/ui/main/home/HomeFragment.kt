@@ -76,7 +76,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     override fun onResume() {
         super.onResume()
-        // refresh required data
         vm.refreshRequiredData()
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
