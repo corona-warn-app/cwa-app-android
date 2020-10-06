@@ -199,11 +199,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
                 .asyncRetrieveApplicationConfiguration()
                 .supportedCountriesList
         }
-
-        if (CWADebug.isDebugBuildOrMode) {
-            onKeyFilesDownloadStarted?.invoke()
-            onKeyFilesDownloadStarted = null
-        }
+            invokeSubmissionStartedInDebugOrBuildMode()
 
         val availableKeyFiles = executeFetchKeyFilesFromServer(countries)
 
@@ -218,11 +214,8 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
             onKeyFilesDownloadFinished?.invoke(availableKeyFiles.size, totalFileSize)
             onKeyFilesDownloadFinished = null
-        }
 
-        if (CWADebug.isDebugBuildOrMode) {
-            onApiSubmissionStarted?.invoke()
-            onApiSubmissionStarted = null
+            invokeSubmissionStartedInDebugOrBuildMode()
         }
 
         val isSubmissionSuccessful = executeAPISubmission(
@@ -231,14 +224,25 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             token = token
         )
 
-        if (CWADebug.isDebugBuildOrMode) {
-            onApiSubmissionFinished?.invoke()
-            onApiSubmissionFinished = null
-        }
+        invokeSubmissionFinishedInDebugOrBuildMode()
 
         if (isSubmissionSuccessful) executeFetchDateUpdate(currentDate)
 
         executeClose()
+    }
+
+    private fun invokeSubmissionStartedInDebugOrBuildMode() {
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionStarted?.invoke()
+            onApiSubmissionStarted = null
+        }
+    }
+
+    private fun invokeSubmissionFinishedInDebugOrBuildMode() {
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionFinished?.invoke()
+            onApiSubmissionFinished = null
+        }
     }
 
     override suspend fun rollback() {
