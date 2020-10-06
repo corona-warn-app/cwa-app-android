@@ -23,7 +23,7 @@ class GoogleAPIVersion @Inject constructor() {
             currentVersion >= compareVersion
         } catch (apiException: ApiException) {
             if (apiException.statusCode != CommonStatusCodes.API_NOT_CONNECTED) throw apiException
-            else false
+            else return false
         }
     }
 
