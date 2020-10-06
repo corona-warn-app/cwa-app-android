@@ -8,5 +8,5 @@ interface FormattedError {
 
 fun Throwable.tryFormattedError(context: Context): String = when (this) {
     is FormattedError -> this.getFormattedError(context)
-    else -> localizedMessage ?: this.toString()
+    else -> (localizedMessage ?: this.message) ?: this.toString()
 }

@@ -13,6 +13,9 @@ class AppConfigStorage @Inject constructor(
     private val configDir = File(context.filesDir, "appconfig_storage")
     private val configFile = File(configDir, "appconfig")
 
+    val isAppConfigAvailable: Boolean
+        get() = configFile.exists() && configFile.length() > MIN_VALID_CONFIG_BYTES
+
     var appConfigRaw: ByteArray?
         get() {
             Timber.v("get() AppConfig")
@@ -36,4 +39,9 @@ class AppConfigStorage @Inject constructor(
                 configFile.delete()
             }
         }
+
+    companion object {
+        // The normal config is ~512B+, we just need to check for a non 0 value, 128 is fine.
+        private const val MIN_VALID_CONFIG_BYTES = 128
+    }
 }
