@@ -282,7 +282,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Показват излаганията на риск в приложението Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Случайни идентификатори"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Случаен идентификатор"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"Случайните идентификатори са произволно генерирани комбинации от цифри и букви, които устройствата си разменят, когато са в близост едно до друго. Идентифицирането на конкретни лица посредством проследяването им е невъзможно. Освен това те се изтриват автоматично след 14 дни. Лицата, диагностицирани с COVID-19, могат да споделят с останалите потребители на приложението своите случайни идентификатори, генерирани през последните 14 дни."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -373,7 +373,7 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"За повече информация вижте страницата „ЧЗВ“."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"За повече информация вижте страницата „ЧЗВ“."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -419,7 +419,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Регистрирането на излагания на риск се извършва с помощта на Bluetooth връзка, при която Вашият смартфон получава криптираните случайни идентификационни кодове на други потребители и изпраща до техните устройства Вашите случайни ИД. Функцията може да бъде дезактивирана по всяко време."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Криптираните случайни идентификатори предават само информация за дата, продължителност и близост на контакта (установена посредством силата на сигнала). Самоличността Ви не може да бъде установена по случайните ИД."</string>
+    <string name="onboarding_tracing_body_emphasized">"Криптираните случайни идентификатори предават само информация за дата, продължителност и близост на контакта (изчислена от силата на сигнала). Самоличността Ви не може да бъде установена по случайните ИД."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация за приложението на опростен и жестомимичен език."</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -654,7 +654,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Институтът „Роберт Кох“ (RKI) е федералната служба за обществено здравеопазване в Германия. Той е издател на приложението Corona-Warn-App по поръчка на федералното правителство. Приложението е предназначено да бъде дигитално допълнение на вече въведените мерки за опазване на общественото здраве: социално дистанциране, поддържане на висока хигиена и носене на маски."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Всеки, който използва приложението, помага за проследяване и прекъсване на веригите на заразяване. Приложението запазва във Вашето устройство данните за контактите Ви с други хора. Получавате известие, ако сте били в контакт с лица, които впоследствие са били диагностицирани с COVID-19. Вашата самоличност и неприкосновеността на данните Ви са защитени по всяко време."</string>
+    <string name="information_about_body">"Хората, които използват приложението, помагат за проследяване и прекъсване на веригите на заразяване. Приложението запазва във Вашето устройство данните за контактите Ви с други хора. Получавате известие, ако сте били в контакт с лица, които впоследствие са били диагностицирани с COVID-19. Вашата самоличност и неприкосновеността на данните Ви са защитени по всяко време."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Група лица използват смартфоните си, придвижвайки се из града."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -852,6 +852,10 @@
     <string name="submission_test_result_positive_steps_warning_others_body">"Споделете своите случайни идентификатори и предупредете околните.\nПомогнете ни да определяме риска от заразяване за тях по-точно, като споделите и кога за пръв път сте забелязали симптомите на коронавирусната инфекция."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Напред"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Въведете симптоми"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Не въвеждайте симптоми"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Резултатът от Вашия тест"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -1314,7 +1318,7 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Международно\nрегистриране на излаганията"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Няколко държави обединиха усилия, за да можете да получавате международни предупреждения. С други думи, под внимание се взема потенциалният риск от контакти потребителите на официалните приложения за борба с коронавируса във всички участващи държави."</string>
+    <string name="interoperability_onboarding_first_section">"Няколко държави обединиха усилия, за да направят възможни международните предупреждения. С други думи, вече могат да се вземат под внимание потенциалните ви контакти с потребители на официалните приложения за проследяване на разпространението на коронавируса във всички участващи държави."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
     <string name="interoperability_onboarding_second_section">"Когато потребителят изпрати своите случайни ИД към сървъра за обмен на данни, съвместно поддържан от участващите държави, потребителите на официалните приложения за борба с коронавируса във всяка една от тях получават необходимите предупреждения."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
