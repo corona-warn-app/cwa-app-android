@@ -151,6 +151,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         binding.submissionTestResultButtonPositiveContinueWithoutSymptoms.setOnClickListener {
             skipSymptomSubmission = true
+            submissionViewModel.onNoInformationSymptomIndication()
             continueIfTracingEnabled()
         }
 
@@ -179,7 +180,8 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
         if (skipSymptomSubmission) {
             findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
             )
         }
         else
