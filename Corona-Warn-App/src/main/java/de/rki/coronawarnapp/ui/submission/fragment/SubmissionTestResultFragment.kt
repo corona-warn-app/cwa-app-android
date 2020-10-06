@@ -7,7 +7,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
@@ -52,19 +51,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
-            is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToMainScreen
-            )
-            is CwaClientError -> DialogHelper.DialogInstance(
+            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
@@ -103,7 +90,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.deviceUiState.observe(viewLifecycleOwner, Observer { uiState ->
+        submissionViewModel.deviceUiState.observe(viewLifecycleOwner, { uiState ->
             if (uiState == DeviceUIState.PAIRED_REDEEMED) {
                 showRedeemedTokenWarningDialog()
             }
