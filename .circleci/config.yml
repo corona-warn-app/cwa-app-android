@@ -16,7 +16,9 @@ jobs:
       - run:
           name: Check if assemble required
           command: |
-            if [[ $(git diff -U0 HEAD^^ build.gradle) != *"versionCode"* ]]; then
+            changes=$(git diff -U0 HEAD^^ build.gradle)
+            echo $changes
+            if [[ $changes  != *"versionCode"* ]]; then
               circleci-agent step halt
               echo "Skipping job"
             fi
