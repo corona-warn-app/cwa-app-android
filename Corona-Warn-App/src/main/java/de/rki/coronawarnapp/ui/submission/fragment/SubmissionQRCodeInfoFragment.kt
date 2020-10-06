@@ -17,11 +17,9 @@ class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_co
     private val viewModel: SubmissionQRCodeInfoFragmentViewModel by viewModels()
     private val binding: FragmentSubmissionQrCodeInfoBinding by viewBindingLazy()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.submissionCountrySelectViewModel = viewModel
-
 
         binding.submissionQrCodeInfoHeader.headerButtonBack.buttonIcon.setOnClickListener() {
             viewModel.onBackPressed()
