@@ -9,6 +9,7 @@ import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -29,8 +30,13 @@ class FileLoggerPlus(private val ctx: Context) : Timber.DebugTree() {
         val buffer = PublishSubject.create<String>()
 
         buffer
-            .buffer(5, TimeUnit.MINUTES, Schedulers.io(), 20)
             .subscribeOn(Schedulers.io())
+            .buffer(
+                MINUTES_UNTIL_BUFFER_FLUSH,
+                TimeUnit.MINUTES,
+                Schedulers.io(),
+                LOG_LINES_UNTIL_BUFFER_FLUSH
+            )
             .subscribeBy(
                 onNext = { writeToFile(it) },
                 onError = { Timber.e(it) }
@@ -70,5 +76,10 @@ class FileLoggerPlus(private val ctx: Context) : Timber.DebugTree() {
         Log.DEBUG -> "D"
         Log.VERBOSE -> "V"
         else -> priority.toString()
+    }
+
+    companion object {
+        private const val MINUTES_UNTIL_BUFFER_FLUSH = 5L
+        private const val LOG_LINES_UNTIL_BUFFER_FLUSH = 20
     }
 }
