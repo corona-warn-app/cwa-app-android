@@ -183,9 +183,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                 SubmissionTestResultFragmentDirections
                     .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
             )
-        }
-        else
-        {
+        } else {
             findNavController().doNavigate(
                 SubmissionTestResultFragmentDirections
                     .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
