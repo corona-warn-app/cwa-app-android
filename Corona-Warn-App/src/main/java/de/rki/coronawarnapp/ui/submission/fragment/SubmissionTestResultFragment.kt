@@ -151,7 +151,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
     }
 
-    private fun continueIfTracingEnabled(skipSymptomSubmission : Boolean) {
+    private fun continueIfTracingEnabled(skipSymptomSubmission: Boolean) {
         if (tracingViewModel.isTracingEnabled.value != true) {
             val tracingRequiredDialog = DialogHelper.DialogInstance(
                 requireActivity(),
