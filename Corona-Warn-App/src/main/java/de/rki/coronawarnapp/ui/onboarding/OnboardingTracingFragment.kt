@@ -55,7 +55,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         }
         vm.saveInteroperabilityUsed()
         vm.routeToScreen.observe2(this) {
-            when(it) {
+            when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest ->
                     internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
                 is OnboardingNavigationEvents.ShowCancelDialog ->

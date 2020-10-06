@@ -32,7 +32,7 @@ class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_no
         binding.onboardingNotificationsViewModel = vm
         setButtonOnClickListener()
         vm.routeToScreen.observe2(this) {
-            when(it) {
+            when (it) {
                 is OnboardingNavigationEvents.NavigateToMainActivity ->
                     navigateToMain()
                 is OnboardingNavigationEvents.NavigateToOnboardingTest ->

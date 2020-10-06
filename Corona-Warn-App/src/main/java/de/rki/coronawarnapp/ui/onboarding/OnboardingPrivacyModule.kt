@@ -9,12 +9,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class OnboardingPrivacyModule  {
+abstract class OnboardingPrivacyModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(OnboardingPrivacyViewModel::class)
     abstract fun onboardingPrivacyVM(
-        factory: OnboardingPrivacyViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+        factory: OnboardingPrivacyViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
     abstract fun onboardingPrivacyFragment(): OnboardingPrivacyFragment

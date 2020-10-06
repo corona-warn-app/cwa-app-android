@@ -30,7 +30,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
         super.onViewCreated(view, savedInstanceState)
         binding.onboardingFragmentViewModel = vm
         vm.routeToScreen.observe2(this) {
-            when(it) {
+            when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
                     navigateToOnboardingPrivacyFragment()
                 is OnboardingNavigationEvents.NavigateToEasyLanguageUrl ->
@@ -41,7 +41,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
     }
 
     private fun setButtonOnClickListener() {
-        binding.onboardingButtonNext.setOnClickListener { vm.onNextButtonClick()}
+        binding.onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
         binding.onboardingInclude.onboardingEasyLanguage.setOnClickListener { vm.onEasyLanguageClick() }
     }
 

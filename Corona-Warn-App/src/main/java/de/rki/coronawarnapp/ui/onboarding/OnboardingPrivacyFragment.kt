@@ -29,13 +29,12 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
         binding.onboardingPrivacyViewModel = vm
         setButtonOnClickListener()
         vm.routeToScreen.observe2(this) {
-            when(it){
+            when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
                     navigateToOnboardingTracing()
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment ->
                     navigateToOnboardingFragment()
             }
-
         }
     }
 

@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class OnboardingPrivacyViewModel @AssistedInject constructor(): CWAViewModel() {
+class OnboardingPrivacyViewModel @AssistedInject constructor() : CWAViewModel() {
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {

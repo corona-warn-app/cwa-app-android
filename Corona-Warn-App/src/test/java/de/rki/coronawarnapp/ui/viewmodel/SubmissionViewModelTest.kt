@@ -28,7 +28,6 @@ class SubmissionViewModelTest {
         mockkObject(LocalData)
         every { LocalData.testGUID(any()) } just Runs
 
-
         mockkObject(BackgroundNoise.Companion)
         every { BackgroundNoise.getInstance() } returns backgroundNoise
     }

@@ -29,7 +29,7 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
         binding.onboardingTestViewModel = vm
         setButtonOnClickListener()
         vm.routeToScreen.observe2(this) {
-            when(it) {
+            when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingNotifications ->
                     navigateToOnboardingNotificationsFragment()
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
