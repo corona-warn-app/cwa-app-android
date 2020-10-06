@@ -37,6 +37,7 @@ class FileLoggerPlus(private val ctx: Context) : Timber.DebugTree() {
                 Schedulers.io(),
                 LOG_LINES_UNTIL_BUFFER_FLUSH
             )
+            .filter { it.isNotEmpty() }
             .subscribeBy(
                 onNext = { writeToFile(it) },
                 onError = { Timber.e(it) }
