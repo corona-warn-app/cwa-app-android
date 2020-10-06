@@ -32,7 +32,6 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private val binding: FragmentSubmissionTestResultBinding by viewBindingLazy()
 
     private var skipInitialTestResultRefresh = false
-    private var skipSymptomSubmission = false
 
     // Overrides default back behaviour
     private val backCallback: OnBackPressedCallback =
@@ -133,13 +132,12 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
-            continueIfTracingEnabled()
+            continueIfTracingEnabled(false)
         }
 
         binding.submissionTestResultButtonPositiveContinueWithoutSymptoms.setOnClickListener {
-            skipSymptomSubmission = true
             submissionViewModel.onNoInformationSymptomIndication()
-            continueIfTracingEnabled()
+            continueIfTracingEnabled(true)
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
@@ -153,7 +151,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
     }
 
-    private fun continueIfTracingEnabled() {
+    private fun continueIfTracingEnabled(skipSymptomSubmission : Boolean) {
         if (tracingViewModel.isTracingEnabled.value != true) {
             val tracingRequiredDialog = DialogHelper.DialogInstance(
                 requireActivity(),
