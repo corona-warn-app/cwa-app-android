@@ -289,7 +289,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"The display of exposures in the Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Random IDs"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Random ID"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"Random IDs are combinations of digits and letters generated randomly. They are exchanged between devices in close proximity. Random IDs cannot be traced to a specific person and are automatically deleted after 14 days. Persons diagnosed with COVID-19 can opt to share their random IDs of up to the last 14 days with other app users."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -426,7 +426,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Exposure logging works by your smartphone receiving, via Bluetooth, encrypted random IDs of other users and passing your own random IDs to their smartphones. Exposure logging can be deactivated at any time."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration, and proximity (using signal strength) to other people. Individuals cannot be identified based on the random IDs."</string>
+    <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration, and proximity (calculated from signal strength) to other people. Individuals cannot be identified based on the random IDs."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"App Information in Simplified Language and Sign Language"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -518,7 +518,7 @@
     <!-- XHED: settings(tracing) - headline bellow illustration -->
     <string name="settings_tracing_headline">"How exposure logging works"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Allow COVID-19 random IDs to be generated and shared."</string>
+    <string name="settings_tracing_body_description">"Allow creation and sharing of COVID-19 random IDs."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Exposure Logging Active"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -661,7 +661,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App on behalf of the Federal Government. The app is intended as a digital complement to public health measures already introduced: social distancing, hygiene, and face masks."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Whoever uses the app helps to trace and break chains of infection. The app saves encounters with other people locally on your device. You are notified if you have encountered people who were later diagnosed with COVID-19. Your identity and privacy are always protected."</string>
+    <string name="information_about_body">"People who use the app help to trace and break chains of infection. The app saves encounters with other people locally on your device. You are notified if you have encountered people who were later diagnosed with COVID-19. Your identity and privacy are always protected."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"A group of persons use their smartphones around town."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -860,9 +860,9 @@
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Next"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
-    <string name="submission_test_result_positive_continue_button_with_symptoms">"Weiter mit Symptom-Erfassung"</string>
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Enter Symptoms"</string>
     <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Weiter ohne Symptom-Erfassung"</string>
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Don’t Enter Symptoms"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Your Test Result"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -1327,7 +1327,7 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Transnational\nExposure Logging"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Several countries have teamed up to enable international warning. In other words, your potential exposure to users of the official corona apps in all participating countries can now be taken into account."</string>
+    <string name="interoperability_onboarding_first_section">"Several countries have teamed up to enable transnational warnings. In other words, your potential exposure to users of the official corona apps in all participating countries can now be taken into account."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
     <string name="interoperability_onboarding_second_section">"When a user submits their random IDs to the exchange server jointly operated by the participating countries, users of the official corona apps in all these countries can be warned of potential exposure."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
