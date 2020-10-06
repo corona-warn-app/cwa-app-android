@@ -219,7 +219,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"FAQ"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
+    <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external German government website."</string>
     <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
@@ -424,9 +424,9 @@
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"To identify whether you are at risk of infection, you must activate the exposure logging feature."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Exposure logging works by your smartphone receiving, via Bluetooth, encrypted random IDs of other users and passing your own random ID to their smartphones. This feature can be deactivated at any time."</string>
+    <string name="onboarding_tracing_body">"Exposure logging works by your smartphone receiving, via Bluetooth, encrypted random IDs of other users and passing your own random IDs to their smartphones. Exposure logging can be deactivated at any time."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration and proximity (using signal strength) to other people. Personal data such as name, address, location is never recorded. Individuals cannot be identified."</string>
+    <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration, and proximity (using signal strength) to other people. Individuals cannot be identified based on the random IDs."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"App Information in Simplified Language and Sign Language"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -516,7 +516,7 @@
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Exposure Logging"</string>
     <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"This is how exposure logging works"</string>
+    <string name="settings_tracing_headline">"How exposure logging works"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Allow COVID-19 random IDs to be generated and shared."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
@@ -526,7 +526,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Location services deactivated"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"You have to activate the exposure logging feature to identify whether you are at risk of infection. Risk identification works by your smartphone receiving, via Bluetooth, encrypted random IDs of other users and passing your random ID to their smartphones. You can disable this feature any time."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Encrypted random IDs only pass information about date, duration, and proximity to other persons (calculated by signal strength). Personal data such as name, address, and location is never recorded. Individuals cannot be identified."</string>
+    <string name="settings_tracing_body_text">"You need to enable the exposure logging feature so that the app can determine whether you are at risk after encountering an infected app user. The exposure logging feature works transnationally, meaning any possible exposure involving users is also detected by other official coronavirus apps.\n\nThe exposure logging feature works by your smartphone receiving encrypted random IDs from other users via Bluetooth and passing your own random IDs to their smartphones. Every day, the app downloads a list containing the random IDs – along with any voluntary information about the onset of symptoms – of all users who have tested positive for the virus and voluntarily shared this information via their app. This list is then compared with the random IDs of other users that have been recorded by your smartphone, in order to calculate the likelihood that you have also been infected and to warn you if necessary. You can use the toggle switch to disable exposure logging at any time.\n\nThe app never collects personal data such as your name, address or location, nor is this information passed on to other users. It is not possible to use random IDs to draw conclusions about individual persons."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Active"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -868,7 +868,7 @@
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Warning Others"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Share your random IDs of the last 14 days in order to protect others and break the chain of infection."</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"Share your random IDs and warn others.\nHelp determine the risk of infection for others more accurately by also indicating when you first noticed any coronavirus symptoms."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Next"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
@@ -964,7 +964,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Please help all of us!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"If you wish, you can now allow the App system to transmit your locally stored random IDs from the last 14 days to others. In this way, you can warn fellow users and help to break the chain of infection.\n\nThe App will only transmit random IDs and information you provided about the onset of symptoms. Your identity will not be disclosed."</string>
+    <string name="submission_positive_other_warning_body">"Next, you can make sure that others are notified of their potential exposure.\n\nTo do so, you can send your own random IDs from the last 14 days and, optionally, information about when you first noticed potential corona symptoms, to the exchange server operated jointly by all participating countries. From there, your random IDs and any other information you choose to provide will be distributed to the users of their official corona apps. This makes it possible to warn the other users of their potential exposure to you.\n\nOnly the random IDs are transmitted, along with any information you provide about when you noticed potential symptoms. No personal data, such as your name, address, or location, will be shared.."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1324,30 +1324,30 @@
     <!-- XHED: Header of interoperability information/configuration view -->
     <string name="interoperability_configuration_title">"Transnational Exposure Logging"</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_first_section">"The Corona-Warn-App warns you of potential infection internationally, by exchanging data over a European infrastructure."</string>
+    <string name="interoperability_configuration_first_section">"Several countries are working together to enable transnational alerts via a joint exchange server. For example, contacts with users of an official coronavirus app from other participating countries can also be taken into account for exposure logging."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"No personal data is shared. You will not incur any additional costs by using the transnational information sharing feature of the Corona-Warn-App."</string>
-    <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
-    <string name="interoperability_configuration_information"></string>
+    <string name="interoperability_configuration_second_section">"To do this, the app downloads a list, which is updated daily, of the random IDs of all users who have shared their random IDs via their own app. This list is then compared with the random IDs recorded by your smartphone. The daily download of the list with the random IDs is usually free of charge for you – you will not be charged for the data used by the app in this context, will roaming charges apply for this in other EU countries."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
-    <string name="interoperability_configuration_list_title">"The following countries currently participate:"</string>
+    <string name="interoperability_configuration_list_title">"The following countries currently participate in transnational exposure logging:"</string>
+    <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_information">"The app’s privacy notice (including information about the data processing carried out for the transnational exposure logging feature) can be found in the menu under “App Information” &gt; “Data Privacy”."</string>
 
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Transnational\nExposure Logging"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Several countries in the EU have teamed up to enable international warning. In other words, your potential exposure to users of the official corona apps in all participating countries can now be taken into account."</string>
+    <string name="interoperability_onboarding_first_section">"Several countries have teamed up to enable international warning. In other words, your potential exposure to users of the official corona apps in all participating countries can now be taken into account."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
-    <string name="interoperability_onboarding_second_section">"When a user submits their random IDs to the server system jointly operated by the participating countries, users of the official corona apps in all these countries can be warned of potential exposure."</string>
+    <string name="interoperability_onboarding_second_section">"When a user submits their random IDs to the exchange server jointly operated by the participating countries, users of the official corona apps in all these countries can be warned of potential exposure."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_randomid_download_free">"The daily download of random IDs is free of charge for you – your data volume will not be charged, nor will you incur any roaming fees in other European countries."</string>
+    <string name="interoperability_onboarding_randomid_download_free">"The daily download of the list with the random IDs is usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, and nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
     <string name="interoperability_onboarding_list_title">"The following countries currently participate:"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 1 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_1"></string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_1">"The terms of use have also been updated, to reflect the functional enhancements in the app."</string>
     <!-- XLNK: Terms of use link inside delta interoperability screen-->
-    <string name="interoperability_onboarding_delta_terms_link"></string>
+    <string name="interoperability_onboarding_delta_terms_link">"Display terms of use"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
-    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2"></string>
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"The Terms of Use and privacy notice can also be found in the menu under “App Information” and in the app description in your app store. The changes will not affect how you use the app. If you continue to use the app or reopen it, we will assume that you agree to the updated Terms of Use."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"A hand holds a smartphone. Europe and the European flag are illustrated in the background."</string>
