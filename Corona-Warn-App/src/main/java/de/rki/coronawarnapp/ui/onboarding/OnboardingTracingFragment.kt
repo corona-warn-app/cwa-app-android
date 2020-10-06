@@ -54,6 +54,16 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             binding.countryData = it
         }
         vm.saveInteroperabilityUsed()
+        vm.routeToScreen.observe2(this) {
+            when(it) {
+                is OnboardingNavigationEvents.NavigateToOnboardingTest ->
+                    internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                is OnboardingNavigationEvents.ShowCancelDialog ->
+                    showCancelDialog()
+                is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
+                    navigateToOnboardingPrivacyFragment()
+            }
+        }
     }
 
     override fun onResume() {
@@ -63,19 +73,13 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     }
 
     private fun setButtonOnClickListener() {
-        binding.onboardingButtonNext.setOnClickListener {
-            internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
-        }
-        binding.onboardingButtonDisable.setOnClickListener {
-            showCancelDialog()
-        }
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            (requireActivity() as OnboardingActivity).goBack()
-        }
+        binding.onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
+        binding.onboardingButtonDisable.setOnClickListener { vm.showCancelDialog() }
+        binding.onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonPress() }
     }
 
     override fun onStartPermissionGranted() {
-        navigate()
+        navigateToOnboardingTestFragment()
     }
 
     override fun onFailure(exception: Exception?) {
@@ -91,14 +95,18 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             R.string.onboarding_tracing_dialog_button_negative,
             true,
             {
-                navigate()
+                navigateToOnboardingTestFragment()
             })
         DialogHelper.showDialog(dialog)
     }
 
-    private fun navigate() {
+    private fun navigateToOnboardingTestFragment() {
         findNavController().doNavigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
+    }
+
+    private fun navigateToOnboardingPrivacyFragment() {
+        (requireActivity() as OnboardingActivity).goBack()
     }
 }

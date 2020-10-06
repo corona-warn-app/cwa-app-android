@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     val countryList = interoperabilityRepository.countryList
+    val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun saveInteroperabilityUsed() {
         interoperabilityRepository.saveInteroperabilityUsed()
@@ -38,6 +40,18 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
                 )
             }
         }
+    }
+
+    fun onNextButtonClick() {
+        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingTest
+    }
+
+    fun showCancelDialog() {
+        routeToScreen.value = OnboardingNavigationEvents.ShowCancelDialog
+    }
+
+    fun onBackButtonPress() {
+        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingPrivacy
     }
 
     @AssistedInject.Factory
