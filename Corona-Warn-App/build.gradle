@@ -129,11 +129,14 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
-            if(project.hasProperty('testFilter')){
-                List<String>props=project.getProperties().get("testFilter").split("\\s+")
-                props.each{
-                    include(it.replace("Corona-Warn-App/src/test/java/","**/")
-                            .replace(".kt",".class"))
+            if (project.hasProperty('testFilter')) {
+                List<String> props = project.getProperties().get("testFilter").split("\\s+")
+                props.each {
+                    def replaced = it
+                            .replaceFirst("^(Corona-Warn-App/src/test.*/java/)(.+)\$", "**/\$2")
+                            .replace(".kt", ".class")
+                    project.logger.lifecycle("testFilter File: before=$it, after=$replaced")
+                    include(replaced)
                 }
             }
         }
