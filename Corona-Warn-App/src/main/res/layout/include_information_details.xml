@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
 
         <variable
             name="illustration"
@@ -34,13 +33,14 @@
             android:id="@+id/information_details_header_illustration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@{FormatterAccessibilityHelper.formatImage(illustrationDescription)}"
+            bind:cwaContentDescription="@{illustrationDescription}"
             android:focusable="true"
             android:src="@{illustration}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_illustration_tracing_on" />
+            tools:src="@drawable/ic_illustration_tracing_on"
+            tools:ignore="ContentDescription" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
