@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.viewmodel
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
@@ -19,13 +18,14 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.riskdetails.DefaultRiskDetailPresenter
 import de.rki.coronawarnapp.util.ConnectivityHelper
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import timber.log.Timber
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Provides all the relevant data for tracing relevant topics and settings.
@@ -36,7 +36,7 @@ import java.util.Date
  * @see TracingRepository
  * @see RiskLevelRepository
  */
-class TracingViewModel : ViewModel() {
+class TracingViewModel @Inject constructor() : CWAViewModel() {
 
     companion object {
         val TAG: String? = TracingViewModel::class.simpleName
@@ -62,9 +62,6 @@ class TracingViewModel : ViewModel() {
 
     val additionalInformationVisibility = MediatorLiveData<Int>()
     val informationBodyNoticeVisibility = MediatorLiveData<Int>()
-
-    // event for interoperability navigation
-    val navigateToInteroperability = SingleLiveEvent<Boolean>()
 
     init {
         additionalInformationVisibility.addSource(riskLevel) {
@@ -243,9 +240,5 @@ class TracingViewModel : ViewModel() {
 
     fun refreshLastSuccessfullyCalculatedScore() {
         RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
-    }
-
-    fun onInteroperabilitySettingPressed() {
-        navigateToInteroperability.postValue(true)
     }
 }
