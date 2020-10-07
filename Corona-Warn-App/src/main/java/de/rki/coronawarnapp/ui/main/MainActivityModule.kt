@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFra
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel
 
 @Module(includes = [OnboardingDeltaInteroperabilityModule::class])
 abstract class MainActivityModule {

@@ -3,11 +3,9 @@ package de.rki.coronawarnapp.ui.submission.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeInfoBinding
-import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentViewModel
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
