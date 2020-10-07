@@ -22,5 +22,5 @@ abstract class MainActivityModule {
     abstract fun intertopConfigScreen(): InteroperabilityConfigurationFragment
 
     @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
-    abstract fun SubmissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
+    abstract fun submissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
 }
