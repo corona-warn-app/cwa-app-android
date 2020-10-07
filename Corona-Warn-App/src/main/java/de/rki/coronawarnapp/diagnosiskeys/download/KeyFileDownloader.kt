@@ -10,8 +10,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
-import de.rki.coronawarnapp.util.CWADebug
-import kotlinx.coroutines.Dispatchers
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
@@ -29,7 +28,8 @@ class KeyFileDownloader @Inject constructor(
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
     private val legacyKeyCache: LegacyKeyCacheMigration,
-    private val settings: AppSettings
+    private val settings: AppSettings,
+    private val dispatcherProvider: DispatcherProvider
 ) {
 
     private suspend fun requireStorageSpace(data: List<CountryData>): DeviceStorage.CheckResult {
@@ -69,7 +69,7 @@ class KeyFileDownloader @Inject constructor(
      * @return list of all files from both the cache and the diff query
      */
     suspend fun asyncFetchKeyFiles(wantedCountries: List<LocationCode>): List<File> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcherProvider.IO) {
             val availableCountries = keyServer.getCountryIndex()
             val filteredCountries = availableCountries.filter { wantedCountries.contains(it) }
             Timber.tag(TAG).v(
@@ -78,7 +78,7 @@ class KeyFileDownloader @Inject constructor(
             )
 
             val availableKeys =
-                if (CWADebug.isDebugBuildOrMode && settings.isLast3HourModeEnabled) {
+                if (settings.isLast3HourModeEnabled) {
                     syncMissing3Hours(filteredCountries, DEBUG_HOUR_LIMIT)
                     keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
                 } else {
@@ -126,7 +126,7 @@ class KeyFileDownloader @Inject constructor(
      */
     private suspend fun syncMissingDays(
         availableCountries: List<LocationCode>
-    ) = withContext(Dispatchers.IO) {
+    ) = withContext(dispatcherProvider.IO) {
         val countriesWithMissingDays = determineMissingDays(availableCountries)
 
         requireStorageSpace(countriesWithMissingDays)
@@ -257,7 +257,7 @@ class KeyFileDownloader @Inject constructor(
     private suspend fun syncMissing3Hours(
         availableCountries: List<LocationCode>,
         hourItemLimit: Int
-    ) = withContext(Dispatchers.IO) {
+    ) = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).v(
             "asyncHandleLast3HoursFilesFetch(availableCountries=%s, hourLimit=%d)",
             availableCountries, hourItemLimit

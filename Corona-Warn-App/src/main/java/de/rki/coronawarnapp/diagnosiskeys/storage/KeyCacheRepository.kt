@@ -23,6 +23,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.LocalDate
@@ -35,7 +36,7 @@ import javax.inject.Singleton
 
 @Singleton
 class KeyCacheRepository @Inject constructor(
-    private val context: Context,
+    @AppContext private val context: Context,
     private val databaseFactory: KeyCacheDatabase.Factory,
     private val timeStamper: TimeStamper
 ) {
