@@ -122,11 +122,14 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
       - run:
-          name: test splitting output
-          command: circleci tests glob "**/test/**/*Test.kt" | circleci tests split | xargs -n 1 echo
+          name: test splitting output 1
+          command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
+      - run:
+          name: test splitting output 2
+          command: circleci tests glob "**/test**/**/*.kt" | circleci tests split | xargs -n 1 echo
       - run:
           name: Unit tests
-          command: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="`circleci tests glob "**/test/**/*Test.kt" | circleci tests split`"
+          command: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
