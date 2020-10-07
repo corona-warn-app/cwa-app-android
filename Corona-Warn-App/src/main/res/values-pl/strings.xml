@@ -1183,7 +1183,7 @@
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Twoja aplikacja została zresetowana z powodu problemu technicznego. Nie będzie to miało wpływu na funkcjonalność aplikacji. Nadal będziesz otrzymywać powiadomienia o narażeniach i będziesz w stanie ostrzegać innych w razie pozytywnego wyniku testu na COVID-19."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development

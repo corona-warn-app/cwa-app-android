@@ -1183,7 +1183,7 @@
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Uygulamanız teknik bir problem nedeniyle sıfırlandı. Bunun, uygulamanın işlevi üzerinde hiçbir etkisi yoktur. Maruz kalmalar hakkında bildirim almaya ve COVID-19 testiniz pozitif çıkarsa diğer kullanıcıları uyarmaya devam edebileceksiniz."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
