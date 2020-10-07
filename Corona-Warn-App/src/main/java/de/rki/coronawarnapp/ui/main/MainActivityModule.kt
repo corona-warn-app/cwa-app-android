@@ -5,6 +5,9 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel
 
 @Module(includes = [OnboardingDeltaInteroperabilityModule::class])
 abstract class MainActivityModule {
@@ -17,4 +20,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [InteroperabilityConfigurationFragmentModule::class])
     abstract fun intertopConfigScreen(): InteroperabilityConfigurationFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
+    abstract fun SubmissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
 }

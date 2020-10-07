@@ -7,14 +7,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeInfoBinding
+import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentViewModel
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_code_info) {
+class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_code_info), AutoInject {
 
-    private val viewModel: SubmissionQRCodeInfoFragmentViewModel by viewModels()
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionQRCodeInfoFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionQrCodeInfoBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

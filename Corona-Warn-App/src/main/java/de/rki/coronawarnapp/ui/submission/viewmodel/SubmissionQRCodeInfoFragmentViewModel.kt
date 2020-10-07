@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
-import androidx.lifecycle.ViewModel
+import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class SubmissionQRCodeInfoFragmentViewModel : ViewModel() {
+class SubmissionQRCodeInfoFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
 
     val navigateToDispatcher = SingleLiveEvent<Unit>()
     val navigateToQRScan = SingleLiveEvent<Unit>()
@@ -15,4 +17,7 @@ class SubmissionQRCodeInfoFragmentViewModel : ViewModel() {
     fun onNextPressed() {
         navigateToQRScan.postValue(Unit)
     }
+
+    @AssistedInject.Factory
+    interface Factory : SimpleCWAViewModelFactory<SubmissionQRCodeInfoFragmentViewModel>
 }
