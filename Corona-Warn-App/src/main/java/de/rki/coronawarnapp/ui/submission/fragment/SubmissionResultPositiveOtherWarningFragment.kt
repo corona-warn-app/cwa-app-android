@@ -110,7 +110,7 @@ class SubmissionResultPositiveOtherWarningFragment :
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            activity?.onBackPressed()
+            findNavController().popBackStack()
         }
     }
 
