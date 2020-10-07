@@ -60,19 +60,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 { startDecode() },
                 ::navigateToDispatchScreen
             )
-            is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToDispatchScreen
-            )
-            is CwaClientError -> DialogHelper.DialogInstance(
+            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
@@ -168,17 +156,15 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION_CODE) {
-
-            // permission was denied
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)) {
+        // if permission was denied
+        if (requestCode == REQUEST_CAMERA_PERMISSION_CODE &&
+            (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     showCameraPermissionRationaleDialog()
                 } else {
                     // user permanently denied access to the camera
                     showCameraPermissionDeniedDialog()
                 }
-            }
         }
     }
 
