@@ -844,8 +844,6 @@
     <string name="submission_test_result_negative_remove_test_button">"Testi Sil"</string>
     <!-- XHED: Page headline for positive test result screen  -->
     <string name="submission_test_result_positive_steps_positive_heading">"Test Sonucunuz"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Test sonucunuz pozitif olarak doğrulandı."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Diğer Kullanıcıları Uyarma"</string>
     <!-- YTXT: Body text for for other warnings screen-->

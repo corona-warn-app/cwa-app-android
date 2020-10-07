@@ -844,8 +844,6 @@
     <string name="submission_test_result_negative_remove_test_button">"Delete Test"</string>
     <!-- XHED: Page headline for positive test result screen  -->
     <string name="submission_test_result_positive_steps_positive_heading">"Your Test Result"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Your test result was verified as positive."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Warning Others"</string>
     <!-- YTXT: Body text for for other warnings screen-->

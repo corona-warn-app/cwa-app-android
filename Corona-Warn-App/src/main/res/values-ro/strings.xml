@@ -844,8 +844,6 @@
     <string name="submission_test_result_negative_remove_test_button">"Ștergere test"</string>
     <!-- XHED: Page headline for positive test result screen  -->
     <string name="submission_test_result_positive_steps_positive_heading">"Rezultatul testului dvs."</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Rezultatul testului dvs. a fost verificat ca fiind pozitiv."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Avertizarea altora"</string>
     <!-- YTXT: Body text for for other warnings screen-->
