@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/main_title"
         android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.main.MainFragment">
+        tools:context="de.rki.coronawarnapp.ui.main.home.HomeFragment">
 
         <!-- todo apply merge tags through xml when applicable (eod) -->
         <androidx.constraintlayout.widget.ConstraintLayout
