@@ -282,7 +282,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Corona-Warn-App\'te maruz kalmalara ilişkin görüntü."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Rastgele Kimlikler"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Rastgele Kimlik"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"Rastgele Kimlikler, rastgele oluşturulan rakam ve harf kombinasyonlarıdır. Yakın mesafedeki cihazlar arasında değiştirilir. Rastgele Kimlikler belirli bir kişiyi izlemek üzere kullanılamaz ve 14 günün sonunda otomatik olarak silinir. COVID-19 tanısı konan kişiler son 14 güne kadar rastgele kimliklerinin uygulamanın diğer kullanıcıları ile paylaşılmasını seçebilir."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -419,7 +419,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Maruz kalma günlüğü, akıllı telefonunuzun Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Maruz kalma günlüğü, dilediğiniz zaman devre dışı bırakılabilir."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Şifrelenmiş rastgele kimlikler diğer kullanıcılara yalnızca tarih, süre ve yakınlık (sinyal gücünü kullanarak) hakkındaki bilgileri aktarır. Kişilerin kimlikleri rastgele kimliklere göre belirlenemez."</string>
+    <string name="onboarding_tracing_body_emphasized">"Şifrelenmiş rastgele kimlikler diğer kullanıcılara yalnızca tarih, süre ve yakınlık (sinyal gücü ile hesaplanır) hakkındaki bilgileri aktarır. Kişilerin kimlikleri rastgele kimliklere göre belirlenemez."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Basitleştirilmiş Dilde ve İşaret Dilinde Uygulama Bilgileri"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -654,7 +654,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya\'nın federal kamu sağlığı kurumudur. RKI, Federal Hükûmet adına Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, daha önce açıklanan kamu sağlığı önlemlerine ilişkin dijital bir tamamlayıcı niteliğindedir: sosyal mesafe, hijyen uygulamaları ve yüz maskeleri."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Uygulamayı kullanan herkes, enfeksiyon zincirlerinin takip edilmesine ve kırılmasına yardımcı olur. Uygulama, diğer kişilerle karşılaşmaları cihazınızda yerel olarak kaydeder. Daha sonra COVID-19 tanısı konan kişilerle karşılaşmışsanız size bildirim gönderilir. Kimliğiniz ve gizliliğiniz daima koruma altındadır."</string>
+    <string name="information_about_body">"Uygulamayı kullanan kişiler, enfeksiyon zincirlerinin takip edilmesine ve kırılmasına yardımcı olur. Uygulama, diğer kişilerle karşılaşmaları cihazınızda yerel olarak kaydeder. Daha sonra COVID-19 tanısı konan kişilerle karşılaşmışsanız size bildirim gönderilir. Kimliğiniz ve gizliliğiniz daima koruma altındadır."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Bölgedeki bir grup insan akıllı telefonlarını kullanıyor."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -730,7 +730,7 @@
               Interoperability
     ###################################### -->
     <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"İzin"</string>
+    <string name="interop_consent_headline">"Onay"</string>
 
     <!-- ####################################
              Submission
@@ -852,6 +852,10 @@
     <string name="submission_test_result_positive_steps_warning_others_body">"Rastgele kimliklerinizi paylaşın ve diğer kullanıcıları uyarın.\nHerhangi bir koronavirüs semptomunu ne zaman ilk kez fark ettiğinizi de belirterek diğer kullanıcıların enfeksiyon riskini daha doğru şekilde belirlemeye yardımcı olun."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Sonraki"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Semptomları Gir"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Semptomları Girme"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Test Sonucunuz"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
