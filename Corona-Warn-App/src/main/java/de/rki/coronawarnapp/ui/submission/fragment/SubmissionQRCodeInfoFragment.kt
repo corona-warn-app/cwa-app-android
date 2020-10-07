@@ -19,7 +19,6 @@ class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.submissionCountrySelectViewModel = viewModel
 
         binding.submissionQrCodeInfoHeader.headerButtonBack.buttonIcon.setOnClickListener() {
             viewModel.onBackPressed()
