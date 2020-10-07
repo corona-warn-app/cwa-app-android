@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -23,12 +22,14 @@ import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import timber.log.Timber
 import java.util.Date
+import javax.inject.Inject
 
-class SubmissionViewModel : ViewModel() {
+class SubmissionViewModel @Inject constructor() : CWAViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
     private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))

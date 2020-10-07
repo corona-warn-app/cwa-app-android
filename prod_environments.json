@@ -1,5 +1,6 @@
 {
   "PROD": {
+    "USE_EUR_KEY_PKGS": true,
     "SUBMISSION_CDN_URL": "https://submission.coronawarn.app",
     "DOWNLOAD_CDN_URL": "https://svc90.main.px.t-online.de",
     "VERIFICATION_CDN_URL": "https://verification.coronawarn.app",

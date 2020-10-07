@@ -213,7 +213,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die CoronaWarn-App. Sie werden auf eine externe Website der Bundesregierung weitergeleitet."</string>
+    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website der Bundesregierung weitergeleitet."</string>
     <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
     <!-- XACT: Opens external webpage -->
@@ -269,7 +269,7 @@
     <!-- XHED: App overview subtitle for glossary key storage -->
     <string name="main_overview_subtitle_glossary_tracing">"Begegnungs-Aufzeichnung"</string>
     <!-- YTXT: App overview body for glossary key storage -->
-    <string name="main_overview_body_glossary_tracing">"Liste der empfangenen und vorübergehend im Betriebssystemspeicher abgelegten kurzlebigen Zufallscodes. Diese Liste wird bei der Risiko-Überprüfung gelesen. Alle Zufallscodes werden nach 14 Tagen automatisch gelöscht."</string>
+    <string name="main_overview_body_glossary_tracing">"Liste der empfangenen und vorübergehend im Betriebssystemspeicher abgelegten kurzlebigen Zufalls-IDs. Diese Liste wird bei der Risiko-Überprüfung gelesen. Alle Zufalls-IDs werden nach 14 Tagen automatisch gelöscht."</string>
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
     <string name="main_overview_subtitle_glossary_calculation">"Risiko-Überprüfung"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
@@ -283,9 +283,9 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Die Anzeige von Risiko-Begegnungen in der Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Zufallscode"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Zufalls-ID"</string>
     <!-- YTXT: App overview body for glossary keys -->
-    <string name="main_overview_body_glossary_keys">"Die Zufallscodes sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufallscodes lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufallscodes der letzten bis zu 14 Tage freiwillig mit anderen App-Nutzern teilen."</string>
+    <string name="main_overview_body_glossary_keys">"Die Zufalls-IDs sind zufällig erzeugte Zahlen- und Buchstabenkombinationen. Sie werden zwischen benachbarten Smartphones ausgetauscht. Zufalls-IDs lassen sich nicht einer bestimmten Person zuordnen und werden nach 14 Tagen automatisch gelöscht. Eine Corona-positiv getestete Person kann ihre Zufalls-IDs der letzten bis zu 14 Tage freiwillig mit anderen App-Nutzern teilen."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
     <string name="main_overview_illustration_description">"Ein Smartphone zeigt unterschiedliche Inhalte, die von eins bis drei nummeriert sind."</string>
     <!-- XACT: App main page title -->
@@ -401,7 +401,7 @@
     <!-- YTXT: onboarding(together) - inform about the app -->
     <string name="onboarding_body">"Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen Corona-positiv getestete Personen in ihrer Nähe waren."</string>
     <!-- YTXT: onboarding(together) - explain application -->
-    <string name="onboarding_body_emphasized">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufallscodes austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen."</string>
+    <string name="onboarding_body_emphasized">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufalls-IDs austauschen. Und zwar ohne dabei auf persönliche Daten zuzugreifen."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -420,7 +420,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer Nutzer empfängt und Ihre eigenen Zufalls-IDs an deren Smartphones weitergibt. Die Risiko-Ermittlung lässt sich jederzeit deaktivieren. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufallscodes geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
+    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufalls-IDs geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -472,7 +472,7 @@
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
     <string name="onboarding_test_subtitle">"… teilen Sie es bitte über die Corona-Warn-App mit. Freiwillig und sicher. Für die Gesundheit aller."</string>
     <!-- YTXT: onboarding(test) - explain test -->
-    <string name="onboarding_test_body">"Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufallscodes Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen."</string>
+    <string name="onboarding_test_body">"Ihre Mitteilung wird zuverlässig verschlüsselt über einen sicheren Server weiterverarbeitet. Die Personen, deren verschlüsselte Zufalls-IDs Sie gesammelt haben, erhalten nun eine Warnung und Informationen darüber, wie sie weiter vorgehen sollen."</string>
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
     <!-- XACT: Onboarding (datashare) page title -->
@@ -512,7 +512,7 @@
     <!-- XHED: settings(tracing) - headline bellow illustration -->
     <string name="settings_tracing_headline">"So funktioniert die Risiko-Ermittlung"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Erlauben Sie Erfassung und Weitergabe von COVID-19-Zufallscodes."</string>
+    <string name="settings_tracing_body_description">"Erlauben Sie Erfassung und Weitergabe von COVID-19-Zufalls-IDs."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Risiko-Ermittlung aktiv"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -843,16 +843,16 @@
     <string name="submission_test_result_negative_steps_negative_body">"Der Labortest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben. \n\nBitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Test entfernen"</string>
-    <!-- XHED: Page headline for positive test result screen  -->
-    <string name="submission_test_result_positive_steps_positive_heading">"Ihr Testergebnis"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Ihr Testergebnis wurde als positiv verifiziert."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Andere warnen"</string>
     <!-- YTXT: Body text for for other warnings screen-->
     <string name="submission_test_result_positive_steps_warning_others_body">"Teilen Sie Ihre Zufalls-IDs und warnen Sie andere.\nHelfen Sie, das Infektionsrisiko für andere genauer zu bestimmen, indem Sie auch angeben, wann eventuelle Corona-Symptome zum ersten Mal aufgetreten sind."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Weiter"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Weiter mit Symptom-Erfassung"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Weiter ohne Symptom-Erfassung"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Ihr Testergebnis"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -1104,7 +1104,7 @@
     <!-- YTXT: text for contact card -->
     <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
-    <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufallscodes, damit andere gewarnt werden können."</string>
+    <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr Befund:"</string>
@@ -1178,9 +1178,9 @@
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Ein unbekannter Fehler ist aufgetreten."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
-    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aufgrund eines technischen Problems wurde Ihre App zurückgesetzt. Das hat jedoch keine Auswirkungen auf die Verwendung der App. Sie werden weiterhin über Risiko-Begegnungen benachrichtigt und können andere warnen, falls Sie positiv auf COVID-19 getestet wurden."</string>
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aufgrund eines technischen Problems wurde Ihre App zurückgesetzt. Dies hat keine Auswirkung auf die Risiko-Ermittlung und damit auf Ihren Risikostatus. Sie werden weiterhin über Risiko-Begegnungen benachrichtigt und können andere warnen, falls Sie positiv auf COVID-19 getestet wurden. Durch das Zurücksetzen der App gehen aber zuvor eingelesene QR-Codes für die elektronische Benachrichtigung über Ihre Testergebnisse verloren. Bitte wenden Sie sich an Ihren Hausarzt oder Labor, um Ihr Testergebnis zu erfahren."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002"</string>
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development

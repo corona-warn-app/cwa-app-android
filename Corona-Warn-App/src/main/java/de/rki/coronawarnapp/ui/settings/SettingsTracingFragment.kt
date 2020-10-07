@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -52,12 +51,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
-
-        tracingViewModel.navigateToInteroperability.observe2(this) {
-            if (it) {
-                navigateToInteroperability()
-            }
-        }
 
         setButtonOnClickListener()
     }
@@ -130,7 +123,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             ExternalActionHelper.toMainSettings(requireContext())
         }
         interoperability.setOnClickListener {
-            tracingViewModel.onInteroperabilitySettingPressed()
+            navigateToInteroperability()
         }
     }
 
