@@ -110,15 +110,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 
-    def jvmCompilerArgs = ["-Xno-kotlin-nothing-value-exception"]
-
-    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
-            freeCompilerArgs = jvmCompilerArgs
+            jvmTarget = "1.8"
+
+            freeCompilerArgs += [
+                    "-Xno-kotlin-nothing-value-exception",
+                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+            ]
         }
     }
 

@@ -1,9 +1,17 @@
 package de.rki.coronawarnapp.task
 
-interface Task<P : TaskProgress> {
+import de.rki.coronawarnapp.util.ui.LazyString
+import kotlinx.coroutines.flow.Flow
 
-    fun run(publisher: ProgressPublisher<P>)
+interface Task<P : Task.Progress> {
 
-    fun cancel()
+    val progress: Flow<P>
 
+    suspend fun run()
+
+    suspend fun cancel()
+
+    interface Progress {
+        val primaryMessage: LazyString
+    }
 }
