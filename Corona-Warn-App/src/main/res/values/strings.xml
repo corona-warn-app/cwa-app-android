@@ -843,16 +843,16 @@
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Delete Test"</string>
+    <!-- XHED: Page headline for positive test result screen  -->
+    <string name="submission_test_result_positive_steps_positive_heading">"Your Test Result"</string>
+    <!-- YTXT: Body text for next steps section of test positive result-->
+    <string name="submission_test_result_positive_steps_positive_body">"Your test result was verified as positive."</string>
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Your Test Result"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"The laboratory result indicates no verification that you have coronavirus SARS-CoV-2.\n\nPlease delete the test from the Corona-Warn-App, so that you can save a new test code here if necessary."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Delete Test"</string>
-    <!-- XHED: Page headline for positive test result screen  -->
-    <string name="submission_test_result_positive_steps_positive_heading">"Your Test Result"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Your test result was verified as positive."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Warning Others"</string>
     <!-- YTXT: Body text for for other warnings screen-->
