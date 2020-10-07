@@ -282,7 +282,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Afișarea expunerilor în Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"ID-uri aleatorii"</string>
+    <string name="main_overview_subtitle_glossary_keys">"ID aleatoriu"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"ID-urile aleatorii sunt combinații de cifre și litere generate aleatoriu. Acestea sunt schimbate între dispozitivele aflate în proximitate strânsă. ID-urile aleatorii nu pot fi asociate cu o persoană anume și sunt șterse automat după 14 zile. Persoanele diagnosticate cu COVID-19 pot opta să trimită ID-urile aleatorii din ultimele 14 zile și altor utilizatori ai aplicației."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -419,7 +419,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Înregistrarea în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori și transmite propriile dvs. ID-uri aleatorii către smartphone-urile acestora. Înregistrarea în jurnal a expunerilor poate fi oricând dezactivată."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (utilizând intensitatea semnalului). Datele personale, precum numele, adresa, locația nu sunt înregistrate niciodată. Nu se pot identifica persoane individuale pe baza ID-urilor aleatorii."</string>
+    <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (calculată prin intensitatea semnalului). Nu se pot identifica persoane individuale pe baza ID-urilor aleatorii."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informații despre aplicație în limbaj simplificat și în limbajul semnelor"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -511,7 +511,7 @@
     <!-- XHED: settings(tracing) - headline bellow illustration -->
     <string name="settings_tracing_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Permiteți generarea și trimiterea de ID-uri aleatorii de COVID-19."</string>
+    <string name="settings_tracing_body_description">"Permiteți crearea și partajarea de ID-uri aleatorii asociate COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Înregistrarea în jurnal a expunerilor este activă"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -852,6 +852,10 @@
     <string name="submission_test_result_positive_steps_warning_others_body">"Partajați ID-urile dvs. aleatorii și avertizați-i pe ceilalți.\nAjutați la stabilirea riscului de infectare pentru ceilalți cu mai multă acuratețe, indicând momentul în care ați observat prima dată simptomele de coronavirus."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Înainte"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Introducere simptome"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Nu se introduc simptome"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Rezultatul testului dvs."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -1314,7 +1318,7 @@
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Înregistrare transnațională\na expunerilor în jurnal"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Mai multe țări s-au asociat pentru a susține avertizarea la nivel internațional. Cu alte cuvinte, acum poate fi luată în considerare posibila dvs. expunere la utilizatori ai aplicațiilor oficiale anticoronavirus din toate țările participante."</string>
+    <string name="interoperability_onboarding_first_section">"Mai multe țări s-au asociat pentru a susține avertizarea la nivel transnațional. Cu alte cuvinte, acum poate fi luată în considerare posibila dvs. expunere la utilizatori ai aplicațiilor oficiale anticoronavirus din toate țările participante."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
     <string name="interoperability_onboarding_second_section">"Când un utilizator transmite ID-urile sale aleatorii la serverul de schimb operat în comun de țările participante, utilizatorii aplicațiilor oficiale anticoronavirus din toate aceste țări pot fi avertizați de posibila expunere."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->

@@ -132,7 +132,12 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
         binding.submissionTestResultButtonPositiveContinue.setOnClickListener {
-            continueIfTracingEnabled()
+            continueIfTracingEnabled(false)
+        }
+
+        binding.submissionTestResultButtonPositiveContinueWithoutSymptoms.setOnClickListener {
+            submissionViewModel.onNoInformationSymptomIndication()
+            continueIfTracingEnabled(true)
         }
 
         binding.submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
@@ -146,7 +151,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
     }
 
-    private fun continueIfTracingEnabled() {
+    private fun continueIfTracingEnabled(skipSymptomSubmission: Boolean) {
         if (tracingViewModel.isTracingEnabled.value != true) {
             val tracingRequiredDialog = DialogHelper.DialogInstance(
                 requireActivity(),
@@ -158,10 +163,17 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             return
         }
 
-        findNavController().doNavigate(
-            SubmissionTestResultFragmentDirections
-                .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-        )
+        if (skipSymptomSubmission) {
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+            )
+        } else {
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+            )
+        }
     }
 
     private fun removeTestAfterConfirmation() {
