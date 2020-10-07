@@ -70,7 +70,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/interoperability_header"
@@ -197,6 +197,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interoperability_header" />
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/country_list_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierAllowsGoneWidgets="false"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="country_list_overview, no_countries_default_infoview, no_countries_riskdetails_infoview"
+                tools:layout_editor_absoluteY="411dp" />
+
             <TextView
                 android:id="@+id/label_interoperability_subtitle4"
                 style="@style/body1"
@@ -207,16 +216,8 @@
                 android:visibility="@{FormatterHelper.formatVisibilityText(fourthSection)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/country_list_overview" />
+                app:layout_constraintTop_toBottomOf="@id/country_list_barrier" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/country_list_barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierAllowsGoneWidgets="false"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="country_list_overview, no_countries_default_infoview"
-                tools:layout_editor_absoluteY="411dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/interoperability_footer"
@@ -228,7 +229,7 @@
                 android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/country_list_barrier">
+                app:layout_constraintTop_toBottomOf="@+id/label_interoperability_subtitle4">
 
                 <TextView
                     android:id="@+id/interoperability_footer_title"
@@ -254,52 +255,52 @@
                     app:layout_constraintTop_toBottomOf="@+id/interoperability_footer_title" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/expanded_terms_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interoperability_footer">
-
-            <TextView
-                android:id="@+id/onboarding_delta_expanded_terms_text_part_1"
-                style="@style/subtitle"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/expanded_terms_footer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/button_icon_margin"
-                android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_1"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/interoperability_footer">
 
-            <TextView
-                android:id="@+id/onboarding_delta_expanded_terms_text_link"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/button_icon_margin"
-                android:text="@string/interoperability_onboarding_delta_terms_link"
-                android:linksClickable="true"
-                android:clickable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_delta_expanded_terms_text_part_1"/>
+                <TextView
+                    android:id="@+id/onboarding_delta_expanded_terms_text_part_1"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/button_icon_margin"
+                    android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/onboarding_delta_expanded_terms_text_part_2"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/button_icon_margin"
-                android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_delta_expanded_terms_text_link"/>
+                <TextView
+                    android:id="@+id/onboarding_delta_expanded_terms_text_link"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:linksClickable="true"
+                    android:paddingVertical="@dimen/button_icon_margin"
+                    android:text="@string/interoperability_onboarding_delta_terms_link"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_delta_expanded_terms_text_part_1" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/onboarding_delta_expanded_terms_text_part_2"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/button_icon_margin"
+                    android:text="@string/interoperability_onboarding_delta_expanded_terms_text_part_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/onboarding_delta_expanded_terms_text_link" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
