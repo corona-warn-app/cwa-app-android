@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
 import de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragmentModule
 
-
 @Module(
     includes = [
         OnboardingDeltaInteroperabilityModule::class,
