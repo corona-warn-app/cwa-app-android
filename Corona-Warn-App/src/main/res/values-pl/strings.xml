@@ -212,7 +212,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Często zadawane pytania"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową."</string>
+    <string name="main_about_body">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową administracji Niemiec."</string>
     <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
@@ -282,7 +282,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Wyświetlanie narażeń w Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"Losowe identyfikatory"</string>
+    <string name="main_overview_subtitle_glossary_keys">"Identyfikator losowy"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"Identyfikatory losowe są kombinacją cyfr i liter generowanych losowo. Są one wymieniane pomiędzy urządzeniami znajdującymi się w bliskiej odległości od siebie. Identyfikatorów losowych nie można przypisać do konkretnej osoby. Są one automatycznie usuwane po 14 dniach. Osoby, u których zdiagnozowano COVID-19, mogą zdecydować się na udostępnienie swoich losowych identyfikatorów z ostatnich 14 dni innym użytkownikom aplikacji."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -417,17 +417,13 @@
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"Aby ustalić występowanie ryzyka zakażenia, musisz aktywować funkcję rejestrowania narażenia."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich własnych, losowych identyfikatorów do ich smartfonów. Funkcję tę można wyłączyć w dowolnym momencie."</string>
+    <string name="onboarding_tracing_body">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich własnych, losowych identyfikatorów do ich smartfonów. Rejestrowanie narażenia można wyłączyć w dowolnym momencie."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Zaszyfrowane losowe identyfikatory przekazują innym osobom jedynie informacje o dacie, czasie trwania i bliskości (przy wykorzystaniu mocy sygnału). Dane osobowe, takie jak nazwisko, adres, lokalizacja, nie są nigdy rejestrowane. Ustalenie tożsamości osób nie jest możliwe."</string>
+    <string name="onboarding_tracing_body_emphasized">"Zaszyfrowane losowe identyfikatory przekazują innym osobom jedynie informacje o dacie kontaktu, czasie trwania i odległości (obliczonej na podstawie mocy sygnału) od innych użytkowników aplikacji. Ustalenie tożsamości osób na podstawie losowych identyfikatorów nie jest możliwe."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informacja o aplikacji w języku uproszczonym i języku migowym"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
     <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
-    <!-- XHED: onboarding(tracing) - headline for consent information -->
-    <string name="onboarding_tracing_headline_consent">"Oświadczenia o wyrażeniu zgody"</string>
-    <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"Aby dowiedzieć się, czy istnieje prawdopodobieństwo, że byłeś(-łaś) narażony(-a) na kontakt z osobą zarażoną w kraju* oficjalnie korzystającym z aplikacji Corona, musisz włączyć funkcję rejestrowania narażenia. Dotykając przycisku „Włącz” wyrażasz zgodę na włączenie funkcji rejestrowania narażenia oraz przetwarzanie powiązanych danych."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aby korzystać z funkcji rejestrowania narażenia w aplikacji, musisz włączyć funkcjonalność „Powiadomienia o narażeniu” udostępnianą przez Google na Twoim smartfonie i udzielić aplikacji Corona-Warn-App praw do jej używania."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Po włączeniu rejestrowania narażenia Twój smartfon będzie generował i udostępniał przez Bluetooth losowe identyfikatory, które mogą odbierać inne smartfony z systemem Android lub Apple w Twoim otoczeniu, jeśli rejestrowanie narażenia jest w nich również włączone. Twój smartfon z kolei będzie odbierał losowe identyfikatory innych smartfonów. Twoje własne losowe identyfikatory i te otrzymane z innych smartfonów są rejestrowane w logu narażeń i przechowywane w nim przez 14 dni."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aby zidentyfikować ryzyko zakażenia, aplikacja wczytuje listę – kilka razy na dzień lub na żądanie – losowych identyfikatorów wszystkich użytkowników, którzy powiadomili aplikację, że zostali zakażeni koronawirusem. Lista jest następnie porównywana z losowymi identyfikatorami przechowywanymi w logu narażeń. Jeśli aplikacja wykryje, że miałeś(-łaś) kontakt z zakażonym użytkownikiem, poinformuje Cię o tym i powiadomi o istnieniu ryzyka, że się również zaraziłeś(-łaś). W takim przypadku aplikacja uzyska również dostęp do innych danych przechowywanych w logu narażeń Twojego smartfona (data, czas trwania i siła sygnału Bluetooth kontaktu)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Siła sygnału Bluetooth jest wykorzystywana w celu określenia fizycznej odległości (im silniejszy sygnał, tym mniejsza odległość). Następnie aplikacja analizuje te informacje w celu oceny prawdopodobieństwa zakażenia koronawirusem i przekazania zaleceń dotyczących dalszego postępowania. Ta analiza jest wykonywana tylko lokalnie na Twoim smartfonie. Oprócz Ciebie nikt (nawet RKI) nie dowie się, czy miałeś(-łaś) kontakt z zarażoną osobą i jakie ponosisz ryzyko."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Aby wycofać swoją zgodę na włączenie funkcji rejestrowania narażenia, możesz ją wyłączyć za pomocą przełącznika w aplikacji lub usunąć aplikację. Jeśli się ponownie zdecydujesz na używanie funkcji rejestrowania narażenia, możesz z powrotem włączyć tę funkcję lub przeinstalować aplikację. Jeśli wyłączysz funkcję rejestrowania narażenia, aplikacja nie będzie już sprawdzać, czy miałeś(-łaś) kontakt z zarażonym użytkownikiem. Jeśli chcesz, by Twoje urządzenie już nie wysyłało i nie odbierało losowych identyfikatorów, musisz wyłączyć Rejestrowanie narażenia na COVID-19 w swoich ustawieniach smartfona. Pamiętaj, że Twoje własne losowe identyfikatory i te odebrane z innych smartfonów, które są przechowywane w logu narażenia, nie zostaną usunięte w aplikacji. Możesz tylko trwale usunąć dane przechowywane w logu narażeń w ustawieniach Twojego smartfona."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Informacje aplikacji o prywatności danych (łącznie z wyjaśnieniem dotyczącym przetwarzania danych wykonywanego dla funkcji rejestrowania narażenia) można znaleźć w menu w sekcji „Informacje o ochronie danych”."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Aktywuj rejestrowanie narażenia"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -513,9 +509,9 @@
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Rejestrowanie narażenia"</string>
     <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"Sposób działania funkcji rejestrowania narażenia"</string>
+    <string name="settings_tracing_headline">"Jak działa funkcja rejestrowania narażenia"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Zezwól na generowanie i udostępnianie losowych identyfikatorów COVID-19."</string>
+    <string name="settings_tracing_body_description">"Zezwól na tworzenie i udostępnianie losowych identyfikatorów COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Rejestrowanie narażenia aktywne"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -523,7 +519,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Usługi lokalizacji dezaktywowane"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Działanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich losowych identyfikatorów do ich smartfonów. Funkcję tę można wyłączyć w dowolnym momencie. "<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Identyfikatory przekazują w sposób zaszyfrowany wyłącznie informacje o dacie, czasie trwania i odległości (przy wykorzystaniu mocy sygnału) od innych użytkowników aplikacji. Dane osobowe, takie jak nazwisko, adres, lokalizacja, nie są nigdy rejestrowane. Ustalenie tożsamości osób nie jest możliwe."</string>
+    <string name="settings_tracing_body_text">"Musisz włączyć funkcję rejestrowania narażenia, aby aplikacja mogła ustalić, czy dotyczy Cię ryzyko zakażenia po kontakcie z zainfekowanym użytkownikiem aplikacji. Funkcja rejestrowania narażenia działa we wszystkich uczestniczących krajach, co oznacza, że potencjalne narażenie użytkowników jest wykrywane również przez inne oficjalne aplikacje koronawirusowe.\n\nDziałanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników i przekazywaniu Twoich własnych, losowych identyfikatorów do ich urządzeń. Codziennie aplikacja pobiera listę losowych identyfikatorów – wraz z wszelkimi opcjonalnie podawanymi informacjami o wystąpieniu symptomów – wszystkich użytkowników, którzy mieli pozytywny wynik testu na wirusa i dobrowolnie udostępnili tę informację poprzez aplikację. Lista jest następnie porównywana z losowymi identyfikatorami innych użytkowników, które zarejestrował Twój smartfon, w celu obliczenia prawdopodobieństwa Twojego zakażenia i ostrzeżenia Cię w razie potrzeby. Funkcję tę można wyłączyć w dowolnym momencie..\n\nAplikacja nigdy nie gromadzi danych osobowych takich jak imię i nazwisko, adres czy lokalizacja. Takie informacje nie są też przekazywane innym użytkownikom. Nie jest możliwe wykorzystanie losowych identyfikatorów w celu ustalenia tożsamości poszczególnych osób."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktywne"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -658,7 +654,7 @@
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body_emphasized">"Instytut Roberta Kocha (RKI) to niemiecka federalna instytucja zdrowia publicznego. RKI publikuje aplikację Corona-Warn-App w imieniu rządu federalnego. Aplikacja ta służy jako cyfrowe uzupełnienie już wprowadzonych środków ochrony zdrowia publicznego, takich jak zachowanie dystansu społecznego, dbanie o higienę oraz noszenie maseczek."</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body">"Wszystkie osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim urządzeniu. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
+    <string name="information_about_body">"Osoby korzystające z aplikacji pomagają w śledzeniu i przerwaniu łańcuchów zakażeń. Aplikacja zapisuje kontakty z innymi osobami lokalnie na Twoim urządzeniu. Otrzymasz powiadomienie, jeśli okaże się, że u osób, z którymi miałeś(-aś) kontakt, zdiagnozowano później COVID-19. Twoja tożsamość i prywatność są zawsze chronione."</string>
     <!-- XACT: describes illustration -->
     <string name="information_about_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XHED: Page title for privacy information page, also menu item / button text -->
@@ -853,9 +849,13 @@
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Ostrzeganie innych"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Udostępnij swoje losowe identyfikatory z ostatnich 14 dni w celu ochrony innych osób i przerwania łańcucha zakażeń."</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"Udostępnij swoje losowe identyfikatory, aby ostrzegać innych.\nPomóż innym dokładniej ocenić ryzyko zakażenia, wysyłając informację, gdy dostrzeżesz u siebie symptomy koronawirusa."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Dalej"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Wprowadź symptomy"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Nie wprowadzaj symptomów"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Twój wynik testu"</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -949,11 +949,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Pomóż nam wszystkim!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz aktywować w aplikacji udostępnianie innym Twoich losowych identyfikatorów z ostatnich 14 dni. W ten sposób ostrzeżesz inne osoby i pomożesz w przerwaniu łańcucha zakażeń.\n\nAplikacja udostępnia losowe identyfikatory i podane przez Ciebie informacje o wystąpieniu symptomów. Twoja tożsamość nie zostanie ujawniona."</string>
-    <!-- XHED: Title for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_title">"Prywatność danych"</string>
-    <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"By tapping “Accept”, you consent to the App sending your positive test result to the App’s server system along with your random IDs from the last 14 days, so that other App users who have enabled the risk identification feature can be automatically notified that they may have been exposed to a risk of infection. If you provided optional information about the onset of your symptoms, the random IDs will be transmitted with a risk value derived from your information, indicating your risk of having infected others on the day the random ID is valid. The random IDs transmitted for this purpose do not contain any information that would allow conclusions to be drawn about your identity or your person.\n\nTransmitting your test result via the App is voluntary. You will not be penalized if you do not transmit your test result. Since it is not possible to trace or check whether and how you use the App, nobody but you will know whether you have transmitted the information that you are infected. \n\nYou can withdraw your consent at any time by deleting the App. This withdrawal of your consent will not affect the lawfulness of the processing carried out on the basis of the consent prior to the withdrawal. Further information can be found under “App Information”&gt; “Data Privacy”."</string>
+    <string name="submission_positive_other_warning_body">"Możesz się teraz upewnić, czy inni zostali powiadomieni o potencjalnym narażeniu.\n\nW tym celu możesz wysyłać swoje własne losowe identyfikatory z ostatnich 14 dni, a opcjonalnie również informacje o dostrzeżeniu symptomów koronawirusa u siebie, na wspólny serwer wymiany danych obsługiwany przez wszystkie uczestniczące kraje. Z tego serwera Twoje losowe identyfikatory i wszelkie dodatkowe informacje będą przesyłane do użytkowników oficjalnych aplikacji. Umożliwia to ostrzeżenie innych użytkowników o potencjalnym narażeniu na kontakt z Tobą.\n\nUdostępniane są tylko losowe identyfikatory i podane przez Ciebie informacje o wystąpieniu potencjalnych symptomów. Dane osobowe, takie jak imię i nazwisko, adres czy lokalizacja, nie są udostępniane."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1187,7 +1183,7 @@
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Twoja aplikacja została zresetowana z powodu problemu technicznego. Nie będzie to miało wpływu na funkcjonalność aplikacji. Nadal będziesz otrzymywać powiadomienia o narażeniach i będziesz w stanie ostrzegać innych w razie pozytywnego wyniku testu na COVID-19."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002"</string>
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
@@ -1311,31 +1307,31 @@
     <!-- XHED: Header of interoperability information/configuration view -->
     <string name="interoperability_configuration_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_first_section">"Corona-Warn-App ostrzega Cię o potencjalnym zakażeniu w skali międzynarodowej, dzięki wymianie danych w całej infrastrukturze krajów europejskich."</string>
+    <string name="interoperability_configuration_first_section">"Wiele krajów współpracuje ze sobą w celu aktywacji transgranicznych alertów wysyłanych poprzez wspólny serwer wymiany danych. Na przykład przy rejestrowaniu narażenia można wziąć pod uwagę również kontakty z użytkownikami oficjalnych aplikacji koronawirusowyych z innych uczestniczących krajów."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_second_section">"Nie są udostępniane dane osobowe. Nie ponosisz żadnych dodatkowych kosztów z tytułu transgranicznego udostępniania danych przez Corona-Warn-App"</string>
+    <string name="interoperability_configuration_second_section">"W tym celu aplikacja pobiera listę, która jest aktualizowana codziennie, z losowymi identyfikatorami wszystkich użytkowników, którzy udostępnili swoje losowe identyfikatory poprzez własną aplikację. Lista jest następnie porównywana z losowymi identyfikatorami zarejestrowanymi przez Twój smartfon. Codzienne pobieranie listy z losowymi identyfikatorami jest z reguły bezpłatne – za dane używane przez aplikację w tym kontekście nie będą pobierane opłaty roamingowe w innych krajach UE."</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
-    <string name="interoperability_configuration_list_title">"Obecnie uczestniczą następujące kraje:"</string>
+    <string name="interoperability_configuration_list_title">"Następujące kraje uczestniczą obecnie w międzynarodowym rejestrowaniu narażenia:"</string>
+    <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_information">"Informacje aplikacji o prywatności danych (łącznie z wyjaśnieniem dotyczącym przetwarzania danych wykonywanego dla funkcji rejestrowania narażenia) można znaleźć w menu w sekcji „Informacje aplikacji” &gt; „Informacje o ochronie danych”."</string>
 
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
     <string name="interoperability_onboarding_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
-    <string name="interoperability_onboarding_first_section">"Wiele krajów w UE współpracuje w zakresie aktywowania międzynarodowych ostrzeżeń. Innymi słowy, można teraz określić Twoje potencjalne narażenie wobec użytkowników oficjalnych aplikacji Corona we wszystkich uczestniczących krajach."</string>
+    <string name="interoperability_onboarding_first_section">"Wiele krajów współpracuje w zakresie aktywowania międzynarodowych ostrzeżeń. Innymi słowy, można teraz określić Twoje potencjalne narażenie wobec użytkowników oficjalnych aplikacji koronawirusowych we wszystkich uczestniczących krajach."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
-    <string name="interoperability_onboarding_second_section">"Gdy użytkownik przesyła swój losowy identyfikator do systemu serwera obsługiwanego wspólnie przez kraje uczestniczące, użytkownicy oficjalnych aplikacji Corona we wszystkich tych krajach mogą zostać ostrzeżeni o potencjalnym narażeniu."</string>
+    <string name="interoperability_onboarding_second_section">"Gdy użytkownik przesyła swój losowy identyfikator do serwera wymiany danych obsługiwanego wspólnie przez kraje uczestniczące, użytkownicy oficjalnych aplikacji koronawirusowych we wszystkich tych krajach mogą zostać ostrzeżeni o potencjalnym narażeniu."</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_randomid_download_free">"Codzienne pobieranie losowych identyfikatorów jest bezpłatne – Twój wolumen danych nie jest związany z żadną opłatą ani kosztami roamingu w innych krajach europejskich."</string>
+    <string name="interoperability_onboarding_randomid_download_free">"Codzienne pobieranie listy z losowymi identyfikatorami jest z reguły bezpłatne. Oznacza to, że operatorzy sieci mobilnych nie będą pobierać opłat za transmisję danych używanych przez aplikację w tym kontekście ani też nie będą naliczane opłaty roamingowe w innych krajach UE. Aby uzyskać więcej informacji, skontaktuj się ze swoim operatorem sieci mobilnej."</string>
     <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
     <string name="interoperability_onboarding_list_title">"Obecnie uczestniczą następujące kraje:"</string>
 
-    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
-    <string name="interoperability_onboarding_delta_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
-    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">"Funkcje aplikacji Corona-Warn-App zostały rozszerzone. Wiele krajów UE połączyło siły w celu aktywacji międzynarodowych ostrzeżeń, na podstawie wspólnie obsługiwanego systemu serwera. Podczas oceny ryzyka narażenia można teraz wziąć pod uwagę narażenie wobec użytkowników oficjalnych aplikacji Corona w innych krajach uczestniczących."</string>
-    <!-- XHED: Header of private data in the delta onboarding interoperability view -->
-    <string name="interoperability_onboarding_delta_footerTitle">"Informacje o przetwarzaniu danych"</string>
-    <!-- XTXT: Description of private data in the delta onboarding interoperability view. Below interoperability_onboarding_delta_footerTitle -->
-    <string name="interoperability_onboarding_delta_footerDescription">"Aby się dowiedzieć, czy istnieje ryzyko, że byłeś(-łaś) narażony(-a) na kontakt z osobami zarażonymi w kraju* uczestniczącym oficjalnie korzystającym z aplikacji Corona, nie musisz nic zmieniać. Musi być tylko cały czas aktywowana funkcja „Rejestrowanie narażenia” w aplikacji.\n\nPo włączeniu rejestrowania narażenia Twój iPhone będzie nadal generował i udostępniał przez Bluetooth losowe identyfikatory, które teraz mogą odbierać również smartfony z oficjalną aplikacją Corona innych uczestniczących krajów w Twoim otoczeniu. Twój iPhone z kolei będzie odbierał losowe identyfikatory innych smartfonów. Twoje własne losowe identyfikatory i te otrzymane z innych smartfonów są rejestrowane w logu narażeń na kontakty z osobami zakażonymi COVID-19 i przechowywane w nim przez 14 dni.\n\nAby zidentyfikować ryzyko zakażenia, aplikacja wczytuje listę losowych identyfikatorów wszystkich użytkowników, którzy je udostępnili poprzez europejski system serwera po otrzymaniu pozytywnego wyniku testu na koronawirusa. Lista ta jest następnie porównywana z losowymi identyfikatorami przechowywanymi w logu narażeń na kontakty z osobami zakażonymi COVID-19.\n\nJeśli aplikacja wykryje, że miałeś(-łaś) kontakt z zakażonym użytkownikiem, poinformuje Cię o tym i powiadomi o istnieniu ryzyka, że się również zaraziłeś(-łaś). W takim przypadku aplikacja uzyska również dostęp do innych danych przechowywanych w logu narażeń na COVID-19 w Twoim iPhonie (data, czas trwania i siła sygnału Bluetooth kontaktu).\n\nSiła sygnału Bluetooth jest wykorzystywana w celu określenia fizycznej odległości od innego użytkownika (im silniejszy sygnał, tym mniejsza odległość). Następnie aplikacja analizuje te informacje w celu oceny prawdopodobieństwa zakażenia koronawirusem i przekazania zaleceń dotyczących dalszego postępowania. Ta analiza jest wykonywana tylko lokalnie na Twoim iPhonie. Oprócz Ciebie nikt (nawet organy służby zdrowia) nie dowie się, czy miałeś(-łaś) kontakt z zarażoną osobą i jakie ponosisz ryzyko.\n\nInformacje o prywatności danych (łącznie z wyjaśnieniem dotyczącym przetwarzania danych wykonywanego dla funkcji rejestrowania narażenia) można znaleźć w menu w sekcji „Informacje o ochronie danych“."</string>
+    <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 1 -->
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_1">"Warunki korzystania zostały również zaktualizowane w celu uwzględnienia rozszerzeń funkcji w aplikacji,"</string>
+    <!-- XLNK: Terms of use link inside delta interoperability screen-->
+    <string name="interoperability_onboarding_delta_terms_link">"Wyświetl warunki korzystania"</string>
+    <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Warunki korzystania i informacje o prywatności danych można znaleźć w menu w sekcji „Informacje aplikacji” oraz w opisie aplikacji w Twoim App Store. Zmiany nie będą miały wpływu na korzystanie przez Ciebie z aplikacji. W przypadku dalszego korzystania z aplikacji lub jej ponownego otwarcia, zakładamy, że użytkownik zgadza się na zaktualizowane warunki korzystania."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"Ręka trzyma smartfon. Europa i flaga europejska są przedstawione w tle."</string>
