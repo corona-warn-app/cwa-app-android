@@ -842,8 +842,6 @@
     <string name="submission_test_result_negative_steps_negative_body">"Rezultatul de laborator nu indică o confirmare a infecției cu coronavirusul SARS-CoV-2.\n\nȘtergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici dacă este necesar."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Ștergere test"</string>
-    <!-- XHED: Page headline for positive test result screen  -->
-    <string name="submission_test_result_positive_steps_positive_heading">"Rezultatul testului dvs."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Avertizarea altora"</string>
     <!-- YTXT: Body text for for other warnings screen-->
