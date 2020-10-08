@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.riskdetails
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
@@ -13,7 +14,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
-import de.rki.coronawarnapp.util.setUrl
+import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -51,11 +52,11 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details) {
      * Make the links clickable and convert to hyperlink
      */
     private fun setUpWebLinks() {
-        binding.riskDetailsInformationLowriskBodyUrl.setUrl(
-            R.string.risk_details_explanation_dialog_faq_body,
-            getString(R.string.risk_details_explanation_dialog_faq_body_hyperlink_text),
+        binding.riskDetailsInformationLowriskBodyUrl.convertToHyperlink(
             getString(R.string.risk_details_explanation_faq_body_with_link)
         )
+        binding.riskDetailsInformationLowriskBodyUrl.movementMethod =
+            LinkMovementMethod.getInstance()
     }
 
     private fun setButtonOnClickListeners() {
