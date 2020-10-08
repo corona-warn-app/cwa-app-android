@@ -43,7 +43,7 @@ jobs:
     resource_class: large
     steps:
       - checkout:
-          - path: ~/project
+          path: ~/project
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
