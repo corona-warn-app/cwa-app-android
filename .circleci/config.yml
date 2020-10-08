@@ -35,13 +35,13 @@ commands:
     steps:
       - attach_workspace:
           at: ./
-      - working_directory: ~/project
 
 
 jobs:
   prepare_project:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     steps:
       - checkout
       - restore-gradle-cache
@@ -61,6 +61,7 @@ jobs:
   quick_build_release_no_tests:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     steps:
       - resume-work-space
       - require-version-bump
@@ -79,6 +80,7 @@ jobs:
   quick_build_for_testers_no_tests:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     steps:
       - resume-work-space
       - require-version-bump
@@ -97,6 +99,7 @@ jobs:
   device_release_unit_tests:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     parallelism: 4
     steps:
       - resume-work-space
@@ -117,6 +120,7 @@ jobs:
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     parallelism: 4
     steps:
       - resume-work-space
@@ -137,6 +141,7 @@ jobs:
   lint_device_release_check:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
@@ -151,6 +156,7 @@ jobs:
   ktlint_device_release_check:
     executor: android/android
     resource_class: medium
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
@@ -165,6 +171,7 @@ jobs:
   lint_device_for_testers_check:
     executor: android/android
     resource_class: large
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
@@ -179,6 +186,7 @@ jobs:
   ktlint_device_for_testers_release_check:
     executor: android/android
     resource_class: medium
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
@@ -193,6 +201,7 @@ jobs:
   detekt:
     executor: android/android
     resource_class: medium
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
@@ -207,6 +216,7 @@ jobs:
   run_sonar:
     executor: android/android
     resource_class: medium
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
@@ -222,6 +232,7 @@ jobs:
   test_task:
     executor: android/android
     resource_class: small
+    working_directory: ~/project
     steps:
       - resume-work-space
       - run:
