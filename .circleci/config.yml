@@ -103,7 +103,7 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
-          root: ~/workspace/
+          root: .
           paths:
             - Corona-Warn-App/build
   device_for_testers_release_unit_tests:
