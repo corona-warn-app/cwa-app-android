@@ -41,14 +41,13 @@ jobs:
   prepare_project:
     executor: android/android
     resource_class: large
-    working_directory: ~/project
     steps:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
           name: Prepare project
-          command: ./gradlew -PdisablePreDex --max-workers=2 androidDependencies
+          command: ./gradlew compileDeviceReleaseSources compileDeviceReleaseUnitTestSources compileDeviceForTestersReleaseSources  compileDeviceForTestersReleaseUnitTestSources
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -215,7 +214,7 @@ jobs:
           destination: reports
   run_sonar:
     executor: android/android
-    resource_class: medium
+    resource_class: large
     working_directory: ~/project
     steps:
       - resume-work-space
@@ -229,8 +228,7 @@ jobs:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
-  test_task:
-    executor: android/android
+  scan_workspace:
     resource_class: small
     working_directory: ~/project
     steps:
@@ -243,7 +241,7 @@ workflows:
   quick_build:
     jobs:
       - prepare_project
-      - test_task:
+      - scan_workspace:
           requires:
             - prepare_project
       - quick_build_release_no_tests:
