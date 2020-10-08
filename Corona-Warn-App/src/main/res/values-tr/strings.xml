@@ -214,7 +214,7 @@
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Alman hükûmetinin harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-tuerkisch"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
