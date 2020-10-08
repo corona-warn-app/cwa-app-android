@@ -30,18 +30,6 @@ commands:
               circleci-agent step halt
               echo "Skipping job"
             fi
-  resume-work-space:
-    description: "Attach workspace and enter project dir"
-    steps:
-      - attach_workspace:
-          at: /home/circleci
-  save-work-space:
-    description: "Save current workspace"
-    steps:
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - .
 
 jobs:
   quick_build_release_no_tests:
@@ -115,7 +103,10 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - save-work-space
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -232,7 +223,8 @@ jobs:
     resource_class: large
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - attach_workspace:
+          at: .
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
@@ -249,7 +241,8 @@ jobs:
     resource_class: medium
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - attach_workspace:
+          at: .
       - run:
           name: Scan workspace
           command: find .
