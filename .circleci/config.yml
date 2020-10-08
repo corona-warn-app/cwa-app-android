@@ -35,35 +35,23 @@ commands:
     steps:
       - attach_workspace:
           at: /home/circleci
-
-
-jobs:
-  prepare_project:
-    executor: android/android
-    resource_class: large
-    steps:
-      - checkout:
-          path: ~/project
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run:
-          name: Prepare project
-          command: ./gradlew classes androidDependencies
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - save-gradle-cache
-      - save-android-build-cache
+  save-work-space:
+    description: "Save current workspace"
+      steps:
       - persist_to_workspace:
           root: /home/circleci
           paths:
             - .
+
+jobs:
   quick_build_release_no_tests:
     executor: android/android
     resource_class: large
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - require-version-bump
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
@@ -74,6 +62,8 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-gradle-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -82,7 +72,9 @@ jobs:
     resource_class: large
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - require-version-bump
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
@@ -93,6 +85,8 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-gradle-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -102,7 +96,9 @@ jobs:
     working_directory: ~/project
     parallelism: 4
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -112,22 +108,23 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-gradle-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - .
+      - save-work-space
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
     working_directory: ~/project
     parallelism: 4
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -137,6 +134,8 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-gradle-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -147,13 +146,16 @@ jobs:
     resource_class: large
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: Lint check device release
           command: ./gradlew --profile :Corona-Warn-App:lintDeviceRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -162,7 +164,9 @@ jobs:
     resource_class: medium
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: Ktlint check device release
           command: ./gradlew :Corona-Warn-App:ktlintDeviceReleaseCheck
@@ -177,7 +181,9 @@ jobs:
     resource_class: large
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: Lint check device for testers
           command: ./gradlew --profile :Corona-Warn-App:lintDeviceForTestersRelease
@@ -192,7 +198,9 @@ jobs:
     resource_class: medium
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: Ktlint check device for testers
           command: ./gradlew :Corona-Warn-App:ktlintDeviceForTestersReleaseCheck
@@ -207,7 +215,9 @@ jobs:
     resource_class: medium
     working_directory: ~/project
     steps:
-      - resume-work-space
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: Detekt check
           command: ./gradlew :Corona-Warn-App:detekt
@@ -247,37 +257,18 @@ workflows:
   version: 2
   quick_build:
     jobs:
-      - prepare_project
-      - scan_workspace:
-          requires:
-            - prepare_project
-      - quick_build_release_no_tests:
-          requires:
-            - prepare_project
-      - quick_build_for_testers_no_tests:
-          requires:
-            - prepare_project
-      - device_release_unit_tests:
-          requires:
-            - prepare_project
-      - device_for_testers_release_unit_tests:
-          requires:
-            - prepare_project
-      - lint_device_release_check:
-          requires:
-            - prepare_project
-      - lint_device_for_testers_check:
-          requires:
-            - prepare_project
-      - ktlint_device_release_check:
-          requires:
-            - prepare_project
-      - ktlint_device_for_testers_release_check:
-          requires:
-            - prepare_project
-      - detekt:
-          requires:
-            - prepare_project
+      - quick_build_release_no_tests
+      - quick_build_for_testers_no_tests
+      - device_release_unit_tests
+      - device_for_testers_release_unit_tests
+      - lint_device_release_check
+      - lint_device_for_testers_check
+      - ktlint_device_release_check
+      - ktlint_device_for_testers_release_check
+      - detekt
       - run_sonar:
+          requires:
+            - device_release_unit_tests
+      - scan_workspace:
           requires:
             - device_release_unit_tests
