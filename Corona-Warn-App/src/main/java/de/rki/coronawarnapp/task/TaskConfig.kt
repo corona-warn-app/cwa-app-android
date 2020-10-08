@@ -6,7 +6,6 @@ interface TaskConfig {
 
     enum class ExecutionMode {
         ENQUEUE,
-        REPLACE,
         PARALLEL
     }
 }

@@ -26,7 +26,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: HomeFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentHomeBinding by viewBindingLazy()
+     val binding: FragmentHomeBinding by viewBindingLazy()
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog

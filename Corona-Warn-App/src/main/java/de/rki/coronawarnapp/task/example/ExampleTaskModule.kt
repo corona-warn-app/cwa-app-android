@@ -14,5 +14,7 @@ abstract class ExampleTaskModule {
     @Binds
     @IntoMap
     @TaskTypeKey(TaskType.EXAMPLE)
-    abstract fun exampleTaskFactory(factory: ExampleTask.Factory): TaskFactory<out Task.Progress>
+    abstract fun exampleTaskFactory(
+        factory: ExampleTask.Factory
+    ): TaskFactory<out Task.Progress, out Task.Result>
 }

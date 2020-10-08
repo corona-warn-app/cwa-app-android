@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ExampleTask @Inject constructor() : Task<DefaultProgress> {
+class ExampleTask @Inject constructor() : Task<DefaultProgress, ExampleResult> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
     override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
 
-    override suspend fun run() {
+    override suspend fun run(arguments: Task.Arguments): ExampleResult {
         TODO("Not yet implemented")
     }
 
@@ -29,9 +29,11 @@ class ExampleTask @Inject constructor() : Task<DefaultProgress> {
 
     class Factory @Inject constructor(
         private val taskByDagger: Provider<ExampleTask>,
-    ) : TaskFactory<DefaultProgress> {
+    ) : TaskFactory<DefaultProgress, ExampleResult> {
 
         override val config: TaskConfig = Config()
-        override val taskProvider: () -> Task<DefaultProgress> = { taskByDagger.get() }
+        override val taskProvider: () -> Task<DefaultProgress, ExampleResult> = {
+            taskByDagger.get()
+        }
     }
 }

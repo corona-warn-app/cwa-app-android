@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.task
 
-interface TaskFactory<P : Task.Progress> {
+interface TaskFactory<
+    ProgressType : Task.Progress,
+    ResultType : Task.Result
+    > {
 
     val config: TaskConfig
 
-    val taskProvider: () -> Task<P>
+    val taskProvider: () -> Task<ProgressType, ResultType>
 }

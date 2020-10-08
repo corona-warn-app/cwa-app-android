@@ -3,6 +3,10 @@ package de.rki.coronawarnapp.ui.main.home
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskRequest
+import de.rki.coronawarnapp.task.TaskType
+import de.rki.coronawarnapp.task.example.ExampleArguments
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
@@ -21,7 +25,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val errorResetTool: EncryptionErrorResetTool,
     val tracingViewModel: TracingViewModel,
     val settingsViewModel: SettingsViewModel,
-    val submissionViewModel: SubmissionViewModel
+    val submissionViewModel: SubmissionViewModel,
+    private val taskController: TaskController
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(tracingViewModel, settingsViewModel, submissionViewModel)
@@ -46,6 +51,30 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
         }
+        taskController.submitTask(
+            TaskRequest(
+                type = TaskType.EXAMPLE,
+                arguments = ExampleArguments(arg = "1")
+            )
+        )
+        taskController.submitTask(
+            TaskRequest(
+                type = TaskType.EXAMPLE,
+                arguments = ExampleArguments(arg = "2")
+            )
+        )
+        taskController.submitTask(
+            TaskRequest(
+                type = TaskType.EXAMPLE,
+                arguments = ExampleArguments(arg = "3")
+            )
+        )
+        taskController.submitTask(
+            TaskRequest(
+                type = TaskType.EXAMPLE,
+                arguments = ExampleArguments(arg = "4")
+            )
+        )
     }
 
     fun errorResetDialogDismissed() {
