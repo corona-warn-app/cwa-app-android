@@ -41,10 +41,6 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-      - run:
-          name: Skip SonarCloud for external Pull Requests
-          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
-      - scan-sonar
   quick_build_for_testers_no_tests:
     executor: android/android
     resource_class: large
@@ -112,6 +108,10 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+      - run:
+          name: Skip SonarCloud for external Pull Requests
+          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
+      - scan-sonar
   device_for_testers_unit_tests:
     executor: android/android
     resource_class: large
