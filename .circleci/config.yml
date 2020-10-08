@@ -37,11 +37,11 @@ commands:
           at: /home/circleci
   save-work-space:
     description: "Save current workspace"
-      steps:
-        - persist_to_workspace:
-            root: /home/circleci
-            paths:
-              - .
+    steps:
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - .
 
 jobs:
   quick_build_release_no_tests:
