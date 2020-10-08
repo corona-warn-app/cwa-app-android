@@ -210,7 +210,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          - at: Corona-Warn-App/build
+          at: Corona-Warn-App/build
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
