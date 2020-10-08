@@ -82,13 +82,14 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
+    parallelism: 1
     steps:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
           name: Unit tests
-          command: ./gradlew :Corona-Warn-App:testDeviceReleaseUnitTest -i
+          command: ./gradlew :Corona-Warn-App:testDeviceReleaseUnitTest -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -107,13 +108,14 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
+    parallelism: 1
     steps:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
           name: Unit tests
-          command: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i
+          command: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
