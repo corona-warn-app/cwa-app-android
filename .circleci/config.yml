@@ -101,7 +101,7 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
-          root: /home/circleci/project/workspace
+          root: /home/circleci/project
           paths:
             - Corona-Warn-App/build
   device_for_testers_release_unit_tests:
@@ -205,7 +205,7 @@ jobs:
       - checkout
       - restore-gradle-cache
       - attach_workspace:
-          at: Corona-Warn-App/build
+          at: /home/circleci/project
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
