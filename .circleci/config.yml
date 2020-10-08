@@ -134,7 +134,7 @@ jobs:
       - restore-android-build-cache
       - run:
           name: Lint check device release
-          command: ./gradlew --profile :Corona-Warn-App:lintDeviceRelease
+          command: ./gradlew :Corona-Warn-App:lintDeviceRelease -i
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
