@@ -101,9 +101,9 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
-          root: /home/circleci/project
+          root: ~/
           paths:
-            - .
+            - project
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -212,13 +212,13 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
+      - attach_workspace:
+          at: ~/
       - restore-android-build-cache
       - restore-gradle-cache
-      - attach_workspace:
-          at: /home/circleci/project
       - run:
           name: JaCoCo report
-          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
+          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
