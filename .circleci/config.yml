@@ -30,6 +30,13 @@ commands:
               circleci-agent step halt
               echo "Skipping job"
             fi
+  resume-work-space:
+    description: "Attach workspace and enter project dir"
+    steps:
+      - attach_workspace:
+          at: ./
+      - working_directory: ~/project
+
 
 jobs:
   prepare_project:
@@ -55,8 +62,7 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - require-version-bump
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
@@ -74,8 +80,7 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - require-version-bump
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
@@ -94,8 +99,7 @@ jobs:
     resource_class: large
     parallelism: 4
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -115,8 +119,7 @@ jobs:
     resource_class: large
     parallelism: 4
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -135,8 +138,7 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: Lint check device release
           command: ./gradlew --profile :Corona-Warn-App:lintDeviceRelease
@@ -150,8 +152,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: Ktlint check device release
           command: ./gradlew :Corona-Warn-App:ktlintDeviceReleaseCheck
@@ -165,8 +166,7 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: Lint check device for testers
           command: ./gradlew --profile :Corona-Warn-App:lintDeviceForTestersRelease
@@ -180,8 +180,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: Ktlint check device for testers
           command: ./gradlew :Corona-Warn-App:ktlintDeviceForTestersReleaseCheck
@@ -195,8 +194,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: Detekt check
           command: ./gradlew :Corona-Warn-App:detekt
@@ -210,8 +208,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
@@ -226,11 +223,10 @@ jobs:
     executor: android/android
     resource_class: small
     steps:
-      - attach_workspace:
-          at: ./
+      - resume-work-space
       - run:
           name: Scan workspace
-          command: find ./
+          command: find .
 workflows:
   version: 2
   quick_build:
