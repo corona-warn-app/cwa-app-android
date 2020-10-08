@@ -132,6 +132,7 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
+      - restore-gradle-cache
       - checkout
       - run:
           name: Lint check device release
@@ -146,6 +147,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
+      - restore-gradle-cache
       - checkout
       - run:
           name: Ktlint check device release
@@ -160,6 +162,7 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
+      - restore-gradle-cache
       - checkout
       - run:
           name: Lint check device for testers
@@ -174,6 +177,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
+      - restore-gradle-cache
       - checkout
       - run:
           name: Ktlint check device for testers
@@ -188,6 +192,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
+      - restore-gradle-cache
       - checkout
       - run:
           name: Detekt check
@@ -202,8 +207,8 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - checkout
       - restore-gradle-cache
+      - checkout
       - attach_workspace:
           at: /home/circleci/project
       - run:
