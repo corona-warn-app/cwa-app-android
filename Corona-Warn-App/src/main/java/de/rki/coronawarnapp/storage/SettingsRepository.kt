@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.storage
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
@@ -19,8 +18,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class SettingsRepository @Inject constructor(
-    @AppContext private val context: Context,
-    private val backgroundPrioritization: BackgroundPrioritization
+    @AppContext private val context: Context
 ) {
 
     // public mutable live data
@@ -32,7 +30,6 @@ class SettingsRepository @Inject constructor(
     val isBluetoothEnabled = MutableLiveData(true)
     val isLocationEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
-    val isBackgroundPriorityEnabled = MutableLiveData(false)
     val manualKeyRetrievalTime = MutableLiveData<Long>()
 
     /**
@@ -131,12 +128,5 @@ class SettingsRepository @Inject constructor(
      */
     fun updateManualKeyRetrievalTime(value: Long) {
         manualKeyRetrievalTime.postValue(value)
-    }
-
-    /**
-     * Refresh the current background priority state.
-     */
-    fun refreshBackgroundPriorityEnabled() {
-        isBackgroundPriorityEnabled.value = backgroundPrioritization.isBackgroundActivityPrioritized
     }
 }

@@ -29,9 +29,6 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = settingsRepository.isBackgroundJobEnabled
 
-    val isBackgroundPriorityEnabled: LiveData<Boolean> =
-        settingsRepository.isBackgroundPriorityEnabled
-
     /**
      * Is manual key retrieval enabled
      * Used for "Update" button on the Risk Card and in the Risk Details
@@ -129,9 +126,5 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
      */
     fun updateManualKeyRetrievalEnabled(value: Boolean) {
         settingsRepository.updateManualKeyRetrievalEnabled(value)
-    }
-
-    fun refreshBackgroundPriorityEnabled() {
-        settingsRepository.refreshBackgroundPriorityEnabled()
     }
 }
