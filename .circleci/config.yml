@@ -97,17 +97,15 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-      - run:
-          name: JaCoCo report
-          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+      - persist_to_workspace:
+          root: Corona-Warn-App/build
+          paths:
+            - Corona-Warn-App/build
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -211,6 +209,14 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - attach_workspace:
+          - at: Corona-Warn-App/build
+      - run:
+          name: JaCoCo report
+          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - run:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
@@ -228,4 +234,6 @@ workflows:
       - ktlint_device_release_check
       - ktlint_device_for_testers_release_check
       - detekt
-      - sonar
+      - sonar:
+          requires:
+            - device_release_unit_tests
