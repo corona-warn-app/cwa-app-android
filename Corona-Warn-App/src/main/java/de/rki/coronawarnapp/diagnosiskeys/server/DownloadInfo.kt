@@ -10,8 +10,9 @@ data class DownloadInfo(
     val serverMD5 by lazy { headers.getPayloadChecksumMD5() }
 
     private fun Headers.getPayloadChecksumMD5(): String? {
-        // TODO EXPOSUREBACK-178
+
         val fileMD5 = values("ETag").singleOrNull()
+//  TODO EXPOSUREBACK-178
 //                var fileMD5 = headers.values("x-amz-meta-cwa-hash-md5").singleOrNull()
 //                if (fileMD5 == null) {
 //                    headers.values("x-amz-meta-cwa-hash").singleOrNull()
