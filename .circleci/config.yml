@@ -100,10 +100,6 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -212,8 +208,7 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
       - restore-android-build-cache
       - restore-gradle-cache
       - run:
@@ -239,6 +234,4 @@ workflows:
       - ktlint_device_release_check
       - ktlint_device_for_testers_release_check
       - detekt
-      - run_sonar:
-          requires:
-            - device_release_unit_tests
+      - run_sonar
