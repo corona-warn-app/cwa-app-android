@@ -103,7 +103,7 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
-          root: Corona-Warn-App/build
+          root: ~/workspace/
           paths:
             - Corona-Warn-App/build
   device_for_testers_release_unit_tests:
@@ -204,7 +204,7 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-  sonar:
+  run_sonar:
     executor: android/android
     resource_class: medium
     steps:
@@ -234,6 +234,6 @@ workflows:
       - ktlint_device_release_check
       - ktlint_device_for_testers_release_check
       - detekt
-      - sonar:
+      - run_sonar:
           requires:
             - device_release_unit_tests
