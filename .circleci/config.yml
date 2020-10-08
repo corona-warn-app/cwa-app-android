@@ -34,7 +34,7 @@ commands:
     description: "Attach workspace and enter project dir"
     steps:
       - attach_workspace:
-          at: ./
+          at: /home/circleci
 
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
       - restore-android-build-cache
       - run:
           name: Prepare project
-          command: ./gradlew -PdisablePreDex --no-daemon --max-workers=2 androidDependencies
+          command: ./gradlew -PdisablePreDex --max-workers=2 androidDependencies
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
