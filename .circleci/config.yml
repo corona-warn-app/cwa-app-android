@@ -132,8 +132,8 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - restore-gradle-cache
       - checkout
+      - restore-gradle-cache
       - run:
           name: Lint check device release
           command: ./gradlew --profile :Corona-Warn-App:lintDeviceRelease
@@ -147,8 +147,8 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - restore-gradle-cache
       - checkout
+      - restore-gradle-cache
       - run:
           name: Ktlint check device release
           command: ./gradlew :Corona-Warn-App:ktlintDeviceReleaseCheck
@@ -162,8 +162,8 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - restore-gradle-cache
       - checkout
+      - restore-gradle-cache
       - run:
           name: Lint check device for testers
           command: ./gradlew --profile :Corona-Warn-App:lintDeviceForTestersRelease
@@ -177,8 +177,8 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - restore-gradle-cache
       - checkout
+      - restore-gradle-cache
       - run:
           name: Ktlint check device for testers
           command: ./gradlew :Corona-Warn-App:ktlintDeviceForTestersReleaseCheck
@@ -192,8 +192,8 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - restore-gradle-cache
       - checkout
+      - restore-gradle-cache
       - run:
           name: Detekt check
           command: ./gradlew :Corona-Warn-App:detekt
@@ -207,8 +207,8 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - restore-gradle-cache
       - checkout
+      - restore-gradle-cache
       - attach_workspace:
           at: /home/circleci/project
       - run:
