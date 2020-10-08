@@ -226,6 +226,7 @@ workflows:
   version: 2
   quick_build:
     jobs:
+      - prepare_project
       - quick_build_release_no_tests:
           requires:
             - prepare_project
