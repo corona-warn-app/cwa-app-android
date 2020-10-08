@@ -104,9 +104,9 @@ jobs:
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
-          root: .
+          root: /home/circleci
           paths:
-            - .
+            - project
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -224,7 +224,9 @@ jobs:
     working_directory: ~/project
     steps:
       - attach_workspace:
-          at: .
+          at: /home/circleci
+      - restore-gradle-cache
+      - restore-android-build-cache
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
@@ -239,10 +241,9 @@ jobs:
     machine:
       image: circleci/classic:latest
     resource_class: medium
-    working_directory: ~/project
     steps:
       - attach_workspace:
-          at: .
+          at: /home/circleci
       - run:
           name: Scan workspace
           command: find .
