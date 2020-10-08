@@ -42,7 +42,8 @@ jobs:
     executor: android/android
     resource_class: large
     steps:
-      - checkout
+      - checkout:
+          - path: ~/project
       - restore-gradle-cache
       - restore-android-build-cache
       - run:
