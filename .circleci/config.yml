@@ -229,7 +229,8 @@ jobs:
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
   scan_workspace:
-    executor: circleci/classic:latest
+    machine:
+      image: circleci/classic:latest
     resource_class: small
     working_directory: ~/project
     steps:
