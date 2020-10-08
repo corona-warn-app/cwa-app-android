@@ -82,7 +82,7 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
-    parallelism: 4
+    parallelism: 3
     steps:
       - checkout
       - restore-gradle-cache
@@ -111,7 +111,7 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
-    parallelism: 4
+    parallelism: 3
     steps:
       - checkout
       - restore-gradle-cache
