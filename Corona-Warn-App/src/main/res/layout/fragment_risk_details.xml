@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,8 +9,6 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
 
         <import type="android.view.View" />
 
@@ -51,12 +50,13 @@
                     style="@style/icon"
                     android:layout_width="@dimen/icon_size_button"
                     android:layout_height="@dimen/icon_size_button"
-                    android:contentDescription="@{FormatterAccessibilityHelper.formatButton(@string/accessibility_back)}"
+                    bind:cwaContentDescription="@{@string/accessibility_back}"
                     android:src="@{@drawable/ic_close}"
                     android:tint="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
