@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.task
 
 import de.rki.coronawarnapp.task.TaskConfig.ExecutionMode
-import de.rki.coronawarnapp.transaction.TransactionCoroutineScope
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
@@ -23,29 +23,29 @@ import javax.inject.Singleton
 @Singleton
 class TaskController @Inject constructor(
     private val taskFactories: @JvmSuppressWildcards Map<TaskType, TaskFactory<out Task.Progress, out Task.Result>>,
-    private val taskScope: TransactionCoroutineScope,
+    @TaskCoroutineScope private val taskScope: CoroutineScope,
     private val timeStamper: TimeStamper
 ) {
 
     private val mutex = Mutex()
     private val taskQueue = Channel<TaskRequest<*>>(Channel.UNLIMITED)
-    private val internalStates = MutableStateFlow<Map<UUID, TaskState>>(
+    private val internalTaskData = MutableStateFlow<Map<UUID, InternalTaskData>>(
         emptyMap()
     )
-    val taskStates: Flow<Map<TaskState, Flow<Task.Progress>>> = internalStates
+    val tasks: Flow<Map<TaskData, Flow<Task.Progress>>> = internalTaskData
         .map { it.values }
-        .map { states ->
-            states.map { it to it.task.progress }.toMap()
+        .map { tasks ->
+            tasks.map { it to it.task.progress }.toMap()
         }
 
     init {
-        Timber.d("We have factories for %s", taskFactories.keys)
+        Timber.tag(TAG).d("We have factories for %s", taskFactories.keys)
 
         taskQueue
             .receiveAsFlow()
             .onEach {
-                Timber.d("Processing new task request: %s", it)
-                initTaskState(it)
+                Timber.tag(TAG).d("Processing new task request: %s", it)
+                initTaskData(it)
             }
             .launchIn(taskScope)
     }
@@ -55,18 +55,20 @@ class TaskController @Inject constructor(
         taskQueue.offer(request)
     }
 
-    private suspend fun initTaskState(request: TaskRequest<*>) {
+    private suspend fun initTaskData(request: TaskRequest<*>) {
         val taskFactory = taskFactories[request.type]
         requireNotNull(taskFactory) { "No factory available for $request" }
+        Timber.tag(TAG).v("Initiating task data for request: %s", request)
+
         val taskConfig = taskFactory.config
         val task = taskFactory.taskProvider()
 
-        internalStates.updateSafely {
+        internalTaskData.updateSafely {
             val deferred = taskScope.async(
                 start = CoroutineStart.LAZY
             ) { task.run(request.arguments) }
 
-            val activeTask = TaskState(
+            val activeTask = InternalTaskData(
                 request = request,
                 createdAt = timeStamper.nowUTC,
                 config = taskConfig,
@@ -74,61 +76,73 @@ class TaskController @Inject constructor(
                 deferred = deferred
             )
             put(activeTask.id, activeTask)
+            Timber.tag(TAG).d("New task data created: %s", activeTask)
         }
         taskScope.launch { processMap() }
     }
 
-    private suspend fun processMap() = internalStates.updateSafely {
+    private suspend fun processMap() = internalTaskData.updateSafely {
+        Timber.tag(TAG).d("Processing task data (count=%d)", size)
+        Timber.tag(TAG).v("Tasks before processing: %s", this.values)
+
         // Procress all unprocessed finished tasks
         values.toList()
-            .filter { it.deferred.isCompleted && it.state != TaskState.State.FINISHED }
-            .forEach { state ->
-                val error = state.deferred.getCompletionExceptionOrNull()
+            .filter { it.deferred.isCompleted && it.state != TaskData.State.FINISHED }
+            .forEach { data ->
+                val error = data.deferred.getCompletionExceptionOrNull()
                 val result = if (error == null) {
-                    state.deferred.getCompleted()
+                    data.deferred.getCompleted()
                 } else {
-                    Timber.tag(TAG).e(error, "Task failed: %s", state)
+                    Timber.tag(TAG).e(error, "Task failed: %s", data)
                     null
                 }
 
-                this[state.id] = state.copy(
+                this[data.id] = data.copy(
                     completedAt = timeStamper.nowUTC,
                     result = result,
                     error = error
                 )
+                Timber.tag(TAG).i("Task is now FINISHED: %s", data)
             }
 
         // Start new tasks
         values.toList()
-            .filter { it.state == TaskState.State.PENDING }
-            .forEach { state ->
+            .filter { it.state == TaskData.State.PENDING }
+            .forEach { data ->
+                Timber.tag(TAG).d("Checking pending task: %s", data)
+
                 val siblingTasks = values.filter {
-                    it.type == state.request.type
-                        && it.state != TaskState.State.FINISHED
-                        && it.id != state.id
+                    it.type == data.request.type
+                        && it.state == TaskData.State.RUNNING
+                        && it.id != data.id
                 }
-                Timber.tag(TAG).d("Sibling tasks for %s are: %s", state, siblingTasks)
+                Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)
+                Timber.tag(TAG).v(
+                    "Sibling are:\n%s", siblingTasks.joinToString("\n")
+                )
 
                 // Handle **[ExecutionMode]** here
                 when {
-                    siblingTasks.isEmpty() || state.config.executionMode == ExecutionMode.PARALLEL -> {
-                        this[state.id] = state.toRunningState()
+                    siblingTasks.isEmpty() || data.config.executionMode == ExecutionMode.PARALLEL -> {
+                        this[data.id] = data.toRunningState()
                     }
-                    state.config.executionMode == ExecutionMode.ENQUEUE -> {
-                        Timber.tag(TAG).d("Postponing task %s", state)
+                    data.config.executionMode == ExecutionMode.ENQUEUE -> {
+                        Timber.tag(TAG).d("Postponing task %s", data)
                     }
                 }
             }
+
+        Timber.tag(TAG).v("Tasks after processing: %s", this.values)
     }
 
-    private fun TaskState.toRunningState(): TaskState {
+    private fun InternalTaskData.toRunningState(): InternalTaskData {
         deferred.invokeOnCompletion {
-            Timber.tag(TAG).i("Task completed (successfully=%b)", it != null)
+            Timber.tag(TAG).d("Task ended (type=%s, id=%s)", type, id)
             taskScope.launch { processMap() }
         }
         deferred.start()
         return copy(startedAt = timeStamper.nowUTC).also {
-            Timber.tag(TAG).d("Starting new task: %s", it)
+            Timber.tag(TAG).i("Starting new task: %s", it)
         }
     }
 

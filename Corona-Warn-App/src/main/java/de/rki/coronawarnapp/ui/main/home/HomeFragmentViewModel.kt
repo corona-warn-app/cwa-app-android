@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import android.content.Context
+import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskData
 import de.rki.coronawarnapp.task.TaskRequest
 import de.rki.coronawarnapp.task.TaskType
 import de.rki.coronawarnapp.task.example.ExampleArguments
@@ -15,13 +18,22 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    @AppContext private val context: Context,
     private val errorResetTool: EncryptionErrorResetTool,
     val tracingViewModel: TracingViewModel,
     val settingsViewModel: SettingsViewModel,
@@ -75,6 +87,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 arguments = ExampleArguments(arg = "4")
             )
         )
+
+        viewModelScope.launch {
+            taskController.tasks
+                .flatMapMerge { it.entries.asFlow() }
+                .filter { it.key.state == TaskData.State.RUNNING }
+                .flatMapMerge { (key, value) ->
+                    value.map {
+                        key to it
+                    }
+                }
+                .collect {
+                    Timber.d("New state: %s", it.second.primaryMessage.get(context))
+                }
+        }
     }
 
     fun errorResetDialogDismissed() {
