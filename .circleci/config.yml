@@ -47,7 +47,7 @@ jobs:
       - restore-android-build-cache
       - run:
           name: Prepare project
-          command: ./gradlew compileDeviceReleaseSources compileDeviceReleaseUnitTestSources compileDeviceForTestersReleaseSources  compileDeviceForTestersReleaseUnitTestSources
+          command: ./gradlew classes androidDependencies
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
@@ -116,6 +116,10 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - .
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -231,7 +235,7 @@ jobs:
   scan_workspace:
     machine:
       image: circleci/classic:latest
-    resource_class: small
+    resource_class: medium
     working_directory: ~/project
     steps:
       - resume-work-space
@@ -275,4 +279,4 @@ workflows:
             - prepare_project
       - run_sonar:
           requires:
-            - prepare_project
+            - device_release_unit_tests
