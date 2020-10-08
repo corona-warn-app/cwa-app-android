@@ -82,7 +82,7 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
-    parallelism: 4
+    parallelism: 6
     steps:
       - checkout
       - restore-gradle-cache
@@ -111,7 +111,7 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
-    parallelism: 4
+    parallelism: 6
     steps:
       - checkout
       - restore-gradle-cache
@@ -225,8 +225,6 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci
-      - restore-gradle-cache
-      - restore-android-build-cache
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
