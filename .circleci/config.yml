@@ -7,21 +7,29 @@ commands:
   restore-build-cache: android/restore-build-cache
   save-build-cache: android/save-build-cache
   scan-sonar: sonarcloud/scan
-  restore-caches:
-    description: "Restore build caches"
+  restore-gradle-cache:
+    description: "Restore gradle caches"
     steps:
-      - restore-build-cache
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-  save-caches:
-    description: "Save build caches"
+  save-gradle-cache:
+    description: "Save gradle caches"
     steps:
-      - save-build-cache
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-
+  require-version-bump:
+    description: "Require version bump for binary assembling"
+    steps:
+      - run:
+          name: "Check if assemble required"
+          command: |
+            last_commit=$(git log -1 --pretty=%B)
+            if [[ $last_commit != *"Version bump"* ]]; then
+              circleci-agent step halt
+              echo "Skipping job"
+            fi
 
 jobs:
   quick_build_release_no_tests:
@@ -29,25 +37,20 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - run:
-          name: Check if assemble required
-          command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
-              circleci-agent step halt
-              echo "Skipping job"
-            fi
+      - require-version-bump
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
-      - restore-caches
+      - restore-gradle-cache
+      - restore-build-cache
       - run:
           name: Quick Build
           command: ./gradlew assembleDeviceRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - save-caches
+      - save-gradle-cache
+      - save-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -56,25 +59,20 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - run:
-          name: Check if assemble required
-          command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
-              circleci-agent step halt
-              echo "Skipping job"
-            fi
+      - require-version-bump
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
-      - restore-caches
+      - restore-gradle-cache
+      - restore-build-cache
       - run:
           name: Quick Build
           command: ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - save-caches
+      - save-gradle-cache
+      - save-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -84,7 +82,8 @@ jobs:
     parallelism: 4
     steps:
       - checkout
-      - restore-caches
+      - restore-gradle-cache
+      - restore-build-cache
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -94,14 +93,15 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - save-caches
+      - save-gradle-cache
+      - save-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
       - persist_to_workspace:
-          root: .
+          root: /tmp/workspace
           paths:
             - Corona-Warn-App/build
   device_for_testers_release_unit_tests:
@@ -110,7 +110,8 @@ jobs:
     parallelism: 4
     steps:
       - checkout
-      - restore-caches
+      - restore-gradle-cache
+      - restore-build-cache
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -120,7 +121,8 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - save-caches
+      - save-gradle-cache
+      - save-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -201,9 +203,9 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - restore-gradle-cache
       - attach_workspace:
           at: Corona-Warn-App/build
-      - restore-caches
       - run:
           name: JaCoCo report
           command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
