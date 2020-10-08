@@ -4,8 +4,8 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.2
 commands:
   install-ndk: android/install-ndk
-  restore-build-cache: android/restore-build-cache
-  save-build-cache: android/save-build-cache
+  restore-android-build-cache: android/restore-build-cache
+  save-android-build-cache: android/save-build-cache
   scan-sonar: sonarcloud/scan
   restore-gradle-cache:
     description: "Restore gradle caches"
@@ -42,7 +42,7 @@ jobs:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
       - restore-gradle-cache
-      - restore-build-cache
+      - restore-android-build-cache
       - run:
           name: Quick Build
           command: ./gradlew assembleDeviceRelease
@@ -50,7 +50,7 @@ jobs:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - save-gradle-cache
-      - save-build-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -64,7 +64,7 @@ jobs:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
       - restore-gradle-cache
-      - restore-build-cache
+      - restore-android-build-cache
       - run:
           name: Quick Build
           command: ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
@@ -72,7 +72,7 @@ jobs:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - save-gradle-cache
-      - save-build-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -83,7 +83,7 @@ jobs:
     steps:
       - checkout
       - restore-gradle-cache
-      - restore-build-cache
+      - restore-android-build-cache
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -94,7 +94,7 @@ jobs:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - save-gradle-cache
-      - save-build-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -111,7 +111,7 @@ jobs:
     steps:
       - checkout
       - restore-gradle-cache
-      - restore-build-cache
+      - restore-android-build-cache
       - run:
           name: test splitting output
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
@@ -122,7 +122,7 @@ jobs:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - save-gradle-cache
-      - save-build-cache
+      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -133,6 +133,7 @@ jobs:
     resource_class: large
     steps:
       - checkout
+      - restore-android-build-cache
       - restore-gradle-cache
       - run:
           name: Lint check device release
@@ -148,6 +149,7 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - restore-android-build-cache
       - restore-gradle-cache
       - run:
           name: Ktlint check device release
@@ -163,6 +165,7 @@ jobs:
     resource_class: large
     steps:
       - checkout
+      - restore-android-build-cache
       - restore-gradle-cache
       - run:
           name: Lint check device for testers
@@ -178,6 +181,7 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - restore-android-build-cache
       - restore-gradle-cache
       - run:
           name: Ktlint check device for testers
@@ -193,6 +197,7 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - restore-android-build-cache
       - restore-gradle-cache
       - run:
           name: Detekt check
@@ -208,6 +213,7 @@ jobs:
     resource_class: medium
     steps:
       - checkout
+      - restore-android-build-cache
       - restore-gradle-cache
       - attach_workspace:
           at: /home/circleci/project
