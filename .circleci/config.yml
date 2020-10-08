@@ -48,11 +48,9 @@ jobs:
       - save-gradle-cache
       - save-android-build-cache
       - persist_to_workspace:
-          root: ./
+          root: /home/circleci
           paths:
-            - .gradle
-            - .android
-            - project
+            - *
   quick_build_release_no_tests:
     executor: android/android
     resource_class: large
