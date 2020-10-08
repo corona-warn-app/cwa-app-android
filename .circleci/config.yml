@@ -103,7 +103,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci/project
           paths:
-            - Corona-Warn-App/build
+            - .
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -212,7 +212,6 @@ jobs:
     executor: android/android
     resource_class: medium
     steps:
-      - checkout
       - restore-android-build-cache
       - restore-gradle-cache
       - attach_workspace:
