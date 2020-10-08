@@ -106,7 +106,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - project
+            - ./project
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -237,16 +237,6 @@ jobs:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
-  scan_workspace:
-    machine:
-      image: circleci/classic:latest
-    resource_class: medium
-    steps:
-      - attach_workspace:
-          at: /home/circleci
-      - run:
-          name: Scan workspace
-          command: find .
 workflows:
   version: 2
   quick_build:
@@ -261,8 +251,5 @@ workflows:
       - ktlint_device_for_testers_release_check
       - detekt
       - run_sonar:
-          requires:
-            - device_release_unit_tests
-      - scan_workspace:
           requires:
             - device_release_unit_tests
