@@ -50,7 +50,9 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - ./
+            - .gradle
+            - .android
+            - project
   quick_build_release_no_tests:
     executor: android/android
     resource_class: large
@@ -222,11 +224,23 @@ jobs:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
+  test_task:
+    executor: android/android
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Scan workspace
+          command: find ./
 workflows:
   version: 2
   quick_build:
     jobs:
       - prepare_project
+      - test_task:
+          requires:
+            - prepare_project
       - quick_build_release_no_tests:
           requires:
             - prepare_project
