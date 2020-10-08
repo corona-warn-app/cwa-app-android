@@ -50,7 +50,7 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject
         }
 
         binding.riskDetailsInformationLowriskBodyUrl
-            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_body_with_link))
+            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_link))
 
         binding.riskDetailsInformationLowriskBodyUrl
             .movementMethod = LinkMovementMethod.getInstance()
