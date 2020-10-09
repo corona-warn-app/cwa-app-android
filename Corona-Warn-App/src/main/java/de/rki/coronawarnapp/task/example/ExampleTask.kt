@@ -29,7 +29,7 @@ class ExampleTask @Inject constructor() : Task<DefaultProgress, ExampleResult> {
     }
 
     data class Config(
-        override val executionMode: TaskConfig.ExecutionMode = TaskConfig.ExecutionMode.PARALLEL
+        override val collisionBehavior: TaskConfig.CollisionBehavior = TaskConfig.CollisionBehavior.ENQUEUE
     ) : TaskConfig
 
     class Factory @Inject constructor(

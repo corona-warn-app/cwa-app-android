@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.task
 
-import de.rki.coronawarnapp.task.TaskConfig.ExecutionMode
+import de.rki.coronawarnapp.task.TaskConfig.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -22,13 +22,13 @@ import javax.inject.Singleton
 
 @Singleton
 class TaskController @Inject constructor(
-    private val taskFactories: @JvmSuppressWildcards Map<TaskType, TaskFactory<out Task.Progress, out Task.Result>>,
+    private val taskFactories: Map<Class<out TaskRequest>, @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>,
     @TaskCoroutineScope private val taskScope: CoroutineScope,
     private val timeStamper: TimeStamper
 ) {
 
     private val mutex = Mutex()
-    private val taskQueue = Channel<TaskRequest<*>>(Channel.UNLIMITED)
+    private val taskQueue = Channel<TaskRequest>(Channel.UNLIMITED)
     private val internalTaskData = MutableStateFlow<Map<UUID, InternalTaskData>>(
         emptyMap()
     )
@@ -50,31 +50,32 @@ class TaskController @Inject constructor(
             .launchIn(taskScope)
     }
 
-    fun submitTask(request: TaskRequest<*>) {
+    fun submitTask(request: TaskRequest) {
         Timber.tag(TAG).i("Task submitted: %s", request)
         taskQueue.offer(request)
     }
 
-    private suspend fun initTaskData(request: TaskRequest<*>) {
-        val taskFactory = taskFactories[request.type]
+    private suspend fun initTaskData(request: TaskRequest) {
+        val taskFactory = taskFactories[request::class.java]
         requireNotNull(taskFactory) { "No factory available for $request" }
         Timber.tag(TAG).v("Initiating task data for request: %s", request)
 
         val taskConfig = taskFactory.config
         val task = taskFactory.taskProvider()
 
-        internalTaskData.updateSafely {
-            val deferred = taskScope.async(
-                start = CoroutineStart.LAZY
-            ) { task.run(request.arguments) }
+        val deferred = taskScope.async(
+            start = CoroutineStart.LAZY
+        ) { task.run(request.arguments) }
 
-            val activeTask = InternalTaskData(
-                request = request,
-                createdAt = timeStamper.nowUTC,
-                config = taskConfig,
-                task = task,
-                deferred = deferred
-            )
+        val activeTask = InternalTaskData(
+            request = request,
+            createdAt = timeStamper.nowUTC,
+            config = taskConfig,
+            task = task,
+            deferred = deferred
+        )
+
+        internalTaskData.updateSafely {
             put(activeTask.id, activeTask)
             Timber.tag(TAG).d("New task data created: %s", activeTask)
         }
@@ -112,7 +113,7 @@ class TaskController @Inject constructor(
                 Timber.tag(TAG).d("Checking pending task: %s", data)
 
                 val siblingTasks = values.filter {
-                    it.type == data.request.type
+                    it.type == data.type
                         && it.state == TaskData.State.RUNNING
                         && it.id != data.id
                 }
@@ -121,12 +122,15 @@ class TaskController @Inject constructor(
                     "Sibling are:\n%s", siblingTasks.joinToString("\n")
                 )
 
-                // Handle **[ExecutionMode]** here
+                // Handle collision behavior for tasks of same type
                 when {
-                    siblingTasks.isEmpty() || data.config.executionMode == ExecutionMode.PARALLEL -> {
+                    siblingTasks.isEmpty() -> {
                         this[data.id] = data.toRunningState()
                     }
-                    data.config.executionMode == ExecutionMode.ENQUEUE -> {
+                    data.config.collisionBehavior == CollisionBehavior.SKIP_IF_ALREADY_RUNNING -> {
+
+                    }
+                    data.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
                         Timber.tag(TAG).d("Postponing task %s", data)
                     }
                 }

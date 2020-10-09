@@ -4,10 +4,11 @@ import de.rki.coronawarnapp.task.TaskData.State
 import kotlinx.coroutines.Deferred
 import org.joda.time.Instant
 import java.util.UUID
+import kotlin.reflect.KClass
 
 internal data class InternalTaskData(
     override val id: UUID = UUID.randomUUID(),
-    override val request: TaskRequest<*>,
+    override val request: TaskRequest,
     override val createdAt: Instant,
     override val startedAt: Instant? = null,
     override val completedAt: Instant? = null,
@@ -25,6 +26,6 @@ internal data class InternalTaskData(
             else -> State.PENDING
         }
 
-    override val type: TaskType
-        get() = request.type
+    override val type: KClass<out TaskRequest>
+        get() = request::class
 }

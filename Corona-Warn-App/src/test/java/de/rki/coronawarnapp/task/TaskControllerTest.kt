@@ -80,4 +80,9 @@ class TaskControllerTest : BaseTest() {
     fun `parallel task execution`() {
         TODO()
     }
+
+    @Test
+    fun `collision behavior only affects task of same type`() {
+        TODO()
+    }
 }

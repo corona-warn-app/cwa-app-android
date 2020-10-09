@@ -7,9 +7,8 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskData
-import de.rki.coronawarnapp.task.TaskRequest
-import de.rki.coronawarnapp.task.TaskType
 import de.rki.coronawarnapp.task.example.ExampleArguments
+import de.rki.coronawarnapp.task.example.ExampleTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
@@ -23,6 +22,7 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
@@ -64,29 +64,35 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
         }
         taskController.submitTask(
-            TaskRequest(
-                type = TaskType.EXAMPLE,
+            ExampleTaskRequest(
                 arguments = ExampleArguments(arg = "1")
             )
         )
         taskController.submitTask(
-            TaskRequest(
-                type = TaskType.EXAMPLE,
+            ExampleTaskRequest(
                 arguments = ExampleArguments(arg = "2")
             )
         )
         taskController.submitTask(
-            TaskRequest(
-                type = TaskType.EXAMPLE,
+            ExampleTaskRequest(
                 arguments = ExampleArguments(arg = "3")
             )
         )
         taskController.submitTask(
-            TaskRequest(
-                type = TaskType.EXAMPLE,
+            ExampleTaskRequest(
                 arguments = ExampleArguments(arg = "4")
             )
         )
+        launch {
+            while (true) {
+                delay(1000)
+                taskController.submitTask(
+                    ExampleTaskRequest(
+                        arguments = ExampleArguments(arg = "${System.currentTimeMillis()}")
+                    )
+                )
+            }
+        }
 
         viewModelScope.launch {
             taskController.tasks

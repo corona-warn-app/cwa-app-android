@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.task
 
 interface TaskConfig {
 
-    val executionMode: ExecutionMode
+    val collisionBehavior: CollisionBehavior
 
-    enum class ExecutionMode {
+    enum class CollisionBehavior {
         ENQUEUE,
-        PARALLEL
+        SKIP_IF_ALREADY_RUNNING
     }
 }
