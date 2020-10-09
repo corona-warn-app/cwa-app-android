@@ -144,7 +144,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             setOnClickListener { vm.setHourlyTestingMode(isChecked) }
         }
         vm.last3HourToggleEvent.observe2(this) {
-            showToast("Last 3 Hours Mode is activated: $it")
+            showToast("Hourly mode is activated: $it")
         }
         binding.backgroundNotificationsToggle.apply {
             setOnClickListener { vm.setBackgroundNotifications(isChecked) }
