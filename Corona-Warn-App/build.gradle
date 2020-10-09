@@ -129,6 +129,16 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
+            if (project.hasProperty('testFilter')) {
+                List<String> props = project.getProperties().get("testFilter").split("\\s+")
+                props.each {
+                    def replaced = it
+                            .replaceFirst("^(Corona-Warn-App/src/test.*/java/)(.+)\$", "**/\$2")
+                            .replace(".kt", ".class")
+                    project.logger.lifecycle("testFilter File: before=$it, after=$replaced")
+                    include(replaced)
+                }
+            }
         }
         unitTests {
             includeAndroidResources = true
@@ -173,7 +183,6 @@ android {
             java.srcDirs += "$projectDir/src/testShared/java"
         }
     }
-
 }
 
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
