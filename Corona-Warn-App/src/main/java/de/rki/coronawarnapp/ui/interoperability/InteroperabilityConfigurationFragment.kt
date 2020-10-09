@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -25,20 +26,12 @@ class InteroperabilityConfigurationFragment :
 
     private val binding: FragmentInteroperabilityConfigurationBinding by viewBindingLazy()
 
-    private var isNetworkCallbackRegistered = false
-    private val networkCallback = object : ConnectivityHelper.NetworkCallback() {
-        override fun onNetworkAvailable() {
-            vm.getAllCountries()
-            unregisterNetworkCallback()
-        }
-
-        override fun onNetworkUnavailable() {
-            // NOOP
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+         if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
+             vm.getAllCountries()
+         }
 
         vm.countryList.observe2(this) {
             binding.countryData = it
@@ -64,28 +57,10 @@ class InteroperabilityConfigurationFragment :
                 Intent(Settings.ACTION_SETTINGS)
             }
             startActivity(intent)
-            registerNetworkCallback()
-        }
-    }
-
-    private fun registerNetworkCallback() {
-        context?.let {
-            ConnectivityHelper.registerNetworkStatusCallback(it, networkCallback)
-            isNetworkCallbackRegistered = true
-        }
-    }
-
-    private fun unregisterNetworkCallback() {
-        if (isNetworkCallbackRegistered) {
-            context?.let {
-                ConnectivityHelper.unregisterNetworkStatusCallback(it, networkCallback)
-                isNetworkCallbackRegistered = false
-            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterNetworkCallback()
     }
 }
