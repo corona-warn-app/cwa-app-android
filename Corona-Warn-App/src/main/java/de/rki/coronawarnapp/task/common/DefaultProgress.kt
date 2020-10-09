@@ -1,5 +1,6 @@
-package de.rki.coronawarnapp.task
+package de.rki.coronawarnapp.task.common
 
+import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 

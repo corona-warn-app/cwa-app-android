@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.task
 
-import de.rki.coronawarnapp.task.TaskConfig.CollisionBehavior
+import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

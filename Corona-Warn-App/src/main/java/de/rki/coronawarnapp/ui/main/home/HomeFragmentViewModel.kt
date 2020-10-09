@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
@@ -83,16 +82,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 arguments = ExampleArguments(arg = "4")
             )
         )
-        launch {
-            while (true) {
-                delay(1000)
-                taskController.submitTask(
-                    ExampleTaskRequest(
-                        arguments = ExampleArguments(arg = "${System.currentTimeMillis()}")
-                    )
-                )
-            }
-        }
 
         viewModelScope.launch {
             taskController.tasks

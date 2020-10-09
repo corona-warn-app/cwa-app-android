@@ -5,7 +5,16 @@ interface TaskFactory<
     ResultType : Task.Result
     > {
 
-    val config: TaskConfig
+    interface Config {
+        val collisionBehavior: CollisionBehavior
+
+        enum class CollisionBehavior {
+            ENQUEUE,
+            SKIP_IF_ALREADY_RUNNING
+        }
+    }
+
+    val config: Config
 
     val taskProvider: () -> Task<ProgressType, ResultType>
 }

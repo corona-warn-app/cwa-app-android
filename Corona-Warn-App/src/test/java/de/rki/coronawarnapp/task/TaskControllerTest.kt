@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.task
 
+import de.rki.coronawarnapp.task.example.ExampleTaskRequest
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.MockKAnnotations
@@ -29,7 +30,7 @@ class TaskControllerTest : BaseTest() {
     }
 
     private fun createInstance() = TaskController(
-        taskFactories = mapOf(TaskType.EXAMPLE to taskFactory),
+        taskFactories = mapOf(ExampleTaskRequest::class.java to taskFactory),
         taskScope = coroutineScope,
         timeStamper = timeStamper
     )

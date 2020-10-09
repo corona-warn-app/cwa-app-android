@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.task.example
 
-import de.rki.coronawarnapp.task.DefaultProgress
 import de.rki.coronawarnapp.task.Task
-import de.rki.coronawarnapp.task.TaskConfig
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.DefaultProgress
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -29,14 +28,14 @@ class ExampleTask @Inject constructor() : Task<DefaultProgress, ExampleResult> {
     }
 
     data class Config(
-        override val collisionBehavior: TaskConfig.CollisionBehavior = TaskConfig.CollisionBehavior.ENQUEUE
-    ) : TaskConfig
+        override val collisionBehavior: TaskFactory.Config.CollisionBehavior = TaskFactory.Config.CollisionBehavior.ENQUEUE
+    ) : TaskFactory.Config
 
     class Factory @Inject constructor(
         private val taskByDagger: Provider<ExampleTask>,
     ) : TaskFactory<DefaultProgress, ExampleResult> {
 
-        override val config: TaskConfig = Config()
+        override val config: TaskFactory.Config = Config()
         override val taskProvider: () -> Task<DefaultProgress, ExampleResult> = {
             taskByDagger.get()
         }

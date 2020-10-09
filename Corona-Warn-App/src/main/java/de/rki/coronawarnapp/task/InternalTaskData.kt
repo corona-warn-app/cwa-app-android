@@ -14,7 +14,7 @@ internal data class InternalTaskData(
     override val completedAt: Instant? = null,
     override val error: Throwable? = null,
     override val result: Task.Result? = null,
-    internal val config: TaskConfig,
+    internal val config: TaskFactory.Config,
     internal val deferred: Deferred<Task.Result>,
     internal val task: Task<*, *>
 ) : TaskData {
