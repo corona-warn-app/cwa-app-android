@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.riskdetails
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
@@ -49,7 +50,10 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject
         }
 
         binding.riskDetailsInformationLowriskBodyUrl
-            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_body_with_link))
+            .convertToHyperlink(getString(R.string.risk_details_explanation_faq_link))
+
+        binding.riskDetailsInformationLowriskBodyUrl
+            .movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onResume() {
