@@ -7,7 +7,6 @@ import dagger.android.ContributesAndroidInjector
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

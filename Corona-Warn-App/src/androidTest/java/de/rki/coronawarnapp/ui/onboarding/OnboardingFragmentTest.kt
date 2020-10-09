@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
