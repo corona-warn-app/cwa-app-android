@@ -682,18 +682,12 @@ object LocalData {
         CoronaWarnApplication.getAppContext().getString(R.string.preference_teletan), null
     )
 
-    fun last3HoursMode(value: Boolean) = getSharedPreferenceInstance().edit(true) {
-        putBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_last_three_hours_from_server),
-            value
-        )
-    }
-
-    fun last3HoursMode(): Boolean = getSharedPreferenceInstance().getBoolean(
-        CoronaWarnApplication.getAppContext()
-            .getString(R.string.preference_last_three_hours_from_server), false
-    )
+    private const val PKEY_TESTING_HOURLY_MODE = "testing.hourlymode.enabled"
+    var isHourlyTestingMode: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(PKEY_TESTING_HOURLY_MODE, false)
+        set(value) = getSharedPreferenceInstance().edit {
+            putBoolean(PKEY_TESTING_HOURLY_MODE, value)
+        }
 
     fun backgroundNotification(value: Boolean) = getSharedPreferenceInstance().edit(true) {
         putBoolean(

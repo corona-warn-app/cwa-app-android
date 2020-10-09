@@ -32,16 +32,16 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
     val debugOptionsState by smartLiveData {
         DebugOptionsState(
             areNotificationsEnabled = LocalData.backgroundNotification(),
-            is3HourModeEnabled = LocalData.last3HoursMode()
+            isHourlyTestingMode = LocalData.isHourlyTestingMode
         )
     }
 
     val last3HourToggleEvent = SingleLiveEvent<Boolean>()
 
-    fun setLast3HoursMode(enabled: Boolean) {
+    fun setHourlyTestingMode(enabled: Boolean) {
         debugOptionsState.update {
-            LocalData.last3HoursMode(enabled)
-            it.copy(is3HourModeEnabled = enabled)
+            LocalData.isHourlyTestingMode = enabled
+            it.copy(isHourlyTestingMode = enabled)
         }
         last3HourToggleEvent.postValue(enabled)
     }

@@ -78,7 +78,7 @@ class KeyFileDownloader @Inject constructor(
             )
 
             val availableKeys =
-                if (settings.isLast3HourModeEnabled) {
+                if (settings.isHourlyTestingMode) {
                     syncMissing3Hours(filteredCountries, DEBUG_HOUR_LIMIT)
                     keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
                 } else {
@@ -338,7 +338,7 @@ class KeyFileDownloader @Inject constructor(
 
     companion object {
         private val TAG: String? = KeyFileDownloader::class.simpleName
-        private const val DEBUG_HOUR_LIMIT = 3
+        private const val DEBUG_HOUR_LIMIT = 24
 
         // Daymode: ~512KB per day, ~14 days
         // Hourmode: ~20KB per hour, 24 hours, also ~512KB

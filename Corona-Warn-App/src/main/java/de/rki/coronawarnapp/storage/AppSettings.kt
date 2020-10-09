@@ -7,6 +7,6 @@ import javax.inject.Singleton
 @Singleton
 class AppSettings @Inject constructor() {
 
-    val isLast3HourModeEnabled: Boolean
-        get() = LocalData.last3HoursMode() && CWADebug.isDebugBuildOrMode
+    val isHourlyTestingMode: Boolean
+        get() = LocalData.isHourlyTestingMode && CWADebug.isDebugBuildOrMode
 }
