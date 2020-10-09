@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironment
 import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.smartLiveData
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class TestForApiFragmentViewModel @AssistedInject constructor(
-    private val context: Context,
+    @AppContext private val context: Context,
     private val envSetup: EnvironmentSetup
 ) : CWAViewModel() {
 

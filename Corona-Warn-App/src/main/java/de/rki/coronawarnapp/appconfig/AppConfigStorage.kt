@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig
 
 import android.content.Context
+import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -8,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AppConfigStorage @Inject constructor(
-    context: Context
+    @AppContext context: Context
 ) {
     private val configDir = File(context.filesDir, "appconfig_storage")
     private val configFile = File(configDir, "appconfig")
