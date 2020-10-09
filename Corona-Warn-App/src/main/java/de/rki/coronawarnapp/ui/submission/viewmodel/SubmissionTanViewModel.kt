@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.TanConstants
