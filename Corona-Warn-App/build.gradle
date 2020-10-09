@@ -231,16 +231,14 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.work:work-runtime-ktx:2.3.4'
-
+    implementation 'android.arch.lifecycle:extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
 
     // DAGGER
     implementation 'com.google.dagger:dagger:2.28.1'
@@ -261,8 +259,8 @@ dependencies {
     implementation files('libs\\play-services-nearby-exposurenotification-1.6.1-eap.aar')
 
     // Testing
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation('org.robolectric:robolectric:4.4') {
+    testImplementation "android.arch.core:core-testing:1.1.1"
+    testImplementation('org.robolectric:robolectric:4.3.1') {
         exclude group: 'com.google.protobuf'
     }
     testImplementation "io.mockk:mockk:1.10.0"
