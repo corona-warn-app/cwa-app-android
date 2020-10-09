@@ -30,6 +30,21 @@ commands:
               circleci-agent step halt
               echo "Skipping job"
             fi
+  run-gradle-cmd:
+    description: "Running gradle command with environment options"
+    parameters:
+      desc:
+        type: string
+        default: "Running gradle command"
+      cmd:
+        type: string
+    steps:
+      - run:
+          name: << parameters.desc >>
+          command: ./gradlew << parameters.cmd >>
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
 
 jobs:
   quick_build_device_release_no_tests:
@@ -44,12 +59,9 @@ jobs:
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
-      - run:
-          name: Quick Build
-          command: ./gradlew assembleDeviceRelease
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Quick Build
+          cmd: "assembleDeviceRelease"
       - save-gradle-cache
       - save-android-build-cache
       - store_artifacts:
@@ -67,12 +79,9 @@ jobs:
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
-      - run:
-          name: Quick Build
-          command: ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Quick Build
+          cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
       - save-gradle-cache
       - save-android-build-cache
       - store_artifacts:
@@ -86,12 +95,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Unit tests
-          command: ./gradlew :Corona-Warn-App:testDeviceReleaseUnitTest -i
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Unit tests
+          cmd: ":Corona-Warn-App:testDeviceReleaseUnitTest -i"
       - save-gradle-cache
       - save-android-build-cache
       - store_artifacts:
@@ -111,12 +117,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Unit tests
-          command: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Unit tests
+          cmd: ":Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i"
       - save-gradle-cache
       - save-android-build-cache
       - store_artifacts:
@@ -132,12 +135,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Lint check device release
-          command: ./gradlew :Corona-Warn-App:lintDeviceRelease -i
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Lint check deviceRelease
+          cmd: ":Corona-Warn-App:lintDeviceRelease -i"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -149,12 +149,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Ktlint check device release
-          command: ./gradlew :Corona-Warn-App:ktlintDeviceReleaseCheck
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Ktlint check deviceRelease
+          cmd: ":Corona-Warn-App:ktlintDeviceReleaseCheck"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -166,12 +163,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Lint check device for testers
-          command: ./gradlew --profile :Corona-Warn-App:lintDeviceForTestersRelease
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Lint check deviceForTestersRelease
+          cmd: ":Corona-Warn-App:lintDeviceForTestersRelease -i"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -183,12 +177,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Ktlint check device for testers
-          command: ./gradlew :Corona-Warn-App:ktlintDeviceForTestersReleaseCheck
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Ktlint check deviceForTestersRelease
+          cmd: ":Corona-Warn-App:ktlintDeviceForTestersReleaseCheck"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -200,12 +191,9 @@ jobs:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: Detekt check
-          command: ./gradlew :Corona-Warn-App:detekt
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: Detekt check
+          cmd: ":Corona-Warn-App:detekt"
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -218,12 +206,9 @@ jobs:
           at: /home/circleci
       - restore-gradle-cache
       - restore-android-build-cache
-      - run:
-          name: JaCoCo report
-          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run-gradle-cmd:
+          desc: JaCoCo report
+          cmd: ":Corona-Warn-App:jacocoTestReportDeviceRelease -i"
       - run:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
