@@ -29,9 +29,9 @@ class InteroperabilityConfigurationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
+        if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
              vm.getAllCountries()
-         }
+        }
 
         vm.countryList.observe2(this) {
             binding.countryData = it
