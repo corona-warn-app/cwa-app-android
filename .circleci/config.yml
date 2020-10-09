@@ -59,7 +59,7 @@ commands:
           command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
       - run:
           name: << parameters.desc >>
-          command: ./gradlew << parameters.cmd >> -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`
+          command: ./gradlew << parameters.cmd >> -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
