@@ -92,6 +92,12 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - run:
+          name: JaCoCo report
+          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
       - save-gradle-cache
       - save-android-build-cache
       - store_artifacts:
@@ -99,10 +105,10 @@ jobs:
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - ./project
+      - run:
+          name: Skip SonarCloud for external Pull Requests
+          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
+      - scan-sonar
   device_for_testers_release_unit_tests:
     executor: android/android
     resource_class: large
@@ -138,7 +144,6 @@ jobs:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -210,25 +215,6 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
-  run_sonar:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - attach_workspace:
-          at: /home/circleci
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run:
-          name: JaCoCo report
-          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease -i
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-      - run:
-          name: Skip SonarCloud for external Pull Requests
-          command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
-      - scan-sonar
 workflows:
   version: 2
   quick_build:
@@ -242,6 +228,3 @@ workflows:
       - ktlint_device_release_check
       - ktlint_device_for_testers_release_check
       - detekt
-      - run_sonar:
-          requires:
-            - device_release_unit_tests
