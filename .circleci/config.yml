@@ -45,6 +45,24 @@ commands:
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+  run-gradle-cmd-test-splitting:
+    description: "Running gradle command with environment options and test splitting"
+    parameters:
+      desc:
+        type: string
+        default: "Running gradle command"
+      cmd:
+        type: string
+    steps:
+      - run:
+          name: Test splitting output
+          command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
+      - run:
+          name: << parameters.desc >>
+          command: ./gradlew << parameters.cmd >> -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
 
 jobs:
   quick_build_device_release_no_tests:
@@ -91,11 +109,12 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
+    parallelism: 3
     steps:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run-gradle-cmd:
+      - run-gradle-cmd-test-splitting:
           desc: Unit tests
           cmd: ":Corona-Warn-App:testDeviceReleaseUnitTest -i"
       - save-gradle-cache
@@ -113,13 +132,14 @@ jobs:
     executor: android/android
     resource_class: large
     working_directory: ~/project
+    parallelism: 3
     steps:
       - checkout
       - restore-gradle-cache
       - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Unit tests
-          cmd: ":Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i"
+      - run-gradle-cmd-test-splitting:
+          desc: Unit tests with splitting
+          cmd: ":Corona-Warn-App:testDeviceForTestersReleaseUnitTest"
       - save-gradle-cache
       - save-android-build-cache
       - store_artifacts:
