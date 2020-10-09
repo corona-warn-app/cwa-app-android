@@ -30,7 +30,7 @@ class InteroperabilityConfigurationFragment :
         super.onViewCreated(view, savedInstanceState)
 
         if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
-             vm.getAllCountries()
+            vm.getAllCountries()
         }
 
         vm.countryList.observe2(this) {
