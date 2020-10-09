@@ -105,7 +105,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         } returns (0..23).map { "$it".hour }
         coEvery {
             server.getHourIndex("NL".loc, "2020-09-03".day)
-        } returns (0..23).map { "$it".hour }
+        } returns (0..12).map { "$it".hour }
 
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             mockDownloadServerDownload(
@@ -453,39 +453,39 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "23".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "22".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "21".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
 
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "23".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "22".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "21".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
         }
         coVerify(exactly = 6) { keyCache.markKeyComplete(any(), any()) }
@@ -503,15 +503,15 @@ class KeyFileDownloaderTest : BaseIOTest() {
         mockAddData(
             type = Type.COUNTRY_HOUR,
             location = "DE".loc,
-            day = "2020-09-02".day,
-            hour = "22".hour,
+            day = "2020-09-03".day,
+            hour = "11".hour,
             isCompleted = true
         )
         mockAddData(
             type = Type.COUNTRY_HOUR,
             location = "NL".loc,
-            day = "2020-09-02".day,
-            hour = "22".hour,
+            day = "2020-09-03".day,
+            hour = "11".hour,
             isCompleted = true
         )
 
@@ -527,27 +527,27 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "23".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "21".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
 
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "23".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "21".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
         }
         coVerify(exactly = 4) {
@@ -562,32 +562,32 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         val (staleKey1, _) = mockAddData(
             type = Type.COUNTRY_HOUR,
-            location = "NL".loc,
+            location = "DE".loc,
             day = "2020-09-02".day,
-            hour = "12".hour, // Stale hour
+            hour = "01".hour, // Stale hour
             isCompleted = true
         )
 
         val (staleKey2, _) = mockAddData(
             type = Type.COUNTRY_HOUR,
             location = "NL".loc,
-            day = "2020-09-01".day, // Stale day
-            hour = "22".hour,
+            day = "2020-09-02".day, // Stale day
+            hour = "01".hour,
             isCompleted = true
         )
 
         mockAddData(
             type = Type.COUNTRY_HOUR,
             location = "DE".loc,
-            day = "2020-09-02".day,
-            hour = "21".hour,
+            day = "2020-09-03".day,
+            hour = "10".hour,
             isCompleted = true
         )
         mockAddData(
             type = Type.COUNTRY_HOUR,
             location = "NL".loc,
-            day = "2020-09-02".day,
-            hour = "21".hour,
+            day = "2020-09-03".day,
+            hour = "10".hour,
             isCompleted = true
         )
 
@@ -601,27 +601,27 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "23".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "22".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
 
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "23".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "22".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
         }
         coVerify(exactly = 4) {
