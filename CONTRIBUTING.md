@@ -50,7 +50,7 @@ The following rule governs documentation contributions:
 
 ## Pull Request Checklist
 
-* Branch from the dev branch and ensure it is up to date with the current dev branch before submitting your pull request. If it doesn't merge cleanly with dev, you may be asked to resolve the conflicts. Pull requests to master will be closed.
+* Branch from the master branch and, if needed, rebase to the current master branch before submitting your pull request. If it doesn't merge cleanly with master, you may be asked to rebase your changes.
 
 * Commits should be as small as possible while ensuring that each commit is correct independently (i.e., each commit should compile and pass tests).
 
