@@ -8,6 +8,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.crash.CrashReportDao
+import de.rki.coronawarnapp.crash.CrashReportEntity
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyEntity
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
@@ -21,7 +22,7 @@ import net.sqlcipher.database.SupportFactory
 import java.io.File
 
 @Database(
-    entities = [ExposureSummaryEntity::class, KeyCacheLegacyEntity::class, TracingIntervalEntity::class],
+    entities = [ExposureSummaryEntity::class, KeyCacheLegacyEntity::class, TracingIntervalEntity::class, CrashReportEntity::class],
     version = 1,
     exportSchema = true
 )
