@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.test.tasks.testtask
 
 import de.rki.coronawarnapp.task.Task
-import de.rki.coronawarnapp.task.TaskCancelationException
+import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -25,7 +25,7 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
         arguments as Arguments
         runSafely(arguments).also {
             if (isCanceled) {
-                throw TaskCancelationException()
+                throw TaskCancellationException()
             }
         }
     } finally {

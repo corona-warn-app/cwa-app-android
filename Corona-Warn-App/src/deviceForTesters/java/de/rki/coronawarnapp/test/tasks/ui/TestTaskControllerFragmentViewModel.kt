@@ -58,7 +58,7 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
                 val createdAt = it.createdAt.toString()
 
                 val resultType = when {
-                    it.state == TaskState.State.PENDING -> "Pending"
+                    it.executionState == TaskState.ExecutionState.PENDING -> "Pending"
                     it.isActive -> "Running"
                     else -> "UNKNOWN"
                 }

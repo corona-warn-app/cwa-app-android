@@ -35,7 +35,7 @@ class TaskStateTest : BaseTest() {
             deferred = deferred,
             task = mockk()
         )
-        state.state shouldBe TaskState.State.PENDING
+        state.executionState shouldBe TaskState.ExecutionState.PENDING
 
         state.isActive shouldBe true
         state.isFinished shouldBe false
@@ -56,7 +56,7 @@ class TaskStateTest : BaseTest() {
             task = mockk()
         )
 
-        state.state shouldBe TaskState.State.RUNNING
+        state.executionState shouldBe TaskState.ExecutionState.RUNNING
 
         state.isActive shouldBe true
         state.isFinished shouldBe false
@@ -80,7 +80,7 @@ class TaskStateTest : BaseTest() {
             task = mockk()
         )
 
-        state.state shouldBe TaskState.State.FINISHED
+        state.executionState shouldBe TaskState.ExecutionState.FINISHED
 
         state.isActive shouldBe false
         state.isFinished shouldBe true
@@ -104,7 +104,7 @@ class TaskStateTest : BaseTest() {
             task = mockk()
         )
 
-        state.state shouldBe TaskState.State.FINISHED
+        state.executionState shouldBe TaskState.ExecutionState.FINISHED
 
         state.isActive shouldBe false
         state.isFinished shouldBe true
@@ -128,7 +128,7 @@ class TaskStateTest : BaseTest() {
             task = mockk()
         )
 
-        state.state shouldBe TaskState.State.FINISHED
+        state.executionState shouldBe TaskState.ExecutionState.FINISHED
 
         state.isActive shouldBe false
         state.isFinished shouldBe true

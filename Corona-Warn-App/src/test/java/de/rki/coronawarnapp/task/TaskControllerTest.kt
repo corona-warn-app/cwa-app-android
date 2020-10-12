@@ -124,7 +124,7 @@ class TaskControllerTest : BaseIOTest() {
 
         val infoRunning = instance.tasks.first().single()
         infoRunning.apply {
-            taskState.state shouldBe TaskState.State.RUNNING
+            taskState.executionState shouldBe TaskState.ExecutionState.RUNNING
             taskState.startedAt!!.isAfter(taskState.createdAt) shouldBe true
 
             taskState.isActive shouldBe true
@@ -138,7 +138,7 @@ class TaskControllerTest : BaseIOTest() {
         this.advanceUntilIdle()
 
         val infoFinished = instance.tasks
-            .first { it.single().taskState.state == TaskState.State.FINISHED }
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
             .single()
 
         arguments.path.exists() shouldBe true
@@ -193,7 +193,7 @@ class TaskControllerTest : BaseIOTest() {
         this.advanceUntilIdle()
 
         val infoFinished = instance.tasks
-            .first { it.single().taskState.state == TaskState.State.FINISHED }
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
             .single()
 
         infoFinished.apply {
@@ -226,10 +226,10 @@ class TaskControllerTest : BaseIOTest() {
         instance.cancel(request.id)
 
         val infoFinished = instance.tasks
-            .first { it.single().taskState.state == TaskState.State.FINISHED }
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
             .single()
 
-        infoFinished.taskState.error shouldBe instanceOf(TaskCancelationException::class)
+        infoFinished.taskState.error shouldBe instanceOf(TaskCancellationException::class)
 
         instance.close()
     }
@@ -253,20 +253,20 @@ class TaskControllerTest : BaseIOTest() {
         instance.submit(request2)
 
         val infoPending = instance.tasks.first { emission ->
-            emission.any { it.taskState.state == TaskState.State.PENDING }
+            emission.any { it.taskState.executionState == TaskState.ExecutionState.PENDING }
         }
         infoPending.size shouldBe 2
         infoPending.single { it.taskState.request == request1 }.apply {
-            taskState.state == TaskState.State.RUNNING
+            taskState.executionState == TaskState.ExecutionState.RUNNING
         }
         infoPending.single { it.taskState.request == request2 }.apply {
-            taskState.state == TaskState.State.PENDING
+            taskState.executionState == TaskState.ExecutionState.PENDING
         }
 
         this.advanceUntilIdle()
 
         val infoFinished = instance.tasks.first { emission ->
-            emission.any { it.taskState.state == TaskState.State.FINISHED }
+            emission.any { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
         }
         infoFinished.size shouldBe 2
 
@@ -309,7 +309,7 @@ class TaskControllerTest : BaseIOTest() {
         this.advanceUntilIdle()
 
         val infoFinished = instance.tasks.first { emission ->
-            emission.any { it.taskState.state == TaskState.State.FINISHED }
+            emission.any { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
         }
         infoFinished.size shouldBe 2
 
@@ -354,7 +354,7 @@ class TaskControllerTest : BaseIOTest() {
         this.advanceUntilIdle()
 
         val infoFinished = instance.tasks.first { emission ->
-            emission.any { it.taskState.state == TaskState.State.FINISHED }
+            emission.any { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
         }
         infoFinished.size shouldBe 2
 
@@ -397,7 +397,7 @@ class TaskControllerTest : BaseIOTest() {
         instance.submit(request)
 
         val infoFinished = instance.tasks
-            .first { it.single().taskState.state == TaskState.State.FINISHED }
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
             .single()
 
         infoFinished.apply {

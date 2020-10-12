@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.task.example
 
 import de.rki.coronawarnapp.task.Task
-import de.rki.coronawarnapp.task.TaskCancelationException
+import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -40,7 +40,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         internalProgress.close()
 
         if (isCanceled) {
-            throw TaskCancelationException()
+            throw TaskCancellationException()
         } else {
             return Result(arguments.path.length())
         }

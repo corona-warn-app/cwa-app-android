@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.task
 
-import de.rki.coronawarnapp.task.TaskState.State
+import de.rki.coronawarnapp.task.TaskState.ExecutionState
 import kotlinx.coroutines.Deferred
 import org.joda.time.Instant
 import java.util.UUID
@@ -22,10 +22,10 @@ internal data class InternalTaskState(
     override val type: KClass<out Task<*, *>>
         get() = task::class
 
-    override val state: State
+    override val executionState: ExecutionState
         get() = when {
-            completedAt != null -> State.FINISHED
-            startedAt != null -> State.RUNNING
-            else -> State.PENDING
+            completedAt != null -> ExecutionState.FINISHED
+            startedAt != null -> ExecutionState.RUNNING
+            else -> ExecutionState.PENDING
         }
 }

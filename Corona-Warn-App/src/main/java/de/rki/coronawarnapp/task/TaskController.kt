@@ -75,7 +75,7 @@ class TaskController @Inject constructor(
         } ?: throw IllegalArgumentException("No task found for request ID $requestId")
 
         Timber.tag(TAG).w("Manually canceling %s", taskState)
-        taskState.deferred.cancel(cause = TaskCancelationException())
+        taskState.deferred.cancel(cause = TaskCancellationException())
     }
 
     private suspend fun initTaskData(newRequest: TaskRequest) {
@@ -120,7 +120,7 @@ class TaskController @Inject constructor(
 
         // Procress all unprocessed finished tasks
         values.toList()
-            .filter { it.deferred.isCompleted && it.state != TaskState.State.FINISHED }
+            .filter { it.deferred.isCompleted && it.executionState != TaskState.ExecutionState.FINISHED }
             .forEach { data ->
                 val error = data.deferred.getCompletionExceptionOrNull()
                 val result = if (error == null) {
@@ -140,13 +140,13 @@ class TaskController @Inject constructor(
 
         // Start new tasks
         values.toList()
-            .filter { it.state == TaskState.State.PENDING }
+            .filter { it.executionState == TaskState.ExecutionState.PENDING }
             .forEach { data ->
                 Timber.tag(TAG).d("Checking pending task: %s", data)
 
                 val siblingTasks = values.filter {
                     it.type == data.type &&
-                        it.state == TaskState.State.RUNNING &&
+                        it.executionState == TaskState.ExecutionState.RUNNING &&
                         it.id != data.id
                 }
                 Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)

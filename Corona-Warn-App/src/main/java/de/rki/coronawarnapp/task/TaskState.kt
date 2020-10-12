@@ -10,11 +10,11 @@ interface TaskState {
     val completedAt: Instant?
     val error: Throwable?
     val result: Task.Result?
-    val state: State
+    val executionState: ExecutionState
     val type: KClass<out Task<*, *>>
 
     val isFinished: Boolean
-        get() = state == State.FINISHED
+        get() = executionState == ExecutionState.FINISHED
 
     val isFailed: Boolean
         get() = isFinished && error != null
@@ -39,7 +39,7 @@ interface TaskState {
             }
         }
 
-    enum class State {
+    enum class ExecutionState {
         PENDING,
         RUNNING,
         FINISHED
