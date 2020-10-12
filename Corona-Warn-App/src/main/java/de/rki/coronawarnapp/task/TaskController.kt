@@ -176,6 +176,10 @@ class TaskController @Inject constructor(
             Timber.tag(TAG).d("Task ended (type=%s, id=%s)", type, id)
             taskScope.launch { processMap() }
         }
+        task.progress.onEach {
+            Timber.tag(TAG).v("$task progress: $it")
+        }.launchIn(taskScope)
+
         deferred.start()
         return copy(startedAt = timeStamper.nowUTC).also {
             Timber.tag(TAG).i("Starting new task: %s", it)

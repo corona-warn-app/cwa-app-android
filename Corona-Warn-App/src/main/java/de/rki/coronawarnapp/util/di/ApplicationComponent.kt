@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.task.TaskModule
+import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
 import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
@@ -57,7 +58,8 @@ import javax.inject.Singleton
         SubmissionModule::class,
         VerificationModule::class,
         PlaybookModule::class,
-        TaskModule::class
+        TaskModule::class,
+        DeviceForTestersModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
