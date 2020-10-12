@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragmentModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
 
 @Module(
@@ -30,4 +32,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTanModule::class])
     abstract fun submissionTanScreen(): SubmissionTanFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionDispatcherModule::class])
+    abstract fun submissionDispatcherScreen(): SubmissionDispatcherFragment
 }
