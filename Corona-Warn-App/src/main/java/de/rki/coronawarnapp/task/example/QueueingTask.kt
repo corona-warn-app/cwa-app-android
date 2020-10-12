@@ -25,7 +25,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         Timber.d("Running with arguments=%s", arguments)
         arguments as Arguments
 
-        arguments.path.parentFile.mkdirs()
+        arguments.path.parentFile!!.mkdirs()
 
         for (it in arguments.values) {
             if (isCanceled) break
@@ -66,7 +66,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
     ) : TaskFactory.Config
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<QueueingTask>,
+        private val taskByDagger: Provider<QueueingTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
         override val config: TaskFactory.Config = Config()

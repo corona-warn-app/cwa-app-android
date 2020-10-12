@@ -145,9 +145,9 @@ class TaskController @Inject constructor(
                 Timber.tag(TAG).d("Checking pending task: %s", data)
 
                 val siblingTasks = values.filter {
-                    it.type == data.type
-                        && it.state == TaskState.State.RUNNING
-                        && it.id != data.id
+                    it.type == data.type &&
+                        it.state == TaskState.State.RUNNING &&
+                        it.id != data.id
                 }
                 Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)
                 Timber.tag(TAG).v(
