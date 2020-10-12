@@ -3,8 +3,11 @@ package de.rki.coronawarnapp.crash
 import android.os.Build
 import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CrashReportRepository(private val crashReportDao: CrashReportDao) {
+@Singleton
+class CrashReportRepository @Inject constructor(private val crashReportDao: CrashReportDao) {
 
     val allCrashReports = crashReportDao.getAllCrashReports()
 
