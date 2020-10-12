@@ -7,6 +7,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import de.rki.coronawarnapp.crash.CrashReportDao
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyEntity
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
@@ -30,6 +31,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun exposureSummaryDao(): ExposureSummaryDao
     abstract fun dateDao(): KeyCacheLegacyDao
     abstract fun tracingIntervalDao(): TracingIntervalDao
+    abstract fun crashReportDao(): CrashReportDao
 
     companion object {
         @Volatile
