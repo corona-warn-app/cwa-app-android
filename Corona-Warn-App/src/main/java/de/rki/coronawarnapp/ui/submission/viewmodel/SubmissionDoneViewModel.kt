@@ -19,5 +19,5 @@ class SubmissionDoneViewModel @AssistedInject constructor() : CWAViewModel() {
     }
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionContactViewModel>
+    interface Factory : SimpleCWAViewModelFactory<SubmissionDoneViewModel>
 }
