@@ -51,6 +51,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         isCanceled = true
     }
 
+    @Suppress("MagicNumber")
     data class Arguments(
         val path: File,
         val values: List<String> = (1..10).map { UUID.randomUUID().toString() },
@@ -62,7 +63,9 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
     ) : Task.Result
 
     data class Config(
-        override val collisionBehavior: TaskFactory.Config.CollisionBehavior = TaskFactory.Config.CollisionBehavior.ENQUEUE
+        override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
+            TaskFactory.Config.CollisionBehavior.ENQUEUE
+
     ) : TaskFactory.Config
 
     class Factory @Inject constructor(
