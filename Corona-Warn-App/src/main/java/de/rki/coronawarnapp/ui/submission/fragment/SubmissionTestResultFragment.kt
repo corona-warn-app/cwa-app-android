@@ -109,10 +109,10 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
         viewModel.navigateWithoutSymptoms.observe2(this) {
-             findNavController().doNavigate(
-                 SubmissionTestResultFragmentDirections
-                     .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-             )
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+            )
         }
 
         viewModel.navigateTestRemoved.observe2(this) {

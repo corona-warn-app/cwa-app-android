@@ -31,12 +31,12 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
 
         viewModel.navigateBack.observe2(this) {
             findNavController().doNavigate(
-               SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
-           )
+                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+            )
         }
 
         viewModel.navigateToMain.observe2(this) {
-             findNavController().doNavigate(
+            findNavController().doNavigate(
                 SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
             )
         }
