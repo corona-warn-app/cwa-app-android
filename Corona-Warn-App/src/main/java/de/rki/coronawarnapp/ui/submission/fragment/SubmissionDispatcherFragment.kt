@@ -63,7 +63,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
     private fun privacyPermissionIsGranted() {
         findNavController().doNavigate(
-            SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
+            SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
         )
     }
 }
