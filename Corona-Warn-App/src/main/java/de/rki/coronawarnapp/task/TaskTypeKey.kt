@@ -6,4 +6,4 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MapKey
-internal annotation class TaskTypeKey(val value: KClass<out TaskRequest>)
+internal annotation class TaskTypeKey(val value: KClass<out Task<*, *>>)

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.task
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.CoroutineScope
@@ -24,48 +25,62 @@ import javax.inject.Singleton
 
 @Singleton
 class TaskController @Inject constructor(
-    private val taskFactories: Map<Class<out TaskRequest>, @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>,
+    private val taskFactories: Map<
+        @JvmSuppressWildcards Class<out Task<*, *>>,
+        @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>,
     @TaskCoroutineScope private val taskScope: CoroutineScope,
     private val timeStamper: TimeStamper
 ) {
 
     private val mutex = Mutex()
     private val taskQueue = Channel<TaskRequest>(Channel.UNLIMITED)
-    private val internalTaskData = MutableStateFlow<Map<UUID, InternalTaskData>>(
+    private val internalTaskData = MutableStateFlow<Map<UUID, InternalTaskState>>(
         emptyMap()
     )
-    val tasks: Flow<Map<TaskData, Flow<Task.Progress>>> = internalTaskData
+
+    private val submissionProcessor = taskQueue
+        .receiveAsFlow()
+        .onStart { Timber.tag(TAG).v("Listening to task request queue.") }
+        .onEach { initTaskData(it) }
+        .onCompletion { Timber.tag(TAG).w("Stopped listening to request queue. Why?") }
+        .launchIn(taskScope)
+
+    val tasks: Flow<List<TaskInfo>> = internalTaskData
         .map { it.values }
         .map { tasks ->
-            tasks.map { it to it.task.progress }.toMap()
+            tasks.map {
+                TaskInfo(it, it.task.progress)
+            }
         }
 
     init {
         Timber.tag(TAG).d("We have factories for %s", taskFactories.keys)
-
-        taskQueue
-            .receiveAsFlow()
-            .onStart { Timber.tag(TAG).v("Listening to task request queue.") }
-            .onCompletion { Timber.tag(TAG).w("Stopped listening to request queue. Why?") }
-            .onEach { initTaskData(it) }
-            .launchIn(taskScope)
     }
 
     /**
      * Don't re-use taskrequests, create new requests for each submission.
      * They contain unique IDs.
      */
-    fun submitTask(request: TaskRequest) {
-        if (!taskFactories.containsKey(request::class.java)) {
-            throw MissingTaskFactory(request::class)
+    fun submit(request: TaskRequest) {
+        if (!taskFactories.containsKey(request.type.java)) {
+            throw MissingTaskFactoryException(request::class)
         }
         Timber.tag(TAG).i("Task submitted: %s", request)
         taskQueue.offer(request)
     }
 
+    suspend fun cancel(requestId: UUID) = internalTaskData.updateSafely {
+        val taskState = values.singleOrNull {
+            it.request.id == requestId
+        } ?: throw IllegalArgumentException("No task found for request ID $requestId")
+
+        Timber.tag(TAG).w("Manually canceling %s", taskState)
+        taskState.deferred.cancel(cause = TaskCancelationException())
+    }
+
     private suspend fun initTaskData(newRequest: TaskRequest) {
         Timber.tag(TAG).d("Processing new task request: %s", newRequest)
-        val taskFactory = taskFactories[newRequest::class.java]
+        val taskFactory = taskFactories[newRequest.type.java]
         requireNotNull(taskFactory) { "No factory available for $newRequest" }
 
         Timber.tag(TAG).v("Initiating task data for request: %s", newRequest)
@@ -76,7 +91,7 @@ class TaskController @Inject constructor(
             start = CoroutineStart.LAZY
         ) { task.run(newRequest.arguments) }
 
-        val activeTask = InternalTaskData(
+        val activeTask = InternalTaskState(
             request = newRequest,
             createdAt = timeStamper.nowUTC,
             config = taskConfig,
@@ -105,7 +120,7 @@ class TaskController @Inject constructor(
 
         // Procress all unprocessed finished tasks
         values.toList()
-            .filter { it.deferred.isCompleted && it.state != TaskData.State.FINISHED }
+            .filter { it.deferred.isCompleted && it.state != TaskState.State.FINISHED }
             .forEach { data ->
                 val error = data.deferred.getCompletionExceptionOrNull()
                 val result = if (error == null) {
@@ -125,13 +140,13 @@ class TaskController @Inject constructor(
 
         // Start new tasks
         values.toList()
-            .filter { it.state == TaskData.State.PENDING }
+            .filter { it.state == TaskState.State.PENDING }
             .forEach { data ->
                 Timber.tag(TAG).d("Checking pending task: %s", data)
 
                 val siblingTasks = values.filter {
                     it.type == data.type
-                        && it.state == TaskData.State.RUNNING
+                        && it.state == TaskState.State.RUNNING
                         && it.id != data.id
                 }
                 Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)
@@ -145,7 +160,7 @@ class TaskController @Inject constructor(
                         this[data.id] = data.toRunningState()
                     }
                     data.config.collisionBehavior == CollisionBehavior.SKIP_IF_ALREADY_RUNNING -> {
-
+                        this[data.id] = data.toSkippedState()
                     }
                     data.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
                         Timber.tag(TAG).d("Postponing task %s", data)
@@ -156,7 +171,7 @@ class TaskController @Inject constructor(
         Timber.tag(TAG).v("Tasks after processing: %s", this.values)
     }
 
-    private fun InternalTaskData.toRunningState(): InternalTaskData {
+    private fun InternalTaskState.toRunningState(): InternalTaskState {
         deferred.invokeOnCompletion {
             Timber.tag(TAG).d("Task ended (type=%s, id=%s)", type, id)
             taskScope.launch { processMap() }
@@ -167,12 +182,31 @@ class TaskController @Inject constructor(
         }
     }
 
+    private fun InternalTaskState.toSkippedState(): InternalTaskState {
+        Timber.tag(TAG).d("Task was skipped (type=%s, id=%s)", type, id)
+        return copy(
+            startedAt = timeStamper.nowUTC,
+            completedAt = timeStamper.nowUTC
+        ).also {
+            Timber.tag(TAG).i("Starting new task: %s", it)
+        }
+    }
+
     private suspend fun <K, V> MutableStateFlow<Map<K, V>>.updateSafely(
         update: suspend MutableMap<K, V>.() -> Unit
     ) = mutex.withLock {
         val mutableMap = value.toMutableMap()
         update(mutableMap)
         value = mutableMap
+    }
+
+    /**
+     * Don't call this! Only used for testing.
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun close() {
+        taskQueue.close()
+        submissionProcessor.join()
     }
 
     companion object {

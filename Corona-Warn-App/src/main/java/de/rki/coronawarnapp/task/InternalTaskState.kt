@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.task
 
-import de.rki.coronawarnapp.task.TaskData.State
+import de.rki.coronawarnapp.task.TaskState.State
 import kotlinx.coroutines.Deferred
 import org.joda.time.Instant
 import java.util.UUID
 import kotlin.reflect.KClass
 
-internal data class InternalTaskData(
+internal data class InternalTaskState(
     internal val id: UUID = UUID.randomUUID(),
     override val request: TaskRequest,
     override val createdAt: Instant,
@@ -17,15 +17,15 @@ internal data class InternalTaskData(
     internal val config: TaskFactory.Config,
     internal val deferred: Deferred<Task.Result>,
     internal val task: Task<*, *>
-) : TaskData {
+) : TaskState {
+
+    override val type: KClass<out Task<*, *>>
+        get() = task::class
 
     override val state: State
         get() = when {
             completedAt != null -> State.FINISHED
-            deferred.isActive -> State.RUNNING
+            startedAt != null -> State.RUNNING
             else -> State.PENDING
         }
-
-    override val type: KClass<out TaskRequest>
-        get() = request::class
 }

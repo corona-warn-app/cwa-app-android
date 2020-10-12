@@ -12,8 +12,8 @@ abstract class ExampleTaskModule {
 
     @Binds
     @IntoMap
-    @TaskTypeKey(ExampleTaskRequest::class)
+    @TaskTypeKey(QueueingTask::class)
     abstract fun exampleTaskFactory(
-        factory: ExampleTask.Factory
+        factory: QueueingTask.Factory
     ): TaskFactory<out Task.Progress, out Task.Result>
 }
