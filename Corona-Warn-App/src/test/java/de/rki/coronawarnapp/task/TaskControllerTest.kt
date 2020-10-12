@@ -17,6 +17,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
+import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -43,15 +44,15 @@ class TaskControllerTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
 
+    private val queueingFactory = spyk(QueueingTask.Factory { QueueingTask() })
+    private val skippingFactory = spyk(SkippingTask.Factory { SkippingTask() })
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        val factory = QueueingTask.Factory { QueueingTask() }
-        taskFactoryMap[QueueingTask::class.java] = spyk(factory)
-
-        val factory2 = SkippingTask.Factory { SkippingTask() }
-        taskFactoryMap[SkippingTask::class.java] = spyk(factory2)
+        taskFactoryMap[QueueingTask::class.java] = queueingFactory
+        taskFactoryMap[SkippingTask::class.java] = skippingFactory
 
         every { timeStamper.nowUTC } answers {
             Instant.now()
@@ -160,6 +161,11 @@ class TaskControllerTest : BaseIOTest() {
             (taskState.result as QueueingTask.Result).apply {
                 writtenBytes shouldBe arguments.path.length()
             }
+        }
+
+        verifySequence {
+            queueingFactory.config
+            queueingFactory.taskProvider
         }
 
         instance.close()
@@ -362,6 +368,13 @@ class TaskControllerTest : BaseIOTest() {
         }
 
         arguments.path.length() shouldBe 720L
+
+        verifySequence {
+            queueingFactory.config
+            queueingFactory.taskProvider
+            skippingFactory.config
+            skippingFactory.taskProvider
+        }
 
         instance.close()
     }
