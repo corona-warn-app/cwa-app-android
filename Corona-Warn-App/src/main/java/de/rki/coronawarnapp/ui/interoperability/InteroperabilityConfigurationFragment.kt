@@ -30,7 +30,6 @@ class InteroperabilityConfigurationFragment :
     private val networkCallback = object : ConnectivityHelper.NetworkCallback() {
         override fun onNetworkAvailable() {
             vm.getAllCountries()
-            unregisterNetworkCallback()
         }
 
         override fun onNetworkUnavailable() {
@@ -91,5 +90,12 @@ class InteroperabilityConfigurationFragment :
     override fun onDestroy() {
         super.onDestroy()
         unregisterNetworkCallback()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
+            registerNetworkCallback()
+        }
     }
 }
