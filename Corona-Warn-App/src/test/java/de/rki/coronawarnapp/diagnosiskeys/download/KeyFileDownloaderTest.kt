@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -20,7 +19,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -29,19 +27,18 @@ import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseIOTest
-import testhelpers.extensions.CoroutinesTestExtension
-import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.TestDispatcherProvider
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import kotlin.time.ExperimentalTime
 
 /**
  * CachedKeyFileHolder test.
  */
+@ExperimentalTime
 @ExperimentalCoroutinesApi
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class KeyFileDownloaderTest : BaseIOTest() {
 
     @MockK
@@ -68,8 +65,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        mockkObject(CWADebug)
-        every { CWADebug.isDebugBuildOrMode } returns false
         every { settings.isLast3HourModeEnabled } returns false
 
         coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
@@ -114,8 +109,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 locationCode = arg(0),
                 day = arg(1),
                 hour = arg(2),
-                saveTo = arg(3),
-                precondition = arg(4)
+                saveTo = arg(3)
             )
         }
 
@@ -129,11 +123,10 @@ class KeyFileDownloaderTest : BaseIOTest() {
             val type = arg<CachedKeyInfo.Type>(0)
             keyRepoData.values.filter { it.type == type }.map { it to File(testDir, it.id) }
         }
-        coEvery { keyCache.getAllCachedKeys() } returns keyRepoData.values.map {
-            it to File(
-                testDir,
-                it.id
-            )
+        coEvery { keyCache.getAllCachedKeys() } answers {
+            keyRepoData.values.map {
+                it to File(testDir, it.id)
+            }
         }
         coEvery { keyCache.delete(any()) } answers {
             val keyInfos = arg<List<CachedKeyInfo>>(0)
@@ -174,7 +167,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         checksum: String
     ) {
         keyRepoData[keyInfo.id] = keyInfo.copy(
-            isDownloadComplete = checksum != null, checksumMD5 = checksum
+            isDownloadComplete = true, checksumMD5 = checksum
         )
     }
 
@@ -183,7 +176,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
         day: LocalDate,
         hour: LocalTime? = null,
         saveTo: File,
-        precondition: suspend (DownloadInfo) -> Boolean = { true },
         checksumServerMD5: String? = "serverMD5",
         checksumLocalMD5: String? = "localMD5"
     ): DownloadInfo {
@@ -220,7 +212,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyServer = diagnosisKeyServer,
             keyCache = keyCache,
             legacyKeyCache = legacyMigration,
-            settings = settings
+            settings = settings,
+            dispatcherProvider = TestDispatcherProvider
         )
         Timber.i("createDownloader(): %s", downloader)
         return downloader
@@ -236,7 +229,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `wanted country list is empty, hour mode`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -262,7 +254,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `fetching is aborted in hour if not enough free storage`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         coEvery { deviceStorage.requireSpacePrivateStorage(67584L) } throws InsufficientStorageException(
@@ -437,8 +428,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 locationCode = arg(0),
                 day = arg(1),
                 hour = arg(2),
-                saveTo = arg(3),
-                precondition = arg(4)
+                saveTo = arg(3)
             )
         }
 
@@ -456,7 +446,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch without prior data`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         val downloader = createDownloader()
@@ -516,7 +505,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch with prior data`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         mockAddData(
@@ -583,7 +571,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch deletes stale data`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         val (staleKey1, _) = mockAddData(
@@ -666,7 +653,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch skips single download failures`() {
-        every { CWADebug.isDebugBuildOrMode } returns true
         every { settings.isLast3HourModeEnabled } returns true
 
         var dlCounter = 0
@@ -677,8 +663,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 locationCode = arg(0),
                 day = arg(1),
                 hour = arg(2),
-                saveTo = arg(3),
-                precondition = arg(4)
+                saveTo = arg(3)
             )
         }
 
@@ -792,7 +777,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 day = arg(1),
                 hour = arg(2),
                 saveTo = arg(3),
-                precondition = arg(4),
                 checksumServerMD5 = null
             )
         }

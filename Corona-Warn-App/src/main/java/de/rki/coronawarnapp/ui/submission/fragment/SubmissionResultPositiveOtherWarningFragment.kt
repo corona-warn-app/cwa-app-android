@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.R
@@ -15,6 +13,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionPositiveOtherWarningBi
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
@@ -34,15 +33,7 @@ class SubmissionResultPositiveOtherWarningFragment :
 
     private val binding: FragmentSubmissionPositiveOtherWarningBinding by viewBindingLazy()
     private lateinit var internalExposureNotificationPermissionHelper:
-            InternalExposureNotificationPermissionHelper
-
-    // Overrides default back behaviour
-    private val backCallback: OnBackPressedCallback =
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                handleSubmissionCancellation()
-            }
-        }
+        InternalExposureNotificationPermissionHelper
 
     override fun onResume() {
         super.onResume()
@@ -50,7 +41,7 @@ class SubmissionResultPositiveOtherWarningFragment :
         tracingViewModel.refreshIsTracingEnabled()
     }
 
-    private fun buildErrorDialog(exception: Exception): DialogHelper.DialogInstance {
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
@@ -70,19 +61,7 @@ class SubmissionResultPositiveOtherWarningFragment :
                 true,
                 ::navigateToSubmissionResultFragment
             )
-            is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                getString(
-                    R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
-                ),
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToSubmissionResultFragment
-            )
-            is CwaClientError -> DialogHelper.DialogInstance(
+            is CwaServerError, is CwaClientError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
@@ -112,7 +91,6 @@ class SubmissionResultPositiveOtherWarningFragment :
 
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         setButtonOnClickListener()
 
@@ -120,7 +98,7 @@ class SubmissionResultPositiveOtherWarningFragment :
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.submissionState.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.submissionState.observe(viewLifecycleOwner, {
             if (it == ApiRequestState.SUCCESS) {
                 navigateToSubmissionDoneFragment()
             }
@@ -132,28 +110,8 @@ class SubmissionResultPositiveOtherWarningFragment :
             initiateWarningOthers()
         }
         binding.submissionPositiveOtherWarningHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            handleSubmissionCancellation()
+            findNavController().popBackStack()
         }
-    }
-
-    /**
-     * Opens a Dialog that warns user
-     * when they're about to cancel the submission flow
-     * @see DialogHelper
-     * @see navigateToSubmissionResultFragment
-     */
-    fun handleSubmissionCancellation() {
-        DialogHelper.showDialog(
-            DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_confirm_cancellation_title,
-                R.string.submission_error_dialog_confirm_cancellation_body,
-                R.string.submission_error_dialog_confirm_cancellation_button_positive,
-                R.string.submission_error_dialog_confirm_cancellation_button_negative,
-                true,
-                ::navigateToSubmissionResultFragment
-            )
-        )
     }
 
     private fun navigateToSubmissionResultFragment() =
@@ -205,5 +163,6 @@ class SubmissionResultPositiveOtherWarningFragment :
     }
 
     override fun onFailure(exception: Exception?) {
+        // NOOP
     }
 }

@@ -16,5 +16,6 @@ class AndroidModule {
 
     @Provides
     @Singleton
+    @AppContext
     fun context(app: Application): Context = app.applicationContext
 }

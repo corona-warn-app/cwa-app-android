@@ -5,6 +5,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class SettingsRepository @Inject constructor(
-    private val context: Context,
+    @AppContext private val context: Context,
     private val backgroundPrioritization: BackgroundPrioritization
 ) {
 

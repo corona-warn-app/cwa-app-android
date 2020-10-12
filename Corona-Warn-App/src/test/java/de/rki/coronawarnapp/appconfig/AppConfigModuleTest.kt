@@ -44,5 +44,4 @@ class AppConfigModuleTest : BaseIOTest() {
             createModule()
         }
     }
-
 }

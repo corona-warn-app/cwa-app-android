@@ -3,29 +3,29 @@ package de.rki.coronawarnapp.exception.http
 import de.rki.coronawarnapp.exception.reporting.ErrorCodes
 import de.rki.coronawarnapp.exception.reporting.ReportedIOException
 
-open class CwaWebException(statusCode: Int) : ReportedIOException(
+open class CwaWebException(val statusCode: Int) : ReportedIOException(
     ErrorCodes.CWA_WEB_REQUEST_PROBLEM.code, "error during web request, http status $statusCode"
 )
 
-open class CwaServerError(val statusCode: Int) : CwaWebException(statusCode) {
+open class CwaServerError(statusCode: Int) : CwaWebException(statusCode) {
     init {
         if (statusCode !in 500..599)
             throw IllegalArgumentException("a server error has to have code 5xx")
     }
 }
 
-open class CwaClientError(val statusCode: Int) : CwaWebException(statusCode) {
+open class CwaClientError(statusCode: Int) : CwaWebException(statusCode) {
     init {
         if (statusCode !in 400..499)
             throw IllegalArgumentException("a client error has to have code 4xx")
     }
 }
 
-open class CwaSuccessResponseWithCodeMismatchNotSupportedError(val statusCode: Int) :
+open class CwaSuccessResponseWithCodeMismatchNotSupportedError(statusCode: Int) :
     CwaWebException(statusCode)
 
-open class CwaInformationalNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
-open class CwaRedirectNotSupportedError(val statusCode: Int) : CwaWebException(statusCode)
+open class CwaInformationalNotSupportedError(statusCode: Int) : CwaWebException(statusCode)
+open class CwaRedirectNotSupportedError(statusCode: Int) : CwaWebException(statusCode)
 
 class CwaUnknownHostException : CwaWebException(901)
 class BadRequestException : CwaClientError(400)

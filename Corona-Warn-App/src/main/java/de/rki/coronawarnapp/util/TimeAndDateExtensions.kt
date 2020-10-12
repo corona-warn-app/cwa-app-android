@@ -4,7 +4,9 @@ import android.content.Context
 import com.google.common.math.DoubleMath.roundToLong
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Days
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -75,4 +77,8 @@ object TimeAndDateExtensions {
         val millionSeconds = secondDate - firstDate
         return TimeUnit.MILLISECONDS.toDays(millionSeconds)
     }
+
+    fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
+
+    fun Instant.toLocalDate() = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 }

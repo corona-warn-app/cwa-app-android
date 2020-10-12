@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -41,7 +42,7 @@ import kotlin.coroutines.suspendCoroutine
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
-    private val context: Context, // App context
+    @AppContext private val context: Context, // App context
     private val enfClient: ENFClient,
     private val keyCacheRepository: KeyCacheRepository
 ) : CWAViewModel() {

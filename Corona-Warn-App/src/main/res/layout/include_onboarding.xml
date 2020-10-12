@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
 
         <variable
             name="illustration"
@@ -63,7 +62,7 @@
 
         <variable
             name="countryData"
-            type="java.util.List&lt;String&gt;" />
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
 
     </data>
 
@@ -79,13 +78,14 @@
                 android:id="@+id/onboarding_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@{FormatterAccessibilityHelper.formatImage(illustrationDescription)}"
+                bind:cwaContentDescription="@{illustrationDescription}"
                 android:focusable="true"
                 android:src="@{illustration}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_illustration_together" />
+                tools:src="@drawable/ic_illustration_together"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/onboarding_headline"

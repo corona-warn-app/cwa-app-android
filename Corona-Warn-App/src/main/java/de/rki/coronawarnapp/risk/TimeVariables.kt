@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.common.api.ApiException
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.roundUpMsToDays
 
@@ -99,20 +99,15 @@ object TimeVariables {
      * Delay in milliseconds for manual key retrieval process
      * Value for testing: 1 min =  1000 * 60 * 1
      * Value: 24 hours = 1000 * 60 * 60 * 24 milliseconds
+     *
+     * @return delay of key retrieval in milliseconds
      */
-    private val MANUAL_KEY_RETRIEVAL_DELAY =
-        if (BuildConfig.FLAVOR == "deviceForTesters") {
+    fun getManualKeyRetrievalDelay() =
+        if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
             MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES
         } else {
             MILISECONDS_IN_A_SECOND * SECONDS_IN_A_MINUTES * MINUTES_IN_AN_HOUR * HOURS_IN_AN_DAY
         }
-
-    /**
-     * Getter function for [MANUAL_KEY_RETRIEVAL_DELAY]
-     *
-     * @return delay of key retrieval in milliseconds
-     */
-    fun getManualKeyRetrievalDelay() = MANUAL_KEY_RETRIEVAL_DELAY
 
     /**
      * This is the maximum attenuation duration value for the risk level calculation
@@ -175,8 +170,8 @@ object TimeVariables {
      * @return in milliseconds
      */
     fun getTimeActiveTracingDuration(): Long = System.currentTimeMillis() -
-            (getInitialExposureTracingActivationTimestamp() ?: 0L) -
-            LocalData.totalNonActiveTracing()
+        (getInitialExposureTracingActivationTimestamp() ?: 0L) -
+        LocalData.totalNonActiveTracing()
 
     suspend fun getActiveTracingDaysInRetentionPeriod(): Long {
         // the active tracing time during the retention period - all non active tracing times
@@ -205,7 +200,8 @@ object TimeVariables {
         // the inactive intervals list to account for the time of inactivity between the last time
         // en was not active and now.
         if (enIsDisabled && lastNonActiveTracingTimestamp != null) {
-            val lastTimeTracingWasNotActivated = LocalData.lastNonActiveTracingTimestamp() ?: current
+            val lastTimeTracingWasNotActivated =
+                LocalData.lastNonActiveTracingTimestamp() ?: current
             inactiveTracingIntervals.add(Pair(lastTimeTracingWasNotActivated, current))
         }
         val inactiveTracingMS = inactiveTracingIntervals
