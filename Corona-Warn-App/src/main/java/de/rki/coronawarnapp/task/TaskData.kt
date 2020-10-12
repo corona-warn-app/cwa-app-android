@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.task
 
 import org.joda.time.Instant
-import java.util.UUID
 import kotlin.reflect.KClass
 
 interface TaskData {
-    val id: UUID
     val request: TaskRequest
     val createdAt: Instant
     val startedAt: Instant?

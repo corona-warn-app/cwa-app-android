@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -43,32 +45,39 @@ class TaskController @Inject constructor(
 
         taskQueue
             .receiveAsFlow()
-            .onEach {
-                Timber.tag(TAG).d("Processing new task request: %s", it)
-                initTaskData(it)
-            }
+            .onStart { Timber.tag(TAG).v("Listening to task request queue.") }
+            .onCompletion { Timber.tag(TAG).w("Stopped listening to request queue. Why?") }
+            .onEach { initTaskData(it) }
             .launchIn(taskScope)
     }
 
+    /**
+     * Don't re-use taskrequests, create new requests for each submission.
+     * They contain unique IDs.
+     */
     fun submitTask(request: TaskRequest) {
+        if (!taskFactories.containsKey(request::class.java)) {
+            throw MissingTaskFactory(request::class)
+        }
         Timber.tag(TAG).i("Task submitted: %s", request)
         taskQueue.offer(request)
     }
 
-    private suspend fun initTaskData(request: TaskRequest) {
-        val taskFactory = taskFactories[request::class.java]
-        requireNotNull(taskFactory) { "No factory available for $request" }
-        Timber.tag(TAG).v("Initiating task data for request: %s", request)
+    private suspend fun initTaskData(newRequest: TaskRequest) {
+        Timber.tag(TAG).d("Processing new task request: %s", newRequest)
+        val taskFactory = taskFactories[newRequest::class.java]
+        requireNotNull(taskFactory) { "No factory available for $newRequest" }
 
+        Timber.tag(TAG).v("Initiating task data for request: %s", newRequest)
         val taskConfig = taskFactory.config
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(
             start = CoroutineStart.LAZY
-        ) { task.run(request.arguments) }
+        ) { task.run(newRequest.arguments) }
 
         val activeTask = InternalTaskData(
-            request = request,
+            request = newRequest,
             createdAt = timeStamper.nowUTC,
             config = taskConfig,
             task = task,
@@ -76,8 +85,16 @@ class TaskController @Inject constructor(
         )
 
         internalTaskData.updateSafely {
-            put(activeTask.id, activeTask)
-            Timber.tag(TAG).d("New task data created: %s", activeTask)
+            val existingRequest = values.singleOrNull { it.request.id == newRequest.id }
+            if (existingRequest == null) {
+                Timber.tag(TAG).d("Added new pending task: %s", activeTask)
+                put(activeTask.id, activeTask)
+            } else {
+                Timber.tag(TAG).w(
+                    "TaskRequest was already used. Existing: %s\nNew request: %s",
+                    existingRequest, newRequest
+                )
+            }
         }
         taskScope.launch { processMap() }
     }

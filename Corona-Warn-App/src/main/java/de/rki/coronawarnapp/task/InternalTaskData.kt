@@ -7,7 +7,7 @@ import java.util.UUID
 import kotlin.reflect.KClass
 
 internal data class InternalTaskData(
-    override val id: UUID = UUID.randomUUID(),
+    internal val id: UUID = UUID.randomUUID(),
     override val request: TaskRequest,
     override val createdAt: Instant,
     override val startedAt: Instant? = null,
