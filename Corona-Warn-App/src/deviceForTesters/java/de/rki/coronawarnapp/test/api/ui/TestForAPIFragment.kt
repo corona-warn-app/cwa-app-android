@@ -135,8 +135,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         internalExposureNotificationPermissionHelper =
             InternalExposureNotificationPermissionHelper(this, this)
 
-        getExposureKeys()
-
         qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
@@ -222,6 +220,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         binding.apply {
             buttonApiTestStart.setOnClickListener { start() }
             buttonApiGetExposureKeys.setOnClickListener { getExposureKeys() }
+            buttonApiShareRandomIds.setOnClickListener { getExposureKeys() }
             buttonApiGetCheckExposure.setOnClickListener { checkExposure() }
 
             buttonApiScanQrCode.setOnClickListener {
