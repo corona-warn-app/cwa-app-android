@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBackgroundPriorityBinding
-import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -40,19 +39,12 @@ class SettingsBackgroundPriorityFragment :
     }
 
     private fun setButtonOnClickListener() {
-        val switch = binding.settingsSwitchRowBackgroundPriority.settingsSwitchRowSwitch
-        val switchRow = binding.settingsSwitchRowBackgroundPriority.settingsSwitchRow
+        val settingsRow = binding.settingsRowBackgroundPriority
 
         // enable background priority
-        setOf(switch, switchRow).forEach {
-            it.setOnClickListener {
-                val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
-
-                if (!isPriorityEnabled) {
-                    (requireActivity() as MainActivity).apply {
-                        startActivitySafely(powerManagement.disableBatteryOptimizationsIntent)
-                    }
-                }
+        settingsRow.setOnClickListener {
+            (requireActivity() as MainActivity).apply {
+                startActivity(powerManagement.toBatteryOptimizationSettingsIntent)
             }
         }
 
