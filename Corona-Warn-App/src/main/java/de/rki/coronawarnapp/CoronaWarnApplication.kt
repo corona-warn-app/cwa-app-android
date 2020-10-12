@@ -15,6 +15,7 @@ import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.crash.CrashReportTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -33,6 +34,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var component: ApplicationComponent
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    @Inject lateinit var crashReportTree: CrashReportTree
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     @Inject lateinit var watchdogService: WatchdogService
