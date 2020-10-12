@@ -14,18 +14,26 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result) {
+class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionTestResultViewModel by cwaViewModels { viewModelFactory }
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
     private val tracingViewModel: TracingViewModel by activityViewModels()
 
@@ -37,9 +45,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private val backCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().doNavigate(
-                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-                )
+             viewModel.onBackPressed()
             }
         }
 
@@ -94,6 +100,32 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
                 showRedeemedTokenWarningDialog()
             }
         })
+
+        viewModel.navigateWithSymptoms.observe2(this){
+            findNavController().doNavigate(
+              SubmissionTestResultFragmentDirections
+                  .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+          )
+        }
+
+        viewModel.navigateWithoutSymptoms.observe2(this){
+            findNavController().doNavigate(
+               SubmissionTestResultFragmentDirections
+                   .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+           )
+        }
+
+        viewModel.navigateTestRemoved.observe2(this){
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+            )
+        }
+
+        viewModel.navigateBack.observe2(this){
+            findNavController().doNavigate(
+                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+            )
+        }
     }
 
     private fun showRedeemedTokenWarningDialog() {
@@ -145,9 +177,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
         binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            viewModel.onBackPressed()
         }
     }
 
@@ -164,15 +194,9 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
         if (skipSymptomSubmission) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
+            viewModel.onContinueNoSymptomsPressed()
         } else {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-            )
+            viewModel.onContinuePressed()
         }
     }
 
@@ -185,9 +209,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
                 submissionViewModel.deregisterTestFromDevice()
-                findNavController().doNavigate(
-                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-                )
+                viewModel.onNavigateTestRemoved()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {

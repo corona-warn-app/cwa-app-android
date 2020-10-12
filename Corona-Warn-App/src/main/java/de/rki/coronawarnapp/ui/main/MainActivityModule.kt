@@ -9,8 +9,10 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragmentModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultModule
 
 @Module(
     includes = [
@@ -35,4 +37,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [SubmissionDispatcherModule::class])
     abstract fun submissionDispatcherScreen(): SubmissionDispatcherFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionTestResultModule::class])
+    abstract fun submissionTestResultScreen(): SubmissionTestResultFragment
 }

@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SubmissionDispatcherViewModel @AssistedInject constructor() : CWAViewModel() {
-    
+
     val navigateBack = SingleLiveEvent<Unit>()
     val navigateQRScan = SingleLiveEvent<Unit>()
     val navigateTAN = SingleLiveEvent<Unit>()
