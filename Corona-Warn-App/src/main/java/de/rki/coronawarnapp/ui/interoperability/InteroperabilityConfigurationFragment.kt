@@ -26,15 +26,27 @@ class InteroperabilityConfigurationFragment :
 
     private val binding: FragmentInteroperabilityConfigurationBinding by viewBindingLazy()
 
+    private var isNetworkCallbackRegistered = false
+    private val networkCallback = object : ConnectivityHelper.NetworkCallback() {
+        override fun onNetworkAvailable() {
+            vm.getAllCountries()
+            unregisterNetworkCallback()
+        }
+
+        override fun onNetworkUnavailable() {
+            // NOOP
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
-            vm.getAllCountries()
-        }
-
         vm.countryList.observe2(this) {
             binding.countryData = it
+        }
+
+        if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
+            registerNetworkCallback()
         }
 
         vm.saveInteroperabilityUsed()
@@ -51,16 +63,34 @@ class InteroperabilityConfigurationFragment :
 
         binding.interoperabilityConfigurationCountryList
             .noCountriesRiskdetailsInfoview.riskDetailsOpenSettingsButton.setOnClickListener {
-            val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-            } else {
-                Intent(Settings.ACTION_SETTINGS)
+                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+                } else {
+                    Intent(Settings.ACTION_SETTINGS)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
+    }
+
+    private fun registerNetworkCallback() {
+        context?.let {
+            ConnectivityHelper.registerNetworkStatusCallback(it, networkCallback)
+            isNetworkCallbackRegistered = true
+        }
+    }
+
+    private fun unregisterNetworkCallback() {
+        if (isNetworkCallbackRegistered) {
+            context?.let {
+                ConnectivityHelper.unregisterNetworkStatusCallback(it, networkCallback)
+                isNetworkCallbackRegistered = false
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        unregisterNetworkCallback()
     }
 }
+
