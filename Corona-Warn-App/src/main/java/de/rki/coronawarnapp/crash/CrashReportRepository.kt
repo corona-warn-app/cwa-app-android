@@ -12,13 +12,13 @@ class CrashReportRepository @Inject constructor(private val crashReportDao: Cras
     val allCrashReports = crashReportDao.getAllCrashReports()
 
     suspend fun createCrashReport(message: String, t: Throwable?, tag: String?) {
-        val deviceInfo = "${Build.MANUFACTURER} ${Build.MODEL} ${Build.DEVICE}"
+        val deviceInfo = "${Build.MANUFACTURER} ${Build.MODEL} (${Build.DEVICE})"
         val appVersionName = BuildConfig.VERSION_NAME
         val appVersionCode = BuildConfig.VERSION_CODE
         val apiLevel = Build.VERSION.SDK_INT
         val androidVersion = Build.VERSION.RELEASE
         // TODO: Save git commit it via gradle
-        val shortID = "fe9128f"
+        val shortID = BuildConfig.GIT_COMMIT_SHORT_HASH
         val stackTrace = Log.getStackTraceString(t)
 
         insertCrashReport(

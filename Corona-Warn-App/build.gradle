@@ -31,6 +31,17 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+def getHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    def result = stdout.toString().trim()
+    return result
+}
+
+
 android {
     ndkVersion "21.2.6472646"
     compileSdkVersion 29
@@ -49,6 +60,7 @@ android {
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
+        buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
 
         def devEnvironmentFile = file("../test_environments.json")
         if (devEnvironmentFile.exists()) {
