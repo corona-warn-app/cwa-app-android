@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
-
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
