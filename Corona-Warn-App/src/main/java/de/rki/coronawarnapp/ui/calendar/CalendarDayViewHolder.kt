@@ -39,7 +39,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         textView.contentDescription = day.date.toString(talkBackDateFormat)
 
         // If date is after today - then disable click listener
-        if (!day.date.isAfter(today)) {
+        if (!day.date.isAfter(today) && !day.date.isBefore(today.minusDays(21))) {
             textView.setOnClickListener { clickListener(day) }
         }
 
@@ -64,6 +64,11 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             day.date.isBefore(today) -> {
                 textView.setBackgroundResource(0)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary1))
+            }
+            // Past > 21 days
+            day.date.isBefore(today.minusDays(21)) -> {
+                textView.setBackgroundResource(0)
+                textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary3))
             }
         }
     }
