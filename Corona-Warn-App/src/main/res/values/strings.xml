@@ -823,6 +823,18 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Cancel"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">""</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">""</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">""</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">""</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">""</string>
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Position the QR code in the frame."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
