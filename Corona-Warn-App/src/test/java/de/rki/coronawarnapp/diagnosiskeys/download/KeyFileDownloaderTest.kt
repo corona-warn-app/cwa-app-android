@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.storage.AppSettings
@@ -52,7 +53,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     private lateinit var legacyMigration: LegacyKeyCacheMigration
 
     @MockK
-    private lateinit var diagnosisKeyServer: DiagnosisKeyServer
+    private lateinit var server: DiagnosisKeyServer
 
     @MockK
     private lateinit var deviceStorage: DeviceStorage
@@ -63,6 +64,10 @@ class KeyFileDownloaderTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val keyRepoData = mutableMapOf<String, CachedKeyInfo>()
 
+    private val String.loc get() = LocationCode(this)
+    private val String.day get() = LocalDate.parse(this)
+    private val String.hour get() = LocalTime.parse(this)
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -71,44 +76,38 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         every { settings.isLast3HourModeEnabled } returns false
 
-        coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
-            LocationCode("DE"),
-            LocationCode("NL")
-        )
+        coEvery { server.getCountryIndex() } returns listOf("DE".loc, "NL".loc)
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
             every { isSpaceAvailable } returns true
         }
 
-        coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(
-            LocationCode("DE"), LocationCode("NL")
-        )
-        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
-            LocalDate.parse("2020-09-01"), LocalDate.parse("2020-09-02")
+        coEvery { server.getDayIndex("DE".loc) } returns listOf(
+            "2020-09-01".day, "2020-09-02".day
         )
         coEvery {
-            diagnosisKeyServer.getHourIndex(LocationCode("DE"), LocalDate.parse("2020-09-01"))
-        } returns listOf(
-            LocalTime.parse("18"), LocalTime.parse("19"), LocalTime.parse("20")
+            server.getHourIndex("DE".loc, "2020-09-01".day)
+        } returns (0..23).map { "$it".hour }
+        coEvery {
+            server.getHourIndex("DE".loc, "2020-09-02".day)
+        } returns (0..23).map { "$it".hour }
+        coEvery {
+            server.getHourIndex("DE".loc, "2020-09-03".day)
+        } returns (0..12).map { "$it".hour }
+
+        coEvery { server.getDayIndex("NL".loc) } returns listOf(
+            "2020-09-01".day, "2020-09-02".day
         )
         coEvery {
-            diagnosisKeyServer.getHourIndex(LocationCode("DE"), LocalDate.parse("2020-09-02"))
-        } returns listOf(
-            LocalTime.parse("20"), LocalTime.parse("21")
-        )
-        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("NL")) } returns listOf(
-            LocalDate.parse("2020-09-02"), LocalDate.parse("2020-09-03")
-        )
+            server.getHourIndex("NL".loc, "2020-09-01".day)
+        } returns (0..23).map { "$it".hour }
         coEvery {
-            diagnosisKeyServer.getHourIndex(LocationCode("NL"), LocalDate.parse("2020-09-02"))
-        } returns listOf(
-            LocalTime.parse("20"), LocalTime.parse("21"), LocalTime.parse("22")
-        )
+            server.getHourIndex("NL".loc, "2020-09-02".day)
+        } returns (0..23).map { "$it".hour }
         coEvery {
-            diagnosisKeyServer.getHourIndex(LocationCode("NL"), LocalDate.parse("2020-09-03"))
-        } returns listOf(
-            LocalTime.parse("22"), LocalTime.parse("23")
-        )
-        coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
+            server.getHourIndex("NL".loc, "2020-09-03".day)
+        } returns (0..12).map { "$it".hour }
+
+        coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             mockDownloadServerDownload(
                 locationCode = arg(0),
                 day = arg(1),
@@ -125,7 +124,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
             mockKeyCacheUpdateComplete(arg(0), arg(1))
         }
         coEvery { keyCache.getEntriesForType(any()) } answers {
-            val type = arg<CachedKeyInfo.Type>(0)
+            val type = arg<Type>(0)
             keyRepoData.values.filter { it.type == type }.map { it to File(testDir, it.id) }
         }
         coEvery { keyCache.getAllCachedKeys() } answers {
@@ -149,7 +148,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     private fun mockKeyCacheCreateEntry(
-        type: CachedKeyInfo.Type,
+        type: Type,
         location: LocationCode,
         dayIdentifier: LocalDate,
         hourIdentifier: LocalTime?
@@ -172,7 +171,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
         checksum: String
     ) {
         keyRepoData[keyInfo.id] = keyInfo.copy(
-            isDownloadComplete = checksum != null, checksumMD5 = checksum
+            isDownloadComplete = true,
+            checksumMD5 = checksum
         )
     }
 
@@ -193,7 +193,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     private fun mockAddData(
-        type: CachedKeyInfo.Type,
+        type: Type,
         location: LocationCode,
         day: LocalDate,
         hour: LocalTime?,
@@ -215,7 +215,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     private fun createDownloader(): KeyFileDownloader {
         val downloader = KeyFileDownloader(
             deviceStorage = deviceStorage,
-            keyServer = diagnosisKeyServer,
+            keyServer = server,
             keyCache = keyCache,
             legacyKeyCache = legacyMigration,
             settings = settings
@@ -226,7 +226,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `wanted country list is empty, day mode`() = flakyTest {
-
         val downloader = createDownloader()
         runBlocking {
             downloader.asyncFetchKeyFiles(emptyList()) shouldBe emptyList()
@@ -253,7 +252,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         runBlocking {
             shouldThrow<InsufficientStorageException> {
-                downloader.asyncFetchKeyFiles(listOf(LocationCode("DE")))
+                downloader.asyncFetchKeyFiles(listOf("DE".loc))
             }
         }
     }
@@ -270,20 +269,20 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         runBlocking {
             shouldThrow<InsufficientStorageException> {
-                downloader.asyncFetchKeyFiles(listOf(LocationCode("DE")))
+                downloader.asyncFetchKeyFiles(listOf("DE".loc))
             }
         }
     }
 
     @Test
     fun `error during country index fetch`() = flakyTest {
-        coEvery { diagnosisKeyServer.getCountryIndex() } throws IOException()
+        coEvery { server.getCountryIndex() } throws IOException()
 
         val downloader = createDownloader()
 
         runBlocking {
             shouldThrow<IOException> {
-                downloader.asyncFetchKeyFiles(listOf(LocationCode("DE")))
+                downloader.asyncFetchKeyFiles(listOf("DE".loc))
             }
         }
     }
@@ -293,34 +292,32 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 4
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 4
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-01"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-02".day,
                 hourIdentifier = null
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
+                type = Type.COUNTRY_DAY,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
+                type = Type.COUNTRY_DAY,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-02".day,
                 hourIdentifier = null
             )
         }
@@ -332,17 +329,16 @@ class KeyFileDownloaderTest : BaseIOTest() {
     @Test
     fun `day fetch with existing data`() = flakyTest {
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_DAY,
-            location = LocationCode("DE"),
-            day = LocalDate.parse("2020-09-01"),
+            type = Type.COUNTRY_DAY,
+            location = "DE".loc,
+            day = "2020-09-01".day,
             hour = null,
             isCompleted = true
         )
-
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_DAY,
-            location = LocationCode("NL"),
-            day = LocalDate.parse("2020-09-02"),
+            type = Type.COUNTRY_DAY,
+            location = "NL".loc,
+            day = "2020-09-02".day,
             hour = null,
             isCompleted = true
         )
@@ -350,22 +346,20 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 4
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 4
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-02".day,
                 hourIdentifier = null
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
+                type = Type.COUNTRY_DAY,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
         }
@@ -378,21 +372,19 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `day fetch deletes stale data`() = flakyTest {
-        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
-            LocalDate.parse("2020-09-02")
-        )
+        coEvery { server.getDayIndex("DE".loc) } returns listOf("2020-09-02".day)
         val (staleKeyInfo, _) = mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_DAY,
-            location = LocationCode("DE"),
-            day = LocalDate.parse("2020-09-01"),
+            type = Type.COUNTRY_DAY,
+            location = "DE".loc,
+            day = "2020-09-01".day,
             hour = null,
             isCompleted = true
         )
 
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_DAY,
-            location = LocationCode("NL"),
-            day = LocalDate.parse("2020-09-02"),
+            type = Type.COUNTRY_DAY,
+            location = "NL".loc,
+            day = "2020-09-02".day,
             hour = null,
             isCompleted = true
         )
@@ -400,22 +392,20 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 3
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 3
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-02".day,
                 hourIdentifier = null
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
+                type = Type.COUNTRY_DAY,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
         }
@@ -427,7 +417,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     @Test
     fun `day fetch skips single download failures`() = flakyTest {
         var dlCounter = 0
-        coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
+        coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
             if (dlCounter == 2) throw IOException("Timeout")
             mockDownloadServerDownload(
@@ -442,9 +432,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 3
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 3
         }
 
         // We delete the entry for the failed download
@@ -458,48 +446,46 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 6
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("21")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("20")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-01"),
-                hourIdentifier = LocalTime.parse("20")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
 
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
-                hourIdentifier = LocalTime.parse("23")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
-                hourIdentifier = LocalTime.parse("22")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("22")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
         }
         coVerify(exactly = 6) { keyCache.markKeyComplete(any(), any()) }
@@ -515,17 +501,17 @@ class KeyFileDownloaderTest : BaseIOTest() {
         every { settings.isLast3HourModeEnabled } returns true
 
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
-            location = LocationCode("DE"),
-            day = LocalDate.parse("2020-09-01"),
-            hour = LocalTime.parse("20"),
+            type = Type.COUNTRY_HOUR,
+            location = "DE".loc,
+            day = "2020-09-03".day,
+            hour = "11".hour,
             isCompleted = true
         )
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
-            location = LocationCode("NL"),
-            day = LocalDate.parse("2020-09-02"),
-            hour = LocalTime.parse("22"),
+            type = Type.COUNTRY_HOUR,
+            location = "NL".loc,
+            day = "2020-09-03".day,
+            hour = "11".hour,
             isCompleted = true
         )
 
@@ -533,45 +519,39 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
         runBlocking {
             downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
+                listOf("DE".loc, "NL".loc)
             ).size shouldBe 6
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("21")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("20")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
 
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
-                hourIdentifier = LocalTime.parse("23")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
-                hourIdentifier = LocalTime.parse("22")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "10".hour
             )
         }
         coVerify(exactly = 4) {
-            diagnosisKeyServer.downloadKeyFile(
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
+            server.downloadKeyFile(any(), any(), any(), any(), any())
         }
         coVerify { deviceStorage.requireSpacePrivateStorage(90112L) }
     }
@@ -581,79 +561,71 @@ class KeyFileDownloaderTest : BaseIOTest() {
         every { settings.isLast3HourModeEnabled } returns true
 
         val (staleKey1, _) = mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
-            location = LocationCode("NL"),
-            day = LocalDate.parse("2020-09-02"),
-            hour = LocalTime.parse("12"), // Stale hour
+            type = Type.COUNTRY_HOUR,
+            location = "DE".loc,
+            day = "2020-09-02".day,
+            hour = "01".hour, // Stale hour
             isCompleted = true
         )
 
         val (staleKey2, _) = mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
-            location = LocationCode("NL"),
-            day = LocalDate.parse("2020-09-01"), // Stale day
-            hour = LocalTime.parse("22"),
+            type = Type.COUNTRY_HOUR,
+            location = "NL".loc,
+            day = "2020-09-02".day, // Stale day
+            hour = "01".hour,
             isCompleted = true
         )
 
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
-            location = LocationCode("DE"),
-            day = LocalDate.parse("2020-09-01"),
-            hour = LocalTime.parse("20"),
+            type = Type.COUNTRY_HOUR,
+            location = "DE".loc,
+            day = "2020-09-03".day,
+            hour = "10".hour,
             isCompleted = true
         )
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
-            location = LocationCode("NL"),
-            day = LocalDate.parse("2020-09-02"),
-            hour = LocalTime.parse("22"),
+            type = Type.COUNTRY_HOUR,
+            location = "NL".loc,
+            day = "2020-09-03".day,
+            hour = "10".hour,
             isCompleted = true
         )
 
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 6
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("21")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-02"),
-                hourIdentifier = LocalTime.parse("20")
+                type = Type.COUNTRY_HOUR,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
 
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
-                hourIdentifier = LocalTime.parse("23")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
-                location = LocationCode("NL"),
-                dayIdentifier = LocalDate.parse("2020-09-03"),
-                hourIdentifier = LocalTime.parse("22")
+                type = Type.COUNTRY_HOUR,
+                location = "NL".loc,
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "11".hour
             )
         }
         coVerify(exactly = 4) {
-            diagnosisKeyServer.downloadKeyFile(
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
+            server.downloadKeyFile(any(), any(), any(), any(), any())
         }
         coVerify(exactly = 1) { keyCache.delete(listOf(staleKey1, staleKey2)) }
     }
@@ -663,7 +635,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         every { settings.isLast3HourModeEnabled } returns true
 
         var dlCounter = 0
-        coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
+        coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
             if (dlCounter == 2) throw IOException("Timeout")
             mockDownloadServerDownload(
@@ -678,9 +650,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 5
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 5
         }
 
         // We delete the entry for the failed download
@@ -690,9 +660,9 @@ class KeyFileDownloaderTest : BaseIOTest() {
     @Test
     fun `not completed cache entries are overwritten`() = flakyTest {
         mockAddData(
-            type = CachedKeyInfo.Type.COUNTRY_DAY,
-            location = LocationCode("DE"),
-            day = LocalDate.parse("2020-09-01"),
+            type = Type.COUNTRY_DAY,
+            location = "DE".loc,
+            day = "2020-09-01".day,
             hour = null,
             isCompleted = false
         )
@@ -700,16 +670,14 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 4
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 4
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-01"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
         }
@@ -727,42 +695,30 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"), LocationCode("NL"))
-            ).size shouldBe 3
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 3
         }
 
         coVerify(exactly = 4) {
-            diagnosisKeyServer.downloadKeyFile(
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
+            server.downloadKeyFile(any(), any(), any(), any(), any())
         }
     }
 
     @Test
     fun `store server md5`() = flakyTest {
-        coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(LocationCode("DE"))
-        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
-            LocalDate.parse("2020-09-01")
-        )
+        coEvery { server.getCountryIndex() } returns listOf("DE".loc)
+        coEvery { server.getDayIndex("DE".loc) } returns listOf("2020-09-01".day)
 
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"))
-            ).size shouldBe 1
+            downloader.asyncFetchKeyFiles(listOf("DE".loc)).size shouldBe 1
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-01"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
         }
@@ -775,11 +731,9 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `use local MD5 as fallback if there is none available from the server`() = flakyTest {
-        coEvery { diagnosisKeyServer.getCountryIndex() } returns listOf(LocationCode("DE"))
-        coEvery { diagnosisKeyServer.getDayIndex(LocationCode("DE")) } returns listOf(
-            LocalDate.parse("2020-09-01")
-        )
-        coEvery { diagnosisKeyServer.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
+        coEvery { server.getCountryIndex() } returns listOf("DE".loc)
+        coEvery { server.getDayIndex("DE".loc) } returns listOf("2020-09-01".day)
+        coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             mockDownloadServerDownload(
                 locationCode = arg(0),
                 day = arg(1),
@@ -793,16 +747,14 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf(LocationCode("DE"))
-            ).size shouldBe 1
+            downloader.asyncFetchKeyFiles(listOf("DE".loc)).size shouldBe 1
         }
 
         coVerify {
             keyCache.createCacheEntry(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
-                location = LocationCode("DE"),
-                dayIdentifier = LocalDate.parse("2020-09-01"),
+                type = Type.COUNTRY_DAY,
+                location = "DE".loc,
+                dayIdentifier = "2020-09-01".day,
                 hourIdentifier = null
             )
         }
