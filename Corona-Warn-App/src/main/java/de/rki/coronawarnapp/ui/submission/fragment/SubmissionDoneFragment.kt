@@ -8,18 +8,38 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneViewModel
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * The [SubmissionDoneFragment] displays information to a user that submitted his exposure keys
  */
-class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done) {
+class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionDoneViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionDoneBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        viewModel.navigateBack.observe2(this) {
+            findNavController().doNavigate(
+               SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+           )
+        }
+
+        viewModel.navigateToMain.observe2(this) {
+             findNavController().doNavigate(
+                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+            )
+        }
     }
 
     override fun onResume() {
@@ -29,14 +49,12 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done) {
 
     private fun setButtonOnClickListener() {
         binding.submissionDoneHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            findNavController().doNavigate(
-                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
-            )
+
+            viewModel.onBackPressed()
         }
         binding.submissionDoneButtonDone.setOnClickListener {
-            findNavController().doNavigate(
-                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
-            )
+
+            viewModel.onDonePressed()
         }
     }
 }

@@ -45,7 +45,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private val backCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-             viewModel.onBackPressed()
+                viewModel.onBackPressed()
             }
         }
 
@@ -101,27 +101,27 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             }
         })
 
-        viewModel.navigateWithSymptoms.observe2(this){
+        viewModel.navigateWithSymptoms.observe2(this) {
             findNavController().doNavigate(
-              SubmissionTestResultFragmentDirections
-                  .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-          )
+                SubmissionTestResultFragmentDirections
+                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+            )
         }
 
-        viewModel.navigateWithoutSymptoms.observe2(this){
-            findNavController().doNavigate(
-               SubmissionTestResultFragmentDirections
-                   .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-           )
+        viewModel.navigateWithoutSymptoms.observe2(this) {
+             findNavController().doNavigate(
+                 SubmissionTestResultFragmentDirections
+                     .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+             )
         }
 
-        viewModel.navigateTestRemoved.observe2(this){
+        viewModel.navigateTestRemoved.observe2(this) {
             findNavController().doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )
         }
 
-        viewModel.navigateBack.observe2(this){
+        viewModel.navigateBack.observe2(this) {
             findNavController().doNavigate(
                 SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
             )

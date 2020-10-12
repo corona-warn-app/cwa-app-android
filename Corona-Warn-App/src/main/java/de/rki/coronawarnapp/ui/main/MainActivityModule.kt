@@ -10,9 +10,11 @@ import de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragmentModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherModule
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultModule
 
@@ -45,4 +47,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [SubmissionContactModule::class])
     abstract fun submissionContactScreen(): SubmissionContactFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionDoneModule::class])
+    abstract fun submissionDoneScreen(): SubmissionDoneFragment
 }

@@ -27,28 +27,27 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.navigateQRScan.observe2(this){
+        viewModel.navigateQRScan.observe2(this) {
             findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
             )
         }
-        viewModel.navigateTAN.observe2(this){
+        viewModel.navigateTAN.observe2(this) {
             findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
             )
         }
-        viewModel.navigateTeleTAN.observe2(this){
+        viewModel.navigateTeleTAN.observe2(this) {
             findNavController().doNavigate(
                 SubmissionDispatcherFragmentDirections
                     .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
             )
         }
-        viewModel.navigateBack.observe2(this){
+        viewModel.navigateBack.observe2(this) {
             findNavController().popBackStack()
         }
-
     }
 
     override fun onResume() {

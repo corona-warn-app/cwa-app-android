@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionContactModule {
+abstract class SubmissionDoneModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionContactViewModel::class)
-    abstract fun submissionContactFragment(
-        factory: SubmissionContactViewModel.Factory
+    @CWAViewModelKey(SubmissionDoneViewModel::class)
+    abstract fun submissionDoneFragment(
+        factory: SubmissionDoneViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

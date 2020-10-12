@@ -5,22 +5,17 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class SubmissionContactViewModel @AssistedInject constructor() : CWAViewModel() {
+class SubmissionDoneViewModel @AssistedInject constructor() : CWAViewModel() {
 
     val navigateBack = SingleLiveEvent<Unit>()
-    val dial = SingleLiveEvent<Unit>()
-    val navigateToTan = SingleLiveEvent<Unit>()
+    val navigateToMain = SingleLiveEvent<Unit>()
 
     fun onBackPressed() {
         navigateBack.postValue(Unit)
     }
 
-    fun onDialPressed() {
-        dial.postValue(Unit)
-    }
-
-    fun onEnterTanPressed() {
-        navigateToTan.postValue(Unit)
+    fun onDonePressed() {
+        navigateToMain.postValue(Unit)
     }
 
     @AssistedInject.Factory
