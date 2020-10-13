@@ -45,15 +45,15 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
 
-        versionCode (
+        versionCode(
                 VERSION_MAJOR.toInteger() * 1000000
-                + VERSION_MINOR.toInteger() * 10000
-                + VERSION_PATCH.toInteger() * 100
-                + VERSION_BUILD.toInteger()
+                        + VERSION_MINOR.toInteger() * 10000
+                        + VERSION_PATCH.toInteger() * 100
+                        + VERSION_BUILD.toInteger()
         )
         println("Used versionCode: $versionCode")
 
-        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
@@ -130,6 +130,14 @@ android {
         def flavor = variant.productFlavors[0]
         def typeName = variant.buildType.name // debug/release
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
+
+        if (flavor.name == "deviceForTesters") {
+            def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+            variant.outputs.each { output ->
+                output.versionNameOverride = adjustedVersionName
+            }
+            println("deviceForTesters adjusted versionName: $adjustedVersionName")
+        }
     }
 
     buildFeatures {
