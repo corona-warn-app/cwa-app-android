@@ -7,6 +7,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.environment.verification.VerificationCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.verification.server.VerificationApiV1
 import de.rki.coronawarnapp.verification.server.VerificationHttpClient
 import okhttp3.Cache
@@ -32,7 +33,7 @@ class VerificationModule {
     @Singleton
     @Provides
     fun provideVerificationApi(
-        context: Context,
+        @AppContext context: Context,
         @VerificationHttpClient client: OkHttpClient,
         @VerificationCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory

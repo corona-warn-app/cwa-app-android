@@ -23,6 +23,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -139,6 +140,9 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
     private val enfClient: ENFClient
         get() = AppInjector.component.transRetrieveKeysInjection.cwaEnfClient
 
+    private val environmentSetup: EnvironmentSetup
+        get() = AppInjector.component.transRetrieveKeysInjection.environmentSetup
+
     suspend fun startWithConstraints() {
         val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
         val lastFetch = DateTime(
@@ -188,14 +192,14 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         // RETRIEVE RISK SCORE PARAMETERS
         val exposureConfiguration = executeRetrieveRiskScoreParams()
 
-        val countries = requestedCountries ?: ApplicationConfigurationService
-            .asyncRetrieveApplicationConfiguration()
-            .supportedCountriesList
-
-        if (CWADebug.isDebugBuildOrMode) {
-            onKeyFilesDownloadStarted?.invoke()
-            onKeyFilesDownloadStarted = null
+        val countries = if (environmentSetup.useEuropeKeyPackageFiles) {
+            listOf("EUR")
+        } else {
+            requestedCountries ?: ApplicationConfigurationService
+                .asyncRetrieveApplicationConfiguration()
+                .supportedCountriesList
         }
+            invokeSubmissionStartedInDebugOrBuildMode()
 
         val availableKeyFiles = executeFetchKeyFilesFromServer(countries)
 
@@ -210,11 +214,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
 
             onKeyFilesDownloadFinished?.invoke(availableKeyFiles.size, totalFileSize)
             onKeyFilesDownloadFinished = null
-        }
-
-        if (CWADebug.isDebugBuildOrMode) {
-            onApiSubmissionStarted?.invoke()
-            onApiSubmissionStarted = null
+            invokeSubmissionStartedInDebugOrBuildMode()
         }
 
         val isSubmissionSuccessful = executeAPISubmission(
@@ -223,14 +223,25 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
             token = token
         )
 
-        if (CWADebug.isDebugBuildOrMode) {
-            onApiSubmissionFinished?.invoke()
-            onApiSubmissionFinished = null
-        }
+        invokeSubmissionFinishedInDebugOrBuildMode()
 
         if (isSubmissionSuccessful) executeFetchDateUpdate(currentDate)
 
         executeClose()
+    }
+
+    private fun invokeSubmissionStartedInDebugOrBuildMode() {
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionStarted?.invoke()
+            onApiSubmissionStarted = null
+        }
+    }
+
+    private fun invokeSubmissionFinishedInDebugOrBuildMode() {
+        if (CWADebug.isDebugBuildOrMode) {
+            onApiSubmissionFinished?.invoke()
+            onApiSubmissionFinished = null
+        }
     }
 
     override suspend fun rollback() {

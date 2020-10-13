@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -94,17 +92,24 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             }
         }
 
-        override fun onActivityStarted(activity: Activity) {}
+        override fun onActivityStarted(activity: Activity) {
+            // NOOP
+        }
 
-        override fun onActivityDestroyed(activity: Activity) {}
+        override fun onActivityDestroyed(activity: Activity) {
+            // NOOP
+        }
 
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+            // NOOP
+        }
 
-        override fun onActivityStopped(activity: Activity) {}
+        override fun onActivityStopped(activity: Activity) {
+            // NOOP
+        }
 
-        @SuppressLint("SourceLockedOrientationActivity")
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+            // NOOP
         }
 
         override fun onActivityResumed(activity: Activity) {

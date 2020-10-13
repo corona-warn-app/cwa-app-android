@@ -1,17 +1,29 @@
 package de.rki.coronawarnapp.util.security
 
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.exception.CwaSecurityException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import okio.ByteString.Companion.decodeHex
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class VerificationKeysTest {
+    @MockK lateinit var environmentSetup: EnvironmentSetup
 
-    private fun createTool() = VerificationKeys()
+    @Before
+    fun setup() {
+        MockKAnnotations.init(this)
+        every { environmentSetup.appConfigVerificationKey } returns PUB_KEY
+    }
+
+    private fun createTool() = VerificationKeys(environmentSetup)
 
     @Test
     fun goodBinaryAndSignature() {
@@ -54,18 +66,21 @@ class VerificationKeysTest {
     }
 
     companion object {
+        private const val PUB_KEY =
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg" +
+                "3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg=="
         private const val GOOD_BINARY =
-            "080b124d0a230a034c4f57180f221a68747470733a2f2f7777772e636f726f6e617761726e2e6170700a26" +
-                    "0a0448494748100f1848221a68747470733a2f2f7777772e636f726f6e617761726e2e6170701a" +
-                    "640a10080110021803200428053006380740081100000000000049401a0a200128013001380140" +
-                    "012100000000000049402a10080510051805200528053005380540053100000000000034403a0e" +
-                    "1001180120012801300138014001410000000000004940221c0a040837103f1212090000000000" +
-                    "00f03f11000000000000e03f20192a1a0a0a0a041008180212021005120c0a0408011804120408" +
-                    "011804"
+            "080b124e0a230a034c4f57180f221a68747470733a2f2f7777772e636f726f6e617761726e2e6170700a2" +
+                "70a0448494748100f188f4e221a68747470733a2f2f7777772e636f726f6e617761726e2e6170701a" +
+                "600a0c1803200428053006380740081100000000000049401a0a20012801300138014001210000000" +
+                "0000049402a10080510051805200528053005380540053100000000000034403a0e10021802200228" +
+                "02300238024002410000000000004940221c0a040837103f121209000000000000f03f11000000000" +
+                "000e03f20322a1a0a0a0a041008180212021005120c0a040801180412040801180432220a200a1c69" +
+                "73506c61757369626c6544656e696162696c6974794163746976651001"
         private const val GOOD_SIGNATURE =
-            "0a87010a380a1864652e726b692e636f726f6e617761726e6170702d6465761a02763122033236322a1331" +
-                    "2e322e3834302e31303034352e342e332e321001180122473045022100cf32ff24ea18a1ffcc7f" +
-                    "f4c9fe8d1808cecbc5a37e3e1d4c9ce682120450958c022064bf124b6973a9b510a43d479ff93e" +
-                    "0ef97a5b893c7af4abc4a8d399969cd8a0"
+            "0a83010a340a1464652e726b692e636f726f6e617761726e6170701a02763122033236322a13312e322e3" +
+                "834302e31303034352e342e332e32100118012247304502210099836666c962dd7a44292f6211b55e" +
+                "f2364ea3a5995238c862c3b58f774237da02200ae0e793d02f92826e5dea2d7758cbfb564089b1c2a" +
+                "f296d5bb80331bc5e0c5e"
     }
 }

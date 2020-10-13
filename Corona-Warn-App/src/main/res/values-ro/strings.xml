@@ -212,7 +212,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Întrebări frecvente"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Aici puteți găsi răspunsuri la întrebările frecvente legate de aplicația Corona-Warn. Veți fi redirecționat către un site web extern."</string>
+    <string name="main_about_body">"Aici puteți găsi răspunsuri la întrebările frecvente legate de aplicația Corona-Warn. Veți fi redirecționat către un site web extern al guvernului german."</string>
     <!-- XTXT: FAQ link, should be translated  -->
     <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
     <!-- XACT: Opens external webpage -->
@@ -282,7 +282,7 @@
     <!-- YTXT: App overview body for glossary notifications -->
     <string name="main_overview_body_glossary_notification">"Afișarea expunerilor în Corona-Warn-App."</string>
     <!-- XHED: App overview subtitle for glossary keys -->
-    <string name="main_overview_subtitle_glossary_keys">"ID-uri aleatorii"</string>
+    <string name="main_overview_subtitle_glossary_keys">"ID aleatoriu"</string>
     <!-- YTXT: App overview body for glossary keys -->
     <string name="main_overview_body_glossary_keys">"ID-urile aleatorii sunt combinații de cifre și litere generate aleatoriu. Acestea sunt schimbate între dispozitivele aflate în proximitate strânsă. ID-urile aleatorii nu pot fi asociate cu o persoană anume și sunt șterse automat după 14 zile. Persoanele diagnosticate cu COVID-19 pot opta să trimită ID-urile aleatorii din ultimele 14 zile și altor utilizatori ai aplicației."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image -->
@@ -345,7 +345,7 @@
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu COVID-19 sau întâlnirile au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
-    <string name="risk_details_information_body_low_risk_with_encounter">"Riscul de infectare este calculat local pe dispozitivul dvs., utilizând datele de înregistrare în jurnal a expunerilor. Calculul poate ține cont și de distanța și durata expunerii la persoane diagnosticate cu COVID-19, precum și de potențiala contagiozitate a acestora. Riscul dvs. de infectare nu poate fi observat sau transmis mai departe niciunei alte persoane."</string>
+    <string name="risk_details_information_body_low_risk_with_encounter">"Riscul de infectare este calculat local pe smartphone-ul dvs., utilizând datele de înregistrare în jurnal a expunerilor. Calculul poate ține cont și de distanța și durata expunerii la persoane diagnosticate cu COVID-19, precum și de potențiala contagiozitate a acestora. Riscul dvs. de infectare nu poate fi observat sau transmis mai departe niciunei alte persoane."</string>
     <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
     <plurals name="risk_details_information_body_increased_risk">
         <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu COVID-19."</item>
@@ -372,6 +372,8 @@
     <string name="risk_details_explanation_dialog_title">"Informații despre funcționalitatea de înregistrare în jurnal a expunerilor"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -390,7 +392,7 @@
     <!-- XTXT: onboarding - back description for screen reader -->
     <string name="onboarding_button_back_description">"Înapoi"</string>
     <!-- XACT: Onboarding (together) page title -->
-    <string name="onboarding_onboarding_accessibility_title">"Pagina de înregistrare 1 din 5: Să combatem împreună COVID-19"</string>
+    <string name="onboarding_onboarding_accessibility_title">"Pagina de înregistrare 1 din 6: Să combatem împreună COVID-19"</string>
     <!-- XHED: onboarding(together) - fight corona -->
     <string name="onboarding_headline">"Să combatem împreună COVID-19"</string>
     <!-- XHED: onboarding(together) - two/three line headline under an illustration -->
@@ -402,30 +404,26 @@
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Un grup de persoane își utilizează smartphone-urile prin oraș."</string>
     <!-- XACT: Onboarding (privacy) page title -->
-    <string name="onboarding_privacy_accessibility_title">"Pagina de înregistrare 2 din 5: Confidențialitatea datelor. Urmează un text lung. Pentru a continua în orice moment, utilizați butonul din partea de jos a ecranului."</string>
+    <string name="onboarding_privacy_accessibility_title">"Pagina de înregistrare 2 din 6: Confidențialitatea datelor. Urmează un text lung. Pentru a continua în orice moment, utilizați butonul din partea de jos a ecranului."</string>
     <!-- XHED: onboarding(privacy) - title -->
     <string name="onboarding_privacy_headline">"Confidențialitatea datelor"</string>
 
     <!-- XACT: onboarding(privacy) - illustraction description, header image -->
     <string name="onboarding_privacy_illustration_description">"O femeie utilizează Corona-Warn-App pe smartphone. O pictogramă care arată un lacăt pe un fundal în formă de scut simbolizează datele criptate."</string>
     <!-- XACT: Onboarding (tracing) page title -->
-    <string name="onboarding_tracing_accessibility_title">"Pagina de înregistrare 3 din 5: Cum se activează înregistrarea în jurnal a expunerilor"</string>
+    <string name="onboarding_tracing_accessibility_title">"Pagina de înregistrare 3 din 6: Cum se activează înregistrarea în jurnal a expunerilor"</string>
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Cum se activează înregistrarea în jurnal a expunerilor"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"Pentru a identifica dacă sunteți supus riscului de infectare, trebuie să activați caracteristica de înregistrare în jurnal a expunerilor."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Înregistrarea în jurnal a expunerilor funcționează astfel: dispozitivul dvs. primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori și transmite propriul dvs. ID aleatoriu către dispozitivele acestora. Această caracteristică poate fi oricând dezactivată."</string>
+    <string name="onboarding_tracing_body">"Înregistrarea în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori și transmite propriile dvs. ID-uri aleatorii către smartphone-urile acestora. Înregistrarea în jurnal a expunerilor poate fi oricând dezactivată."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (utilizând intensitatea semnalului). Datele personale, precum numele, adresa, locația nu sunt înregistrate niciodată. Nu se pot identifica persoanele individuale."</string>
+    <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (calculată prin intensitatea semnalului). Nu se pot identifica persoane individuale pe baza ID-urilor aleatorii."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informații despre aplicație în limbaj simplificat și în limbajul semnelor"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
     <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
-    <!-- XHED: onboarding(tracing) - headline for consent information -->
-    <string name="onboarding_tracing_headline_consent">"Declarație de consimțământ"</string>
-    <!-- YTXT: onboarding(tracing) - body for consent information -->
-    <string name="onboarding_tracing_body_consent">"To find out whether you have been in contact with an infected person and whether there is a risk that you yourself have been infected, you need to enable the App’s exposure logging feature. By tapping the “Enable” button, you agree to the enabling of the App’s exposure logging feature and the associated data processing."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"In order to use the App’s exposure logging feature, you will have to enable the \"Exposure Notifications\" functionality provided by Google on your smartphone and grant the Corona-Warn-App permission to use this."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"When exposure logging is enabled, your smartphone continuously generates and transmits random IDs via Bluetooth, which other Android or Apple smartphones in your vicinity can receive if exposure logging is also enabled on them. Your smartphone, in turn, receives the random IDs of the other smartphones. Your own random IDs and those received from other smartphones are recorded in the exposure log and stored there for 14 days."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To identify your risk of infection, the App loads a list – several times a day or on request – of the random IDs of all users who have told the App that they have been infected with the coronavirus. This list is then compared with the random IDs stored in the exposure log. If the App detects that you may have been in contact with an infected user, it will inform you of this and tell you that there is a risk that you are also infected. In this case, the App is also given access to other data stored in your smartphone’s exposure log (date, duration and Bluetooth signal strength of the contact)."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The Bluetooth signal strength is used to derive the physical distance (the stronger the signal, the smaller the distance). The App then analyzes this information in order to assess your likelihood of having been infected with the coronavirus and to give you recommendations for what to do next. This analysis is only performed locally on your smartphone. Apart from you, nobody (not even the RKI) will know whether you have been in contact with an infected person and what risk has been identified for you."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"To withdraw your consent to the exposure logging feature, you can disable the feature using the toggle switch in the App or delete the App. If you decide to use the exposure logging feature again, you can toggle the feature back on or reinstall the App. If you disable the exposure logging feature, the App will no longer check whether you have been in contact with an infected user. If you also wish to stop your device sending and receiving random IDs, you will need to disable COVID-19 Exposure Logging in your smartphone settings. Please note that your own random IDs and those received from other smartphones which are stored in the exposure log will not be deleted in the App. You can only permanently delete the data stored in the exposure log in your smartphone settings."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"The App’s privacy notice (including an explanation of the data processing carried out for the exposure logging feature) can be found in the menu under “Data Privacy Information”."</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Activați înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->
@@ -467,7 +465,7 @@
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_location_button">"Deschideți Setările dispozitivului"</string>
     <!-- XACT: Onboarding (test) page title -->
-    <string name="onboarding_test_accessibility_title">"Pagina de înregistrare 4 din 5: Dacă sunteți diagnosticat cu COVID-19…"</string>
+    <string name="onboarding_test_accessibility_title">"Pagina de înregistrare 5 din 6: Dacă sunteți diagnosticat cu COVID-19…"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
     <string name="onboarding_test_headline">"Dacă sunteți diagnosticat cu COVID-19…"</string>
     <!-- XHED: onboarding(test) - two/three line headline under an illustration -->
@@ -477,7 +475,7 @@
     <!-- XACT: onboarding(test) - illustraction description, header image -->
     <string name="onboarding_test_illustration_description">"Un diagnostic de test pozitiv criptat este transmis la sistem, iar acesta va avertiza apoi ceilalți utilizatori."</string>
     <!-- XACT: Onboarding (datashare) page title -->
-    <string name="onboarding_notifications_accessibility_title">"Pagina de înregistrare 5 din 5: Primiți avertizări și identificați riscurile"</string>
+    <string name="onboarding_notifications_accessibility_title">"Pagina de înregistrare 6 din 6: Primiți avertizări și identificați riscurile"</string>
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Primiți avertizări și identificați riscurile"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
@@ -513,7 +511,7 @@
     <!-- XHED: settings(tracing) - headline bellow illustration -->
     <string name="settings_tracing_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Permiteți generarea și trimiterea de ID-uri aleatorii de COVID-19."</string>
+    <string name="settings_tracing_body_description">"Permiteți crearea și partajarea de ID-uri aleatorii asociate COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Înregistrarea în jurnal a expunerilor este activă"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -521,7 +519,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Serviciile de localizare au fost dezactivate"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Trebuie să activați caracteristica de înregistrare în jurnal a expunerilor, pentru a identifica dacă sunteți supus riscului de infectare. Identificarea riscului funcționează astfel: dispozitivul dvs. primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori și transmite propriul dvs. ID aleatoriu către dispozitivele acestora. Puteți dezactiva oricând această caracteristică."<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (calculate utilizând intensitatea semnalului). Datele personale, precum numele, adresa și locația nu sunt înregistrate niciodată. Nu se pot identifica persoanele individuale."</string>
+    <string name="settings_tracing_body_text">"Trebuie să activați caracteristica de înregistrare în jurnal a expunerilor, pentru ca aplicația să poată determina dacă aveți risc de infectare după ce ați întâlnit un utilizator al aplicației care este infectat. Caracteristica de înregistrare în jurnal a expunerilor funcționează la nivel transnațional, ceea ce înseamnă că orice expunere posibilă care îi implică pe utilizatori este detectată și de alte aplicații oficiale împotriva coronavirusului.\n\nCaracteristica de înregistrare în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori și transmite propriul dvs. ID aleatoriu către smartphone-urile acestora. În fiecare zi, aplicația descarcă o listă ce conține ID-uri aleatorii – împreună cu orice alte informații voluntare despre debutul simptomelor – ale tuturor utilizatorilor testați pozitiv la virus și care au împărtășit voluntar aceste informații prin aplicația lor. Apoi, lista este comparată cu ID-urile aleatorii ale altor utilizatori care au fost înregistrate de smartphone-ul dvs., pentru a calcula probabilitatea ca și dvs. să fi fost infectat și să vă avertizeze dacă este necesar. Puteți utiliza comutatorul pentru a dezactiva în orice moment înregistrarea în jurnal a expunerilor.\n\nAplicația nu colectează niciodată date personale, precum numele, adresa sau locația dvs., iar aceste informații nu sunt transmise niciodată altor utilizatori. Nu se pot utiliza ID-urile aleatorii pentru a trage concluzii despre persoane individuale."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Activă"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -678,7 +676,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Cum vă putem ajuta?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"Pentru întrebări tehnice despre aplicația Corona-Warn, contactați hotline-ul."</string>
+    <string name="information_contact_body">"Pentru întrebări tehnice despre aplicația Corona-Warn, contactați hotline-ul.\n\nPersoanele cu deficiențe de auz pot utiliza serviciile Tess Relay (interpretare între limba germană scrisă și limbajul semnelor) pentru a contacta hotline-ul telefonic. Puteți descărca software-ul din App Store/Google Play."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Hotline tehnic:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -728,6 +726,11 @@
     <!-- XACT: describes illustration -->
     <string name="information_legal_illustration_description">"O mână ține un smartphone pe al cărui ecran este afișat un corp mare de text. Lângă text există un simbol de secțiune, reprezentând informațiile de contact."</string>
 
+    <!-- ####################################
+              Interoperability
+    ###################################### -->
+    <!-- XHED: headline for consent information  -->
+    <string name="interop_consent_headline">"Consimțământ"</string>
 
     <!-- ####################################
              Submission
@@ -846,9 +849,13 @@
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Avertizarea altora"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Trimiteți ID-urile dvs. aleatorii din ultimele 14 zile pentru a proteja alte persoane și pentru a întrerupe lanțul de infectare."</string>
+    <string name="submission_test_result_positive_steps_warning_others_body">"Partajați ID-urile dvs. aleatorii și avertizați-i pe ceilalți.\nAjutați la stabilirea riscului de infectare pentru ceilalți cu mai multă acuratețe, indicând momentul în care ați observat prima dată simptomele de coronavirus."</string>
     <!-- XBUT: positive test result : continue button -->
     <string name="submission_test_result_positive_continue_button">"Înainte"</string>
+    <!-- XBUT: positive test result : continue button with symptoms-->
+    <string name="submission_test_result_positive_continue_button_with_symptoms">"Introducere simptome"</string>
+    <!-- XBUT: positive test result : continue button without symptoms -->
+    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Nu se introduc simptome"</string>
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Rezultatul testului dvs."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
@@ -942,15 +949,13 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Să ne ajutăm împreună!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Apoi, puteți să vă asigurați că aplicația Corona-Warn trimite altor persoane ID-urile aleatorii din ultimele 14 zile. Prin aceasta, puteți avertiza și alte persoane și puteți contribui la întreruperea lanțului de infectare\n\nPentru că sunt transmise doar ID-uri aleatorii impersonale, identitatea dvs. va rămâne anonimă."</string>
-    <!-- XHED: Title for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_title">"Confidențialitatea datelor"</string>
-    <!-- YTXT: Body text for the privacy card-->
-    <string name="submission_positive_other_warning_privacy_body">"Apăsând pe „Accept”, consimțiți ca aplicația să trimită rezultatul pozitiv al testului dvs. către sistemul de servere al aplicației, împreună cu ID-urile dvs. aleatorii din ultimele 14 zile, pentru ca ceilalți utilizatori ai aplicației care au activat caracteristica de înregistrare în jurnal a expunerilor să poată fi notificați automat că se poate să fi fost expuși la riscul de infectare. ID-urile aleatorii transmise în acest scop nu conțin informații care să poată permite tragerea unor concluzii privind identitatea dvs. sau persoana dvs. \n\nTransmiterea rezultatului testului prin intermediul aplicației este voluntară. Nu veți fi penalizat dacă nu transmiteți rezultatul testului. Din moment ce nu este posibilă urmărirea sau verificarea modului în care utilizați aplicația sau dacă o utilizați sau nu, doar dvs. veți ști dacă ați transmis informațiile că sunteți infectat.\n\nPuteți oricând să vă retrageți consimțământul prin ștergerea acestei aplicații. Retragerea consimțământului nu va afecta legalitatea procesării efectuate în baza consimțământului acordat înainte de retragerea acestuia. Pentru informații suplimentare, consultați meniul din „Confidențialitatea datelor”."</string>
+    <string name="submission_positive_other_warning_body">"Apoi, puteți să vă asigurați că alte persoane sunt înștiințate de posibila expunere.\n\nPentru aceasta, puteți transmite ID-urile dvs. aleatorii din ultimele 14 zile și, opțional, informații despre momentul în care ați observat prima dată simptomele de coronavirus, către serverul de schimb operat în comun de toate țările participante. De aici, ID-urile aleatorii și orice informații alegeți să furnizați vor fi distribuite către utilizatorii aplicațiilor oficiale împotriva coronavirusului. În acest mod, este posibilă avertizarea altor utilizatori de posibila lor expunere la dvs.\n\nSunt transmise doar ID-urile aleatorii, împreună cu orice alte informații pe care le furnizați despre momentul în care ați observat primele simptome. Nu vor fi partajate date personale, precum numele, adresa sau locația dvs."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Un dispozitiv transmite un diagnostic de test pozitiv criptat către sistem."</string>
+    <!-- XHED: Title for the interop country list-->
+    <string name="submission_interoperability_list_title">"Următoarele țări participă în prezent la înregistrarea în jurnal a expunerilor la nivel transnațional:"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -974,7 +979,7 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Rețineți:"</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Sunteți infectat."</string>
+    <string name="submission_done_contagious">"Autoritatea de sănătate publică vă va contacta în următoarele zile."</string>
     <!-- YTXT: text after submission: isolate -->
     <string name="submission_done_isolate">"Izolați-vă de alte persoane."</string>
     <!-- XHED: Title for further info -->
@@ -994,8 +999,10 @@
     <!-- Submission Symptoms -->
     <!-- XHED: Page title for symptom screens -->
     <string name="submission_symptom_title">"Simptome"</string>
-    <!-- YTXT: headline text for initial symptom screen -->
-    <string name="submission_symptom_initial_headline">"Ați resimțit unul sau mai multe dintre următoarele simptome în ultimele zile?"</string>
+    <!-- XTXT: headline text for initial symptom screen -->
+    <string name="submission_symptom_initial_headline">"Ați resimțit unul sau mai multe dintre următoarele simptome?"</string>
+    <!-- YTXT: explanation text for initial symptom screen -->
+    <string name="submission_symptom_initial_explanation">"Puteți indica momentul când și dacă ați observat simptomele specifice coronavirusului pentru a-i permite aplicației să calculeze mai exact riscul de infectare al altor utilizatori ai aplicației. Dacă nu doriți să furnizați aceste informații, selectați „Nu răspund”."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Temperatură crescută sau febră"</item>
@@ -1098,7 +1105,7 @@
     <!-- YTXT: text for contagious card -->
     <string name="submission_status_card_positive_result_contagious">"Sunteți infectat. Izolați-vă de alte persoane."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Autoritatea de sănătate publică vă va contacta în următoarele zile telefonic sau în scris."</string>
+    <string name="submission_status_card_positive_result_contact">"Autoritatea de sănătate publică vă va contacta în următoarele zile."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
 
@@ -1173,16 +1180,16 @@
     <string name="errors_generic_button_negative">"Detalii"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"A apărut o eroare necunoscută."</string>
+    <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aplicația dvs. a fost resetată din cauza unei probleme tehnice. Acest lucru nu are efect asupra funcționalității aplicației. Veți continua să primiți notificări despre expuneri și îi veți putea avertiza pe ceilalți în continuare, în cazul în care sunteți testat pozitiv la COVID-19."</string>
+    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
+    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
     ###################################### -->
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
-    <!-- NOTR -->
-    <string name="menu_test_api">"Test API"</string>
-    <!-- NOTR -->
-    <string name="menu_test_risk_level">"Test Risk Level"</string>
     <!-- NOTR -->
     <string name="menu_test_notification">"Test Notification"</string>
     <!-- NOTR -->
@@ -1223,4 +1230,122 @@
     <string name="test_api_body_other_keys">"Other key"</string>
     <!-- NOTR -->
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
+
+    <!-- XHED: Country Entry for Austria -->
+    <string name="country_name_at">"Austria"</string>
+    <!-- XHED: Country Entry for Belgium -->
+    <string name="country_name_be">"Belgia"</string>
+    <!-- XHED: Country Entry for Bulgaria -->
+    <string name="country_name_bg">"Bulgaria"</string>
+    <!-- XHED: Country Entry for Switzerland -->
+    <string name="country_name_ch">"Elveția"</string>
+    <!-- XHED: Country Entry for Cyprus -->
+    <string name="country_name_cy">"Cipru"</string>
+    <!-- XHED: Country Entry for Czech Republic -->
+    <string name="country_name_cz">"Republica Cehă"</string>
+    <!-- XHED: Country Entry for Germany -->
+    <string name="country_name_de">"Germania"</string>
+    <!-- XHED: Country Entry for Denmark -->
+    <string name="country_name_dk">"Danemarca"</string>
+    <!-- XHED: Country Entry for Estonia -->
+    <string name="country_name_ee">"Estonia"</string>
+    <!-- XHED: Country Entry for Spain -->
+    <string name="country_name_es">"Spania"</string>
+    <!-- XHED: Country Entry for Finland -->
+    <string name="country_name_fi">"Finlanda"</string>
+    <!-- XHED: Country Entry for France -->
+    <string name="country_name_fr">"Franța"</string>
+    <!-- XHED: Country Entry for Great Britain -->
+    <string name="country_name_uk">"Regatul Unit"</string>
+    <!-- XHED: Country Entry for Greece -->
+    <string name="country_name_gr">"Grecia"</string>
+    <!-- XHED: Country Entry for Croatia -->
+    <string name="country_name_hr">"Croația"</string>
+    <!-- XHED: Country Entry for Hungary -->
+    <string name="country_name_hu">"Ungaria"</string>
+    <!-- XHED: Country Entry for Ireland -->
+    <string name="country_name_ie">"Irlanda"</string>
+    <!-- XHED: Country Entry for Iceland -->
+    <string name="country_name_is">"Islanda"</string>
+    <!-- XHED: Country Entry for Italy -->
+    <string name="country_name_it">"Italia"</string>
+    <!-- XHED: Country Entry for Liechtenstein -->
+    <string name="country_name_li">"Liechtenstein"</string>
+    <!-- XHED: Country Entry for Lithuania -->
+    <string name="country_name_lt">"Lituania"</string>
+    <!-- XHED: Country Entry for Luxemburg -->
+    <string name="country_name_lu">"Luxemburg"</string>
+    <!-- XHED: Country Entry for Latvia -->
+    <string name="country_name_lv">"Letonia"</string>
+    <!-- XHED: Country Entry for Malta -->
+    <string name="country_name_mt">"Malta"</string>
+    <!-- XHED: Country Entry for Netherlands -->
+    <string name="country_name_nl">"Țările de Jos"</string>
+    <!-- XHED: Country Entry for Norway -->
+    <string name="country_name_no">"Norvegia"</string>
+    <!-- XHED: Country Entry for Poland -->
+    <string name="country_name_pl">"Polonia"</string>
+    <!-- XHED: Country Entry for Portugal -->
+    <string name="country_name_pt">"Portugalia"</string>
+    <!-- XHED: Country Entry for Rumania -->
+    <string name="country_name_ro">"România"</string>
+    <!-- XHED: Country Entry for Sweden -->
+    <string name="country_name_se">"Suedia"</string>
+    <!-- XHED: Country Entry for Slovenia -->
+    <string name="country_name_si">"Slovenia"</string>
+    <!-- XHED: Country Entry for Slovakia -->
+    <string name="country_name_sk">"Slovacia"</string>
+
+    <!-- XHED: Title of the interoperbaility information view. -->
+    <string name="interoperability_title">"Înregistrare transnațională\na expunerilor în jurnal"</string>
+
+    <!-- XHED: Setting title of interoperability in the tracing settings view -->
+    <string name="settings_interoperability_title">"Înregistrare transnațională a expunerilor în jurnal"</string>
+    <!-- XTXT: Settings description of the interoperability in the tracing settings view -->
+    <string name="settings_interoperability_subtitle">"Țări participante"</string>
+
+    <!-- XHED: Header of interoperability information/configuration view -->
+    <string name="interoperability_configuration_title">"Înregistrare transnațională a expunerilor în jurnal"</string>
+    <!-- XTXT: First section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_first_section">"Mai multe țări colaborează pentru a susține alarmele transnaționale printr-un server de schimb comun. De exemplu, contactele cu utilizatorii unei aplicații oficiale anticoronavirus din alte țări participante pot fi, de asemenea, luate în considerare pentru înregistrarea în jurnal a expunerilor."</string>
+    <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
+    <string name="interoperability_configuration_second_section">"Pentru aceasta, aplicația descarcă o listă care este actualizată zilnic de ID-uri aleatorii ale tuturor utilizatorilor care și-au partajat ID-urile aleatorii prin propria aplicație. Această listă este apoi comparată cu ID-urile aleatorii înregistrate de smartphone-ul dvs. Descărcarea zilnică a listei de ID-uri aleatorii este, de obicei, gratuită pentru dvs. – nu veți suporta costuri pentru datele utilizate de aplicație în acest context și nu vor fi aplicate costuri de roaming pentru această opțiune în alte țări UE."</string>
+    <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_list_title">"Următoarele țări participă în prezent la înregistrarea în jurnal a expunerilor la nivel transnațional:"</string>
+    <!-- XTXT: Text right under the country list in the interoperability information/configuration view -->
+    <string name="interoperability_configuration_information">"Înștiințarea de confidențialitate a aplicației (inclusiv informațiile despre prelucrarea datelor efectuată pentru caracteristica de înregistrare în jurnal a expunerilor la nivel transnațional) poate fi găsită în meniu la „Informații aplicație” &gt; „Confidențialitate date”."</string>
+
+    <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
+    <string name="interoperability_onboarding_title">"Înregistrare transnațională\na expunerilor în jurnal"</string>
+    <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
+    <string name="interoperability_onboarding_first_section">"Mai multe țări s-au asociat pentru a susține avertizarea la nivel transnațional. Cu alte cuvinte, acum poate fi luată în considerare posibila dvs. expunere la utilizatori ai aplicațiilor oficiale anticoronavirus din toate țările participante."</string>
+    <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->
+    <string name="interoperability_onboarding_second_section">"Când un utilizator transmite ID-urile sale aleatorii la serverul de schimb operat în comun de țările participante, utilizatorii aplicațiilor oficiale anticoronavirus din toate aceste țări pot fi avertizați de posibila expunere."</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_randomid_download_free">"Descărcarea zilnică a listei cu ID-urilor aleatorii este, de obicei, gratuită pentru dvs. În mod specific, aceasta înseamnă că operatorii de rețele mobile nu percep costuri pentru datele utilizate de aplicație în acest context și nu aplică niciun fel de costuri de roaming pentru această opțiune în alte țări UE. Contactați operatorul rețelei mobile pentru mai multe informații."</string>
+    <!-- XTXT: Small header above the country list in the onboarding screen for interoperability. -->
+    <string name="interoperability_onboarding_list_title">"În prezent participă următoare țări:"</string>
+
+    <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 1 -->
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_1">"Condițiile de utilizare au fost, de asemenea, actualizate, pentru a reflecta îmbunătățirile funcționale ale aplicației."</string>
+    <!-- XLNK: Terms of use link inside delta interoperability screen-->
+    <string name="interoperability_onboarding_delta_terms_link">"Afișare condiții de utilizare"</string>
+    <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
+    <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Condițiile de utilizare și înștiințarea privind confidențialitatea pot fi găsite, de asemenea, în meniu la „Informații aplicație”, dar și în descrierea aplicației din App Store. Modificările nu vor afecta modul în care utilizați aplicația. Dacă veți continua să utilizați aplicația sau dacă o redeschideți, vom presupune că sunteți de acord cu Condițiile de utilizare actualizate."</string>
+
+    <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
+    <string name="interoperability_eu_illustration_description">"O mână ține un smartphone. În fundal sunt ilustrate Europa și steagul european."</string>
+
+    <!-- XTXT: Title for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_title_failrequest">"Țări participante"</string>
+    <!-- XTXT: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest">"Puteți vedea țările participante în detaliile înregistrării în jurnal a expunerilor."</string>
+
+    <!-- YDES: Title for the interoperability onboarding if country download fails for Risk Details -->
+    <string name="interoperability_onboarding_list_title_riskdetection_no_network">"În prezent, nu pot fi afișate țările."</string>
+    <!-- YMSW: Subtitle for the interoperability onboarding if country download fails -->
+    <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">"Se poate să fi pierdut conexiunea la internet. Asigurați-vă că sunteți conectat la internet."</string>
+    <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
+    <string name="interoperability_onboarding_list_button_title_no_network">"Deschideți setările dispozitivului"</string>
+
 </resources>

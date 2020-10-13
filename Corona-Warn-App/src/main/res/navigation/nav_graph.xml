@@ -5,12 +5,14 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
+    <include app:graph="@navigation/test_nav_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainFragment"
+        android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
@@ -41,17 +43,20 @@
         <action
             android:id="@+id/action_mainFragment_to_onboardingDeltaInteroperabilityFragment"
             app:destination="@id/onboardingDeltaInteroperabilityFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_test_nav_graph"
+            app:destination="@id/test_nav_graph" />
     </fragment>
 
     <fragment
         android:id="@+id/mainSharingFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainShareFragment"
+        android:name="de.rki.coronawarnapp.ui.main.share.MainShareFragment"
         android:label="@layout/fragment_main_share"
         tools:layout="@layout/fragment_main_share" />
 
     <fragment
         android:id="@+id/mainOverviewFragment"
-        android:name="de.rki.coronawarnapp.ui.main.MainOverviewFragment"
+        android:name="de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment"
         android:label="@layout/fragment_main_overview"
         tools:layout="@layout/fragment_main_overview" />
 
@@ -91,7 +96,11 @@
     <fragment
         android:id="@+id/onboardingDeltaInteroperabilityFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
-        android:label="OnboardingDeltaInteroperabilityFragment" />
+        android:label="OnboardingDeltaInteroperabilityFragment" >
+        <action
+            android:id="@+id/action_onboardingDeltaInteroperabilityFragment_to_informationTermsFragment"
+            app:destination="@id/informationTermsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/interopCountryConfigurationFragment"
@@ -207,11 +216,11 @@
             android:id="@+id/action_submissionDispatcherFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
         <action
-            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeScanFragment"
-            app:destination="@id/submissionQRCodeScanFragment" />
-        <action
             android:id="@+id/action_submissionDispatcherFragment_to_submissionContactFragment"
             app:destination="@id/submissionContactFragment" />
+        <action
+            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeInfoFragment"
+            app:destination="@id/submissionQRCodeInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
@@ -252,6 +261,9 @@
         <action
             android:id="@+id/action_submissionResultFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
+        <action
+            android:id="@+id/action_submissionResultFragment_to_submissionResultPositiveOtherWarningFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
 
     <fragment
@@ -297,6 +309,15 @@
             android:id="@+id/deepLink"
             app:uri="coronawarnapp://launch" />
     </activity>
+    <fragment
+        android:id="@+id/submissionQRCodeInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment"
+        android:label="SubmissionQRCodeInfoFragment">
+        <action
+            android:id="@+id/action_submissionQRCodeInfoFragment_to_submissionQRCodeScanFragment"
+            app:destination="@id/submissionQRCodeScanFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/submissionQRCodeScanFragment"
         android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment"
