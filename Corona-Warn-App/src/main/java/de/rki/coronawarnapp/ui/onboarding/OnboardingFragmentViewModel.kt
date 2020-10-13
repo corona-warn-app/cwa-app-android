@@ -9,11 +9,11 @@ class OnboardingFragmentViewModel @AssistedInject constructor() : CWAViewModel()
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingPrivacy
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingPrivacy)
     }
 
     fun onEasyLanguageClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToEasyLanguageUrl
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToEasyLanguageUrl)
     }
 
     @AssistedInject.Factory

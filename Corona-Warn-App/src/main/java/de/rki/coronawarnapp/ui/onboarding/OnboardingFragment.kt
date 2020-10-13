@@ -6,15 +6,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.ui.doNavigate
 import javax.inject.Inject
 
 /**
@@ -28,37 +27,26 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
+            onboardingInclude.onboardingEasyLanguage.setOnClickListener { vm.onEasyLanguageClick() }
+        }
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
-                    navigateToOnboardingPrivacyFragment()
+                    doNavigate(
+                        OnboardingFragmentDirections
+                            .actionOnboardingFragmentToOnboardingPrivacyFragment()
+                    )
                 is OnboardingNavigationEvents.NavigateToEasyLanguageUrl ->
-                    navigateToEasyLanguageUrl()
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url))
+                        )
+                    )
             }
         }
-        binding.apply {
-            
-        }
-        setButtonOnClickListener()
-    }
-
-    private fun setButtonOnClickListener() {
-        binding.onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-        binding.onboardingInclude.onboardingEasyLanguage.setOnClickListener { vm.onEasyLanguageClick() }
-    }
-
-    private fun navigateToOnboardingPrivacyFragment() {
-        findNavController().doNavigate(
-            OnboardingFragmentDirections.actionOnboardingFragmentToOnboardingPrivacyFragment()
-        )
-    }
-
-    private fun navigateToEasyLanguageUrl() {
-        val browserIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url))
-        )
-        startActivity(browserIntent)
     }
 
     override fun onResume() {

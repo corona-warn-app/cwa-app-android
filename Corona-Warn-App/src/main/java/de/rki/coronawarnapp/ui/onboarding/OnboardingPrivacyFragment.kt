@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -26,13 +25,19 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
+        binding.apply {
+            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
+            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+        }
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
-                    navigateToOnboardingTracing()
+                    doNavigate(
+                        OnboardingPrivacyFragmentDirections
+                            .actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
+                    )
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment ->
-                    navigateToOnboardingFragment()
+                    (activity as OnboardingActivity).goBack()
             }
         }
     }
@@ -40,20 +45,5 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
     override fun onResume() {
         super.onResume()
         binding.onboardingPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun setButtonOnClickListener() {
-        binding.onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
-    }
-
-    private fun navigateToOnboardingTracing() {
-        findNavController().doNavigate(
-            OnboardingPrivacyFragmentDirections.actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
-        )
-    }
-
-    private fun navigateToOnboardingFragment() {
-        (activity as OnboardingActivity).goBack()
     }
 }

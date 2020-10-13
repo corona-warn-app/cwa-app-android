@@ -21,7 +21,8 @@ import javax.inject.Inject
  * @see NotificationManagerCompat
  * @see AlertDialog
  */
-class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_notifications), AutoInject {
+class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_notifications),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: OnboardingNotificationsViewModel by cwaViewModels { viewModelFactory }
@@ -29,13 +30,16 @@ class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_no
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
+        binding.apply {
+            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
+            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+        }
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToMainActivity ->
-                    navigateToMain()
+                    (requireActivity() as OnboardingActivity).completeOnboarding()
                 is OnboardingNavigationEvents.NavigateToOnboardingTest ->
-                    navigateToOnboardingTestFragment()
+                    (activity as OnboardingActivity).goBack()
             }
         }
     }
@@ -43,18 +47,5 @@ class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_no
     override fun onResume() {
         super.onResume()
         binding.onboardingNotificationsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun setButtonOnClickListener() {
-        binding.onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
-    }
-
-    private fun navigateToMain() {
-        (requireActivity() as OnboardingActivity).completeOnboarding()
-    }
-
-    private fun navigateToOnboardingTestFragment() {
-        (activity as OnboardingActivity).goBack()
     }
 }

@@ -9,11 +9,11 @@ class OnboardingNotificationsViewModel @AssistedInject constructor() : CWAViewMo
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToMainActivity
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToMainActivity)
     }
 
     fun onBackButtonClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingTracing
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTracing)
     }
 
     @AssistedInject.Factory

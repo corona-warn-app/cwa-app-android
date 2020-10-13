@@ -9,11 +9,11 @@ class OnboardingPrivacyViewModel @AssistedInject constructor() : CWAViewModel() 
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
     fun onNextButtonClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingTracing
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTracing)
     }
 
     fun onBackButtonClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingFragment
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingFragment)
     }
 
     @AssistedInject.Factory

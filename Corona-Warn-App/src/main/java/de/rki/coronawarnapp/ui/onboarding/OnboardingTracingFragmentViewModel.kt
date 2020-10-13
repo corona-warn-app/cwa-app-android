@@ -43,15 +43,15 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     }
 
     fun onNextButtonClick() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingTest
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingTest)
     }
 
     fun showCancelDialog() {
-        routeToScreen.value = OnboardingNavigationEvents.ShowCancelDialog
+        routeToScreen.postValue(OnboardingNavigationEvents.ShowCancelDialog)
     }
 
     fun onBackButtonPress() {
-        routeToScreen.value = OnboardingNavigationEvents.NavigateToOnboardingPrivacy
+        routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingPrivacy)
     }
 
     @AssistedInject.Factory
