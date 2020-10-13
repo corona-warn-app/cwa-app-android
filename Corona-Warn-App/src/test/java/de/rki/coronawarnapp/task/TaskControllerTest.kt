@@ -30,6 +30,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.coroutines.test
+import testhelpers.extensions.isAfterOrEqual
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.UUID
@@ -125,7 +126,7 @@ class TaskControllerTest : BaseIOTest() {
         val infoRunning = instance.tasks.first().single()
         infoRunning.apply {
             taskState.executionState shouldBe TaskState.ExecutionState.RUNNING
-            taskState.startedAt!!.isAfter(taskState.createdAt) shouldBe true
+            taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
 
             taskState.isActive shouldBe true
 
@@ -153,8 +154,8 @@ class TaskControllerTest : BaseIOTest() {
             taskState.isSuccessful shouldBe true
             taskState.resultOrThrow shouldNotBe null
 
-            taskState.startedAt!!.isAfter(taskState.createdAt) shouldBe true
-            taskState.completedAt!!.isAfter(taskState.startedAt) shouldBe true
+            taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
+            taskState.completedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
 
             taskState.error shouldBe null
 
@@ -197,8 +198,8 @@ class TaskControllerTest : BaseIOTest() {
             .single()
 
         infoFinished.apply {
-            taskState.startedAt!!.isAfter(taskState.createdAt) shouldBe true
-            taskState.completedAt!!.isAfter(taskState.startedAt) shouldBe true
+            taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
+            taskState.completedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
 
             taskState.isSuccessful shouldBe false
             taskState.isFailed shouldBe true

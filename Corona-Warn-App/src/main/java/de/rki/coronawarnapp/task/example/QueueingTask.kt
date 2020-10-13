@@ -21,10 +21,17 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
 
     private var isCanceled = false
 
-    override suspend fun run(arguments: Task.Arguments): Result {
+    override suspend fun run(arguments: Task.Arguments): Result = try {
         Timber.d("Running with arguments=%s", arguments)
-        arguments as Arguments
+        runSafely(arguments as Arguments).also {
+            if (isCanceled) throw TaskCancellationException()
+        }
+    } finally {
+        Timber.i("Finished (isCanceled=$isCanceled).")
+        internalProgress.close()
+    }
 
+    private suspend fun runSafely(arguments: Arguments): Result {
         arguments.path.parentFile!!.mkdirs()
 
         for (it in arguments.values) {
@@ -36,14 +43,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
             delay(arguments.delay)
         }
 
-        Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
-
-        if (isCanceled) {
-            throw TaskCancellationException()
-        } else {
-            return Result(arguments.path.length())
-        }
+        return Result(arguments.path.length())
     }
 
     override suspend fun cancel() {

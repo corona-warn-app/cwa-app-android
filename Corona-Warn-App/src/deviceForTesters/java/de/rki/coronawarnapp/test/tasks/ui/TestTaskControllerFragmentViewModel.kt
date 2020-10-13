@@ -22,7 +22,7 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val taskFactories: Map<
         @JvmSuppressWildcards Class<out Task<*, *>>,
-        @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>,
+        @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>
 ) : CWAViewModel() {
 
     data class FactoryState(

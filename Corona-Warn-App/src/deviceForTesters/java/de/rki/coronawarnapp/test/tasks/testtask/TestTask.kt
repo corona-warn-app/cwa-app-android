@@ -24,9 +24,7 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
         Timber.d("Running with arguments=%s", arguments)
         arguments as Arguments
         runSafely(arguments).also {
-            if (isCanceled) {
-                throw TaskCancellationException()
-            }
+            if (isCanceled) throw TaskCancellationException()
         }
     } finally {
         internalProgress.close()
