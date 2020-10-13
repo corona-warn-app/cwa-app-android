@@ -63,10 +63,10 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
                     else -> "UNKNOWN"
                 }
                 """
-                        #${counter++} $type - $resultType
-                        $id
-                        Created: $createdAt
-                    """.trimIndent()
+                    #${counter++} $type - $resultType
+                    $id
+                    Created: $createdAt
+                """.trimIndent()
             }
         )
     }.asLiveData(dispatcherProvider.Default)
