@@ -3,15 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
         <import type="de.rki.coronawarnapp.R" />
-
-        <variable
-            name="onboardingPrivacyViewModel"
-            type="de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -29,7 +29,6 @@ class OnboardingNotificationsFragment : Fragment(R.layout.fragment_onboarding_no
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.onboardingNotificationsViewModel = vm
         setButtonOnClickListener()
         vm.routeToScreen.observe2(this) {
             when (it) {

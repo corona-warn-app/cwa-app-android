@@ -26,7 +26,6 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.onboardingPrivacyViewModel = vm
         setButtonOnClickListener()
         vm.routeToScreen.observe2(this) {
             when (it) {

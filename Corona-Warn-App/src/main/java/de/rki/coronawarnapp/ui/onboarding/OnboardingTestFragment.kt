@@ -26,7 +26,6 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.onboardingTestViewModel = vm
         setButtonOnClickListener()
         vm.routeToScreen.observe2(this) {
             when (it) {
