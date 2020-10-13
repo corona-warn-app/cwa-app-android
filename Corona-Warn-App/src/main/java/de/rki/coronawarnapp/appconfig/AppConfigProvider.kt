@@ -58,7 +58,7 @@ class AppConfigProvider @Inject constructor(
             downloadAppConfig()
         } catch (e: Exception) {
             Timber.w(e, "Failed to download latest AppConfig.")
-            if (configStorage.isAppConfigAvailable) {
+            if (configStorage.isAppConfigAvailable()) {
                 null
             } else {
                 Timber.e("No fallback available, rethrowing!")
@@ -76,12 +76,12 @@ class AppConfigProvider @Inject constructor(
         return newConfigParsed?.also {
             Timber.d("Saving new valid config.")
             Timber.v("New Config.supportedCountries: %s", it.supportedCountriesList)
-            configStorage.appConfigRaw = newConfigRaw
+            configStorage.setAppConfigRaw(newConfigRaw)
         }
     }
 
-    private fun getFallback(): ApplicationConfiguration {
-        val lastValidConfig = tryParseConfig(configStorage.appConfigRaw)
+    private suspend fun getFallback(): ApplicationConfiguration {
+        val lastValidConfig = tryParseConfig(configStorage.getAppConfigRaw())
         return if (lastValidConfig != null) {
             Timber.d("Using fallback AppConfig.")
             lastValidConfig

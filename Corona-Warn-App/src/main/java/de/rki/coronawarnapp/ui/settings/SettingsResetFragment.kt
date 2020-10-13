@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
-import de.rki.coronawarnapp.util.DataRetentionHelper
+import de.rki.coronawarnapp.util.DataReset
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -79,7 +79,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset) {
     }
 
     private fun deleteLocalAppContent() {
-        DataRetentionHelper.clearAllLocalData(requireContext())
+       // DataReset.clearAllLocalData(requireContext())
     }
 
     private fun confirmReset() {

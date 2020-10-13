@@ -33,7 +33,7 @@ object RiskLevelRepository {
     /**
      * Resets the data in the [RiskLevelRepository]
      *
-     * @see de.rki.coronawarnapp.util.DataRetentionHelper
+     * @see de.rki.coronawarnapp.util.DataReset
      *
      */
     fun reset() {
