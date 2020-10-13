@@ -81,7 +81,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     fun `download hour index for country and day`() {
         val downloadServer = createDownloadServer()
         coEvery { api.getHourIndex("DE", "2000-01-01") } returns listOf(
-            "20", "21"
+            "1", "2", "20", "21"
         )
 
         runBlocking {
@@ -89,7 +89,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
                 LocationCode("DE"),
                 LocalDate.parse("2000-01-01")
             ) shouldBe listOf(
-                "20:00", "21:00"
+                "01:00", "02:00", "20:00", "21:00"
             ).map { LocalTime.parse(it) }
         }
 
@@ -122,28 +122,51 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `download key files for hour`() {
+    fun `download key files for hour and check hour format`() {
         val downloadServer = createDownloadServer()
-        coEvery {
-            api.downloadKeyFileForHour(
-                "DE",
-                "2000-01-01",
-                "01"
-            )
-        } returns Response.success("testdata-hour".toResponseBody())
-
-        val targetFile = File(testDir, "hour-keys")
 
         runBlocking {
+            coEvery {
+                api.downloadKeyFileForHour(
+                    "DE",
+                    "2000-01-01",
+                    "1" // no leading ZEROS!
+                )
+            } returns Response.success("testdata-hour".toResponseBody())
+
+            val targetFile = File(testDir, "hour-keys")
+
             downloadServer.downloadKeyFile(
                 locationCode = LocationCode("DE"),
                 day = LocalDate.parse("2000-01-01"),
                 hour = LocalTime.parse("01:00"),
                 saveTo = targetFile
             )
+
+            targetFile.exists() shouldBe true
+            targetFile.readText() shouldBe "testdata-hour"
         }
 
-        targetFile.exists() shouldBe true
-        targetFile.readText() shouldBe "testdata-hour"
+        runBlocking {
+            coEvery {
+                api.downloadKeyFileForHour(
+                    "DE",
+                    "2000-01-01",
+                    "13"
+                )
+            } returns Response.success("testdata-hour".toResponseBody())
+
+            val targetFile = File(testDir, "hour-keys")
+
+            downloadServer.downloadKeyFile(
+                locationCode = LocationCode("DE"),
+                day = LocalDate.parse("2000-01-01"),
+                hour = LocalTime.parse("13:00"),
+                saveTo = targetFile
+            )
+
+            targetFile.exists() shouldBe true
+            targetFile.readText() shouldBe "testdata-hour"
+        }
     }
 }
