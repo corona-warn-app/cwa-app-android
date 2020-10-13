@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
-import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
+import de.rki.coronawarnapp.storage.TestSettings
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -55,7 +55,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     private lateinit var deviceStorage: DeviceStorage
 
     @MockK
-    private lateinit var settings: AppSettings
+    private lateinit var testSettings: TestSettings
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val keyRepoData = mutableMapOf<String, CachedKeyInfo>()
@@ -70,7 +70,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        every { settings.isHourlyTestingMode } returns false
+        every { testSettings.isHourKeyPkgMode } returns false
 
         coEvery { server.getCountryIndex() } returns listOf("DE".loc, "NL".loc)
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
@@ -212,7 +212,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyServer = server,
             keyCache = keyCache,
             legacyKeyCache = legacyMigration,
-            settings = settings,
+            testSettings = testSettings,
             dispatcherProvider = TestDispatcherProvider
         )
         Timber.i("createDownloader(): %s", downloader)
@@ -229,7 +229,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `wanted country list is empty, hour mode`() {
-        every { settings.isHourlyTestingMode } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val downloader = createDownloader()
         runBlocking {
@@ -254,7 +254,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `fetching is aborted in hour if not enough free storage`() {
-        every { settings.isHourlyTestingMode } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         coEvery { deviceStorage.requireSpacePrivateStorage(540672L) } throws InsufficientStorageException(
             mockk(relaxed = true)
@@ -435,7 +435,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch without prior data`() {
-        every { settings.isHourlyTestingMode } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val downloader = createDownloader()
 
@@ -492,7 +492,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch with prior data`() {
-        every { settings.isHourlyTestingMode } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         mockAddData(
             type = Type.COUNTRY_HOUR,
@@ -550,7 +550,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch deletes stale data`() {
-        every { settings.isHourlyTestingMode } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val (staleKey1, _) = mockAddData(
             type = Type.COUNTRY_HOUR,
@@ -624,7 +624,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch skips single download failures`() {
-        every { settings.isHourlyTestingMode } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         var dlCounter = 0
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
