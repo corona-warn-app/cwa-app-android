@@ -629,7 +629,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         var dlCounter = 0
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
-            if (dlCounter == 2) throw IOException("Timeout")
+            if (dlCounter % 3 == 0) throw IOException("Timeout")
             mockDownloadServerDownload(
                 locationCode = arg(0),
                 day = arg(1),
@@ -641,11 +641,11 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 32
         }
 
         // We delete the entry for the failed download
-        coVerify(exactly = 1) { keyCache.delete(any()) }
+        coVerify(exactly = 16) { keyCache.delete(any()) }
     }
 
     @Test
