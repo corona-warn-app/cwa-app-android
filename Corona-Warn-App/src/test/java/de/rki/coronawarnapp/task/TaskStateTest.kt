@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.task
 
+import de.rki.coronawarnapp.task.internal.InternalTaskState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -32,7 +33,7 @@ class TaskStateTest : BaseTest() {
             request = mockk(),
             config = mockk(),
             createdAt = mockk(),
-            deferred = deferred,
+            job = deferred,
             task = mockk()
         )
         state.executionState shouldBe TaskState.ExecutionState.PENDING
@@ -52,7 +53,7 @@ class TaskStateTest : BaseTest() {
             config = mockk(),
             createdAt = mockk(),
             startedAt = mockk(),
-            deferred = deferred,
+            job = deferred,
             task = mockk()
         )
 
@@ -73,10 +74,10 @@ class TaskStateTest : BaseTest() {
             config = mockk(),
             createdAt = mockk(),
             startedAt = mockk(),
-            completedAt = mockk(),
+            finishedAt = mockk(),
             result = null, // skipped
             error = null, // skipped
-            deferred = deferred,
+            job = deferred,
             task = mockk()
         )
 
@@ -97,10 +98,10 @@ class TaskStateTest : BaseTest() {
             config = mockk(),
             createdAt = mockk(),
             startedAt = mockk(),
-            completedAt = mockk(),
+            finishedAt = mockk(),
             result = mockk(), // successful
             error = null,
-            deferred = deferred,
+            job = deferred,
             task = mockk()
         )
 
@@ -121,10 +122,10 @@ class TaskStateTest : BaseTest() {
             config = mockk(),
             createdAt = mockk(),
             startedAt = mockk(),
-            completedAt = mockk(),
+            finishedAt = mockk(),
             result = null,
             error = mockk(), // failed
-            deferred = deferred,
+            job = deferred,
             task = mockk()
         )
 

@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.task
 
+import androidx.annotation.Keep
 import de.rki.coronawarnapp.util.ui.LazyString
 import kotlinx.coroutines.flow.Flow
 
+@Keep
 interface Task<
     out ProgressType : Task.Progress,
     out ResultType : Task.Result

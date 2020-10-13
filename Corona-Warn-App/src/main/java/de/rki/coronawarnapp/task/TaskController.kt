@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.task
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
+import de.rki.coronawarnapp.task.internal.InternalTaskState
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -75,7 +76,7 @@ class TaskController @Inject constructor(
         } ?: throw IllegalArgumentException("No task found for request ID $requestId")
 
         Timber.tag(TAG).w("Manually canceling %s", taskState)
-        taskState.deferred.cancel(cause = TaskCancellationException())
+        taskState.job.cancel(cause = TaskCancellationException())
     }
 
     private suspend fun initTaskData(newRequest: TaskRequest) {
@@ -96,7 +97,7 @@ class TaskController @Inject constructor(
             createdAt = timeStamper.nowUTC,
             config = taskConfig,
             task = task,
-            deferred = deferred
+            job = deferred
         )
 
         internalTaskData.updateSafely {
@@ -119,35 +120,54 @@ class TaskController @Inject constructor(
         Timber.tag(TAG).v("Tasks before processing: %s", this.values)
 
         // Procress all unprocessed finished tasks
-        values.toList()
-            .filter { it.deferred.isCompleted && it.executionState != TaskState.ExecutionState.FINISHED }
-            .forEach { data ->
-                val error = data.deferred.getCompletionExceptionOrNull()
+        procressFinishedTasks(this).let {
+            this.clear()
+            this.putAll(it)
+        }
+
+        // Start new tasks
+        procressPendingTasks(this).let {
+            this.clear()
+            this.putAll(it)
+        }
+
+        Timber.tag(TAG).v("Tasks after processing: %s", this.values)
+    }
+
+    private fun procressFinishedTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+        val workMap = data.toMutableMap()
+        workMap.values
+            .filter { it.job.isCompleted && it.executionState != TaskState.ExecutionState.FINISHED }
+            .forEach { state ->
+                val error = state.job.getCompletionExceptionOrNull()
                 val result = if (error == null) {
-                    data.deferred.getCompleted()
+                    state.job.getCompleted()
                 } else {
-                    Timber.tag(TAG).e(error, "Task failed: %s", data)
+                    Timber.tag(TAG).e(error, "Task failed: %s", state)
                     null
                 }
 
-                this[data.id] = data.copy(
-                    completedAt = timeStamper.nowUTC,
+                workMap[state.id] = state.copy(
+                    finishedAt = timeStamper.nowUTC,
                     result = result,
                     error = error
                 )
-                Timber.tag(TAG).i("Task is now FINISHED: %s", data)
+                Timber.tag(TAG).i("Task is now FINISHED: %s", state)
             }
+        return workMap
+    }
 
-        // Start new tasks
-        values.toList()
+    private fun procressPendingTasks(data: Map<UUID, InternalTaskState>): Map<UUID, InternalTaskState> {
+        val workMap = data.toMutableMap()
+        workMap.values
             .filter { it.executionState == TaskState.ExecutionState.PENDING }
-            .forEach { data ->
-                Timber.tag(TAG).d("Checking pending task: %s", data)
+            .forEach { state ->
+                Timber.tag(TAG).d("Checking pending task: %s", state)
 
-                val siblingTasks = values.filter {
-                    it.type == data.type &&
+                val siblingTasks = workMap.values.filter {
+                    it.type == state.type &&
                         it.executionState == TaskState.ExecutionState.RUNNING &&
-                        it.id != data.id
+                        it.id != state.id
                 }
                 Timber.tag(TAG).d("Task has %d siblings", siblingTasks.size)
                 Timber.tag(TAG).v(
@@ -157,44 +177,38 @@ class TaskController @Inject constructor(
                 // Handle collision behavior for tasks of same type
                 when {
                     siblingTasks.isEmpty() -> {
-                        this[data.id] = data.toRunningState()
+                        workMap[state.id] = state.toRunningState()
                     }
-                    data.config.collisionBehavior == CollisionBehavior.SKIP_IF_ALREADY_RUNNING -> {
-                        this[data.id] = data.toSkippedState()
+                    state.config.collisionBehavior == CollisionBehavior.SKIP_IF_SIBLING_RUNNING -> {
+                        workMap[state.id] = state.toSkippedState()
                     }
-                    data.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
-                        Timber.tag(TAG).d("Postponing task %s", data)
+                    state.config.collisionBehavior == CollisionBehavior.ENQUEUE -> {
+                        Timber.tag(TAG).d("Postponing task %s", state)
                     }
                 }
             }
-
-        Timber.tag(TAG).v("Tasks after processing: %s", this.values)
+        return workMap
     }
 
     private fun InternalTaskState.toRunningState(): InternalTaskState {
-        deferred.invokeOnCompletion {
-            Timber.tag(TAG).d("Task ended (type=%s, id=%s)", type, id)
+        job.invokeOnCompletion {
+            Timber.tag(TAG).d("Task ended: %s", this)
             taskScope.launch { processMap() }
         }
         task.progress.onEach {
-            Timber.tag(TAG).v("$task progress: $it")
+            Timber.tag(TAG).v("${this.type}(${this.id}) Progress: $it")
         }.launchIn(taskScope)
 
-        deferred.start()
+        job.start()
         return copy(startedAt = timeStamper.nowUTC).also {
             Timber.tag(TAG).i("Starting new task: %s", it)
         }
     }
 
-    private fun InternalTaskState.toSkippedState(): InternalTaskState {
-        Timber.tag(TAG).d("Task was skipped (type=%s, id=%s)", type, id)
-        return copy(
-            startedAt = timeStamper.nowUTC,
-            completedAt = timeStamper.nowUTC
-        ).also {
-            Timber.tag(TAG).i("Starting new task: %s", it)
-        }
-    }
+    private fun InternalTaskState.toSkippedState(): InternalTaskState = copy(
+        startedAt = timeStamper.nowUTC,
+        finishedAt = timeStamper.nowUTC
+    ).also { Timber.tag(TAG).i("Task was skipped: %s", it) }
 
     private suspend fun <K, V> MutableStateFlow<Map<K, V>>.updateSafely(
         update: suspend MutableMap<K, V>.() -> Unit

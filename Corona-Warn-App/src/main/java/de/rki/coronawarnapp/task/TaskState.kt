@@ -7,7 +7,7 @@ interface TaskState {
     val request: TaskRequest
     val createdAt: Instant
     val startedAt: Instant?
-    val completedAt: Instant?
+    val finishedAt: Instant?
     val error: Throwable?
     val result: Task.Result?
     val executionState: ExecutionState

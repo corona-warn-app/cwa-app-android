@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 
 class TestTaskControllerFragmentViewModel @AssistedInject constructor(
     private val taskController: TaskController,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     private val taskFactories: Map<
         @JvmSuppressWildcards Class<out Task<*, *>>,
         @JvmSuppressWildcards TaskFactory<out Task.Progress, out Task.Result>>
@@ -82,7 +82,7 @@ class TestTaskControllerFragmentViewModel @AssistedInject constructor(
             val typeLabel = type.simpleName
             val count = taskStates.count { it.type.java == type }
             val lastTask = taskStates.lastOrNull { it.type.java == type }
-            val completedAt = lastTask?.completedAt
+            val completedAt = lastTask?.finishedAt
             val resultType = when {
                 lastTask == null -> "Never ran"
                 lastTask.isActive -> "Running!"

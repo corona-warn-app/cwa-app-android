@@ -9,7 +9,7 @@ import javax.inject.Provider
 class SkippingTask : QueueingTask() {
 
     data class Config(
-        override val collisionBehavior: TaskFactory.Config.CollisionBehavior = TaskFactory.Config.CollisionBehavior.SKIP_IF_ALREADY_RUNNING
+        override val collisionBehavior: TaskFactory.Config.CollisionBehavior = TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
     ) : TaskFactory.Config
 
     class Factory @Inject constructor(

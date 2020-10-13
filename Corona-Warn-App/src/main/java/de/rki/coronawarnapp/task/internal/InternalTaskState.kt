@@ -1,5 +1,9 @@
-package de.rki.coronawarnapp.task
+package de.rki.coronawarnapp.task.internal
 
+import de.rki.coronawarnapp.task.Task
+import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.TaskRequest
+import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.TaskState.ExecutionState
 import kotlinx.coroutines.Deferred
 import org.joda.time.Instant
@@ -11,11 +15,11 @@ internal data class InternalTaskState(
     override val request: TaskRequest,
     override val createdAt: Instant,
     override val startedAt: Instant? = null,
-    override val completedAt: Instant? = null,
+    override val finishedAt: Instant? = null,
     override val error: Throwable? = null,
     override val result: Task.Result? = null,
     internal val config: TaskFactory.Config,
-    internal val deferred: Deferred<Task.Result>,
+    internal val job: Deferred<Task.Result>,
     internal val task: Task<*, *>
 ) : TaskState {
 
@@ -24,7 +28,7 @@ internal data class InternalTaskState(
 
     override val executionState: ExecutionState
         get() = when {
-            completedAt != null -> ExecutionState.FINISHED
+            finishedAt != null -> ExecutionState.FINISHED
             startedAt != null -> ExecutionState.RUNNING
             else -> ExecutionState.PENDING
         }

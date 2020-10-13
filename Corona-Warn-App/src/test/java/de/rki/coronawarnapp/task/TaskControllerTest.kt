@@ -155,7 +155,7 @@ class TaskControllerTest : BaseIOTest() {
             taskState.resultOrThrow shouldNotBe null
 
             taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
-            taskState.completedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
+            taskState.finishedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
 
             taskState.error shouldBe null
 
@@ -199,7 +199,7 @@ class TaskControllerTest : BaseIOTest() {
 
         infoFinished.apply {
             taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
-            taskState.completedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
+            taskState.finishedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
 
             taskState.isSuccessful shouldBe false
             taskState.isFailed shouldBe true
@@ -258,10 +258,10 @@ class TaskControllerTest : BaseIOTest() {
         }
         infoPending.size shouldBe 2
         infoPending.single { it.taskState.request == request1 }.apply {
-            taskState.executionState == TaskState.ExecutionState.RUNNING
+            taskState.executionState shouldBe TaskState.ExecutionState.RUNNING
         }
         infoPending.single { it.taskState.request == request2 }.apply {
-            taskState.executionState == TaskState.ExecutionState.PENDING
+            taskState.executionState shouldBe TaskState.ExecutionState.PENDING
         }
 
         this.advanceUntilIdle()

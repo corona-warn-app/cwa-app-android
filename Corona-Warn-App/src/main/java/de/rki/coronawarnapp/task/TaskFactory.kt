@@ -10,7 +10,7 @@ interface TaskFactory<
 
         enum class CollisionBehavior {
             ENQUEUE,
-            SKIP_IF_ALREADY_RUNNING
+            SKIP_IF_SIBLING_RUNNING
         }
     }
 
