@@ -63,6 +63,8 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
     ) : Task.Result
 
     data class Config(
+        override val timeout: Long? = null,
+
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
 
