@@ -21,23 +21,31 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan) {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1
     }
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val subQRViewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
     private val viewModel: SubmissionViewModel by activityViewModels()
-    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy() 
     private var showsPermissionDialog = false
 
     private fun decodeCallback(result: BarcodeResult) {
@@ -94,11 +102,12 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         binding.submissionQrCodeScanClose.setOnClickListener {
-            navigateToDispatchScreen()
+            subQRViewModel.onClosePressed()
         }
 
         binding.submissionQrCodeScanPreview.decoderFactory =
             DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
         viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
@@ -127,6 +136,14 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.registrationError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
+        }
+
+        subQRViewModel.navigateToDispatch.observe2(this) {
+            navigateToDispatchScreen()
+        }
+
+        subQRViewModel.navigateBack.observe2(this) {
+            goBack()
         }
     }
 
@@ -196,7 +213,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             cancelable = false,
             positiveButtonFunction = {
                 showsPermissionDialog = false
-                goBack()
+                subQRViewModel.onBackPressed()
             }
         )
         showsPermissionDialog = true
@@ -217,7 +234,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             },
             {
                 showsPermissionDialog = false
-                goBack()
+                subQRViewModel.onBackPressed()
             }
         )
 
