@@ -6,6 +6,12 @@ interface TaskFactory<
     > {
 
     interface Config {
+        /**
+         * the maximal runtime of the task
+         * in milliseconds
+         */
+        val timeout: Long?
+
         val collisionBehavior: CollisionBehavior
 
         enum class CollisionBehavior {
