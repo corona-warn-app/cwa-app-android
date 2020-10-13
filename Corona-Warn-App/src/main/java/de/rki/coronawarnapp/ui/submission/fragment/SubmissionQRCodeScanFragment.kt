@@ -43,13 +43,13 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     }
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val subQRViewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
-    private val viewModel: SubmissionViewModel by activityViewModels()
-    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy() 
+    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
 
     private fun decodeCallback(result: BarcodeResult) {
-        viewModel.validateAndStoreTestGUID(result.text)
+        submissionViewModel.validateAndStoreTestGUID(result.text)
     }
 
     private fun startDecode() {
@@ -102,7 +102,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         binding.submissionQrCodeScanClose.setOnClickListener {
-            subQRViewModel.onClosePressed()
+            viewModel.onClosePressed()
         }
 
         binding.submissionQrCodeScanPreview.decoderFactory =
@@ -110,9 +110,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
+        submissionViewModel.scanStatus.observeEvent(viewLifecycleOwner) {
             if (ScanStatus.SUCCESS == it) {
-                viewModel.doDeviceRegistration()
+                submissionViewModel.doDeviceRegistration()
             }
 
             if (ScanStatus.INVALID == it) {
@@ -120,7 +120,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
         }
 
-        viewModel.registrationState.observeEvent(viewLifecycleOwner) {
+        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner) {
             binding.submissionQrCodeScanSpinner.visibility = when (it) {
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
@@ -134,15 +134,15 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
         }
 
-        viewModel.registrationError.observeEvent(viewLifecycleOwner) {
+        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner) {
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        subQRViewModel.navigateToDispatch.observe2(this) {
+        viewModel.navigateToDispatch.observe2(this) {
             navigateToDispatchScreen()
         }
 
-        subQRViewModel.navigateBack.observe2(this) {
+        viewModel.navigateBack.observe2(this) {
             goBack()
         }
     }
@@ -213,7 +213,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             cancelable = false,
             positiveButtonFunction = {
                 showsPermissionDialog = false
-                subQRViewModel.onBackPressed()
+                viewModel.onBackPressed()
             }
         )
         showsPermissionDialog = true
@@ -234,7 +234,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             },
             {
                 showsPermissionDialog = false
-                subQRViewModel.onBackPressed()
+                viewModel.onBackPressed()
             }
         )
 
