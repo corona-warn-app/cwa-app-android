@@ -165,7 +165,7 @@
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
     <string name="risk_card_body_saved_days_full">"Exposure logging permanently active"</string>
     <!-- XTXT; risk card - no update done yet -->
-    <string name="risk_card_body_not_yet_fetched">"Encounters have not yet been checked."</string>
+    <string name="risk_card_body_not_yet_fetched">"Exposures have not yet been checked."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Updated: %1$s"</string>
     <!-- XTXT: risk card - next update -->
@@ -210,7 +210,7 @@
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Check is running…"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
-    <string name="risk_card_loading_body">"Current data is being downloaded and checked.\nThis can take several minutes."</string>
+    <string name="risk_card_loading_body">"Current data is being downloaded and checked. This may take several minutes."</string>
 
     <!-- ####################################
                     Main
@@ -379,8 +379,6 @@
     <string name="risk_details_explanation_dialog_title">"Information about exposure logging functionality"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
-    <!-- XLNK: risk explanations and information - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"For further information, please see our FAQ page."</a></string>
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
 
@@ -569,7 +567,7 @@
         <item quantity="many">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_active">"Three people have activated exposure logging on their devices, which will log their encounters with each other."</string>
+    <string name="settings_tracing_illustration_description_active">"Three persons have activated exposure logging on their smartphones, which will log their encounters with each other."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_inactive">"A person has deactivated exposure logging on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -857,10 +855,6 @@
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->
     <string name="submission_test_result_pending_remove_test_button">"Delete Test"</string>
-    <!-- XHED: Page headline for positive test result screen  -->
-    <string name="submission_test_result_positive_steps_positive_heading">"Your Test Result"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Your test result was verified as positive."</string>
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Your Test Result"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
@@ -882,7 +876,7 @@
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the test center or laboratory involved to find out how to proceed.\n\nPlease delete the test from your Corona-Warn-App so that you will be able to save a new test code there, if necessary."</string>
     <!-- XBUT: invalid test result : remove the test button -->
-    <string name="submission_test_result_invalid_remove_test_button">"Delete Test"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"Remove test"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">"Exposure Logging required"</string>
     <!-- YTXT: Dialog text for tracing required dialog-->
@@ -946,9 +940,9 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Register your test by scanning the QR code of your test document."</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
-    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Declaration of Consent"</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Consent"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping on “Accept”, you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under “Data Privacy Information”."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping \"Accept\", you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under \"Data Privacy Information\"."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Accept"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -1040,7 +1034,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"No"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"No statement"</string>
+    <string name="submission_symptom_no_information_button">"No answer"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Next"</string>
 
@@ -1088,7 +1082,7 @@
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"More than 2 weeks ago"</string>
     <!-- XBUT: symptom calendar screen verify button -->
-    <string name="submission_symptom_verify">"No statement"</string>
+    <string name="submission_symptom_verify">"No answer"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1143,7 +1137,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Evaluation is not possible"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Your result is not yet available"</string>
+    <string name="test_result_card_status_pending">"Your result is not available yet"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Other information:"</string>
     <!-- YTXT: Content for further info of test result negative -->
@@ -1202,7 +1196,7 @@
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"An unknown error occurred."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
-    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Your app was reset due to a technical problem. This has no effect on the app\'s functionality. You will continue to be notified about exposures and still be able to warn others, should you be tested positive for COVID-19."</string>
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Your app was reset due to a technical problem. This has no effect exposure logging or your risk status. You will continue to be notified about exposures and still be able to warn others, should you be tested positive for COVID-19. Please note, however, that the app reset means any read QR codes for the electronic notification of your test results have been lost. In this case, please contact your doctor or the testing lab to find out your test result."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
     <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 

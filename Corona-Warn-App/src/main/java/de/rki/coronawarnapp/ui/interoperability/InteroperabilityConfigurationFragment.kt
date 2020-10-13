@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInteroperabilityConfigurationBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -29,7 +30,6 @@ class InteroperabilityConfigurationFragment :
     private val networkCallback = object : ConnectivityHelper.NetworkCallback() {
         override fun onNetworkAvailable() {
             vm.getAllCountries()
-            unregisterNetworkCallback()
         }
 
         override fun onNetworkUnavailable() {
@@ -42,6 +42,10 @@ class InteroperabilityConfigurationFragment :
 
         vm.countryList.observe2(this) {
             binding.countryData = it
+        }
+
+        if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
+            registerNetworkCallback()
         }
 
         vm.saveInteroperabilityUsed()
@@ -58,14 +62,13 @@ class InteroperabilityConfigurationFragment :
 
         binding.interoperabilityConfigurationCountryList
             .noCountriesRiskdetailsInfoview.riskDetailsOpenSettingsButton.setOnClickListener {
-            val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-            } else {
-                Intent(Settings.ACTION_SETTINGS)
+                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+                } else {
+                    Intent(Settings.ACTION_SETTINGS)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
-            registerNetworkCallback()
-        }
     }
 
     private fun registerNetworkCallback() {
@@ -87,5 +90,12 @@ class InteroperabilityConfigurationFragment :
     override fun onDestroy() {
         super.onDestroy()
         unregisterNetworkCallback()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())) {
+            registerNetworkCallback()
+        }
     }
 }
