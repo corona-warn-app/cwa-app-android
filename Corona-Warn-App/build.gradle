@@ -45,6 +45,8 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
 
+        ndkVersion "21.2.6472646"
+
         versionCode(
                 VERSION_MAJOR.toInteger() * 1000000
                         + VERSION_MINOR.toInteger() * 10000
