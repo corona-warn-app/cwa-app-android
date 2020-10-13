@@ -599,15 +599,15 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "11".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
 
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-02".day,
-                hourIdentifier = "13".hour
+                dayIdentifier = "2020-09-03".day,
+                hourIdentifier = "12".hour
             )
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
