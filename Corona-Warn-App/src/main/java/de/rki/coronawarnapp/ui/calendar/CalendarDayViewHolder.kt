@@ -55,8 +55,8 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
                 textView.setBackgroundResource(R.drawable.calendar_today_back)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorCalendarTodayText))
             }
-            // Future
-            day.date.isAfter(today) -> {
+            // Future & past exceeding 21 days
+            day.date.isAfter(today) || day.date.isBefore(today.minusDays(ONSET_PERIOD)) -> {
                 textView.setBackgroundResource(0)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary3))
             }
@@ -64,11 +64,6 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             day.date.isBefore(today) -> {
                 textView.setBackgroundResource(0)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary1))
-            }
-            // Past > 21 days
-            day.date.isBefore(today.minusDays(ONSET_PERIOD)) -> {
-                textView.setBackgroundResource(0)
-                textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary3))
             }
         }
     }
