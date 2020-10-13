@@ -32,6 +32,11 @@ def environmentExtractor = { File path ->
 }
 
 android {
+    println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
+    println("Current VERSION_MINOR: ${VERSION_MINOR}")
+    println("Current VERSION_PATCH: ${VERSION_PATCH}")
+    println("Current VERSION_BUILD: ${VERSION_BUILD}")
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -39,8 +44,17 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 47
-        versionName "1.5.0"
+
+        versionCode (
+                VERSION_MAJOR.toInteger() * 1000000
+                + VERSION_MINOR.toInteger() * 10000
+                + VERSION_PATCH.toInteger() * 100
+                + VERSION_BUILD.toInteger()
+        )
+        println("Used versionCode: $versionCode")
+
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+        println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
 
