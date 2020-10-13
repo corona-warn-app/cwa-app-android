@@ -38,8 +38,8 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // Set day content description for talk back
         textView.contentDescription = day.date.toString(talkBackDateFormat)
 
-        // If date is after today - then disable click listener
-        if (!day.date.isAfter(today) && !day.date.isBefore(today.minusDays(21))) {
+        // If date is after today or exceeds 21 days in the past- then disable click listener
+        if (!day.date.isAfter(today) && !day.date.isBefore(today.minusDays(ONSET_PERIOD))) {
             textView.setOnClickListener { clickListener(day) }
         }
 
@@ -66,10 +66,15 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary1))
             }
             // Past > 21 days
-            day.date.isBefore(today.minusDays(21)) -> {
+            day.date.isBefore(today.minusDays(ONSET_PERIOD)) -> {
                 textView.setBackgroundResource(0)
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary3))
             }
         }
+    }
+
+    companion object {
+        // Max number of days for the onset of symptoms to be calculated
+        private const val ONSET_PERIOD = 21
     }
 }
