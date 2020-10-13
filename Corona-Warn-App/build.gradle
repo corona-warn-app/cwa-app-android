@@ -39,7 +39,7 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 45
+        versionCode 47
         versionName "1.5.0"
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
