@@ -44,7 +44,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     )
                 is SubmissionNavigationEvents.NavigateToQRInfo ->
                     findNavController().doNavigate(
-                        SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
                     )
             }
         }

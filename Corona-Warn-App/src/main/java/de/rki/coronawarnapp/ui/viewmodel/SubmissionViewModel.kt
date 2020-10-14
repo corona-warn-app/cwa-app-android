@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate

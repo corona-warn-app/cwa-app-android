@@ -14,7 +14,7 @@ class SubmissionDispatcherViewModel @AssistedInject constructor() : CWAViewModel
     }
 
     fun onQRScanPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRInfo)
     }
 
     fun onTanPressed() {
