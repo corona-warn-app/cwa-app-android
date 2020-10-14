@@ -42,10 +42,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToQRCodeScan ->
+                is SubmissionNavigationEvents.NavigateToQRInfo ->
                     findNavController().doNavigate(
-                        SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
+                        SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
                     )
             }
         }
