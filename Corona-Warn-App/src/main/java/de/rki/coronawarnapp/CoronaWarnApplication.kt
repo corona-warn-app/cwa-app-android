@@ -61,7 +61,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         ProcessLifecycleOwner.get().lifecycle.addObserver(foregroundStateUpdater)
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
-        //toDo just for testing, remove later
+        // toDo just for testing, remove later
         try {
             val a = 2 / 0
         } catch (e: Exception) {

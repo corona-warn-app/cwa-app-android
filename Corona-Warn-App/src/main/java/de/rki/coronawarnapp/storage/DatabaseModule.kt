@@ -11,27 +11,27 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
 
-    //TODO: Replace every manually instantiation of database and daos with injection otherwise @Singleton crashes the app
+    // TODO: Replace every manually instantiation of database and daos with injection otherwise @Singleton crashes the app
 
-    //@Singleton
+    // @Singleton
     @Provides
     fun provideAppDatabase(context: Context): AppDatabase {
         return AppDatabase.getInstance(context)
     }
 
-    //@Singleton
+    // @Singleton
     @Provides
     fun provideExposureSummaryDao(db: AppDatabase): ExposureSummaryDao {
         return db.exposureSummaryDao()
     }
 
-    //@Singleton
+    // @Singleton
     @Provides
     fun provideDateDao(db: AppDatabase): KeyCacheDao {
         return db.dateDao()
     }
 
-    //@Singleton
+    // @Singleton
     @Provides
     fun provideTracingIntervalDao(db: AppDatabase): TracingIntervalDao {
         return db.tracingIntervalDao()
