@@ -814,6 +814,19 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"İptal"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"QR Kod Tarama"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Yalnızca kendi testinizi tarayın."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"Test yalnızca "<b>"bir kez"</b>" taranabilir."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"Uygulama aynı anda birden çok testi "<b>"yönetemez"</b>"."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"Daha yakın zamanlı bir test varsa mevcut testi silin ve yakın zamanlı testin QR kodunu tarayın."</string>
+
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"QR kodu çerçeveye sığdırın."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -831,7 +844,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucu henüz çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz henüz çıkmadı."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Değerlendirme birkaç gün sürebilir, bu nedenle lütfen sabırlı olun.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nTest sonucunun pozitif olması halinde sonucu uygulamaya kaydetmek ve diğer kullanıcıları uyarmak için lütfen \"TAN Talebi\" başlığının altında görüntülenen numarayı arayın."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Güncelle"</string>
     <!-- XBUT: test result pending : remove the test button -->
