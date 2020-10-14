@@ -10,3 +10,5 @@
 !/.idea/codeStyles/
 !/.idea/codeStyles/**/*
 /test_environments.json
+*.jks
+/keystore.properties
