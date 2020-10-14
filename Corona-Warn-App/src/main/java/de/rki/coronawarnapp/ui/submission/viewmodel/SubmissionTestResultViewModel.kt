@@ -18,7 +18,7 @@ class SubmissionTestResultViewModel @AssistedInject constructor() : CWAViewModel
     }
 
     fun onContinuePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionIntro)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
     }
 
     fun onContinueNoSymptomsPressed() {

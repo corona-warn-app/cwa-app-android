@@ -58,7 +58,7 @@ class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomCalendar -> navigateToNext()
-                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> handleSubmissionCancellation()
+                is SubmissionNavigationEvents.NavigateToTestResult -> handleSubmissionCancellation()
             }
         }
 
