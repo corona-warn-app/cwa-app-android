@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.logging
 
 import java.util.Date
 
+@Deprecated("better idea now")
 data class LogElement(
     val message: String,
     val priority: Int,

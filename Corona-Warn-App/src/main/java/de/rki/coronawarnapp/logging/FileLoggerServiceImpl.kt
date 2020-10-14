@@ -11,6 +11,7 @@ import java.io.FileOutputStream
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
+@Deprecated("better idea now")
 class FileLoggerServiceImpl private constructor(private val logFile: File) : IFileLoggerService {
 
     private val logBuffer: PublishSubject<LogElement> by lazy {
