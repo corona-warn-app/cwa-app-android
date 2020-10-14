@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragmentDirections
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomIntroductionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
