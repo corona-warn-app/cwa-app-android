@@ -17,7 +17,6 @@ class CrashReportRepository @Inject constructor(private val crashReportDao: Cras
         val appVersionCode = BuildConfig.VERSION_CODE
         val apiLevel = Build.VERSION.SDK_INT
         val androidVersion = Build.VERSION.RELEASE
-        // TODO: Save git commit it via gradle
         val shortID = BuildConfig.GIT_COMMIT_SHORT_HASH
         val stackTrace = Log.getStackTraceString(t)
 
