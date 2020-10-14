@@ -9,28 +9,27 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.crash.CrashReportDao
 import de.rki.coronawarnapp.crash.CrashReportEntity
-import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyDao
-import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.KeyCacheLegacyEntity
+import de.rki.coronawarnapp.storage.keycache.KeyCacheDao
+import de.rki.coronawarnapp.storage.keycache.KeyCacheEntity
+import de.rki.coronawarnapp.storage.keycache.KeyCacheRepository
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalEntity
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
-import de.rki.coronawarnapp.util.database.CommonConverters
-import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.Converters
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SupportFactory
 import java.io.File
 
 @Database(
-    entities = [ExposureSummaryEntity::class, KeyCacheLegacyEntity::class, TracingIntervalEntity::class, CrashReportEntity::class],
-    version = 1,
+    entities = [ExposureSummaryEntity::class, KeyCacheEntity::class, TracingIntervalEntity::class, CrashReportEntity::class],
+    version = 2,
     exportSchema = true
 )
-@TypeConverters(CommonConverters::class)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun exposureSummaryDao(): ExposureSummaryDao
-    abstract fun dateDao(): KeyCacheLegacyDao
+    abstract fun dateDao(): KeyCacheDao
     abstract fun tracingIntervalDao(): TracingIntervalDao
     abstract fun crashReportDao(): CrashReportDao
 
@@ -58,8 +57,7 @@ abstract class AppDatabase : RoomDatabase() {
             resetInstance()
 
             // reset also the repo instances
-            val keyRepository = AppInjector.component.keyCacheRepository
-            runBlocking { keyRepository.clear() } // TODO this is not nice
+            KeyCacheRepository.resetInstance()
             TracingIntervalRepository.resetInstance()
             ExposureSummaryRepository.resetInstance()
         }
@@ -70,7 +68,7 @@ abstract class AppDatabase : RoomDatabase() {
                  * The fallback behavior is to reset the app as we only store exposure summaries
                  * and cached references that are non-critical to app operation.
                  */
-                .fallbackToDestructiveMigrationFrom()
+                .fallbackToDestructiveMigration()
                 .openHelperFactory(SupportFactory(SecurityHelper.getDBPassword()))
                 .build()
         }
