@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.task
 
+import org.joda.time.Duration
+
 interface TaskFactory<
     ProgressType : Task.Progress,
     ResultType : Task.Result
@@ -7,10 +9,9 @@ interface TaskFactory<
 
     interface Config {
         /**
-         * the maximal runtime of the task
-         * in milliseconds
+         * The maximal runtime of the task, before it is canceled by the controller
          */
-        val timeout: Long?
+        val executionTimeout: Duration
 
         val collisionBehavior: CollisionBehavior
 

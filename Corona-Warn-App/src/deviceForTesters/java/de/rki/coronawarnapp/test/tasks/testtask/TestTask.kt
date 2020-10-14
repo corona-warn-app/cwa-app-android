@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -53,11 +54,12 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
 
     class Result : Task.Result
 
-    data class Config(
+    class Config : TaskFactory.Config {
+        override val executionTimeout: Duration = Duration.standardSeconds(10)
+
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
-
-    ) : TaskFactory.Config
+    }
 
     class Factory @Inject constructor(
         private val taskByDagger: Provider<TestTask>

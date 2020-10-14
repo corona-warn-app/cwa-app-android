@@ -8,12 +8,14 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import org.joda.time.Duration
 import timber.log.Timber
 import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("MagicNumber")
 open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -51,32 +53,26 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
         isCanceled = true
     }
 
-    @Suppress("MagicNumber")
     data class Arguments(
         val path: File,
         val values: List<String> = (1..10).map { UUID.randomUUID().toString() },
         val delay: Long = 100L
     ) : Task.Arguments
 
-    data class Result(
-        val writtenBytes: Long
-    ) : Task.Result
+    data class Result(val writtenBytes: Long) : Task.Result
 
-    data class Config(
-        override val timeout: Long? = null,
+    class Config : TaskFactory.Config {
+        override val executionTimeout: Duration = Duration.standardSeconds(10)
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
-
-    ) : TaskFactory.Config
+    }
 
     class Factory @Inject constructor(
         private val taskByDagger: Provider<QueueingTask>
     ) : TaskFactory<DefaultProgress, Result> {
 
         override val config: TaskFactory.Config = Config()
-        override val taskProvider: () -> Task<DefaultProgress, Result> = {
-            taskByDagger.get()
-        }
+        override val taskProvider: () -> Task<DefaultProgress, Result> = { taskByDagger.get() }
     }
 }

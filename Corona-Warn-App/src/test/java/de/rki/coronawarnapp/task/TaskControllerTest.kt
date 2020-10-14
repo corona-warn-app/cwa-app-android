@@ -2,7 +2,10 @@ package de.rki.coronawarnapp.task
 
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.example.QueueingTask
-import de.rki.coronawarnapp.task.example.SkippingTask
+import de.rki.coronawarnapp.task.testtasks.SkippingTask
+import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask
+import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTask2
+import de.rki.coronawarnapp.task.testtasks.timeout.TimeoutTaskArguments
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -19,6 +22,7 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
@@ -34,6 +38,7 @@ import testhelpers.extensions.isAfterOrEqual
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.UUID
+import javax.inject.Provider
 
 class TaskControllerTest : BaseIOTest() {
 
@@ -45,8 +50,10 @@ class TaskControllerTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
 
-    private val queueingFactory = spyk(QueueingTask.Factory { QueueingTask() })
-    private val skippingFactory = spyk(SkippingTask.Factory { SkippingTask() })
+    private val timeoutFactory = spyk(TimeoutTask.Factory(Provider { TimeoutTask() }))
+    private val timeoutFactory2 = spyk(TimeoutTask2.Factory(Provider { TimeoutTask2() }))
+    private val queueingFactory = spyk(QueueingTask.Factory(Provider { QueueingTask() }))
+    private val skippingFactory = spyk(SkippingTask.Factory(Provider { SkippingTask() }))
 
     @BeforeEach
     fun setup() {
@@ -54,6 +61,8 @@ class TaskControllerTest : BaseIOTest() {
 
         taskFactoryMap[QueueingTask::class.java] = queueingFactory
         taskFactoryMap[SkippingTask::class.java] = skippingFactory
+        taskFactoryMap[TimeoutTask::class.java] = timeoutFactory
+        taskFactoryMap[TimeoutTask2::class.java] = timeoutFactory2
 
         every { timeStamper.nowUTC } answers {
             Instant.now()
@@ -250,7 +259,7 @@ class TaskControllerTest : BaseIOTest() {
         )
         instance.submit(request1)
 
-        val request2 = request1.copy(id = UUID.randomUUID())
+        val request2 = request1.toNewTask()
         instance.submit(request2)
 
         val infoPending = instance.tasks.first { emission ->
@@ -408,6 +417,125 @@ class TaskControllerTest : BaseIOTest() {
         }
 
         instance.tasks.first().size shouldBe 1
+
+        instance.close()
+    }
+
+    @Test
+    fun `tasks are timed out according to their config`() = runBlockingTest {
+        val instance = createInstance(scope = this)
+
+        val request = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask::class
+        )
+
+        instance.submit(request)
+
+        val infoFinished = instance.tasks
+            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+            .single()
+
+        infoFinished.apply {
+            taskState.isFailed shouldBe true
+            taskState.error shouldBe instanceOf(TimeoutCancellationException::class)
+        }
+
+        instance.tasks.first().size shouldBe 1
+
+        instance.close()
+    }
+
+    @Test
+    fun `timeout starts on execution, not while pending`() = runBlockingTest {
+        val instance = createInstance(scope = this)
+
+        val taskWithTimeout = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask::class
+        )
+        val taskWithoutTimeout = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(delay = 5000),
+            type = TimeoutTask::class
+        )
+        val taskWithoutTimeout2 = taskWithoutTimeout.toNewTask()
+
+        instance.submit(taskWithTimeout)
+        instance.submit(taskWithoutTimeout)
+        instance.submit(taskWithoutTimeout2)
+
+        val finishedTasks = instance.tasks.first { tasks ->
+            tasks.all { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
+        }
+        instance.tasks.first().size shouldBe 3
+
+        finishedTasks.single { it.taskState.request == taskWithTimeout }.apply {
+            taskState.isFailed shouldBe true
+            taskState.error shouldBe instanceOf(TimeoutCancellationException::class)
+        }
+        finishedTasks.single { it.taskState.request == taskWithoutTimeout }.apply {
+            taskState.isSuccessful shouldBe true
+            taskState.error shouldBe null
+            taskState.result shouldNotBe null
+        }
+        finishedTasks.single { it.taskState.request == taskWithoutTimeout2 }.apply {
+            taskState.isSuccessful shouldBe true
+            taskState.error shouldBe null
+            taskState.result shouldNotBe null
+        }
+
+        instance.close()
+    }
+
+    @Test
+    fun `parallel tasks can timeout`() = runBlockingTest {
+        val instance = createInstance(scope = this)
+
+        val task1WithTimeout = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask::class
+        )
+        val task2WithTimeout = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask2::class
+        )
+        val task1WithoutTimeout = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(delay = 5000),
+            type = TimeoutTask::class
+        )
+        val task2WithoutTimeout = DefaultTaskRequest(
+            arguments = TimeoutTaskArguments(delay = 5000),
+            type = TimeoutTask2::class
+        )
+
+        instance.submit(task1WithTimeout)
+        instance.submit(task2WithTimeout)
+        instance.submit(task1WithoutTimeout)
+        instance.submit(task2WithoutTimeout)
+
+        val finishedTasks = instance.tasks.first { tasks ->
+            tasks.all { it.taskState.executionState == TaskState.ExecutionState.FINISHED }
+        }
+        instance.tasks.first().size shouldBe 4
+
+        finishedTasks.single { it.taskState.request == task1WithTimeout }.apply {
+            taskState.isFailed shouldBe true
+            taskState.error shouldBe instanceOf(TimeoutCancellationException::class)
+        }
+        finishedTasks.single { it.taskState.request == task2WithTimeout }.apply {
+            taskState.isFailed shouldBe true
+            taskState.error shouldBe instanceOf(TimeoutCancellationException::class)
+        }
+        finishedTasks.single { it.taskState.request == task1WithoutTimeout }.apply {
+            taskState.isSuccessful shouldBe true
+            taskState.error shouldBe null
+            taskState.result shouldNotBe null
+        }
+        finishedTasks.single { it.taskState.request == task2WithoutTimeout }.apply {
+            taskState.isSuccessful shouldBe true
+            taskState.error shouldBe null
+            taskState.result shouldNotBe null
+        }
 
         instance.close()
     }
