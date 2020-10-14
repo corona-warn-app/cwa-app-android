@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_testMenuFragment_to_testRiskLevelCalculation"
             app:destination="@id/test_risklevel_calculation_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_testTaskControllerFragment"
+            app:destination="@id/test_taskcontroller_fragment" />
     </fragment>
 
     <fragment
@@ -34,5 +37,11 @@
             android:defaultValue="null"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/test_taskcontroller_fragment"
+        android:name="de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment"
+
+        tools:layout="@layout/fragment_test_task_controller"
+        android:label="TestTaskControllerFragment" />
 
 </navigation>
