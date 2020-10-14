@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionContactBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactViewModel
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -31,18 +32,19 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.navigateBack.observe2(this) {
-            findNavController().popBackStack()
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    findNavController().popBackStack()
+                is SubmissionNavigationEvents.NavigateToTAN ->
+                    findNavController().doNavigate(
+                        SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
+                    )
+            }
         }
 
         viewModel.dial.observe2(this) {
             dial()
-        }
-
-        viewModel.navigateToTan.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
-            )
         }
     }
 

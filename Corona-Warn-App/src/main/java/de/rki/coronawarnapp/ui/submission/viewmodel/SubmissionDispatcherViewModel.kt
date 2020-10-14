@@ -7,25 +7,22 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SubmissionDispatcherViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val navigateBack = SingleLiveEvent<Unit>()
-    val navigateQRScan = SingleLiveEvent<Unit>()
-    val navigateTAN = SingleLiveEvent<Unit>()
-    val navigateTeleTAN = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onBackPressed() {
-        navigateBack.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     fun onQRScanPressed() {
-        navigateQRScan.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
 
     fun onTanPressed() {
-        navigateTAN.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTAN)
     }
 
     fun onTeleTanPressed() {
-        navigateTeleTAN.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToContact)
     }
 
     @AssistedInject.Factory

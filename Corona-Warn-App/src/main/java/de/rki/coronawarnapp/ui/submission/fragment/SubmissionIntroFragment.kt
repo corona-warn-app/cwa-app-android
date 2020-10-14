@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionIntroBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionIntroViewModel
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -29,16 +30,17 @@ class SubmissionIntroFragment : Fragment(R.layout.fragment_submission_intro), Au
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.navigateBack.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment()
-            )
-        }
-
-        viewModel.navigateToDispatcher.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToSubmissionDispatcherFragment()
-            )
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToMainActivity ->
+                    findNavController().doNavigate(
+                        SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    findNavController().doNavigate(
+                        SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToSubmissionDispatcherFragment()
+                    )
+            }
         }
     }
 

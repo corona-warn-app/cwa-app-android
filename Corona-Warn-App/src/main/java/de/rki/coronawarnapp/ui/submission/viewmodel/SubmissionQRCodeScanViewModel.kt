@@ -7,15 +7,14 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val navigateBack = SingleLiveEvent<Unit>()
-    val navigateToDispatch = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onBackPressed() {
-        navigateBack.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRInfo)
     }
 
     fun onClosePressed() {
-        navigateToDispatch.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
     }
 
     @AssistedInject.Factory

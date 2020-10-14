@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
@@ -138,12 +139,13 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        viewModel.navigateToDispatch.observe2(this) {
-            navigateToDispatchScreen()
-        }
-
-        viewModel.navigateBack.observe2(this) {
-            goBack()
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                    goBack()
+            }
         }
     }
 

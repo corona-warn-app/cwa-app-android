@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -27,26 +28,26 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.navigateQRScan.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections
-                    .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
-            )
-        }
-        viewModel.navigateTAN.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections
-                    .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
-            )
-        }
-        viewModel.navigateTeleTAN.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections
-                    .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
-            )
-        }
-        viewModel.navigateBack.observe2(this) {
-            findNavController().popBackStack()
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToMainActivity ->
+                    findNavController().popBackStack()
+                is SubmissionNavigationEvents.NavigateToTAN ->
+                    findNavController().doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToContact ->
+                    findNavController().doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToQRCodeScan ->
+                    findNavController().doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
+                    )
+            }
         }
     }
 

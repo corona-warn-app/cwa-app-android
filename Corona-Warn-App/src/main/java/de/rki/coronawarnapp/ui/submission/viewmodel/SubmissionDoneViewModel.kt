@@ -7,15 +7,14 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SubmissionDoneViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val navigateBack = SingleLiveEvent<Unit>()
-    val navigateToMain = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onBackPressed() {
-        navigateBack.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     fun onDonePressed() {
-        navigateToMain.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     @AssistedInject.Factory

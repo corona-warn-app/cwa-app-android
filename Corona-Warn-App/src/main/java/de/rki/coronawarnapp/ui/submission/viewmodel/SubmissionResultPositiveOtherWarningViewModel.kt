@@ -7,20 +7,18 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val navigateBack = SingleLiveEvent<Unit>()
-    val startWarningOthers = SingleLiveEvent<Unit>()
-    val navigateSubmissionDone = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onBackPressed() {
-        navigateBack.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
     }
 
     fun onWarnOthersPressed() {
-        startWarningOthers.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSymptomIntroduction)
     }
 
     fun onSubmissionComplete() {
-        navigateSubmissionDone.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
     }
 
     @AssistedInject.Factory

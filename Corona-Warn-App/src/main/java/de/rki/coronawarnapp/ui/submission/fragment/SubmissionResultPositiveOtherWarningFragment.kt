@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionResultPositiveOtherWarningViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -123,16 +124,15 @@ class SubmissionResultPositiveOtherWarningFragment :
             viewModel.onBackPressed()
         }
 
-        viewModel.navigateBack.observe2(this) {
-            findNavController().popBackStack()
-        }
-
-        viewModel.startWarningOthers.observe2(this) {
-            initiateWarningOthers()
-        }
-
-        viewModel.navigateSubmissionDone.observe2(this) {
-            navigateToSubmissionDoneFragment()
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToSubmissionIntro ->
+                    initiateWarningOthers()
+                is SubmissionNavigationEvents.NavigateToSubmissionDone ->
+                    navigateToSubmissionDoneFragment()
+                is SubmissionNavigationEvents.NavigateToTestResult ->
+                    findNavController().popBackStack()
+            }
         }
     }
 

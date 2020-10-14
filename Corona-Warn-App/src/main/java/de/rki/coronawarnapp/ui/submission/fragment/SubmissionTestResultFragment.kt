@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -101,30 +102,23 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             }
         })
 
-        viewModel.navigateWithSymptoms.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-            )
-        }
-
-        viewModel.navigateWithoutSymptoms.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
-        }
-
-        viewModel.navigateTestRemoved.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
-        }
-
-        viewModel.navigateBack.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
+                    findNavController().doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning ->
+                    findNavController().doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToMainActivity ->
+                    findNavController().doNavigate(
+                        SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                    )
+            }
         }
     }
 

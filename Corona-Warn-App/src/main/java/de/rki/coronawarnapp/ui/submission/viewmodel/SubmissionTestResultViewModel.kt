@@ -7,25 +7,22 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SubmissionTestResultViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val navigateBack = SingleLiveEvent<Unit>()
-    val navigateWithoutSymptoms = SingleLiveEvent<Unit>()
-    val navigateWithSymptoms = SingleLiveEvent<Unit>()
-    val navigateTestRemoved = SingleLiveEvent<Unit>()
+    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     fun onBackPressed() {
-        navigateBack.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     fun onNavigateTestRemoved() {
-        navigateTestRemoved.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
     }
 
     fun onContinuePressed() {
-        navigateWithSymptoms.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionIntro)
     }
 
     fun onContinueNoSymptomsPressed() {
-        navigateWithoutSymptoms.postValue(Unit)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning)
     }
 
     @AssistedInject.Factory

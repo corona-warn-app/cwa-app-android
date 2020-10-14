@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneViewModel
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -29,16 +30,13 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        viewModel.navigateBack.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
-            )
-        }
-
-        viewModel.navigateToMain.observe2(this) {
-            findNavController().doNavigate(
-                SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
-            )
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToMainActivity ->
+                    findNavController().doNavigate(
+                        SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+                    )
+            }
         }
     }
 
@@ -49,11 +47,9 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
 
     private fun setButtonOnClickListener() {
         binding.submissionDoneHeader.headerButtonBack.buttonIcon.setOnClickListener {
-
             viewModel.onBackPressed()
         }
         binding.submissionDoneButtonDone.setOnClickListener {
-
             viewModel.onDonePressed()
         }
     }
