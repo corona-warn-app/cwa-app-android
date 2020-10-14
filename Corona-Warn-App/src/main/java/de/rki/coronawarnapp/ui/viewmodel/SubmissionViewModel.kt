@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
-import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -44,7 +43,7 @@ class SubmissionViewModel @Inject constructor() : CWAViewModel() {
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
 
-    //val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
+    // val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
     val symptomCalendarEvent: SingleLiveEvent<SymptomCalendarEvent> = SingleLiveEvent()
 
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
@@ -187,14 +186,6 @@ class SubmissionViewModel @Inject constructor() : CWAViewModel() {
                 err.report(ExceptionCategory.INTERNAL)
             }
         }
-    }
-
-    fun onCalendarNextClicked() {
-        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToNext)
-    }
-
-    fun onCalendarPreviousClicked() {
-        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToPrevious)
     }
 
     fun onPositiveSymptomIndication() {

@@ -123,11 +123,13 @@ class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
 
         if (submissionViewModel.symptomIndication.value!! == Symptoms.Indication.POSITIVE) {
             findNavController().doNavigate(
-                SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
+                SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
             )
         } else {
             findNavController().doNavigate(
-                SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
+                SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
             )
         }
     }
@@ -154,7 +156,8 @@ class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
 
     private fun navigateToPreviousScreen() {
         findNavController().doNavigate(
-            SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
+            SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
         )
     }
 
