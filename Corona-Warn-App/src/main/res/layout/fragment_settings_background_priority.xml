@@ -129,6 +129,7 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
+                    android:visibility="@{FormatterHelper.formatVisibility(settingsViewModel.isBackgroundPriorityEnabled())}"
                     app:body="@{@string/settings_background_priority_card_body}"
                     app:buttonText="@{@string/settings_background_priority_card_button}"
                     app:headline="@{@string/settings_background_priority_card_headline}"
