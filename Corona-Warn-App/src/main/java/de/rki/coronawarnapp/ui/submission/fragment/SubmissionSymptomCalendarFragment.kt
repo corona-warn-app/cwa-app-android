@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentDirections
+import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
@@ -117,13 +119,11 @@ class SubmissionSymptomCalendarFragment : Fragment() {
     }
 
     private fun navigateToSymptomFinish() {
-        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
-            .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment())
+        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment())
     }
 
     private fun navigateToPreviousScreen() {
-        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
-            .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
+        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections.actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
     }
 
     private fun setButtonOnClickListener() {

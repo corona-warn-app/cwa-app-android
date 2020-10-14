@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionResultPositiveOtherWarningFragment
+import de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherModule
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionIntroModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionResultPositiveOtherWarningModule
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomIntroductionModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultModule
 
@@ -65,4 +67,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [SubmissionResultPositiveOtherWarningModule::class])
     abstract fun submissionResultPositiveOtherWarningScreen(): SubmissionResultPositiveOtherWarningFragment
+
+    @ContributesAndroidInjector(modules = [SubmissionSymptomIntroductionModule::class])
+    abstract fun submissionSymptomIntroductionScreen(): SubmissionSymptomIntroductionFragment
 }

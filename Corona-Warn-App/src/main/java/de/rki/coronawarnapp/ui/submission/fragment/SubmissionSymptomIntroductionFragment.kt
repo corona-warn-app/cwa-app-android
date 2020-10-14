@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -14,14 +14,24 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragmentDirections
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomIntroductionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class SubmissionSymptomIntroductionFragment : Fragment() {
+class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionSymptomIntroductionViewModel by cwaViewModels { viewModelFactory }
     private var _binding: FragmentSubmissionSymptomIntroBinding? = null
     private val binding: FragmentSubmissionSymptomIntroBinding get() = _binding!!
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
@@ -46,12 +56,12 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.symptomIntroductionEvent.observe(viewLifecycleOwner, {
+        viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToNext()
-                is SymptomIntroductionEvent.NavigateToPreviousScreen -> handleSubmissionCancellation()
+                is SubmissionNavigationEvents.NavigateToSymptomCalendar -> navigateToNext()
+                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> handleSubmissionCancellation()
             }
-        })
+        }
 
         submissionViewModel.symptomIndication.observe(viewLifecycleOwner, {
             updateButtons(it)
@@ -65,7 +75,7 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
     private val backCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                submissionViewModel.onPreviousClicked()
+                viewModel.onPreviousClicked()
             }
         }
 
@@ -113,13 +123,11 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
 
         if (submissionViewModel.symptomIndication.value!! == Symptoms.Indication.POSITIVE) {
             findNavController().doNavigate(
-                SubmissionSymptomIntroductionFragmentDirections
-                    .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
+                SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
             )
         } else {
             findNavController().doNavigate(
-                SubmissionSymptomIntroductionFragmentDirections
-                    .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
+                SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
             )
         }
     }
@@ -146,19 +154,18 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
 
     private fun navigateToPreviousScreen() {
         findNavController().doNavigate(
-            SubmissionSymptomIntroductionFragmentDirections
-                .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
+            SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
         )
     }
 
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { submissionViewModel.onPreviousClicked() }
+            .setOnClickListener { viewModel.onPreviousClicked() }
 
         binding
             .symptomButtonNext
-            .setOnClickListener { submissionViewModel.onNextClicked() }
+            .setOnClickListener { viewModel.onNextClicked() }
 
         binding
             .symptomChoiceSelection.targetButtonApply
