@@ -42,10 +42,7 @@ class SubmissionViewModel @Inject constructor() : CWAViewModel() {
         get() = AppInjector.component.interoperabilityRepository
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
-
-    // val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
-    val symptomCalendarEvent: SingleLiveEvent<SymptomCalendarEvent> = SingleLiveEvent()
-
+    
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
 
