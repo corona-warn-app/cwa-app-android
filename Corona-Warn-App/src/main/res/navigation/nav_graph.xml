@@ -60,6 +60,14 @@
         android:label="@layout/fragment_main_overview"
         tools:layout="@layout/fragment_main_overview" />
 
+    <!-- Crash Reporting Fragment View -->
+    //todo temp testing
+    <fragment
+        android:id="@+id/crashreportfragment"
+        android:name="de.rki.coronawarnapp.ui.settings.SettingsCrashReporterFragment"
+        android:label="@layout/fragment_crashreporter_overview"
+        tools:layout="@layout/fragment_crashreporter_overview" />
+
     <!-- Settings -->
     <fragment
         android:id="@+id/settingsFragment"
@@ -96,7 +104,7 @@
     <fragment
         android:id="@+id/onboardingDeltaInteroperabilityFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
-        android:label="OnboardingDeltaInteroperabilityFragment" >
+        android:label="OnboardingDeltaInteroperabilityFragment">
         <action
             android:id="@+id/action_onboardingDeltaInteroperabilityFragment_to_informationTermsFragment"
             app:destination="@id/informationTermsFragment" />
@@ -346,7 +354,7 @@
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
-        android:label="SubmissionSymptomIntroductionFragment" >
+        android:label="SubmissionSymptomIntroductionFragment">
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
             app:destination="@id/submissionSymptomCalendarFragment" />
@@ -360,7 +368,7 @@
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
         android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
-        android:label="SubmissionSymptomCalendarFragment" >
+        android:label="SubmissionSymptomCalendarFragment">
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />

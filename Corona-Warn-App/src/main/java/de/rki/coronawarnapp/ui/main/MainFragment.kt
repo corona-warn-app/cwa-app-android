@@ -175,6 +175,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     findNavController().doNavigate(MainFragmentDirections.actionMainFragmentToTestNavGraph())
                     true
                 }
+                R.id.menu_crashreporter -> {
+                    findNavController().navigate(R.id.crashreportfragment, null)
+                    true
+                }
                 else -> super.onOptionsItemSelected(it)
             }
         }
