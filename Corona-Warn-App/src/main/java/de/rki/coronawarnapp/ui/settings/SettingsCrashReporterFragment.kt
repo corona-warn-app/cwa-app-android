@@ -59,8 +59,7 @@ class SettingsCrashReporterFragment : Fragment() {
         list.adapter = adapter
     }
 
-
-    //****************ADAPTER***************
+    // ****************ADAPTER***************
 
     class MyCrashesAdapter : RecyclerView.Adapter<MyCrashesAdapter.ViewHolder>() {
         private var items = listOf<CrashModel>()
@@ -74,9 +73,8 @@ class SettingsCrashReporterFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = items[position]
 
-            //holder.contentTextView.text = item.content
-            //holder.sourceTextView.text = item.source
-
+            // holder.contentTextView.text = item.content
+            // holder.sourceTextView.text = item.source
         }
 
         fun replaceItems(items: List<CrashModel>) {
