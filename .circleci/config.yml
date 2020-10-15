@@ -26,10 +26,10 @@ commands:
           name: "Check if assemble required"
           command: |
             last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
-              circleci-agent step halt
-              echo "Skipping job"
-            fi
+#            if [[ $last_commit != *"Version bump"* ]]; then
+#              circleci-agent step halt
+#              echo "Skipping job"
+#            fi
   run-gradle-cmd:
     description: "Running gradle command with environment options"
     parameters:
