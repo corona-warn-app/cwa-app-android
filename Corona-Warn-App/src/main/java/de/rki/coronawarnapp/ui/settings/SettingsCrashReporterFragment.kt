@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import de.rki.coronawarnapp.R
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
+import de.rki.coronawarnapp.ui.viewmodel.SettingsCrashReporterViewModel
 
 class SettingsCrashReporterFragment : Fragment() {
 
@@ -20,6 +23,8 @@ class SettingsCrashReporterFragment : Fragment() {
             }
     }
 
+    private val settingsCrashReporterViewModel: SettingsCrashReporterViewModel by viewModels()
+    private lateinit var fragmentCrashreporterOverviewBinding: FragmentCrashreporterOverviewBinding
     private lateinit var adapter: CrashReporterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +33,8 @@ class SettingsCrashReporterFragment : Fragment() {
         arguments?.let {
             // columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+
+        adapter = CrashReporterAdapter()
     }
 
     override fun onCreateView(
@@ -35,6 +42,17 @@ class SettingsCrashReporterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_crashreporter_overview, container, false)
+        fragmentCrashreporterOverviewBinding =
+            FragmentCrashreporterOverviewBinding.inflate(inflater)
+        return fragmentCrashreporterOverviewBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fragmentCrashreporterOverviewBinding.list.adapter = adapter
+
+        settingsCrashReporterViewModel.crashReports.observe(viewLifecycleOwner) {
+            adapter.updateCrashReports(it)
+        }
     }
 }

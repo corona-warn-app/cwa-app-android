@@ -7,6 +7,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.crash.CrashReportRepository
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -68,6 +69,9 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val connectivityHelperInjection: ConnectivityHelperInjection
 
     val settingsRepository: SettingsRepository
+
+    // TODO remove that later, after updating branch
+    val crashReportRepository: CrashReportRepository
 
     val keyCacheRepository: KeyCacheRepository
     val keyFileDownloader: KeyFileDownloader
