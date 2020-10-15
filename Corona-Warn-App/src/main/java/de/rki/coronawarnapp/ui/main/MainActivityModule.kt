@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
 import de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragmentModule
+import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
+import de.rki.coronawarnapp.ui.settings.SettingsResetModule
 
 @Module(
     includes = [
@@ -30,4 +32,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
     abstract fun submissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
+
+    @ContributesAndroidInjector(modules = [SettingsResetModule::class])
+    abstract fun settingsResetScreen(): SettingsResetFragment
 }
