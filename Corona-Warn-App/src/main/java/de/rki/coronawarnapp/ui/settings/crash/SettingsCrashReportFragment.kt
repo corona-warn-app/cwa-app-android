@@ -38,5 +38,3 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
         }
     }
 }
-
-

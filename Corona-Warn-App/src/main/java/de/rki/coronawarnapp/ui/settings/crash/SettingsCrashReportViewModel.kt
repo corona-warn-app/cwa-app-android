@@ -7,10 +7,10 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class SettingsCrashReportViewModel @AssistedInject constructor(
     private val crashReportRepository: CrashReportRepository
-): CWAViewModel() {
+) : CWAViewModel() {
 
     val crashReports = crashReportRepository.allCrashReports
 
     @AssistedInject.Factory
-    interface Factory: SimpleCWAViewModelFactory<SettingsCrashReportViewModel>
+    interface Factory : SimpleCWAViewModelFactory<SettingsCrashReportViewModel>
 }

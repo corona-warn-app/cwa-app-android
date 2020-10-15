@@ -4,7 +4,6 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.crash.CrashReportDao
-import de.rki.coronawarnapp.storage.keycache.KeyCacheDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import javax.inject.Singleton
 
@@ -15,31 +14,17 @@ class DatabaseModule {
 
     // @Singleton
     @Provides
-    fun provideAppDatabase(context: Context): AppDatabase {
-        return AppDatabase.getInstance(context)
-    }
+    fun provideAppDatabase(context: Context): AppDatabase = AppDatabase.getInstance(context)
 
     // @Singleton
     @Provides
-    fun provideExposureSummaryDao(db: AppDatabase): ExposureSummaryDao {
-        return db.exposureSummaryDao()
-    }
+    fun provideExposureSummaryDao(db: AppDatabase): ExposureSummaryDao = db.exposureSummaryDao()
 
     // @Singleton
     @Provides
-    fun provideDateDao(db: AppDatabase): KeyCacheDao {
-        return db.dateDao()
-    }
-
-    // @Singleton
-    @Provides
-    fun provideTracingIntervalDao(db: AppDatabase): TracingIntervalDao {
-        return db.tracingIntervalDao()
-    }
+    fun provideTracingIntervalDao(db: AppDatabase): TracingIntervalDao = db.tracingIntervalDao()
 
     @Singleton
     @Provides
-    fun provideCrashReportDao(db: AppDatabase): CrashReportDao {
-        return db.crashReportDao()
-    }
+    fun provideCrashReportDao(db: AppDatabase): CrashReportDao = db.crashReportDao()
 }
