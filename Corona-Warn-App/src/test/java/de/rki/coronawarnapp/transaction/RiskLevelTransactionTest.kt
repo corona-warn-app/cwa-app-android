@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-import de.rki.coronawarnapp.risk.RiskLevelCalculation
+import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
@@ -483,7 +483,7 @@ class RiskLevelTransactionTest {
         val testAppConfig = buildTestAppConfig()
         Assert.assertEquals(
             RiskLevel.INCREASED_RISK, RiskLevelTransaction.getRiskLevel(
-                object : RiskLevelCalculation {
+                object : RiskLevels {
                     override fun calculateRiskScore(
                         attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
                         exposureSummary: ExposureSummary

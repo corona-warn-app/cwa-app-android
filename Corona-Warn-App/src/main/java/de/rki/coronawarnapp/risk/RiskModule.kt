@@ -10,8 +10,8 @@ abstract class RiskModule {
     @Binds
     @Singleton
     abstract fun bindRiskLevelCalculation(
-        riskLevelCalculation: DefaultRiskLevelCalculation
-    ): RiskLevelCalculation
+        riskLevelCalculation: DefaultRiskLevels
+    ): RiskLevels
 
     @Binds
     @Singleton
