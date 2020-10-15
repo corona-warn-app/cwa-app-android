@@ -106,6 +106,10 @@ jobs:
                 command: |
                   curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$keystore_download_filename"
             - run:
+                name: Download Environment Properties
+                command: |
+                  curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
+            - run:
                 name: Decrypt Keystore
                 command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
             - run:
