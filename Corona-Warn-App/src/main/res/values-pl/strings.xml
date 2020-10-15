@@ -812,6 +812,19 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anuluj"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"Skan kodu QR"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Zeskanuj tylko swój własny test."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"Test można zeskanować tylko "<b>"raz"</b>"."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"Aplikacja "<b>"nie może"</b>" zarządzać wieloma testami jednocześnie."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"Jeśli dostępny jest bardziej aktualny test, usuń dotychczasowy test i zeskanuj kod QR aktualnego testu."</string>
+
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Ustaw kod QR w ramce."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -829,7 +842,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Wynik testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Twój wynik testu nie jest jeszcze dostępny."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Prosimy o cierpliwość. Ustalenie wyniku może potrwać kilka dni.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nW przypadku pozytywnego wyniku testu zadzwoń na numer podany w sekcji „Poproś o TAN”, aby zarejestrować swój wynik w aplikacji i ostrzec innych."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualizuj"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -863,7 +876,7 @@
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Test może być zeskanowany tylko raz."</string>
+    <string name="submission_test_result_dialog_remove_test_title">"Test można zeskanować tylko raz."</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Jeśli usuniesz test, nie będziesz mieć możliwości pobrania wyniku swojego testu. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie COVID-19 organ ds. zdrowia publicznego zostanie powiadomiony przez ustanowiony prawnie kanał komunikacyjny i skontaktuje się z Tobą."</string>
     <!-- XBUT: Positive button for test removal -->

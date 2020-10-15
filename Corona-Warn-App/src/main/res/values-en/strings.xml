@@ -415,7 +415,7 @@
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"To identify whether you are at risk of infection, you must activate the exposure logging feature."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Exposure logging works by your smartphone receiving, via Bluetooth, encrypted random IDs of other users and passing your own random IDs to their smartphones. Exposure logging can be deactivated at any time."</string>
+    <string name="onboarding_tracing_body">"Exposure logging works by your smartphone receiving, via Bluetooth, encrypted random IDs of other users and passing your own random IDs to their smartphones. Exposure logging can be deactivated at any time. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"The encrypted random IDs only pass information about date, duration, and proximity (calculated from signal strength) to other people. Individuals cannot be identified based on the random IDs."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
@@ -812,6 +812,19 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Cancel"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"QR Code Scan"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Only scan your own test."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"The test can only be scanned "<b>"once"</b>"."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"The app "<b>"cannot"</b>" manage multiple tests at the same time."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"If a more current test is available, delete the existing test and scan the QR code of the current test."</string>
+
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Position the QR code in the frame."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -829,7 +842,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Test result is not yet available"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Your test result is not yet available."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Please be patient, as the evaluation may take several days.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIn the event of a positive test result, please call the number shown under \"Request TAN\" to register your result in the app and warn others."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->

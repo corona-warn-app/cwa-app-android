@@ -812,6 +812,19 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Отказ"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"Сканиране на QR код"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Сканирайте само Вашия собствен тест."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"Тестът може да се сканира само "<b>"веднъж"</b>"."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"В приложението "<b>"не може"</b>" да се обработват няколко теста едновременно."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"Ако съществува нов тест, изтрийте съществуващия и сканирайте QR кода на най-новия тест."</string>
+
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Позиционирайте QR кода в рамката."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -829,7 +842,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Все още няма резултат от Вашия тест."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Моля, бъдете търпеливи, тъй като определянето на резултата може да отнеме няколко дни.\n\nРезултатът от Вашия тест ще Ви бъде изпратен също и извън приложението. Службата за обществено осигуряване ще Ви уведоми, ако той е положителен.\n\nАко резултатът Ви е положителен, моля обадете се на номера, показан под “Заявка за ТАН код”, за да го регистрирате в приложението и да предупредите останалите потребители."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->

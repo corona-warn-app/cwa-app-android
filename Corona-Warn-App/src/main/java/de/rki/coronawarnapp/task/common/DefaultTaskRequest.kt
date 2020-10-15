@@ -9,4 +9,7 @@ data class DefaultTaskRequest(
     override val id: UUID = UUID.randomUUID(),
     override val type: KClass<out Task<Task.Progress, Task.Result>>,
     override val arguments: Task.Arguments
-) : TaskRequest
+) : TaskRequest {
+
+    fun toNewTask(): DefaultTaskRequest = copy(id = UUID.randomUUID())
+}
