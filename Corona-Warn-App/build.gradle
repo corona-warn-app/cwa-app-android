@@ -43,7 +43,11 @@ def getHash = { ->
 
 
 android {
-    ndkVersion "21.2.6472646"
+    println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
+    println("Current VERSION_MINOR: ${VERSION_MINOR}")
+    println("Current VERSION_PATCH: ${VERSION_PATCH}")
+    println("Current VERSION_BUILD: ${VERSION_BUILD}")
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -51,10 +55,21 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 44
-        versionName "1.5.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndkVersion "21.2.6472646"
+
+        versionCode(
+                VERSION_MAJOR.toInteger() * 1000000
+                        + VERSION_MINOR.toInteger() * 10000
+                        + VERSION_PATCH.toInteger() * 100
+                        + VERSION_BUILD.toInteger()
+        )
+        println("Used versionCode: $versionCode")
+
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+        println("Used versionName: $versionName")
+
+        testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
 
         resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
@@ -75,6 +90,20 @@ android {
         }
     }
 
+    def signingPropFile = file("../keystore.properties")
+    if (signingPropFile.canRead()) {
+        Properties signingProps = new Properties()
+        signingProps.load(new FileInputStream(signingPropFile))
+        signingConfigs {
+            release {
+                storeFile file(signingProps['release.storePath'])
+                keyAlias signingProps['release.keyAlias']
+                storePassword signingProps['release.storePassword']
+                keyPassword signingProps['release.keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         debug {
         }
@@ -82,6 +111,10 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
@@ -111,6 +144,14 @@ android {
         def flavor = variant.productFlavors[0]
         def typeName = variant.buildType.name // debug/release
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
+
+        if (flavor.name == "deviceForTesters") {
+            def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+            variant.outputs.each { output ->
+                output.versionNameOverride = adjustedVersionName
+            }
+            println("deviceForTesters adjusted versionName: $adjustedVersionName")
+        }
     }
 
     buildFeatures {
@@ -122,15 +163,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 
-    def jvmCompilerArgs = ["-Xno-kotlin-nothing-value-exception"]
-
-    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
-            freeCompilerArgs = jvmCompilerArgs
+            jvmTarget = "1.8"
+
+            freeCompilerArgs += [
+                    "-Xno-kotlin-nothing-value-exception",
+                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+            ]
         }
     }
 
@@ -141,6 +183,16 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
+            if (project.hasProperty('testFilter')) {
+                List<String> props = project.getProperties().get("testFilter").split("\\s+")
+                props.each {
+                    def replaced = it
+                            .replaceFirst("^(Corona-Warn-App/src/test.*/java/)(.+)\$", "**/\$2")
+                            .replace(".kt", ".class")
+                    project.logger.lifecycle("testFilter File: before=$it, after=$replaced")
+                    include(replaced)
+                }
+            }
         }
         unitTests {
             includeAndroidResources = true
@@ -178,8 +230,13 @@ android {
                 srcDirs = ['src/device']
             }
         }
+        test {
+            java.srcDirs += "$projectDir/src/testShared/java"
+        }
+        androidTest {
+            java.srcDirs += "$projectDir/src/testShared/java"
+        }
     }
-
 }
 
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
@@ -234,14 +291,17 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.work:work-runtime-ktx:2.3.4'
-    implementation 'android.arch.lifecycle:extensions:2.2.0'
+
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
-
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-
 
     // DAGGER
     implementation 'com.google.dagger:dagger:2.28.1'
@@ -249,6 +309,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.28.1'
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
     kapt 'com.google.dagger:dagger-android-processor:2.28.1'
+    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.28.1'
 
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
     kapt 'com.squareup.inject:assisted-inject-processor-dagger2:0.5.2'
@@ -262,8 +323,8 @@ dependencies {
     implementation files('libs\\play-services-nearby-exposurenotification-1.6.1-eap.aar')
 
     // Testing
-    testImplementation "android.arch.core:core-testing:1.1.1"
-    testImplementation('org.robolectric:robolectric:4.3.1') {
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation('org.robolectric:robolectric:4.4') {
         exclude group: 'com.google.protobuf'
     }
     testImplementation "io.mockk:mockk:1.10.0"
@@ -286,6 +347,7 @@ dependencies {
     androidTestImplementation "io.kotest:kotest-property-jvm:4.2.0"
 
     // Testing - Instrumentation
+    androidTestImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -294,7 +356,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.work:work-testing:2.3.4'
     androidTestImplementation "io.mockk:mockk-android:1.10.0"
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'

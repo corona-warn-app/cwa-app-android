@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
 
         <variable
             name="submissionViewModel"
@@ -30,7 +29,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/main_title"
         android:fillViewport="true"
-        tools:context="de.rki.coronawarnapp.ui.main.MainFragment">
+        tools:context="de.rki.coronawarnapp.ui.main.home.HomeFragment">
 
         <!-- todo apply merge tags through xml when applicable (eod) -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,14 +49,15 @@
                     android:id="@+id/main_header_logo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:contentDescription="@{FormatterAccessibilityHelper.formatImage(@string/accessibility_logo)}"
+                    bind:cwaContentDescription="@{@string/accessibility_logo}"
                     android:scaleType="fitStart"
                     android:src="@drawable/ic_main_header"
                     android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/main_header_share"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <include
                     android:id="@+id/main_header_share"

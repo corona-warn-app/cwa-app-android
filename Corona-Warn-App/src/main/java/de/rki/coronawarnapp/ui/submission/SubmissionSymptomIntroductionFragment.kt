@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
@@ -45,19 +46,28 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        submissionViewModel.symptomIntroductionEvent.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.symptomIntroductionEvent.observe(viewLifecycleOwner, {
             when (it) {
                 is SymptomIntroductionEvent.NavigateToSymptomCalendar -> navigateToNext()
-                is SymptomIntroductionEvent.NavigateToPreviousScreen -> navigateToPreviousScreen()
+                is SymptomIntroductionEvent.NavigateToPreviousScreen -> handleSubmissionCancellation()
             }
         })
 
-        submissionViewModel.symptomIndication.observe(viewLifecycleOwner, Observer {
+        submissionViewModel.symptomIndication.observe(viewLifecycleOwner, {
             updateButtons(it)
         })
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         submissionViewModel.initSymptoms()
     }
+
+    private val backCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                submissionViewModel.onPreviousClicked()
+            }
+        }
 
     private fun updateButtons(symptomIndication: Symptoms.Indication?) {
         binding.submissionSymptomContainer.findViewById<Button>(R.id.target_button_apply)
@@ -112,6 +122,26 @@ class SubmissionSymptomIntroductionFragment : Fragment() {
                     .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
             )
         }
+    }
+
+    /**
+     * Opens a Dialog that warns user
+     * when they're about to cancel the submission flow
+     * @see DialogHelper
+     * @see navigateToPreviousScreen
+     */
+    private fun handleSubmissionCancellation() {
+        DialogHelper.showDialog(
+            DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_confirm_cancellation_title,
+                R.string.submission_error_dialog_confirm_cancellation_body,
+                R.string.submission_error_dialog_confirm_cancellation_button_positive,
+                R.string.submission_error_dialog_confirm_cancellation_button_negative,
+                true,
+                ::navigateToPreviousScreen
+            )
+        )
     }
 
     private fun navigateToPreviousScreen() {
