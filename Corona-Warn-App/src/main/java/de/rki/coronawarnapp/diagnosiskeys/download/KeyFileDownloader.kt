@@ -93,6 +93,7 @@ class KeyFileDownloader @Inject constructor(
                         Timber.tag(TAG).w("Missing keyfile for : %s", keyInfo)
                         null
                     } else {
+                        Timber.tag(TAG).v("Providing available key: %s", keyInfo)
                         path
                     }
                 }
@@ -172,11 +173,21 @@ class KeyFileDownloader @Inject constructor(
         availableCountries: List<LocationCode>,
         itemLimit: Int
     ): List<CountryHours> {
-
         val availableHours = availableCountries.flatMap { location ->
             var remainingItems = itemLimit
             // Descending because we go backwards newest -> oldest
-            keyServer.getDayIndex(location).sortedDescending().mapNotNull { day ->
+            val indexWithToday = keyServer.getDayIndex(location).let {
+                val lastDayInIndex = it.maxOrNull()
+                Timber.tag(TAG).v("Last day in index: %s", lastDayInIndex)
+                if (lastDayInIndex != null) {
+                    it.plus(lastDayInIndex.plusDays(1))
+                } else {
+                    it
+                }
+            }
+            Timber.tag(TAG).v("Day index with (fake) today entry: %s", indexWithToday)
+
+            indexWithToday.sortedDescending().mapNotNull { day ->
                 // Limit reached, return null (filtered out) instead of new CountryHours object
                 if (remainingItems <= 0) return@mapNotNull null
 

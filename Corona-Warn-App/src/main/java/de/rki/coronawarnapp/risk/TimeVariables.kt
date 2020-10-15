@@ -33,8 +33,10 @@ object TimeVariables {
     /**
      * The maximal runtime of a transaction
      * In milliseconds
+     * Stay below 10min with this timeout!
+     * We only 10min background execution time via WorkManager.
      */
-    private const val TRANSACTION_TIMEOUT = 180000L
+    private const val TRANSACTION_TIMEOUT = 8 * 60 * 1000L
 
     /**
      * Getter function for [TRANSACTION_TIMEOUT]
