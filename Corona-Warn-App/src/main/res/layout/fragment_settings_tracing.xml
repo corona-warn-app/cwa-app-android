@@ -17,6 +17,10 @@
             name="settingsViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
 
+        <variable
+            name="tracingDetails"
+            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,8 +139,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:riskLevel="@{tracingViewModel.riskLevel}"
-                        app:tracingViewModel="@{tracingViewModel}" />
+                        app:tracingDetails="@{tracingDetails}" />
 
                     <include layout="@layout/merge_guidelines_card" />
 

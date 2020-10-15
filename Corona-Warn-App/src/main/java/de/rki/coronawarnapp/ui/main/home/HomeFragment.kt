@@ -34,7 +34,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tracingViewModel = vm.tracingViewModel
+        vm.tracingHeaderState.observe2(this) {
+            binding.tracingHeader = it
+        }
+        vm.tracingCardState.observe2(this) {
+            binding.tracingCard = it
+        }
+
         binding.settingsViewModel = vm.settingsViewModel
         binding.submissionViewModel = vm.submissionViewModel
 
@@ -55,7 +61,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.events.observe2(this) {
+        vm.popupEvents.observe2(this) {
             when (it) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(

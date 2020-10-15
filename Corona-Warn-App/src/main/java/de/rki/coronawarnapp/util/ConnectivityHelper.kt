@@ -37,6 +37,7 @@ object ConnectivityHelper {
      * @see [BluetoothAdapter.ACTION_STATE_CHANGED]
      * @see [BluetoothCallback]
      */
+    // TODO Can be replaced by **[CWABluetooth]** at somepoint
     fun registerBluetoothStatusCallback(context: Context, callback: BluetoothCallback) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
@@ -85,6 +86,7 @@ object ConnectivityHelper {
      * @param callback the location state callback
      *
      */
+    // TODO Can be replaced by **[CWALocation]** at somepoint
     fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
         val receiver = object : BroadcastReceiver() {
             var isGpsEnabled: Boolean = false
@@ -225,6 +227,7 @@ object ConnectivityHelper {
      *
      * @see [BluetoothAdapter]
      */
+    // TODO Can be replaced by **[CWABluetooth]** at somepoint
     fun isBluetoothEnabled(): Boolean {
         val bAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bAdapter == null) {
@@ -240,6 +243,7 @@ object ConnectivityHelper {
      * @return current location status
      *
      */
+    // TODO Can be replaced by **[CWALocation]** at somepoint
     fun isLocationEnabled(context: Context): Boolean {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return LocationManagerCompat.isLocationEnabled(locationManager)

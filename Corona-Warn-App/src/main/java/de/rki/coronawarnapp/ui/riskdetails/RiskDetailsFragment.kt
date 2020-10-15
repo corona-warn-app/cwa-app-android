@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -34,8 +35,10 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tracingViewModel = vm.tracingViewModel
-        binding.settingsViewModel = vm.settingsViewModel
+
+        vm.tracingDetailsState.observe2(this) {
+            binding.tracingDetails = it
+        }
 
         binding.riskDetailsHeaderButtonBack.setOnClickListener {
             (activity as MainActivity).goBack()

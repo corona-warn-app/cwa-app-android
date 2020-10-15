@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util.di
 
 import android.app.Application
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -18,4 +19,8 @@ class AndroidModule {
     @Singleton
     @AppContext
     fun context(app: Application): Context = app.applicationContext
+
+    @Provides
+    @Singleton
+    fun bluetoothAdapter(): BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 }

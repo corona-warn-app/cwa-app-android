@@ -85,7 +85,7 @@
 
     <fragment
         android:id="@+id/settingsTracingFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment"
+        android:name="de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing">
         <action

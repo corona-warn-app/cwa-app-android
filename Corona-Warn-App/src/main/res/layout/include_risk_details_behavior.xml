@@ -4,15 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
+            name="tracingDetails"
+            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,8 +22,8 @@
             app:icon="@{@drawable/ic_risk_details_wash}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:riskLevel="@{tracingDetails.riskLevelScore}"
             app:layout_constraintTop_toTopOf="parent"
-            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_wash_hands" />
 
         <include
@@ -42,8 +36,8 @@
             app:icon="@{@drawable/ic_risk_details_mask}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:riskLevel="@{tracingDetails.riskLevelScore}"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wash_hands"
-            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_wear_mask" />
 
         <include
@@ -55,9 +49,9 @@
             app:body="@{@string/risk_details_behavior_body_stay_away}"
             app:icon="@{@drawable/ic_risk_details_distance}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:riskLevel="@{tracingDetails.riskLevelScore}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_wear_mask"
-            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_stay_away" />
 
         <include
@@ -69,9 +63,9 @@
             app:body="@{@string/risk_details_behavior_body_cough_sneeze}"
             app:icon="@{@drawable/ic_risk_details_sneeze}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:riskLevel="@{tracingDetails.riskLevelScore}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_away"
-            app:riskLevel="@{tracingViewModel.riskLevel}"
             tools:text="@string/risk_details_behavior_body_cough_sneeze" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.tracing.DefaultTracingStatus
+import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Singleton
 
@@ -22,4 +24,9 @@ class ENFModule {
     @Provides
     fun diagnosisKeySubmitter(submitter: DefaultDiagnosisKeyProvider): DiagnosisKeyProvider =
         submitter
+
+    @Singleton
+    @Provides
+    fun tracingStatus(tracingStatus: DefaultTracingStatus): TracingStatus =
+        tracingStatus
 }

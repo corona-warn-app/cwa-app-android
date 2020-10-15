@@ -4,14 +4,6 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
-        <import type="android.view.View" />
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
         <variable
             name="body"
             type="String" />
@@ -19,6 +11,14 @@
         <variable
             name="icon"
             type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="iconTint"
+            type="Integer" />
+
+        <variable
+            name="bodyTextColor"
+            type="Integer" />
 
     </data>
 
@@ -32,7 +32,7 @@
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
             android:src="@{icon}"
-            android:tint="@{FormatterRiskHelper.formatStableIconColor(tracingViewModel.riskLevel)}"
+            android:tint="@{iconTint}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small"
             android:text="@{body}"
-            android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
+            android:textColor="@{bodyTextColor}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/risk_card_row_icon"

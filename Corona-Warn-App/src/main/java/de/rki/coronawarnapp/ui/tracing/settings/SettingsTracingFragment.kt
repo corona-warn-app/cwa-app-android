@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.settings
+package de.rki.coronawarnapp.ui.tracing.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,9 +22,13 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * The user can start/stop tracing and is informed about tracing.
@@ -37,9 +41,8 @@ import kotlinx.coroutines.launch
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     InternalExposureNotificationPermissionHelper.Callback {
 
-    companion object {
-        private val TAG: String? = SettingsTracingFragment::class.simpleName
-    }
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: SettingsTracingFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -51,6 +54,10 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
         super.onViewCreated(view, savedInstanceState)
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
+
+        vm.tracingDetailsState.observe2(this) {
+            binding.tracingDetails = it
+        }
 
         setButtonOnClickListener()
     }
@@ -130,8 +137,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     private fun navigateToInteroperability() {
         findNavController()
             .doNavigate(
-                SettingsTracingFragmentDirections
-                    .actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
+                SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
             )
     }
 
@@ -197,5 +203,9 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
                 tracingViewModel.refreshIsTracingEnabled()
             })
         DialogHelper.showDialog(dialog)
+    }
+
+    companion object {
+        private val TAG: String? = SettingsTracingFragment::class.simpleName
     }
 }

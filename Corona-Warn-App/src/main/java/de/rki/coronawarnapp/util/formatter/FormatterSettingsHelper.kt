@@ -96,60 +96,7 @@ fun formatTracingStatusText(tracing: Boolean, bluetooth: Boolean, location: Bool
  */
 fun formatSwitchContentDescription(subtitle: String, status: String): String = "$subtitle $status"
 
-/**
- * Format the settings tracing description text display depending on tracing status
- *
- * @param tracing
- * @param bluetooth
- * @param location
- * @return String
- */
-fun formatTracingDescription(tracing: Boolean, bluetooth: Boolean, location: Boolean): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (tracingStatusHelper(tracing, bluetooth, location)) {
-        TracingStatusHelper.BLUETOOTH ->
-            appContext.getString(R.string.settings_tracing_body_bluetooth_inactive)
-        TracingStatusHelper.LOCATION ->
-            appContext.getString(R.string.settings_tracing_body_inactive_location)
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getString(R.string.settings_tracing_body_active)
-        TracingStatusHelper.TRACING_INACTIVE ->
-            appContext.getString(R.string.settings_tracing_body_inactive)
-        else -> ""
-    }
-}
 
-/**
- * Format the settings tracing content description text display depending on tracing status
- * but appends the word button at the end for screen reader accessibility reasons
- *
- * @param tracing
- * @param bluetooth
- * @param location
- * @return String
- */
-fun formatTracingContentDescription(
-    tracing: Boolean,
-    bluetooth: Boolean,
-    location: Boolean
-): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (tracingStatusHelper(tracing, bluetooth, location)) {
-        TracingStatusHelper.BLUETOOTH ->
-            appContext.getString(R.string.settings_tracing_body_bluetooth_inactive) +
-                    " " + appContext.getString(R.string.accessibility_button)
-        TracingStatusHelper.LOCATION ->
-            appContext.getString(R.string.settings_tracing_body_inactive_location) +
-                    " " + appContext.getString(R.string.accessibility_button)
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getString(R.string.settings_tracing_body_active) +
-                    " " + appContext.getString(R.string.accessibility_button)
-        TracingStatusHelper.TRACING_INACTIVE ->
-            appContext.getString(R.string.settings_tracing_body_inactive) +
-                    " " + appContext.getString(R.string.accessibility_button)
-        else -> ""
-    }
-}
 
 /**
  * Formats the tracing body depending on the tracing status and the days since last exposure.
@@ -350,41 +297,6 @@ fun formatTracingSwitchEnabled(tracing: Boolean, bluetooth: Boolean, location: B
     return when (tracingStatusHelper(tracing, bluetooth, location)) {
         TracingStatusHelper.TRACING_ACTIVE, TracingStatusHelper.TRACING_INACTIVE -> true
         else -> false
-    }
-}
-
-/**
- * Formats the main tracing icon depending on tracing status
- *
- * @param tracing
- * @param bluetooth
- * @param location
- * @return Drawable
- */
-fun formatTracingIcon(tracing: Boolean, bluetooth: Boolean, location: Boolean): Int? {
-    return when (tracingStatusHelper(tracing, bluetooth, location)) {
-        TracingStatusHelper.BLUETOOTH -> R.drawable.ic_settings_tracing_bluetooth_inactive
-        TracingStatusHelper.LOCATION -> R.drawable.ic_settings_location_inactive_small
-        TracingStatusHelper.TRACING_ACTIVE -> R.raw.ic_settings_tracing_animated
-        else -> R.drawable.ic_settings_tracing_inactive
-    }
-}
-
-/**
- * Formats the main tracing icon color depending on tracing status
- *
- * @param tracing
- * @param bluetooth
- * @param location
- * @return Int
- */
-fun formatTracingIconColor(tracing: Boolean, bluetooth: Boolean, location: Boolean): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (tracingStatusHelper(tracing, bluetooth, location)) {
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getColor(R.color.colorAccentTintIcon)
-        else ->
-            appContext.getColor(R.color.colorTextSemanticRed)
     }
 }
 

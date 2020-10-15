@@ -3,13 +3,18 @@ package de.rki.coronawarnapp.nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.verifySequence
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -20,11 +25,10 @@ import java.io.File
 @Suppress("DEPRECATION")
 class ENFClientTest : BaseTest() {
 
-    @MockK
-    lateinit var googleENFClient: ExposureNotificationClient
+    @MockK lateinit var googleENFClient: ExposureNotificationClient
 
-    @MockK
-    lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
+    @MockK lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
+    @MockK lateinit var tracingStatus: TracingStatus
 
     @BeforeEach
     fun setup() {
@@ -39,7 +43,8 @@ class ENFClientTest : BaseTest() {
 
     private fun createClient() = ENFClient(
         googleENFClient = googleENFClient,
-        diagnosisKeyProvider = diagnosisKeyProvider
+        diagnosisKeyProvider = diagnosisKeyProvider,
+        tracingStatus = tracingStatus
     )
 
     @Test
@@ -71,6 +76,19 @@ class ENFClientTest : BaseTest() {
                 configuration,
                 token
             )
+        }
+    }
+
+    @Test
+    fun `tracing status check is forwaded to the right module`() = runBlocking {
+        val testFlow = flowOf(true)
+        every { tracingStatus.isTracingEnabled } returns testFlow
+
+        val client = createClient()
+        client.isTracingEnabled.toList().single() shouldBe true
+
+        verifySequence {
+            tracingStatus.isTracingEnabled
         }
     }
 }
