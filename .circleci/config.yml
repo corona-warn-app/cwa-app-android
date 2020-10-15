@@ -97,11 +97,37 @@ jobs:
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
+      - when:
+          condition:
+            equal: [  - /feature\/.*/, << pipeline.git.branch >> ] #TODO: change to release
+          steps:
+            - run:
+                name: Download Keystore
+                command: |
+                  curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$keystore_download_filename"
+            - run:
+                name: Decrypt Keystore
+                command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
+            - run:
+                name: Prepare Gradle For Signing
+                command: |
+                  echo "" >> "./gradle.properties"
+                  echo "keystore_filename=$keystore_filename" >> "./gradle.properties"
+                  echo "keystore_password=$keystore_password" >> "./gradle.properties"
+                  echo "key_alias=$key_alias" >> "./gradle.properties"
+                  echo "key_password=$key_password" >> "./gradle.properties"
       - run-gradle-cmd:
           desc: Quick Build
           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
       - save-gradle-cache
       - save-android-build-cache
+      - when:
+          condition:
+            equal: [  - /feature\/.*/, << pipeline.git.branch >> ] #TODO: change to release
+          steps:
+            - store_artifacts:
+                path: Corona-Warn-App/build/outputs/apk
+                destination: apk
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
