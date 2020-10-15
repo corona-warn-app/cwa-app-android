@@ -32,6 +32,11 @@ def environmentExtractor = { File path ->
 }
 
 android {
+    println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
+    println("Current VERSION_MINOR: ${VERSION_MINOR}")
+    println("Current VERSION_PATCH: ${VERSION_PATCH}")
+    println("Current VERSION_BUILD: ${VERSION_BUILD}")
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -39,8 +44,19 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 45
-        versionName "1.5.0"
+
+        ndkVersion "21.2.6472646"
+
+        versionCode(
+                VERSION_MAJOR.toInteger() * 1000000
+                        + VERSION_MINOR.toInteger() * 10000
+                        + VERSION_PATCH.toInteger() * 100
+                        + VERSION_BUILD.toInteger()
+        )
+        println("Used versionCode: $versionCode")
+
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+        println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
 
@@ -116,6 +132,14 @@ android {
         def flavor = variant.productFlavors[0]
         def typeName = variant.buildType.name // debug/release
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
+
+        if (flavor.name == "deviceForTesters") {
+            def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+            variant.outputs.each { output ->
+                output.versionNameOverride = adjustedVersionName
+            }
+            println("deviceForTesters adjusted versionName: $adjustedVersionName")
+        }
     }
 
     buildFeatures {
@@ -127,15 +151,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 
-    def jvmCompilerArgs = ["-Xno-kotlin-nothing-value-exception"]
-
-    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
-            freeCompilerArgs = jvmCompilerArgs
+            jvmTarget = "1.8"
+
+            freeCompilerArgs += [
+                    "-Xno-kotlin-nothing-value-exception",
+                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+            ]
         }
     }
 
@@ -260,6 +285,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation "androidx.recyclerview:recyclerview:1.1.0"

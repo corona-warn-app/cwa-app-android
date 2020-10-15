@@ -66,8 +66,6 @@
     <!-- NOTR -->
     <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_last_three_hours_from_server"><xliff:g id="preference">"preference_last_three_hours_from_server"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_test_result_notification"><xliff:g id="preference">"preference_test_result_notification"</xliff:g></string>
@@ -158,7 +156,7 @@
     <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
     <string name="risk_card_body_saved_days_full">"Maruz kalma günlüğü sürekli etkin"</string>
     <!-- XTXT; risk card - no update done yet -->
-    <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
+    <string name="risk_card_body_not_yet_fetched">"Maruz kalmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Güncelleme: %1$s"</string>
     <!-- XTXT: risk card - next update -->
@@ -203,7 +201,7 @@
     <!-- XHED: risk card - loading headline, update is ongoing -->
     <string name="risk_card_loading_headline">"Kontrol devam ediyor…"</string>
     <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
-    <string name="risk_card_loading_body">"Güncel veriler indiriliyor ve kaydediliyor.\nBu işlem birkaç dakika sürebilir."</string>
+    <string name="risk_card_loading_body">"Güncel veriler indiriliyor ve kaydediliyor. Bu işlem birkaç dakika sürebilir."</string>
 
     <!-- ####################################
                     Main
@@ -231,7 +229,7 @@
     <!-- XBUT: Share app link page button -->
     <string name="main_share_button">"İndirme Bağlantısı Gönder"</string>
     <!-- YMSG: Message when sharing is executed -->
-    <string name="main_share_message">"Koronavirüs ile birlikte mücadele edelim"<xliff:g id="line_break">"\n"</xliff:g>"Ben katıldım, peki ya sen?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"Https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-tuerkisch"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
+    <string name="main_share_message">"Koronavirüs ile birlikte mücadele edelim"<xliff:g id="line_break">"\n"</xliff:g>"Ben katıldım, peki ya sen?"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="link_play_store">"https://www.corona-warn-app.de"</xliff:g>"\n"<xliff:g id="line_break">"\n"</xliff:g></string>
     <!-- XACT: main (share) - illustraction description, explanation image -->
     <string name="main_share_illustration_description">"Bir erkek, Corona-Warn-App\'i dört farklı kişi ile paylaşıyor."</string>
 
@@ -372,8 +370,8 @@
     <string name="risk_details_explanation_dialog_title">"Maruz kalma günlüğü işlevi hakkında bilgi"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
-    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</a></string>
+     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
 
     <!-- ####################################
               Onboarding
@@ -417,7 +415,7 @@
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
     <string name="onboarding_tracing_subtitle">"Enfeksiyon riski taşıyıp taşımadığınızı belirlemek için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body">"Maruz kalma günlüğü, akıllı telefonunuzun Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Maruz kalma günlüğü, dilediğiniz zaman devre dışı bırakılabilir."</string>
+    <string name="onboarding_tracing_body">"Maruz kalma günlüğü, akıllı telefonunuzun Bluetooth üzerinden diğer kullanıcıların şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Maruz kalma günlüğü, dilediğiniz zaman devre dışı bırakılabilir. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"Şifrelenmiş rastgele kimlikler diğer kullanıcılara yalnızca tarih, süre ve yakınlık (sinyal gücü ile hesaplanır) hakkındaki bilgileri aktarır. Kişilerin kimlikleri rastgele kimliklere göre belirlenemez."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
@@ -560,7 +558,7 @@
         <item quantity="many">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
     </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_illustration_description_active">"Üç kişi cihazlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
+    <string name="settings_tracing_illustration_description_active">"Üç kişi akıllı telefonlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_inactive">"Bir kişi akıllı telefonunda maruz kalma günlüğünü devre dışı bıraktı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -814,6 +812,19 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"İptal"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"QR Kod Tarama"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Yalnızca kendi testinizi tarayın."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"Test yalnızca "<b>"bir kez"</b>" taranabilir."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"Uygulama aynı anda birden çok testi "<b>"yönetemez"</b>"."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"Daha yakın zamanlı bir test varsa mevcut testi silin ve yakın zamanlı testin QR kodunu tarayın."</string>
+
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"QR kodu çerçeveye sığdırın."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -831,7 +842,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucu henüz çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz henüz çıkmadı."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Değerlendirme birkaç gün sürebilir, bu nedenle lütfen sabırlı olun.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nTest sonucunun pozitif olması halinde sonucu uygulamaya kaydetmek ve diğer kullanıcıları uyarmak için lütfen \"TAN Talebi\" başlığının altında görüntülenen numarayı arayın."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Güncelle"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -842,10 +853,6 @@
     <string name="submission_test_result_negative_steps_negative_body">"Laboratuvar sonucuna göre koronavirüs SARS-CoV-2 olduğunuza dair bir doğrulama yok.\n\nGerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Testi Sil"</string>
-    <!-- XHED: Page headline for positive test result screen  -->
-    <string name="submission_test_result_positive_steps_positive_heading">"Test Sonucunuz"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Test sonucunuz pozitif olarak doğrulandı."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Diğer Kullanıcıları Uyarma"</string>
     <!-- YTXT: Body text for for other warnings screen-->
@@ -861,7 +868,7 @@
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"Testinizi değerlendirirken bir problem oluştu. Lütfen sonraki adımlarınız için test merkezi veya laboratuvar ile görüşün.\n\nGerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
     <!-- XBUT: invalid test result : remove the test button -->
-    <string name="submission_test_result_invalid_remove_test_button">"Testi Sil"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"Testi kaldır"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">"Maruz Kalma Günlüğü gereklidir"</string>
     <!-- YTXT: Dialog text for tracing required dialog-->
@@ -925,7 +932,7 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Test belgenizin QR kodunu tarayarak testinizi kaydedin."</string>
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
-    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Kabul Beyanı"</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_headline">"Onay"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
     <string name="submission_dispatcher_qr_privacy_dialog_body">"\"Kabul Et\" seçeneğine dokunarak Uygulamanın koronavirüs testinizin durumunu sorgulamasına ve Uygulamada görüntülemesine izin verirsiniz. Bu özelliği, QR kod aldıysanız ve test sonucunuzun Uygulamanın sunucu sistemine aktarılmasına onay verdiyseniz kullanabilirsiniz. Testi yapan laboratuvar test sonucunuzu sunucuya kaydettiği anda sonucu Uygulamada görüntüleyebilirsiniz. Ayrıca bildirimleri etkinleştirirseniz Uygulama, kullanmadığınız sırada test sonucunuzun alındığını belirten bir bildirim gönderir. Ancak gizlilik nedenleriyle testin sonucu yalnızca Uygulamada görüntülenecektir. Uygulamada test kaydınızı silerek dilediğiniz zaman bu onayı geri çekebilirsiniz. Onayınızı geri çekmeniz, onayınızı geri çekmeden önce testi işlemenin hukuki niteliğini etkilemeyecektir. Menüde \"Veri Gizliliği Bilgileri\" başlığında daha fazla bilgiye erişebilirsiniz."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
@@ -935,7 +942,7 @@
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
-    <string name="submission_dispatcher_tan_code_card_text">"TAN\'yi manuel olarak girerek kaydedin."</string>
+    <string name="submission_dispatcher_tan_code_card_text">"TAN\'yi manuel olarak girerek testinizi kaydedin."</string>
     <!-- YTXT: Dispatcher text for TELE-TAN option -->
     <string name="submission_dispatcher_card_tan_tele">"TAN Talebi"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
@@ -1019,7 +1026,7 @@
     <!-- XBUT:  symptom initial screen no button -->
     <string name="submission_symptom_negative_button">"Hayır"</string>
     <!-- XBUT:  symptom initial screen no information button -->
-    <string name="submission_symptom_no_information_button">"Beyan yok"</string>
+    <string name="submission_symptom_no_information_button">"Bilgi yok"</string>
     <!-- XBUT:  symptom initial screen continue button -->
     <string name="submission_symptom_further_button">"Sonraki"</string>
 
@@ -1067,7 +1074,7 @@
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"2 haftadan uzun süre önce"</string>
     <!-- XBUT: symptom calendar screen verify button -->
-    <string name="submission_symptom_verify">"Beyan yok"</string>
+    <string name="submission_symptom_verify">"Bilgi yok"</string>
 
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
@@ -1181,7 +1188,7 @@
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Bilinmeyen bir hata oluştu."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
-    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Uygulamanız teknik bir problem nedeniyle sıfırlandı. Bunun, uygulamanın işlevi üzerinde hiçbir etkisi yoktur. Maruz kalmalar hakkında bildirim almaya ve COVID-19 testiniz pozitif çıkarsa diğer kullanıcıları uyarmaya devam edebileceksiniz."</string>
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Uygulamanız teknik bir problem nedeniyle sıfırlandı. Bunun, maruz kalma günlüğü veya risk durumunuz üzerinde hiçbir etkisi yoktur. Maruz kalmalar hakkında bildirim almaya ve COVID-19 testiniz pozitif çıkarsa diğer kullanıcıları uyarmaya devam edebileceksiniz. Ancak lütfen unutmayın; uygulamanın sıfırlanması, test sonuçlarınıza ilişkin elektronik bildirimler için okunan tüm QR kodların kaybolduğu anlamına gelir. Bu durumda sonucunuzu öğrenmek için lütfen doktorunuzla veya testi yapan laboratuvarla iletişime geçin."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
     <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
@@ -1305,7 +1312,7 @@
     <string name="settings_interoperability_subtitle">"Katılımcı Ülkeler"</string>
 
     <!-- XHED: Header of interoperability information/configuration view -->
-    <string name="interoperability_configuration_title">"Ülkeler Arası Maruz Kalma Günlüğü"</string>
+    <string name="interoperability_configuration_title">"Uluslararası Maruz Kalma Günlüğü"</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">"Bazı ülkeler, ortak bir exchange sunucusu üzerinden uluslararası uyarıları etkinleştirmek üzere birlikte çalışma yürütmektedir. Örneğin, diğer katılımcı ülkelerin resmi koronavirüs uygulamasının kullanıcıları ile temaslar da maruz kalma günlüğünde hesaba katılabilir."</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
@@ -1316,7 +1323,7 @@
     <string name="interoperability_configuration_information">"Uygulamanın gizlilik bildirimine (uluslararası maruz kalma günlüğü özelliği için gerçekleştirilen veri işleme hakkında bilgileri) menüde “Uygulama Bilgileri” &gt; “Veri Gizliliği” bölümünde bulabilirsiniz."</string>
 
     <!-- XHED: Sub header introducing interoperability in the tracing step of onboarding -->
-    <string name="interoperability_onboarding_title">"Ülkeler Arası\nMaruz Kalma Günlüğü"</string>
+    <string name="interoperability_onboarding_title">"Uluslararası\nMaruz Kalma Günlüğü"</string>
     <!-- YMSG: Onboarding tracing step first section in interoperability after the title -->
     <string name="interoperability_onboarding_first_section">"Bazı ülkeler uluslararası uyarıları etkinleştirmek üzere iş birliği yapmaktadır. Diğer bir ifadeyle, tüm katılımcı ülkelerdeki resmi korona uygulamalarının kullanıcılarına maruz kalma olasılığınız da artık hesaba katılabilir."</string>
     <!-- YMSG: Onboarding tracing step second section in interoperability after the title -->

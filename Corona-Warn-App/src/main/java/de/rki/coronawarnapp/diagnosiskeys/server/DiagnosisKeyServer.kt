@@ -110,6 +110,6 @@ class DiagnosisKeyServer @Inject constructor(
     companion object {
         private val TAG = DiagnosisKeyServer::class.java.simpleName
         private val DAY_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd")
-        private val HOUR_FORMATTER = DateTimeFormat.forPattern("HH")
+        private val HOUR_FORMATTER = DateTimeFormat.forPattern("H")
     }
 }
