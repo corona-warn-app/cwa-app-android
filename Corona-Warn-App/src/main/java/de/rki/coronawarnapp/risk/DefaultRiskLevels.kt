@@ -22,9 +22,7 @@ import javax.inject.Singleton
 import kotlin.math.round
 
 @Singleton
-class DefaultRiskLevels @Inject constructor(
-    private val riskScoreAnalysis: RiskScoreAnalysis
-) : RiskLevels {
+class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
     companion object {
 
@@ -160,7 +158,7 @@ class DefaultRiskLevels @Inject constructor(
                 ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
 
         // if the calculated risk score is above the defined level threshold we return the high level risk score
-        if (riskScoreAnalysis.withinDefinedLevelThreshold(
+        if (withinDefinedLevelThreshold(
                 riskScore,
                 highRiskScoreClass.min,
                 highRiskScoreClass.max
@@ -177,6 +175,9 @@ class DefaultRiskLevels @Inject constructor(
 
         return false
     }
+
+    private fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
+        riskScore >= min && riskScore <= max
 
     /**
      * Make a call to the backend to retrieve the current application configuration values
