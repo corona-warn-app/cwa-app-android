@@ -16,7 +16,7 @@ abstract class BaseTracingState {
     abstract val riskLevelLastSuccessfulCalculation: Int
     abstract val matchedKeyCount: Int
     abstract val daysSinceLastExposure: Int
-    abstract val activeTracingDaysInRetentionPeriod: Int
+    abstract val activeTracingDaysInRetentionPeriod: Long
     abstract val lastTimeDiagnosisKeysFetched: Date?
     abstract val isBackgroundJobEnabled: Boolean
     abstract val showDetails: Boolean // Only true for riskdetailsfragment

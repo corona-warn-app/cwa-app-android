@@ -1,14 +1,11 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
-import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -16,7 +13,6 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import de.rki.coronawarnapp.ui.riskdetails.DefaultRiskDetailPresenter
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
@@ -24,7 +20,6 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import timber.log.Timber
-import java.util.Date
 import javax.inject.Inject
 
 /**
@@ -42,69 +37,8 @@ class TracingViewModel @Inject constructor() : CWAViewModel() {
         val TAG: String? = TracingViewModel::class.simpleName
     }
 
-    private val riskDetailPresenter = DefaultRiskDetailPresenter()
-
-    // Values from RiskLevelRepository
-    val riskLevel: LiveData<Int> = RiskLevelRepository.riskLevelScore
-    val riskLevelScoreLastSuccessfulCalculated =
-        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated
-
-    // Values from ExposureSummaryRepository
-    val daysSinceLastExposure: LiveData<Int?> = ExposureSummaryRepository.daysSinceLastExposure
-    val matchedKeyCount: LiveData<Int?> = ExposureSummaryRepository.matchedKeyCount
-
     // Values from TracingRepository
-    val lastTimeDiagnosisKeysFetched: LiveData<Date> =
-        TracingRepository.lastTimeDiagnosisKeysFetched
     val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
-    val activeTracingDaysInRetentionPeriod = TracingRepository.activeTracingDaysInRetentionPeriod
-    var isRefreshing: LiveData<Boolean> = TracingRepository.isRefreshing
-
-    val additionalInformationVisibility = MediatorLiveData<Int>()
-    val informationBodyNoticeVisibility = MediatorLiveData<Int>()
-
-    init {
-        additionalInformationVisibility.addSource(riskLevel) {
-            additionalInformationVisibility.value =
-                if (riskDetailPresenter.isAdditionalInfoVisible(it, matchedKeyCount.value ?: -1))
-                    View.VISIBLE
-                else
-                    View.GONE
-        }
-        additionalInformationVisibility.addSource(matchedKeyCount) {
-            additionalInformationVisibility.value =
-                if (riskDetailPresenter.isAdditionalInfoVisible(
-                        riskLevel.value ?: RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-                        it ?: 0
-                    )
-                )
-                    View.VISIBLE
-                else
-                    View.GONE
-        }
-        informationBodyNoticeVisibility.addSource(riskLevel) {
-            informationBodyNoticeVisibility.value =
-                if (riskDetailPresenter.isInformationBodyNoticeVisible(
-                        it,
-                        matchedKeyCount.value ?: -1
-                    )
-                )
-                    View.VISIBLE
-                else
-                    View.GONE
-        }
-        informationBodyNoticeVisibility.addSource(matchedKeyCount) {
-            informationBodyNoticeVisibility.value =
-                if (riskDetailPresenter.isInformationBodyNoticeVisible(
-                        riskLevel.value ?: RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-                        it ?: 0
-                    )
-                )
-                    View.VISIBLE
-                else
-                    View.GONE
-        }
-    }
 
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
@@ -142,7 +76,8 @@ class TracingViewModel @Inject constructor() : CWAViewModel() {
                 Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
 
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
-                    TracingRepository.isRefreshing.value = true
+                    // TODO shouldn't access this directly
+                    TracingRepository.internalIsRefreshing.value = true
 
                     // start the fetching and submitting of the diagnosis keys
                     RetrieveDiagnosisKeysTransaction.start()
@@ -163,8 +98,8 @@ class TracingViewModel @Inject constructor() : CWAViewModel() {
             } catch (e: Exception) {
                 e.report(INTERNAL)
             }
-
-            TracingRepository.isRefreshing.value = false
+            // TODO shouldn't access this directly
+            TracingRepository.internalIsRefreshing.value = false
         }
     }
 

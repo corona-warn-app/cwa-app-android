@@ -199,6 +199,7 @@ object ConnectivityHelper {
      *
      * @return Boolean
      */
+    // TODO Can be replaced by **[BackgroundModeStatus]** at somepoint
     fun isBackgroundRestricted(context: Context): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -216,6 +217,7 @@ object ConnectivityHelper {
      *
      * @see isBackgroundRestricted
      */
+    // TODO Can be replaced by **[BackgroundModeStatus]** at somepoint
     fun autoModeEnabled(context: Context): Boolean {
         return !isBackgroundRestricted(context) || backgroundPrioritization.isBackgroundActivityPrioritized
     }

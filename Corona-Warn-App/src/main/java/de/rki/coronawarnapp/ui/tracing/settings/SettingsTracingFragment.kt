@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -39,7 +40,7 @@ import javax.inject.Inject
  * @see InternalExposureNotificationPermissionHelper
  */
 class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
-    InternalExposureNotificationPermissionHelper.Callback {
+    InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsTracingFragmentViewModel by cwaViewModels { viewModelFactory }

@@ -3,9 +3,12 @@ package de.rki.coronawarnapp.storage
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.util.BackgroundPrioritization
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,13 +30,11 @@ class SettingsRepository @Inject constructor(
     val isNotificationsEnabled = MutableLiveData(true)
     val isNotificationsRiskEnabled = MutableLiveData(true)
     val isNotificationsTestEnabled = MutableLiveData(true)
-    val isManualKeyRetrievalEnabled = MutableLiveData(true)
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isLocationEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
     val isBackgroundPriorityEnabled = MutableLiveData(false)
-    val manualKeyRetrievalTime = MutableLiveData<Long>()
 
     /**
      * Get the current notifications state. Only relevant for the ui.
@@ -119,18 +120,26 @@ class SettingsRepository @Inject constructor(
         isBackgroundJobEnabled.postValue(value)
     }
 
+    private val internalIsManualKeyRetrievalEnabled = MutableStateFlow(true)
+    val isManualKeyRetrievalEnabledFlow: Flow<Boolean> = internalIsManualKeyRetrievalEnabled
+    val isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabledFlow.asLiveData()
+
     /**
      * Refresh manual key retrieval button status
      */
     fun updateManualKeyRetrievalEnabled(value: Boolean) {
-        isManualKeyRetrievalEnabled.postValue(value)
+        internalIsManualKeyRetrievalEnabled.value = value
     }
+
+    private val internalManualKeyRetrievalTime = MutableStateFlow(0L)
+    val manualKeyRetrievalTimeFlow: Flow<Long> = internalManualKeyRetrievalTime
+    val manualKeyRetrievalTime = manualKeyRetrievalTimeFlow.asLiveData()
 
     /**
      * Refresh manual key retrieval button status
      */
     fun updateManualKeyRetrievalTime(value: Long) {
-        manualKeyRetrievalTime.postValue(value)
+        internalManualKeyRetrievalTime.value = value
     }
 
     /**

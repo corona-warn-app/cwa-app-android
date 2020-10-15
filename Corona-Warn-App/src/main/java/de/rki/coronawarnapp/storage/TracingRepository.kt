@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Date
 
 /**
@@ -23,11 +25,13 @@ object TracingRepository {
 
     private val TAG: String? = TracingRepository::class.simpleName
 
-    // public mutable live data
-    val lastTimeDiagnosisKeysFetched = MutableLiveData<Date>()
+    private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
+    val lastTimeDiagnosisKeysFetched: Flow<Date?> = internalLastTimeDiagnosisKeysFetched
+
     val isTracingEnabled = MutableLiveData<Boolean>()
-    val isRefreshing = MutableLiveData(false)
-    val activeTracingDaysInRetentionPeriod = MutableLiveData<Long>()
+
+    private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
+    val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
 
     /**
      * Refresh the last time diagnosis keys fetched date with the current shared preferences state.
@@ -35,8 +39,13 @@ object TracingRepository {
      * @see LocalData
      */
     fun refreshLastTimeDiagnosisKeysFetchedDate() {
-        lastTimeDiagnosisKeysFetched.postValue(LocalData.lastTimeDiagnosisKeysFromServerFetch())
+        internalLastTimeDiagnosisKeysFetched.value =
+            LocalData.lastTimeDiagnosisKeysFromServerFetch()
     }
+
+    // TODO shouldn't access this directly
+    val internalIsRefreshing = MutableStateFlow(false)
+    val isRefreshing: Flow<Boolean> = internalIsRefreshing
 
     /**
      * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
@@ -49,7 +58,7 @@ object TracingRepository {
      * @see RiskLevelRepository
      */
     suspend fun refreshDiagnosisKeys() {
-        isRefreshing.value = true
+        internalIsRefreshing.value = true
         try {
             RetrieveDiagnosisKeysTransaction.start()
             RiskLevelTransaction.start()
@@ -59,7 +68,7 @@ object TracingRepository {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
         }
         refreshLastTimeDiagnosisKeysFetchedDate()
-        isRefreshing.value = false
+        internalIsRefreshing.value = false
     }
 
     /**
@@ -88,6 +97,6 @@ object TracingRepository {
      * @see de.rki.coronawarnapp.risk.TimeVariables
      */
     suspend fun refreshActiveTracingDaysInRetentionPeriod() {
-        activeTracingDaysInRetentionPeriod.postValue(getActiveTracingDaysInRetentionPeriod())
+        internalActiveTracingDaysInRetentionPeriod.value = getActiveTracingDaysInRetentionPeriod()
     }
 }

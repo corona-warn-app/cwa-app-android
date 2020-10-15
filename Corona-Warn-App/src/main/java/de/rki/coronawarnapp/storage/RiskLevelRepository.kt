@@ -1,17 +1,19 @@
 package de.rki.coronawarnapp.storage
 
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelConstants
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 object RiskLevelRepository {
 
-    /**
-     * LiveData variables that can be consumed in a ViewModel to observe RiskLevel changes
-     */
-    val riskLevelScore = MutableLiveData(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
-    val riskLevelScoreLastSuccessfulCalculated =
-        MutableLiveData(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
+    private val internalRisklevelScore = MutableStateFlow(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
+    val riskLevelScore: Flow<Int> = internalRisklevelScore
+
+    private val internalRiskLevelScoreLastSuccessfulCalculated =
+        MutableStateFlow(LocalData.lastSuccessfullyCalculatedRiskLevel().raw)
+    val riskLevelScoreLastSuccessfulCalculated: Flow<Int> =
+        internalRiskLevelScoreLastSuccessfulCalculated
 
     /**
      * Set the new calculated [RiskLevel]
@@ -24,7 +26,8 @@ object RiskLevelRepository {
      */
     fun setRiskLevelScore(riskLevel: RiskLevel) {
         val rawRiskLevel = riskLevel.raw
-        riskLevelScore.postValue(rawRiskLevel)
+        internalRisklevelScore.value = rawRiskLevel
+
 
         setLastCalculatedScore(rawRiskLevel)
         setLastSuccessfullyCalculatedScore(riskLevel)
@@ -37,7 +40,7 @@ object RiskLevelRepository {
      *
      */
     fun reset() {
-        riskLevelScore.postValue(RiskLevelConstants.UNKNOWN_RISK_INITIAL)
+        internalRisklevelScore.value = RiskLevelConstants.UNKNOWN_RISK_INITIAL
     }
 
     /**
@@ -53,7 +56,7 @@ object RiskLevelRepository {
         if (lastRiskLevelScore == RiskLevel.UNDETERMINED) {
             lastRiskLevelScore = RiskLevel.UNKNOWN_RISK_INITIAL
         }
-        riskLevelScore.postValue(lastRiskLevelScore.raw)
+        internalRisklevelScore.value = lastRiskLevelScore.raw
     }
 
     /**
@@ -86,9 +89,8 @@ object RiskLevelRepository {
      *
      */
     fun refreshLastSuccessfullyCalculatedScore() {
-        riskLevelScoreLastSuccessfulCalculated.postValue(
+        internalRiskLevelScoreLastSuccessfulCalculated.value =
             getLastSuccessfullyCalculatedScore().raw
-        )
     }
 
     /**
@@ -99,7 +101,7 @@ object RiskLevelRepository {
     private fun setLastSuccessfullyCalculatedScore(riskLevel: RiskLevel) {
         if (!RiskLevel.UNSUCCESSFUL_RISK_LEVELS.contains(riskLevel)) {
             LocalData.lastSuccessfullyCalculatedRiskLevel(riskLevel.raw)
-            riskLevelScoreLastSuccessfulCalculated.postValue(riskLevel.raw)
+            internalRiskLevelScoreLastSuccessfulCalculated.value = riskLevel.raw
         }
     }
 }

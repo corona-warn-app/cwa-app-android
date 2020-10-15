@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
@@ -44,13 +45,18 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
     private val enfClient: ENFClient,
-    private val keyCacheRepository: KeyCacheRepository
+    private val keyCacheRepository: KeyCacheRepository,
+    private val tracingCardViewModel: TracingCardViewModel
 ) : CWAViewModel() {
 
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()
     val apiKeysProvidedEvent = SingleLiveEvent<DiagnosisKeyProvidedEvent>()
     val riskScoreState = MutableLiveData<RiskScoreState>(RiskScoreState())
+
+    val tracingCardState by lazy {
+        tracingCardViewModel.state
+    }
 
     init {
         Timber.d("CWAViewModel: %s", this)

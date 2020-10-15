@@ -47,6 +47,11 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        vm.tracingCardState.observe2(this) {
+            binding.tracingCard = it
+        }
+
         binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel

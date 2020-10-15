@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.ui.riskdetails
+package de.rki.coronawarnapp.ui.tracing.details
 
 import androidx.lifecycle.LiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.timer.TimerHelper
-import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState
-import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsViewModel
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -15,7 +15,9 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     val tracingViewModel: TracingViewModel,
     val settingsViewModel: SettingsViewModel,
-    private val tracingDetailsViewModel: TracingDetailsViewModel
+    private val tracingDetailsViewModel: TracingDetailsViewModel,
+    private val tracingCardViewModel: TracingCardViewModel,
+    private val riskDetailPresenter: DefaultRiskDetailPresenter
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(tracingViewModel, settingsViewModel)
@@ -23,6 +25,10 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
 
     val tracingDetailsState: LiveData<TracingDetailsState> by lazy {
         tracingDetailsViewModel.state
+    }
+
+    val tracingCardState: LiveData<TracingCardState> by lazy {
+        tracingCardViewModel.state
     }
 
     fun refreshData() {

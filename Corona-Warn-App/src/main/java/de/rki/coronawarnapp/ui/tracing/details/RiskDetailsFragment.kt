@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.riskdetails
+package de.rki.coronawarnapp.ui.tracing.details
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -38,6 +38,9 @@ class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject
 
         vm.tracingDetailsState.observe2(this) {
             binding.tracingDetails = it
+        }
+        vm.tracingCardState.observe2(this) {
+            binding.tracingCard = it
         }
 
         binding.riskDetailsHeaderButtonBack.setOnClickListener {

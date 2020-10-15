@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.riskdetails
+package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Binds
 import dagger.Module

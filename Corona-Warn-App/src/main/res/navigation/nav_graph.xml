@@ -199,7 +199,7 @@
 
     <fragment
         android:id="@+id/riskDetailsFragment"
-        android:name="de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragment"
+        android:name="de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragment"
         android:label="@layout/fragment_risk_details"
         tools:layout="@layout/fragment_risk_details">
         <action
