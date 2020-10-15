@@ -64,7 +64,7 @@
     //todo temp testing
     <fragment
         android:id="@+id/crashreportfragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsCrashReporterFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.crash.SettingsCrashReportFragment"
         android:label="@layout/fragment_crashreporter_overview"
         tools:layout="@layout/fragment_crashreporter_overview" />
 
