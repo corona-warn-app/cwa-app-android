@@ -72,18 +72,14 @@ class DefaultRiskLevels @Inject constructor(
         return round(riskScore.times(DECIMAL_MULTIPLIER)).div(DECIMAL_MULTIPLIER)
     }
 
-    private fun Int.capped(): Int {
-        return if (this > TimeVariables.getMaxAttenuationDuration()) {
+    private fun Int.capped() =
+        if (this > TimeVariables.getMaxAttenuationDuration()) {
             TimeVariables.getMaxAttenuationDuration()
         } else {
             this
         }
-    }
 
-    override fun updateRepository(
-        riskLevel: RiskLevel,
-        time: Long
-    ) {
+    override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
             Timber.tag(TAG).v("update the risk level with $riskLevel")
@@ -126,13 +122,11 @@ class DefaultRiskLevels @Inject constructor(
                 TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold
         }
 
-    override val calculationNotPossibleBecauseNoKeys: Boolean
-        get() {
-            return (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
-                if (it)
-                    Timber.tag(TAG)
-                        .v("no last time diagnosis keys from server fetch timestamp was found")
-            }
+    override val calculationNotPossibleBecauseNoKeys =
+        (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
+            if (it)
+                Timber.tag(TAG)
+                    .v("no last time diagnosis keys from server fetch timestamp was found")
         }
 
     override suspend fun calculationNotPossibleBecauseTracingIsOff() =
