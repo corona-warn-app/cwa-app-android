@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.ConnectivityHelper.isNetworkEnabled
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -41,18 +42,32 @@ class RiskLevelTask @Inject constructor(
             if (isNetworkEnabled(context)) {
                 with(riskLevels) {
                     when {
-                        calculationNotPossibleBecauseTracingIsOff() -> NO_CALCULATION_POSSIBLE_TRACING_OFF
-                        calculationNotPossibleBecauseNoKeys -> UNKNOWN_RISK_INITIAL
-                        calculationNotPossibleBecauseOfOutdatedResults ->
-                            if (backgroundJobsEnabled)
-                                UNKNOWN_RISK_OUTDATED_RESULTS
-                            else
-                                UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-                        isIncreasedRisk() -> INCREASED_RISK
-                        !isActiveTracingTimeAboveThreshold -> UNKNOWN_RISK_INITIAL
+                        calculationNotPossibleBecauseTracingIsOff().also {
+                            checkCancel()
+                        } -> NO_CALCULATION_POSSIBLE_TRACING_OFF
+
+                        calculationNotPossibleBecauseNoKeys.also {
+                            checkCancel()
+                        } -> UNKNOWN_RISK_INITIAL
+
+                        calculationNotPossibleBecauseOfOutdatedResults.also {
+                            checkCancel()
+                        } -> if (backgroundJobsEnabled)
+                            UNKNOWN_RISK_OUTDATED_RESULTS
+                        else
+                            UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+
+                        isIncreasedRisk().also {
+                            checkCancel()
+                        } -> INCREASED_RISK
+
+                        !isActiveTracingTimeAboveThreshold.also {
+                            checkCancel()
+                        } -> UNKNOWN_RISK_INITIAL
+
                         else -> LOW_LEVEL_RISK
                     }.also {
-                        if (isCanceled) throw TaskCancellationException()
+                        checkCancel()
                         updateRepository(it, System.currentTimeMillis())
                     }
                 }
@@ -66,6 +81,10 @@ class RiskLevelTask @Inject constructor(
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
         internalProgress.close()
+    }
+
+    private fun checkCancel() {
+        if (isCanceled) throw TaskCancellationException()
     }
 
     private val backgroundJobsEnabled: Boolean
@@ -92,7 +111,7 @@ class RiskLevelTask @Inject constructor(
     class Result(val riskLevel: RiskLevel) : Task.Result
 
     data class Config(
-        override val timeout: Long? = RISK_LEVEL_TRANSACTION_TIMEOUT,//TODO unit-test that not > 9 min
+        override val executionTimeout: Duration = RISK_LEVEL_TRANSACTION_TIMEOUT,//TODO unit-test that not > 9 min
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
@@ -110,12 +129,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     companion object {
-        /**
-         * The maximal runtime of the Risk Level task
-         * In milliseconds
-         */
-        private const val RISK_LEVEL_TRANSACTION_TIMEOUT = 480 * 1000L
-
+        private val RISK_LEVEL_TRANSACTION_TIMEOUT = Duration.standardMinutes(8)
         private val TAG: String? = RiskLevelTask::class.simpleName
     }
 }
