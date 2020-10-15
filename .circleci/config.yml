@@ -99,7 +99,7 @@ jobs:
           ndk-version: "android-ndk-r21c"
       - when:
           condition:
-            equal: [  - /feature\/.*/, << pipeline.git.branch >> ] #TODO: change to release
+            equal: [ /feature\/.*/, << pipeline.git.branch >> ] #TODO: change to release
           steps:
             - run:
                 name: Download Keystore
@@ -123,7 +123,7 @@ jobs:
       - save-android-build-cache
       - when:
           condition:
-            equal: [  - /feature\/.*/, << pipeline.git.branch >> ] #TODO: change to release
+            equal: [ /feature\/.*/, << pipeline.git.branch >> ] #TODO: change to release
           steps:
             - store_artifacts:
                 path: Corona-Warn-App/build/outputs/apk
