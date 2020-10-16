@@ -21,10 +21,9 @@ data class TracingCardState(
     override val lastTimeDiagnosisKeysFetched: Date?,
     override val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
-    override val manualKeyRetrievalTime: Long
-) : BaseTracingState() {
-
+    override val manualKeyRetrievalTime: Long,
     override val showDetails: Boolean = false
+) : BaseTracingState() {
 
     /**
      * Formats the risk card icon color depending on risk level
@@ -142,6 +141,22 @@ data class TracingCardState(
      * Special case for increased risk as it is then only displayed on risk detail view
      */
     fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> {
+            if (showDetails) {
+                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
+                    c.getString(
+                        R.string.risk_card_body_saved_days
+                    )
+                        .format(activeTracingDaysInRetentionPeriod)
+                } else {
+                    c.getString(
+                        R.string.risk_card_body_saved_days_full
+                    )
+                }
+            } else {
+                ""
+            }
+        }
         RiskLevelConstants.LOW_LEVEL_RISK ->
             if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
                 c.getString(

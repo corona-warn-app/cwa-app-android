@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
@@ -30,7 +31,7 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     }
 
     val tracingCardState: LiveData<TracingCardState> by lazy {
-        tracingCardViewModel.state
+        tracingCardViewModel.state.map { it.copy(showDetails = true) }
     }
 
     fun refreshData() {
