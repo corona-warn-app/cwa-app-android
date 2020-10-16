@@ -14,8 +14,8 @@ import kotlin.time.seconds
 @ExperimentalTime
 fun <T> flakyTest(flakyAction: () -> T): Unit = runBlocking {
     retry(
-        maxRetry = 10,
-        timeout = 60.seconds,
+        maxRetry = 5,
+        timeout = 30.seconds,
         delay = 1.seconds,
         multiplier = 1,
         exceptionClass = Exception::class,

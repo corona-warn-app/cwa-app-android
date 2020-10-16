@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -28,7 +28,7 @@ class KeyFileDownloader @Inject constructor(
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
     private val legacyKeyCache: LegacyKeyCacheMigration,
-    private val settings: AppSettings,
+    private val testSettings: TestSettings,
     private val dispatcherProvider: DispatcherProvider
 ) {
 
@@ -78,7 +78,7 @@ class KeyFileDownloader @Inject constructor(
             )
 
             val availableKeys =
-                if (settings.isLast3HourModeEnabled) {
+                if (testSettings.isHourKeyPkgMode) {
                     syncMissing3Hours(filteredCountries, DEBUG_HOUR_LIMIT)
                     keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR)
                 } else {
@@ -338,7 +338,7 @@ class KeyFileDownloader @Inject constructor(
 
     companion object {
         private val TAG: String? = KeyFileDownloader::class.simpleName
-        private const val DEBUG_HOUR_LIMIT = 3
+        private const val DEBUG_HOUR_LIMIT = 24
 
         // Daymode: ~512KB per day, ~14 days
         // Hourmode: ~20KB per hour, 24 hours, also ~512KB

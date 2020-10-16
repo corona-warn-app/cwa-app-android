@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -88,9 +89,11 @@ class TaskController @Inject constructor(
         val taskConfig = taskFactory.config
         val task = taskFactory.taskProvider()
 
-        val deferred = taskScope.async(
-            start = CoroutineStart.LAZY
-        ) { task.run(newRequest.arguments) }
+        val deferred = taskScope.async(start = CoroutineStart.LAZY) {
+            withTimeout(timeMillis = taskConfig.executionTimeout.millis) {
+                task.run(newRequest.arguments)
+            }
+        }
 
         val activeTask = InternalTaskState(
             request = newRequest,
