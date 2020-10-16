@@ -115,7 +115,7 @@
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsNotificationFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragment"
         android:label="SettingsNotificationFragment"
         tools:layout="@layout/fragment_settings_notifications" />
 

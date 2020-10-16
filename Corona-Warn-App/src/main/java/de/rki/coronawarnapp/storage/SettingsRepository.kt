@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.storage
 
 import android.content.Context
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.util.BackgroundPrioritization
@@ -26,18 +25,6 @@ class SettingsRepository @Inject constructor(
     private val backgroundPrioritization: BackgroundPrioritization
 ) {
 
-    private val internalIsNotificationsEnabledFlow = MutableStateFlow(true)
-    val isNotificationsEnabledFlow: Flow<Boolean> = internalIsNotificationsEnabledFlow
-    val isNotificationsEnabled = isNotificationsEnabledFlow.asLiveData()
-
-    private val internalIsNotificationsRiskEnabledFlow = MutableStateFlow(true)
-    val isNotificationsRiskEnabledFlow: Flow<Boolean> = internalIsNotificationsRiskEnabledFlow
-    val isNotificationsRiskEnabled = isNotificationsRiskEnabledFlow.asLiveData()
-
-    private val internalIsNotificationsTestEnabledFlow = MutableStateFlow(true)
-    val isNotificationsTestEnabledFlow: Flow<Boolean> = internalIsNotificationsTestEnabledFlow
-    val isNotificationsTestEnabled = isNotificationsTestEnabledFlow.asLiveData()
-
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isLocationEnabled = MutableLiveData(true)
@@ -47,53 +34,7 @@ class SettingsRepository @Inject constructor(
     val isBackgroundPriorityEnabledFlow: Flow<Boolean> = internalIsBackgroundPriorityEnabled
     val isBackgroundPriorityEnabled = internalIsBackgroundPriorityEnabled.asLiveData()
 
-    /**
-     * Get the current notifications state. Only relevant for the ui.
-     *
-     * @see LocalData
-     */
-    fun refreshNotificationsEnabled() {
-        internalIsNotificationsEnabledFlow.value =
-            NotificationManagerCompat.from(context).areNotificationsEnabled()
-    }
 
-    /**
-     * Toggle notifications risk updates.
-     *
-     * @see LocalData
-     */
-    fun toggleNotificationsRiskEnabled() {
-        LocalData.toggleNotificationsRiskEnabled()
-        refreshNotificationsRiskEnabled()
-    }
-
-    /**
-     * Refresh notifications for risk updates with the current shared preferences state.
-     *
-     * @see LocalData
-     */
-    fun refreshNotificationsRiskEnabled() {
-        internalIsNotificationsRiskEnabledFlow.value = LocalData.isNotificationsRiskEnabled()
-    }
-
-    /**
-     * Toggle notifications for test updates in shared preferences and refresh it afterwards.
-     *
-     * @see LocalData
-     */
-    fun toggleNotificationsTestEnabled() {
-        LocalData.toggleNotificationsTestEnabled()
-        refreshNotificationsTestEnabled()
-    }
-
-    /**
-     * Refresh notifications for test updates with the current shared preferences state.
-     *
-     * @see LocalData
-     */
-    fun refreshNotificationsTestEnabled() {
-        internalIsNotificationsTestEnabledFlow.value = LocalData.isNotificationsTestEnabled()
-    }
 
     /**
      * Toggle notifications for test updates in SharedPreferences and refreshes it afterwards

@@ -21,10 +21,6 @@
         <variable
             name="tracingHeader"
             type="de.rki.coronawarnapp.ui.main.home.TracingHeaderState" />
-
-        <variable
-            name="settingsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
     </data>
 
     <ScrollView

@@ -41,7 +41,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             binding.tracingCard = it
         }
 
-        binding.settingsViewModel = vm.settingsViewModel
         binding.submissionViewModel = vm.submissionViewModel
 
         setupToolbar()

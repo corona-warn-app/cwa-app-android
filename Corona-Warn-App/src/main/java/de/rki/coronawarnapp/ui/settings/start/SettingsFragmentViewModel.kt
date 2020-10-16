@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -13,8 +14,9 @@ import kotlinx.coroutines.flow.map
 
 class SettingsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val tracingStatus: GeneralTracingStatus,
-    private val settingsRepository: SettingsRepository
+    tracingStatus: GeneralTracingStatus,
+    settingsRepository: SettingsRepository,
+    notificationSettings: NotificationSettings
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -25,9 +27,9 @@ class SettingsFragmentViewModel @AssistedInject constructor(
 
     // (settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
     val notificationState: LiveData<SettingsNotificationState> = combine(
-        settingsRepository.isNotificationsEnabledFlow,
-        settingsRepository.isNotificationsRiskEnabledFlow,
-        settingsRepository.isNotificationsTestEnabledFlow
+        notificationSettings.isNotificationsEnabled,
+        notificationSettings.isNotificationsRiskEnabled,
+        notificationSettings.isNotificationsTestEnabled
     ) { args ->
         SettingsNotificationState(
             isNotificationsEnabled = args[0],

@@ -48,10 +48,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
 
     override fun onResume() {
         super.onResume()
-        // refresh required data
-        settingsViewModel.refreshNotificationsEnabled()
-        settingsViewModel.refreshNotificationsRiskEnabled()
-        settingsViewModel.refreshNotificationsTestEnabled()
         settingsViewModel.refreshBackgroundPriorityEnabled()
 
         binding.settingsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)

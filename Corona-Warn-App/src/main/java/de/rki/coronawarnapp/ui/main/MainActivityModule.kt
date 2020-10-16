@@ -6,19 +6,17 @@ import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFra
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
-import de.rki.coronawarnapp.ui.settings.start.SettingsFragmentModule
+import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
 import de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragmentModule
-import de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragmentModule
 
 @Module(
     includes = [
         OnboardingDeltaInteroperabilityModule::class,
         HomeFragmentModule::class,
         RiskDetailsFragmentModule::class,
-        SettingsTracingFragmentModule::class,
-        SettingsFragmentModule::class
+        SettingFragmentsModule::class
     ]
 )
 abstract class MainActivityModule {

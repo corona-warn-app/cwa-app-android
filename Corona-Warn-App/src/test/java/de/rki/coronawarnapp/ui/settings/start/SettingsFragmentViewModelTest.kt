@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.settings.start
 import android.content.Context
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
@@ -21,6 +22,7 @@ class SettingsFragmentViewModelTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var tracing: GeneralTracingStatus
     @MockK lateinit var settingsRepository: SettingsRepository
+    @MockK lateinit var notificationSettings: NotificationSettings
 
     @BeforeEach
     fun setup() {
@@ -35,7 +37,8 @@ class SettingsFragmentViewModelTest : BaseTest() {
     private fun createInstance(): SettingsFragmentViewModel = SettingsFragmentViewModel(
         dispatcherProvider = TestDispatcherProvider,
         tracingStatus = tracing,
-        settingsRepository = settingsRepository
+        settingsRepository = settingsRepository,
+        notificationSettings = notificationSettings
     )
 
     @Test
