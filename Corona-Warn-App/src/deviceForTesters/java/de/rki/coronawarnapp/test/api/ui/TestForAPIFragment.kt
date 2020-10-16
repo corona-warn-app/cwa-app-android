@@ -140,12 +140,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPager.adapter = qrPagerAdapter
 
         // Debug card
-        binding.threeHourModeToggle.apply {
-            setOnClickListener { vm.setLast3HoursMode(isChecked) }
+        binding.hourlyKeyPkgMode.apply {
+            setOnClickListener { vm.setHourlyKeyPkgMode(isChecked) }
         }
-        vm.last3HourToggleEvent.observe2(this) {
-            showToast("Last 3 Hours Mode is activated: $it")
-        }
+
         binding.backgroundNotificationsToggle.apply {
             setOnClickListener { vm.setBackgroundNotifications(isChecked) }
         }
@@ -155,7 +153,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         vm.debugOptionsState.observe2(this) { state ->
             binding.apply {
                 backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-                threeHourModeToggle.isChecked = state.is3HourModeEnabled
+                hourlyKeyPkgMode.isChecked = state.isHourlyTestingMode
             }
         }
         binding.testLogfileToggle.apply {
