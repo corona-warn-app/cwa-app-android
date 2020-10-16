@@ -27,6 +27,7 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import java.io.File
+import java.util.Date
 import java.util.UUID
 
 class CommonConverters {
@@ -78,4 +79,10 @@ class CommonConverters {
 
     @TypeConverter
     fun fromLocationCode(code: LocationCode?): String? = code?.identifier
+
+    @TypeConverter
+    fun toDate(dateLong: Long): Date = Date(dateLong)
+
+    @TypeConverter
+    fun fromDate(date: Date): Long = date.time
 }

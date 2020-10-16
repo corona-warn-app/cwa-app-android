@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.crash.CrashReportDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
+import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Singleton
 
 @Module
@@ -14,7 +15,7 @@ class DatabaseModule {
 
     // @Singleton
     @Provides
-    fun provideAppDatabase(context: Context): AppDatabase = AppDatabase.getInstance(context)
+    fun provideAppDatabase(@AppContext context: Context): AppDatabase = AppDatabase.getInstance(context)
 
     // @Singleton
     @Provides
