@@ -18,7 +18,7 @@ object SubmissionRepository {
     suspend fun refreshUIState(refreshTestResult: Boolean) {
         var uiState = DeviceUIState.UNPAIRED
 
-        if (LocalData.numberOfSuccessfulSubmissions() == 1) {
+        if (LocalData.submissionWasSuccessful()) {
             uiState = DeviceUIState.SUBMITTED_FINAL
         } else {
             if (LocalData.registrationToken() != null) {

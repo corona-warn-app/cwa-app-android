@@ -89,13 +89,18 @@ class DiagnosisTestResultRetrievalPeriodicWorker(
      * @see TestResult
      */
     private fun initiateNotification(testResult: TestResult) {
+        if (LocalData.isTestResultNotificationSent() || LocalData.submissionWasSuccessful()) {
+            return
+        }
+
         if (testResult == TestResult.NEGATIVE || testResult == TestResult.POSITIVE ||
             testResult == TestResult.INVALID
         ) {
             if (!CoronaWarnApplication.isAppInForeground) {
                 NotificationHelper.sendNotification(
                     CoronaWarnApplication.getAppContext()
-                        .getString(R.string.notification_name), CoronaWarnApplication.getAppContext()
+                        .getString(R.string.notification_name),
+                    CoronaWarnApplication.getAppContext()
                         .getString(R.string.notification_body),
                     NotificationCompat.PRIORITY_HIGH
                 )

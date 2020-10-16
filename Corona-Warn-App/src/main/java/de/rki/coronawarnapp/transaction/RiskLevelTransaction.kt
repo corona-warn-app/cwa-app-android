@@ -561,7 +561,11 @@ object RiskLevelTransaction : Transaction() {
      */
     private fun updateRiskLevelScore(riskLevel: RiskLevel) {
         val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
-        if (RiskLevel.riskLevelChangedBetweenLowAndHigh(lastCalculatedScore, riskLevel)) {
+        if (RiskLevel.riskLevelChangedBetweenLowAndHigh(
+                lastCalculatedScore,
+                riskLevel
+            ) && !LocalData.submissionWasSuccessful()
+        ) {
             NotificationHelper.sendNotification(
                 CoronaWarnApplication.getAppContext().getString(R.string.notification_body),
                 NotificationCompat.PRIORITY_HIGH
