@@ -33,7 +33,7 @@ class BaseTracingStateTest : BaseTest() {
         riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 0,
         daysSinceLastExposure: Int = 0,
-        activeTracingDaysInRetentionPeriod: Int = 0,
+        activeTracingDaysInRetentionPeriod: Long = 0,
         lastTimeDiagnosisKeysFetched: Date? = mockk(),
         isBackgroundJobEnabled: Boolean = false,
         isManualKeyRetrievalEnabled: Boolean = false,
@@ -46,7 +46,7 @@ class BaseTracingStateTest : BaseTest() {
         override val riskLevelLastSuccessfulCalculation: Int = riskLevelLastSuccessfulCalculation
         override val matchedKeyCount: Int = matchedKeyCount
         override val daysSinceLastExposure: Int = daysSinceLastExposure
-        override val activeTracingDaysInRetentionPeriod: Int = activeTracingDaysInRetentionPeriod
+        override val activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod
         override val lastTimeDiagnosisKeysFetched: Date? = lastTimeDiagnosisKeysFetched
         override val isBackgroundJobEnabled: Boolean = isBackgroundJobEnabled
         override val showDetails: Boolean = showDetails

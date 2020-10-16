@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -44,10 +45,14 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
+    private val dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
     private val keyCacheRepository: KeyCacheRepository,
     private val tracingCardViewModel: TracingCardViewModel
-) : CWAViewModel() {
+) : CWAViewModel(
+    dispatcherProvider = dispatcherProvider,
+    childViewModels = listOf(tracingCardViewModel)
+) {
 
     val startLocalQRCodeScanEvent = SingleLiveEvent<Unit>()
     val riskLevelResetEvent = SingleLiveEvent<Unit>()

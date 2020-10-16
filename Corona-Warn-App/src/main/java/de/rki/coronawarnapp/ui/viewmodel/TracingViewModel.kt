@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory.INTERNAL
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -38,7 +40,8 @@ class TracingViewModel @Inject constructor() : CWAViewModel() {
     }
 
     // Values from TracingRepository
-    val isTracingEnabled: LiveData<Boolean?> = TracingRepository.isTracingEnabled
+    val isTracingEnabled: LiveData<Boolean?> =
+        AppInjector.component.enfClient.isTracingEnabled.asLiveData()
 
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
@@ -121,17 +124,6 @@ class TracingViewModel @Inject constructor() : CWAViewModel() {
         this.viewModelScope.launch {
             TracingRepository.refreshDiagnosisKeys()
             TimerHelper.startManualKeyRetrievalTimer()
-        }
-    }
-
-    /**
-     * Refreshes is tracing enabled
-     *
-     * @see TracingRepository
-     */
-    fun refreshIsTracingEnabled() {
-        viewModelScope.launch {
-            TracingRepository.refreshIsTracingEnabled()
         }
     }
 

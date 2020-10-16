@@ -66,7 +66,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     override fun onResume() {
         super.onResume()
         // refresh required data
-        tracingViewModel.refreshIsTracingEnabled()
+//        tracingViewModel.refreshIsTracingEnabled()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
@@ -78,12 +78,12 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     }
 
     override fun onStartPermissionGranted() {
-        tracingViewModel.refreshIsTracingEnabled()
+//        tracingViewModel.refreshIsTracingEnabled()
         BackgroundWorkScheduler.startWorkScheduler()
     }
 
     override fun onFailure(exception: Exception?) {
-        tracingViewModel.refreshIsTracingEnabled()
+//        tracingViewModel.refreshIsTracingEnabled()
     }
 
     private fun setButtonOnClickListener() {
@@ -148,7 +148,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     InternalExposureNotificationClient.asyncStop()
-                    tracingViewModel.refreshIsTracingEnabled()
+//                    tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()
                 } else {
                     // tracing was already activated
@@ -167,7 +167,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
                     }
                 }
             } catch (exception: Exception) {
-                tracingViewModel.refreshIsTracingEnabled()
+//                tracingViewModel.refreshIsTracingEnabled()
                 exception.report(
                     ExceptionCategory.EXPOSURENOTIFICATION,
                     TAG,
@@ -201,7 +201,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             true, {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }, {
-                tracingViewModel.refreshIsTracingEnabled()
+//                tracingViewModel.refreshIsTracingEnabled()
             })
         DialogHelper.showDialog(dialog)
     }

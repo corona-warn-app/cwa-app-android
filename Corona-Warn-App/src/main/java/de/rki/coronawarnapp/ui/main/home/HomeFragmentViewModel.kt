@@ -32,7 +32,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val tracingCardViewModel: TracingCardViewModel
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
-    childViewModels = listOf(tracingViewModel, settingsViewModel, submissionViewModel)
+    childViewModels = listOf(
+        tracingViewModel,
+        settingsViewModel,
+        submissionViewModel,
+        tracingCardViewModel
+    )
 ) {
     val tracingHeaderState: LiveData<TracingHeaderState> by lazy {
         tracingStatus.tracingStatus
@@ -75,7 +80,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingViewModel.refreshRiskLevel()
         tracingViewModel.refreshExposureSummary()
         tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
-        tracingViewModel.refreshIsTracingEnabled()
         tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.nearby.modules.tracing
 
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
@@ -30,6 +32,8 @@ class DefaultTracingStatus @Inject constructor(
                 sendBlocking(pollIsEnabled())
             } catch (e: Exception) {
                 Timber.w(e, "ENF isEnabled failed.")
+                sendBlocking(false)
+                e.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
                 cancel("ENF isEnabled failed", e)
             }
             delay(1000L)
@@ -45,5 +49,9 @@ class DefaultTracingStatus @Inject constructor(
         client.isEnabled
             .addOnSuccessListener { cont.resume(it) }
             .addOnFailureListener { cont.resumeWithException(it) }
+    }
+
+    companion object {
+        private const val TAG = "DefaultTracingStatus"
     }
 }

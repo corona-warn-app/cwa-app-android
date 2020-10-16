@@ -11,7 +11,9 @@ import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
@@ -63,5 +65,9 @@ class TracingCardViewModel @Inject constructor(
             isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
             manualKeyRetrievalTime = manualKeyRetrievalTime
         )
-    }.asLiveData(dispatcherProvider.Default)
+    }
+        .onStart { Timber.v("TracingCardState FLOW start") }
+        .onEach { Timber.d("TracingCardState FLOW emission: %s", it) }
+        .onCompletion { Timber.v("TracingCardState FLOW completed.") }
+        .asLiveData(dispatcherProvider.Default)
 }

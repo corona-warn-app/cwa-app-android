@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
@@ -89,11 +90,11 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.deviceUiState.observe(viewLifecycleOwner, { uiState ->
+        submissionViewModel.deviceUiState.observe2(this) { uiState ->
             if (uiState == DeviceUIState.PAIRED_REDEEMED) {
                 showRedeemedTokenWarningDialog()
             }
-        })
+        }
     }
 
     private fun showRedeemedTokenWarningDialog() {
@@ -111,7 +112,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         submissionViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
-        tracingViewModel.refreshIsTracingEnabled()
+//        tracingViewModel.refreshIsTracingEnabled()
 
         skipInitialTestResultRefresh = false
     }

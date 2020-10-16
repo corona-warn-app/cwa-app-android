@@ -8,32 +8,13 @@ import de.rki.coronawarnapp.R
 
 /*Texter*/
 
-/**
- * Formats the text display of settings item status depending on flag provided
- *
- * @param value
- * @return String
- */
+
 fun formatStatus(value: Boolean): String = formatText(
     value,
     R.string.settings_on,
     R.string.settings_off
 )
 
-/**
- * Formats the text display of settings notification status depending on notification values
- *
- * @param notifications
- * @param notificationsRisk
- * @param notificationsTest
- * @return
- */
-fun formatNotificationsStatusText(
-    notifications: Boolean,
-    notificationsRisk: Boolean,
-    notificationsTest: Boolean
-): String =
-    formatStatus((notifications && (notificationsRisk || notificationsTest)))
 
 /**
  * Formats the settings notifications title display depending on notifications status
@@ -150,44 +131,6 @@ fun formatIconColor(active: Boolean): Int =
     formatColor(active, R.color.colorAccentTintIcon, R.color.colorTextPrimary3)
 
 /**
- * Formats the settings icon color for notifications depending on notification values
- *
- * @param notifications
- * @param notificationsRisk
- * @param notificationsTest
- * @return Int
- */
-fun formatNotificationIconColor(
-    notifications: Boolean,
-    notificationsRisk: Boolean,
-    notificationsTest: Boolean
-): Int =
-    formatColor(
-        (notifications && (notificationsRisk || notificationsTest)),
-        R.color.colorAccentTintIcon,
-        R.color.colorTextSemanticRed
-    )
-
-/**
- * Formats settings icon color for notifications depending on notification values
- *
- * @param notifications
- * @param notificationsRisk
- * @param notificationsTest
- * @return
- */
-fun formatNotificationIcon(
-    notifications: Boolean,
-    notificationsRisk: Boolean,
-    notificationsTest: Boolean
-): Drawable? =
-    formatDrawable(
-        (notifications && (notificationsRisk || notificationsTest)),
-        R.drawable.ic_settings_notification_active,
-        R.drawable.ic_settings_notification_inactive
-    )
-
-/**
  * Formats the settings notifications details illustration depending on notifications status
  *
  * @param notifications
@@ -200,75 +143,6 @@ fun formatNotificationImage(notifications: Boolean): Drawable? =
         R.drawable.ic_settings_illustration_notification_off
     )
 
-/**
- * Formats the settings icon color for tracing depending on tracing values
- *
- * @param tracing
- * @param bluetooth
- * @param location
- * @return
- */
-fun formatSettingsTracingIconColor(tracing: Boolean, bluetooth: Boolean, location: Boolean): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (tracingStatusHelper(tracing, bluetooth, location)) {
-        TracingStatusHelper.BLUETOOTH ->
-            appContext.getColor(R.color.colorTextPrimary3)
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getColor(R.color.colorAccentTintIcon)
-        TracingStatusHelper.TRACING_INACTIVE, TracingStatusHelper.LOCATION ->
-            appContext.getColor(R.color.colorTextSemanticRed)
-        else -> appContext.getColor(R.color.colorTextSemanticRed)
-    }
-}
-
-/**
- * Formats the settings icon for tracing depending on tracing values
- *
- * @param tracing
- * @param bluetooth
- * @param location
- * @return
- */
-fun formatSettingsTracingIcon(
-    tracing: Boolean,
-    bluetooth: Boolean,
-    location: Boolean
-): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (tracingStatusHelper(tracing, bluetooth, location)) {
-        TracingStatusHelper.BLUETOOTH,
-        TracingStatusHelper.TRACING_ACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_active_small)
-        TracingStatusHelper.LOCATION ->
-            appContext.getDrawable(R.drawable.ic_settings_location_inactive_small)
-        TracingStatusHelper.TRACING_INACTIVE ->
-            appContext.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
-        else -> appContext.getDrawable(R.drawable.ic_settings_tracing_inactive_small)
-    }
-}
-
-/**
- * Formats the settings icon for background priority
- */
-fun formatSettingsBackgroundPriorityIcon(
-    enabled: Boolean
-): Drawable? = formatDrawable(
-    enabled,
-    R.drawable.ic_settings_background_priority_enabled,
-    R.drawable.ic_settings_background_priority_disabled
-)
-
-/**
- * Formats the settings icon color for background priority
- */
-fun formatSettingsBackgroundPriorityIconColor(
-    enabled: Boolean
-): Int =
-    formatColor(
-        enabled,
-        R.color.colorAccentTintIcon,
-        R.color.colorTextSemanticRed
-    )
 
 /**
  * Formats the tracing switch status based on the tracing status

@@ -63,7 +63,7 @@
     <!-- Settings -->
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.start.SettingsFragment"
         android:label="@layout/fragment_settings"
         tools:layout="@layout/fragment_settings">
         <action

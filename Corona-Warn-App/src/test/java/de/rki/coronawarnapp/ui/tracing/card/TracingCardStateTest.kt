@@ -37,7 +37,7 @@ class TracingCardStateTest : BaseTest() {
         riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 0,
         daysSinceLastExposure: Int = 0,
-        activeTracingDaysInRetentionPeriod: Int = 0,
+        activeTracingDaysInRetentionPeriod: Long = 0,
         lastTimeDiagnosisKeysFetched: Date? = mockk(),
         isBackgroundJobEnabled: Boolean = false,
         isManualKeyRetrievalEnabled: Boolean = false,

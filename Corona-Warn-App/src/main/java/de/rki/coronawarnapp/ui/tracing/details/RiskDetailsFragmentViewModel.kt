@@ -16,11 +16,15 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     val tracingViewModel: TracingViewModel,
     val settingsViewModel: SettingsViewModel,
     private val tracingDetailsViewModel: TracingDetailsViewModel,
-    private val tracingCardViewModel: TracingCardViewModel,
-    private val riskDetailPresenter: DefaultRiskDetailPresenter
+    private val tracingCardViewModel: TracingCardViewModel
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
-    childViewModels = listOf(tracingViewModel, settingsViewModel)
+    childViewModels = listOf(
+        tracingViewModel,
+        settingsViewModel,
+        tracingDetailsViewModel,
+        tracingCardViewModel
+    )
 ) {
 
     val tracingDetailsState: LiveData<TracingDetailsState> by lazy {

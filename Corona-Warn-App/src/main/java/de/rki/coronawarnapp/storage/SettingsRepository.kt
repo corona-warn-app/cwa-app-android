@@ -26,15 +26,26 @@ class SettingsRepository @Inject constructor(
     private val backgroundPrioritization: BackgroundPrioritization
 ) {
 
-    // public mutable live data
-    val isNotificationsEnabled = MutableLiveData(true)
-    val isNotificationsRiskEnabled = MutableLiveData(true)
-    val isNotificationsTestEnabled = MutableLiveData(true)
+    private val internalIsNotificationsEnabledFlow = MutableStateFlow(true)
+    val isNotificationsEnabledFlow: Flow<Boolean> = internalIsNotificationsEnabledFlow
+    val isNotificationsEnabled = isNotificationsEnabledFlow.asLiveData()
+
+    private val internalIsNotificationsRiskEnabledFlow = MutableStateFlow(true)
+    val isNotificationsRiskEnabledFlow: Flow<Boolean> = internalIsNotificationsRiskEnabledFlow
+    val isNotificationsRiskEnabled = isNotificationsRiskEnabledFlow.asLiveData()
+
+    private val internalIsNotificationsTestEnabledFlow = MutableStateFlow(true)
+    val isNotificationsTestEnabledFlow: Flow<Boolean> = internalIsNotificationsTestEnabledFlow
+    val isNotificationsTestEnabled = isNotificationsTestEnabledFlow.asLiveData()
+
     val isConnectionEnabled = MutableLiveData(true)
     val isBluetoothEnabled = MutableLiveData(true)
     val isLocationEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
-    val isBackgroundPriorityEnabled = MutableLiveData(false)
+
+    private val internalIsBackgroundPriorityEnabled = MutableStateFlow(false)
+    val isBackgroundPriorityEnabledFlow: Flow<Boolean> = internalIsBackgroundPriorityEnabled
+    val isBackgroundPriorityEnabled = internalIsBackgroundPriorityEnabled.asLiveData()
 
     /**
      * Get the current notifications state. Only relevant for the ui.
@@ -42,7 +53,7 @@ class SettingsRepository @Inject constructor(
      * @see LocalData
      */
     fun refreshNotificationsEnabled() {
-        isNotificationsEnabled.value =
+        internalIsNotificationsEnabledFlow.value =
             NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 
@@ -62,7 +73,7 @@ class SettingsRepository @Inject constructor(
      * @see LocalData
      */
     fun refreshNotificationsRiskEnabled() {
-        isNotificationsRiskEnabled.value = LocalData.isNotificationsRiskEnabled()
+        internalIsNotificationsRiskEnabledFlow.value = LocalData.isNotificationsRiskEnabled()
     }
 
     /**
@@ -81,7 +92,7 @@ class SettingsRepository @Inject constructor(
      * @see LocalData
      */
     fun refreshNotificationsTestEnabled() {
-        isNotificationsTestEnabled.value = LocalData.isNotificationsTestEnabled()
+        internalIsNotificationsTestEnabledFlow.value = LocalData.isNotificationsTestEnabled()
     }
 
     /**
@@ -146,6 +157,7 @@ class SettingsRepository @Inject constructor(
      * Refresh the current background priority state.
      */
     fun refreshBackgroundPriorityEnabled() {
-        isBackgroundPriorityEnabled.value = backgroundPrioritization.isBackgroundActivityPrioritized
+        internalIsBackgroundPriorityEnabled.value =
+            backgroundPrioritization.isBackgroundActivityPrioritized
     }
 }

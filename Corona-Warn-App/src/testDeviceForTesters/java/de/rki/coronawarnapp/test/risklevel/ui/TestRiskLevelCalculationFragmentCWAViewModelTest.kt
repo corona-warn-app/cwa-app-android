@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
@@ -34,6 +36,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var exposureNotificationClient: ExposureNotificationClient
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
+    @MockK lateinit var tracingCardViewModel: TracingCardViewModel
 
     @BeforeEach
     fun setup() {
@@ -59,7 +62,9 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             exampleArg = exampleArgs,
             context = context,
             enfClient = enfClient,
-            keyCacheRepository = keyCacheRepository
+            keyCacheRepository = keyCacheRepository,
+            tracingCardViewModel = tracingCardViewModel,
+            dispatcherProvider = TestDispatcherProvider
         )
 
     @Test

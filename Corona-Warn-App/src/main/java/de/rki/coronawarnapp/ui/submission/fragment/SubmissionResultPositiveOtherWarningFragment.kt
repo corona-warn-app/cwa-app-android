@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 class SubmissionResultPositiveOtherWarningFragment :
@@ -38,7 +39,7 @@ class SubmissionResultPositiveOtherWarningFragment :
     override fun onResume() {
         super.onResume()
         binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        tracingViewModel.refreshIsTracingEnabled()
+//        tracingViewModel.refreshIsTracingEnabled()
     }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
@@ -98,11 +99,11 @@ class SubmissionResultPositiveOtherWarningFragment :
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.submissionState.observe(viewLifecycleOwner, {
+        submissionViewModel.submissionState.observe2(this) {
             if (it == ApiRequestState.SUCCESS) {
                 navigateToSubmissionDoneFragment()
             }
-        })
+        }
     }
 
     private fun setButtonOnClickListener() {

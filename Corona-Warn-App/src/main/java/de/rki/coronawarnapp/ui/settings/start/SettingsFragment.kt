@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.settings
+package de.rki.coronawarnapp.ui.settings.start
 
 import android.os.Bundle
 import android.view.View
@@ -12,7 +12,12 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * This is the setting overview page.
@@ -20,7 +25,10 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
  * @see TracingViewModel
  * @see SettingsViewModel
  */
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: SettingsFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -28,15 +36,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tracingViewModel = tracingViewModel
-        binding.settingsViewModel = settingsViewModel
+
+        vm.tracingState.observe2(this) {
+            binding.tracingState = it
+        }
+        vm.notificationState.observe2(this) {
+            binding.notificationState = it
+        }
+        vm.backgroundPrioritystate.observe2(this) {
+            binding.backgroundState = it
+        }
         setButtonOnClickListener()
     }
 
     override fun onResume() {
         super.onResume()
         // refresh required data
-        tracingViewModel.refreshIsTracingEnabled()
         settingsViewModel.refreshNotificationsEnabled()
         settingsViewModel.refreshNotificationsRiskEnabled()
         settingsViewModel.refreshNotificationsTestEnabled()

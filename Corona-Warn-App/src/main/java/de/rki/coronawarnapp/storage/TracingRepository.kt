@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.storage
 
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -27,8 +26,6 @@ object TracingRepository {
 
     private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
     val lastTimeDiagnosisKeysFetched: Flow<Date?> = internalLastTimeDiagnosisKeysFetched
-
-    val isTracingEnabled = MutableLiveData<Boolean>()
 
     private val internalActiveTracingDaysInRetentionPeriod = MutableStateFlow(0L)
     val activeTracingDaysInRetentionPeriod: Flow<Long> = internalActiveTracingDaysInRetentionPeriod
@@ -69,26 +66,6 @@ object TracingRepository {
         }
         refreshLastTimeDiagnosisKeysFetchedDate()
         internalIsRefreshing.value = false
-    }
-
-    /**
-     * Get the current tracing status from the Exposure Notification API.
-     *
-     * @see InternalExposureNotificationClient
-     */
-    suspend fun refreshIsTracingEnabled() {
-        try {
-            val isEnabled = InternalExposureNotificationClient.asyncIsEnabled()
-            isTracingEnabled.value = isEnabled
-        } catch (e: Exception) {
-            // when API is not available, ensure tracing is displayed as off
-            isTracingEnabled.postValue(false)
-            e.report(
-                ExceptionCategory.EXPOSURENOTIFICATION,
-                TAG,
-                null
-            )
-        }
     }
 
     /**

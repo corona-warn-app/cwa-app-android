@@ -11,6 +11,10 @@ import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
@@ -70,5 +74,9 @@ class TracingDetailsViewModel @Inject constructor(
             isAdditionalInformationVisible = isAdditionalInformationVisible,
             isInformationBodyNoticeVisible = isInformationBodyNoticeVisible
         )
-    }.asLiveData(dispatcherProvider.Default)
+    }
+        .onStart { Timber.v("TracingDetailsState FLOW start") }
+        .onEach { Timber.d("TracingDetailsState FLOW emission: %s", it) }
+        .onCompletion { Timber.v("TracingDetailsState FLOW completed.") }
+        .asLiveData(dispatcherProvider.Default)
 }
