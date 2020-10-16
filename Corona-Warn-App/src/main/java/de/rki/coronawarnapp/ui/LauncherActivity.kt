@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.ui
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.update.UpdateChecker
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.launch
 
 class LauncherActivity : AppCompatActivity() {
@@ -14,6 +16,11 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private lateinit var updateChecker: UpdateChecker
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppInjector.setup(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onResume() {
         super.onResume()

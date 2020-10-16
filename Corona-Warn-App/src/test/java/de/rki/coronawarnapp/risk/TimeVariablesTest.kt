@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.risk
 
-import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysToMilliseconds
+import io.mockk.every
+import io.mockk.mockkObject
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,7 +16,7 @@ class TimeVariablesTest {
 
     @Test
     fun getTransactionTimeout() {
-        Assert.assertEquals(TimeVariables.getTransactionTimeout(), 60000L)
+        Assert.assertEquals(TimeVariables.getTransactionTimeout(), 180000L)
     }
 
     @Test
@@ -39,11 +41,12 @@ class TimeVariablesTest {
 
     @Test
     fun getManualKeyRetrievalDelay() {
-        if (BuildConfig.FLAVOR == "deviceForTesters") {
-            Assert.assertEquals(TimeVariables.getManualKeyRetrievalDelay(), 1000 * 60)
-        } else {
-            Assert.assertEquals(TimeVariables.getManualKeyRetrievalDelay(), 1000 * 60 * 60 * 24)
-        }
+        mockkObject(CWADebug)
+        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE_FOR_TESTERS
+        Assert.assertEquals(TimeVariables.getManualKeyRetrievalDelay(), 1000 * 60)
+
+        every { CWADebug.buildFlavor } returns CWADebug.BuildFlavor.DEVICE
+        Assert.assertEquals(TimeVariables.getManualKeyRetrievalDelay(), 1000 * 60 * 60 * 24)
     }
 
     @Test

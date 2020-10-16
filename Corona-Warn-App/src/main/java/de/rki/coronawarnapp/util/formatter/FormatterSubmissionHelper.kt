@@ -2,6 +2,7 @@
 
 package de.rki.coronawarnapp.util.formatter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
@@ -10,10 +11,44 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
+import java.util.Locale
+
+fun formatButtonStyleByState(
+    currentState: Symptoms.Indication?,
+    state: Symptoms.Indication?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
+
+fun formatBackgroundButtonStyleByState(
+    currentState: Symptoms.Indication?,
+    state: Symptoms.Indication?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+
+fun formatCalendarButtonStyleByState(
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSixteenWhite, R.color.colorTextPrimary1)
+
+fun formatCalendarBackgroundButtonStyleByState(
+    currentState: Symptoms.StartOf?,
+    state: Symptoms.StartOf?
+): Int =
+    formatColor(currentState == state, R.color.colorTextSemanticNeutral, R.color.colorSurface2)
+
+fun isEnableSymptomIntroButtonByState(currentState: Symptoms.Indication?): Boolean {
+    return currentState != null
+}
+
+fun isEnableSymptomCalendarButtonByState(currentState: Symptoms.StartOf?): Boolean {
+    return currentState != null
+}
 
 fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState != ApiRequestState.SUCCESS)
@@ -207,3 +242,36 @@ fun formatShowRiskStatusCard(deviceUiState: DeviceUIState?): Int =
                 deviceUiState != DeviceUIState.PAIRED_POSITIVE_TELETAN &&
                 deviceUiState != DeviceUIState.SUBMITTED_FINAL
     )
+
+fun formatCountryIsoTagToLocalizedName(isoTag: String?): String {
+    val country = if (isoTag != null) Locale("", isoTag).displayCountry else ""
+    return country
+}
+
+private fun resolveNameToDrawableId(drawableName: String, ctx: Context): Int? {
+    val drawableId =
+        ctx.resources.getIdentifier(drawableName, "drawable", ctx.packageName)
+    return if (drawableId == 0) null else drawableId
+}
+
+fun formatCountryIsoTagToFlagDrawable(isoTag: String?): Drawable? {
+    val appContext = CoronaWarnApplication.getAppContext()
+
+    val countryName = isoTag?.let {
+        Locale("", it).getDisplayCountry(Locale.ENGLISH).toLowerCase(Locale.ENGLISH)
+    }
+
+    val countryId =
+        countryName?.let { resolveNameToDrawableId("ic_submission_country_flag_$it", appContext) }
+
+    return if (countryId != null)
+        appContext.getDrawable(countryId)
+    else
+        appContext.getDrawable(R.drawable.ic_submission_country_flag_ireland)
+}
+
+fun formatCountrySelectCardColor(isActive: Boolean?): Int =
+    formatColor(isActive == true, R.color.colorTextSemanticNeutral, R.color.card_dark)
+
+fun formatCountrySelectCardTextColor(isActive: Boolean?): Int =
+    formatColor(isActive == true, R.color.colorTextEmphasizedButton, R.color.colorTextPrimary1)

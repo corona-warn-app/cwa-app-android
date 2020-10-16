@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="countryData"
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/onboarding_tracing_container"
         android:layout_width="match_parent"
@@ -54,6 +60,7 @@
             app:locationHeadlineCard="@{@string/onboarding_tracing_location_headline}"
             app:locationIconCard="@{@drawable/ic_location}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
+            app:countryData="@{countryData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/onboarding_button_back"

@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * The fragment displays static informative content to the user
@@ -15,28 +15,9 @@ import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
  *
  */
 
-class MainOverviewFragment : Fragment() {
+class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
 
-    companion object {
-        private val TAG: String? = MainOverviewFragment::class.simpleName
-    }
-
-    private var _binding: FragmentMainOverviewBinding? = null
-    private val binding: FragmentMainOverviewBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentMainOverviewBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentMainOverviewBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

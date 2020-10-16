@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.information
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.fragment.app.Fragment
@@ -13,31 +11,14 @@ import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * Basic Fragment which links to static and web content.
  */
-class InformationFragment : Fragment() {
-    companion object {
-        private val TAG: String? = InformationFragment::class.simpleName
-    }
+class InformationFragment : Fragment(R.layout.fragment_information) {
 
-    private var _binding: FragmentInformationBinding? = null
-    private val binding: FragmentInformationBinding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentInformationBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentInformationBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

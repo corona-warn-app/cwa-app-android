@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.riskdetails.DefaultRiskDetailPresenter
 import de.rki.coronawarnapp.util.ConnectivityHelper
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -61,6 +62,9 @@ class TracingViewModel : ViewModel() {
 
     val additionalInformationVisibility = MediatorLiveData<Int>()
     val informationBodyNoticeVisibility = MediatorLiveData<Int>()
+
+    // event for interoperability navigation
+    val navigateToInteroperability = SingleLiveEvent<Boolean>()
 
     init {
         additionalInformationVisibility.addSource(riskLevel) {
@@ -125,7 +129,7 @@ class TracingViewModel : ViewModel() {
                 // check if the keys were not already retrieved today
                 val keysWereNotRetrievedToday =
                     LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+                        currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
 
                 // check if the network is enabled to make the server fetch
                 val isNetworkEnabled =
@@ -136,9 +140,9 @@ class TracingViewModel : ViewModel() {
                 val isBackgroundJobEnabled =
                     ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
 
-                Timber.v("Keys were not retrieved today $keysWereNotRetrievedToday")
-                Timber.v("Network is enabled $isNetworkEnabled")
-                Timber.v("Background jobs are enabled $isBackgroundJobEnabled")
+                Timber.tag(TAG).v("Keys were not retrieved today $keysWereNotRetrievedToday")
+                Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
+                Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
 
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
                     TracingRepository.isRefreshing.value = true
@@ -215,7 +219,7 @@ class TracingViewModel : ViewModel() {
                     ExposureSummaryRepository.getExposureSummaryRepository()
                         .getLatestExposureSummary(token)
                 }
-                Timber.v("retrieved latest exposure summary from db")
+                Timber.tag(TAG).v("retrieved latest exposure summary from db")
             } catch (e: Exception) {
                 e.report(
                     de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION,
@@ -239,5 +243,9 @@ class TracingViewModel : ViewModel() {
 
     fun refreshLastSuccessfullyCalculatedScore() {
         RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
+    }
+
+    fun onInteroperabilitySettingPressed() {
+        navigateToInteroperability.postValue(true)
     }
 }

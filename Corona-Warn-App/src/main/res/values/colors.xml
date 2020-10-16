@@ -19,6 +19,7 @@
     <color name="colorTextPrimary2">#9917191A</color>
     <color name="colorTextPrimary3">#4D17191A</color>
     <color name="colorTextEmphasizedButton">#FFFFFF</color>
+    <color name="colorTextSixteenWhite">#FFFFFF</color>
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">#5D6E80</color>
@@ -52,4 +53,11 @@
     <color name="colorStableHairlineLight">#33FFFFFF</color>
     <color name="colorStableHairlineDark">#3317191A</color>
 
+    <!-- Calendar -->
+    <color name="colorCalendarSelectedDayBackground">#5D6F80</color>
+    <color name="colorCalendarTodayBorder">#007FAD</color>
+    <color name="colorCalendarTodayText">#007FAD</color>
+    <color name="colorCalendarMonthText">#DE000000</color>
+    <color name="colorCalendarLayoutFocusOn">#FF5D6F80</color>
+    <color name="colorCalendarLayoutFocusOff">#F5F5F5</color>
 </resources>

@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_positive_other_warning_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.SubmissionResultPositiveOtherWarningFragment">
+        tools:context=".ui.submission.fragment.SubmissionResultPositiveOtherWarningFragment">
 
         <include
             android:id="@+id/submission_positive_other_warning_header"
@@ -37,6 +37,7 @@
             layout="@layout/include_submission_positive_other_warning"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
+            app:countryData="@{submissionViewModel.countryList}"
             app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

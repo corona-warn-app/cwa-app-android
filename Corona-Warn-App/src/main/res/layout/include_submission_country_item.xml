@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+
+        <variable
+            name="submissionCountry"
+            type="de.rki.coronawarnapp.ui.submission.SubmissionCountry" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_country_selector_country_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/submission_country_selector_country_icon"
+            android:layout_width="@dimen/submission_country_selection_country_icon_size"
+            android:layout_height="@dimen/submission_country_selection_country_icon_size"
+            android:layout_marginVertical="@dimen/spacing_tiny"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:importantForAccessibility="no"
+            android:scaleType="centerInside"
+            android:src="@{FormatterSubmissionHelper.formatCountryIsoTagToFlagDrawable(submissionCountry.countryCode), default=@drawable/ic_submission_country_flag_ireland}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/submission_country_selector_country_name"
+            style="@style/body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:focusable="true"
+            android:text="@{FormatterSubmissionHelper.formatCountryIsoTagToLocalizedName(submissionCountry.countryCode), default=Ireland}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/submission_country_selector_country_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/submission_country_selector_country_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:checked="@{submissionCountry.selected}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

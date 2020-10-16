@@ -330,35 +330,6 @@ fun formatNextUpdate(
 }
 
 /**
- * Formats the risk card content description of time when diagnosis keys will be updated
- * from server again when applicable but appends the word button at the end for screen reader accessibility reasons
- *
- * @param riskLevelScore
- * @param isBackgroundJobEnabled
- * @return
- */
-fun formatNextUpdateContentDescription(
-    riskLevelScore: Int?,
-    isBackgroundJobEnabled: Boolean?
-): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return if (isBackgroundJobEnabled != true) {
-        ""
-    } else {
-        return when (riskLevelScore) {
-            RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-            RiskLevelConstants.LOW_LEVEL_RISK,
-            RiskLevelConstants.INCREASED_RISK -> appContext.getString(
-                R.string.risk_card_body_next_update
-            ) + " " + appContext.getString(
-                R.string.accessibility_button
-            )
-            else -> ""
-        }
-    }
-}
-
-/**
  * Formats the risk details text display for each risk level
  *
  * @param riskLevelScore
@@ -611,6 +582,16 @@ fun formatVisibilityBehavior(riskLevelScore: Int?): Int =
  */
 fun formatVisibilityBehaviorIncreasedRisk(riskLevelScore: Int?): Int =
     formatVisibility(riskLevelScore == RiskLevelConstants.INCREASED_RISK)
+
+/**
+ * Format the risk details include display for suggested behavior depending on risk level
+ * Only applied in special case for low level risk
+ *
+ * @param riskLevelScore
+ * @return
+ */
+fun formatVisibilityBehaviorLowLevelRisk(riskLevelScore: Int?): Int =
+    formatVisibility(riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK)
 
 /**
  * Format the risk details period logged card display  depending on risk level

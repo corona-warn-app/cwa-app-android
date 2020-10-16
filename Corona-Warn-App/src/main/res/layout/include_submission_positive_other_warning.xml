@@ -6,6 +6,10 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
 
+        <variable
+            name="countryData"
+            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
+
     </data>
 
     <ScrollView
@@ -51,6 +55,40 @@
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_headline" />
 
+            <TextView
+                android:id="@+id/submission_country_header_description"
+                style="@style/headline6"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@{@string/submission_interoperability_list_title}"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text" />
+
+            <de.rki.coronawarnapp.ui.view.CountryList
+                android:id="@+id/countryList"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="@+id/submission_country_header_description"
+                app:layout_constraintStart_toStartOf="@+id/submission_country_header_description"
+                app:layout_constraintTop_toBottomOf="@+id/submission_country_header_description"
+                app:list="@{countryData}" />
+
+            <include
+                android:id="@+id/submission_positive_location_card_16_years"
+                layout="@layout/include_16_years"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:focusable="true"
+                app:body="@{@string/sixteen_description_text}"
+                app:headline="@{@string/sixteen_title_text}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@+id/countryList" />
+
             <include
                 android:id="@+id/submission_positive_other_privacy"
                 layout="@layout/include_privacy_card"
@@ -59,7 +97,7 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/submission_positive_other_warning_text" />
+                app:layout_constraintTop_toBottomOf="@+id/submission_positive_location_card_16_years" />
 
             <include layout="@layout/merge_guidelines_side" />
 

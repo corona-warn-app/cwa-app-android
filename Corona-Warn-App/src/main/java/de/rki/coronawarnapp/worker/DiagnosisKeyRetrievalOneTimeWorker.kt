@@ -15,10 +15,6 @@ import timber.log.Timber
 class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisKeyRetrievalOneTimeWorker::class.simpleName
-    }
-
     /**
      * Work execution
      *
@@ -27,7 +23,7 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
-        Timber.tag(TAG).d("$id: doWork() started. Run attempt: $runAttemptCount")
+        Timber.d("$id: doWork() started. Run attempt: $runAttemptCount")
 
         BackgroundWorkHelper.sendDebugNotification(
             "KeyOneTime Executing: Start", "KeyOneTime started. Run attempt: $runAttemptCount "
@@ -37,12 +33,12 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
         try {
             RetrieveDiagnosisKeysTransaction.startWithConstraints()
         } catch (e: Exception) {
-            Timber.tag(TAG).w(
+            Timber.w(
                 e, "$id: Error during RetrieveDiagnosisKeysTransaction.startWithConstraints()."
             )
 
             if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                Timber.tag(TAG).w(e, "$id: Retry attempts exceeded.")
+                Timber.w(e, "$id: Retry attempts exceeded.")
 
                 BackgroundWorkHelper.sendDebugNotification(
                     "KeyOneTime Executing: Failure",
@@ -51,7 +47,7 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
 
                 return Result.failure()
             } else {
-                Timber.tag(TAG).d(e, "$id: Retrying.")
+                Timber.d(e, "$id: Retrying.")
                 result = Result.retry()
             }
         }
@@ -60,7 +56,7 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
             "KeyOneTime Executing: End", "KeyOneTime result: $result "
         )
 
-        Timber.tag(TAG).d("$id: doWork() finished with %s", result)
+        Timber.d("$id: doWork() finished with %s", result)
         return result
     }
 }

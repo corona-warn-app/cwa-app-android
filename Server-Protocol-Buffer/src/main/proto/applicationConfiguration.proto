@@ -12,6 +12,10 @@ message ApplicationConfiguration {
     AttenuationDuration attenuationDuration = 4;
 
     ApplicationVersionConfiguration appVersion = 5;
+
+    AppFeatures appFeatures = 6;
+
+    repeated string supportedCountries = 7;
 }
 
 message RiskScoreParameters {
@@ -126,4 +130,13 @@ message SemanticVersion {
     uint32 major = 1;
     uint32 minor = 2;
     uint32 patch = 3;
+}
+
+message AppFeatures {
+    repeated AppFeature app_features = 1;
+}
+
+message AppFeature {
+    string label = 1;
+    int32 value = 2;
 }

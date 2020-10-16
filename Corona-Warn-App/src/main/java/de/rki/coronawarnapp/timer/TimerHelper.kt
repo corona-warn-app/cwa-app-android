@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
+import de.rki.coronawarnapp.util.di.AppInjector
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
@@ -47,6 +48,10 @@ object TimerHelper {
      * Initial timer delay in milliseconds
      */
     private const val INITIAL_TIMER_DELAY = 0L
+
+    private val settingsRepository by lazy {
+        AppInjector.component.settingsRepository
+    }
 
     /**
      * Get cooldown time left between last time update button was triggered and current time
@@ -103,7 +108,7 @@ object TimerHelper {
             }
         }
         if (!isManualKeyRetrievalOnTimer.get()) {
-            SettingsRepository.updateManualKeyRetrievalEnabled(true)
+            settingsRepository.updateManualKeyRetrievalEnabled(true)
         }
     }
 
@@ -115,13 +120,12 @@ object TimerHelper {
      * @see getManualKeyRetrievalTimeLeft
      * @see SettingsRepository.updateManualKeyRetrievalEnabled
      * @see SettingsRepository.updateManualKeyRetrievalTime
-     * @see de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
      */
     private fun onManualKeyRetrievalTimerTick() {
         val timeDifference = getManualKeyRetrievalTimeLeft()
         val result = timeDifference <= 0
-        SettingsRepository.updateManualKeyRetrievalEnabled(result)
-        SettingsRepository.updateManualKeyRetrievalTime(timeDifference)
+        settingsRepository.updateManualKeyRetrievalEnabled(result)
+        settingsRepository.updateManualKeyRetrievalTime(timeDifference)
         if (result) stopManualKeyRetrievalTimer()
     }
 

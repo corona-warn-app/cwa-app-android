@@ -1,8 +1,5 @@
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration.ExposureConfigurationBuilder
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -10,7 +7,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToSeconds
-import java.io.File
+import de.rki.coronawarnapp.util.di.AppInjector
 import java.util.Date
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -24,7 +21,7 @@ object InternalExposureNotificationClient {
 
     // reference to the client from the Google framework with the given application context
     private val exposureNotificationClient by lazy {
-        Nearby.getExposureNotificationClient(CoronaWarnApplication.getAppContext())
+        AppInjector.component.enfClient.internalClient
     }
 
     /****************************************************
@@ -92,29 +89,8 @@ object InternalExposureNotificationClient {
             }
     }
 
-    /**
-     * Takes an ExposureConfiguration object. Inserts a list of files that contain key
-     * information into the on-device database. Provide the keys of confirmed cases retrieved
-     * from your internet-accessible server to the Google Play service once requested from the
-     * API. Information about the file format is in the Exposure Key Export File Format and
-     * Verification document that is linked from google.com/covid19/exposurenotifications.
-     *
-     * @param keyFiles
-     * @param configuration
-     * @param token
-     * @return
-     */
-    suspend fun asyncProvideDiagnosisKeys(
-        keyFiles: Collection<File>,
-        configuration: ExposureConfiguration?,
-        token: String
-    ): Void = suspendCoroutine { cont ->
-        val exposureConfiguration = configuration ?: ExposureConfigurationBuilder().build()
-        exposureNotificationClient.provideDiagnosisKeys(
-            keyFiles.toList(),
-            exposureConfiguration,
-            token
-        )
+    suspend fun getVersion(): Long = suspendCoroutine { cont ->
+        exposureNotificationClient.version
             .addOnSuccessListener {
                 cont.resume(it)
             }.addOnFailureListener {
@@ -160,4 +136,11 @@ object InternalExposureNotificationClient {
                     cont.resumeWithException(it)
                 }
         }
+
+    /**
+     * Indicates if device supports scanning without location service
+     *
+     * @return
+     */
+    fun deviceSupportsLocationlessScanning() = exposureNotificationClient.deviceSupportsLocationlessScanning()
 }

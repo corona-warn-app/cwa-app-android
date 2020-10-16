@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
 
     <data>
 
@@ -10,300 +11,469 @@
             type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/spacing_normal"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
+            android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/label_googlePlayServices_version"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/debug_container"
+                style="@style/card"
+                android:layout_margin="@dimen/spacing_tiny"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <Switch
-                android:id="@+id/test_api_switch_last_three_hours_from_server"
-                style="@style/body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_switch_last_three_hours_from_server"
-                android:theme="@style/switchBase" />
-
-            <Switch
-                android:id="@+id/test_api_switch_background_notifications"
-                style="@style/body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_switch_background_notifications"
-                android:theme="@style/switchBase" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
                 android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/debug_container_title"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Debug options"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Switch
+                    android:id="@+id/three_hour_mode_toggle"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/test_api_switch_last_three_hours_from_server"
+                    android:theme="@style/switchBase"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/debug_container_title" />
+
+                <Switch
+                    android:id="@+id/background_notifications_toggle"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_switch_background_notifications"
+                    android:theme="@style/switchBase"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/three_hour_mode_toggle" />
 
                 <Switch
                     android:id="@+id/test_logfile_toggle"
                     style="@style/body1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_weight="1"
                     android:text="Logfile enabled"
-                    android:theme="@style/switchBase" />
+                    android:theme="@style/switchBase"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/background_notifications_toggle" />
 
                 <Button
+                    android:id="@+id/test_logfile_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/test_logfile_share"
-                    android:text="Share log" />
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Share log"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/test_logfile_toggle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/environment_container"
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny">
+
+                <TextView
+                    android:id="@+id/environment_title"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Server environment"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/environment_cdnurl_download"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/environment_title"
+                    tools:text="Download: ?" />
+
+                <TextView
+                    android:id="@+id/environment_cdnurl_submission"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_download"
+                    tools:text="Submission: ?" />
+
+                <TextView
+                    android:id="@+id/environment_cdnurl_verification"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_submission"
+                    tools:text="Verification: ?" />
+
+                <RadioGroup
+                    android:id="@+id/environment_toggle_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/environment_cdnurl_verification" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/gms_container"
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny">
+
+                <TextView
+                    android:id="@+id/gms_container_title"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="GMS Infos"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/google_play_services_version_info"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Google Play Services Version: ?"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gms_container_title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/exposure_summary_container"
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/label_exposure_summary"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_tiny"
+                    android:text="@string/test_api_exposure_summary_headline" />
+
+                <TextView
+                    android:id="@+id/label_exposure_summary_matchedKeyCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_body_matchedKeyCount" />
+
+                <TextView
+                    android:id="@+id/label_exposure_summary_daysSinceLastExposure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_body_daysSinceLastExposure" />
+
+                <TextView
+                    android:id="@+id/label_exposure_summary_maximumRiskScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_body_maximumRiskScore" />
+
+                <TextView
+                    android:id="@+id/label_exposure_summary_summationRiskScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_body_summation_risk" />
+
+                <TextView
+                    android:id="@+id/label_exposure_summary_attenuation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_body_attenuation" />
+
+                <Button
+                    android:id="@+id/button_api_scan_qr_code"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/test_api_button_scan_qr_code" />
+
+                <Button
+                    android:id="@+id/button_api_enter_other_keys"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_button_enter_other_keys" />
+
+                <Button
+                    android:id="@+id/button_api_get_check_exposure"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_button_check_exposure" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mykeys_container"
+                style="@style/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/label_my_keys"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_tiny"
+                    android:text="@string/test_api_body_my_keys" />
+
+                <TextView
+                    android:id="@+id/label_latest_key_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Latest key is from: -" />
+
+                <TextView
+                    android:id="@+id/text_my_keys"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your keys will be displayed here"
+                    android:lines="5"
+                    android:visibility="gone" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/qr_code_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <TextView
+                    android:id="@+id/label_other_keys"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_body_other_keys" />
+
+                <TextView
+                    android:id="@+id/text_scanned_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/label_exposure_summary"
-                style="@style/headline6"
-                android:accessibilityHeading="true"
+            <LinearLayout
+                android:id="@+id/testactions_container"
+                style="@style/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_api_exposure_summary_headline" />
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/label_exposure_summary_matchedKeyCount"
+                <Button
+                    android:id="@+id/button_api_test_start"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_api_button_start" />
+
+                <Button
+                    android:id="@+id/button_api_get_exposure_keys"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_button_get_exposure_keys" />
+
+                <Button
+                    android:id="@+id/button_api_submit_keys"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_button_submit_keys" />
+
+                <Button
+                    android:id="@+id/button_api_share_my_keys"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_button_share_my_keys" />
+
+                <Button
+                    android:id="@+id/button_calculate_risk_level"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/test_api_calculate_risk_level" />
+
+                <Button
+                    android:id="@+id/button_insert_exposure_summary"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Insert ExposureSummary" />
+
+                <Button
+                    android:id="@+id/button_retrieve_exposure_summary"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Retrieve ExposureSummary" />
+
+                <Button
+                    android:id="@+id/button_clear_db"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Clear Internal DB" />
+
+                <Button
+                    android:id="@+id/button_tracing_intervals"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Get Inactive Tracing Intervals" />
+
+                <Button
+                    android:id="@+id/button_tracing_duration_in_retention_period"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="Get Active Tracing Duration in Retention Period" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/country_container"
+                style="@style/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_api_body_matchedKeyCount" />
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/label_exposure_summary_daysSinceLastExposure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_body_daysSinceLastExposure" />
+                <TextView
+                    android:id="@+id/label_country_filter"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Country Settings" />
 
-            <TextView
-                android:id="@+id/label_exposure_summary_maximumRiskScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_body_maximumRiskScore" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/label_exposure_summary_summationRiskScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_body_summation_risk" />
+                    <EditText
+                        android:id="@+id/input_country_codes_editText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/label_exposure_summary_attenuation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_body_attenuation" />
+                    <Button
+                        android:id="@+id/button_filter_country_codes"
+                        style="@style/buttonPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apply" />
+                </LinearLayout>
 
-            <Button
-                android:id="@+id/button_api_scan_qr_code"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_button_scan_qr_code" />
+                <TextView
+                    android:id="@+id/label_country_code_filter_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Country filter applied for:">
 
-            <Button
-                android:id="@+id/button_api_enter_other_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_button_enter_other_keys" />
+                </TextView>
 
-            <Button
-                android:id="@+id/button_api_get_check_exposure"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_button_check_exposure" />
+                <TextView
+                    android:id="@+id/label_test_api_measure"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="Statistics" />
 
-            <TextView
-                android:id="@+id/label_my_keys"
-                style="@style/headline6"
-                android:accessibilityHeading="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_body_my_keys" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/label_latest_key_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Latest key is from: -" />
+                    <EditText
+                        android:id="@+id/input_measure_risk_key_repeat_count"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="1" />
 
-            <TextView
-                android:id="@+id/text_my_keys"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Your keys will be displayed here"
-                android:lines="5"
-                android:visibility="gone" />
+                    <Button
+                        android:id="@+id/button_retrieve_diagnosis_keys_and_calc_risk_level"
+                        style="@style/buttonPrimary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
+                        android:layout_weight="1"
+                        android:imeOptions="actionDone"
+                        android:text="Measure: Calculate Risk Level / Key Retrieval" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/qr_code_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/label_other_keys"
-                style="@style/headline6"
-                android:accessibilityHeading="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_body_other_keys" />
+                <TextView
+                    android:id="@+id/label_test_api_measure_calc_key_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Result: " />
 
-            <TextView
-                android:id="@+id/text_scanned_key"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/button_api_test_start"
-                style="@style/buttonPrimary"
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/calendar_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_api_button_start" />
+                android:layout_height="match_parent" />
 
-            <Button
-                android:id="@+id/button_api_get_exposure_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_button_get_exposure_keys" />
-
-            <Button
-                android:id="@+id/button_api_submit_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_button_submit_keys" />
-
-            <Button
-                android:id="@+id/button_api_share_my_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_button_share_my_keys" />
-
-            <Button
-                android:id="@+id/button_calculate_risk_level"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/test_api_calculate_risk_level" />
-
-            <Button
-                android:id="@+id/button_insert_exposure_summary"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Insert ExposureSummary" />
-
-            <Button
-                android:id="@+id/button_retrieve_exposure_summary"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Retrieve ExposureSummary" />
-
-            <Button
-                android:id="@+id/button_clear_db"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Clear Internal DB" />
-
-            <Button
-                android:id="@+id/button_tracing_intervals"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="Get Inactive Tracing Intervals" />
-
-            <Button
-                android:id="@+id/button_tracing_duration_in_retention_period"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:text="Get Active Tracing Duration in Retention Period" />
-
-            <TextView
-                style="@style/headline4"
-                android:accessibilityHeading="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="headline4" />
-
-            <TextView
-                style="@style/headline5"
-                android:accessibilityHeading="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="headline5" />
-
-            <TextView
-                style="@style/headline6"
-                android:accessibilityHeading="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="headline6" />
-
-            <TextView
-                style="@style/subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="subtitle" />
-
-            <TextView
-                style="@style/subtitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="subtitleMedium" />
-
-            <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="body1" />
-
-            <TextView
-                style="@style/body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="body2" />
-
-            <TextView
-                style="@style/body2Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="body2medium" />
-
-            <TextView
-                style="@style/bodyButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="button" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

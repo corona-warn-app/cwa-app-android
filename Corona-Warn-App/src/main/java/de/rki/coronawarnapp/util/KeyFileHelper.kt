@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.util
 
-import KeyExportFormat
-import KeyExportFormat.TEKSignatureList
-import KeyExportFormat.TEKSignatureList.newBuilder
-import KeyExportFormat.TemporaryExposureKeyExport
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignature
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignatureList
+import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TemporaryExposureKeyExport
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.convertToGoogleKey
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.logUTCFormat
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +11,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.io.BufferedWriter
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
 import java.nio.charset.Charset
 import java.util.Date
 import java.util.UUID
@@ -54,7 +50,7 @@ object KeyFileHelper {
                         .setStartTimestamp(file.header.startTimestamp)
                         .setEndTimestamp(file.header.endTimestamp)
                         .build(),
-                    KeyExportFormat.TEKSignature.newBuilder()
+                    TEKSignature.newBuilder()
                         .setBatchNum(file.header.batchNum)
                         .setBatchSize(file.header.batchSize)
                         .setSignatureInfo(SignatureHelper.clientSig)
@@ -78,7 +74,7 @@ object KeyFileHelper {
     private suspend fun createBinaryFile(
         storageDirectory: File?,
         zipFileName: String,
-        sourceWithTEKSignature: Pair<TemporaryExposureKeyExport, KeyExportFormat.TEKSignature>
+        sourceWithTEKSignature: Pair<TemporaryExposureKeyExport, TEKSignature>
     ): File {
         return withContext(Dispatchers.IO) {
             val exportFile = async {
@@ -91,7 +87,9 @@ object KeyFileHelper {
             val exportSignatureFile = async {
                 generateSignatureFile(
                     storageDirectory,
-                    newBuilder().addAllSignatures(listOf(sourceWithTEKSignature.second)).build()
+                    TEKSignatureList.newBuilder()
+                        .addAllSignatures(listOf(sourceWithTEKSignature.second))
+                        .build()
                 )
             }
 
@@ -126,7 +124,7 @@ object KeyFileHelper {
 
     private fun TEKSignatureList.writeToFile(
         file: File
-    ) = FileOutputStream(file).use { stream ->
+    ) = file.outputStream().use { stream ->
         this.writeTo(stream)
     }
 
@@ -144,9 +142,9 @@ object KeyFileHelper {
 
     private fun getExportBinaryFileName(): String = "key-export-binary-${UUID.randomUUID()}.bin"
 
-    private fun File.appendBinaryHeader() = FileOutputStream(this).use { fos ->
-        OutputStreamWriter(fos, Charset.forName(EXPORT_FILE_HEADER_CHARSET)).use { osw ->
-            BufferedWriter(osw).use { bw ->
+    private fun File.appendBinaryHeader() = outputStream().use { fos ->
+        fos.writer(Charset.forName(EXPORT_FILE_HEADER_CHARSET)).use { osw ->
+            osw.buffered().use { bw ->
                 bw.write(EXPORT_FILE_HEADER)
             }
         }
