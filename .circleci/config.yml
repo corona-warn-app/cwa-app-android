@@ -268,14 +268,6 @@ jobs:
           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
       - save-gradle-cache
       - save-android-build-cache
-      - run:
-          name: Test echo
-          command: |
-            FILE=Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk
-            if [[ -f "$FILE" ]]; then
-                echo "$FILE exists."
-            fi
-            echo "$(ls -lR Corona-Warn-App/build/outputs/apk/)"
       - store_artifacts:
           path: Corona-Warn-App/build/outputs/apk
           destination: apk
@@ -308,12 +300,8 @@ workflows:
     jobs:
       - quick_build_device_for_testers_signed:
           filters:
-            branches:
+            tags:
               only:
-                - feature/circleci-apk-sign
-#          filters:
-#            tags:
-#              only:
-#                - /SNAPSHOT/
-#            branches:
-#              ignore: /.*/
+                - /SNAPSHOT/
+            branches:
+              ignore: /.*/
