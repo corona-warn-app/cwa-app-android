@@ -142,22 +142,6 @@ data class TracingCardState(
      * Special case for increased risk as it is then only displayed on risk detail view
      */
     fun getRiskActiveTracingDaysInRetentionPeriod(c: Context): String = when (riskLevelScore) {
-        RiskLevelConstants.INCREASED_RISK -> {
-            if (showDetails) {
-                if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
-                    c.getString(
-                        R.string.risk_card_body_saved_days
-                    )
-                        .format(activeTracingDaysInRetentionPeriod)
-                } else {
-                    c.getString(
-                        R.string.risk_card_body_saved_days_full
-                    )
-                }
-            } else {
-                ""
-            }
-        }
         RiskLevelConstants.LOW_LEVEL_RISK ->
             if (activeTracingDaysInRetentionPeriod < TimeVariables.getDefaultRetentionPeriodInDays()) {
                 c.getString(
@@ -169,7 +153,6 @@ data class TracingCardState(
                     R.string.risk_card_body_saved_days_full
                 )
             }
-
         else -> ""
     }
 
@@ -253,13 +236,13 @@ data class TracingCardState(
     /**
      * Formats the risk card button display for enable tracing depending on risk level and current view
      */
-    fun showTracingButton(c: Context): Boolean = isTracingOffRiskLevel() && !showDetails
+    fun showTracingButton(): Boolean = isTracingOffRiskLevel() && !showDetails
 
     /**
      * Formats the risk card button display for manual updates depending on risk level,
      * background task setting and current view
      */
-    fun showUpdateButton(c: Context): Boolean =
+    fun showUpdateButton(): Boolean =
         !isTracingOffRiskLevel() && !isBackgroundJobEnabled && !showDetails
 
     /**

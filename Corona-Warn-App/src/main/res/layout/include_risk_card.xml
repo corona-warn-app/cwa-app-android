@@ -257,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/risk_details_button_enable_tracing"
-                gone="@{!tracingCard.showTracingButton(context)}"
+                gone="@{!tracingCard.showTracingButton()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update" />
@@ -270,7 +270,7 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:enabled="@{tracingCard.isUpdateButtonEnabled(context)}"
                 android:text="@{tracingCard.getUpdateButtonText(context)}"
-                gone="@{!tracingCard.showUpdateButton(context)}"
+                gone="@{!tracingCard.showUpdateButton()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_button_enable_tracing" />
