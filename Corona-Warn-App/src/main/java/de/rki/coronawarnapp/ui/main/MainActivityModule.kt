@@ -27,5 +27,4 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [InteroperabilityConfigurationFragmentModule::class])
     abstract fun intertopConfigScreen(): InteroperabilityConfigurationFragment
-
 }

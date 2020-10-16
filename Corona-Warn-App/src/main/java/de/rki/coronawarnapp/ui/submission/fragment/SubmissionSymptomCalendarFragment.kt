@@ -9,11 +9,9 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomCalendarViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
@@ -21,6 +19,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.isEnableSymptomCalendarButtonByState
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -125,12 +124,12 @@ class SubmissionSymptomCalendarFragment : Fragment(), AutoInject {
     }
 
     private fun navigateToSymptomFinish() {
-        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
+        doNavigate(SubmissionSymptomCalendarFragmentDirections
             .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment())
     }
 
     private fun navigateToPreviousScreen() {
-        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
+       doNavigate(SubmissionSymptomCalendarFragmentDirections
             .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
     }
 

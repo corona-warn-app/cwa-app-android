@@ -7,11 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,17 +33,17 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     findNavController().popBackStack()
                 is SubmissionNavigationEvents.NavigateToTAN ->
-                    findNavController().doNavigate(
+                  doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToContact ->
-                    findNavController().doNavigate(
+                   doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToQRInfo ->
-                    findNavController().doNavigate(
+                    doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
                     )

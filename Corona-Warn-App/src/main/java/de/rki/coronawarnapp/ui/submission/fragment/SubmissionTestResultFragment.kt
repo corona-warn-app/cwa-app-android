@@ -7,13 +7,11 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
@@ -22,6 +20,7 @@ import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -51,7 +50,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
     private fun navigateToMainScreen() =
-        findNavController().doNavigate(
+       doNavigate(
             SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
         )
 
@@ -105,17 +104,17 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
-                    findNavController().doNavigate(
+                   doNavigate(
                         SubmissionTestResultFragmentDirections
                             .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning ->
-                    findNavController().doNavigate(
+                    doNavigate(
                         SubmissionTestResultFragmentDirections
                             .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
-                    findNavController().doNavigate(
+                    doNavigate(
                         SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
                     )
             }

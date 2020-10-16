@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.http.ForbiddenException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionResultPositiveOtherWarningViewModel
@@ -25,6 +24,7 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -137,7 +137,7 @@ class SubmissionResultPositiveOtherWarningFragment :
     }
 
     private fun navigateToSubmissionResultFragment() =
-        findNavController().doNavigate(
+        doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
         )
@@ -147,7 +147,7 @@ class SubmissionResultPositiveOtherWarningFragment :
      * @see SubmissionDoneFragment
      */
     private fun navigateToSubmissionDoneFragment() =
-        findNavController().doNavigate(
+        doNavigate(
             SubmissionResultPositiveOtherWarningFragmentDirections
                 .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
         )

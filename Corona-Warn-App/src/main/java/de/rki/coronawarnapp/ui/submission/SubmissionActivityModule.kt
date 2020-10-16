@@ -66,5 +66,4 @@ internal abstract class SubmissionActivityModule {
 
     @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
     abstract fun submissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
-
 }
