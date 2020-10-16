@@ -50,7 +50,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
     private fun navigateToMainScreen() =
-       doNavigate(
+        doNavigate(
             SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
         )
 
@@ -104,7 +104,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
-                   doNavigate(
+                    doNavigate(
                         SubmissionTestResultFragmentDirections
                             .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
                     )

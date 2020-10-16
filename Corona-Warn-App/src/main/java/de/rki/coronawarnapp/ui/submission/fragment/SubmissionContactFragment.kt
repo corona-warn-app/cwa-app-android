@@ -37,7 +37,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     findNavController().popBackStack()
                 is SubmissionNavigationEvents.NavigateToTAN ->
-                   doNavigate(
+                    doNavigate(
                         SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
                     )
             }

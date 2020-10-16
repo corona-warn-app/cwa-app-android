@@ -129,7 +129,7 @@ class SubmissionSymptomCalendarFragment : Fragment(), AutoInject {
     }
 
     private fun navigateToPreviousScreen() {
-       doNavigate(SubmissionSymptomCalendarFragmentDirections
+        doNavigate(SubmissionSymptomCalendarFragmentDirections
             .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
     }
 

@@ -32,7 +32,7 @@ class SubmissionIntroFragment : Fragment(R.layout.fragment_submission_intro), Au
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
-                   doNavigate(
+                    doNavigate(
                         SubmissionIntroFragmentDirections.actionSubmissionIntroFragmentToMainFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
