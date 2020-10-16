@@ -25,57 +25,9 @@ import kotlin.math.round
 class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
     companion object {
-
         private var TAG = DefaultRiskLevels::class.simpleName
-
         private const val DECIMAL_MULTIPLIER = 100
     }
-
-    private fun calculateRiskScore(
-        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
-        exposureSummary: ExposureSummary
-    ): Double {
-
-        /** all attenuation values are capped to [TimeVariables.MAX_ATTENUATION_DURATION] */
-        val weightedAttenuationLow =
-            attenuationParameters.weights.low
-                .times(exposureSummary.attenuationDurationsInMinutes[0].capped())
-        val weightedAttenuationMid =
-            attenuationParameters.weights.mid
-                .times(exposureSummary.attenuationDurationsInMinutes[1].capped())
-        val weightedAttenuationHigh =
-            attenuationParameters.weights.high
-                .times(exposureSummary.attenuationDurationsInMinutes[2].capped())
-
-        val maximumRiskScore = exposureSummary.maximumRiskScore.toDouble()
-
-        val defaultBucketOffset = attenuationParameters.defaultBucketOffset.toDouble()
-        val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor.toDouble()
-
-        val attenuationStrings =
-            "Weighted Attenuation: ($weightedAttenuationLow + $weightedAttenuationMid + " +
-                "$weightedAttenuationHigh + $defaultBucketOffset)"
-        Timber.v(attenuationStrings)
-
-        val weightedAttenuationDuration =
-            weightedAttenuationLow
-                .plus(weightedAttenuationMid)
-                .plus(weightedAttenuationHigh)
-                .plus(defaultBucketOffset)
-
-        Timber.v("Formula used: ($maximumRiskScore / $normalizationDivisor) * $weightedAttenuationDuration")
-
-        val riskScore = (maximumRiskScore / normalizationDivisor) * weightedAttenuationDuration
-
-        return round(riskScore.times(DECIMAL_MULTIPLIER)).div(DECIMAL_MULTIPLIER)
-    }
-
-    private fun Int.capped() =
-        if (this > TimeVariables.getMaxAttenuationDuration()) {
-            TimeVariables.getMaxAttenuationDuration()
-        } else {
-            this
-        }
 
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
@@ -176,20 +128,6 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
         return false
     }
 
-    private fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
-        riskScore >= min && riskScore <= max
-
-    /**
-     * Make a call to the backend to retrieve the current application configuration values
-     *
-     * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
-     */
-    private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
-        withContext(Dispatchers.Default) {
-            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                .also { Timber.tag(TAG).d("configuration from backend: $it") }
-        }
-
     override val isActiveTracingTimeAboveThreshold: Boolean
         get() {
             val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
@@ -209,12 +147,71 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             }
         }
 
+    fun calculateRiskScore(
+        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        exposureSummary: ExposureSummary
+    ): Double {
+        /** all attenuation values are capped to [TimeVariables.MAX_ATTENUATION_DURATION] */
+        val weightedAttenuationLow =
+            attenuationParameters.weights.low
+                .times(exposureSummary.attenuationDurationsInMinutes[0].capped())
+        val weightedAttenuationMid =
+            attenuationParameters.weights.mid
+                .times(exposureSummary.attenuationDurationsInMinutes[1].capped())
+        val weightedAttenuationHigh =
+            attenuationParameters.weights.high
+                .times(exposureSummary.attenuationDurationsInMinutes[2].capped())
+
+        val maximumRiskScore = exposureSummary.maximumRiskScore.toDouble()
+
+        val defaultBucketOffset = attenuationParameters.defaultBucketOffset.toDouble()
+        val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor.toDouble()
+
+        val attenuationStrings =
+            "Weighted Attenuation: ($weightedAttenuationLow + $weightedAttenuationMid + " +
+                "$weightedAttenuationHigh + $defaultBucketOffset)"
+        Timber.v(attenuationStrings)
+
+        val weightedAttenuationDuration =
+            weightedAttenuationLow
+                .plus(weightedAttenuationMid)
+                .plus(weightedAttenuationHigh)
+                .plus(defaultBucketOffset)
+
+        Timber.v("Formula used: ($maximumRiskScore / $normalizationDivisor) * $weightedAttenuationDuration")
+
+        val riskScore = (maximumRiskScore / normalizationDivisor) * weightedAttenuationDuration
+
+        return round(riskScore.times(DECIMAL_MULTIPLIER)).div(DECIMAL_MULTIPLIER)
+    }
+
+    fun Int.capped() =
+        if (this > TimeVariables.getMaxAttenuationDuration()) {
+            TimeVariables.getMaxAttenuationDuration()
+        } else {
+            this
+        }
+
+    fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
+        riskScore >= min && riskScore <= max
+
+    /**
+     * Make a call to the backend to retrieve the current application configuration values
+     *
+     * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
+     */
+    private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        withContext(Dispatchers.Default) {
+            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                .also { Timber.tag(TAG).d("configuration from backend: $it") }
+        }
+
     /**
      * Updates the Risk Level Score in the repository with the calculated Risk Level
      *
      * @param riskLevel
      */
-    private fun updateRiskLevelScore(riskLevel: RiskLevel) {
+    fun updateRiskLevelScore(riskLevel: RiskLevel) {
         val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
         if (RiskLevel.riskLevelChangedBetweenLowAndHigh(lastCalculatedScore, riskLevel)) {
             NotificationHelper.sendNotification(
