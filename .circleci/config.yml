@@ -271,10 +271,11 @@ jobs:
       - run:
           name: Test echo
           command: |
-            FILE=/Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk
+            FILE=/Corona-Warn-App/build/outputs/apk/Corona-Warn-App-deviceForTesters-release.apk
             if [[ -f "$FILE" ]]; then
                 echo "$FILE exists."
             fi
+            echo "$(ls Corona-Warn-App/build/outputs/apk/)"
       - store_artifacts:
           path: Corona-Warn-App/build/outputs/apk
           destination: apk
