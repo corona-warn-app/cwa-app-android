@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
-import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
+import de.rki.coronawarnapp.storage.TestSettings
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -55,7 +55,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     private lateinit var deviceStorage: DeviceStorage
 
     @MockK
-    private lateinit var settings: AppSettings
+    private lateinit var testSettings: TestSettings
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val keyRepoData = mutableMapOf<String, CachedKeyInfo>()
@@ -70,7 +70,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        every { settings.isLast3HourModeEnabled } returns false
+        every { testSettings.isHourKeyPkgMode } returns false
 
         coEvery { server.getCountryIndex() } returns listOf("DE".loc, "NL".loc)
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
@@ -212,7 +212,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyServer = server,
             keyCache = keyCache,
             legacyKeyCache = legacyMigration,
-            settings = settings,
+            testSettings = testSettings,
             dispatcherProvider = TestDispatcherProvider
         )
         Timber.i("createDownloader(): %s", downloader)
@@ -229,7 +229,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `wanted country list is empty, hour mode`() {
-        every { settings.isLast3HourModeEnabled } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val downloader = createDownloader()
         runBlocking {
@@ -254,9 +254,9 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `fetching is aborted in hour if not enough free storage`() {
-        every { settings.isLast3HourModeEnabled } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
-        coEvery { deviceStorage.requireSpacePrivateStorage(67584L) } throws InsufficientStorageException(
+        coEvery { deviceStorage.requireSpacePrivateStorage(540672L) } throws InsufficientStorageException(
             mockk(relaxed = true)
         )
 
@@ -435,12 +435,12 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch without prior data`() {
-        every { settings.isLast3HourModeEnabled } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
         }
 
         coVerify {
@@ -482,17 +482,17 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 hourIdentifier = "10".hour
             )
         }
-        coVerify(exactly = 6) { keyCache.markKeyComplete(any(), any()) }
+        coVerify(exactly = 48) { keyCache.markKeyComplete(any(), any()) }
 
-        keyRepoData.size shouldBe 6
+        keyRepoData.size shouldBe 48
         keyRepoData.values.forEach { it.isDownloadComplete shouldBe true }
 
-        coVerify { deviceStorage.requireSpacePrivateStorage(135168L) }
+        coVerify { deviceStorage.requireSpacePrivateStorage(1081344L) }
     }
 
     @Test
     fun `last3Hours fetch with prior data`() {
-        every { settings.isLast3HourModeEnabled } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         mockAddData(
             type = Type.COUNTRY_HOUR,
@@ -512,9 +512,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf("DE".loc, "NL".loc)
-            ).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
         }
 
         coVerify {
@@ -527,8 +525,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "10".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
 
             keyCache.createCacheEntry(
@@ -540,19 +538,19 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "10".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
         }
-        coVerify(exactly = 4) {
+        coVerify(exactly = 46) {
             server.downloadKeyFile(any(), any(), any(), any(), any())
         }
-        coVerify { deviceStorage.requireSpacePrivateStorage(90112L) }
+        coVerify { deviceStorage.requireSpacePrivateStorage(1036288L) }
     }
 
     @Test
     fun `last3Hours fetch deletes stale data`() {
-        every { settings.isLast3HourModeEnabled } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val (staleKey1, _) = mockAddData(
             type = Type.COUNTRY_HOUR,
@@ -588,7 +586,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
         }
 
         coVerify {
@@ -601,8 +599,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "11".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
 
             keyCache.createCacheEntry(
@@ -614,11 +612,11 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "11".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
         }
-        coVerify(exactly = 4) {
+        coVerify(exactly = 46) {
             server.downloadKeyFile(any(), any(), any(), any(), any())
         }
         coVerify(exactly = 1) { keyCache.delete(listOf(staleKey1, staleKey2)) }
@@ -626,12 +624,12 @@ class KeyFileDownloaderTest : BaseIOTest() {
 
     @Test
     fun `last3Hours fetch skips single download failures`() {
-        every { settings.isLast3HourModeEnabled } returns true
+        every { testSettings.isHourKeyPkgMode } returns true
 
         var dlCounter = 0
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
-            if (dlCounter == 2) throw IOException("Timeout")
+            if (dlCounter % 3 == 0) throw IOException("Timeout")
             mockDownloadServerDownload(
                 locationCode = arg(0),
                 day = arg(1),
@@ -643,11 +641,11 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 5
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 32
         }
 
         // We delete the entry for the failed download
-        coVerify(exactly = 1) { keyCache.delete(any()) }
+        coVerify(exactly = 16) { keyCache.delete(any()) }
     }
 
     @Test
