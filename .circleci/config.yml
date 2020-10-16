@@ -275,7 +275,7 @@ jobs:
             if [[ -f "$FILE" ]]; then
                 echo "$FILE exists."
             fi
-            echo "$(ls Corona-Warn-App/build/outputs/apk/)"
+            echo "$(ls -lR Corona-Warn-App/build/outputs/apk/)"
       - store_artifacts:
           path: Corona-Warn-App/build/outputs/apk
           destination: apk
