@@ -37,6 +37,8 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
             adapter.updateCrashReports(it)
         }
 
-        fragmentCrashreporterOverviewBinding.buttonClearCrashReportList.setOnClickListener { vm.deleteAllCrashReports() }
+        fragmentCrashreporterOverviewBinding.buttonClearCrashReportList.setOnClickListener {
+            vm.deleteAllCrashReports()
+        }
     }
 }

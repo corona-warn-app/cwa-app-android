@@ -13,5 +13,6 @@ abstract class SettingsCrashReportFragmentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(SettingsCrashReportViewModel::class)
-    abstract fun settingsCrashReportFragment(factory: SettingsCrashReportViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    abstract fun settingsCrashReportFragment(factory: SettingsCrashReportViewModel.Factory)
+        : CWAViewModelFactory<out CWAViewModel>
 }
