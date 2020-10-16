@@ -271,7 +271,10 @@ jobs:
       - run:
           name: Test echo
           command: |
-            ls -l Corona-Warn-App/build/outputs/apk
+            FILE=/Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk
+            if [[ -f "$FILE" ]]; then
+                echo "$FILE exists."
+            fi
       - store_artifacts:
           path: Corona-Warn-App/build/outputs/apk
           destination: apk
