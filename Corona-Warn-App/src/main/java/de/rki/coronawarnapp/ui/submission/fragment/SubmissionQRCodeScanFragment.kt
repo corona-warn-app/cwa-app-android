@@ -39,10 +39,6 @@ import javax.inject.Inject
  */
 class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
 
-    companion object {
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
-    }
-
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
@@ -254,5 +250,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     override fun onPause() {
         super.onPause()
         binding.submissionQrCodeScanPreview.pause()
+    }
+
+    companion object {
+        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
     }
 }
