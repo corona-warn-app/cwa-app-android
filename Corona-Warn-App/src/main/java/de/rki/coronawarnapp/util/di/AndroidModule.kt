@@ -29,5 +29,5 @@ class AndroidModule {
     @Singleton
     fun notificationManagerCompat(
         @AppContext context: Context
-    ): NotificationManagerCompat? = NotificationManagerCompat.from(context)
+    ): NotificationManagerCompat = NotificationManagerCompat.from(context)
 }
