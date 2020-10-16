@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class SettingsCrashReportViewModel @AssistedInject constructor(
     private val crashReportRepository: CrashReportRepository
@@ -16,6 +17,15 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
         crashReportRepository.deleteAllCrashReports()
+    }
+
+    fun simulateExceptioin() = viewModelScope.launch(Dispatchers.IO) {
+        // toDo just for testing, remove later
+        try {
+            val a = 2 / 0
+        } catch (e: Exception) {
+            Timber.e(e, "Msg: ${e.message}")
+        }
     }
 
     @AssistedInject.Factory

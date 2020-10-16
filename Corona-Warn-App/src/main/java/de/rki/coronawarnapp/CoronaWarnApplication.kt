@@ -50,6 +50,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("onCreate(): Initializing Dagger")
         AppInjector.init(this)
 
+        if (BuildConfig.DEBUG) {
+            Timber.plant(crashReportTree)
+        }
+
         Timber.v("onCreate(): Initializing WorkManager")
         Configuration.Builder()
             .apply { setMinimumLoggingLevel(android.util.Log.DEBUG) }.build()

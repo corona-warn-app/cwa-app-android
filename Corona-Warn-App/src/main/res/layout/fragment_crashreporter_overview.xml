@@ -24,9 +24,10 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/buttonCrashReportTest"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_registration_qr_code_scan_torch_on" />
+        android:src="@drawable/ic_risk_details_sneeze" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
