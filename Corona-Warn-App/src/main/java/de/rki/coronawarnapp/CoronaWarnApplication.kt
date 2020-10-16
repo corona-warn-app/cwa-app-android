@@ -63,13 +63,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         ProcessLifecycleOwner.get().lifecycle.addObserver(foregroundStateUpdater)
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
-        // toDo just for testing, remove later
-        try {
-            val a = 2 / 0
-        } catch (e: Exception) {
-            Timber.e(e, "Msg: ${e.message}")
-        }
-
         // notification to test the WakeUpService from Google when the app was force stopped
         BackgroundWorkHelper.sendDebugNotification(
             "Application onCreate", "App was woken up"
