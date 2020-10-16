@@ -4,12 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccentTintButton"
     tools:context=".ui.main.MainActivity">
+    <Button
+        android:id="@+id/buttonClearList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear List" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="SettingsCrashReporterFragment"
         tools:listitem="@layout/view_crashreport_list_item" />
