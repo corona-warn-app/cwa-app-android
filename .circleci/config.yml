@@ -26,10 +26,10 @@ commands:
           name: "Check if assemble required"
           command: |
             last_commit=$(git log -1 --pretty=%B)
-#            if [[ $last_commit != *"Version bump"* ]]; then
-#              circleci-agent step halt
-#              echo "Skipping job"
-#            fi
+            if [[ $last_commit != *"Version bump"* ]]; then
+              circleci-agent step halt
+              echo "Skipping job"
+            fi
   run-gradle-cmd:
     description: "Running gradle command with environment options"
     parameters:
@@ -97,41 +97,11 @@ jobs:
       - install-ndk:
           ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
           ndk-version: "android-ndk-r21c"
-      - when:
-          condition:
-            equal: [ feature/circleci-apk-sign, << pipeline.git.branch >> ] #TODO: change to release
-          steps:
-            - run:
-                name: Download Keystore
-                command: |
-                  curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$keystore_download_filename"
-            - run:
-                name: Download Environment Properties
-                command: |
-                  curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
-            - run:
-                name: Decrypt Keystore
-                command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
-            - run:
-                name: Prepare Gradle For Signing
-                command: |
-                  echo "" >> "./gradle.properties"
-                  echo "keystore_filename=$keystore_filename" >> "./gradle.properties"
-                  echo "keystore_password=$keystore_password" >> "./gradle.properties"
-                  echo "key_alias=$key_alias" >> "./gradle.properties"
-                  echo "key_password=$key_password" >> "./gradle.properties"
       - run-gradle-cmd:
           desc: Quick Build
           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
       - save-gradle-cache
       - save-android-build-cache
-      - when:
-          condition:
-            equal: [ feature/circleci-apk-sign, << pipeline.git.branch >> ] #TODO: change to release
-          steps:
-            - store_artifacts:
-                path: Corona-Warn-App/build/outputs/apk
-                destination: apk
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
@@ -263,6 +233,47 @@ jobs:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
+  quick_build_device_for_testers_signed:
+    executor: android/android
+    resource_class: large
+    working_directory: ~/project
+    steps:
+      - checkout
+      - restore-gradle-cache
+      - restore-android-build-cache
+      - install-ndk:
+          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
+          ndk-version: "android-ndk-r21c"
+      - run:
+          name: Download Keystore
+          command: |
+            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$keystore_download_filename"
+      - run:
+          name: Download Environment Properties
+          command: |
+            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
+      - run:
+          name: Decrypt Keystore
+          command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
+      - run:
+          name: Prepare Gradle For Signing
+          command: |
+            echo "" >> "./gradle.properties"
+            echo "keystore_filename=$keystore_filename" >> "./gradle.properties"
+            echo "keystore_password=$keystore_password" >> "./gradle.properties"
+            echo "key_alias=$key_alias" >> "./gradle.properties"
+            echo "key_password=$key_password" >> "./gradle.properties"
+      - run-gradle-cmd:
+          desc: Quick Build
+          cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
+      - save-gradle-cache
+      - save-android-build-cache
+      - store_artifacts:
+          path: Corona-Warn-App/build/outputs/apk
+          destination: apk
+      - store_artifacts:
+          path: Corona-Warn-App/build/reports
+          destination: reports
 workflows:
   version: 2
   quick_build:
@@ -279,3 +290,16 @@ workflows:
       - run_sonar:
           requires:
             - device_release_unit_tests
+  signed_build:
+    jobs:
+      - quick_build_device_for_testers_signed
+          filters:
+            branches:
+              only:
+                - feature/circleci-apk-sign
+#          filters:
+#            tags:
+#              only:
+#                - /SNAPSHOT/
+#            branches:
+#              ignore: /.*/
