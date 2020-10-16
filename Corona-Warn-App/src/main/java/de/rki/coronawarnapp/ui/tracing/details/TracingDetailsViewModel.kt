@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -21,14 +21,14 @@ import javax.inject.Inject
 class TracingDetailsViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val riskDetailPresenter: DefaultRiskDetailPresenter,
-    private val tracingStatus: TracingStatus,
+    private val tracingStatus: GeneralTracingStatus,
     private val backgroundModeStatus: BackgroundModeStatus,
     private val settingsRepository: SettingsRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     // TODO Refactore these singletons away
     val state: LiveData<TracingDetailsState> = combine(
-        tracingStatus.tracingStatus,
+        tracingStatus.generalStatus,
         RiskLevelRepository.riskLevelScore,
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
         TracingRepository.isRefreshing,
@@ -40,7 +40,7 @@ class TracingDetailsViewModel @Inject constructor(
         settingsRepository.isManualKeyRetrievalEnabledFlow,
         settingsRepository.manualKeyRetrievalTimeFlow
     ) { sources ->
-        val tracingStatus = sources[0] as TracingStatus.Status
+        val tracingStatus = sources[0] as GeneralTracingStatus.Status
         val riskLevelScore = sources[1] as Int
         val riskLevelScoreLastSuccessfulCalculated = sources[2] as Int
         val isRefreshing = sources[3] as Boolean

@@ -15,12 +15,15 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 
 /**
  * A simple [Fragment] subclass.
@@ -28,7 +31,6 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result) {
 
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private val tracingViewModel: TracingViewModel by activityViewModels()
 
     private val binding: FragmentSubmissionTestResultBinding by viewBindingLazy()
 
@@ -112,7 +114,6 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         submissionViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
-//        tracingViewModel.refreshIsTracingEnabled()
 
         skipInitialTestResultRefresh = false
     }
@@ -153,27 +154,33 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     }
 
     private fun continueIfTracingEnabled(skipSymptomSubmission: Boolean) {
-        if (tracingViewModel.isTracingEnabled.value != true) {
-            val tracingRequiredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_test_result_dialog_tracing_required_title,
-                R.string.submission_test_result_dialog_tracing_required_message,
-                R.string.submission_test_result_dialog_tracing_required_button
-            )
-            DialogHelper.showDialog(tracingRequiredDialog)
-            return
-        }
+        // TODO Workaround until we have a VM injected that can handle this
+        submissionViewModel.launch {
+            val isTracingEnabled = AppInjector.component.enfClient.isTracingEnabled.first()
+            withContext(Dispatchers.Main) {
+                if (!isTracingEnabled) {
+                    val tracingRequiredDialog = DialogHelper.DialogInstance(
+                        requireActivity(),
+                        R.string.submission_test_result_dialog_tracing_required_title,
+                        R.string.submission_test_result_dialog_tracing_required_message,
+                        R.string.submission_test_result_dialog_tracing_required_button
+                    )
+                    DialogHelper.showDialog(tracingRequiredDialog)
+                    return@withContext
+                }
 
-        if (skipSymptomSubmission) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
-        } else {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-            )
+                if (skipSymptomSubmission) {
+                    findNavController().doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+                    )
+                } else {
+                    findNavController().doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+                    )
+                }
+            }
         }
     }
 

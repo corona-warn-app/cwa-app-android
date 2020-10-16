@@ -5,22 +5,13 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
-            name="settingsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
-
         <variable
             name="tracingDetails"
             type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
 
+        <variable
+            name="settingsTracingState"
+            type="de.rki.coronawarnapp.ui.tracing.settings.TracingSettingsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,8 +51,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:headline="@{@string/settings_tracing_headline}"
-                    app:illustration="@{FormatterSettingsHelper.formatTracingStatusImage(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
-                    app:illustrationDescription="@{FormatterSettingsHelper.formatTracingIllustrationText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:illustration="@{settingsTracingState.getTracingStatusImage(context)}"
+                    app:illustrationDescription="@{settingsTracingState.getTracingIllustrationText(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -72,13 +63,13 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    app:enabled="@{FormatterSettingsHelper.formatTracingSwitchEnabled(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:enabled="@{settingsTracingState.isTracingSwitchEnabled(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header_details"
                     app:showDivider="@{true}"
-                    app:status="@{FormatterSettingsHelper.formatTracingSwitch(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
-                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:status="@{settingsTracingState.isTracingSwitchChecked(context)}"
+                    app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
                 <include
@@ -107,7 +98,7 @@
                         layout="@layout/include_tracing_status_card_location"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityLocation(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                        gone="@{!settingsTracingState.isLocationCardVisible(context)}"
                         app:buttonText="@{@string/settings_tracing_status_location_button}"
                         app:headline="@{@string/settings_tracing_status_location_headline}"
                         app:icon="@{@drawable/ic_location}"
@@ -120,7 +111,7 @@
                         layout="@layout/include_tracing_status_card"
                         android:layout_width="@dimen/match_constraint"
                         android:layout_height="wrap_content"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityBluetooth(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                        gone="@{!settingsTracingState.isBluetoothCardVisible(context)}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
                         app:buttonText="@{@string/settings_tracing_status_bluetooth_button}"
                         app:headline="@{@string/settings_tracing_status_bluetooth_headline}"
@@ -135,7 +126,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
-                        android:visibility="@{FormatterSettingsHelper.formatTracingStatusVisibilityTracing(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                        gone="@{!settingsTracingState.isTracingStatusTextVisible(context)}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent"

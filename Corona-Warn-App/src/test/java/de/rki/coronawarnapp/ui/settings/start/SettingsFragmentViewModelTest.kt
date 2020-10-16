@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.settings.start
 
 import android.content.Context
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
@@ -19,7 +19,7 @@ import testhelpers.extensions.InstantExecutorExtension
 class SettingsFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var tracing: TracingStatus
+    @MockK lateinit var tracing: GeneralTracingStatus
     @MockK lateinit var settingsRepository: SettingsRepository
 
     @BeforeEach

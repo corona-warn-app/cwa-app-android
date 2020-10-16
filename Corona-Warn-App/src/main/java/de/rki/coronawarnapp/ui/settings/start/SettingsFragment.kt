@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -22,7 +21,6 @@ import javax.inject.Inject
 /**
  * This is the setting overview page.
  *
- * @see TracingViewModel
  * @see SettingsViewModel
  */
 class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
@@ -30,7 +28,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val binding: FragmentSettingsBinding by viewBindingLazy()
 

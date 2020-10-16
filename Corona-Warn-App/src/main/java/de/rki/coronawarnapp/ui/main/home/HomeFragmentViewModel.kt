@@ -5,8 +5,9 @@ import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
@@ -14,7 +15,6 @@ import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -25,22 +25,20 @@ import kotlinx.coroutines.flow.map
 class HomeFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
-    val tracingViewModel: TracingViewModel,
     val settingsViewModel: SettingsViewModel,
     val submissionViewModel: SubmissionViewModel,
-    private val tracingStatus: TracingStatus,
+    private val tracingStatus: GeneralTracingStatus,
     private val tracingCardViewModel: TracingCardViewModel
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(
-        tracingViewModel,
         settingsViewModel,
         submissionViewModel,
         tracingCardViewModel
     )
 ) {
     val tracingHeaderState: LiveData<TracingHeaderState> by lazy {
-        tracingStatus.tracingStatus
+        tracingStatus.generalStatus
             .map { it.toHeaderState() }
             .asLiveData(dispatcherProvider.Default)
     }
@@ -77,17 +75,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshRequiredData() {
-        tracingViewModel.refreshRiskLevel()
-        tracingViewModel.refreshExposureSummary()
-        tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
-        tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
+        // TODO the ordering here is weird, do we expect these to run in sequence?
+        launch { TracingRepository.refreshRiskLevel() }
+        launch { TracingRepository.refreshExposureSummary() }
+        TracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
+        launch { TracingRepository.refreshActiveTracingDaysInRetentionPeriod() }
         TimerHelper.checkManualKeyRetrievalTimer()
         submissionViewModel.refreshDeviceUIState()
-        tracingViewModel.refreshLastSuccessfullyCalculatedScore()
+        TracingRepository.refreshLastSuccessfullyCalculatedScore()
     }
 
     fun tracingExplanationWasShown() {
         LocalData.tracingExplanationDialogWasShown(true)
+    }
+
+    fun refreshDiagnosisKeys() {
+        launch { TracingRepository.refreshDiagnosisKeys() }
     }
 
     @AssistedInject.Factory

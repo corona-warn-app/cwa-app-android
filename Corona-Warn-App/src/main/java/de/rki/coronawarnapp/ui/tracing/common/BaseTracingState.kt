@@ -5,12 +5,12 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
 import java.util.Date
 
 abstract class BaseTracingState {
-    abstract val tracingStatus: TracingStatus.Status
+    abstract val tracingStatus: GeneralTracingStatus.Status
     abstract val riskLevelScore: Int
     abstract val isRefreshing: Boolean
     abstract val riskLevelLastSuccessfulCalculation: Int

@@ -1,14 +1,21 @@
 package de.rki.coronawarnapp.storage
 
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
+import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.util.ConnectivityHelper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
+import timber.log.Timber
 import java.util.Date
 
 /**
@@ -66,6 +73,7 @@ object TracingRepository {
         }
         refreshLastTimeDiagnosisKeysFetchedDate()
         internalIsRefreshing.value = false
+        TimerHelper.startManualKeyRetrievalTimer()
     }
 
     /**
@@ -75,5 +83,98 @@ object TracingRepository {
      */
     suspend fun refreshActiveTracingDaysInRetentionPeriod() {
         internalActiveTracingDaysInRetentionPeriod.value = getActiveTracingDaysInRetentionPeriod()
+    }
+
+    /**
+     * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
+     *
+     * @see RiskLevelTransaction
+     * @see RiskLevelRepository
+     */
+    // TODO temp place, this needs to go somewhere better
+    suspend fun refreshRiskLevel() {
+        try {
+
+            // get the current date and the date the diagnosis keys were fetched the last time
+            val currentDate = DateTime(Instant.now(), DateTimeZone.UTC)
+            val lastFetch = DateTime(
+                LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+                DateTimeZone.UTC
+            )
+
+            // check if the keys were not already retrieved today
+            val keysWereNotRetrievedToday =
+                LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+                    currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
+
+            // check if the network is enabled to make the server fetch
+            val isNetworkEnabled =
+                ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+
+            // only fetch the diagnosis keys if background jobs are enabled, so that in manual
+            // model the keys are only fetched on button press of the user
+            val isBackgroundJobEnabled =
+                ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
+
+            Timber.tag(TAG)
+                .v("Keys were not retrieved today $keysWereNotRetrievedToday")
+            Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
+            Timber.tag(TAG)
+                .v("Background jobs are enabled $isBackgroundJobEnabled")
+
+            if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
+                // TODO shouldn't access this directly
+                TracingRepository.internalIsRefreshing.value = true
+
+                // start the fetching and submitting of the diagnosis keys
+                RetrieveDiagnosisKeysTransaction.start()
+                refreshLastTimeDiagnosisKeysFetchedDate()
+                TimerHelper.checkManualKeyRetrievalTimer()
+            }
+        } catch (e: TransactionException) {
+            e.cause?.report(ExceptionCategory.INTERNAL)
+        } catch (e: Exception) {
+            e.report(ExceptionCategory.INTERNAL)
+        }
+
+        // refresh the risk level
+        try {
+            RiskLevelTransaction.start()
+        } catch (e: TransactionException) {
+            e.cause?.report(ExceptionCategory.INTERNAL)
+        } catch (e: Exception) {
+            e.report(ExceptionCategory.INTERNAL)
+        }
+        // TODO shouldn't access this directly
+        TracingRepository.internalIsRefreshing.value = false
+    }
+
+    /**
+     * Exposure summary
+     * Refresh the following variables in TracingRepository
+     * - daysSinceLastExposure
+     * - matchedKeysCount
+     *
+     * @see TracingRepository
+     */
+    suspend fun refreshExposureSummary() {
+        try {
+            val token = LocalData.googleApiToken()
+            if (token != null) {
+                ExposureSummaryRepository.getExposureSummaryRepository()
+                    .getLatestExposureSummary(token)
+            }
+            Timber.tag(TAG).v("retrieved latest exposure summary from db")
+        } catch (e: Exception) {
+            e.report(
+                de.rki.coronawarnapp.exception.ExceptionCategory.EXPOSURENOTIFICATION,
+                TAG,
+                null
+            )
+        }
+    }
+
+    fun refreshLastSuccessfullyCalculatedScore() {
+        RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
     }
 }

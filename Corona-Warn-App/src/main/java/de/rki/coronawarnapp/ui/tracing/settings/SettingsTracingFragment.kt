@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -18,23 +17,21 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.formatter.formatTracingSwitchEnabled
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * The user can start/stop tracing and is informed about tracing.
  *
- * @see TracingViewModel
  * @see SettingsViewModel
  * @see InternalExposureNotificationClient
  * @see InternalExposureNotificationPermissionHelper
@@ -45,19 +42,27 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsTracingFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val tracingViewModel: TracingViewModel by activityViewModels()
-    private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val binding: FragmentSettingsTracingBinding by viewBindingLazy()
 
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tracingViewModel = tracingViewModel
-        binding.settingsViewModel = settingsViewModel
 
         vm.tracingDetailsState.observe2(this) {
             binding.tracingDetails = it
+        }
+        vm.tracingSettingsState.observe2(this) {
+            binding.settingsTracingState = it
+
+            binding.settingsTracingSwitchRow.settingsSwitchRow.apply {
+                when (it) {
+                    TracingSettingsState.BluetoothDisabled,
+                    TracingSettingsState.LocationDisabled -> setOnClickListener(null)
+                    TracingSettingsState.TracingInActive,
+                    TracingSettingsState.TracingActive -> setOnClickListener { startStopTracing() }
+                }
+            }
         }
 
         setButtonOnClickListener()
@@ -65,8 +70,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
 
     override fun onResume() {
         super.onResume()
-        // refresh required data
-//        tracingViewModel.refreshIsTracingEnabled()
         binding.settingsTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
@@ -78,16 +81,14 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     }
 
     override fun onStartPermissionGranted() {
-//        tracingViewModel.refreshIsTracingEnabled()
         BackgroundWorkScheduler.startWorkScheduler()
     }
 
     override fun onFailure(exception: Exception?) {
-//        tracingViewModel.refreshIsTracingEnabled()
+        Timber.w(exception, "onPermissionFaliure")
     }
 
     private fun setButtonOnClickListener() {
-        val row = binding.settingsTracingSwitchRow.settingsSwitchRow
         val switch = binding.settingsTracingSwitchRow.settingsSwitchRowSwitch
         val back = binding.settingsTracingHeader.headerButtonBack.buttonIcon
         val bluetooth = binding.settingsTracingStatusBluetooth.tracingStatusCardButton
@@ -105,21 +106,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
                 binding.settingsTracingSwitchRow.settingsSwitchRowHeaderBody
                     .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
             }
-        }
-        row.setOnClickListener {
-            val isTracingEnabled =
-                tracingViewModel.isTracingEnabled.value ?: throw IllegalArgumentException()
-            val isBluetoothEnabled =
-                settingsViewModel.isBluetoothEnabled.value ?: throw IllegalArgumentException()
-            val isLocationEnabled =
-                settingsViewModel.isLocationEnabled.value ?: throw IllegalArgumentException()
-            // check if the row is clickable, this adds the switch behaviour
-            val isEnabled = formatTracingSwitchEnabled(
-                isTracingEnabled,
-                isBluetoothEnabled,
-                isLocationEnabled
-            )
-            if (isEnabled) startStopTracing()
         }
         back.setOnClickListener {
             (activity as MainActivity).goBack()
@@ -167,7 +153,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
                     }
                 }
             } catch (exception: Exception) {
-//                tracingViewModel.refreshIsTracingEnabled()
                 exception.report(
                     ExceptionCategory.EXPOSURENOTIFICATION,
                     TAG,
@@ -201,7 +186,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             true, {
                 internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
             }, {
-//                tracingViewModel.refreshIsTracingEnabled()
+                // Declined
             })
         DialogHelper.showDialog(dialog)
     }

@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 
 sealed class TracingHeaderState {
     abstract fun getTracingDescription(c: Context): String
@@ -76,9 +76,9 @@ sealed class TracingHeaderState {
     }
 }
 
-fun TracingStatus.Status.toHeaderState(): TracingHeaderState = when (this) {
-    TracingStatus.Status.TRACING_ACTIVE -> TracingHeaderState.TracingActive
-    TracingStatus.Status.TRACING_INACTIVE -> TracingHeaderState.TracingInActive
-    TracingStatus.Status.BLUETOOTH_DISABLED -> TracingHeaderState.BluetoothDisabled
-    TracingStatus.Status.LOCATION_DISABLED -> TracingHeaderState.LocationDisabled
+fun GeneralTracingStatus.Status.toHeaderState(): TracingHeaderState = when (this) {
+    GeneralTracingStatus.Status.TRACING_ACTIVE -> TracingHeaderState.TracingActive
+    GeneralTracingStatus.Status.TRACING_INACTIVE -> TracingHeaderState.TracingInActive
+    GeneralTracingStatus.Status.BLUETOOTH_DISABLED -> TracingHeaderState.BluetoothDisabled
+    GeneralTracingStatus.Status.LOCATION_DISABLED -> TracingHeaderState.LocationDisabled
 }

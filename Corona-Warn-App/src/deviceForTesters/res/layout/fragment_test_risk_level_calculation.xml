@@ -15,10 +15,6 @@
             type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
             name="settingsViewModel"
             type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
 

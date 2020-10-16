@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.SettingsRepository
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.map
 
 class SettingsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val tracingStatus: TracingStatus,
+    private val tracingStatus: GeneralTracingStatus,
     private val settingsRepository: SettingsRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
-    val tracingState: LiveData<SettingsTracingState> = tracingStatus.tracingStatus
+    val tracingState: LiveData<SettingsTracingState> = tracingStatus.generalStatus
         .map { it.toSettingsTracingState() }
         .asLiveData(dispatcherProvider.Default)
 

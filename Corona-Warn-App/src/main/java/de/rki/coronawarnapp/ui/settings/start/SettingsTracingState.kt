@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 
 sealed class SettingsTracingState {
 
@@ -59,9 +59,9 @@ sealed class SettingsTracingState {
     }
 }
 
-fun TracingStatus.Status.toSettingsTracingState(): SettingsTracingState = when (this) {
-    TracingStatus.Status.TRACING_ACTIVE -> SettingsTracingState.TracingActive
-    TracingStatus.Status.TRACING_INACTIVE -> SettingsTracingState.TracingInActive
-    TracingStatus.Status.BLUETOOTH_DISABLED -> SettingsTracingState.BluetoothDisabled
-    TracingStatus.Status.LOCATION_DISABLED -> SettingsTracingState.LocationDisabled
+fun GeneralTracingStatus.Status.toSettingsTracingState(): SettingsTracingState = when (this) {
+    GeneralTracingStatus.Status.TRACING_ACTIVE -> SettingsTracingState.TracingActive
+    GeneralTracingStatus.Status.TRACING_INACTIVE -> SettingsTracingState.TracingInActive
+    GeneralTracingStatus.Status.BLUETOOTH_DISABLED -> SettingsTracingState.BluetoothDisabled
+    GeneralTracingStatus.Status.LOCATION_DISABLED -> SettingsTracingState.LocationDisabled
 }

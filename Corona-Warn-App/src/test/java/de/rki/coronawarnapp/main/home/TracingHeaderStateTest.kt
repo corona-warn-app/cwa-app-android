@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.tracing.TracingStatus.Status
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState.BluetoothDisabled
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState.LocationDisabled
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState.TracingActive

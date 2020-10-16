@@ -22,8 +22,12 @@ abstract class CWAViewModel constructor(
         Timber.tag(tag).v("Initialized")
     }
 
+    /**
+     * This launches a coroutine on another thread
+     * Remember to switch to the main thread if you want to update the UI directly
+     */
     fun launch(
-        context: CoroutineContext = dispatcherProvider.Main,
+        context: CoroutineContext = dispatcherProvider.Default,
         block: suspend CoroutineScope.() -> Unit
     ): Job = viewModelScope.launch(context = context, block = block)
 

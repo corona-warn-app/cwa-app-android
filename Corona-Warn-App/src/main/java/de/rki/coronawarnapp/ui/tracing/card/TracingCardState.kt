@@ -6,12 +6,12 @@ import android.text.format.DateUtils
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
 import java.util.Date
 
 data class TracingCardState(
-    override val tracingStatus: TracingStatus.Status,
+    override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
     override val isRefreshing: Boolean,
     override val riskLevelLastSuccessfulCalculation: Int,

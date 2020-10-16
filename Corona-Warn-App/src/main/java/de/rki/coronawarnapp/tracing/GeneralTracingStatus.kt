@@ -13,13 +13,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TracingStatus @Inject constructor(
+class GeneralTracingStatus @Inject constructor(
     cwaBluetooth: CWABluetooth,
     cwaLocation: CWALocation,
     enfClient: ENFClient,
 ) {
 
-    val tracingStatus: Flow<Status> = combine(
+    val generalStatus: Flow<Status> = combine(
         cwaBluetooth.isBluetoothEnabled,
         cwaLocation.isLocationEnabled,
         enfClient.isTracingEnabled

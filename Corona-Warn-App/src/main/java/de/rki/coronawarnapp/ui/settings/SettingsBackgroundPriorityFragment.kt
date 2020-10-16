@@ -10,14 +10,12 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsBackgroundPriorityBindin
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 /**
  * This is the setting background priority page. Here the user sees the background priority setting status.
  * If background priority is disabled it can be activated.
  *
- * @see TracingViewModel
  * @see SettingsViewModel
  */
 class SettingsBackgroundPriorityFragment :

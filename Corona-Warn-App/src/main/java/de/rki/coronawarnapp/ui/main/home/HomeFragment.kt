@@ -95,7 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
             }
             riskCardButtonUpdate.setOnClickListener {
-                vm.tracingViewModel.refreshDiagnosisKeys()
+                vm.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
             }
             riskCardButtonEnableTracing.setOnClickListener {

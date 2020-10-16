@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.tracing.card
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -31,7 +31,7 @@ class TracingCardStateTest : BaseTest() {
     }
 
     private fun createInstance(
-        tracingStatus: TracingStatus.Status = mockk(),
+        tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevel: Int = 0,
         isRefreshing: Boolean = false,
         riskLevelLastSuccessfulCalculation: Int = 0,

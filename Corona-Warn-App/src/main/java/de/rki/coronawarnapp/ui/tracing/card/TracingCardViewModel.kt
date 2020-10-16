@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -20,14 +20,14 @@ import javax.inject.Inject
 
 class TracingCardViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
-    private val tracingStatus: TracingStatus,
+    private val tracingStatus: GeneralTracingStatus,
     private val backgroundModeStatus: BackgroundModeStatus,
     private val settingsRepository: SettingsRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     // TODO Refactore these singletons away
     val state: LiveData<TracingCardState> = combine(
-        tracingStatus.tracingStatus.onEach { Timber.v("tracingStatus: $it") },
+        tracingStatus.generalStatus.onEach { Timber.v("tracingStatus: $it") },
         RiskLevelRepository.riskLevelScore.onEach { Timber.v("riskLevelScore: $it") },
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach { Timber.v("riskLevelScoreLastSuccessfulCalculated: $it") },
         TracingRepository.isRefreshing.onEach { Timber.v("isRefreshing: $it") },
@@ -40,7 +40,7 @@ class TracingCardViewModel @Inject constructor(
         settingsRepository.manualKeyRetrievalTimeFlow.onEach { Timber.v("manualKeyRetrievalTimeFlow: $it") }
 
     ) { sources ->
-        val tracingStatus = sources[0] as TracingStatus.Status
+        val tracingStatus = sources[0] as GeneralTracingStatus.Status
         val riskLevelScore = sources[1] as Int
         val riskLevelScoreLastSuccessfulCalculated = sources[2] as Int
         val isRefreshing = sources[3] as Boolean

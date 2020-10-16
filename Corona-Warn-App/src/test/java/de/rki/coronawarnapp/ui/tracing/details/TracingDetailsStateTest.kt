@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import android.content.Context
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
@@ -27,7 +27,7 @@ class TracingDetailsStateTest : BaseTest() {
     }
 
     private fun createInstance(
-        tracingStatus: TracingStatus.Status = mockk(),
+        tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevel: Int = 0,
         isRefreshing: Boolean = false,
         riskLevelLastSuccessfulCalculation: Int = 0,

@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.sharing.ExposureSharingService
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -39,7 +38,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
         }
     )
 
-    private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
 
@@ -52,7 +50,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             binding.tracingCard = it
         }
 
-        binding.tracingViewModel = tracingViewModel
         binding.settingsViewModel = settingsViewModel
         binding.submissionViewModel = submissionViewModel
 

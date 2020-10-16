@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
  * If os notifications are disabled he can navigate to them with one click. And if the os is enabled
  * the user can decide which notifications he wants to get: risk updates and/or test results.
  *
- * @see TracingViewModel
  * @see SettingsViewModel
  */
 class SettingsNotificationFragment : Fragment(R.layout.fragment_settings_notifications) {

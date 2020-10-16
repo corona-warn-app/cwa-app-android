@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.common
 
 import android.content.Context
-import de.rki.coronawarnapp.tracing.TracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
@@ -27,7 +27,7 @@ class BaseTracingStateTest : BaseTest() {
     }
 
     private fun createInstance(
-        tracingStatus: TracingStatus.Status = mockk(),
+        tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevelScore: Int = 0,
         isRefreshing: Boolean = false,
         riskLevelLastSuccessfulCalculation: Int = 0,
@@ -40,7 +40,7 @@ class BaseTracingStateTest : BaseTest() {
         manualKeyRetrievalTime: Long = 0L,
         showDetails: Boolean = false
     ) = object : BaseTracingState() {
-        override val tracingStatus: TracingStatus.Status = tracingStatus
+        override val tracingStatus: GeneralTracingStatus.Status = tracingStatus
         override val riskLevelScore: Int = riskLevelScore
         override val isRefreshing: Boolean = isRefreshing
         override val riskLevelLastSuccessfulCalculation: Int = riskLevelLastSuccessfulCalculation

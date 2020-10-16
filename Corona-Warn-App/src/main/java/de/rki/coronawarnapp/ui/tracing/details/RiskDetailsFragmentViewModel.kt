@@ -2,25 +2,23 @@ package de.rki.coronawarnapp.ui.tracing.details
 
 import androidx.lifecycle.LiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class RiskDetailsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    val tracingViewModel: TracingViewModel,
     val settingsViewModel: SettingsViewModel,
     private val tracingDetailsViewModel: TracingDetailsViewModel,
     private val tracingCardViewModel: TracingCardViewModel
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(
-        tracingViewModel,
         settingsViewModel,
         tracingDetailsViewModel,
         tracingCardViewModel
@@ -36,15 +34,15 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshData() {
-        tracingViewModel.refreshRiskLevel()
-        tracingViewModel.refreshExposureSummary()
-        tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
+        launch { TracingRepository.refreshRiskLevel() }
+        launch { TracingRepository.refreshExposureSummary() }
+        TracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
         TimerHelper.checkManualKeyRetrievalTimer()
-        tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
+        launch { TracingRepository.refreshActiveTracingDaysInRetentionPeriod() }
     }
 
     fun updateRiskDetails() {
-        tracingViewModel.refreshDiagnosisKeys()
+        launch { TracingRepository.refreshDiagnosisKeys() }
         settingsViewModel.updateManualKeyRetrievalEnabled(false)
     }
 

@@ -2,15 +2,14 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.tracing.TracingStatus
-import de.rki.coronawarnapp.tracing.TracingStatus.Status
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -33,12 +32,11 @@ import testhelpers.extensions.observeForTesting
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class HomeFragmentViewModelTest : BaseTest() {
 
-    @MockK lateinit var tracing: TracingStatus
+    @MockK lateinit var tracing: GeneralTracingStatus
     @MockK lateinit var context: Context
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var settingsViewModel: SettingsViewModel
     @MockK lateinit var submissionViewModel: SubmissionViewModel
-    @MockK lateinit var tracingViewModel: TracingViewModel
     @MockK lateinit var tracingCardViewModel: TracingCardViewModel
 
     @BeforeEach
@@ -54,7 +52,6 @@ class HomeFragmentViewModelTest : BaseTest() {
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
         dispatcherProvider = TestDispatcherProvider,
         errorResetTool = errorResetTool,
-        tracingViewModel = tracingViewModel,
         settingsViewModel = settingsViewModel,
         submissionViewModel = submissionViewModel,
         tracingStatus = tracing,
@@ -63,7 +60,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `tracing header status is forwarded`() {
-        every { tracing.tracingStatus } returns flowOf(Status.BLUETOOTH_DISABLED)
+        every { tracing.generalStatus } returns flowOf(Status.BLUETOOTH_DISABLED)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -71,7 +68,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             }
         }
 
-        every { tracing.tracingStatus } returns flowOf(Status.LOCATION_DISABLED)
+        every { tracing.generalStatus } returns flowOf(Status.LOCATION_DISABLED)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -79,7 +76,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             }
         }
 
-        every { tracing.tracingStatus } returns flowOf(Status.TRACING_INACTIVE)
+        every { tracing.generalStatus } returns flowOf(Status.TRACING_INACTIVE)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -87,7 +84,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             }
         }
 
-        every { tracing.tracingStatus } returns flowOf(Status.TRACING_ACTIVE)
+        every { tracing.generalStatus } returns flowOf(Status.TRACING_ACTIVE)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {

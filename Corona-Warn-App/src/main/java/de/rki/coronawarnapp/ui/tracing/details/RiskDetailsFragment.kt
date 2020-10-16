@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.FragmentRiskDetailsBinding
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -23,7 +22,6 @@ import javax.inject.Inject
 /**
  * This is the detail view of the risk card if additional information for the user.
  *
- * @see TracingViewModel
  * @see SettingsViewModel
  */
 class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject {
