@@ -7,7 +7,7 @@
     android:background="@color/colorAccentTintButton"
     tools:context=".ui.main.MainActivity">
     <Button
-        android:id="@+id/buttonClearList"
+        android:id="@+id/buttonClearCrashReportList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Clear List" />

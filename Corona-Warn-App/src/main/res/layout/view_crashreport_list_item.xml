@@ -24,11 +24,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/contentTextView"
+                android:id="@+id/textViewCrashReportTitle"
                 style="@style/body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Error #1"
+                app:crashReportId="@{crashReport.id}"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_show_complete_error_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,12 +46,12 @@
 
 
             <TextView
-                android:id="@+id/sourceTextView"
+                android:id="@+id/textViewCrashReportDate"
                 style="@style/body1"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
-                android:text="12:52 Uhr, Mo, 7.8.2020"
                 android:textAppearance="?attr/textAppearanceListItem"
+                app:crashReportDate="@{crashReport.crashedAt}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_show_complete_error_view" />
