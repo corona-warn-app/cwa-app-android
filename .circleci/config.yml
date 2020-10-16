@@ -271,7 +271,7 @@ jobs:
       - run:
           name: Test echo
           command: |
-            FILE=/Corona-Warn-App/build/outputs/apk/Corona-Warn-App-deviceForTesters-release.apk
+            FILE=Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk
             if [[ -f "$FILE" ]]; then
                 echo "$FILE exists."
             fi
@@ -282,6 +282,12 @@ jobs:
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
+      - run:
+          name: Send to T-System
+          command: |
+            curl --location --request POST 'https://mobiledevicecloud.t-systems-mms.eu/api/v1/applications/new' \
+            --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ4cC51IjoxNTk0NzU1LCJ4cC5wIjoxNDU2MzU0LCJ4cC5tIjoxNTk0Mzc1ODA3MDkwLCJleHAiOjE5MDk3MzU4MDcsImlzcyI6ImNvbS5leHBlcml0ZXN0In0.AjNq0zAUm9IpfoOLmD4NViASfEn3-P-hJ0hb1XxYj_A \
+            --form 'file=@/Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
 workflows:
   version: 2
   quick_build:
