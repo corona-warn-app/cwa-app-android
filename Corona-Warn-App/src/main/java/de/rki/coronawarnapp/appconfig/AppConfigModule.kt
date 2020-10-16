@@ -20,16 +20,23 @@ class AppConfigModule {
 
     @Singleton
     @Provides
-    fun provideAppConfigApi(
+    @AppConfigHttpCache
+    fun provideAppConfigCache(
         @AppContext context: Context,
+    ): Cache {
+        val cacheSize = 1 * 1024 * 1024L // 1MB
+        val cacheDir = File(context.cacheDir, "http_app-config")
+        return Cache(cacheDir, cacheSize)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppConfigApi(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory
+        gsonConverterFactory: GsonConverterFactory,
+        @AppConfigHttpCache cache: Cache
     ): AppConfigApiV1 {
-        val cacheSize = 1 * 1024 * 1024L // 1MB
-
-        val cacheDir = File(context.cacheDir, "http_app-config")
-        val cache = Cache(cacheDir, cacheSize)
 
         val cachingClient = client.newBuilder().apply {
             cache(cache)
