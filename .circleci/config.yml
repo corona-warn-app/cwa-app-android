@@ -286,7 +286,7 @@ jobs:
           name: Send to T-System
           command: |
             curl --location --request POST 'https://mobiledevicecloud.t-systems-mms.eu/api/v1/applications/new' \
-            --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ4cC51IjoxNTk0NzU1LCJ4cC5wIjoxNDU2MzU0LCJ4cC5tIjoxNTk0Mzc1ODA3MDkwLCJleHAiOjE5MDk3MzU4MDcsImlzcyI6ImNvbS5leHBlcml0ZXN0In0.AjNq0zAUm9IpfoOLmD4NViASfEn3-P-hJ0hb1XxYj_A \
+            --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ4cC51IjoxNTk0NzU1LCJ4cC5wIjoxNDU2MzU0LCJ4cC5tIjoxNTk0Mzc1ODA3MDkwLCJleHAiOjE5MDk3MzU4MDcsImlzcyI6ImNvbS5leHBlcml0ZXN0In0.AjNq0zAUm9IpfoOLmD4NViASfEn3-P-hJ0hb1XxYj_A' \
             --form 'file=@/Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
 workflows:
   version: 2
