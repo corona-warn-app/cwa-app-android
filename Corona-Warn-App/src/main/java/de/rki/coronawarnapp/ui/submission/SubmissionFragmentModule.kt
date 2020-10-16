@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultModule
 
 @Module
-internal abstract class SubmissionActivityModule {
+internal abstract class SubmissionFragmentModule {
 
     // activity specific injection module for future dependencies
 
