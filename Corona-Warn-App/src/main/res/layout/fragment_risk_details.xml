@@ -18,6 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/risk_details_container"
         android:layout_width="match_parent"
+        invisible="@{tracingDetails == null || tracingCard == null}"
         android:layout_height="match_parent"
         android:contentDescription="@string/risk_details_accessibility_title">
 

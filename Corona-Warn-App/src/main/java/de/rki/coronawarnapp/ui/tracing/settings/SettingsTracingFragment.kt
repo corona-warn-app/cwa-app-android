@@ -40,7 +40,10 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
     InternalExposureNotificationPermissionHelper.Callback, AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SettingsTracingFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: SettingsTracingFragmentViewModel by cwaViewModels(
+        ownerProducer = { requireActivity().viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
 
     private val binding: FragmentSettingsTracingBinding by viewBindingLazy()
 

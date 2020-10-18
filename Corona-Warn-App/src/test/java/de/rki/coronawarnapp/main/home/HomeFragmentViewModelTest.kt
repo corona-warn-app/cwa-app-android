@@ -1,15 +1,13 @@
 package de.rki.coronawarnapp.main.home
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.ui.main.home.SubmissionCardsViewModel
+import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
@@ -39,8 +37,8 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var settingsViewModel: SettingsViewModel
     @MockK lateinit var submissionViewModel: SubmissionViewModel
-    @MockK lateinit var tracingCardViewModel: TracingCardViewModel
-    @MockK lateinit var submissionCardsViewModel: SubmissionCardsViewModel
+    @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
+    @MockK lateinit var submissionCardsStateProvider: SubmissionCardsStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
 
     @BeforeEach
@@ -58,8 +56,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         errorResetTool = errorResetTool,
         settingsViewModel = settingsViewModel,
         tracingStatus = tracing,
-        tracingCardViewModel = tracingCardViewModel,
-        submissionCardsViewModel = submissionCardsViewModel,
+        tracingCardStateProvider = tracingCardStateProvider,
+        submissionCardsStateProvider = submissionCardsStateProvider,
         tracingRepository = tracingRepository
     )
 
@@ -100,10 +98,10 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `tracing card status is forwarded`() {
-        every { tracingCardViewModel.state } returns MutableLiveData<TracingCardState>(mockk())
+        every { tracingCardStateProvider.state } returns flowOf(mockk())
         createInstance().apply {
             this.tracingCardState.observeForTesting { }
-            verify { tracingCardViewModel.state }
+            verify { tracingCardStateProvider.state }
         }
     }
 

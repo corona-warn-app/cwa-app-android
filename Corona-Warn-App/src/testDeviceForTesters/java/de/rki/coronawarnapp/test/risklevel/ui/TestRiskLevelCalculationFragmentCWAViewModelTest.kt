@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -36,7 +36,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var exposureNotificationClient: ExposureNotificationClient
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
-    @MockK lateinit var tracingCardViewModel: TracingCardViewModel
+    @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
 
     @BeforeEach
     fun setup() {
@@ -63,7 +63,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             context = context,
             enfClient = enfClient,
             keyCacheRepository = keyCacheRepository,
-            tracingCardViewModel = tracingCardViewModel,
+            tracingCardStateProvider = tracingCardStateProvider,
             dispatcherProvider = TestDispatcherProvider
         )
 

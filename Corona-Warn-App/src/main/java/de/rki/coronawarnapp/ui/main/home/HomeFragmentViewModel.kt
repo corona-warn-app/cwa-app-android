@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
@@ -15,39 +13,39 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
-import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.sample
 
 class HomeFragmentViewModel @AssistedInject constructor(
-    @Assisted private val handle: SavedStateHandle,
     dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
-    tracingCardViewModel: TracingCardViewModel,
-    submissionCardsViewModel: SubmissionCardsViewModel,
+    tracingCardStateProvider: TracingCardStateProvider,
+    submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
-    childViewModels = listOf(
-        tracingCardViewModel,
-        submissionCardsViewModel, settingsViewModel
-    )
+    childViewModels = listOf(settingsViewModel)
 ) {
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
 
-    val tracingCardState: LiveData<TracingCardState> = tracingCardViewModel.state
+    val tracingCardState: LiveData<TracingCardState> = tracingCardStateProvider.state
+//        .sample(150L)
+        .asLiveData(dispatcherProvider.Default)
 
-    val submissionCardState: LiveData<SubmissionCardState> = submissionCardsViewModel.state
+    val submissionCardState: LiveData<SubmissionCardState> = submissionCardsStateProvider.state
+        .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
     val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {
@@ -97,7 +95,5 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : CWAViewModelFactory<HomeFragmentViewModel> {
-        fun create(handle: SavedStateHandle): HomeFragmentViewModel
-    }
+    interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
 }

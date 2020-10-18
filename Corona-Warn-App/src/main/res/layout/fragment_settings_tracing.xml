@@ -17,6 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_tracing_container"
         android:layout_width="match_parent"
+        invisible="@{tracingDetails == null || settingsTracingState== null}"
         android:layout_height="match_parent"
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">

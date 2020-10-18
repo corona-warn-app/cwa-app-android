@@ -27,8 +27,10 @@ import javax.inject.Inject
 class RiskDetailsFragment : Fragment(R.layout.fragment_risk_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: RiskDetailsFragmentViewModel by cwaViewModels { viewModelFactory }
-
+    private val vm: RiskDetailsFragmentViewModel by cwaViewModels(
+        ownerProducer = { requireActivity().viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
     private val binding: FragmentRiskDetailsBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

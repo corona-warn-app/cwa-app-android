@@ -1,15 +1,13 @@
-package de.rki.coronawarnapp.ui.tracing.details
+package de.rki.coronawarnapp.ui.tracing.card
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
+import dagger.Reusable
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -18,29 +16,28 @@ import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
-class TracingDetailsViewModel @Inject constructor(
-    dispatcherProvider: DispatcherProvider,
-    private val riskDetailPresenter: DefaultRiskDetailPresenter,
+@Reusable
+class TracingCardStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     settingsRepository: SettingsRepository,
     tracingRepository: TracingRepository
-) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) {
 
-    // TODO Refactore these singletons away
-    val state: LiveData<TracingDetailsState> = combine(
-        tracingStatus.generalStatus,
-        RiskLevelRepository.riskLevelScore,
-        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
-        tracingRepository.isRefreshing,
-        ExposureSummaryRepository.matchedKeyCount,
-        ExposureSummaryRepository.daysSinceLastExposure,
-        tracingRepository.activeTracingDaysInRetentionPeriod,
-        tracingRepository.lastTimeDiagnosisKeysFetched,
-        backgroundModeStatus.isAutoModeEnabled,
-        settingsRepository.isManualKeyRetrievalEnabledFlow,
-        settingsRepository.manualKeyRetrievalTimeFlow
-    ) { sources ->
+    // TODO Refactor these singletons away
+    val state: Flow<TracingCardState> = combine(
+        tracingStatus.generalStatus.onEach { Timber.v("tracingStatus: $it") },
+        RiskLevelRepository.riskLevelScore.onEach { Timber.v("riskLevelScore: $it") },
+        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach { Timber.v("riskLevelScoreLastSuccessfulCalculated: $it") },
+        tracingRepository.isRefreshing.onEach { Timber.v("isRefreshing: $it") },
+        ExposureSummaryRepository.matchedKeyCount.onEach { Timber.v("matchedKeyCount: $it") },
+        ExposureSummaryRepository.daysSinceLastExposure.onEach { Timber.v("daysSinceLastExposure: $it") },
+        tracingRepository.activeTracingDaysInRetentionPeriod.onEach { Timber.v("activeTracingDaysInRetentionPeriod: $it") },
+        tracingRepository.lastTimeDiagnosisKeysFetched.onEach { Timber.v("lastTimeDiagnosisKeysFetched: $it") },
+        backgroundModeStatus.isAutoModeEnabled.onEach { Timber.v("isAutoModeEnabled: $it") },
+        settingsRepository.isManualKeyRetrievalEnabledFlow.onEach { Timber.v("isManualKeyRetrievalEnabledFlow: $it") },
+        settingsRepository.manualKeyRetrievalTimeFlow.onEach { Timber.v("manualKeyRetrievalTimeFlow: $it") }
+    ) { sources: Array<Any?> ->
         val status = sources[0] as GeneralTracingStatus.Status
         val riskLevelScore = sources[1] as Int
         val riskLevelScoreLastSuccessfulCalculated = sources[2] as Int
@@ -53,14 +50,7 @@ class TracingDetailsViewModel @Inject constructor(
         val isManualKeyRetrievalEnabled = sources[9] as Boolean
         val manualKeyRetrievalTime = sources[10] as Long
 
-        val isAdditionalInformationVisible = riskDetailPresenter.isAdditionalInfoVisible(
-            riskLevelScore, matchedKeyCount
-        )
-        val isInformationBodyNoticeVisible = riskDetailPresenter.isInformationBodyNoticeVisible(
-            riskLevelScore, matchedKeyCount
-        )
-
-        TracingDetailsState(
+        TracingCardState(
             tracingStatus = status,
             riskLevelScore = riskLevelScore,
             isRefreshing = isRefreshing,
@@ -71,13 +61,10 @@ class TracingDetailsViewModel @Inject constructor(
             lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
             isBackgroundJobEnabled = isBackgroundJobEnabled,
             isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
-            manualKeyRetrievalTime = manualKeyRetrievalTime,
-            isAdditionalInformationVisible = isAdditionalInformationVisible,
-            isInformationBodyNoticeVisible = isInformationBodyNoticeVisible
+            manualKeyRetrievalTime = manualKeyRetrievalTime
         )
     }
-        .onStart { Timber.v("TracingDetailsState FLOW start") }
-        .onEach { Timber.d("TracingDetailsState FLOW emission: %s", it) }
-        .onCompletion { Timber.v("TracingDetailsState FLOW completed.") }
-        .asLiveData(dispatcherProvider.Default)
+        .onStart { Timber.v("TracingCardState FLOW start") }
+        .onEach { Timber.d("TracingCardState FLOW emission: %s", it) }
+        .onCompletion { Timber.v("TracingCardState FLOW completed.") }
 }

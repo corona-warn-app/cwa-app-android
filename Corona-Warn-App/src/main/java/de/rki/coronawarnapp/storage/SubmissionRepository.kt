@@ -38,20 +38,18 @@ object SubmissionRepository {
     val deviceUIStateFlow: Flow<DeviceUIState> = deviceUIStateFlowInternal
     val deviceUIState = deviceUIStateFlow.asLiveData()
 
-    private val testResult = MutableLiveData<TestResult?>(null)
+    private val testResultFlow = MutableStateFlow<TestResult?>(null)
 
-    private suspend fun fetchTestResult(): DeviceUIState {
-        try {
-            val testResult = SubmissionService.asyncRequestTestResult()
-            updateTestResult(testResult)
-            return deriveUiState(testResult)
-        } catch (err: NoRegistrationTokenSetException) {
-            return DeviceUIState.UNPAIRED
-        }
+    private suspend fun fetchTestResult(): DeviceUIState = try {
+        val testResult = SubmissionService.asyncRequestTestResult()
+        updateTestResult(testResult)
+        deriveUiState(testResult)
+    } catch (err: NoRegistrationTokenSetException) {
+        DeviceUIState.UNPAIRED
     }
 
     fun updateTestResult(testResult: TestResult) {
-        this.testResult.value = testResult
+        this.testResultFlow.value = testResult
 
         if (testResult == TestResult.POSITIVE) {
             LocalData.isAllowedToSubmitDiagnosisKeys(true)
@@ -71,15 +69,13 @@ object SubmissionRepository {
         }
     }
 
-    private fun deriveUiState(testResult: TestResult?): DeviceUIState {
-        return when (testResult) {
-            TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
-            TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
-            TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
-            TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
-            TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
-            null -> DeviceUIState.UNPAIRED
-        }
+    private fun deriveUiState(testResult: TestResult?): DeviceUIState = when (testResult) {
+        TestResult.NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
+        TestResult.POSITIVE -> DeviceUIState.PAIRED_POSITIVE
+        TestResult.PENDING -> DeviceUIState.PAIRED_NO_RESULT
+        TestResult.REDEEMED -> DeviceUIState.PAIRED_REDEEMED
+        TestResult.INVALID -> DeviceUIState.PAIRED_ERROR
+        null -> DeviceUIState.UNPAIRED
     }
 
     fun setTeletan(teletan: String) {
@@ -106,7 +102,7 @@ object SubmissionRepository {
                 refreshUIState(refresh)
                 uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
             } catch (err: CwaWebException) {
-                _uiStateError.value = Event(err)
+                _uiStateError.postValue(Event(err))
                 uiStateStateFlowInternal.value = ApiRequestState.FAILED
             } catch (err: Exception) {
                 err.report(ExceptionCategory.INTERNAL)
@@ -128,7 +124,7 @@ object SubmissionRepository {
                     }
                     refreshTestResult -> fetchTestResult()
                     else -> {
-                        deriveUiState(testResult.value)
+                        deriveUiState(testResultFlow.value)
                     }
                 }
             }

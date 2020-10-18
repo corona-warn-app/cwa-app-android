@@ -27,6 +27,7 @@
         <!-- todo apply merge tags through xml when applicable (eod) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            invisible="@{submissionCard == null}"
             android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
