@@ -27,15 +27,13 @@ import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import timber.log.Timber
 import java.util.Date
-import javax.inject.Inject
 
-class SubmissionViewModel @Inject constructor() : CWAViewModel() {
+class SubmissionViewModel : CWAViewModel() {
     private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
 
     private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))
     private val _registrationError = MutableLiveData<Event<CwaWebException>>(null)
 
-    private val _uiStateState = MutableLiveData(ApiRequestState.IDLE)
     private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
 
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
@@ -51,13 +49,11 @@ class SubmissionViewModel @Inject constructor() : CWAViewModel() {
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
 
-    val uiStateState: LiveData<ApiRequestState> = _uiStateState
+    val uiStateState: LiveData<ApiRequestState> = SubmissionRepository.uiStateState
     val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
 
     val submissionState: LiveData<ApiRequestState> = _submissionState
     val submissionError: LiveData<Event<CwaWebException>> = _submissionError
-
-    val deviceRegistered get() = LocalData.registrationToken() != null
 
     val testResultReceivedDate: LiveData<Date> =
         SubmissionRepository.testResultReceivedDate
@@ -139,11 +135,19 @@ class SubmissionViewModel @Inject constructor() : CWAViewModel() {
                 Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
             }
         }
-        executeRequestWithState(
-            { SubmissionRepository.refreshUIState(refresh) },
-            _uiStateState,
-            _uiStateError
-        )
+
+        SubmissionRepository.uiStateStateFlowInternal.value = ApiRequestState.STARTED
+        viewModelScope.launch {
+            try {
+                SubmissionRepository.refreshUIState(refresh)
+                SubmissionRepository.uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
+            } catch (err: CwaWebException) {
+                _uiStateError.value = Event(err)
+                SubmissionRepository.uiStateStateFlowInternal.value = ApiRequestState.FAILED
+            } catch (err: Exception) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+        }
     }
 
     fun validateAndStoreTestGUID(rawResult: String) {
@@ -169,25 +173,6 @@ class SubmissionViewModel @Inject constructor() : CWAViewModel() {
         SubmissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
-    }
-
-    private fun executeRequestWithState(
-        apiRequest: suspend () -> Unit,
-        state: MutableLiveData<ApiRequestState>,
-        exceptionLiveData: MutableLiveData<Event<CwaWebException>>? = null
-    ) {
-        state.value = ApiRequestState.STARTED
-        viewModelScope.launch {
-            try {
-                apiRequest()
-                state.value = ApiRequestState.SUCCESS
-            } catch (err: CwaWebException) {
-                exceptionLiveData?.value = Event(err)
-                state.value = ApiRequestState.FAILED
-            } catch (err: Exception) {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-        }
     }
 
     fun onNextClicked() {

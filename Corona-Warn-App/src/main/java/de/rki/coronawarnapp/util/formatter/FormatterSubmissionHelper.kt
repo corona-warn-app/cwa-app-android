@@ -205,37 +205,6 @@ fun formatSubmissionStatusCardContentIcon(uiState: DeviceUIState?): Drawable? {
     }
 }
 
-fun formatSubmissionStatusCardFetchingVisible(
-    deviceRegistered: Boolean?,
-    uiStateState: ApiRequestState?
-): Int = formatVisibility(
-    deviceRegistered == true && (
-            uiStateState == ApiRequestState.STARTED ||
-                    uiStateState == ApiRequestState.FAILED)
-)
-
-fun formatSubmissionStatusCardUnregisteredVisible(
-    deviceRegistered: Boolean?
-): Int = formatVisibility(deviceRegistered == false)
-
-fun formatSubmissionStatusCardContentVisible(
-    deviceUiState: DeviceUIState?
-): Int = formatVisibility(
-    deviceUiState == DeviceUIState.PAIRED_ERROR ||
-            deviceUiState == DeviceUIState.PAIRED_NEGATIVE ||
-            deviceUiState == DeviceUIState.PAIRED_NO_RESULT ||
-            deviceUiState == DeviceUIState.PAIRED_REDEEMED
-)
-
-fun formatShowSubmissionStatusPositiveCard(deviceUiState: DeviceUIState?): Int =
-    formatVisibility(
-        deviceUiState == DeviceUIState.PAIRED_POSITIVE ||
-                deviceUiState == DeviceUIState.PAIRED_POSITIVE_TELETAN
-    )
-
-fun formatShowSubmissionDoneCard(deviceUiState: DeviceUIState?): Int =
-    formatVisibility(deviceUiState == DeviceUIState.SUBMITTED_FINAL)
-
 fun formatShowRiskStatusCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(
         deviceUiState != DeviceUIState.PAIRED_POSITIVE &&

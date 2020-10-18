@@ -3,14 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.DeviceUIState" />
-
         <import type="de.rki.coronawarnapp.risk.RiskLevelConstants" />
-
-        <variable
-            name="registerDate"
-            type="java.util.Date" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

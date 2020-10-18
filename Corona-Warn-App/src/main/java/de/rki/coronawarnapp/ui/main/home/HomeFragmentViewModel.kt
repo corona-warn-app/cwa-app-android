@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -25,27 +24,25 @@ import kotlinx.coroutines.flow.map
 class HomeFragmentViewModel @AssistedInject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
-    val settingsViewModel: SettingsViewModel,
-    val submissionViewModel: SubmissionViewModel,
     private val tracingStatus: GeneralTracingStatus,
-    private val tracingCardViewModel: TracingCardViewModel
+    private val tracingCardViewModel: TracingCardViewModel,
+    private val submissionCardsViewModel: SubmissionCardsViewModel,
+    val settingsViewModel: SettingsViewModel,
+    private val tracingRepository: TracingRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(
-        settingsViewModel,
-        submissionViewModel,
-        tracingCardViewModel
+        tracingCardViewModel,
+        submissionCardsViewModel, settingsViewModel
     )
 ) {
-    val tracingHeaderState: LiveData<TracingHeaderState> by lazy {
-        tracingStatus.generalStatus
-            .map { it.toHeaderState() }
-            .asLiveData(dispatcherProvider.Default)
-    }
+    val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
+        .map { it.toHeaderState() }
+        .asLiveData(dispatcherProvider.Default)
 
-    val tracingCardState: LiveData<TracingCardState> by lazy {
-        tracingCardViewModel.state
-    }
+    val tracingCardState: LiveData<TracingCardState> = tracingCardViewModel.state
+
+    val submissionCardState: LiveData<SubmissionCardState> = submissionCardsViewModel.state
 
     val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {
         SingleLiveEvent<HomeFragmentEvents>().apply {
@@ -76,13 +73,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshRequiredData() {
         // TODO the ordering here is weird, do we expect these to run in sequence?
-        launch { TracingRepository.refreshRiskLevel() }
-        launch { TracingRepository.refreshExposureSummary() }
-        TracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
-        launch { TracingRepository.refreshActiveTracingDaysInRetentionPeriod() }
+        tracingRepository.refreshRiskLevel()
+        tracingRepository.refreshExposureSummary()
+        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
+        tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
-        submissionViewModel.refreshDeviceUIState()
-        TracingRepository.refreshLastSuccessfullyCalculatedScore()
+        tracingRepository.refreshLastSuccessfullyCalculatedScore()
     }
 
     fun tracingExplanationWasShown() {
@@ -90,7 +86,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshDiagnosisKeys() {
-        launch { TracingRepository.refreshDiagnosisKeys() }
+        tracingRepository.refreshDiagnosisKeys()
     }
 
     @AssistedInject.Factory

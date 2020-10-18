@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
@@ -26,6 +28,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: HomeFragmentViewModel by cwaViewModels { viewModelFactory }
 
+    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+
     val binding: FragmentHomeBinding by viewBindingLazy()
 
     @Inject lateinit var homeMenu: HomeMenu
@@ -40,8 +44,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         vm.tracingCardState.observe2(this) {
             binding.tracingCard = it
         }
-
-        binding.submissionViewModel = vm.submissionViewModel
+        vm.submissionCardState.observe2(this) {
+            binding.submissionCard = it
+        }
 
         setupToolbar()
 
@@ -84,7 +89,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     override fun onResume() {
         super.onResume()
+        submissionViewModel.refreshDeviceUIState()
         vm.refreshRequiredData()
+
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 

@@ -1,18 +1,33 @@
 package de.rki.coronawarnapp.storage
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Date
 
 object SubmissionRepository {
     private val TAG: String? = SubmissionRepository::class.simpleName
 
-    val testResultReceivedDate = MutableLiveData(Date())
-    val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)
+    val uiStateStateFlowInternal = MutableStateFlow(ApiRequestState.IDLE)
+    val uiStateStateFlow: Flow<ApiRequestState> = uiStateStateFlowInternal
+    val uiStateState: LiveData<ApiRequestState> = uiStateStateFlow.asLiveData()
+
+    private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
+    val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
+    val testResultReceivedDate = testResultReceivedDateFlow.asLiveData()
+
+    private val deviceUIStateFlowInternal = MutableStateFlow(DeviceUIState.UNPAIRED)
+    val deviceUIStateFlow: Flow<DeviceUIState> = deviceUIStateFlowInternal
+    val deviceUIState = deviceUIStateFlow.asLiveData()
+
     private val testResult = MutableLiveData<TestResult?>(null)
 
     suspend fun refreshUIState(refreshTestResult: Boolean) {
@@ -33,7 +48,7 @@ object SubmissionRepository {
                 }
             }
         }
-        deviceUIState.value = uiState
+        deviceUIStateFlowInternal.value = uiState
     }
 
     private suspend fun fetchTestResult(): DeviceUIState {
@@ -58,12 +73,12 @@ object SubmissionRepository {
         if (initialTestResultReceivedTimestamp == null) {
             val currentTime = System.currentTimeMillis()
             LocalData.initialTestResultReceivedTimestamp(currentTime)
-            testResultReceivedDate.value = Date(currentTime)
+            testResultReceivedDateFlowInternal.value = Date(currentTime)
             if (testResult == TestResult.PENDING) {
                 BackgroundWorkScheduler.startWorkScheduler()
             }
         } else {
-            testResultReceivedDate.value = Date(initialTestResultReceivedTimestamp)
+            testResultReceivedDateFlowInternal.value = Date(initialTestResultReceivedTimestamp)
         }
     }
 

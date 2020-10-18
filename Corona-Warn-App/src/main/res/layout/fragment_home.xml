@@ -5,15 +5,10 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
-
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
         <variable
-            name="submissionViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel" />
-
+            name="submissionCard"
+            type="de.rki.coronawarnapp.ui.main.home.SubmissionCardState" />
         <variable
             name="tracingCard"
             type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
@@ -138,7 +133,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
+                gone="@{submissionCard != null &amp;&amp; !submissionCard.isRiskCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider"
@@ -151,7 +146,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardUnregisteredVisible(submissionViewModel.deviceRegistered)}"
+                gone="@{submissionCard != null &amp;&amp; !submissionCard.isUnregisteredCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_risk" />
@@ -162,8 +157,8 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentVisible(submissionViewModel.deviceUiState)}"
-                app:deviceUIState="@{submissionViewModel.deviceUiState}"
+                gone="@{submissionCard == null || !submissionCard.isContentCardVisible()}"
+                app:deviceUIState="@{submissionCard.deviceUiState}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_unregistered" />
@@ -174,7 +169,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardFetchingVisible(submissionViewModel.deviceRegistered, submissionViewModel.uiStateState)}"
+                gone="@{submissionCard == null || !submissionCard.isFetchingCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_result" />
@@ -185,11 +180,10 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionStatusPositiveCard(submissionViewModel.deviceUiState)}"
+                gone="@{submissionCard == null || !submissionCard.isPositiveSubmissionCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_test_fetching"
-                app:registerDate="@{submissionViewModel.testResultReceivedDate}" />
+                app:layout_constraintTop_toBottomOf="@+id/main_test_fetching" />
 
             <include
                 android:id="@+id/main_test_done"
@@ -197,7 +191,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterSubmissionHelper.formatShowSubmissionDoneCard(submissionViewModel.deviceUiState)}"
+                gone="@{submissionCard == null || !submissionCard.isSubmissionDoneCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/main_test_positive" />
