@@ -300,4 +300,188 @@ class SubmissionCardStateTest : BaseTest() {
 //        )
 //    }
     }
+
+    @Test
+    fun `content card title text`() {
+        TODO("getContentCardTitleText")
+//        private fun formatSubmissionStatusCardContentTitleTextBase(
+//        oUiState: DeviceUIState?,
+//        iResult: String
+//    ) {
+//        val result = formatSubmissionStatusCardContentTitleText(uiState = oUiState)
+//        assertThat(result, `is`(iResult))
+//    }
+//
+//    @Test
+//    fun formatSubmissionStatusCardContentTitleText() {
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = null,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+//            iResult = context.getString(R.string.submission_status_card_title_available)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.PAIRED_ERROR,
+//            iResult = context.getString(R.string.submission_status_card_title_available)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.PAIRED_POSITIVE,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.SUBMITTED_FINAL,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//        formatSubmissionStatusCardContentTitleTextBase(
+//            oUiState = DeviceUIState.UNPAIRED,
+//            iResult = context.getString(R.string.submission_status_card_title_pending)
+//        )
+//    }
+    }
+
+    @Test
+    fun `content card subtitle text`() {
+        TODO("getContentCardSubTitleText")
+    }
+
+    @Test
+    fun `content card subtitle color`() {
+        TODO("getContentCardSubTitleTextColor")
+    }
+
+    @Test
+    fun `content card status text visibility`() {
+        TODO("isContentCardStatusTextVisible")
+//        private fun formatSubmissionStatusCardContentStatusTextVisibleBase(
+//        oUiState: DeviceUIState?,
+//        iResult: Int
+//    ) {
+//        val result = formatSubmissionStatusCardContentStatusTextVisible(uiState = oUiState)
+//        assertThat(result, `is`(iResult))
+//    }
+//    @Test
+//    fun formatSubmissionStatusCardContentStatusTextVisible() {
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(oUiState = null, iResult = View.GONE)
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+//            iResult = View.VISIBLE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.PAIRED_ERROR,
+//            iResult = View.VISIBLE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+//            iResult = View.GONE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.PAIRED_POSITIVE,
+//            iResult = View.GONE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+//            iResult = View.GONE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.SUBMITTED_FINAL,
+//            iResult = View.GONE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+//            iResult = View.GONE
+//        )
+//        formatSubmissionStatusCardContentStatusTextVisibleBase(
+//            oUiState = DeviceUIState.UNPAIRED,
+//            iResult = View.GONE
+//        )
+//    }
+    }
+
+    @Test
+    fun `content card body text`() {
+        TODO("getContentCardBodyText")
+//        private fun formatSubmissionStatusCardContentBodyTextBase(
+//        oUiState: DeviceUIState?,
+//        iResult: String
+//    ) {
+//        val result = formatSubmissionStatusCardContentBodyText(uiState = oUiState)
+//        assertThat(result, `is`(iResult))
+//    }
+//
+//    @Test
+//    fun formatSubmissionStatusCardContentBodyText() {
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = null,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.PAIRED_NEGATIVE,
+//            iResult = context.getString(R.string.submission_status_card_body_negative)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.PAIRED_ERROR,
+//            iResult = context.getString(R.string.submission_status_card_body_invalid)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.PAIRED_NO_RESULT,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.PAIRED_POSITIVE,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.SUBMITTED_FINAL,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.SUBMITTED_INITIAL,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//        formatSubmissionStatusCardContentBodyTextBase(
+//            oUiState = DeviceUIState.UNPAIRED,
+//            iResult = context.getString(R.string.submission_status_card_body_pending)
+//        )
+//    }
+    }
+
+    @Test
+    fun `content card icon`() {
+        TODO("getContentCardIcon")
+//            private fun formatSubmissionStatusCardContentIconBase(oUiState: DeviceUIState?) {
+//        val result = formatSubmissionStatusCardContentIcon(uiState = oUiState)
+//        assertThat(result, `is`(drawable))
+//    }
+//
+//    @Test
+//    fun formatSubmissionStatusCardContentIcon() {
+//        formatSubmissionStatusCardContentIconBase(oUiState = null)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.PAIRED_NEGATIVE)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.PAIRED_ERROR)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.PAIRED_NO_RESULT)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.PAIRED_POSITIVE)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.SUBMITTED_FINAL)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.SUBMITTED_INITIAL)
+//        formatSubmissionStatusCardContentIconBase(oUiState = DeviceUIState.UNPAIRED)
+//    }
+    }
 }

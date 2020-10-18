@@ -8,7 +8,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.submission.Symptoms
@@ -140,70 +139,6 @@ fun formatTestResultPositiveStepsVisible(uiState: DeviceUIState?): Int =
 
 fun formatTestResultInvalidStepsVisible(uiState: DeviceUIState?): Int =
     formatVisibility(uiState == DeviceUIState.PAIRED_ERROR || uiState == DeviceUIState.PAIRED_REDEEMED)
-
-fun formatSubmissionStatusCardSubtitleColor(uiState: DeviceUIState?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getColor(R.color.colorTextSemanticGreen)
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED -> appContext.getColor(R.color.colorTextSemanticNeutral)
-        else -> appContext.getColor(R.color.colorTextPrimary1)
-    }
-}
-
-fun formatSubmissionStatusCardSubtitleText(uiState: DeviceUIState?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.submission_status_card_subtitle_negative)
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED -> appContext.getString(R.string.submission_status_card_subtitle_invalid)
-        else -> ""
-    }
-}
-
-fun formatSubmissionStatusCardContentTitleText(uiState: DeviceUIState?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED,
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.submission_status_card_title_available)
-        DeviceUIState.PAIRED_NO_RESULT -> appContext.getString(R.string.submission_status_card_title_pending)
-        else -> appContext.getString(R.string.submission_status_card_title_pending)
-    }
-}
-
-fun formatSubmissionStatusCardContentBodyText(uiState: DeviceUIState?): String {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED -> appContext.getString(R.string.submission_status_card_body_invalid)
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getString(R.string.submission_status_card_body_negative)
-        DeviceUIState.PAIRED_NO_RESULT -> appContext.getString(R.string.submission_status_card_body_pending)
-        else -> appContext.getString(R.string.submission_status_card_body_pending)
-    }
-}
-
-fun formatSubmissionStatusCardContentStatusTextVisible(uiState: DeviceUIState?): Int {
-    return when (uiState) {
-        DeviceUIState.PAIRED_NEGATIVE,
-        DeviceUIState.PAIRED_REDEEMED,
-        DeviceUIState.PAIRED_ERROR -> View.VISIBLE
-        else -> View.GONE
-    }
-}
-
-fun formatSubmissionStatusCardContentIcon(uiState: DeviceUIState?): Drawable? {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return when (uiState) {
-        DeviceUIState.PAIRED_NO_RESULT -> appContext.getDrawable(R.drawable.ic_main_illustration_pending)
-        DeviceUIState.PAIRED_POSITIVE,
-        DeviceUIState.PAIRED_POSITIVE_TELETAN -> appContext.getDrawable(R.drawable.ic_main_illustration_pending)
-        DeviceUIState.PAIRED_NEGATIVE -> appContext.getDrawable(R.drawable.ic_main_illustration_negative)
-        DeviceUIState.PAIRED_ERROR,
-        DeviceUIState.PAIRED_REDEEMED -> appContext.getDrawable(R.drawable.ic_main_illustration_invalid)
-        else -> appContext.getDrawable(R.drawable.ic_main_illustration_invalid)
-    }
-}
 
 fun formatShowRiskStatusCard(deviceUiState: DeviceUIState?): Int =
     formatVisibility(

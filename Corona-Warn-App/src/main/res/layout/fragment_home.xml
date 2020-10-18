@@ -5,14 +5,12 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
         <variable
             name="submissionCard"
             type="de.rki.coronawarnapp.ui.main.home.SubmissionCardState" />
         <variable
             name="tracingCard"
             type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
-
         <variable
             name="tracingHeader"
             type="de.rki.coronawarnapp.ui.main.home.TracingHeaderState" />
@@ -158,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 gone="@{submissionCard == null || !submissionCard.isContentCardVisible()}"
-                app:deviceUIState="@{submissionCard.deviceUiState}"
+                app:submissionCard="@{submissionCard}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_unregistered" />
