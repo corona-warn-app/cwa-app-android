@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.tracing
 
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.util.bluetooth.CWABluetooth
-import de.rki.coronawarnapp.util.location.CWALocation
+import de.rki.coronawarnapp.util.bluetooth.BluetoothProvider
+import de.rki.coronawarnapp.util.location.LocationProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
@@ -14,23 +14,27 @@ import javax.inject.Singleton
 
 @Singleton
 class GeneralTracingStatus @Inject constructor(
-    cwaBluetooth: CWABluetooth,
-    cwaLocation: CWALocation,
+    bluetoothProvider: BluetoothProvider,
+    locationProvider: LocationProvider,
     enfClient: ENFClient,
 ) {
 
     val generalStatus: Flow<Status> = combine(
-        cwaBluetooth.isBluetoothEnabled,
-        cwaLocation.isLocationEnabled,
-        enfClient.isTracingEnabled
+        bluetoothProvider.isBluetoothEnabled,
+        enfClient.isTracingEnabled,
+        locationProvider.isLocationEnabled,
+        enfClient.isLocationLessScanningSupported
     ) { values ->
         val bluetooth = values[0]
-        val location = values[1]
-        val tracing = values[2]
+        val tracing = values[1]
+
+        val locationServices = values[2]
+        val locationLessScanning = values[3]
+        val anyLocation = locationServices || locationLessScanning
 
         when {
             !tracing -> Status.TRACING_INACTIVE
-            !location -> Status.LOCATION_DISABLED
+            !anyLocation -> Status.LOCATION_DISABLED
             !bluetooth -> Status.BLUETOOTH_DISABLED
             else -> Status.TRACING_ACTIVE
         }

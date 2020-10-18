@@ -49,24 +49,6 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
     }
 
     /**
-     * Update bluetooth enabled
-     *
-     * @param value
-     */
-    fun updateBluetoothEnabled(value: Boolean) {
-        settingsRepository.updateBluetoothEnabled(value)
-    }
-
-    /**
-     * Update location enabled
-     *
-     * @param value
-     */
-    fun updateLocationEnabled(value: Boolean) {
-        settingsRepository.updateLocationEnabled(value)
-    }
-
-    /**
      * Update background job enabled
      *
      * @param value

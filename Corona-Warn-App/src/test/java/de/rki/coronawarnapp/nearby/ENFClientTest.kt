@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
+import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -29,6 +30,7 @@ class ENFClientTest : BaseTest() {
 
     @MockK lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
     @MockK lateinit var tracingStatus: TracingStatus
+    @MockK lateinit var scanningSupport: ScanningSupport
 
     @BeforeEach
     fun setup() {
@@ -44,7 +46,8 @@ class ENFClientTest : BaseTest() {
     private fun createClient() = ENFClient(
         googleENFClient = googleENFClient,
         diagnosisKeyProvider = diagnosisKeyProvider,
-        tracingStatus = tracingStatus
+        tracingStatus = tracingStatus,
+        scanningSupport = scanningSupport
     )
 
     @Test
@@ -81,14 +84,25 @@ class ENFClientTest : BaseTest() {
 
     @Test
     fun `tracing status check is forwaded to the right module`() = runBlocking {
-        val testFlow = flowOf(true)
-        every { tracingStatus.isTracingEnabled } returns testFlow
+        every { tracingStatus.isTracingEnabled } returns flowOf(true)
 
         val client = createClient()
         client.isTracingEnabled.toList().single() shouldBe true
 
         verifySequence {
             tracingStatus.isTracingEnabled
+        }
+    }
+
+    @Test
+    fun `locationless scanning support check is forwaded to the right module`() = runBlocking {
+        every { scanningSupport.isLocationLessScanningSupported } returns flowOf(true)
+
+        val client = createClient()
+        client.isLocationLessScanningSupported.toList().single() shouldBe true
+
+        verifySequence {
+            scanningSupport.isLocationLessScanningSupported
         }
     }
 }

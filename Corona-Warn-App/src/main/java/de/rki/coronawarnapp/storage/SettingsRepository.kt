@@ -26,8 +26,6 @@ class SettingsRepository @Inject constructor(
 ) {
 
     val isConnectionEnabled = MutableLiveData(true)
-    val isBluetoothEnabled = MutableLiveData(true)
-    val isLocationEnabled = MutableLiveData(true)
     val isBackgroundJobEnabled = MutableLiveData(true)
 
     private val internalIsBackgroundPriorityEnabled = MutableStateFlow(false)
@@ -43,24 +41,6 @@ class SettingsRepository @Inject constructor(
      */
     fun updateConnectionEnabled(value: Boolean) {
         isConnectionEnabled.postValue(value)
-    }
-
-    /**
-     * Refresh global bluetooth state to point out that tracing isn't working
-     *
-     * @see ConnectivityHelper
-     */
-    fun updateBluetoothEnabled(value: Boolean) {
-        isBluetoothEnabled.postValue(value)
-    }
-
-    /**
-     * Refresh global location state to point out that tracing isn't working
-     *
-     * @see ConnectivityHelper
-     */
-    fun updateLocationEnabled(value: Boolean) {
-        isLocationEnabled.postValue(value)
     }
 
     /**

@@ -12,9 +12,12 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifySequence
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -26,14 +29,16 @@ class CWABluetoothTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var bluetoothAdapter: BluetoothAdapter
+    private val appScope: CoroutineScope = TestCoroutineScope()
     private var lastReceiver: BroadcastReceiver? = null
     private var lastFilter: IntentFilter? = null
+    private val receiverSlot = slot<BroadcastReceiver>()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { context.registerReceiver(any(), any()) } answers {
+        every { context.registerReceiver(capture(receiverSlot), any()) } answers {
             lastReceiver = arg(0)
             lastFilter = arg(1)
             mockk()
@@ -47,9 +52,13 @@ class CWABluetoothTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance(): CWABluetooth = CWABluetooth(
+    private fun createInstance(
+        scope: CoroutineScope = appScope,
+        adapter: BluetoothAdapter? = bluetoothAdapter
+    ): BluetoothProvider = BluetoothProvider(
         context = context,
-        bluetoothAdapter = bluetoothAdapter
+        appScope = scope,
+        bluetoothAdapter = adapter
     )
 
     private fun mockBluetoothIntent(enabled: Boolean?): Intent = mockk<Intent>().apply {
@@ -76,6 +85,7 @@ class CWABluetoothTest : BaseTest() {
         verifySequence {
             bluetoothAdapter.isEnabled
             context.registerReceiver(any(), any())
+            context.unregisterReceiver(receiverSlot.captured)
         }
     }
 
@@ -102,7 +112,7 @@ class CWABluetoothTest : BaseTest() {
 
     @Test
     fun `null adapter defaults to false`() = runBlockingTest {
-        val instance = CWABluetooth(context = context, bluetoothAdapter = null)
+        val instance = createInstance(adapter = null)
         instance.isBluetoothEnabled.first() shouldBe false
     }
 }

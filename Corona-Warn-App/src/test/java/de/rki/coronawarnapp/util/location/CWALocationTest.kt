@@ -13,9 +13,12 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifySequence
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -28,14 +31,16 @@ class CWALocationTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var locationManager: LocationManager
 
+    private val appScope: CoroutineScope = TestCoroutineScope()
     private var lastReceiver: BroadcastReceiver? = null
     private var lastFilter: IntentFilter? = null
+    private val receiverSlot = slot<BroadcastReceiver>()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { context.registerReceiver(any(), any()) } answers {
+        every { context.registerReceiver(capture(receiverSlot), any()) } answers {
             lastReceiver = arg(0)
             lastFilter = arg(1)
             mockk()
@@ -48,8 +53,11 @@ class CWALocationTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createInstance(): CWALocation = CWALocation(
-        context = context
+    private fun createInstance(
+        scope: CoroutineScope = appScope
+    ): LocationProvider = LocationProvider(
+        context = context,
+        appScope = scope
     )
 
     private fun mockLocationStatus(enabled: Boolean) {
@@ -77,6 +85,7 @@ class CWALocationTest : BaseTest() {
         verifySequence {
             context.getSystemService(any())
             context.registerReceiver(any(), any())
+            context.unregisterReceiver(receiverSlot.captured)
         }
     }
 

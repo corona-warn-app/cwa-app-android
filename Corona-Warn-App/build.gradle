@@ -203,6 +203,8 @@ android {
         exclude 'CODEOWNERS'
         exclude 'README.md'
         exclude 'CODE_OF_CONDUCT.md'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
 
     sourceSets {
@@ -267,7 +269,10 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
 
 dependencies {
     // KOTLIN
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
+    def coroutineVersion = "1.4.0-M1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // ANDROID STANDARD

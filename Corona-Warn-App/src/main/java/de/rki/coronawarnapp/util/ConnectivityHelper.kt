@@ -1,22 +1,16 @@
 package de.rki.coronawarnapp.util
 
 import android.app.ActivityManager
-import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppInjector
-import timber.log.Timber
 
 /**
  * Helper for connectivity statuses.
@@ -26,115 +20,6 @@ object ConnectivityHelper {
 
     private val backgroundPrioritization by lazy {
         AppInjector.component.connectivityHelperInjection.backgroundPrioritization
-    }
-
-    /**
-     * Register bluetooth state change listener.
-     *
-     * @param context the context
-     * @param callback the bluetooth state callback
-     *
-     * @see [BluetoothAdapter.ACTION_STATE_CHANGED]
-     * @see [BluetoothCallback]
-     */
-    // TODO Can be replaced by **[CWABluetooth]** at somepoint
-    fun registerBluetoothStatusCallback(context: Context, callback: BluetoothCallback) {
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent) {
-                val action = intent.action
-                if (BluetoothAdapter.ACTION_STATE_CHANGED == action) {
-                    when (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)) {
-                        BluetoothAdapter.STATE_OFF -> {
-                            callback.onBluetoothUnavailable()
-                        }
-                        BluetoothAdapter.STATE_ON -> {
-                            callback.onBluetoothAvailable()
-                        }
-                    }
-                }
-            }
-        }
-        callback.recevier = receiver
-        context.registerReceiver(
-            callback.recevier,
-            IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
-        )
-        // bluetooth state doesn't change when you register
-        if (isBluetoothEnabled())
-            callback.onBluetoothAvailable()
-        else
-            callback.onBluetoothUnavailable()
-    }
-
-    /**
-     * Unregister bluetooth state change listener.
-     *
-     * @param context the context
-     * @param callback the bluetooth state callback
-     *
-     * @see [BluetoothCallback]
-     */
-    fun unregisterBluetoothStatusCallback(context: Context, callback: BluetoothCallback) {
-        context.unregisterReceiver(callback.recevier)
-        callback.recevier = null
-    }
-
-    /**
-     * Register location state change listener.
-     *
-     * @param context the context
-     * @param callback the location state callback
-     *
-     */
-    // TODO Can be replaced by **[CWALocation]** at somepoint
-    fun registerLocationStatusCallback(context: Context, callback: LocationCallback) {
-        val receiver = object : BroadcastReceiver() {
-            var isGpsEnabled: Boolean = false
-            var isNetworkEnabled: Boolean = false
-
-            override fun onReceive(context: Context, intent: Intent) {
-                intent.action?.let { act ->
-                    if (act.matches("android.location.PROVIDERS_CHANGED".toRegex())) {
-                        val locationManager =
-                            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        isGpsEnabled =
-                            locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                        isNetworkEnabled =
-                            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-                        if (isGpsEnabled || isNetworkEnabled) {
-                            callback.onLocationAvailable()
-                            Timber.d("Location enabled")
-                        } else {
-                            callback.onLocationUnavailable()
-                            Timber.d("Location disabled")
-                        }
-                    }
-                }
-            }
-        }
-        callback.recevier = receiver
-        context.registerReceiver(
-            callback.recevier,
-            IntentFilter("android.location.PROVIDERS_CHANGED")
-        )
-        // location state doesn't change when you register
-        if (isLocationEnabled(context))
-            callback.onLocationAvailable()
-        else
-            callback.onLocationUnavailable()
-    }
-
-    /**
-     * Unregister location state change listener.
-     *
-     * @param context the context
-     * @param callback the location state callback
-     *
-     */
-    fun unregisterLocationStatusCallback(context: Context, callback: LocationCallback) {
-        context.unregisterReceiver(callback.recevier)
-        callback.recevier = null
     }
 
     /**
@@ -220,35 +105,6 @@ object ConnectivityHelper {
     // TODO Can be replaced by **[BackgroundModeStatus]** at somepoint
     fun autoModeEnabled(context: Context): Boolean {
         return !isBackgroundRestricted(context) || backgroundPrioritization.isBackgroundActivityPrioritized
-    }
-
-    /**
-     * Get bluetooth enabled status.
-     *
-     * @return current bluetooth status
-     *
-     * @see [BluetoothAdapter]
-     */
-    // TODO Can be replaced by **[CWABluetooth]** at somepoint
-    fun isBluetoothEnabled(): Boolean {
-        val bAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (bAdapter == null) {
-            Timber.d("Device does not have bluetooth hardware")
-            return false
-        }
-        return bAdapter.isEnabled
-    }
-
-    /**
-     * Get location enabled status.
-     *
-     * @return current location status
-     *
-     */
-    // TODO Can be replaced by **[CWALocation]** at somepoint
-    fun isLocationEnabled(context: Context): Boolean {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return LocationManagerCompat.isLocationEnabled(locationManager)
     }
 
     /**
