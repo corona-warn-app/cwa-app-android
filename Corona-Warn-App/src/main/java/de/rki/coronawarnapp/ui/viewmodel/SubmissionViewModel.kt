@@ -34,8 +34,6 @@ class SubmissionViewModel : CWAViewModel() {
     private val _registrationState = MutableLiveData(Event(ApiRequestState.IDLE))
     private val _registrationError = MutableLiveData<Event<CwaWebException>>(null)
 
-    private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
-
     private val _submissionState = MutableLiveData(ApiRequestState.IDLE)
     private val _submissionError = MutableLiveData<Event<CwaWebException>>(null)
     private val interoperabilityRepository: InteroperabilityRepository
@@ -50,15 +48,13 @@ class SubmissionViewModel : CWAViewModel() {
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
 
     val uiStateState: LiveData<ApiRequestState> = SubmissionRepository.uiStateState
-    val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
+    val uiStateError: LiveData<Event<CwaWebException>> = SubmissionRepository.uiStateError
 
     val submissionState: LiveData<ApiRequestState> = _submissionState
     val submissionError: LiveData<Event<CwaWebException>> = _submissionError
 
-    val testResultReceivedDate: LiveData<Date> =
-        SubmissionRepository.testResultReceivedDate
-    val deviceUiState: LiveData<DeviceUIState> =
-        SubmissionRepository.deviceUIState
+    val testResultReceivedDate: LiveData<Date> = SubmissionRepository.testResultReceivedDate
+    val deviceUiState: LiveData<DeviceUIState> = SubmissionRepository.deviceUIState
 
     val symptomIndication = MutableLiveData<Symptoms.Indication?>()
     val symptomStart = MutableLiveData<Symptoms.StartOf?>()
@@ -123,30 +119,6 @@ class SubmissionViewModel : CWAViewModel() {
         } catch (err: Exception) {
             _registrationState.value = Event(ApiRequestState.FAILED)
             err.report(ExceptionCategory.INTERNAL)
-        }
-    }
-
-    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
-        var refresh = refreshTestResult
-
-        deviceUiState.value?.let {
-            if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
-                refresh = false
-                Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
-            }
-        }
-
-        SubmissionRepository.uiStateStateFlowInternal.value = ApiRequestState.STARTED
-        viewModelScope.launch {
-            try {
-                SubmissionRepository.refreshUIState(refresh)
-                SubmissionRepository.uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
-            } catch (err: CwaWebException) {
-                _uiStateError.value = Event(err)
-                SubmissionRepository.uiStateStateFlowInternal.value = ApiRequestState.FAILED
-            } catch (err: Exception) {
-                err.report(ExceptionCategory.INTERNAL)
-            }
         }
     }
 

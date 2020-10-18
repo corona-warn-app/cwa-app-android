@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -113,14 +114,14 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        submissionViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
+        SubmissionRepository.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
 
         skipInitialTestResultRefresh = false
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
-            submissionViewModel.refreshDeviceUIState()
+            SubmissionRepository.refreshDeviceUIState()
             binding.submissionTestResultContent.submissionTestResultCard.testResultCard
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }

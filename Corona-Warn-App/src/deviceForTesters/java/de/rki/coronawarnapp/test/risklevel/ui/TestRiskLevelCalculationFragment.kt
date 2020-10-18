@@ -31,8 +31,8 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: TestRiskLevelCalculationFragmentCWAViewModel by cwaViewModelsAssisted(
-        { viewModelFactory },
-        { factory, handle ->
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, handle ->
             factory as TestRiskLevelCalculationFragmentCWAViewModel.Factory
             factory.create(handle, navArgs.exampleArgument)
         }

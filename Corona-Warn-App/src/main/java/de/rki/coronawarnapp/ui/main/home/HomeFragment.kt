@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
@@ -15,7 +13,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 /**
@@ -26,9 +24,13 @@ import javax.inject.Inject
 class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: HomeFragmentViewModel by cwaViewModels { viewModelFactory }
-
-    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+    private val vm: HomeFragmentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, handle ->
+            factory as HomeFragmentViewModel.Factory
+            factory.create(handle)
+        }
+    )
 
     val binding: FragmentHomeBinding by viewBindingLazy()
 
@@ -89,7 +91,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     override fun onResume() {
         super.onResume()
-        submissionViewModel.refreshDeviceUIState()
         vm.refreshRequiredData()
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)

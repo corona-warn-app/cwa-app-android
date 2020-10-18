@@ -30,6 +30,8 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
 import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
+import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
@@ -86,6 +88,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val playbook: Playbook
 
     val interoperabilityRepository: InteroperabilityRepository
+
+    @AppScope val appScope: AppCoroutineScope
 
     @Component.Factory
     interface Factory {

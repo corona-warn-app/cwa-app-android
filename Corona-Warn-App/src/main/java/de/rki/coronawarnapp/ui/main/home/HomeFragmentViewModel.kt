@@ -1,10 +1,13 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
@@ -18,15 +21,16 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
 
 class HomeFragmentViewModel @AssistedInject constructor(
-    private val dispatcherProvider: DispatcherProvider,
+    @Assisted private val handle: SavedStateHandle,
+    dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
-    private val tracingStatus: GeneralTracingStatus,
-    private val tracingCardViewModel: TracingCardViewModel,
-    private val submissionCardsViewModel: SubmissionCardsViewModel,
+    tracingStatus: GeneralTracingStatus,
+    tracingCardViewModel: TracingCardViewModel,
+    submissionCardsViewModel: SubmissionCardsViewModel,
     val settingsViewModel: SettingsViewModel,
     private val tracingRepository: TracingRepository
 ) : CWAViewModel(
@@ -36,6 +40,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         submissionCardsViewModel, settingsViewModel
     )
 ) {
+
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
         .map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
@@ -43,6 +48,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     val tracingCardState: LiveData<TracingCardState> = tracingCardViewModel.state
 
     val submissionCardState: LiveData<SubmissionCardState> = submissionCardsViewModel.state
+        .asLiveData(dispatcherProvider.Default)
 
     val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {
         SingleLiveEvent<HomeFragmentEvents>().apply {
@@ -72,6 +78,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshRequiredData() {
+        SubmissionRepository.refreshDeviceUIState()
         // TODO the ordering here is weird, do we expect these to run in sequence?
         tracingRepository.refreshRiskLevel()
         tracingRepository.refreshExposureSummary()
@@ -90,5 +97,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
+    interface Factory : CWAViewModelFactory<HomeFragmentViewModel> {
+        fun create(handle: SavedStateHandle): HomeFragmentViewModel
+    }
 }

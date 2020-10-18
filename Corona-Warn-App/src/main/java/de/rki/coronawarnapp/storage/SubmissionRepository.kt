@@ -3,18 +3,28 @@ package de.rki.coronawarnapp.storage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
+import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DeviceUIState
+import de.rki.coronawarnapp.util.Event
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 
 object SubmissionRepository {
-    private val TAG: String? = SubmissionRepository::class.simpleName
+
+    private val appScope by lazy {
+        AppInjector.component.appScope
+    }
 
     val uiStateStateFlowInternal = MutableStateFlow(ApiRequestState.IDLE)
     val uiStateStateFlow: Flow<ApiRequestState> = uiStateStateFlowInternal
@@ -29,27 +39,6 @@ object SubmissionRepository {
     val deviceUIState = deviceUIStateFlow.asLiveData()
 
     private val testResult = MutableLiveData<TestResult?>(null)
-
-    suspend fun refreshUIState(refreshTestResult: Boolean) {
-        var uiState = DeviceUIState.UNPAIRED
-
-        if (LocalData.numberOfSuccessfulSubmissions() == 1) {
-            uiState = DeviceUIState.SUBMITTED_FINAL
-        } else {
-            if (LocalData.registrationToken() != null) {
-                uiState = when {
-                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
-                        DeviceUIState.PAIRED_POSITIVE
-                    }
-                    refreshTestResult -> fetchTestResult()
-                    else -> {
-                        deriveUiState(testResult.value)
-                    }
-                }
-            }
-        }
-        deviceUIStateFlowInternal.value = uiState
-    }
 
     private suspend fun fetchTestResult(): DeviceUIState {
         try {
@@ -95,5 +84,55 @@ object SubmissionRepository {
 
     fun setTeletan(teletan: String) {
         LocalData.teletan(teletan)
+    }
+
+    private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
+    val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
+
+    // TODO this should be more UI agnostic
+    fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
+        var refresh = refreshTestResult
+
+        deviceUIStateFlowInternal.value.let {
+            if (it != DeviceUIState.PAIRED_NO_RESULT && it != DeviceUIState.UNPAIRED) {
+                refresh = false
+                Timber.d("refreshDeviceUIState: Change refresh, state ${it.name} doesn't require refresh")
+            }
+        }
+
+        uiStateStateFlowInternal.value = ApiRequestState.STARTED
+        appScope.launch {
+            try {
+                refreshUIState(refresh)
+                uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
+            } catch (err: CwaWebException) {
+                _uiStateError.value = Event(err)
+                uiStateStateFlowInternal.value = ApiRequestState.FAILED
+            } catch (err: Exception) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+        }
+    }
+
+    // TODO this should be more UI agnostic
+    private suspend fun refreshUIState(refreshTestResult: Boolean) {
+        var uiState = DeviceUIState.UNPAIRED
+
+        if (LocalData.numberOfSuccessfulSubmissions() == 1) {
+            uiState = DeviceUIState.SUBMITTED_FINAL
+        } else {
+            if (LocalData.registrationToken() != null) {
+                uiState = when {
+                    LocalData.isAllowedToSubmitDiagnosisKeys() == true -> {
+                        DeviceUIState.PAIRED_POSITIVE
+                    }
+                    refreshTestResult -> fetchTestResult()
+                    else -> {
+                        deriveUiState(testResult.value)
+                    }
+                }
+            }
+        }
+        deviceUIStateFlowInternal.value = uiState
     }
 }

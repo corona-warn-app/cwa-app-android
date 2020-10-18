@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.sample
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class TracingCardViewModel @Inject constructor(
     tracingRepository: TracingRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    // TODO Refactore these singletons away
+    // TODO Refactor these singletons away
     val state: LiveData<TracingCardState> = combine(
         tracingStatus.generalStatus.onEach { Timber.v("tracingStatus: $it") },
         RiskLevelRepository.riskLevelScore.onEach { Timber.v("riskLevelScore: $it") },
@@ -67,7 +68,9 @@ class TracingCardViewModel @Inject constructor(
         )
     }
         .onStart { Timber.v("TracingCardState FLOW start") }
-        .onEach { Timber.d("TracingCardState FLOW emission: %s", it) }
+        .onEach { Timber.d("TracingCardState FLOW PRE-SAMPLE emission: %s", it) }
         .onCompletion { Timber.v("TracingCardState FLOW completed.") }
+        .sample(150L)
+        .onEach { Timber.d("TracingCardState FLOW POST-SAMPLE emission: %s", it) }
         .asLiveData(dispatcherProvider.Default)
 }
