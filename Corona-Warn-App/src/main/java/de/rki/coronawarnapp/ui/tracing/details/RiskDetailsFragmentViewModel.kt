@@ -16,7 +16,8 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     val settingsViewModel: SettingsViewModel,
     private val tracingDetailsViewModel: TracingDetailsViewModel,
-    private val tracingCardViewModel: TracingCardViewModel
+    private val tracingCardViewModel: TracingCardViewModel,
+    private val tracingRepository: TracingRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(
@@ -35,15 +36,15 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshData() {
-        launch { TracingRepository.refreshRiskLevel() }
-        launch { TracingRepository.refreshExposureSummary() }
-        TracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
+        tracingRepository.refreshRiskLevel()
+        tracingRepository.refreshExposureSummary()
+        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
         TimerHelper.checkManualKeyRetrievalTimer()
-        launch { TracingRepository.refreshActiveTracingDaysInRetentionPeriod() }
+        tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
     }
 
     fun updateRiskDetails() {
-        launch { TracingRepository.refreshDiagnosisKeys() }
+        tracingRepository.refreshDiagnosisKeys()
         settingsViewModel.updateManualKeyRetrievalEnabled(false)
     }
 

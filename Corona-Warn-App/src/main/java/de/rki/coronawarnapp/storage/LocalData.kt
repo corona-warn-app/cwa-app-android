@@ -460,9 +460,12 @@ object LocalData {
 
     private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "preference_notifications_risk_enabled"
 
-    private val isNotificationsRiskEnabledFlowInternal =
+    private val isNotificationsRiskEnabledFlowInternal by lazy {
         MutableStateFlow(isNotificationsRiskEnabled)
-    val isNotificationsRiskEnabledFlow: Flow<Boolean> = isNotificationsRiskEnabledFlowInternal
+    }
+    val isNotificationsRiskEnabledFlow: Flow<Boolean> by lazy {
+        isNotificationsRiskEnabledFlowInternal
+    }
     var isNotificationsRiskEnabled: Boolean
         get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
         set(value) = getSharedPreferenceInstance().edit(true) {
@@ -471,9 +474,12 @@ object LocalData {
         }
 
     private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "preference_notifications_test_enabled"
-    private val isNotificationsTestEnabledFlowInternal =
+    private val isNotificationsTestEnabledFlowInternal by lazy {
         MutableStateFlow(isNotificationsTestEnabled)
-    val isNotificationsTestEnabledFlow: Flow<Boolean> = isNotificationsTestEnabledFlowInternal
+    }
+    val isNotificationsTestEnabledFlow: Flow<Boolean> by lazy {
+        isNotificationsTestEnabledFlowInternal
+    }
     var isNotificationsTestEnabled: Boolean
         get() = getSharedPreferenceInstance().getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)
         set(value) = getSharedPreferenceInstance().edit(true) {

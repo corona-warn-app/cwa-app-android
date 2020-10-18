@@ -19,10 +19,11 @@ import java.util.Date
 import javax.inject.Inject
 
 class TracingCardViewModel @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider,
-    private val tracingStatus: GeneralTracingStatus,
-    private val backgroundModeStatus: BackgroundModeStatus,
-    private val settingsRepository: SettingsRepository
+    dispatcherProvider: DispatcherProvider,
+    tracingStatus: GeneralTracingStatus,
+    backgroundModeStatus: BackgroundModeStatus,
+    settingsRepository: SettingsRepository,
+    tracingRepository: TracingRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     // TODO Refactore these singletons away
@@ -30,17 +31,16 @@ class TracingCardViewModel @Inject constructor(
         tracingStatus.generalStatus.onEach { Timber.v("tracingStatus: $it") },
         RiskLevelRepository.riskLevelScore.onEach { Timber.v("riskLevelScore: $it") },
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach { Timber.v("riskLevelScoreLastSuccessfulCalculated: $it") },
-        TracingRepository.isRefreshing.onEach { Timber.v("isRefreshing: $it") },
+        tracingRepository.isRefreshing.onEach { Timber.v("isRefreshing: $it") },
         ExposureSummaryRepository.matchedKeyCount.onEach { Timber.v("matchedKeyCount: $it") },
         ExposureSummaryRepository.daysSinceLastExposure.onEach { Timber.v("daysSinceLastExposure: $it") },
-        TracingRepository.activeTracingDaysInRetentionPeriod.onEach { Timber.v("activeTracingDaysInRetentionPeriod: $it") },
-        TracingRepository.lastTimeDiagnosisKeysFetched.onEach { Timber.v("lastTimeDiagnosisKeysFetched: $it") },
+        tracingRepository.activeTracingDaysInRetentionPeriod.onEach { Timber.v("activeTracingDaysInRetentionPeriod: $it") },
+        tracingRepository.lastTimeDiagnosisKeysFetched.onEach { Timber.v("lastTimeDiagnosisKeysFetched: $it") },
         backgroundModeStatus.isAutoModeEnabled.onEach { Timber.v("isAutoModeEnabled: $it") },
         settingsRepository.isManualKeyRetrievalEnabledFlow.onEach { Timber.v("isManualKeyRetrievalEnabledFlow: $it") },
         settingsRepository.manualKeyRetrievalTimeFlow.onEach { Timber.v("manualKeyRetrievalTimeFlow: $it") }
-
     ) { sources ->
-        val tracingStatus = sources[0] as GeneralTracingStatus.Status
+        val status = sources[0] as GeneralTracingStatus.Status
         val riskLevelScore = sources[1] as Int
         val riskLevelScoreLastSuccessfulCalculated = sources[2] as Int
         val isRefreshing = sources[3] as Boolean
@@ -53,7 +53,7 @@ class TracingCardViewModel @Inject constructor(
         val manualKeyRetrievalTime = sources[10] as Long
 
         TracingCardState(
-            tracingStatus = tracingStatus,
+            tracingStatus = status,
             riskLevelScore = riskLevelScore,
             isRefreshing = isRefreshing,
             riskLevelLastSuccessfulCalculation = riskLevelScoreLastSuccessfulCalculated,

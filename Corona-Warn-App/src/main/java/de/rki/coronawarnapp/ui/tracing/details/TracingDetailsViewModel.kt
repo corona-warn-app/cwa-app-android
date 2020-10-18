@@ -19,11 +19,12 @@ import java.util.Date
 import javax.inject.Inject
 
 class TracingDetailsViewModel @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     private val riskDetailPresenter: DefaultRiskDetailPresenter,
-    private val tracingStatus: GeneralTracingStatus,
-    private val backgroundModeStatus: BackgroundModeStatus,
-    private val settingsRepository: SettingsRepository
+    tracingStatus: GeneralTracingStatus,
+    backgroundModeStatus: BackgroundModeStatus,
+    settingsRepository: SettingsRepository,
+    tracingRepository: TracingRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     // TODO Refactore these singletons away
@@ -31,16 +32,16 @@ class TracingDetailsViewModel @Inject constructor(
         tracingStatus.generalStatus,
         RiskLevelRepository.riskLevelScore,
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
-        TracingRepository.isRefreshing,
+        tracingRepository.isRefreshing,
         ExposureSummaryRepository.matchedKeyCount,
         ExposureSummaryRepository.daysSinceLastExposure,
-        TracingRepository.activeTracingDaysInRetentionPeriod,
-        TracingRepository.lastTimeDiagnosisKeysFetched,
+        tracingRepository.activeTracingDaysInRetentionPeriod,
+        tracingRepository.lastTimeDiagnosisKeysFetched,
         backgroundModeStatus.isAutoModeEnabled,
         settingsRepository.isManualKeyRetrievalEnabledFlow,
         settingsRepository.manualKeyRetrievalTimeFlow
     ) { sources ->
-        val tracingStatus = sources[0] as GeneralTracingStatus.Status
+        val status = sources[0] as GeneralTracingStatus.Status
         val riskLevelScore = sources[1] as Int
         val riskLevelScoreLastSuccessfulCalculated = sources[2] as Int
         val isRefreshing = sources[3] as Boolean
@@ -60,7 +61,7 @@ class TracingDetailsViewModel @Inject constructor(
         )
 
         TracingDetailsState(
-            tracingStatus = tracingStatus,
+            tracingStatus = status,
             riskLevelScore = riskLevelScore,
             isRefreshing = isRefreshing,
             riskLevelLastSuccessfulCalculation = riskLevelScoreLastSuccessfulCalculated,

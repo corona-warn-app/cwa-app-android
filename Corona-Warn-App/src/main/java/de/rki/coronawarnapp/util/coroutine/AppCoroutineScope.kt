@@ -9,7 +9,6 @@ import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 @Singleton
-@AppScope
 class AppCoroutineScope @Inject constructor() : CoroutineScope {
     override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.Default
 }
