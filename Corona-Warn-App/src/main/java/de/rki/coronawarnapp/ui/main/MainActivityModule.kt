@@ -10,13 +10,15 @@ import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
 import de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragmentModule
+import de.rki.coronawarnapp.ui.submission.SubmissionFragmentModule
 
 @Module(
     includes = [
         OnboardingDeltaInteroperabilityModule::class,
         HomeFragmentModule::class,
         RiskDetailsFragmentModule::class,
-        SettingFragmentsModule::class
+        SettingFragmentsModule::class,
+        SubmissionFragmentModule::class
     ]
 )
 abstract class MainActivityModule {
@@ -29,7 +31,4 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [InteroperabilityConfigurationFragmentModule::class])
     abstract fun intertopConfigScreen(): InteroperabilityConfigurationFragment
-
-    @ContributesAndroidInjector(modules = [SubmissionQRCodeInfoModule::class])
-    abstract fun submissionQRCodeInfoScreen(): SubmissionQRCodeInfoFragment
 }

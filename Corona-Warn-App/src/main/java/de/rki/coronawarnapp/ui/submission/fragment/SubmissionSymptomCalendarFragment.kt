@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.fragment
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -9,18 +9,25 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomCalendarViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatCalendarBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatCalendarButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.isEnableSymptomCalendarButtonByState
+import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class SubmissionSymptomCalendarFragment : Fragment() {
+class SubmissionSymptomCalendarFragment : Fragment(), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionSymptomCalendarViewModel by cwaViewModels { viewModelFactory }
     private var _binding: FragmentSubmissionSymptomCalendarBinding? = null
     private val binding: FragmentSubmissionSymptomCalendarBinding get() = _binding!!
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
@@ -47,10 +54,10 @@ class SubmissionSymptomCalendarFragment : Fragment() {
 
         binding.symptomCalendarContainer.setDateSelectedListener(submissionViewModel::onDateSelected)
 
-        submissionViewModel.symptomCalendarEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.routeToScreen.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is SymptomCalendarEvent.NavigateToNext -> navigateToSymptomFinish()
-                is SymptomCalendarEvent.NavigateToPrevious -> navigateToPreviousScreen()
+                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> navigateToSymptomFinish()
+                is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> navigateToPreviousScreen()
             }
         })
 
@@ -117,23 +124,23 @@ class SubmissionSymptomCalendarFragment : Fragment() {
     }
 
     private fun navigateToSymptomFinish() {
-        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
+        doNavigate(SubmissionSymptomCalendarFragmentDirections
             .actionSubmissionSymptomCalendarFragmentToSubmissionResultPositiveOtherWarningFragment())
     }
 
     private fun navigateToPreviousScreen() {
-        findNavController().doNavigate(SubmissionSymptomCalendarFragmentDirections
+        doNavigate(SubmissionSymptomCalendarFragmentDirections
             .actionSubmissionCalendarFragmentToSubmissionSymptomIntroductionFragment())
     }
 
     private fun setButtonOnClickListener() {
         binding
             .submissionSymptomCalendarHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { submissionViewModel.onCalendarPreviousClicked() }
+            .setOnClickListener { viewModel.onCalendarPreviousClicked() }
 
         binding
             .symptomButtonNext
-            .setOnClickListener { submissionViewModel.onCalendarNextClicked() }
+            .setOnClickListener { viewModel.onCalendarNextClicked() }
 
         binding.symptomCalendarChoiceSelection
             .calendarButtonSevenDays

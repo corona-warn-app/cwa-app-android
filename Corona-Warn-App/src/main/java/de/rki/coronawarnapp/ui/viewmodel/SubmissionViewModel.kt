@@ -14,11 +14,8 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
-import de.rki.coronawarnapp.ui.submission.SymptomCalendarEvent
-import de.rki.coronawarnapp.ui.submission.SymptomIntroductionEvent
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -40,9 +37,6 @@ class SubmissionViewModel : CWAViewModel() {
         get() = AppInjector.component.interoperabilityRepository
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
-
-    val symptomIntroductionEvent: SingleLiveEvent<SymptomIntroductionEvent> = SingleLiveEvent()
-    val symptomCalendarEvent: SingleLiveEvent<SymptomCalendarEvent> = SingleLiveEvent()
 
     val registrationState: LiveData<Event<ApiRequestState>> = _registrationState
     val registrationError: LiveData<Event<CwaWebException>> = _registrationError
@@ -145,22 +139,6 @@ class SubmissionViewModel : CWAViewModel() {
         SubmissionService.deleteRegistrationToken()
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
-    }
-
-    fun onNextClicked() {
-        symptomIntroductionEvent.postValue(SymptomIntroductionEvent.NavigateToSymptomCalendar)
-    }
-
-    fun onPreviousClicked() {
-        symptomIntroductionEvent.postValue(SymptomIntroductionEvent.NavigateToPreviousScreen)
-    }
-
-    fun onCalendarNextClicked() {
-        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToNext)
-    }
-
-    fun onCalendarPreviousClicked() {
-        symptomCalendarEvent.postValue(SymptomCalendarEvent.NavigateToPrevious)
     }
 
     fun onPositiveSymptomIndication() {

@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeInfoBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -37,7 +37,7 @@ class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         viewModel.navigateToQRScan.observe2(this) {
-            findNavController().doNavigate(
+            doNavigate(
                     SubmissionQRCodeInfoFragmentDirections
                         .actionSubmissionQRCodeInfoFragmentToSubmissionQRCodeScanFragment())
         }
