@@ -57,71 +57,63 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_row_background_priority"
-                    android:layout_width="match_parent"
+                    style="@style/row"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_background_priority_header_details">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/row"
+                        android:id="@+id/settings_row_background_priority_header"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusable="true"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/settings_row_background_priority_header"
+                        <TextView
+                            android:id="@+id/settings_row_background_priority_header_subtitle"
+                            style="@style/subtitle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/spacing_normal"
+                            android:text="@string/settings_background_priority_title"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/settings_row_background_priority_header_body"
+                            style="@style/body2Medium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_mega_tiny"
+                            android:accessibilityLiveRegion="assertive"
+                            android:text="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isBackgroundPriorityEnabled())}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:id="@+id/settings_row_background_priority_header_subtitle"
-                                style="@style/subtitle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/settings_background_priority_title"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/settings_row_background_priority_header_body"
-                                style="@style/body2Medium"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/spacing_mega_tiny"
-                                android:accessibilityLiveRegion="assertive"
-                                android:text="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isBackgroundPriorityEnabled())}"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority_header_subtitle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                            app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority_header_subtitle" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <include
-                        layout="@layout/include_divider"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_divider"
-                        android:layout_marginStart="@dimen/guideline_start"
-                        android:layout_marginEnd="@dimen/guideline_end"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    layout="@layout/include_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_divider"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority" />
 
                 <include
                     android:id="@+id/settings_tracing_status_connection"

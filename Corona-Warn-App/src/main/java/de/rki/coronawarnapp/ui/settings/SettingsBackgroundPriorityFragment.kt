@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsBackgroundPriorityBinding
+import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
@@ -44,7 +45,7 @@ class SettingsBackgroundPriorityFragment :
         // enable background priority
         settingsRow.setOnClickListener {
             (requireActivity() as MainActivity).apply {
-                startActivity(powerManagement.toBatteryOptimizationSettingsIntent)
+                startActivitySafely(powerManagement.toBatteryOptimizationSettingsIntent)
             }
         }
 
