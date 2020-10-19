@@ -16,8 +16,9 @@ import io.mockk.coVerify
 import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,7 +28,6 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
-@ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
@@ -49,6 +49,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
         coEvery { keyCacheRepository.clear() } returns Unit
         every { enfClient.internalClient } returns exposureNotificationClient
+        every { tracingCardStateProvider.state } returns flowOf(mockk())
     }
 
     @AfterEach
