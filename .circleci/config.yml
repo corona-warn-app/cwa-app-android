@@ -302,11 +302,11 @@ workflows:
             - device_release_unit_tests
   signed_build:
     jobs:
-      - quick_build_device_for_testers_signed:
-          filters:
-            branches:
-              only:
-                - feature/circleci-apk-sign
+      - quick_build_device_for_testers_signed
+#           filters:
+#             branches:
+#               only:
+#                 - feature/circleci-apk-sign
 #          filters:
 #            tags:
 #              only:
