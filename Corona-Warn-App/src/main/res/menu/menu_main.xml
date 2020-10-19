@@ -17,5 +17,5 @@
     <!--replace later in new menu-->
     <item
         android:id="@+id/menu_crashreporter"
-        android:title="Error Reporter" />
+        android:title="Error Report" />
 </menu>

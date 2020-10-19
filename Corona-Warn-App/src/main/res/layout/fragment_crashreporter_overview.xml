@@ -1,33 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccentTintButton"
+
     tools:context=".ui.main.MainActivity">
-    <Button
-        android:id="@+id/buttonClearCrashReportList"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarErrorReport"
+        style="@style/Widget.AppCompat.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Clear List" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_bug"
+        app:subtitle="For testers and developers"
+        app:title="Error Report" />
+
+    <Button
+        android:id="@+id/buttonClearCrashReportList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="10dp"
+        android:text="Clear List"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonTestItemForCrashReport"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarErrorReport" />
+
+    <Button
+        android:id="@+id/buttonTestItemForCrashReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="1dp"
+        android:text="Test Item (+1)"
+        app:layout_constraintEnd_toStartOf="@+id/buttonClearCrashReportList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarErrorReport" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:paddingTop="6dp"
+        android:background="@color/colorCalendarLayoutFocusOn"
         app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClearCrashReportList"
         tools:context="SettingsCrashReporterFragment"
         tools:listitem="@layout/view_crashreport_list_item" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonCrashReportTest"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_risk_details_sneeze" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
