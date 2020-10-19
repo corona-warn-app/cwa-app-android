@@ -1,10 +1,8 @@
 package de.rki.coronawarnapp.ui.settings.notifications
 
-import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.ForegroundState
-import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -12,7 +10,6 @@ import javax.inject.Singleton
 
 @Singleton
 class NotificationSettings @Inject constructor(
-    @AppContext private val context: Context,
     foregroundState: ForegroundState,
     private val notificationManagerCompat: NotificationManagerCompat
 ) {

@@ -5,8 +5,10 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
+import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
 import de.rki.coronawarnapp.ui.main.home.SubmissionCardsStateProvider
 import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
@@ -18,6 +20,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -32,7 +35,7 @@ import testhelpers.extensions.observeForTesting
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class HomeFragmentViewModelTest : BaseTest() {
 
-    @MockK lateinit var tracing: GeneralTracingStatus
+    @MockK lateinit var generalTracingStatus: GeneralTracingStatus
     @MockK lateinit var context: Context
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var settingsViewModel: SettingsViewModel
@@ -44,6 +47,10 @@ class HomeFragmentViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
+        every { submissionCardsStateProvider.state } returns flow { emit(mockk<SubmissionCardState>()) }
+        every { tracingCardStateProvider.state } returns flow { emit(mockk<TracingCardState>()) }
     }
 
     @AfterEach
@@ -55,7 +62,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider,
         errorResetTool = errorResetTool,
         settingsViewModel = settingsViewModel,
-        tracingStatus = tracing,
+        tracingStatus = generalTracingStatus,
         tracingCardStateProvider = tracingCardStateProvider,
         submissionCardsStateProvider = submissionCardsStateProvider,
         tracingRepository = tracingRepository
@@ -63,7 +70,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `tracing header status is forwarded`() {
-        every { tracing.generalStatus } returns flowOf(Status.BLUETOOTH_DISABLED)
+        every { generalTracingStatus.generalStatus } returns flowOf(Status.BLUETOOTH_DISABLED)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -71,7 +78,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             }
         }
 
-        every { tracing.generalStatus } returns flowOf(Status.LOCATION_DISABLED)
+        every { generalTracingStatus.generalStatus } returns flowOf(Status.LOCATION_DISABLED)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -79,7 +86,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             }
         }
 
-        every { tracing.generalStatus } returns flowOf(Status.TRACING_INACTIVE)
+        every { generalTracingStatus.generalStatus } returns flowOf(Status.TRACING_INACTIVE)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -87,7 +94,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             }
         }
 
-        every { tracing.generalStatus } returns flowOf(Status.TRACING_ACTIVE)
+        every { generalTracingStatus.generalStatus } returns flowOf(Status.TRACING_ACTIVE)
 
         createInstance().apply {
             tracingHeaderState.observeForTesting {
@@ -107,6 +114,10 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `submission card state is forwarded`() {
-        TODO()
+        every { submissionCardsStateProvider.state } returns flowOf(mockk())
+        createInstance().apply {
+            this.submissionCardState.observeForTesting { }
+            verify { submissionCardsStateProvider.state }
+        }
     }
 }

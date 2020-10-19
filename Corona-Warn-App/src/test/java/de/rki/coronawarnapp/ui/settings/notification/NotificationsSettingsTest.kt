@@ -1,9 +1,23 @@
 package de.rki.coronawarnapp.ui.settings.notification
 
-import android.content.Context
+import androidx.core.app.NotificationManagerCompat
+import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
+import de.rki.coronawarnapp.util.ForegroundState
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockkObject
+import io.mockk.verify
+import io.mockk.verifySequence
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,11 +25,24 @@ import testhelpers.BaseTest
 
 class NotificationsSettingsTest : BaseTest() {
 
-    @MockK(relaxed = true) lateinit var context: Context
+    @MockK lateinit var foregroundState: ForegroundState
+    @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkObject(LocalData)
+
+        every { LocalData.isNotificationsRiskEnabledFlow } returns flow { emit(true) }
+        every { LocalData.isNotificationsRiskEnabled = any() } just Runs
+        every { LocalData.isNotificationsRiskEnabled } returns true
+
+        every { LocalData.isNotificationsTestEnabledFlow } returns flow { emit(true) }
+        every { LocalData.isNotificationsTestEnabled = any() } just Runs
+        every { LocalData.isNotificationsTestEnabled } returns true
+
+        every { notificationManagerCompat.areNotificationsEnabled() } returns true
+        coEvery { foregroundState.isInForeground } returns flow { emit(true) }
     }
 
     @AfterEach
@@ -23,18 +50,45 @@ class NotificationsSettingsTest : BaseTest() {
         clearAllMocks()
     }
 
+    private fun createInstance() = NotificationSettings(
+        foregroundState = foregroundState,
+        notificationManagerCompat = notificationManagerCompat
+    )
+
     @Test
-    fun `poll global notification status when foregroundstate changes`() {
-        TODO()
+    fun isNotificationsEnabled() = runBlockingTest {
+        createInstance().apply {
+            isNotificationsEnabled.first() shouldBe true
+            verifySequence {
+                foregroundState.isInForeground
+                notificationManagerCompat.areNotificationsEnabled()
+            }
+        }
     }
 
     @Test
-    fun `toggle risk notifications`() {
-        TODO()
+    fun isNotificationsRiskEnabled() = runBlockingTest {
+        createInstance().apply {
+            isNotificationsRiskEnabled.first() shouldBe true
+        }
     }
 
     @Test
-    fun `toggle test notifications`() {
-        TODO()
+    fun isNotificationsTestEnabled() = runBlockingTest {
+        createInstance().apply {
+            isNotificationsTestEnabled.first() shouldBe true
+        }
+    }
+
+    @Test
+    fun toggleNotificationsRiskEnabled() {
+        createInstance().toggleNotificationsRiskEnabled()
+        verify { LocalData.isNotificationsRiskEnabled = false }
+    }
+
+    @Test
+    fun toggleNotificationsTestEnabled() {
+        createInstance().toggleNotificationsTestEnabled()
+        verify { LocalData.isNotificationsTestEnabled = false }
     }
 }

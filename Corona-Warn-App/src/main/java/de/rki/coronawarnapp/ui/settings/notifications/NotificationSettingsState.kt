@@ -11,19 +11,19 @@ data class NotificationSettingsState(
 ) {
 
     /**
-     * Formats the settings notifications description text display depending on notifications status
+     * Formats the settings notifications title display depending on notifications status
      */
-    fun getNotificationsDescription(c: Context): String? = if (isNotificationsEnabled) {
-        c.getString(R.string.settings_notifications_body_active)
+    fun getNotificationsTitle(c: Context): String? = if (isNotificationsEnabled) {
+        c.getString(R.string.settings_notifications_headline_active)
     } else {
         null
     }
 
     /**
-     * Formats the settings notifications title display depending on notifications status
+     * Formats the settings notifications description text display depending on notifications status
      */
-    fun getNotificationsTitle(c: Context): String? = if (isNotificationsEnabled) {
-        c.getString(R.string.settings_notifications_headline_active)
+    fun getNotificationsDescription(c: Context): String? = if (isNotificationsEnabled) {
+        c.getString(R.string.settings_notifications_body_active)
     } else {
         null
     }

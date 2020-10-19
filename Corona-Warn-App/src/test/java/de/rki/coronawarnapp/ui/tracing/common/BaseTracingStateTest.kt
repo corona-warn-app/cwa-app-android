@@ -1,11 +1,16 @@
 package de.rki.coronawarnapp.ui.tracing.common
 
 import android.content.Context
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,6 +20,16 @@ import java.util.Date
 class BaseTracingStateTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
+
+    val constants = listOf(
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL,
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
+        RiskLevelConstants.LOW_LEVEL_RISK,
+        RiskLevelConstants.INCREASED_RISK,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL,
+        RiskLevelConstants.UNDETERMINED
+    )
 
     @BeforeEach
     fun setup() {
@@ -56,127 +71,119 @@ class BaseTracingStateTest : BaseTest() {
 
     @Test
     fun `risk card shape`() {
-        TODO("getRiskShape")
-//    private fun formatRiskShapeBase(bShowDetails: Boolean) {
-//        every { context.getDrawable(any()) } returns drawable
-//
-//        val result = formatRiskShape(showDetails = bShowDetails)
-//        assertThat(
-//            result, `is`(drawable)
-//        )
-//    }
-//
-//    @Test
-//    fun formatRiskShape() {
-//        formatRiskShapeBase(bShowDetails = true)
-//        formatRiskShapeBase(bShowDetails = false)
-//    }
+        createInstance(showDetails = true).apply {
+            getRiskShape(context)
+            verify { context.getDrawable(R.drawable.rectangle) }
+        }
+        createInstance(showDetails = false).apply {
+            getRiskShape(context)
+            verify { context.getDrawable(R.drawable.rectangle) }
+        }
     }
 
     @Test
     fun `risk color`() {
-        TODO("getRiskColor")
-//        private fun formatRiskColorBase(iRiskLevelScore: Int?, iValue: Int) {
-//        every { context.getColor(R.color.colorSemanticNeutralRisk) } returns R.color.colorSemanticNeutralRisk
-//        every { context.getColor(R.color.colorSemanticHighRisk) } returns R.color.colorSemanticHighRisk
-//        every { context.getColor(R.color.colorSemanticUnknownRisk) } returns R.color.colorSemanticUnknownRisk
-//        every { context.getColor(R.color.colorSemanticLowRisk) } returns R.color.colorSemanticLowRisk
-//
-//        val result = formatRiskColor(riskLevelScore = iRiskLevelScore)
-//        assertThat(
-//            result, `is`(iValue)
-//        )
-//    }
-//    @Test
-//    fun formatRiskColor() {
-//        formatRiskColorBase(iRiskLevelScore = null, iValue = R.color.colorSemanticNeutralRisk)
-//        formatRiskColorBase(
-//            iRiskLevelScore = RiskLevelConstants.INCREASED_RISK,
-//            iValue = R.color.colorSemanticHighRisk
-//        )
-//        formatRiskColorBase(
-//            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
-//            iValue = R.color.colorSemanticUnknownRisk
-//        )
-//        formatRiskColorBase(
-//            iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
-//            iValue = R.color.colorSemanticUnknownRisk
-//        )
-//        formatRiskColorBase(
-//            iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
-//            iValue = R.color.colorSemanticLowRisk
-//        )
-//        formatRiskColorBase(
-//            iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
-//            iValue = R.color.colorSemanticNeutralRisk
-//        )
-//    }
+        createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
+            getRiskColor(context)
+            verify { context.getColor(R.color.colorSemanticHighRisk) }
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
+            getRiskColor(context)
+            verify { context.getColor(R.color.colorSemanticUnknownRisk) }
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
+            getRiskColor(context)
+            verify { context.getColor(R.color.colorSemanticUnknownRisk) }
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
+            getRiskColor(context)
+            verify { context.getColor(R.color.colorSemanticLowRisk) }
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
+            getRiskColor(context)
+            verify { context.getColor(R.color.colorSemanticNeutralRisk) }
+        }
     }
 
     @Test
     fun `risk tracing off level`() {
-        TODO("isTracingOffRiskLevel")
+        createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
+            isTracingOffRiskLevel() shouldBe true
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
+            isTracingOffRiskLevel() shouldBe true
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
+            isTracingOffRiskLevel() shouldBe false
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
+            isTracingOffRiskLevel() shouldBe false
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
+            isTracingOffRiskLevel() shouldBe false
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
+            isTracingOffRiskLevel() shouldBe false
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
+            isTracingOffRiskLevel() shouldBe false
+        }
     }
 
     @Test
     fun `text color`() {
-        TODO("getStableTextColor")
-//            private fun formatStableTextColorBase(iRiskLevelScore: Int?) {
-//        every { context.getColor(any()) } returns R.color.colorStableLight
-//
-//        val result = formatStableTextColor(riskLevelScore = iRiskLevelScore)
-//        assertThat(
-//            result, `is`(R.color.colorStableLight)
-//        )
-//    }
-//
-//    @Test
-//    fun formatStableTextColor() {
-//        formatStableTextColorBase(iRiskLevelScore = null)
-//        formatStableTextColorBase(iRiskLevelScore = RiskLevelConstants.INCREASED_RISK)
-//        formatStableTextColorBase(iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS)
-//        formatStableTextColorBase(iRiskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF)
-//        formatStableTextColorBase(iRiskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK)
-//        formatStableTextColorBase(iRiskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL)
-//    }
+        createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
+            getStableTextColor(context)
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
+            getStableTextColor(context)
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
+            getStableTextColor(context)
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
+            getStableTextColor(context)
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
+            getStableTextColor(context)
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
+            getStableTextColor(context)
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
+            getStableTextColor(context)
+        }
+
+        verifySequence {
+            context.getColor(R.color.colorTextPrimary1)
+            context.getColor(R.color.colorTextPrimary1)
+            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorStableLight)
+            context.getColor(R.color.colorStableLight)
+        }
     }
 
     @Test
     fun `update button text`() {
-        TODO("getUpdateButtonText")
-//           private fun formatButtonUpdateTextBase(lTime: Long, sValue: String) {
-//        val result = formatButtonUpdateText(time = lTime)
-//        assertThat(
-//            result, `is`(sValue)
-//        )
-//    }
-//    @Test
-//    fun formatButtonUpdateText() {
-//        formatButtonUpdateTextBase(
-//            lTime = 0,
-//            sValue = context.getString(R.string.risk_card_button_update)
-//        )
-//        formatButtonUpdateTextBase(
-//            lTime = 604800,
-//            sValue = context.getString(R.string.risk_card_button_cooldown)
-//        )
-//    }
+        createInstance(manualKeyRetrievalTime = 0).apply {
+            getUpdateButtonText(context)
+            verify { context.getString(R.string.risk_card_button_update) }
+        }
+        createInstance(manualKeyRetrievalTime = 1).apply {
+            getUpdateButtonText(context)
+            verify { context.getString(R.string.risk_card_button_cooldown) }
+        }
     }
 
     @Test
     fun `update button enabled state`() {
-        TODO("isUpdateButtonEnabled")
-//            private fun formatButtonUpdateEnabledBase(bEnabled: Boolean?, bValue: Boolean) {
-//        val result = formatButtonUpdateEnabled(enabled = bEnabled)
-//        assertThat(
-//            result, `is`(bValue)
-//        )
-//    }
-//
-//    @Test
-//    fun formatButtonUpdateEnabled() {
-//        formatButtonUpdateEnabledBase(bEnabled = true, bValue = true)
-//        formatButtonUpdateEnabledBase(bEnabled = false, bValue = false)
-//    }
+        createInstance(isManualKeyRetrievalEnabled = true).apply {
+            isUpdateButtonEnabled(context) shouldBe true
+        }
+        createInstance(isManualKeyRetrievalEnabled = false).apply {
+            isUpdateButtonEnabled(context) shouldBe false
+        }
     }
 }

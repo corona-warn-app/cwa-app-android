@@ -1,9 +1,14 @@
 package de.rki.coronawarnapp.main.home
 
 import android.content.Context
+import de.rki.coronawarnapp.ui.main.home.SubmissionCardState
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.util.DeviceUIState
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,103 +28,80 @@ class SubmissionCardStateTest : BaseTest() {
         clearAllMocks()
     }
 
+    private fun instance(
+        deviceUiState: DeviceUIState = mockk(),
+        isDeviceRegistered: Boolean = true,
+        uiStateState: ApiRequestState = mockk()
+    ) = SubmissionCardState(
+        deviceUiState = deviceUiState,
+        isDeviceRegistered = isDeviceRegistered,
+        uiStateState = uiStateState
+    )
+
     @Test
     fun `risk card visibility`() {
-        TODO("isRiskCardVisible")
-//         private fun formatShowRiskStatusCardBase(oDeviceUIState: DeviceUIState?, iResult: Int) {
-//        val result = formatShowRiskStatusCard(deviceUiState = oDeviceUIState)
-//        assertThat(result, `is`(iResult))
-//    }
-//    @Test
-//    fun formatShowRiskStatusCard() {
-//        formatShowRiskStatusCardBase(oDeviceUIState = null, iResult = View.VISIBLE)
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.PAIRED_NEGATIVE,
-//            iResult = View.VISIBLE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.PAIRED_ERROR,
-//            iResult = View.VISIBLE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.PAIRED_NO_RESULT,
-//            iResult = View.VISIBLE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.PAIRED_POSITIVE,
-//            iResult = View.GONE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-//            iResult = View.GONE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.SUBMITTED_FINAL,
-//            iResult = View.GONE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.SUBMITTED_INITIAL,
-//            iResult = View.VISIBLE
-//        )
-//        formatShowRiskStatusCardBase(
-//            oDeviceUIState = DeviceUIState.UNPAIRED,
-//            iResult = View.VISIBLE
-//        )
-//    }
+        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
+            isRiskCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_ERROR).apply {
+            isRiskCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_NO_RESULT).apply {
+            isRiskCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
+            isRiskCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
+            isRiskCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.SUBMITTED_FINAL).apply {
+            isRiskCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.SUBMITTED_INITIAL).apply {
+            isRiskCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.UNPAIRED).apply {
+            isRiskCardVisible() shouldBe true
+        }
     }
 
     @Test
     fun `unregistered card visibility`() {
-        TODO("isUnregisteredCardVisible")
+        instance(isDeviceRegistered = true).apply {
+            isUnregisteredCardVisible() shouldBe false
+        }
+        instance(isDeviceRegistered = false).apply {
+            isUnregisteredCardVisible() shouldBe true
+        }
     }
 
     @Test
     fun `content card visibility`() {
-        TODO("isContentCardVisible")
-//          private fun formatSubmissionStatusCardContentVisibleBase(
-//        oDeviceUiState: DeviceUIState?,
-//        iResult: Int
-//    ) {
-//        val result =
-//            formatSubmissionStatusCardContentVisible(deviceUiState = oDeviceUiState)
-//        assertThat(result, `is`(iResult))
-//    }
-//    @Test
-//    fun formatSubmissionStatusCardContentVisible() {
-//        formatSubmissionStatusCardContentVisibleBase(oDeviceUiState = null, iResult = View.GONE)
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.PAIRED_NEGATIVE,
-//            iResult = View.VISIBLE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.PAIRED_ERROR,
-//            iResult = View.VISIBLE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.PAIRED_NO_RESULT,
-//            iResult = View.VISIBLE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.PAIRED_POSITIVE,
-//            iResult = View.GONE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
-//            iResult = View.GONE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.SUBMITTED_FINAL,
-//            iResult = View.GONE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.SUBMITTED_INITIAL,
-//            iResult = View.GONE
-//        )
-//        formatSubmissionStatusCardContentVisibleBase(
-//            oDeviceUiState = DeviceUIState.UNPAIRED,
-//            iResult = View.GONE
-//        )
-//    }
+        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
+            isContentCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_ERROR).apply {
+            isContentCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_NO_RESULT).apply {
+            isContentCardVisible() shouldBe true
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
+            isContentCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
+            isContentCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.SUBMITTED_FINAL).apply {
+            isContentCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.SUBMITTED_INITIAL).apply {
+            isContentCardVisible() shouldBe false
+        }
+        instance(deviceUiState = DeviceUIState.UNPAIRED).apply {
+            isContentCardVisible() shouldBe false
+        }
     }
 
     @Test
