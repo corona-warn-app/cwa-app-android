@@ -82,8 +82,8 @@ object SubmissionRepository {
         LocalData.teletan(teletan)
     }
 
-    private val _uiStateError = MutableLiveData<Event<CwaWebException>>(null)
-    val uiStateError: LiveData<Event<CwaWebException>> = _uiStateError
+    private val uiStateErrorInternal = MutableLiveData<Event<CwaWebException>>(null)
+    val uiStateError: LiveData<Event<CwaWebException>> = uiStateErrorInternal
 
     // TODO this should be more UI agnostic
     fun refreshDeviceUIState(refreshTestResult: Boolean = true) {
@@ -102,7 +102,7 @@ object SubmissionRepository {
                 refreshUIState(refresh)
                 uiStateStateFlowInternal.value = ApiRequestState.SUCCESS
             } catch (err: CwaWebException) {
-                _uiStateError.postValue(Event(err))
+                uiStateErrorInternal.postValue(Event(err))
                 uiStateStateFlowInternal.value = ApiRequestState.FAILED
             } catch (err: Exception) {
                 err.report(ExceptionCategory.INTERNAL)

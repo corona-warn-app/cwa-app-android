@@ -137,7 +137,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing),
             try {
                 if (InternalExposureNotificationClient.asyncIsEnabled()) {
                     InternalExposureNotificationClient.asyncStop()
-//                    tracingViewModel.refreshIsTracingEnabled()
                     BackgroundWorkScheduler.stopWorkScheduler()
                 } else {
                     // tracing was already activated

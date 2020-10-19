@@ -30,6 +30,8 @@ class SettingsRepository @Inject constructor(
 
     private val internalIsBackgroundPriorityEnabled = MutableStateFlow(false)
     val isBackgroundPriorityEnabledFlow: Flow<Boolean> = internalIsBackgroundPriorityEnabled
+
+    @Deprecated("Please use isBackgroundPriorityEnabledFlow")
     val isBackgroundPriorityEnabled = internalIsBackgroundPriorityEnabled.asLiveData()
 
     /**
@@ -52,6 +54,8 @@ class SettingsRepository @Inject constructor(
 
     private val internalIsManualKeyRetrievalEnabled = MutableStateFlow(true)
     val isManualKeyRetrievalEnabledFlow: Flow<Boolean> = internalIsManualKeyRetrievalEnabled
+
+    @Deprecated("Please use isManualKeyRetrievalEnabledFlow")
     val isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabledFlow.asLiveData()
 
     /**
@@ -63,6 +67,8 @@ class SettingsRepository @Inject constructor(
 
     private val internalManualKeyRetrievalTime = MutableStateFlow(0L)
     val manualKeyRetrievalTimeFlow: Flow<Long> = internalManualKeyRetrievalTime
+
+    @Deprecated("Please use manualKeyRetrievalTimeFlow")
     val manualKeyRetrievalTime = manualKeyRetrievalTimeFlow.asLiveData()
 
     /**
