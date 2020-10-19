@@ -17,7 +17,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.9.1"
 
         // NOTE: Do not place your application dependencies here; they belong
