@@ -16,6 +16,6 @@ fun formatCrashReportId(textView: TextView, id: Long) {
 
 @BindingAdapter("crashReportDate")
 fun formatCrashReportDate(textView: TextView, date: Date) {
-    val sdf = SimpleDateFormat("HH:mm, E, dd.MM.yyyy", Locale.getDefault())
+    val sdf = SimpleDateFormat("E dd.MM.yyyy, HH:mm:ss", Locale.getDefault())
     textView.text = sdf.format(date)
 }
