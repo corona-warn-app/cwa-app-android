@@ -11,6 +11,8 @@ import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.isActive
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +25,7 @@ class BackgroundModeStatus @Inject constructor(
 
     val isBackgroundRestricted: Flow<Boolean> = callbackFlow<Boolean> {
         var isRunning = true
-        while (isRunning) {
+        while (isRunning && isActive) {
             try {
                 sendBlocking(pollIsBackgroundRestricted())
             } catch (e: Exception) {
@@ -34,14 +36,15 @@ class BackgroundModeStatus @Inject constructor(
         }
         awaitClose { isRunning = false }
     }
+        .distinctUntilChanged()
         .shareLatest(
             tag = "isBackgroundRestricted",
             scope = appScope
         )
 
-    val isAutoModeEnabled: Flow<Boolean> = callbackFlow {
+    val isAutoModeEnabled: Flow<Boolean> = callbackFlow<Boolean> {
         var isRunning = true
-        while (isRunning) {
+        while (isRunning && isActive) {
             try {
                 sendBlocking(pollIsAutoMode())
             } catch (e: Exception) {
@@ -52,6 +55,7 @@ class BackgroundModeStatus @Inject constructor(
         }
         awaitClose { isRunning = false }
     }
+        .distinctUntilChanged()
         .shareLatest(
             tag = "autoModeEnabled",
             scope = appScope

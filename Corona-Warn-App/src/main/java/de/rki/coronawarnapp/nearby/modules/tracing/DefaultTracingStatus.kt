@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.isActive
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,7 +28,7 @@ class DefaultTracingStatus @Inject constructor(
 
     override val isTracingEnabled: Flow<Boolean> = callbackFlow<Boolean> {
         var isRunning = true
-        while (isRunning) {
+        while (isRunning && isActive) {
             try {
                 sendBlocking(pollIsEnabled())
             } catch (e: Exception) {
