@@ -83,12 +83,27 @@ android {
         Properties signingProps = new Properties()
         signingProps.load(new FileInputStream(signingPropFile))
         signingConfigs {
-            release {
-                storeFile file(signingProps['release.storePath'])
-                keyAlias signingProps['release.keyAlias']
-                storePassword signingProps['release.storePassword']
-                keyPassword signingProps['release.keyPassword']
+            deviceRelease {
+                if(signingProps['deviceRelease.storePath'] != null) {
+                    storeFile file(signingProps['deviceRelease.storePath'])
+                    keyAlias signingProps['deviceRelease.keyAlias']
+                    storePassword signingProps['deviceRelease.storePassword']
+                    keyPassword signingProps['deviceRelease.keyPassword']
+                }
             }
+            deviceForTestersRelease {
+                if(signingProps['deviceForTestersRelease.storePath'] != null) {
+                    storeFile file(signingProps['deviceForTestersRelease.storePath'])
+                    keyAlias signingProps['deviceForTestersRelease.keyAlias']
+                    storePassword signingProps['deviceForTestersRelease.storePassword']
+                    keyPassword signingProps['deviceForTestersRelease.keyPassword']
+                }
+            }
+        }
+    } else {
+        signingConfigs {
+            deviceRelease {}
+            deviceForTestersRelease {}
         }
     }
 
@@ -99,10 +114,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            if (signingPropFile.canRead()) {
-                signingConfig signingConfigs.release
-            }
         }
     }
 
@@ -117,32 +128,21 @@ android {
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
             }
+
+            signingConfig signingConfigs.deviceRelease
         }
         deviceForTesters {
             // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
-            resValue "bool", "extract_native_libs", "false"
+            resValue "bool", "extract_native_libs", "true"
             applicationIdSuffix '.test'
 
             ext {
                 envTypeDefault = [debug: "INT", release: "WRU-XD"]
             }
 
-            if (project.hasProperty("keystore_filename")) {
-                def keystore = project.rootProject.file("$keystore_filename")
-                if (keystore.exists()) {
-                    signingConfigs {
-                        forTesters {
-                            storeFile keystore
-                            storePassword "$keystore_password"
-                            keyAlias "$key_alias"
-                            keyPassword "$key_password"
-                        }
-                    }
-                    signingConfig signingConfigs.forTesters
-                }
-            }
+            signingConfig signingConfigs.deviceForTestersRelease
         }
     }
     applicationVariants.all { variant ->
