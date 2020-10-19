@@ -15,6 +15,7 @@ import testhelpers.BaseIOTest
 import testhelpers.preferences.MockSharedPreferences
 import java.io.File
 import java.security.GeneralSecurityException
+import java.security.KeyException
 import java.security.KeyStoreException
 
 class EncryptionResetToolTest : BaseIOTest() {
@@ -157,6 +158,33 @@ class EncryptionResetToolTest : BaseIOTest() {
 
         createInstance().tryResetIfNecessary(
             CwaSecurityException(RuntimeException(GeneralSecurityException("decryption failed")))
+        ) shouldBe true
+
+        encryptedPrefsFile.exists() shouldBe false
+        encryptedDatabaseFile.exists() shouldBe false
+
+        mockPreferences.dataMapPeek.apply {
+            this["ea1851.reset.performedAt"] shouldNotBe null
+            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.shownotice"] shouldBe true
+        }
+    }
+
+    @Test
+    fun `nested exception may have the same base exception type, GeneralSecurityException`() {
+        // https://github.com/corona-warn-app/cwa-app-android/issues/642#issuecomment-712188157
+        createMockFiles()
+
+        createInstance().tryResetIfNecessary(
+            CwaSecurityException(
+                KeyException( // subclass of GeneralSecurityException
+                    "Permantly failed to instantiate encrypted preferences",
+                    SecurityException(
+                        "Could not decrypt key. decryption failed",
+                        GeneralSecurityException("decryption failed")
+                    )
+                )
+            )
         ) shouldBe true
 
         encryptedPrefsFile.exists() shouldBe false
