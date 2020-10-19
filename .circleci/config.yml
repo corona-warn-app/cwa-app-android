@@ -238,46 +238,46 @@ jobs:
     resource_class: large
     working_directory: ~/project
     steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-#      - install-ndk:
-#          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
-#          ndk-version: "android-ndk-r21c"
-      - run:
-          name: Download Keystore
-          command: |
-            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$test_keystore_download_filename"
-      - run:
-          name: Download Environment Properties
-          command: |
-            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
-#      - run:
-#          name: Decrypt Keystore
-#          command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
-      - run:
-          name: Prepare keystore properties for Signing
-          command: |
-            echo "" >> "./keystore.properties"
-            echo "deviceForTestersRelease.storePath=../$test_keystore_download_filename" >> "./keystore.properties"
-            echo "deviceForTestersRelease.storePassword=$test_keystore_password" >> "./keystore.properties"
-            echo "deviceForTestersRelease.keyAlias=$test_key_alias" >> "./keystore.properties"
-            echo "deviceForTestersRelease.keyPassword=$test_key_password" >> "./keystore.properties"
+#       - checkout
+#       - restore-gradle-cache
+#       - restore-android-build-cache
+# #      - install-ndk:
+# #          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
+# #          ndk-version: "android-ndk-r21c"
+#       - run:
+#           name: Download Keystore
+#           command: |
+#             curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$test_keystore_download_filename"
+#       - run:
+#           name: Download Environment Properties
+#           command: |
+#             curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
+# #      - run:
+# #          name: Decrypt Keystore
+# #          command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
+#       - run:
+#           name: Prepare keystore properties for Signing
+#           command: |
+#             echo "" >> "./keystore.properties"
+#             echo "deviceForTestersRelease.storePath=../$test_keystore_download_filename" >> "./keystore.properties"
+#             echo "deviceForTestersRelease.storePassword=$test_keystore_password" >> "./keystore.properties"
+#             echo "deviceForTestersRelease.keyAlias=$test_key_alias" >> "./keystore.properties"
+#             echo "deviceForTestersRelease.keyPassword=$test_key_password" >> "./keystore.properties"
       - run:
           name: Hacker
           command: |
             echo $test_key_alias | sed -e 's/\(.\)/\1 /g'
-      - run-gradle-cmd:
-          desc: Quick Build
-          cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
-      - save-gradle-cache
-      - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/outputs/apk
-          destination: apk
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
+#       - run-gradle-cmd:
+#           desc: Quick Build
+#           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
+#       - save-gradle-cache
+#       - save-android-build-cache
+#       - store_artifacts:
+#           path: Corona-Warn-App/build/outputs/apk
+#           destination: apk
+#       - store_artifacts:
+#           path: Corona-Warn-App/build/reports
+#           destination: reports
 #      - run:
 #          name: Send to T-System
 #          command: |
