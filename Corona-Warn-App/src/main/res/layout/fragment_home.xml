@@ -132,7 +132,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                gone="@{submissionCard == null || !submissionCard.isRiskCardVisible()}"
+                gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider"
