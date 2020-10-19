@@ -277,8 +277,8 @@ jobs:
       - run:
           name: Send to T-System
           command: |
-            curl --location --request POST 'https://mobiledevicecloud.t-systems-mms.eu/api/v1/applications/new' \
-            --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ4cC51IjoxNTk0NzU1LCJ4cC5wIjoxNzAzODI1LCJ4cC5tIjoxNTk0Mzc1ODA3MDkwLCJleHAiOjE5MTM4OTUyMTgsImlzcyI6ImNvbS5leHBlcml0ZXN0In0.rIkbIfgz-vLd6IQ4onlpS-UTXj7zRqW73ZeouH5d36A' \
+            curl --location --request POST '$tsystems_upload_url' \
+            --header 'Authorization: Bearer $tsystems_upload_bearer' \
             --form 'file=@Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
 workflows:
   version: 2
@@ -300,8 +300,12 @@ workflows:
     jobs:
       - quick_build_device_for_testers_signed:
           filters:
-            tags:
-              only:
-                - /SNAPSHOT/
             branches:
-              ignore: /.*/
+              only:
+                - feature/circleci-apk-sign
+#          filters:
+#            tags:
+#              only:
+#                - /SNAPSHOT/
+#            branches:
+#              ignore: /.*/
