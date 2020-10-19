@@ -37,8 +37,6 @@ class TracingRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope
 ) {
 
-    private val TAG: String? = TracingRepository::class.simpleName
-
     private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
     val lastTimeDiagnosisKeysFetched: Flow<Date?> = internalLastTimeDiagnosisKeysFetched
 
@@ -193,5 +191,9 @@ class TracingRepository @Inject constructor(
 
     fun refreshLastSuccessfullyCalculatedScore() {
         RiskLevelRepository.refreshLastSuccessfullyCalculatedScore()
+    }
+
+    companion object {
+        private val TAG: String? = TracingRepository::class.simpleName
     }
 }

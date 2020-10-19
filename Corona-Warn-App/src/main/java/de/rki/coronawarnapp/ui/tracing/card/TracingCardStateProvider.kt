@@ -28,11 +28,15 @@ class TracingCardStateProvider @Inject constructor(
     val state: Flow<TracingCardState> = combine(
         tracingStatus.generalStatus.onEach { Timber.v("tracingStatus: $it") },
         RiskLevelRepository.riskLevelScore.onEach { Timber.v("riskLevelScore: $it") },
-        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach { Timber.v("riskLevelScoreLastSuccessfulCalculated: $it") },
+        RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach {
+            Timber.v("riskLevelScoreLastSuccessfulCalculated: $it")
+        },
         tracingRepository.isRefreshing.onEach { Timber.v("isRefreshing: $it") },
         ExposureSummaryRepository.matchedKeyCount.onEach { Timber.v("matchedKeyCount: $it") },
         ExposureSummaryRepository.daysSinceLastExposure.onEach { Timber.v("daysSinceLastExposure: $it") },
-        tracingRepository.activeTracingDaysInRetentionPeriod.onEach { Timber.v("activeTracingDaysInRetentionPeriod: $it") },
+        tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
+            Timber.v("activeTracingDaysInRetentionPeriod: $it")
+        },
         tracingRepository.lastTimeDiagnosisKeysFetched.onEach { Timber.v("lastTimeDiagnosisKeysFetched: $it") },
         backgroundModeStatus.isAutoModeEnabled.onEach { Timber.v("isAutoModeEnabled: $it") },
         settingsRepository.isManualKeyRetrievalEnabledFlow.onEach { Timber.v("isManualKeyRetrievalEnabledFlow: $it") },

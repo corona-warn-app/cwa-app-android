@@ -36,7 +36,7 @@ class DefaultTracingStatus @Inject constructor(
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
                 cancel("ENF isEnabled failed", e)
             }
-            delay(1000L)
+            delay(POLLING_DELAY_MS)
         }
         awaitClose { isRunning = false }
     }
@@ -53,5 +53,6 @@ class DefaultTracingStatus @Inject constructor(
 
     companion object {
         private const val TAG = "DefaultTracingStatus"
+        private const val POLLING_DELAY_MS = 1000L
     }
 }

@@ -25,10 +25,12 @@ class RiskDetailsFragmentViewModel @AssistedInject constructor(
     childViewModels = listOf(settingsViewModel)
 ) {
 
+    @Suppress("MagicNumber")
     val tracingDetailsState: LiveData<TracingDetailsState> = tracingDetailsStateProvider.state
         .sample(150L)
         .asLiveData(dispatcherProvider.Default)
 
+    @Suppress("MagicNumber")
     val tracingCardState: LiveData<TracingCardState> = tracingCardStateProvider.state
         .map { it.copy(showDetails = true) }
         .sample(150L)

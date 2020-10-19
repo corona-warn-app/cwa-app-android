@@ -30,7 +30,7 @@ class BackgroundModeStatus @Inject constructor(
                 Timber.w(e, "isBackgroundRestricted failed.")
                 cancel("isBackgroundRestricted failed", e)
             }
-            delay(1000L)
+            delay(POLLING_DELAY_MS)
         }
         awaitClose { isRunning = false }
     }
@@ -48,7 +48,7 @@ class BackgroundModeStatus @Inject constructor(
                 Timber.w(e, "autoModeEnabled failed.")
                 cancel("autoModeEnabled failed", e)
             }
-            delay(1000L)
+            delay(POLLING_DELAY_MS)
         }
         awaitClose { isRunning = false }
     }
@@ -63,5 +63,9 @@ class BackgroundModeStatus @Inject constructor(
 
     private fun pollIsAutoMode(): Boolean {
         return ConnectivityHelper.autoModeEnabled(context)
+    }
+
+    companion object {
+        private const val POLLING_DELAY_MS = 1000L
     }
 }
