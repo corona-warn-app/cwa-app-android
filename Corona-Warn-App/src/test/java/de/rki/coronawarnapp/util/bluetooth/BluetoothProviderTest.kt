@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.test
 
-class CWABluetoothTest : BaseTest() {
+class BluetoothProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var bluetoothAdapter: BluetoothAdapter

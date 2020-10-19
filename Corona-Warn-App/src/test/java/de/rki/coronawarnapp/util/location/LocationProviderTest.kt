@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.test
 
-class CWALocationTest : BaseTest() {
+class LocationProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var locationManager: LocationManager

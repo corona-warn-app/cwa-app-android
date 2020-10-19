@@ -20,12 +20,12 @@ sealed class TracingSettingsState {
     /**
      * Formats the tracing switch enabled status based on the tracing status
      */
-    abstract fun isTracingSwitchEnabled(c: Context): Boolean
+    abstract fun isTracingSwitchEnabled(): Boolean
 
     /**
      * Formats the tracing switch status based on the tracing status
      */
-    abstract fun isTracingSwitchChecked(c: Context): Boolean
+    abstract fun isTracingSwitchChecked(): Boolean
 
     /**
      * Change the tracing text in the row based on the tracing status.
@@ -35,17 +35,17 @@ sealed class TracingSettingsState {
     /**
      * Change the visibility of the location card based on the tracing status.
      */
-    abstract fun isLocationCardVisible(c: Context): Boolean
+    abstract fun isLocationCardVisible(): Boolean
 
     /**
      * Change the visibility of the bluetooth card based on the tracing status.
      */
-    abstract fun isBluetoothCardVisible(c: Context): Boolean
+    abstract fun isBluetoothCardVisible(): Boolean
 
     /**
      * Change the visibility of the tracing text based on the tracing status.
      */
-    abstract fun isTracingStatusTextVisible(c: Context): Boolean
+    abstract fun isTracingStatusTextVisible(): Boolean
 
     object BluetoothDisabled : TracingSettingsState() {
         override fun getTracingStatusImage(c: Context): Drawable? =
@@ -54,18 +54,18 @@ sealed class TracingSettingsState {
         override fun getTracingIllustrationText(c: Context): String =
             c.getString(R.string.settings_tracing_bluetooth_illustration_description_inactive)
 
-        override fun isTracingSwitchEnabled(c: Context): Boolean = false
+        override fun isTracingSwitchEnabled(): Boolean = false
 
-        override fun isTracingSwitchChecked(c: Context): Boolean = false
+        override fun isTracingSwitchChecked(): Boolean = false
 
         override fun getTracingStatusText(c: Context): String =
             c.getString(R.string.settings_tracing_status_restricted)
 
-        override fun isLocationCardVisible(c: Context): Boolean = false
+        override fun isLocationCardVisible(): Boolean = false
 
-        override fun isBluetoothCardVisible(c: Context): Boolean = true
+        override fun isBluetoothCardVisible(): Boolean = true
 
-        override fun isTracingStatusTextVisible(c: Context): Boolean = false
+        override fun isTracingStatusTextVisible(): Boolean = false
     }
 
     object LocationDisabled : TracingSettingsState() {
@@ -75,18 +75,18 @@ sealed class TracingSettingsState {
         override fun getTracingIllustrationText(c: Context): String =
             c.getString(R.string.settings_tracing_location_illustration_description_inactive)
 
-        override fun isTracingSwitchEnabled(c: Context): Boolean = false
+        override fun isTracingSwitchEnabled(): Boolean = false
 
-        override fun isTracingSwitchChecked(c: Context): Boolean = false
+        override fun isTracingSwitchChecked(): Boolean = false
 
         override fun getTracingStatusText(c: Context): String =
             c.getString(R.string.settings_tracing_status_inactive)
 
-        override fun isLocationCardVisible(c: Context): Boolean = true
+        override fun isLocationCardVisible(): Boolean = true
 
-        override fun isBluetoothCardVisible(c: Context): Boolean = false
+        override fun isBluetoothCardVisible(): Boolean = false
 
-        override fun isTracingStatusTextVisible(c: Context): Boolean = false
+        override fun isTracingStatusTextVisible(): Boolean = false
     }
 
     object TracingInActive : TracingSettingsState() {
@@ -96,18 +96,18 @@ sealed class TracingSettingsState {
         override fun getTracingIllustrationText(c: Context): String =
             c.getString(R.string.settings_tracing_illustration_description_inactive)
 
-        override fun isTracingSwitchEnabled(c: Context): Boolean = true
+        override fun isTracingSwitchEnabled(): Boolean = true
 
-        override fun isTracingSwitchChecked(c: Context): Boolean = false
+        override fun isTracingSwitchChecked(): Boolean = false
 
         override fun getTracingStatusText(c: Context): String =
             c.getString(R.string.settings_tracing_status_inactive)
 
-        override fun isLocationCardVisible(c: Context): Boolean = false
+        override fun isLocationCardVisible(): Boolean = false
 
-        override fun isBluetoothCardVisible(c: Context): Boolean = false
+        override fun isBluetoothCardVisible(): Boolean = false
 
-        override fun isTracingStatusTextVisible(c: Context): Boolean = true
+        override fun isTracingStatusTextVisible(): Boolean = true
     }
 
     object TracingActive : TracingSettingsState() {
@@ -117,18 +117,18 @@ sealed class TracingSettingsState {
         override fun getTracingIllustrationText(c: Context): String =
             c.getString(R.string.settings_tracing_illustration_description_active)
 
-        override fun isTracingSwitchEnabled(c: Context): Boolean = true
+        override fun isTracingSwitchEnabled(): Boolean = true
 
-        override fun isTracingSwitchChecked(c: Context): Boolean = true
+        override fun isTracingSwitchChecked(): Boolean = true
 
         override fun getTracingStatusText(c: Context): String =
             c.getString(R.string.settings_tracing_status_active)
 
-        override fun isLocationCardVisible(c: Context): Boolean = false
+        override fun isLocationCardVisible(): Boolean = false
 
-        override fun isBluetoothCardVisible(c: Context): Boolean = false
+        override fun isBluetoothCardVisible(): Boolean = false
 
-        override fun isTracingStatusTextVisible(c: Context): Boolean = true
+        override fun isTracingStatusTextVisible(): Boolean = true
     }
 }
 

@@ -4,9 +4,14 @@ import android.content.Context
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettings
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,13 +25,19 @@ import testhelpers.extensions.InstantExecutorExtension
 class SettingsFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var tracing: GeneralTracingStatus
+    @MockK lateinit var tracingStatus: GeneralTracingStatus
     @MockK lateinit var settingsRepository: SettingsRepository
     @MockK lateinit var notificationSettings: NotificationSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        every { tracingStatus.generalStatus } returns flowOf(GeneralTracingStatus.Status.TRACING_ACTIVE)
+        every { notificationSettings.isNotificationsEnabled } returns flow { emit(true) }
+        every { notificationSettings.isNotificationsRiskEnabled } returns flow { emit(false) }
+        every { notificationSettings.isNotificationsTestEnabled } returns flow { emit(true) }
+
+        every { settingsRepository.isBackgroundPriorityEnabledFlow } returns flow { emit(true) }
     }
 
     @AfterEach
@@ -36,151 +47,43 @@ class SettingsFragmentViewModelTest : BaseTest() {
 
     private fun createInstance(): SettingsFragmentViewModel = SettingsFragmentViewModel(
         dispatcherProvider = TestDispatcherProvider,
-        tracingStatus = tracing,
+        tracingStatus = tracingStatus,
         settingsRepository = settingsRepository,
         notificationSettings = notificationSettings
     )
 
     @Test
-    fun `tracing status is forwarded`() {
-        TODO()
+    fun `tracing status is forwarded and mapped`() {
+        createInstance().apply {
+            tracingState.observeForever { }
+            tracingState.value shouldBe SettingsTracingState.TracingActive
+        }
+        verify { tracingStatus.generalStatus }
     }
 
     @Test
     fun `notification status is forwarded`() {
-        TODO()
-        //  private fun formatNotificationsStatusTextBase(
-        //        bNotifications: Boolean,
-        //        bNotificationsRisk: Boolean,
-        //        bNotificationsTest: Boolean,
-        //        bValue: Boolean
-        //    ) {
-        //        val result = formatNotificationsStatusText(
-        //            notifications = bNotifications,
-        //            notificationsRisk = bNotificationsRisk,
-        //            notificationsTest = bNotificationsTest
-        //        )
-        //        assertThat(result, `is`((formatStatus(bValue))))
-        //    }
-        //
-        //    @Test
-        //    fun formatNotificationsStatusText() {
-        //        // When notifications is true, notificationsRisk is true, notificationsTest is true
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = true,
-        //            bNotificationsRisk = true,
-        //            bNotificationsTest = true, bValue = true
-        //        )
-        //
-        //        // When notifications is false, notificationsRisk is false, notificationsTest is false
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = false,
-        //            bNotificationsRisk = true,
-        //            bNotificationsTest = true,
-        //            bValue = false
-        //        )
-        //
-        //        // When notifications is true, notificationsRisk is false, notificationsTest is true
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = true,
-        //            bNotificationsRisk = false,
-        //            bNotificationsTest = true,
-        //            bValue = true
-        //        )
-        //
-        //        // When notifications is true, notificationsRisk is true, notificationsTest is false
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = true,
-        //            bNotificationsRisk = true,
-        //            bNotificationsTest = false,
-        //            bValue = true
-        //        )
-        //
-        //        // When notifications is true, notificationsRisk is false, notificationsTest is false
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = true,
-        //            bNotificationsRisk = false,
-        //            bNotificationsTest = false,
-        //            bValue = false
-        //        )
-        //
-        //        // When notifications is false, notificationsRisk is false, notificationsTest is false
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = false,
-        //            bNotificationsRisk = false,
-        //            bNotificationsTest = false,
-        //            bValue = false
-        //        )
-        //
-        //        // When notifications is false, notificationsRisk is true, notificationsTest is false
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = false,
-        //            bNotificationsRisk = true,
-        //            bNotificationsTest = false,
-        //            bValue = false
-        //        )
-        //
-        //        // When notifications is false, notificationsRisk is false, notificationsTest is true
-        //        formatNotificationsStatusTextBase(
-        //            bNotifications = false,
-        //            bNotificationsRisk = false,
-        //            bNotificationsTest = true,
-        //            bValue = false
-        //        )
-        //    }
+        createInstance().apply {
+            notificationState.observeForever { }
+            notificationState.value shouldBe SettingsNotificationState(
+                isNotificationsEnabled = true,
+                isNotificationsRiskEnabled = false,
+                isNotificationsTestEnabled = true
+            )
+        }
+        verify { notificationSettings.isNotificationsEnabled }
+        verify { notificationSettings.isNotificationsRiskEnabled }
+        verify { notificationSettings.isNotificationsTestEnabled }
     }
 
     @Test
     fun `background priority status is forwarded`() {
-        TODO()
-//         private fun formatSettingsBackgroundPriorityIconColorBase(
-//        enabled: Boolean,
-//        expectedColor: Int
-//    ) {
-//        every { context.getColor(R.color.colorAccentTintIcon) } returns R.color.colorAccentTintIcon
-//        every { context.getColor(R.color.colorTextSemanticRed) } returns R.color.colorTextSemanticRed
-//
-//        val result =
-//            formatSettingsBackgroundPriorityIconColor(enabled)
-//        assertThat(
-//            result, `is`(context.getColor(expectedColor))
-//        )
-//    }
-//    @Test
-//    fun formatSettingsBackgroundPriorityIconColor() {
-//        formatSettingsBackgroundPriorityIconColorBase(true, R.color.colorAccentTintIcon)
-//        formatSettingsBackgroundPriorityIconColorBase(false, R.color.colorTextSemanticRed)
-//    }
-//
-//
-//
-//    @Test
-//    fun formatSettingsBackgroundPriorityIcon() {
-//        formatSettingsBackgroundPriorityIconBase(
-//            true,
-//            R.drawable.ic_settings_background_priority_enabled
-//        )
-//        formatSettingsBackgroundPriorityIconBase(
-//            false,
-//            R.drawable.ic_settings_background_priority_disabled
-//        )
-//    }
-//
-//    private fun formatSettingsBackgroundPriorityIconBase(
-//        enabled: Boolean,
-//        expectedDrawable: Int
-//    ) {
-//        val drawableA = mockk<Drawable>()
-//        val drawableB = mockk<Drawable>()
-//
-//        every { context.getDrawable(R.drawable.ic_settings_background_priority_enabled) } returns drawableA
-//        every { context.getDrawable(R.drawable.ic_settings_background_priority_disabled) } returns drawableB
-//
-//        val result =
-//            formatSettingsBackgroundPriorityIcon(enabled)
-//        assertThat(
-//            result, `is`(context.getDrawable(expectedDrawable))
-//        )
-//    }
+        createInstance().apply {
+            backgroundPrioritystate.observeForever { }
+            backgroundPrioritystate.value shouldBe SettingsBackgroundState(
+                isEnabled = true
+            )
+        }
+        verify { settingsRepository.isBackgroundPriorityEnabledFlow }
     }
 }

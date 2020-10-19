@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.util
 
 import android.app.ActivityManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
@@ -118,44 +117,6 @@ object ConnectivityHelper {
         val activeNetwork: Network? = manager.activeNetwork
         val caps: NetworkCapabilities? = manager.getNetworkCapabilities(activeNetwork)
         return caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) ?: false
-    }
-
-    /**
-     * Abstract bluetooth state change callback.
-     *
-     * @see BroadcastReceiver
-     */
-    abstract class BluetoothCallback {
-        var recevier: BroadcastReceiver? = null
-
-        /**
-         * Called when bluetooth is turned on.
-         */
-        abstract fun onBluetoothAvailable()
-
-        /**
-         * Called when bluetooth is turned off.
-         */
-        abstract fun onBluetoothUnavailable()
-    }
-
-    /**
-     * Abstract location state change callback.
-     *
-     * @see BroadcastReceiver
-     */
-    abstract class LocationCallback {
-        var recevier: BroadcastReceiver? = null
-
-        /**
-         * Called when location is turned on.
-         */
-        abstract fun onLocationAvailable()
-
-        /**
-         * Called when location is turned off.
-         */
-        abstract fun onLocationUnavailable()
     }
 
     /**

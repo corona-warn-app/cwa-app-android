@@ -71,10 +71,8 @@ data class TracingDetailsState(
                 c.getString(R.string.risk_details_information_body_outdated_risk)
             RiskLevelConstants.LOW_LEVEL_RISK ->
                 c.getString(
-                    if (count > 0)
-                        R.string.risk_details_information_body_low_risk_with_encounter
-                    else
-                        R.string.risk_details_information_body_low_risk
+                    if (count > 0) R.string.risk_details_information_body_low_risk_with_encounter
+                    else R.string.risk_details_information_body_low_risk
                 )
             RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
                 c.getString(R.string.risk_details_information_body_unknown_risk)
@@ -85,16 +83,11 @@ data class TracingDetailsState(
     /**
      * Formats the risk details text display for each risk level for the body notice
      */
-    fun getRiskDetailsRiskLevelBodyNotice(c: Context): String {
-        val resources = c.resources
-        return when (riskLevelScore) {
-            RiskLevelConstants.INCREASED_RISK ->
-                resources.getString(R.string.risk_details_information_body_notice_increased)
-            RiskLevelConstants.LOW_LEVEL_RISK ->
-                resources.getString(R.string.risk_details_information_body_notice_low)
-            else -> c.getString(R.string.risk_details_information_body_notice)
-        }
-    }
+    fun getRiskDetailsRiskLevelBodyNotice(c: Context): String = when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> R.string.risk_details_information_body_notice_increased
+        RiskLevelConstants.LOW_LEVEL_RISK -> R.string.risk_details_information_body_notice_low
+        else -> R.string.risk_details_information_body_notice
+    }.let { c.getString(it) }
 
     /**
      * Formats the risk details button display for enable tracing depending on risk level
@@ -112,7 +105,7 @@ data class TracingDetailsState(
      * background task setting
      */
     fun isRiskDetailsUpdateButtonVisible(c: Context): Boolean =
-        isTracingOffRiskLevel() && !isBackgroundJobEnabled
+        !isTracingOffRiskLevel() && !isBackgroundJobEnabled
 
     /**
      * Formats the risk logged period card text display of tracing active duration in days depending on risk level
