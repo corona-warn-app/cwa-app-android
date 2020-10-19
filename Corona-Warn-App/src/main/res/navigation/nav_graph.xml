@@ -357,7 +357,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment"
         android:label="SubmissionSymptomIntroductionFragment" >
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
@@ -371,7 +371,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomCalendarFragment"
         android:label="SubmissionSymptomCalendarFragment" >
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
