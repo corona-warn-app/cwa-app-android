@@ -36,7 +36,6 @@ class SettingsFragmentViewModel @AssistedInject constructor(
             isNotificationsRiskEnabled = args[1],
             isNotificationsTestEnabled = args[2]
         )
-
     }.asLiveData(dispatcherProvider.Default)
 
     val backgroundPrioritystate: LiveData<SettingsBackgroundState> =

@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class GeneralTracingStatus @Inject constructor(
     bluetoothProvider: BluetoothProvider,
     locationProvider: LocationProvider,
-    enfClient: ENFClient,
+    enfClient: ENFClient
 ) {
 
     val generalStatus: Flow<Status> = combine(

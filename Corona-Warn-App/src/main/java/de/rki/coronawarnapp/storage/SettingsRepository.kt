@@ -32,8 +32,6 @@ class SettingsRepository @Inject constructor(
     val isBackgroundPriorityEnabledFlow: Flow<Boolean> = internalIsBackgroundPriorityEnabled
     val isBackgroundPriorityEnabled = internalIsBackgroundPriorityEnabled.asLiveData()
 
-
-
     /**
      * Toggle notifications for test updates in SharedPreferences and refreshes it afterwards
      *

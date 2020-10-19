@@ -28,7 +28,6 @@ object RiskLevelRepository {
         val rawRiskLevel = riskLevel.raw
         internalRisklevelScore.value = rawRiskLevel
 
-
         setLastCalculatedScore(rawRiskLevel)
         setLastSuccessfullyCalculatedScore(riskLevel)
     }
