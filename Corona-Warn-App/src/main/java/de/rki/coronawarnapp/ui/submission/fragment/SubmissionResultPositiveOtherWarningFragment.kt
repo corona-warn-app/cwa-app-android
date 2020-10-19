@@ -20,8 +20,8 @@ import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionResultPositiveOtherWarningViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -29,6 +29,9 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SubmissionResultPositiveOtherWarningFragment :
@@ -38,7 +41,6 @@ class SubmissionResultPositiveOtherWarningFragment :
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionResultPositiveOtherWarningViewModel by cwaViewModels { viewModelFactory }
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private val tracingViewModel: TracingViewModel by activityViewModels()
 
     private val binding: FragmentSubmissionPositiveOtherWarningBinding by viewBindingLazy()
     private lateinit var internalExposureNotificationPermissionHelper:
@@ -47,7 +49,6 @@ class SubmissionResultPositiveOtherWarningFragment :
     override fun onResume() {
         super.onResume()
         binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        tracingViewModel.refreshIsTracingEnabled()
     }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
@@ -107,11 +108,11 @@ class SubmissionResultPositiveOtherWarningFragment :
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.submissionState.observe(viewLifecycleOwner, {
+        submissionViewModel.submissionState.observe2(this) {
             if (it == ApiRequestState.SUCCESS) {
                 viewModel.onSubmissionComplete()
             }
-        })
+        }
     }
 
     private fun setButtonOnClickListener() {
@@ -153,17 +154,23 @@ class SubmissionResultPositiveOtherWarningFragment :
         )
 
     private fun initiateWarningOthers() {
-        if (tracingViewModel.isTracingEnabled.value != true) {
-            val tracingRequiredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_test_result_dialog_tracing_required_title,
-                R.string.submission_test_result_dialog_tracing_required_message,
-                R.string.submission_test_result_dialog_tracing_required_button
-            )
-            DialogHelper.showDialog(tracingRequiredDialog)
-            return
+        // TODO remove after VM Injection, workaround, should not happen in the fragment
+        submissionViewModel.launch {
+            val isTracingEnabled = AppInjector.component.enfClient.isTracingEnabled.first()
+            withContext(Dispatchers.Main) {
+                if (!isTracingEnabled) {
+                    val tracingRequiredDialog = DialogHelper.DialogInstance(
+                        requireActivity(),
+                        R.string.submission_test_result_dialog_tracing_required_title,
+                        R.string.submission_test_result_dialog_tracing_required_message,
+                        R.string.submission_test_result_dialog_tracing_required_button
+                    )
+                    DialogHelper.showDialog(tracingRequiredDialog)
+                } else {
+                    internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
+                }
+            }
         }
-        internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
