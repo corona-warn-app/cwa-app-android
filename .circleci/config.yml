@@ -277,7 +277,7 @@ jobs:
       - run:
           name: Send to T-System
           command: |
-            curl --location --request POST '$tsystems_upload_url' \
+            curl --location --request POST $tsystems_upload_url \
             --header 'Authorization: Bearer $tsystems_upload_bearer' \
             --form 'file=@Corona-Warn-App/build/outputs/apk/deviceForTesters/release/Corona-Warn-App-deviceForTesters-release.apk' \
 workflows:
