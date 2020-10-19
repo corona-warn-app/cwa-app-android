@@ -259,7 +259,7 @@ jobs:
           name: Prepare Gradle For Signing
           command: |
             echo "" >> "./keystore.properties"
-            echo "deviceForTestersRelease.storePath=$test_keystore_download_filename >> "./keystore.properties"
+            echo "deviceForTestersRelease.storePath=$test_keystore_download_filename" >> "./keystore.properties"
             echo "deviceForTestersRelease.storePassword=$test_keystore_password" >> "./keystore.properties"
             echo "deviceForTestersRelease.keyAlias=$test_key_alias" >> "./keystore.properties"
             echo "deviceForTestersRelease.keyPassword=$test_key_password" >> "./keystore.properties"
