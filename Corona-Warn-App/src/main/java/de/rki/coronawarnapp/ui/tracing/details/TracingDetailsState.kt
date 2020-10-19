@@ -19,8 +19,8 @@ data class TracingDetailsState(
     override val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val manualKeyRetrievalTime: Long,
-    val isInformationBodyNoticeVisible: Boolean, // tracingViewModel.informationBodyNoticeVisibility
-    val isAdditionalInformationVisible: Boolean // tracingViewModel.additionalInformationVisibility
+    val isInformationBodyNoticeVisible: Boolean,
+    val isAdditionalInformationVisible: Boolean
 ) : BaseTracingState() {
 
     override val showDetails: Boolean = true

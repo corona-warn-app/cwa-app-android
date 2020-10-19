@@ -7,17 +7,12 @@ import android.content.IntentFilter
 import android.location.LocationManager
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.shareLatest
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -58,15 +53,10 @@ class LocationProvider @Inject constructor(
         context.registerReceiver(receiver, IntentFilter(INTENT_ACTION))
         awaitClose { context.unregisterReceiver(receiver) }
     }
-        .onStart { Timber.v("locationState FLOW start") }
-        .onEach { Timber.v("locationState FLOW emission: %b", it) }
-        .onCompletion { Timber.v("locationState FLOW completed.") }
-        .stateIn(
-            scope = appScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+        .shareLatest(
+            tag = "locationState",
+            scope = appScope
         )
-        .mapNotNull { it }
 
     private val startingState: Boolean
         get() = LocationManagerCompat.isLocationEnabled(locationManager)

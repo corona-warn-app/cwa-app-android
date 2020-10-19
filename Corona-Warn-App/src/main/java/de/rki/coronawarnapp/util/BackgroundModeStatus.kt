@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.shareLatest
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -9,13 +10,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -39,15 +34,10 @@ class BackgroundModeStatus @Inject constructor(
         }
         awaitClose { isRunning = false }
     }
-        .onStart { Timber.v("isBackgroundRestricted FLOW start") }
-        .onEach { Timber.v("isBackgroundRestricted FLOW emission: %b", it) }
-        .onCompletion { Timber.v("isBackgroundRestricted FLOW completed.") }
-        .stateIn(
-            scope = appScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+        .shareLatest(
+            tag = "isBackgroundRestricted",
+            scope = appScope
         )
-        .mapNotNull { it }
 
     val isAutoModeEnabled: Flow<Boolean> = callbackFlow {
         var isRunning = true
@@ -62,15 +52,10 @@ class BackgroundModeStatus @Inject constructor(
         }
         awaitClose { isRunning = false }
     }
-        .onStart { Timber.v("autoModeEnabled FLOW start") }
-        .onEach { Timber.v("autoModeEnabled FLOW emission: %b", it) }
-        .onCompletion { Timber.v("autoModeEnabled FLOW completed.") }
-        .stateIn(
-            scope = appScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+        .shareLatest(
+            tag = "autoModeEnabled",
+            scope = appScope
         )
-        .mapNotNull { it }
 
     private fun pollIsBackgroundRestricted(): Boolean {
         return ConnectivityHelper.isBackgroundRestricted(context)
