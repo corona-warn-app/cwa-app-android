@@ -29,28 +29,28 @@ data class TracingDetailsState(
      * Format the risk details include display for suggested behavior depending on risk level
      * in all cases when risk level is not increased
      */
-    fun isBehaviorNormalVisible(c: Context): Boolean =
+    fun isBehaviorNormalVisible(): Boolean =
         riskLevelScore != RiskLevelConstants.INCREASED_RISK
 
     /**
      * Format the risk details include display for suggested behavior depending on risk level
      * Only applied in special case for increased risk
      */
-    fun isBehaviorIncreasedRiskVisible(c: Context): Boolean =
+    fun isBehaviorIncreasedRiskVisible(): Boolean =
         riskLevelScore == RiskLevelConstants.INCREASED_RISK
 
     /**
      * Format the risk details period logged card display  depending on risk level
      * applied in case of low and high risk levels
      */
-    fun isBehaviorPeriodLoggedVisible(c: Context): Boolean =
+    fun isBehaviorPeriodLoggedVisible(): Boolean =
         riskLevelScore == RiskLevelConstants.INCREASED_RISK || riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK
 
     /**
      * Format the risk details include display for suggested behavior depending on risk level
      * Only applied in special case for low level risk
      */
-    fun isBehaviorLowLevelRiskVisible(c: Context): Boolean =
+    fun isBehaviorLowLevelRiskVisible(): Boolean =
         riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK
 
     /**
@@ -92,19 +92,19 @@ data class TracingDetailsState(
     /**
      * Formats the risk details button display for enable tracing depending on risk level
      */
-    fun areRiskDetailsButtonsVisible(c: Context): Boolean =
-        isRiskDetailsEnableTracingButtonVisible(c) || isRiskDetailsUpdateButtonVisible(c)
+    fun areRiskDetailsButtonsVisible(): Boolean =
+        isRiskDetailsEnableTracingButtonVisible() || isRiskDetailsUpdateButtonVisible()
 
     /**
      * Formats the risk details button display for enable tracing depending on risk level
      */
-    fun isRiskDetailsEnableTracingButtonVisible(c: Context): Boolean = isTracingOffRiskLevel()
+    fun isRiskDetailsEnableTracingButtonVisible(): Boolean = isTracingOffRiskLevel()
 
     /**
      * Formats the risk details button display for manual updates depending on risk level and
      * background task setting
      */
-    fun isRiskDetailsUpdateButtonVisible(c: Context): Boolean =
+    fun isRiskDetailsUpdateButtonVisible(): Boolean =
         !isTracingOffRiskLevel() && !isBackgroundJobEnabled
 
     /**

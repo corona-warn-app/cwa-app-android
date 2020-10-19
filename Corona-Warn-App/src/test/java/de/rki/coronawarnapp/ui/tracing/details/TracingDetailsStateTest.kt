@@ -68,100 +68,100 @@ class TracingDetailsStateTest : BaseTest() {
     @Test
     fun `normal behavior visibility`() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isBehaviorNormalVisible(context) shouldBe true
+            isBehaviorNormalVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            isBehaviorNormalVisible(context) shouldBe true
+            isBehaviorNormalVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            isBehaviorNormalVisible(context) shouldBe true
+            isBehaviorNormalVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            isBehaviorNormalVisible(context) shouldBe false
+            isBehaviorNormalVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            isBehaviorNormalVisible(context) shouldBe true
+            isBehaviorNormalVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            isBehaviorNormalVisible(context) shouldBe true
+            isBehaviorNormalVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            isBehaviorNormalVisible(context) shouldBe true
+            isBehaviorNormalVisible() shouldBe true
         }
     }
 
     @Test
     fun `increased risk visibility`() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe false
+            isBehaviorIncreasedRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe false
+            isBehaviorIncreasedRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe false
+            isBehaviorIncreasedRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe true
+            isBehaviorIncreasedRiskVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe false
+            isBehaviorIncreasedRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe false
+            isBehaviorIncreasedRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            isBehaviorIncreasedRiskVisible(context) shouldBe false
+            isBehaviorIncreasedRiskVisible() shouldBe false
         }
     }
 
     @Test
     fun `logged period card visibility`() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe false
+            isBehaviorPeriodLoggedVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe false
+            isBehaviorPeriodLoggedVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe true
+            isBehaviorPeriodLoggedVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe true
+            isBehaviorPeriodLoggedVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe false
+            isBehaviorPeriodLoggedVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe false
+            isBehaviorPeriodLoggedVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            isBehaviorPeriodLoggedVisible(context) shouldBe false
+            isBehaviorPeriodLoggedVisible() shouldBe false
         }
     }
 
     @Test
     fun `low level risk visibility`() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe false
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe false
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe true
+            isBehaviorLowLevelRiskVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe false
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe false
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe false
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            isBehaviorLowLevelRiskVisible(context) shouldBe false
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
     }
 
@@ -247,86 +247,86 @@ class TracingDetailsStateTest : BaseTest() {
             riskLevelScore = RiskLevelConstants.INCREASED_RISK,
             isBackgroundJobEnabled = true,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe false
+            areRiskDetailsButtonsVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             isBackgroundJobEnabled = true,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             isBackgroundJobEnabled = true,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             isBackgroundJobEnabled = true,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe false
+            areRiskDetailsButtonsVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             isBackgroundJobEnabled = true,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe false
+            areRiskDetailsButtonsVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.INCREASED_RISK,
             isBackgroundJobEnabled = false,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             isBackgroundJobEnabled = false,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             isBackgroundJobEnabled = false,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             isBackgroundJobEnabled = false,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             isBackgroundJobEnabled = false,
         ).apply {
-            areRiskDetailsButtonsVisible(context) shouldBe true
+            areRiskDetailsButtonsVisible() shouldBe true
         }
     }
 
     @Test
     fun `enable tracing button visibility`() {
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe false
+            isRiskDetailsEnableTracingButtonVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe true
+            isRiskDetailsEnableTracingButtonVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe false
+            isRiskDetailsEnableTracingButtonVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe false
+            isRiskDetailsEnableTracingButtonVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe true
+            isRiskDetailsEnableTracingButtonVisible() shouldBe true
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe false
+            isRiskDetailsEnableTracingButtonVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.UNDETERMINED).apply {
-            isRiskDetailsEnableTracingButtonVisible(context) shouldBe false
+            isRiskDetailsEnableTracingButtonVisible() shouldBe false
         }
     }
 
@@ -336,62 +336,62 @@ class TracingDetailsStateTest : BaseTest() {
             riskLevelScore = RiskLevelConstants.INCREASED_RISK,
             isBackgroundJobEnabled = true,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             isBackgroundJobEnabled = true,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             isBackgroundJobEnabled = true,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             isBackgroundJobEnabled = true,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             isBackgroundJobEnabled = true,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
 
         createInstance(
             riskLevelScore = RiskLevelConstants.INCREASED_RISK,
             isBackgroundJobEnabled = false,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe true
+            isRiskDetailsUpdateButtonVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             isBackgroundJobEnabled = false,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             isBackgroundJobEnabled = false,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe false
+            isRiskDetailsUpdateButtonVisible() shouldBe false
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK,
             isBackgroundJobEnabled = false,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe true
+            isRiskDetailsUpdateButtonVisible() shouldBe true
         }
         createInstance(
             riskLevelScore = RiskLevelConstants.UNKNOWN_RISK_INITIAL,
             isBackgroundJobEnabled = false,
         ).apply {
-            isRiskDetailsUpdateButtonVisible(context) shouldBe true
+            isRiskDetailsUpdateButtonVisible() shouldBe true
         }
     }
 

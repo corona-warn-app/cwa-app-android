@@ -180,10 +180,10 @@ class BaseTracingStateTest : BaseTest() {
     @Test
     fun `update button enabled state`() {
         createInstance(isManualKeyRetrievalEnabled = true).apply {
-            isUpdateButtonEnabled(context) shouldBe true
+            isUpdateButtonEnabled() shouldBe true
         }
         createInstance(isManualKeyRetrievalEnabled = false).apply {
-            isUpdateButtonEnabled(context) shouldBe false
+            isUpdateButtonEnabled() shouldBe false
         }
     }
 }

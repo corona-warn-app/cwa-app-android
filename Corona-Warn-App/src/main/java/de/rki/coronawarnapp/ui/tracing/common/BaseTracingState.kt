@@ -74,7 +74,7 @@ abstract class BaseTracingState {
         c.getString(R.string.risk_card_button_cooldown).format(hmsCooldownTime)
     }
 
-    fun isUpdateButtonEnabled(c: Context): Boolean {
+    fun isUpdateButtonEnabled(): Boolean {
         return isManualKeyRetrievalEnabled
     }
 }

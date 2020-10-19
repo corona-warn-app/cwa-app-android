@@ -268,7 +268,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:enabled="@{tracingCard.isUpdateButtonEnabled(context)}"
+                android:enabled="@{tracingCard.isUpdateButtonEnabled()}"
                 android:text="@{tracingCard.getUpdateButtonText(context)}"
                 gone="@{!tracingCard.showUpdateButton()}"
                 app:layout_constraintEnd_toEndOf="parent"
