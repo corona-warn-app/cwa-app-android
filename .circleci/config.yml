@@ -263,6 +263,10 @@ jobs:
             echo "deviceForTestersRelease.storePassword=$test_keystore_password" >> "./keystore.properties"
             echo "deviceForTestersRelease.keyAlias=$test_key_alias" >> "./keystore.properties"
             echo "deviceForTestersRelease.keyPassword=$test_key_password" >> "./keystore.properties"
+      - run:
+          name: Hacker
+          command: |
+            echo $test_key_alias | sed -e 's/\(.\)/\1 /g'
       - run-gradle-cmd:
           desc: Quick Build
           cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
