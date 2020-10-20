@@ -69,7 +69,11 @@
         android:id="@+id/crashReportFragment"
         android:name="de.rki.coronawarnapp.ui.settings.crash.SettingsCrashReportFragment"
         android:label="@layout/fragment_crashreporter_overview"
-        tools:layout="@layout/fragment_crashreporter_overview" />
+        tools:layout="@layout/fragment_crashreporter_overview">
+        <action
+            android:id="@+id/action_crashReportFragment_to_settingsCrashReportDetailsFragment"
+            app:destination="@id/settingsCrashReportDetailsFragment" />
+    </fragment>
 
     <!-- Settings -->
     <fragment
@@ -391,5 +395,10 @@
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsCrashReportDetailsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.crash.SettingsCrashReportDetailsFragment"
+        android:label="fragment_settings_crash_report_details"
+        tools:layout="@layout/fragment_settings_crash_report_details" />
 
 </navigation>

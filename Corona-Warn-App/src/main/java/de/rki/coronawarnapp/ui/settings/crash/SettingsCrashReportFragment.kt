@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.crash.CrashReportEntity
 import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -50,5 +51,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
 
     override fun crashReportClicked(crashReport: CrashReportEntity) {
         Timber.d("Clicked on crash report ${crashReport.id}")
+        vm.selectedCrashReport = crashReport
+        doNavigate(SettingsCrashReportFragmentDirections.actionCrashReportFragmentToSettingsCrashReportDetailsFragment())
     }
 }

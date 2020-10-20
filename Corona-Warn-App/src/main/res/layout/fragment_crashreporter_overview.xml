@@ -47,8 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="0dp"
-        android:paddingTop="6dp"
         android:background="@color/colorCalendarLayoutFocusOn"
+        android:paddingTop="6dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,9 +56,6 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonClearCrashReportList"
         tools:context="SettingsCrashReporterFragment"
         tools:listitem="@layout/view_crashreport_list_item" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

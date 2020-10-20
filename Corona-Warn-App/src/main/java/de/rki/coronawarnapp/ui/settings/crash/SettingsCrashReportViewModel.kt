@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.settings.crash
 
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.crash.CrashReportEntity
 import de.rki.coronawarnapp.crash.CrashReportRepository
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -14,6 +15,8 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     val crashReports = crashReportRepository.allCrashReports
+
+    var selectedCrashReport: CrashReportEntity? = null
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
         crashReportRepository.deleteAllCrashReports()
