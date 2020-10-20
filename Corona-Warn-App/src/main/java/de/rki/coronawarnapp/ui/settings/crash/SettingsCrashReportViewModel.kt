@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.settings.crash
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.crash.CrashReportEntity
@@ -16,10 +17,9 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 
     val crashReports = crashReportRepository.allCrashReports
 
-    var selectedCrashReport: CrashReportEntity? = null
+    lateinit var selectedCrashReport: LiveData<CrashReportEntity>
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
-        selectedCrashReport = null
         crashReportRepository.deleteAllCrashReports()
     }
 
@@ -30,6 +30,11 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.e(e, "Msg: ${e.message}")
         }
+    }
+
+    fun selectCrashReport(id: Long) {
+        Timber.d("Selected crash report $id")
+        selectedCrashReport = crashReportRepository.getCrashReportForId(id)
     }
 
     @AssistedInject.Factory

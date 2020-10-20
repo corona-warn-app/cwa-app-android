@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class CrashReportRepository @Inject constructor(private val crashReportDao: CrashReportDao) {
 
-    val allCrashReports = crashReportDao.getAllCrashReports()
+    val allCrashReports = crashReportDao.getAllCrashReportsLiveData()
 
     suspend fun createCrashReport(message: String, t: Throwable?, tag: String?) {
         val deviceInfo = "${Build.MANUFACTURER} ${Build.MODEL} (${Build.DEVICE})"
@@ -42,4 +42,6 @@ class CrashReportRepository @Inject constructor(private val crashReportDao: Cras
     suspend fun deleteAllCrashReports() {
         crashReportDao.deleteAllCrashReports()
     }
+
+    fun getCrashReportForId(id: Long) = crashReportDao.getCrashReportForIdLiveData(id)
 }

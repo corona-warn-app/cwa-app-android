@@ -54,7 +54,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
 
     override fun crashReportClicked(crashReport: CrashReportEntity) {
         Timber.d("Clicked on crash report ${crashReport.id}")
-        vm.selectedCrashReport = crashReport
+        vm.selectCrashReport(crashReport.id)
         doNavigate(SettingsCrashReportFragmentDirections.actionCrashReportFragmentToSettingsCrashReportDetailsFragment())
     }
 }

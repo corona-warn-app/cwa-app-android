@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsCrashReportDetailsBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,12 +27,12 @@ class SettingsCrashReportDetailsFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        vm.selectedCrashReport?.let {
+        fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text =
+            "No crash report was selected"
+
+        vm.selectedCrashReport.observe2(this) {
             fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text =
                 "Selected crash report ${it.id}"
-        } ?: run {
-            fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text =
-                "No crash report was selected"
         }
     }
 }

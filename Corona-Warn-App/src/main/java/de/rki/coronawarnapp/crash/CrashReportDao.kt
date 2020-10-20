@@ -17,5 +17,8 @@ interface CrashReportDao {
     suspend fun deleteAllCrashReports()
 
     @Query("SELECT * FROM CrashReportEntity")
-    fun getAllCrashReports(): LiveData<List<CrashReportEntity>>
+    fun getAllCrashReportsLiveData(): LiveData<List<CrashReportEntity>>
+
+    @Query("SELECT * FROM CrashReportEntity WHERE id = :id")
+    fun getCrashReportForIdLiveData(id: Long): LiveData<CrashReportEntity>
 }
