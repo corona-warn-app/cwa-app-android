@@ -32,7 +32,18 @@ class SettingsCrashReportDetailsFragment :
 
         vm.selectedCrashReport.observe2(this) {
             fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text =
-                "Selected crash report ${it.id}"
+                "Selected crash report ${it.id} \n" +
+                    " # appeared at: ${it.crashedAt} \n\n" +
+                    " # Device: ${it.deviceInfo} \n" +
+                    " # Android Version ${it.androidVersion} \n" +
+                    " # Android API-Level ${it.apiLevel} \n\n" +
+
+                    " # AppVersion: ${it.appVersionName} \n" +
+                    " # AppVercionCode ${it.appVersionCode} \n" +
+                    " # C-Hash ${it.shortID} \n\n\n" +
+
+                    " ${it.stackTrace}"
+
         }
     }
 }
