@@ -24,7 +24,10 @@ import javax.inject.Inject
 class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: HomeFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: HomeFragmentViewModel by cwaViewModels(
+        ownerProducer = { requireActivity().viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
 
     val binding: FragmentHomeBinding by viewBindingLazy()
 
@@ -34,9 +37,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tracingViewModel = vm.tracingViewModel
-        binding.settingsViewModel = vm.settingsViewModel
-        binding.submissionViewModel = vm.submissionViewModel
+        vm.tracingHeaderState.observe2(this) {
+            binding.tracingHeader = it
+        }
+        vm.tracingCardState.observe2(this) {
+            binding.tracingCard = it
+        }
+        vm.submissionCardState.observe2(this) {
+            binding.submissionCard = it
+        }
 
         setupToolbar()
 
@@ -55,7 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.events.observe2(this) {
+        vm.popupEvents.observe2(this) {
             when (it) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(
@@ -80,6 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
+
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
@@ -89,7 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
             }
             riskCardButtonUpdate.setOnClickListener {
-                vm.tracingViewModel.refreshDiagnosisKeys()
+                vm.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
             }
             riskCardButtonEnableTracing.setOnClickListener {

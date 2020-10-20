@@ -7,18 +7,48 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
-import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispatcher) {
+class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispatcher), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionDispatcherViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionDispatcherBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToMainActivity ->
+                    findNavController().popBackStack()
+                is SubmissionNavigationEvents.NavigateToTAN ->
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToContact ->
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                    doNavigate(
+                        SubmissionDispatcherFragmentDirections
+                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
+                    )
+            }
+        }
     }
 
     override fun onResume() {
@@ -28,20 +58,16 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
     private fun setButtonOnClickListener() {
         binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            viewModel.onBackPressed()
         }
         binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
             checkForDataPrivacyPermission()
         }
         binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
-            findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionTanFragment()
-            )
+            viewModel.onTanPressed()
         }
         binding.submissionDispatcherContent.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
-            findNavController().doNavigate(
-                SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionContactFragment()
-            )
+            viewModel.onTeleTanPressed()
         }
     }
 
@@ -62,8 +88,6 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     }
 
     private fun privacyPermissionIsGranted() {
-        findNavController().doNavigate(
-            SubmissionDispatcherFragmentDirections.actionSubmissionDispatcherFragmentToSubmissionQRCodeInfoFragment()
-        )
+        viewModel.onQRScanPressed()
     }
 }

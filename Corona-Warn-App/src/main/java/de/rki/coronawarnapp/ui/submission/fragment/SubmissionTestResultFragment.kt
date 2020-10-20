@@ -7,27 +7,39 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.doNavigate
+import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result) {
+class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_result),
+    AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionTestResultViewModel by cwaViewModels { viewModelFactory }
     private val submissionViewModel: SubmissionViewModel by activityViewModels()
-    private val tracingViewModel: TracingViewModel by activityViewModels()
 
     private val binding: FragmentSubmissionTestResultBinding by viewBindingLazy()
 
@@ -37,14 +49,12 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     private val backCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().doNavigate(
-                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-                )
+                viewModel.onBackPressed()
             }
         }
 
     private fun navigateToMainScreen() =
-        findNavController().doNavigate(
+        doNavigate(
             SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
         )
 
@@ -89,11 +99,30 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             DialogHelper.showDialog(buildErrorDialog(it))
         }
 
-        submissionViewModel.deviceUiState.observe(viewLifecycleOwner, { uiState ->
+        submissionViewModel.deviceUiState.observe2(this) { uiState ->
             if (uiState == DeviceUIState.PAIRED_REDEEMED) {
                 showRedeemedTokenWarningDialog()
             }
-        })
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
+                    doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning ->
+                    doNavigate(
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
+                    )
+                is SubmissionNavigationEvents.NavigateToMainActivity ->
+                    doNavigate(
+                        SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
+                    )
+            }
+        }
     }
 
     private fun showRedeemedTokenWarningDialog() {
@@ -110,15 +139,14 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        submissionViewModel.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
-        tracingViewModel.refreshIsTracingEnabled()
+        SubmissionRepository.refreshDeviceUIState(refreshTestResult = !skipInitialTestResultRefresh)
 
         skipInitialTestResultRefresh = false
     }
 
     private fun setButtonOnClickListener() {
         binding.submissionTestResultButtonPendingRefresh.setOnClickListener {
-            submissionViewModel.refreshDeviceUIState()
+            SubmissionRepository.refreshDeviceUIState()
             binding.submissionTestResultContent.submissionTestResultCard.testResultCard
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }
@@ -145,34 +173,32 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
         }
 
         binding.submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-            )
+            viewModel.onBackPressed()
         }
     }
 
     private fun continueIfTracingEnabled(skipSymptomSubmission: Boolean) {
-        if (tracingViewModel.isTracingEnabled.value != true) {
-            val tracingRequiredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_test_result_dialog_tracing_required_title,
-                R.string.submission_test_result_dialog_tracing_required_message,
-                R.string.submission_test_result_dialog_tracing_required_button
-            )
-            DialogHelper.showDialog(tracingRequiredDialog)
-            return
-        }
+        // TODO Workaround until we have a VM injected that can handle this
+        submissionViewModel.launch {
+            val isTracingEnabled = AppInjector.component.enfClient.isTracingEnabled.first()
+            withContext(Dispatchers.Main) {
+                if (!isTracingEnabled) {
+                    val tracingRequiredDialog = DialogHelper.DialogInstance(
+                        requireActivity(),
+                        R.string.submission_test_result_dialog_tracing_required_title,
+                        R.string.submission_test_result_dialog_tracing_required_message,
+                        R.string.submission_test_result_dialog_tracing_required_button
+                    )
+                    DialogHelper.showDialog(tracingRequiredDialog)
+                    return@withContext
+                }
 
-        if (skipSymptomSubmission) {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
-        } else {
-            findNavController().doNavigate(
-                SubmissionTestResultFragmentDirections
-                    .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
-            )
+                if (skipSymptomSubmission) {
+                    viewModel.onContinueNoSymptomsPressed()
+                } else {
+                    viewModel.onContinuePressed()
+                }
+            }
         }
     }
 
@@ -185,9 +211,7 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
                 submissionViewModel.deregisterTestFromDevice()
-                findNavController().doNavigate(
-                    SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToMainFragment()
-                )
+                viewModel.onNavigateTestRemoved()
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
