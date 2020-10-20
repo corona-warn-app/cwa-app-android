@@ -17,15 +17,6 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
         AppInjector.component.settingsRepository
     }
 
-    val isNotificationsEnabled: LiveData<Boolean> = settingsRepository.isNotificationsEnabled
-    val isNotificationsRiskEnabled: LiveData<Boolean> =
-        settingsRepository.isNotificationsRiskEnabled
-    val isNotificationsTestEnabled: LiveData<Boolean> =
-        settingsRepository.isNotificationsTestEnabled
-    val isConnectionEnabled: LiveData<Boolean> = settingsRepository.isConnectionEnabled
-    val isBluetoothEnabled: LiveData<Boolean> = settingsRepository.isBluetoothEnabled
-    val isLocationEnabled: LiveData<Boolean> = settingsRepository.isLocationEnabled
-
     // Will impact UI if background activity is not permitted, persistent storing is not necessary
     val isBackgroundJobEnabled: LiveData<Boolean> = settingsRepository.isBackgroundJobEnabled
 
@@ -49,68 +40,12 @@ class SettingsViewModel @Inject constructor() : CWAViewModel() {
     val manualKeyRetrievalTime: LiveData<Long> = settingsRepository.manualKeyRetrievalTime
 
     /**
-     * Refresher and toggles for settings
-     * - Notifications overall
-     *  - Risk updates
-     *  - Test updates
-     *  - News updates
-     *  - App updates
-     *  - Connectivity
-     *  - Background activity
-     *
-     * @see settingsRepository
-     */
-    fun refreshNotificationsEnabled() {
-        settingsRepository.refreshNotificationsEnabled()
-    }
-
-    /**
-     * Refresh & toggle risk notifications
-     */
-    fun refreshNotificationsRiskEnabled() {
-        settingsRepository.refreshNotificationsRiskEnabled()
-    }
-
-    fun toggleNotificationsRiskEnabled() {
-        settingsRepository.toggleNotificationsRiskEnabled()
-    }
-
-    /**
-     * Refresh & toggle test notifications
-     */
-    fun refreshNotificationsTestEnabled() {
-        settingsRepository.refreshNotificationsTestEnabled()
-    }
-
-    fun toggleNotificationsTestEnabled() {
-        settingsRepository.toggleNotificationsTestEnabled()
-    }
-
-    /**
      * Update connection enabled
      *
      * @param value
      */
     fun updateConnectionEnabled(value: Boolean) {
         settingsRepository.updateConnectionEnabled(value)
-    }
-
-    /**
-     * Update bluetooth enabled
-     *
-     * @param value
-     */
-    fun updateBluetoothEnabled(value: Boolean) {
-        settingsRepository.updateBluetoothEnabled(value)
-    }
-
-    /**
-     * Update location enabled
-     *
-     * @param value
-     */
-    fun updateLocationEnabled(value: Boolean) {
-        settingsRepository.updateLocationEnabled(value)
     }
 
     /**

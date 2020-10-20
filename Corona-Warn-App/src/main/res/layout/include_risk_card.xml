@@ -3,22 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-        <variable
-            name="settingsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
-
-        <variable
-            name="showDetails"
-            type="Boolean" />
+            name="tracingCard"
+            type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,27 +13,51 @@
         style="@style/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@{FormatterRiskHelper.formatRiskShape(showDetails)}"
-        android:backgroundTint="@{FormatterRiskHelper.formatRiskColorStateList(tracingViewModel.riskLevel)}"
+        android:background="@{tracingCard.getRiskShape(context)}"
+        android:backgroundTint="@{tracingCard.getRiskColorStateList(context)}"
         android:focusable="true">
 
-        <include
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/risk_card_header"
-            layout="@layout/include_risk_card_header"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showDetails="@{showDetails}"
-            app:tracingViewModel="@{tracingViewModel}" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/risk_card_header_headline"
+                android:accessibilityHeading="true"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@{tracingCard.getRiskLevelHeadline(context)}"
+                android:textColor="@{tracingCard.getStableTextColor(context)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/risk_card_header_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/risk_card_header_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_forward"
+                android:tint="@{tracingCard.getStableTextColor(context)}"
+                gone="@{tracingCard.showDetails}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Loading State -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:visibility="@{FormatterHelper.formatVisibility(tracingViewModel.isRefreshing)}"
+            gone="@{!tracingCard.refreshing}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_card_header">
@@ -68,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:text="@string/risk_card_loading_body"
-                android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
+                android:textColor="@{tracingCard.getStableTextColor(context)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/risk_card_progress"
@@ -79,7 +90,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="@{FormatterHelper.formatVisibilityInverted(tracingViewModel.isRefreshing)}"
+            gone="@{tracingCard.refreshing}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_card_header">
@@ -90,9 +101,9 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@{FormatterRiskHelper.formatRiskBody(tracingViewModel.riskLevel)}"
-                android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskBody(tracingViewModel.riskLevel))}"
+                android:text="@{tracingCard.getRiskBody(context)}"
+                android:textColor="@{tracingCard.getStableTextColor(context)}"
+                gone="@{tracingCard.getRiskBody(context).empty}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -103,13 +114,14 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated))}"
-                app:body="@{FormatterRiskHelper.formatRiskSavedRisk(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated)}"
+                gone="@{tracingCard.getSavedRiskBody(context).empty}"
+                app:body="@{tracingCard.getSavedRiskBody(context)}"
                 app:icon="@{@drawable/ic_risk_card_saved_risk}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_body"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                app:bodyTextColor="@{tracingCard.getStableTextColor(context)}" />
 
             <include
                 android:id="@+id/risk_card_row_contact"
@@ -117,13 +129,14 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskContact(tracingViewModel.riskLevel, tracingViewModel.matchedKeyCount))}"
-                app:body="@{FormatterRiskHelper.formatRiskContact(tracingViewModel.riskLevel, tracingViewModel.matchedKeyCount)}"
-                app:icon="@{FormatterRiskHelper.formatRiskContactIcon(tracingViewModel.riskLevel)}"
+                gone="@{tracingCard.getRiskContactBody(context).empty}"
+                app:body="@{tracingCard.getRiskContactBody(context)}"
+                app:icon="@{tracingCard.getRiskContactIcon(context)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_risk"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                app:bodyTextColor="@{tracingCard.getStableTextColor(context)}" />
 
             <include
                 android:id="@+id/risk_card_row_contact_last"
@@ -131,20 +144,21 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskContactLast(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure))}"
-                app:body="@{FormatterRiskHelper.formatRiskContactLast(tracingViewModel.riskLevel, tracingViewModel.daysSinceLastExposure)}"
+                gone="@{tracingCard.getRiskContactLast(context).empty}"
+                app:body="@{tracingCard.getRiskContactLast(context)}"
                 app:icon="@{@drawable/ic_risk_card_calendar}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                app:bodyTextColor="@{tracingCard.getStableTextColor(context)}" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/risk_card_row_saved_days"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod))}"
+                gone="@{tracingCard.getRiskActiveTracingDaysInRetentionPeriod(context).empty}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact_last">
@@ -168,7 +182,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:progress="@{tracingViewModel.activeTracingDaysInRetentionPeriod}"
+                        app:progress="@{tracingCard.activeTracingDaysInRetentionPeriod}"
                         app:progressColor="@color/colorStableLight" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -179,8 +193,8 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_small"
-                    android:text="@{FormatterRiskHelper.formatRiskActiveTracingDaysInRetentionPeriod(tracingViewModel.riskLevel, showDetails, tracingViewModel.activeTracingDaysInRetentionPeriod)}"
-                    android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
+                    android:text="@{tracingCard.getRiskActiveTracingDaysInRetentionPeriod(context)}"
+                    android:textColor="@{tracingCard.getStableTextColor(context)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/risk_card_row_saved_days_circle_progress"
@@ -193,13 +207,14 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated, tracingViewModel.lastTimeDiagnosisKeysFetched))}"
-                app:body="@{FormatterRiskHelper.formatTimeFetched(tracingViewModel.riskLevel, tracingViewModel.riskLevelScoreLastSuccessfulCalculated, tracingViewModel.lastTimeDiagnosisKeysFetched)}"
+                gone="@{tracingCard.getTimeFetched(context).empty}"
+                app:body="@{tracingCard.getTimeFetched(context)}"
                 app:icon="@{@drawable/ic_risk_card_time_fetched}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_days"
-                app:tracingViewModel="@{tracingViewModel}" />
+                app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                app:bodyTextColor="@{tracingCard.getStableTextColor(context)}" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -207,7 +222,7 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibilityText(FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled()))}"
+                gone="@{tracingCard.getNextUpdate(context).empty}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_row_time_fetched">
@@ -217,7 +232,7 @@
                     layout="@layout/include_divider"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
-                    app:dividerColor="@{FormatterRiskHelper.formatStableDividerColor(tracingViewModel.riskLevel)}"
+                    app:dividerColor="@{tracingCard.getStableDividerColor(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -227,8 +242,8 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@{FormatterRiskHelper.formatNextUpdate(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled())}"
-                    android:textColor="@{FormatterRiskHelper.formatStableTextColor(tracingViewModel.riskLevel)}"
+                    android:text="@{tracingCard.getNextUpdate(context)}"
+                    android:textColor="@{tracingCard.getStableTextColor(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update_divider" />
@@ -242,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@string/risk_details_button_enable_tracing"
-                android:visibility="@{FormatterRiskHelper.formatButtonEnableTracingVisibility(tracingViewModel.riskLevel, showDetails)}"
+                gone="@{!tracingCard.showTracingButton()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update" />
@@ -253,9 +268,9 @@
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:enabled="@{FormatterRiskHelper.formatButtonUpdateEnabled(settingsViewModel.isManualKeyRetrievalEnabled())}"
-                android:text="@{FormatterRiskHelper.formatButtonUpdateText(settingsViewModel.manualKeyRetrievalTime)}"
-                android:visibility="@{FormatterRiskHelper.formatButtonUpdateVisibility(tracingViewModel.riskLevel, settingsViewModel.isBackgroundJobEnabled(), showDetails)}"
+                android:enabled="@{tracingCard.isUpdateButtonEnabled()}"
+                android:text="@{tracingCard.getUpdateButtonText(context)}"
+                gone="@{!tracingCard.showUpdateButton()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/risk_card_button_enable_tracing" />

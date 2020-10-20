@@ -20,10 +20,8 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelLazy
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import kotlin.reflect.KClass
 
 /**
@@ -72,113 +70,33 @@ class ViewModelLazyKeyed<VM : ViewModel>(
 }
 
 /**
- * Returns a property delegate to access [ViewModel] by **default** scoped to this [Fragment]:
- * ```
- * class MyFragment : Fragment() {
- *     val viewmodel: NYViewModel by viewmodels()
- * }
- * ```
- *
- * Custom [ViewModelProvider.Factory] can be defined via [factoryProducer] parameter,
- * factory returned by it will be used to create [ViewModel]:
- * ```
- * class MyFragment : Fragment() {
- *     val viewmodel: MYViewModel by viewmodels { myFactory }
- * }
- * ```
- *
- * Default scope may be overridden with parameter [ownerProducer]:
- * ```
- * class MyFragment : Fragment() {
- *     val viewmodel: MYViewModel by viewmodels ({requireParentFragment()})
- * }
- * ```
- *
- * This property can be accessed only after this Fragment is attached i.e., after
- * [Fragment.onAttach()], and access prior to that will result in IllegalArgumentException.
- */
-@MainThread
-inline fun <reified VM : ViewModel> Fragment.viewModelsKeyed(
-    noinline keyProducer: (() -> String)? = null,
-    noinline ownerProducer: () -> ViewModelStoreOwner = { this },
-    noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-) = createViewModelLazyKeyed(
-    VM::class,
-    keyProducer,
-    { ownerProducer().viewModelStore },
-    factoryProducer
-)
-
-/**
- * Returns a property delegate to access parent activity's [ViewModel],
- * if [factoryProducer] is specified then [ViewModelProvider.Factory]
- * returned by it will be used to create [ViewModel] first time.
- *
- * ```
- * class MyFragment : Fragment() {
- *     val viewmodel: MyViewModel by activityViewModels()
- * }
- * ```
- *
- * This property can be accessed only after this Fragment is attached i.e., after
- * [Fragment.onAttach()], and access prior to that will result in IllegalArgumentException.
- */
-@MainThread
-inline fun <reified VM : ViewModel> Fragment.activityViewModelsKeyed(
-    noinline keyProducer: (() -> String)? = null,
-    noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-) = createViewModelLazyKeyed(
-    VM::class,
-    keyProducer,
-    { requireActivity().viewModelStore },
-    factoryProducer
-)
-
-/**
- * Helper method for creation of [ViewModelLazy], that resolves `null` passed as [factoryProducer]
- * to default factory.
+ * Creates a lazily instantiated ViewModel with Fragment scope
  */
 @MainThread
 fun <VM : ViewModel> Fragment.createViewModelLazyKeyed(
     viewModelClass: KClass<VM>,
     keyProducer: (() -> String)? = null,
-    storeProducer: () -> ViewModelStore,
-    factoryProducer: (() -> ViewModelProvider.Factory)? = null
-): Lazy<VM> {
-    val factoryPromise = factoryProducer ?: {
+    storeProducer: () -> ViewModelStore = { viewModelStore },
+    factoryProducer: (() -> ViewModelProvider.Factory) = {
         val application = activity?.application ?: throw IllegalStateException(
             "ViewModel can be accessed only when Fragment is attached"
         )
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)
     }
-    return ViewModelLazyKeyed(viewModelClass, keyProducer, storeProducer, factoryPromise)
-}
+): Lazy<VM> = ViewModelLazyKeyed(viewModelClass, keyProducer, storeProducer, factoryProducer)
 
 /**
- * Returns a [Lazy] delegate to access the ComponentActivity's ViewModel, if [factoryProducer]
- * is specified then [ViewModelProvider.Factory] returned by it will be used
- * to create [ViewModel] first time.
- *
- * ```
- * class MyComponentActivity : ComponentActivity() {
- *     val viewmodel: MyViewModel by viewmodels()
- * }
- * ```
- *
- * This property can be accessed only after the Activity is attached to the Application,
- * and access prior to that will result in IllegalArgumentException.
+ * Creates a lazily instantiated ViewModel with Activity scope
  */
 @MainThread
-inline fun <reified VM : ViewModel> ComponentActivity.viewModelsKeyed(
-    noinline keyProducer: (() -> String)? = null,
-    noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-): Lazy<VM> {
-    val factoryPromise = factoryProducer ?: {
+fun <VM : ViewModel> ComponentActivity.createViewModelLazyKeyed(
+    viewModelClass: KClass<VM>,
+    keyProducer: (() -> String)? = null,
+    storeProducer: () -> ViewModelStore = { viewModelStore },
+    factoryProducer: (() -> ViewModelProvider.Factory) = {
         val application = application ?: throw IllegalArgumentException(
             "ViewModel can be accessed only when Activity is attached"
         )
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)
     }
-
-    return ViewModelLazyKeyed(VM::class, keyProducer, { viewModelStore }, factoryPromise)
-}
+): Lazy<VM> = ViewModelLazyKeyed(viewModelClass, keyProducer, storeProducer, factoryProducer)
