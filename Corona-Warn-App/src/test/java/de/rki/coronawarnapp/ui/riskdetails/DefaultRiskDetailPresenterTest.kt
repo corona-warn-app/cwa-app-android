@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.riskdetails
 
 import de.rki.coronawarnapp.risk.RiskLevelConstants
+import de.rki.coronawarnapp.ui.tracing.details.DefaultRiskDetailPresenter
 import org.junit.Assert
 import org.junit.Test
 
