@@ -285,12 +285,8 @@ workflows:
     jobs:
       - quick_build_device_for_testers_signed:
           filters:
-            branches:
+            tags:
               only:
-                - feature/circleci-apk-sign
-#          filters:
-#            tags:
-#              only:
-#                - /SNAPSHOT/
-#            branches:
-#              ignore: /.*/
+                - /SNAPSHOT/
+            branches:
+              ignore: /.*/
