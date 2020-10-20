@@ -4,25 +4,25 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.round
 
 @Singleton
-class DefaultRiskLevels @Inject constructor() : RiskLevels {
+class DefaultRiskLevels @Inject constructor(
+    private val appConfigProvider: AppConfigProvider
+) : RiskLevels {
 
     companion object {
         private var TAG = DefaultRiskLevels::class.simpleName
@@ -65,8 +65,10 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             // if the last calculation is longer in the past as the defined threshold we return the stale state
             val timeSinceLastDiagnosisKeyFetchFromServer =
                 TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
-                    ?: throw RiskLevelCalculationException(IllegalArgumentException(
-                        "time since last exposure calculation is null")
+                    ?: throw RiskLevelCalculationException(
+                        IllegalArgumentException(
+                            "time since last exposure calculation is null"
+                        )
                     )
             /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
             defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
@@ -88,7 +90,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
     override suspend fun isIncreasedRisk(): Boolean {
         val lastExposureSummary = getNewExposureSummary()
         // retrieve application configuration
-        val appConfiguration = getApplicationConfiguration()
+        val appConfiguration = appConfigProvider.getAppConfig()
         Timber.tag(TAG).v("retrieved configuration from backend")
         // custom attenuation parameters to weight the attenuation
         // values provided by the Google API
@@ -196,17 +198,6 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
     fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
         riskScore >= min && riskScore <= max
-
-    /**
-     * Make a call to the backend to retrieve the current application configuration values
-     *
-     * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
-     */
-    private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
-        withContext(Dispatchers.Default) {
-            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
-                .also { Timber.tag(TAG).d("configuration from backend: $it") }
-        }
 
     /**
      * Updates the Risk Level Score in the repository with the calculated Risk Level

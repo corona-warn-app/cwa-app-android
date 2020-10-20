@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
+import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -56,8 +58,16 @@ class TracingRepository @Inject constructor(
     }
 
     // TODO shouldn't access this directly
-    private val internalIsRefreshing = MutableStateFlow(false)
+    private val retrievingDiagnosisKeys = MutableStateFlow(false)
+    private val internalIsRefreshing =
+        retrievingDiagnosisKeys.combine(AppInjector.component.taskController.tasks) { retrievingDiagnosisKeys, tasks ->
+            retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
+        }
     val isRefreshing: Flow<Boolean> = internalIsRefreshing
+
+    private fun List<TaskInfo>.isRiskLevelTaskRunning() = find {
+        it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
+    } != null
 
     /**
      * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
@@ -71,7 +81,7 @@ class TracingRepository @Inject constructor(
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
-            internalIsRefreshing.value = true
+            retrievingDiagnosisKeys.value = true
             try {
                 RetrieveDiagnosisKeysTransaction.start()
                 AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
@@ -79,7 +89,7 @@ class TracingRepository @Inject constructor(
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
             refreshLastTimeDiagnosisKeysFetchedDate()
-            internalIsRefreshing.value = false
+            retrievingDiagnosisKeys.value = false
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -136,7 +146,7 @@ class TracingRepository @Inject constructor(
 
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
                     // TODO shouldn't access this directly
-                    internalIsRefreshing.value = true
+                    retrievingDiagnosisKeys.value = true
 
                     // start the fetching and submitting of the diagnosis keys
                     RetrieveDiagnosisKeysTransaction.start()
@@ -151,7 +161,7 @@ class TracingRepository @Inject constructor(
 
             AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             // TODO shouldn't access this directly
-            internalIsRefreshing.value = false
+            retrievingDiagnosisKeys.value = false
         }
     }
 
