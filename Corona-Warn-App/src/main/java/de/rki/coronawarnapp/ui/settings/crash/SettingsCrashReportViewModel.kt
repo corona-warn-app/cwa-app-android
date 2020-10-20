@@ -23,8 +23,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         crashReportRepository.deleteAllCrashReports()
     }
 
-    fun simulateExceptioin() = viewModelScope.launch(Dispatchers.IO) {
-        // toDo just for testing, remove later
+    fun simulateExceptioin() {
         try {
             val a = 2 / 0
         } catch (e: Exception) {
