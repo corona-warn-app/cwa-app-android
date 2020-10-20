@@ -37,13 +37,10 @@ class SettingsCrashReportDetailsFragment :
                     " # Device: ${it.deviceInfo} \n" +
                     " # Android Version ${it.androidVersion} \n" +
                     " # Android API-Level ${it.apiLevel} \n\n" +
-
                     " # AppVersion: ${it.appVersionName} \n" +
                     " # AppVercionCode ${it.appVersionCode} \n" +
                     " # C-Hash ${it.shortID} \n\n\n" +
-
                     " ${it.stackTrace}"
-
         }
     }
 }

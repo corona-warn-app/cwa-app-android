@@ -23,37 +23,51 @@
         android:id="@+id/buttonClearCrashReportList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="8dp"
         android:text="Clear List"
-
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/buttonTestItemForCrashReport"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarErrorReport" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarErrorReport"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/buttonTestItemForCrashReport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginEnd="1dp"
         android:text="Test Item (+1)"
         app:layout_constraintEnd_toStartOf="@+id/buttonClearCrashReportList"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarErrorReport" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarErrorReport"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/topinfo"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorCalendarLayoutFocusOn"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Note: Select a card to view and share details."
+        android:textColor="@color/colorTextSixteenWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTestItemForCrashReport" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
         android:background="@color/colorCalendarLayoutFocusOn"
-        android:paddingTop="6dp"
+        android:paddingBottom="8dp"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonClearCrashReportList"
+        app:layout_constraintTop_toBottomOf="@+id/topinfo"
         tools:context="SettingsCrashReporterFragment"
         tools:listitem="@layout/view_crashreport_list_item" />
 
