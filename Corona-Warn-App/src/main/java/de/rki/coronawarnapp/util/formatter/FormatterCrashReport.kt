@@ -10,7 +10,7 @@ import java.util.Date
 import java.util.Locale
 
 @BindingAdapter("crashReportId")
-fun formatCrashReportId(textView: TextView, id: Long) {
+fun formatCrashReportId(textView: TextView, id: Int) {
     textView.text = textView.context.getString(R.string.crash_report_title, id)
 }
 

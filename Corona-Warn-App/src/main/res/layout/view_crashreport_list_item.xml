@@ -8,6 +8,10 @@
         <variable
             name="crashReport"
             type="de.rki.coronawarnapp.crash.CrashReportEntity" />
+
+        <variable
+            name="pos"
+            type="int" />
     </data>
 
     <LinearLayout
@@ -30,7 +34,7 @@
                 android:textStyle="bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:crashReportId="@{crashReport.id}"
+                app:crashReportTitle="@{pos}"
                 app:layout_constraintEnd_toStartOf="@+id/btn_show_complete_error_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

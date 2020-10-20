@@ -19,7 +19,7 @@ class CrashReportAdapter : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>(
     }
 
     override fun onBindViewHolder(holder: CrashHolder, position: Int) {
-        holder.bind(crashReports[position])
+        holder.bind(crashReports[position], position)
     }
 
     override fun getItemCount() = crashReports.size
@@ -31,8 +31,9 @@ class CrashReportAdapter : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>(
 
     class CrashHolder(private val binding: ViewCrashreportListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(crashReport: CrashReportEntity) {
+        fun bind(crashReport: CrashReportEntity, pos: Int) {
             binding.crashReport = crashReport
+            binding.pos = (pos + 1)
         }
     }
 }
