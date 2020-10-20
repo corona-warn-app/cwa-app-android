@@ -98,8 +98,6 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
         ) shouldBe intArrayOf(3000, 2999, 2998, 2997, 2996, 2995, 2994, 2993, 2992, 2991, 2990, 2989, 2988, 2987, 2986)
     }
 
-
     private fun Instant.startMinusDays(days: Int): Symptoms.StartOf =
         Symptoms.StartOf.Date(this.toLocalDate().minusDays(days))
 }
-
