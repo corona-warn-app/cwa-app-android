@@ -65,7 +65,9 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
             // if the last calculation is longer in the past as the defined threshold we return the stale state
             val timeSinceLastDiagnosisKeyFetchFromServer =
                 TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
-                    ?: throw RiskLevelCalculationException(IllegalArgumentException("time since last exposure calculation is null"))
+                    ?: throw RiskLevelCalculationException(IllegalArgumentException(
+                        "time since last exposure calculation is null")
+                    )
             /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
             defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
             return timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >

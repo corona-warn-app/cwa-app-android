@@ -109,7 +109,7 @@ class RiskLevelTask @Inject constructor(
     class Result(val riskLevel: RiskLevel) : Task.Result
 
     data class Config(
-        override val executionTimeout: Duration = RISK_LEVEL_TRANSACTION_TIMEOUT,//TODO unit-test that not > 9 min
+        override val executionTimeout: Duration = RISK_LEVEL_TRANSACTION_TIMEOUT, // TODO unit-test that not > 9 min
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
