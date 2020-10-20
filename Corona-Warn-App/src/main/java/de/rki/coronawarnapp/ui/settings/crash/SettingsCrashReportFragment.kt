@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.crash.CrashReportEntity
 import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
-class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview), AutoInject {
+class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview), AutoInject, CrashReportAdapter.ItemClickListener {
 
     companion object {
         private val TAG = SettingsCrashReportFragment::class.java.simpleName
@@ -26,7 +28,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = CrashReportAdapter()
+        adapter = CrashReportAdapter(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,5 +46,9 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
         fragmentCrashreporterOverviewBinding.buttonTestItemForCrashReport.setOnClickListener {
             vm.simulateExceptioin()
         }
+    }
+
+    override fun crashReportClicked(crashReport: CrashReportEntity) {
+        Timber.d("Clicked on crash report ${crashReport.id}")
     }
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.crash.CrashReportEntity
 import de.rki.coronawarnapp.databinding.ViewCrashreportListItemBinding
 
-class CrashReportAdapter : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>() {
+class CrashReportAdapter(private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>() {
 
     private var crashReports = listOf<CrashReportEntity>()
 
@@ -19,7 +19,9 @@ class CrashReportAdapter : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>(
     }
 
     override fun onBindViewHolder(holder: CrashHolder, position: Int) {
-        holder.bind(crashReports[position], position)
+        val crashReport = crashReports[position]
+        holder.bind(crashReport, position)
+        holder.itemView.setOnClickListener { itemClickListener.crashReportClicked(crashReport) }
     }
 
     override fun getItemCount() = crashReports.size
@@ -27,6 +29,10 @@ class CrashReportAdapter : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>(
     fun updateCrashReports(crashReportList: List<CrashReportEntity>) {
         crashReports = crashReportList
         notifyDataSetChanged()
+    }
+
+    interface ItemClickListener {
+        fun crashReportClicked(crashReport: CrashReportEntity)
     }
 
     class CrashHolder(private val binding: ViewCrashreportListItemBinding) :
