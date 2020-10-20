@@ -66,7 +66,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         if (errorResetTool.isResetNoticeToBeShown) {
             RecoveryByResetDialogFactory(this).showDialog(
                 detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                onDismiss = {
+                onPositive = {
                     errorResetTool.isResetNoticeToBeShown = false
                 }
             )
