@@ -22,7 +22,10 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
     }
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: SettingsCrashReportViewModel by cwaViewModels { viewModelFactory }
+    private val vm: SettingsCrashReportViewModel by cwaViewModels(
+        ownerProducer = { requireActivity().viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
     private val fragmentCrashreporterOverviewBinding: FragmentCrashreporterOverviewBinding by viewBindingLazy()
     private lateinit var adapter: CrashReportAdapter
 

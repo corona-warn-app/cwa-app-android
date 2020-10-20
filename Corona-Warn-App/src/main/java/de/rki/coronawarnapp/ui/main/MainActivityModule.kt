@@ -9,8 +9,6 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.submission.SubmissionFragmentModule
 import de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragmentModule
-import de.rki.coronawarnapp.ui.settings.crash.SettingsCrashReportFragment
-import de.rki.coronawarnapp.ui.settings.crash.SettingsCrashReportFragmentModule
 
 @Module(
     includes = [
@@ -31,7 +29,4 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [InteroperabilityConfigurationFragmentModule::class])
     abstract fun intertopConfigScreen(): InteroperabilityConfigurationFragment
-
-    @ContributesAndroidInjector(modules = [SettingsCrashReportFragmentModule::class])
-    abstract fun settingsCrashReportFragment(): SettingsCrashReportFragment
 }

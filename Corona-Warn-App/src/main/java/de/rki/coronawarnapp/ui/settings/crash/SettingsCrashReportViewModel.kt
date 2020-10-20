@@ -19,6 +19,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
     var selectedCrashReport: CrashReportEntity? = null
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
+        selectedCrashReport = null
         crashReportRepository.deleteAllCrashReports()
     }
 
