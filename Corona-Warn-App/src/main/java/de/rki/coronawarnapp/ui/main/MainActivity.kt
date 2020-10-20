@@ -14,7 +14,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -26,7 +25,6 @@ import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -73,35 +71,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
-    /**
-     * Register bluetooth callback.
-     */
-    private val callbackBluetooth = object : ConnectivityHelper.BluetoothCallback() {
-        override fun onBluetoothAvailable() {
-            settingsViewModel.updateBluetoothEnabled(true)
-        }
-
-        override fun onBluetoothUnavailable() {
-            settingsViewModel.updateBluetoothEnabled(false)
-        }
-    }
-
-    /**
-     * Register location callback.
-     */
-    private val callbackLocation = object : ConnectivityHelper.LocationCallback() {
-        override fun onLocationAvailable() {
-            settingsViewModel.updateLocationEnabled(true)
-        }
-
-        override fun onLocationUnavailable() {
-            val canIgnoreLocationEnabled =
-                InternalExposureNotificationClient.deviceSupportsLocationlessScanning()
-            settingsViewModel.updateLocationEnabled(canIgnoreLocationEnabled)
-            Timber.d("Location unavailable but can be ignored? $canIgnoreLocationEnabled")
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
@@ -110,13 +79,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     /**
-     * Register network, bluetooth and data saver callback.
+     * Register callbacks.
      */
     override fun onResume() {
         super.onResume()
         ConnectivityHelper.registerNetworkStatusCallback(this, callbackNetwork)
-        ConnectivityHelper.registerBluetoothStatusCallback(this, callbackBluetooth)
-        ConnectivityHelper.registerLocationStatusCallback(this, callbackLocation)
         settingsViewModel.updateBackgroundJobEnabled(ConnectivityHelper.autoModeEnabled(this))
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
@@ -198,13 +165,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     /**
-     * Unregister network and bluetooth callback.
+     * Unregister callbacks.
      */
     override fun onPause() {
         super.onPause()
         ConnectivityHelper.unregisterNetworkStatusCallback(this, callbackNetwork)
-        ConnectivityHelper.unregisterBluetoothStatusCallback(this, callbackBluetooth)
-        ConnectivityHelper.unregisterLocationStatusCallback(this, callbackLocation)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

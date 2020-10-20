@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
+            name="tracingDetails"
+            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riskLevel="@{tracingViewModel.riskLevel}" />
+            app:riskLevel="@{tracingDetails.riskLevelScore}" />
 
         <include
             android:id="@+id/risk_details_behavior_stay_away"
@@ -44,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_home"
-            app:riskLevel="@{tracingViewModel.riskLevel}" />
+            app:riskLevel="@{tracingDetails.riskLevelScore}" />
 
         <include
             android:id="@+id/risk_details_behavior_cough_sneeze"
@@ -58,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_stay_away"
-            app:riskLevel="@{tracingViewModel.riskLevel}" />
+            app:riskLevel="@{tracingDetails.riskLevelScore}" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

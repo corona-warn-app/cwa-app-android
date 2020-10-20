@@ -1,51 +1,71 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowInteropDeltaOnboarding
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
+import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.sample
 
 class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    @AppContext private val context: Context,
     private val errorResetTool: EncryptionErrorResetTool,
-    val tracingViewModel: TracingViewModel,
+    tracingStatus: GeneralTracingStatus,
+    tracingCardStateProvider: TracingCardStateProvider,
+    submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
-    val submissionViewModel: SubmissionViewModel
+    private val tracingRepository: TracingRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
-    childViewModels = listOf(tracingViewModel, settingsViewModel, submissionViewModel)
+    childViewModels = listOf(settingsViewModel)
 ) {
 
-    val events = SingleLiveEvent<HomeFragmentEvents>()
+    val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus
+        .map { it.toHeaderState() }
+        .asLiveData(dispatcherProvider.Default)
 
-    init {
-        if (!LocalData.isInteroperabilityShownAtLeastOnce) {
-            events.postValue(ShowInteropDeltaOnboarding)
-        } else {
-            launch {
-                if (!LocalData.tracingExplanationDialogWasShown()) {
-                    events.postValue(
-                        ShowTracingExplanation(TimeVariables.getActiveTracingDaysInRetentionPeriod())
-                    )
+    val tracingCardState: LiveData<TracingCardState> = tracingCardStateProvider.state
+        .asLiveData(dispatcherProvider.Default)
+
+    @Suppress("MagicNumber")
+    val submissionCardState: LiveData<SubmissionCardState> = submissionCardsStateProvider.state
+        .sample(150L)
+        .asLiveData(dispatcherProvider.Default)
+
+    val popupEvents: SingleLiveEvent<HomeFragmentEvents> by lazy {
+        SingleLiveEvent<HomeFragmentEvents>().apply {
+            if (!LocalData.isInteroperabilityShownAtLeastOnce) {
+                postValue(ShowInteropDeltaOnboarding)
+            } else {
+                launch {
+                    if (!LocalData.tracingExplanationDialogWasShown()) {
+                        postValue(
+                            ShowTracingExplanation(
+                                TimeVariables.getActiveTracingDaysInRetentionPeriod()
+                            )
+                        )
+                    }
                 }
-            }
-            launch {
-                if (errorResetTool.isResetNoticeToBeShown) {
-                    events.postValue(ShowErrorResetDialog)
+                launch {
+                    if (errorResetTool.isResetNoticeToBeShown) {
+                        postValue(ShowErrorResetDialog)
+                    }
                 }
             }
         }
@@ -56,18 +76,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun refreshRequiredData() {
-        tracingViewModel.refreshRiskLevel()
-        tracingViewModel.refreshExposureSummary()
-        tracingViewModel.refreshLastTimeDiagnosisKeysFetchedDate()
-        tracingViewModel.refreshIsTracingEnabled()
-        tracingViewModel.refreshActiveTracingDaysInRetentionPeriod()
+        SubmissionRepository.refreshDeviceUIState()
+        // TODO the ordering here is weird, do we expect these to run in sequence?
+        tracingRepository.refreshRiskLevel()
+        tracingRepository.refreshExposureSummary()
+        tracingRepository.refreshLastTimeDiagnosisKeysFetchedDate()
+        tracingRepository.refreshActiveTracingDaysInRetentionPeriod()
         TimerHelper.checkManualKeyRetrievalTimer()
-        submissionViewModel.refreshDeviceUIState()
-        tracingViewModel.refreshLastSuccessfullyCalculatedScore()
+        tracingRepository.refreshLastSuccessfullyCalculatedScore()
     }
 
     fun tracingExplanationWasShown() {
         LocalData.tracingExplanationDialogWasShown(true)
+    }
+
+    fun refreshDiagnosisKeys() {
+        tracingRepository.refreshDiagnosisKeys()
     }
 
     @AssistedInject.Factory
