@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.ui.settings.crash
 
 import android.os.Bundle
+import android.view.View
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsCrashReportDetailsBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -41,6 +44,28 @@ class SettingsCrashReportDetailsFragment :
                     " # AppVercionCode ${it.appVersionCode} \n" +
                     " # C-Hash ${it.shortID} \n\n\n" +
                     " ${it.stackTrace}"
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.setOnClickListener { shareCrashReport() }
+    }
+
+    private fun shareCrashReport() {
+        activity?.let { activity ->
+            vm.selectedCrashReport.value?.let { crashReport ->
+                val shareIntent = ShareCompat.IntentBuilder
+                    .from(activity)
+                    .setType("text/json")
+                    .setText(Gson().toJson(crashReport))
+                    .createChooserIntent()
+
+                if (shareIntent.resolveActivity(activity.packageManager) != null) {
+                    startActivity(shareIntent)
+                }
+            }
         }
     }
 }
