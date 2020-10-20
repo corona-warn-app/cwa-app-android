@@ -22,7 +22,7 @@ class AppConfigModule {
     @Provides
     @AppConfigHttpCache
     fun provideAppConfigCache(
-        @AppContext context: Context,
+        @AppContext context: Context
     ): Cache {
         val cacheSize = 1 * 1024 * 1024L // 1MB
         val cacheDir = File(context.cacheDir, "http_app-config")
