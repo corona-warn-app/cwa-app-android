@@ -250,7 +250,7 @@ jobs:
           name: Prepare keystore properties for Signing
           command: |
             echo "" >> "./keystore.properties"
-            echo "deviceForTestersRelease.storePath=../$keystore_download_filename" >> "./keystore.properties"
+            echo "deviceForTestersRelease.storePath=../$keystore_filename" >> "./keystore.properties"
             echo "deviceForTestersRelease.storePassword=$keystore_password" >> "./keystore.properties"
             echo "deviceForTestersRelease.keyAlias=$key_alias" >> "./keystore.properties"
             echo "deviceForTestersRelease.keyPassword=$key_password" >> "./keystore.properties"
