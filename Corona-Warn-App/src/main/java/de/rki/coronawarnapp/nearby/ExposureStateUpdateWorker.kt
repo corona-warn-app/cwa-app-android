@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoTokenException
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
@@ -35,8 +34,6 @@ class ExposureStateUpdateWorker(val context: Context, workerParams: WorkerParame
             Timber.v("risk level calculation triggered")
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)
-        } catch (e: TransactionException) {
-            e.report(ExceptionCategory.INTERNAL)
         }
 
         return Result.success()

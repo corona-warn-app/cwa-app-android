@@ -56,7 +56,7 @@ class TracingRepository @Inject constructor(
     }
 
     // TODO shouldn't access this directly
-    val internalIsRefreshing = MutableStateFlow(false)
+    private val internalIsRefreshing = MutableStateFlow(false)
     val isRefreshing: Flow<Boolean> = internalIsRefreshing
 
     /**
@@ -75,8 +75,6 @@ class TracingRepository @Inject constructor(
             try {
                 RetrieveDiagnosisKeysTransaction.start()
                 AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            } catch (e: TransactionException) {
-                e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
@@ -151,14 +149,7 @@ class TracingRepository @Inject constructor(
                 e.report(ExceptionCategory.INTERNAL)
             }
 
-            // refresh the risk level
-            try {
-                AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
-            } catch (e: TransactionException) {
-                e.cause?.report(ExceptionCategory.INTERNAL)
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.INTERNAL)
-            }
+            AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             // TODO shouldn't access this directly
             internalIsRefreshing.value = false
         }
