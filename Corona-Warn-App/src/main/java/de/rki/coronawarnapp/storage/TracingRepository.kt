@@ -5,12 +5,14 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,7 +74,7 @@ class TracingRepository @Inject constructor(
             internalIsRefreshing.value = true
             try {
                 RetrieveDiagnosisKeysTransaction.start()
-                RiskLevelTransaction.start()
+                AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             } catch (e: TransactionException) {
                 e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
             } catch (e: Exception) {
@@ -151,7 +153,7 @@ class TracingRepository @Inject constructor(
 
             // refresh the risk level
             try {
-                RiskLevelTransaction.start()
+                AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             } catch (e: TransactionException) {
                 e.cause?.report(ExceptionCategory.INTERNAL)
             } catch (e: Exception) {

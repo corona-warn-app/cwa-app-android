@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
@@ -88,6 +89,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val playbook: Playbook
 
     val interoperabilityRepository: InteroperabilityRepository
+
+    val taskController: TaskController
 
     @AppScope val appScope: AppCoroutineScope
 

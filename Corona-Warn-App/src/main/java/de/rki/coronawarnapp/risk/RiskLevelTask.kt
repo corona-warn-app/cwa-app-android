@@ -106,8 +106,6 @@ class RiskLevelTask @Inject constructor(
         isCanceled = true
     }
 
-    class Arguments : Task.Arguments
-
     class Result(val riskLevel: RiskLevel) : Task.Result
 
     data class Config(
