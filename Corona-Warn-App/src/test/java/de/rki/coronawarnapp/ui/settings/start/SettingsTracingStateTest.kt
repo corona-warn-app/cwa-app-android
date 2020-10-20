@@ -90,5 +90,4 @@ class SettingsTracingStateTest : BaseTest() {
             verify { context.getString(R.string.settings_tracing_status_active) }
         }
     }
-
 }
