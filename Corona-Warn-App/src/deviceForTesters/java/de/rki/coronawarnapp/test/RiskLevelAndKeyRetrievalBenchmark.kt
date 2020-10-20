@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.di.AppInjector
 import timber.log.Timber
 import kotlin.system.measureTimeMillis
