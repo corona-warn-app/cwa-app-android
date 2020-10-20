@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@BindingAdapter("crashReportId")
+@BindingAdapter("crashReportTitle")
 fun formatCrashReportId(textView: TextView, id: Int) {
     textView.text = textView.context.getString(R.string.crash_report_title, id)
 }

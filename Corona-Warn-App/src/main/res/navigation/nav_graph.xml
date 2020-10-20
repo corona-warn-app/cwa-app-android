@@ -69,7 +69,7 @@
         android:id="@+id/crashReportFragment"
         android:name="de.rki.coronawarnapp.ui.settings.crash.SettingsCrashReportFragment"
         android:label="@layout/fragment_crashreporter_overview"
-        tools:layout="@layout/fragment_crashreporter_overview">
+        tools:layout="@layout/fragment_crashreporter_overview" >
         <action
             android:id="@+id/action_crashReportFragment_to_settingsCrashReportDetailsFragment"
             app:destination="@id/settingsCrashReportDetailsFragment" />
@@ -78,7 +78,7 @@
     <!-- Settings -->
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.start.SettingsFragment"
         android:label="@layout/fragment_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -100,7 +100,7 @@
 
     <fragment
         android:id="@+id/settingsTracingFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsTracingFragment"
+        android:name="de.rki.coronawarnapp.ui.tracing.settings.SettingsTracingFragment"
         android:label="@layout/fragment_settings_tracing"
         tools:layout="@layout/fragment_settings_tracing">
         <action
@@ -130,7 +130,7 @@
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
-        android:name="de.rki.coronawarnapp.ui.settings.SettingsNotificationFragment"
+        android:name="de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragment"
         android:label="SettingsNotificationFragment"
         tools:layout="@layout/fragment_settings_notifications" />
 
@@ -214,7 +214,7 @@
 
     <fragment
         android:id="@+id/riskDetailsFragment"
-        android:name="de.rki.coronawarnapp.ui.riskdetails.RiskDetailsFragment"
+        android:name="de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragment"
         android:label="@layout/fragment_risk_details"
         tools:layout="@layout/fragment_risk_details">
         <action
@@ -372,8 +372,9 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroductionFragment"
-        android:label="SubmissionSymptomIntroductionFragment">
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment"
+        android:label="SubmissionSymptomIntroductionFragment" >
+
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
             app:destination="@id/submissionSymptomCalendarFragment" />
@@ -386,8 +387,8 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragment"
-        android:label="SubmissionSymptomCalendarFragment">
+        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomCalendarFragment"
+        android:label="SubmissionSymptomCalendarFragment" >
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
