@@ -2,15 +2,15 @@ package de.rki.coronawarnapp.risk
 
 interface RiskLevels {
 
-    val calculationNotPossibleBecauseNoKeys: Boolean
+    fun calculationNotPossibleBecauseNoKeys(): Boolean
 
-    val calculationNotPossibleBecauseOfOutdatedResults: Boolean
+    fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean
 
     /**
      * true if threshold is reached / if the duration of the activated tracing time is above the
      * defined value
      */
-    val isActiveTracingTimeAboveThreshold: Boolean
+    fun isActiveTracingTimeAboveThreshold(): Boolean
 
     suspend fun isIncreasedRisk(): Boolean
 

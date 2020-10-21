@@ -5,9 +5,11 @@ import androidx.lifecycle.SavedStateHandle
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
+import de.rki.coronawarnapp.util.di.AppInjector
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -44,8 +46,6 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
         mockkObject(RetrieveDiagnosisKeysTransaction)
         coEvery { RetrieveDiagnosisKeysTransaction.start() } returns Unit
-        mockkObject(RiskLevelTransaction)
-        coEvery { RiskLevelTransaction.start() } returns Unit
 
         coEvery { keyCacheRepository.clear() } returns Unit
         every { enfClient.internalClient } returns exposureNotificationClient
@@ -76,7 +76,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
         coVerifyOrder {
             RetrieveDiagnosisKeysTransaction.start()
-            RiskLevelTransaction.start()
+            vm.calculateRiskLevel()
         }
     }
 
@@ -86,7 +86,10 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
 
         vm.calculateRiskLevel()
 
-        coVerify(exactly = 1) { RiskLevelTransaction.start() }
+        coVerify(exactly = 1) { AppInjector.component.taskController.submit(
+            DefaultTaskRequest(
+                RiskLevelTask::class)
+        ) }
         coVerify(exactly = 0) { RetrieveDiagnosisKeysTransaction.start() }
     }
 

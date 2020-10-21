@@ -60,23 +60,22 @@ class DefaultRiskLevels @Inject constructor(
         }
     }
 
-    override val calculationNotPossibleBecauseOfOutdatedResults: Boolean
-        get() {
-            // if the last calculation is longer in the past as the defined threshold we return the stale state
-            val timeSinceLastDiagnosisKeyFetchFromServer =
-                TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
-                    ?: throw RiskLevelCalculationException(
-                        IllegalArgumentException(
-                            "time since last exposure calculation is null"
-                        )
+    override fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean {
+        // if the last calculation is longer in the past as the defined threshold we return the stale state
+        val timeSinceLastDiagnosisKeyFetchFromServer =
+            TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
+                ?: throw RiskLevelCalculationException(
+                    IllegalArgumentException(
+                        "time since last exposure calculation is null"
                     )
-            /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
-            defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
-            return timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
-                TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold
-        }
+                )
+        /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
+        defined threshold because [UNKNOWN_RISK_INITIAL] overrules [UNKNOWN_RISK_OUTDATED_RESULTS] */
+        return timeSinceLastDiagnosisKeyFetchFromServer.millisecondsToHours() >
+            TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
+    }
 
-    override val calculationNotPossibleBecauseNoKeys =
+    override fun calculationNotPossibleBecauseNoKeys() =
         (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
             if (it)
                 Timber.tag(TAG)
@@ -132,24 +131,23 @@ class DefaultRiskLevels @Inject constructor(
         return false
     }
 
-    override val isActiveTracingTimeAboveThreshold: Boolean
-        get() {
-            val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
-            val durationTracingIsActiveThreshold =
-                TimeVariables.getMinActivatedTracingTime().toLong()
+    override fun isActiveTracingTimeAboveThreshold(): Boolean {
+        val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
+        val durationTracingIsActiveThreshold =
+            TimeVariables.getMinActivatedTracingTime().toLong()
 
-            val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
+        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
 
-            return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
-                Timber.tag(TAG).v(
-                    "active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                        "($durationTracingIsActiveThreshold h): $it"
-                )
-                if (it) {
-                    Timber.tag(TAG).v("active tracing time is not enough")
-                }
+        return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
+            Timber.tag(TAG).v(
+                "active tracing time ($activeTracingDurationInHours h) is above threshold " +
+                    "($durationTracingIsActiveThreshold h): $it"
+            )
+            if (it) {
+                Timber.tag(TAG).v("active tracing time is not enough")
             }
         }
+    }
 
     fun calculateRiskScore(
         attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,

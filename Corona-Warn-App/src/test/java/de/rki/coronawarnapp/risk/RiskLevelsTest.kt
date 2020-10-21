@@ -1,16 +1,43 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import junit.framework.TestCase.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class RiskLevelsTest {
 
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+    private lateinit var riskLevels: DefaultRiskLevels
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+        riskLevels = DefaultRiskLevels(appConfigProvider)
+    }
+
+    @Test
+    fun `is within defined level threshold`() {
+        // positive
+        riskLevels.withinDefinedLevelThreshold(2.0, 1, 3) shouldBe true
+
+        // negative
+        riskLevels.withinDefinedLevelThreshold(4.0, 1, 3) shouldBe false
+
+        // edge cases
+        riskLevels.withinDefinedLevelThreshold(1.0, 1, 3) shouldBe true
+        riskLevels.withinDefinedLevelThreshold(3.0, 1, 3) shouldBe true
+    }
+
     @Test
     fun calculateRiskScoreZero() {
         val riskScore =
-            DefaultRiskLevels().calculateRiskScore(
+            riskLevels.calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(0, 0, 0, 0)
             )
@@ -21,7 +48,7 @@ class RiskLevelsTest {
     @Test
     fun calculateRiskScoreLow() {
         val riskScore =
-            DefaultRiskLevels().calculateRiskScore(
+            riskLevels.calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(156, 10, 10, 10)
             )
@@ -32,7 +59,7 @@ class RiskLevelsTest {
     @Test
     fun calculateRiskScoreMid() {
         val riskScore =
-            DefaultRiskLevels().calculateRiskScore(
+            riskLevels.calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(256, 15, 15, 15)
             )
@@ -43,7 +70,7 @@ class RiskLevelsTest {
     @Test
     fun calculateRiskScoreHigh() {
         val riskScore =
-            DefaultRiskLevels().calculateRiskScore(
+            riskLevels.calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(512, 30, 30, 30)
             )
@@ -54,7 +81,7 @@ class RiskLevelsTest {
     @Test
     fun calculateRiskScoreMax() {
         val riskScore =
-            DefaultRiskLevels().calculateRiskScore(
+            riskLevels.calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(4096, 30, 30, 30)
             )
@@ -65,7 +92,7 @@ class RiskLevelsTest {
     @Test
     fun calculateRiskScoreCapped() {
         val riskScore =
-            DefaultRiskLevels().calculateRiskScore(
+            riskLevels.calculateRiskScore(
                 buildAttenuationDuration(0.5, 0.5, 1.0),
                 buildSummary(4096, 45, 45, 45)
             )

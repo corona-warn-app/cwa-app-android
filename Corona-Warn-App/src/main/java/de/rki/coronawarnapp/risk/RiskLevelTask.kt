@@ -54,11 +54,11 @@ class RiskLevelTask @Inject constructor(
                             checkCancel()
                         } -> NO_CALCULATION_POSSIBLE_TRACING_OFF
 
-                        calculationNotPossibleBecauseNoKeys.also {
+                        calculationNotPossibleBecauseNoKeys().also {
                             checkCancel()
                         } -> UNKNOWN_RISK_INITIAL
 
-                        calculationNotPossibleBecauseOfOutdatedResults.also {
+                        calculationNotPossibleBecauseOfOutdatedResults().also {
                             checkCancel()
                         } -> if (backgroundJobsEnabled)
                             UNKNOWN_RISK_OUTDATED_RESULTS
@@ -69,7 +69,7 @@ class RiskLevelTask @Inject constructor(
                             checkCancel()
                         } -> INCREASED_RISK
 
-                        !isActiveTracingTimeAboveThreshold.also {
+                        !isActiveTracingTimeAboveThreshold().also {
                             checkCancel()
                         } -> UNKNOWN_RISK_INITIAL
 
