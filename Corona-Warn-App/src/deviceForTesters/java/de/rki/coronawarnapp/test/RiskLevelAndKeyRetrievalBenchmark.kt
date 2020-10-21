@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp
+package de.rki.coronawarnapp.test
 
 import android.content.Context
 import android.text.format.Formatter
