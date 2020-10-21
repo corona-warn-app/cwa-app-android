@@ -36,6 +36,7 @@ class CrashReportRepository @Inject constructor(private val crashReportDao: Cras
     }
 
     suspend fun insertCrashReport(crashReportEntity: CrashReportEntity) {
+        // TODO Check if this is thread safe
         crashReportDao.insertCrashReport(crashReportEntity)
     }
 
