@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigur
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
@@ -51,6 +52,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @AppContext private val context: Context, // App context
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
+    private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     tracingCardStateProvider: TracingCardStateProvider
 ) : CWAViewModel(
@@ -84,7 +86,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun calculateRiskLevel() {
-        AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+        taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
     }
 
     fun resetRiskLevel() {
