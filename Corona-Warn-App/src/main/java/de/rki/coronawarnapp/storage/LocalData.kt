@@ -726,7 +726,7 @@ object LocalData {
             )
         }
         set(value) {
-            getSharedPreferenceInstance().edit {
+            getSharedPreferenceInstance().edit(true) {
                 putBoolean(PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE, value)
             }
         }
