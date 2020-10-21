@@ -373,7 +373,7 @@
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
     <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/en/faq/#encounter_but_green">"За повече информация вижте страницата „ЧЗВ“."</a></string>
+    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">"За повече информация вижте страницата „ЧЗВ“."</a></string>
 
     <!-- ####################################
               Onboarding
@@ -842,10 +842,6 @@
     <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nМоля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Изтриване на тест"</string>
-    <!-- XHED: Page headline for positive test result screen  -->
-    <string name="submission_test_result_positive_steps_positive_heading">"Резултатът от Вашия тест"</string>
-    <!-- YTXT: Body text for next steps section of test positive result-->
-    <string name="submission_test_result_positive_steps_positive_body">"Резултатът от Вашия тест бе потвърден като положителен."</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Предупредете другите"</string>
     <!-- YTXT: Body text for for other warnings screen-->
@@ -1181,7 +1177,7 @@
     <!-- XTXT: error dialog - text when no error description is available  -->
     <string name="errors_generic_text_unknown_error_cause">"Възникна неочаквана грешка."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
-    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Приложението беше върнато към изходно състояние поради технически проблем. Това няма да се отрази на работата му. Ще продължите да получавате известия за излаганията и ще можете да предупредите околните в случай на положителен тест за COVID-19."</string>
+    <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Приложението беше върнато към изходно състояние поради технически проблем. Това няма да се отрази на регистрирането на излаганията на риск и Вашия статус на риск. Ще продължите да получавате известия за излаганията и ще можете да предупредите околните в случай на положителен тест за COVID-19. Имайте предвид обаче, че всички прочетени QR кодове за електронното известие за резултатите от теста Ви са изгубени. Моля, свържете се с Вашия лекар или с лабораторията, за да разберете резултата."</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
     <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
