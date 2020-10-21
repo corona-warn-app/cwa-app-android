@@ -71,8 +71,8 @@ class EncryptionErrorResetTool @Inject constructor(
         }
         isResetWindowConsumed = true
 
-        val keyException = error.causes().singleOrNull { it is GeneralSecurityException }
-        if (keyException == null) {
+        val keyException = error.causes().lastOrNull()
+        if (keyException == null || keyException !is GeneralSecurityException) {
             Timber.v("Error has no GeneralSecurityException as cause -> no reset.")
             return false
         }
