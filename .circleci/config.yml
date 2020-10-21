@@ -285,8 +285,11 @@ workflows:
     jobs:
       - quick_build_device_for_testers_signed:
           filters:
-            tags:
-              only:
-                - /SNAPSHOT/
             branches:
-              ignore: /.*/
+              only:
+                - fix/signing-fix
+#            tags:
+#              only:
+#                - /SNAPSHOT/
+#            branches:
+#              ignore: /.*/
