@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.service.applicationconfiguration
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.util.di.AppInjector
 
 object ApplicationConfigurationService {
