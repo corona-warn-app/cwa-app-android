@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.submission.server
 
-
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import retrofit2.http.Body
 import retrofit2.http.Header
