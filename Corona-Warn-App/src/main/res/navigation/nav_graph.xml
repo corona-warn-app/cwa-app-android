@@ -224,7 +224,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionResultPositiveOtherWarningFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningFragment"
         android:label="fragment_submission_result_positive_other_warning"
         tools:layout="@layout/fragment_submission_positive_other_warning">
         <action
@@ -243,10 +243,13 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
+        <argument
+            android:name="symptoms"
+            app:argType="de.rki.coronawarnapp.submission.Symptoms" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment"
         android:label="fragment_submission_result"
         tools:layout="@layout/fragment_submission_test_result">
         <argument
@@ -268,7 +271,7 @@
 
     <fragment
         android:id="@+id/submissionTanFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment"
         android:label="fragment_submission_tan"
         tools:layout="@layout/fragment_submission_tan">
         <action
@@ -311,7 +314,7 @@
     </activity>
     <fragment
         android:id="@+id/submissionQRCodeInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoFragment"
         android:label="SubmissionQRCodeInfoFragment">
         <action
             android:id="@+id/action_submissionQRCodeInfoFragment_to_submissionQRCodeScanFragment"
@@ -320,7 +323,7 @@
 
     <fragment
         android:id="@+id/submissionQRCodeScanFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment"
         android:label="SubmissionQRCodeScanFragment">
         <action
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
@@ -357,7 +360,7 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomIntroductionFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment"
         android:label="SubmissionSymptomIntroductionFragment" >
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
@@ -371,14 +374,17 @@
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomCalendarFragment"
-        android:label="SubmissionSymptomCalendarFragment" >
+        android:name="de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment"
+        android:label="SubmissionSymptomCalendarFragment">
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment" />
+        <argument
+            android:name="symptomIndication"
+            app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
     </fragment>
 
 </navigation>

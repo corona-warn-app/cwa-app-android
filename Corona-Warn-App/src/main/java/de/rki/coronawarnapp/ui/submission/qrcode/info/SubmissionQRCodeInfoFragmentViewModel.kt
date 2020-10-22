@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.viewmodel
+package de.rki.coronawarnapp.ui.submission.qrcode.info
 
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:fillViewport="true"
             android:focusable="true"
-            tools:context=".ui.submission.fragment.SubmissionSymptomCalendarFragment">
+            tools:context=".ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment">
 
             <include
                 android:id="@+id/submission_symptom_calendar_header"

@@ -1,20 +1,15 @@
-package de.rki.coronawarnapp.ui.submission.fragment
+package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomIntroductionViewModel
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatBackgroundButtonStyleByState
@@ -22,52 +17,62 @@ import de.rki.coronawarnapp.util.formatter.formatButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.isEnableSymptomIntroButtonByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
+class SubmissionSymptomIntroductionFragment : Fragment(R.layout.fragment_submission_symptom_intro),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionSymptomIntroductionViewModel by cwaViewModels { viewModelFactory }
-    private var _binding: FragmentSubmissionSymptomIntroBinding? = null
-    private val binding: FragmentSubmissionSymptomIntroBinding get() = _binding!!
-    private val submissionViewModel: SubmissionViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSubmissionSymptomIntroBinding.inflate(inflater)
-        binding.submissionViewModel = submissionViewModel
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    private val binding: FragmentSubmissionSymptomIntroBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToSymptomCalendar -> navigateToNext()
+                is SubmissionNavigationEvents.NavigateToSymptomCalendar -> doNavigate(
+                    SubmissionSymptomIntroductionFragmentDirections
+                        .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
+                            symptomIndication = it.symptomIndication
+                        )
+                )
+                is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning -> doNavigate(
+                    SubmissionSymptomIntroductionFragmentDirections
+                        .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment(
+                            it.symptoms
+                        )
+                )
                 is SubmissionNavigationEvents.NavigateToTestResult -> handleSubmissionCancellation()
             }
         }
 
-        submissionViewModel.symptomIndication.observe(viewLifecycleOwner, {
+        viewModel.symptomIndication.observe2(this) {
             updateButtons(it)
-        })
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        submissionViewModel.initSymptoms()
+        binding.apply {
+            submissionSymptomHeader.headerButtonBack.buttonIcon
+                .setOnClickListener { viewModel.onPreviousClicked() }
+
+            symptomButtonNext
+                .setOnClickListener { viewModel.onNextClicked() }
+
+            symptomChoiceSelection.targetButtonApply
+                .setOnClickListener { viewModel.onPositiveSymptomIndication() }
+
+            symptomChoiceSelection.targetButtonReject
+                .setOnClickListener { viewModel.onNegativeSymptomIndication() }
+
+            symptomChoiceSelection.targetButtonVerify
+                .setOnClickListener { viewModel.onNoInformationSymptomIndication() }
+        }
     }
 
     private val backCallback: OnBackPressedCallback =
@@ -117,26 +122,9 @@ class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
             )
     }
 
-    private fun navigateToNext() {
-
-        if (submissionViewModel.symptomIndication.value!! == Symptoms.Indication.POSITIVE) {
-            doNavigate(
-                SubmissionSymptomIntroductionFragmentDirections
-                    .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment()
-            )
-        } else {
-            doNavigate(
-                SubmissionSymptomIntroductionFragmentDirections
-                    .actionSubmissionSymptomIntroductionFragmentToSubmissionResultPositiveOtherWarningFragment()
-            )
-        }
-    }
-
     /**
      * Opens a Dialog that warns user
      * when they're about to cancel the submission flow
-     * @see DialogHelper
-     * @see navigateToPreviousScreen
      */
     private fun handleSubmissionCancellation() {
         DialogHelper.showDialog(
@@ -147,37 +135,13 @@ class SubmissionSymptomIntroductionFragment : Fragment(), AutoInject {
                 R.string.submission_error_dialog_confirm_cancellation_button_positive,
                 R.string.submission_error_dialog_confirm_cancellation_button_negative,
                 true,
-                ::navigateToPreviousScreen
+                {
+                    doNavigate(
+                        SubmissionSymptomIntroductionFragmentDirections
+                            .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
+                    )
+                }
             )
         )
-    }
-
-    private fun navigateToPreviousScreen() {
-        doNavigate(
-            SubmissionSymptomIntroductionFragmentDirections
-                .actionSubmissionSymptomIntroductionFragmentToSubmissionResultFragment()
-        )
-    }
-
-    private fun setButtonOnClickListener() {
-        binding
-            .submissionSymptomHeader.headerButtonBack.buttonIcon
-            .setOnClickListener { viewModel.onPreviousClicked() }
-
-        binding
-            .symptomButtonNext
-            .setOnClickListener { viewModel.onNextClicked() }
-
-        binding
-            .symptomChoiceSelection.targetButtonApply
-            .setOnClickListener { submissionViewModel.onPositiveSymptomIndication() }
-
-        binding
-            .symptomChoiceSelection.targetButtonReject
-            .setOnClickListener { submissionViewModel.onNegativeSymptomIndication() }
-
-        binding
-            .symptomChoiceSelection.targetButtonVerify
-            .setOnClickListener { submissionViewModel.onNoInformationSymptomIndication() }
     }
 }

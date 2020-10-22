@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.fragment
+package de.rki.coronawarnapp.ui.submission.qrcode.info
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeInfoBinding
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeInfoFragmentViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -24,11 +23,11 @@ class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_co
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.submissionQrCodeInfoHeader.headerButtonBack.buttonIcon.setOnClickListener() {
+        binding.submissionQrCodeInfoHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackPressed()
         }
 
-        binding.submissionQrInfoButtonNext.setOnClickListener() {
+        binding.submissionQrInfoButtonNext.setOnClickListener {
             viewModel.onNextPressed()
         }
 
@@ -38,8 +37,8 @@ class SubmissionQRCodeInfoFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.navigateToQRScan.observe2(this) {
             doNavigate(
-                    SubmissionQRCodeInfoFragmentDirections
-                        .actionSubmissionQRCodeInfoFragmentToSubmissionQRCodeScanFragment())
+                SubmissionQRCodeInfoFragmentDirections.actionSubmissionQRCodeInfoFragmentToSubmissionQRCodeScanFragment()
+            )
         }
     }
 }

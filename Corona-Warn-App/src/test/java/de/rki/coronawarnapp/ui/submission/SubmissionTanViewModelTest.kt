@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.submission
 
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -17,17 +17,17 @@ class SubmissionTanViewModelTest {
 
     @Test
     fun tanFormatValid() {
-        viewModel.tan.postValue("ZWFPC7NG47")
-        viewModel.isValidTanFormat.value?.let { assertTrue(it) }
+        viewModel.currentTan.postValue("ZWFPC7NG47")
+        viewModel.isValidTanFormat.value.let { assertTrue(it) }
 
-        viewModel.tan.postValue("ABC")
-        viewModel.isValidTanFormat.value?.let { assertFalse(it) }
+        viewModel.currentTan.postValue("ABC")
+        viewModel.isValidTanFormat.value.let { assertFalse(it) }
 
-        viewModel.tan.postValue("ZWFPC7NG48")
-        viewModel.isValidTanFormat.value?.let { assertFalse(it) }
+        viewModel.currentTan.postValue("ZWFPC7NG48")
+        viewModel.isValidTanFormat.value.let { assertFalse(it) }
 
-        viewModel.tan.postValue("ZWFPC7NG4A")
-        viewModel.isValidTanFormat.value?.let { assertFalse(it) }
+        viewModel.currentTan.postValue("ZWFPC7NG4A")
+        viewModel.isValidTanFormat.value.let { assertFalse(it) }
     }
 
     @Test

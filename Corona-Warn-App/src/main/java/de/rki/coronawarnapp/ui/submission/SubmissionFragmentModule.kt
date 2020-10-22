@@ -6,24 +6,24 @@ import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDoneFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeInfoModule
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionQRCodeScanFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionResultPositiveOtherWarningFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomCalendarFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoModule
+import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanModule
+import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment
+import de.rki.coronawarnapp.ui.submission.symptoms.calendar.SubmissionSymptomCalendarModule
+import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
+import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionModule
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanModule
+import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultFragment
+import de.rki.coronawarnapp.ui.submission.testresult.SubmissionTestResultModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionIntroModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionResultPositiveOtherWarningModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomCalendarModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomIntroductionModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultModule
+import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningFragment
+import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningModule
 
 @Module
 internal abstract class SubmissionFragmentModule {

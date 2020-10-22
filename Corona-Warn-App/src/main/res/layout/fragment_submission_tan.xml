@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewmodel"
-            type="de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel" />
+            name="uiState"
+            type="de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.UIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/submission_tan_accessibility_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.fragment.SubmissionTanFragment">
+        tools:context=".ui.submission.tan.SubmissionTanFragment">
 
         <include
             android:id="@+id/submission_tan_header"
@@ -38,8 +38,7 @@
             app:layout_constraintBottom_toTopOf="@id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_tan_header"
-            app:viewmodel="@{viewmodel}" />
+            app:layout_constraintTop_toBottomOf="@+id/submission_tan_header" />
 
         <ProgressBar
             android:id="@+id/submission_tan_spinner"
@@ -57,7 +56,7 @@
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:enabled="@{viewmodel.isValidTanFormat}"
+            android:enabled="@{uiState.tanValid}"
             android:text="@string/submission_tan_button_text"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"

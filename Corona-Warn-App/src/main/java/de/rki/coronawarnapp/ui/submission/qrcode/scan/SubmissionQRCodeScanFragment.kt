@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.fragment
+package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.google.zxing.BarcodeFormat
-import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
@@ -20,8 +18,6 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanViewModel
-import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -40,16 +36,69 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
-    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+
     private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
     private var showsPermissionDialog = false
 
-    private fun decodeCallback(result: BarcodeResult) {
-        submissionViewModel.validateAndStoreTestGUID(result.text)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+            binding.submissionQrCodeScanPreview.setTorch(
+                isChecked
+            )
+        }
+
+        binding.submissionQrCodeScanClose.setOnClickListener {
+            viewModel.onClosePressed()
+        }
+
+        binding.submissionQrCodeScanPreview.decoderFactory =
+            DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
+        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
+
+        viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
+            if (ScanStatus.SUCCESS == it) {
+                viewModel.doDeviceRegistration()
+            }
+
+            if (ScanStatus.INVALID == it) {
+                showInvalidScanDialog()
+            }
+        }
+
+        viewModel.registrationState.observe2(this) {
+            binding.submissionQrCodeScanSpinner.visibility = when (it) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+
+            if (ApiRequestState.SUCCESS == it) {
+                doNavigate(
+                    SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
+                )
+            }
+        }
+
+        viewModel.registrationError.observe2(this) {
+            DialogHelper.showDialog(buildErrorDialog(it))
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToQRInfo ->
+                    goBack()
+            }
+        }
     }
 
     private fun startDecode() {
-        binding.submissionQrCodeScanPreview.decodeSingle { decodeCallback(it) }
+        binding.submissionQrCodeScanPreview.decodeSingle {
+            viewModel.validateAndStoreTestGUID(it.text)
+        }
     }
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
@@ -88,66 +137,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-            binding.submissionQrCodeScanPreview.setTorch(
-                isChecked
-            )
-        }
-
-        binding.submissionQrCodeScanClose.setOnClickListener {
-            viewModel.onClosePressed()
-        }
-
-        binding.submissionQrCodeScanPreview.decoderFactory =
-            DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-
-        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
-
-        submissionViewModel.scanStatus.observeEvent(viewLifecycleOwner) {
-            if (ScanStatus.SUCCESS == it) {
-                submissionViewModel.doDeviceRegistration()
-            }
-
-            if (ScanStatus.INVALID == it) {
-                showInvalidScanDialog()
-            }
-        }
-
-        submissionViewModel.registrationState.observeEvent(viewLifecycleOwner) {
-            binding.submissionQrCodeScanSpinner.visibility = when (it) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
-            }
-
-            if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
-                    SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
-                )
-            }
-        }
-
-        submissionViewModel.registrationError.observeEvent(viewLifecycleOwner) {
-            DialogHelper.showDialog(buildErrorDialog(it))
-        }
-
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-                is SubmissionNavigationEvents.NavigateToDispatcher ->
-                    navigateToDispatchScreen()
-                is SubmissionNavigationEvents.NavigateToQRInfo ->
-                    goBack()
-            }
-        }
-    }
-
     private fun navigateToDispatchScreen() =
         doNavigate(
-            SubmissionQRCodeScanFragmentDirections
-                .actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
+            SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
         )
 
     private fun showInvalidScanDialog() {
