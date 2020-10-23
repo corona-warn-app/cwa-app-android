@@ -20,6 +20,8 @@ abstract class BugDatabase : RoomDatabase() {
     abstract fun defaultBugDao(): DefaultBugDao
 
     companion object {
+        private const val BUG_DATABASE_NAME = "bugreport-db"
+
         @Volatile private var instance: BugDatabase? = null
 
         fun getInstance(ctx: Context): BugDatabase =
@@ -29,7 +31,7 @@ abstract class BugDatabase : RoomDatabase() {
             }
 
         private fun buildDatabase(ctx: Context): BugDatabase = Room
-            .databaseBuilder(ctx, BugDatabase::class.java, "")
+            .databaseBuilder(ctx, BugDatabase::class.java, BUG_DATABASE_NAME)
             .build()
     }
 }
