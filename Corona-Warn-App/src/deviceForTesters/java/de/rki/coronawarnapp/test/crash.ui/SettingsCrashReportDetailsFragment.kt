@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.settings.crash
+package de.rki.coronawarnapp.test.crash
 
 import android.os.Bundle
 import android.view.View

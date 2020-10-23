@@ -39,10 +39,6 @@ class HomeMenu @Inject constructor(
                     navController.doNavigate(HomeFragmentDirections.actionMainFragmentToTestNavGraph())
                     true
                 }
-                R.id.menu_crashreporter -> {
-                    navController.doNavigate(HomeFragmentDirections.actionMainFragmentToCrashReportFragment())
-                    true
-                }
                 else -> homeFragment.onOptionsItemSelected(it)
             }
         }

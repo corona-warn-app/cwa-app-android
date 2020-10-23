@@ -14,8 +14,4 @@
         android:title="Test Menu"
         android:visible="false"
         tools:ignore="HardcodedText" />
-    <!--replace later in new menu-->
-    <item
-        android:id="@+id/menu_crashreporter"
-        android:title="Error Report" />
 </menu>
