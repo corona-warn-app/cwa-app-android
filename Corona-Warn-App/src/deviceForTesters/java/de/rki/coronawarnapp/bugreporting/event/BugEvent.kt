@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting
+package de.rki.coronawarnapp.bugreporting.event
 
 import org.joda.time.Instant
 import java.util.UUID

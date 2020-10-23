@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.processor
 
-import de.rki.coronawarnapp.bugreporting.BugEvent
+import de.rki.coronawarnapp.bugreporting.event.BugEvent
 
 interface BugProcessor {
     suspend fun processor(throwable: Throwable, info: String?): BugEvent

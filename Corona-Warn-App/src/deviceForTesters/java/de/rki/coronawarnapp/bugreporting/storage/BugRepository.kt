@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.storage
 
-import de.rki.coronawarnapp.bugreporting.BugEvent
+import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
