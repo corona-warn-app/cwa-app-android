@@ -1335,6 +1335,14 @@
     <string name="interoperability_onboarding_delta_terms_link">Nutzungsbedingungen anzeigen</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
     <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">Die Nutzungsbedingungen und die Datenschutzerklärung finden Sie auch unter dem Menüpunkt „App-Informationen“ sowie in der App-Beschreibung Ihres App Stores. Die Änderungen haben keine Auswirkungen auf Ihre Nutzung der App. Wenn Sie die App weiter nutzen oder erneut öffnen, gehen wir davon aus, dass Sie mit den aktualisierten Nutzungsbedingungen einverstanden sind.</string>
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_randomid">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs verglichen.</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_free_download">Der tägliche Download der Liste mit den Zufalls-IDs ist für Sie in der Regel kostenlos. Das heißt: Das von der App verursachte Datenvolumen wird von den Mobilfunk-Betreibern nicht angerechnet und im EU-Ausland werden Ihnen keine Roaming-Gebühren berechnet. Näheres erfahren Sie von Ihrem Mobilfunk-Betreiber.</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">Eine Hand hält ein Smartphone. Im Hintergrund ist Europa und die europäische Flagge illustriert</string>
