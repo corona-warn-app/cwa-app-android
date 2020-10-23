@@ -19,9 +19,7 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
@@ -55,7 +53,6 @@ import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalRepository
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -113,9 +110,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
 
     private var token: String? = null
 
-    // ViewModel for MainActivity
-    private val tracingVM: TracingViewModel by activityViewModels()
-
     private lateinit var qrPager: ViewPager2
     private lateinit var qrPagerAdapter: RecyclerView.Adapter<QRPagerAdapter.QRViewHolder>
 
@@ -128,8 +122,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tracingViewModel = tracingVM
-
         token = UUID.randomUUID().toString()
 
         internalExposureNotificationPermissionHelper =
@@ -140,12 +132,10 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPager.adapter = qrPagerAdapter
 
         // Debug card
-        binding.threeHourModeToggle.apply {
-            setOnClickListener { vm.setLast3HoursMode(isChecked) }
+        binding.hourlyKeyPkgMode.apply {
+            setOnClickListener { vm.setHourlyKeyPkgMode(isChecked) }
         }
-        vm.last3HourToggleEvent.observe2(this) {
-            showToast("Last 3 Hours Mode is activated: $it")
-        }
+
         binding.backgroundNotificationsToggle.apply {
             setOnClickListener { vm.setBackgroundNotifications(isChecked) }
         }
@@ -155,7 +145,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         vm.debugOptionsState.observe2(this) { state ->
             binding.apply {
                 backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-                threeHourModeToggle.isChecked = state.is3HourModeEnabled
+                hourlyKeyPkgMode.isChecked = state.isHourlyTestingMode
             }
         }
         binding.testLogfileToggle.apply {
@@ -233,7 +223,7 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             buttonApiEnterOtherKeys.setOnClickListener { enterOtherKeys() }
 
             buttonApiSubmitKeys.setOnClickListener {
-                tracingVM.viewModelScope.launch {
+                vm.launch {
                     try {
                         internalExposureNotificationPermissionHelper.requestPermissionToShareKeys()
 
@@ -260,34 +250,40 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
             }
 
             buttonRetrieveExposureSummary.setOnClickListener {
-                tracingVM.viewModelScope.launch {
-                    showToast(
-                        ExposureSummaryRepository.getExposureSummaryRepository()
-                            .getExposureSummaryEntities().toString()
-                    )
-                }
-            }
+                vm.launch {
+                    val summary = ExposureSummaryRepository.getExposureSummaryRepository()
+                        .getExposureSummaryEntities().toString()
 
-            buttonClearDb.setOnClickListener {
-                tracingVM.viewModelScope.launch {
-                    withContext(Dispatchers.IO) {
-                        AppDatabase.getInstance(requireContext()).clearAllTables()
+                    withContext(Dispatchers.Main) {
+                        showToast(summary)
                     }
                 }
             }
 
+            buttonClearDb.setOnClickListener {
+                vm.launch {
+                    AppDatabase.getInstance(requireContext()).clearAllTables()
+                }
+            }
+
             buttonTracingIntervals.setOnClickListener {
-                tracingVM.viewModelScope.launch {
-                    showToast(
-                        TracingIntervalRepository.getDateRepository(requireContext()).getIntervals()
-                            .toString()
-                    )
+                vm.launch {
+                    val intervals = TracingIntervalRepository.getDateRepository(requireContext())
+                        .getIntervals()
+                        .toString()
+                    withContext(Dispatchers.Main) {
+                        showToast(intervals)
+                    }
                 }
             }
 
             buttonTracingDurationInRetentionPeriod.setOnClickListener {
-                tracingVM.viewModelScope.launch {
-                    showToast(TimeVariables.getActiveTracingDaysInRetentionPeriod().toString())
+                vm.launch {
+                    val daysInRetention =
+                        TimeVariables.getActiveTracingDaysInRetentionPeriod().toString()
+                    withContext(Dispatchers.Main) {
+                        showToast(daysInRetention)
+                    }
                 }
             }
         }

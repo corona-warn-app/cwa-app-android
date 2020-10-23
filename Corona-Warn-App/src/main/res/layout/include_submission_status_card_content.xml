@@ -4,12 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
-
         <variable
-            name="deviceUIState"
-            type="de.rki.coronawarnapp.util.DeviceUIState" />
+            name="submissionCard"
+            type="de.rki.coronawarnapp.ui.main.home.SubmissionCardState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +26,7 @@
             android:layout_marginTop="@dimen/card_padding"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentTitleText(deviceUIState)}"
+            android:text="@{submissionCard.getContentCardTitleText(context)}"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,9 +41,9 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardSubtitleText(deviceUIState)}"
-            android:textColor="@{FormatterSubmissionHelper.formatSubmissionStatusCardSubtitleColor(deviceUIState)}"
-            android:visibility="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentStatusTextVisible(deviceUIState)}"
+            android:text="@{submissionCard.getContentCardSubTitleText(context)}"
+            android:textColor="@{submissionCard.getContentCardSubTitleTextColor(context)}"
+            gone="@{submissionCard == null || !submissionCard.isContentCardStatusTextVisible()}"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_status_card_content_title"
@@ -61,7 +58,7 @@
             android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_marginEnd="@dimen/spacing_small"
             android:focusable="false"
-            android:text="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentBodyText(deviceUIState)}"
+            android:text="@{submissionCard.getContentCardBodyText(context)}"
             app:layout_constraintEnd_toStartOf="@+id/submission_status_card_content_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/submission_status_card_content_subtitle"
@@ -93,7 +90,7 @@
             android:id="@+id/submission_status_card_content_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@{FormatterSubmissionHelper.formatSubmissionStatusCardContentIcon(deviceUIState)}"
+            android:background="@{submissionCard.getContentCardIcon(context)}"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/submission_status_card_content_title"
