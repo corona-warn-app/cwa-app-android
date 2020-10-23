@@ -4,6 +4,7 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
@@ -18,7 +19,8 @@ class ENFClient @Inject constructor(
     private val googleENFClient: ExposureNotificationClient,
     private val diagnosisKeyProvider: DiagnosisKeyProvider,
     private val tracingStatus: TracingStatus,
-    private val scanningSupport: ScanningSupport
+    private val scanningSupport: ScanningSupport,
+    private val calculationTracker: CalculationTracker
 ) : DiagnosisKeyProvider, TracingStatus, ScanningSupport {
 
     // TODO Remove this once we no longer need direct access to the ENF Client,
@@ -35,6 +37,7 @@ class ENFClient @Inject constructor(
             "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
             keyFiles, configuration, token
         )
+        calculationTracker.trackNewCalaculation(token)
         return diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
     }
 
@@ -44,3 +47,4 @@ class ENFClient @Inject constructor(
     override val isTracingEnabled: Flow<Boolean>
         get() = tracingStatus.isTracingEnabled
 }
+

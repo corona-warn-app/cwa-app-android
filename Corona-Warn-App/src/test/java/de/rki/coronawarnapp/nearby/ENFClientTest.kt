@@ -2,16 +2,19 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.flowOf
@@ -31,11 +34,13 @@ class ENFClientTest : BaseTest() {
     @MockK lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
     @MockK lateinit var tracingStatus: TracingStatus
     @MockK lateinit var scanningSupport: ScanningSupport
+    @MockK lateinit var calculationTracker: CalculationTracker
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        every { calculationTracker.trackNewCalaculation(any()) } just Runs
     }
 
     @AfterEach
@@ -47,7 +52,8 @@ class ENFClientTest : BaseTest() {
         googleENFClient = googleENFClient,
         diagnosisKeyProvider = diagnosisKeyProvider,
         tracingStatus = tracingStatus,
-        scanningSupport = scanningSupport
+        scanningSupport = scanningSupport,
+        calculationTracker = calculationTracker
     )
 
     @Test

@@ -5,6 +5,8 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.DefaultCalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.DefaultScanningSupport
@@ -36,4 +38,9 @@ class ENFModule {
     @Provides
     fun scanningSupport(scanningSupport: DefaultScanningSupport): ScanningSupport =
         scanningSupport
+
+    @Singleton
+    @Provides
+    fun calculationTracker(calculationTracker: DefaultCalculationTracker): CalculationTracker =
+        calculationTracker
 }
