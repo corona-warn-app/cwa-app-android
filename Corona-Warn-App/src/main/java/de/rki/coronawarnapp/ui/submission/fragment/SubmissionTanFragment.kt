@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.util.TanHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -74,7 +76,6 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewmodel = viewModel
 
         binding.submissionTanContent.submissionTanInput.listener = { tan ->
             resetError()
@@ -87,6 +88,13 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
                 if (tan.length == TanConstants.MAX_LENGTH && !TanHelper.isChecksumValid(tan))
                     showTanError()
+            }
+        }
+
+        viewModel.isValidTanFormat.observe2(this) {
+            when (it) {
+                 true -> enableButton()
+                 false -> disableButton()
             }
         }
 
@@ -114,6 +122,14 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     private fun resetError() {
         submission_tan_character_error.visibility = View.GONE
         submission_tan_error.visibility = View.GONE
+    }
+
+    private fun enableButton() {
+        binding.submissionTanButtonEnter.isEnabled = true
+    }
+
+    private fun disableButton() {
+        binding.submissionTanButtonEnter.isEnabled = false
     }
 
     private fun showCharacterError() {

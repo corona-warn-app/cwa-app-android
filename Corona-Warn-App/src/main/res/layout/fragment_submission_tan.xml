@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewmodel"
-            type="de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_tan_root"
         android:layout_width="match_parent"
@@ -39,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/submission_tan_header"
-            app:viewmodel="@{viewmodel}" />
+             />
 
         <ProgressBar
             android:id="@+id/submission_tan_spinner"
@@ -57,7 +50,7 @@
             style="@style/buttonPrimary"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
-            android:enabled="@{viewmodel.isValidTanFormat}"
+            android:enabled="false"
             android:text="@string/submission_tan_button_text"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"

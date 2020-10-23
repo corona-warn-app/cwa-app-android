@@ -34,7 +34,8 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.refreshRequiredData() } just Runs
 
         setupMockViewModel(object : HomeFragmentViewModel.Factory {
-            override fun create(handle: SavedStateHandle): HomeFragmentViewModel = viewModel
+            //override fun create(handle: SavedStateHandle){} HomeFragmentViewModel = viewModel}
+            override fun create(): HomeFragmentViewModel = viewModel
         })
     }
 

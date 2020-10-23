@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission
+package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -14,16 +14,6 @@ import de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomCalendarFrag
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTestResultFragment
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionContactModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDoneModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionIntroModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionResultPositiveOtherWarningModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomCalendarModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionSymptomIntroductionModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanModule
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTestResultModule
 
 @Module
 internal abstract class SubmissionFragmentModule {
