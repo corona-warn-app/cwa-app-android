@@ -1,16 +1,14 @@
 package de.rki.coronawarnapp.bugreporting.event
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import org.joda.time.Instant
 
-@Entity
-data class BugEventEntity(
-    override val createdAt: Instant = Instant.now(),
-    override var tag: String? = null,
-    override val info: String? = null,
+class DefaultBugEvent(
+    override val id: Long,
+    override val createdAt: Instant,
+    override val tag: String?,
+    override val info: String?,
     override val exceptionClass: String,
-    override val exceptionMessage: String? = null,
+    override val exceptionMessage: String?,
     override val stackTrace: String,
     override val deviceInfo: String,
     override val appVersionName: String,
@@ -19,7 +17,4 @@ data class BugEventEntity(
     override val androidVersion: String,
     override val shortID: String,
     override val logHistory: List<String>
-) : BugEvent {
-    @PrimaryKey(autoGenerate = true)
-    override var id: Long = 0
-}
+) : BugEvent

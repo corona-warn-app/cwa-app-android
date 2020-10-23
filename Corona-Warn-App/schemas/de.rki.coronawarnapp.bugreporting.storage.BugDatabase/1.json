@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "728ffd9c1743d630b59631b40be727ae",
+    "identityHash": "fa3f6c9bd4835786d66f6782a96471d3",
     "entities": [
       {
         "tableName": "BugEventEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `createdAt` TEXT NOT NULL, `tag` TEXT, `info` TEXT, `exceptionClass` TEXT NOT NULL, `exceptionMessage` TEXT, `stackTrace` TEXT NOT NULL, `appVersionName` TEXT NOT NULL, `appVersionCode` INTEGER NOT NULL, `apiLevel` INTEGER NOT NULL, `androidVersion` TEXT NOT NULL, `shortID` TEXT NOT NULL, `logHistory` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `createdAt` TEXT NOT NULL, `tag` TEXT, `info` TEXT, `exceptionClass` TEXT NOT NULL, `exceptionMessage` TEXT, `stackTrace` TEXT NOT NULL, `deviceInfo` TEXT NOT NULL, `appVersionName` TEXT NOT NULL, `appVersionCode` INTEGER NOT NULL, `apiLevel` INTEGER NOT NULL, `androidVersion` TEXT NOT NULL, `shortID` TEXT NOT NULL, `logHistory` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -47,6 +47,12 @@
           {
             "fieldPath": "stackTrace",
             "columnName": "stackTrace",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deviceInfo",
+            "columnName": "deviceInfo",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -100,7 +106,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '728ffd9c1743d630b59631b40be727ae')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fa3f6c9bd4835786d66f6782a96471d3')"
     ]
   }
 }

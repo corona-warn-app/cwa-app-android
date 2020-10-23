@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
-import de.rki.coronawarnapp.bugreporting.storage.dao.BugDao
 import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,18 +30,19 @@ class DefaultBugRepository @Inject constructor(
         when (bugEvent is BugEventEntity) {
             true -> bugEvent
             else -> BugEventEntity(
-                bugEvent.createdAt,
-                bugEvent.tag,
-                bugEvent.info,
-                bugEvent.exceptionClass,
-                bugEvent.exceptionMessage,
-                bugEvent.stackTrace,
-                bugEvent.appVersionName,
-                bugEvent.appVersionCode,
-                bugEvent.apiLevel,
-                bugEvent.androidVersion,
-                bugEvent.shortID,
-                bugEvent.logHistory
+                createdAt = bugEvent.createdAt,
+                tag = bugEvent.tag,
+                info = bugEvent.info,
+                exceptionClass = bugEvent.exceptionClass,
+                exceptionMessage = bugEvent.exceptionMessage,
+                stackTrace = bugEvent.stackTrace,
+                deviceInfo = bugEvent.deviceInfo,
+                appVersionName = bugEvent.appVersionName,
+                appVersionCode = bugEvent.appVersionCode,
+                apiLevel = bugEvent.apiLevel,
+                androidVersion = bugEvent.androidVersion,
+                shortID = bugEvent.shortID,
+                logHistory = bugEvent.logHistory
             )
         }
 

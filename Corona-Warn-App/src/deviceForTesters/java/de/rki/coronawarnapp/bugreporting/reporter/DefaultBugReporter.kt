@@ -19,10 +19,10 @@ class DefaultBugReporter @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : BugReporter {
 
-    override fun report(throwable: Throwable, info: String?) {
-        Timber.e(throwable, "Processing reported bug (info=%s).", info)
+    override fun report(throwable: Throwable, tag: String?, info: String?) {
+        Timber.e(throwable, "Processing reported bug (info=$info) from $tag.")
         scope.launch(context = dispatcherProvider.IO) {
-            val event = processor.processor(throwable, info)
+            val event = processor.processor(throwable, tag, info)
             repository.save(event)
         }
     }
