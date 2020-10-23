@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.viewmodel
+package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionTanModule {
+abstract class SubmissionQRCodeScanModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionTanViewModel::class)
-    abstract fun submissionTanFragment(
-        factory: SubmissionTanViewModel.Factory
+    @CWAViewModelKey(SubmissionQRCodeScanViewModel::class)
+    abstract fun submissionQRCodeScanFragment(
+        factory: SubmissionQRCodeScanViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

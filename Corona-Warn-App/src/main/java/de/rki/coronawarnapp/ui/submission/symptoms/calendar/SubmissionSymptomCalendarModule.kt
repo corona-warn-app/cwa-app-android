@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.viewmodel
+package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SubmissionTestResultModule {
+abstract class SubmissionSymptomCalendarModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SubmissionTestResultViewModel::class)
-    abstract fun submissionTestResultFragment(
-        factory: SubmissionTestResultViewModel.Factory
+    @CWAViewModelKey(SubmissionSymptomCalendarViewModel::class)
+    abstract fun submissionSymptomCalendarFragment(
+        factory: SubmissionSymptomCalendarViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

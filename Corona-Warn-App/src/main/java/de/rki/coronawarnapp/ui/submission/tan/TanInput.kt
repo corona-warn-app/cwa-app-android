@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.view
+package de.rki.coronawarnapp.ui.submission.tan
 
 import android.content.Context
 import android.os.Handler
@@ -13,9 +13,7 @@ import androidx.annotation.DimenRes
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.submission.TanConstants
-import de.rki.coronawarnapp.util.TanHelper
-import kotlinx.android.synthetic.main.view_tan_input_edittext.view.tan_input_edittext
+import kotlinx.android.synthetic.main.view_tan_input_edittext.view.*
 import java.util.Locale
 import kotlin.math.max
 
@@ -36,14 +34,14 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         InputFilter { source, _, _, _, _, _ -> source.filter { !it.isWhitespace() } }
     private val alphaNumericFilter = InputFilter { source, _, _, _, _, _ ->
         source.filter {
-            TanConstants.ALPHA_NUMERIC_CHARS.contains(it)
+            Tan.ALPHA_NUMERIC_CHARS.contains(it)
         }
     }
-    private var lengthFilter = InputFilter.LengthFilter(TanConstants.MAX_LENGTH)
+    private var lengthFilter = InputFilter.LengthFilter(Tan.MAX_LENGTH)
 
-    var listener: ((String?) -> Unit)? = null
+    var listener: ((String) -> Unit)? = null
 
-    private var tan: String? = null
+    private var tan: String = ""
 
     private val lineSpacing: Int
 
@@ -61,11 +59,12 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         tan_input_edittext.filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
 
         // register listener
-        tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text) }
+        tan_input_edittext.doOnTextChanged { text, _, _, _ -> updateTan(text ?: "") }
         setOnClickListener { showKeyboard() }
 
         // initially show the keyboard
-        Handler().postDelayed({ showKeyboard() },
+        Handler().postDelayed(
+            { showKeyboard() },
             KEYBOARD_TRIGGER_DELAY
         )
     }
@@ -77,8 +76,8 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         }
     }
 
-    private fun updateTan(text: CharSequence?) {
-        this.tan = text?.toString()?.toUpperCase(Locale.ROOT)
+    private fun updateTan(text: CharSequence) {
+        this.tan = text.toString().toUpperCase(Locale.ROOT)
         updateDigits()
         notifyListener()
     }
@@ -98,7 +97,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         tanDigit.text = text
         tanDigit.background = when {
             text == EMPTY_STRING -> resources.getDrawable(R.drawable.tan_input_digit, null)
-            TanHelper.isTanCharacterValid(text) -> resources.getDrawable(
+            Tan.isTanCharacterValid(text) -> resources.getDrawable(
                 R.drawable.tan_input_digit_entered,
                 null
             )
@@ -106,14 +105,14 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         }
 
         tanDigit.setTextColor(
-            if (TanHelper.isTanCharacterValid(text))
+            if (Tan.isTanCharacterValid(text))
                 resources.getColor(R.color.colorTextPrimary1, null)
             else
                 resources.getColor(R.color.colorTextSemanticRed, null)
         )
     }
 
-    private fun digitAtIndex(index: Int): String = tan?.getOrNull(index)?.toString() ?: EMPTY_STRING
+    private fun digitAtIndex(index: Int): String = tan.getOrNull(index)?.toString() ?: EMPTY_STRING
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -206,7 +205,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     private fun calculateDigitDimension(availableWith: Int, textSize: Int): Pair<Int, Int> {
         val widthRequiredForSpacing =
             (DIGIT_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_digit_spacing)) +
-                    (GROUP_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_group_spacing))
+                (GROUP_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_group_spacing))
 
         val remainingWidthForDigits = availableWith - widthRequiredForSpacing
 

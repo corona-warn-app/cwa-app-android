@@ -31,10 +31,9 @@ class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
     @Suppress("MagicNumber")
     private fun determinePositiveIndication(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
         return when (symptoms.startOfSymptoms) {
-            is Symptoms.StartOf.Date ->
-                createDaysSinceOnsetOfSymptomsVectorWith(
-                    symptoms.startOfSymptoms.date.ageInDays(timeStamper.nowUTC.toLocalDate())
-                )
+            is Symptoms.StartOf.Date -> createDaysSinceOnsetOfSymptomsVectorWith(
+                symptoms.startOfSymptoms.date.ageInDays(timeStamper.nowUTC.toLocalDate())
+            )
             is Symptoms.StartOf.LastSevenDays ->
                 createDaysSinceOnsetOfSymptomsVectorWith(701)
             is Symptoms.StartOf.OneToTwoWeeksAgo ->
