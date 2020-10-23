@@ -14,6 +14,7 @@ interface BugEvent {
     val stackTrace: String
     val appVersionName: String
     val appVersionCode: Int
+    val deviceInfo: String
     val apiLevel: Int
     val androidVersion: String
     val shortID: String

@@ -7,7 +7,7 @@
 
         <variable
             name="crashReport"
-            type="de.rki.coronawarnapp.crash.CrashReportEntity" />
+            type="de.rki.coronawarnapp.bugreporting.event.BugEventEntity" />
 
         <variable
             name="pos"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textAppearance="?attr/textAppearanceListItem"
-                app:crashReportDate="@{crashReport.crashedAt}"
+                app:crashReportDate="@{crashReport.createdAt}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCrashReportTitle" />
@@ -61,7 +61,7 @@
                 android:ellipsize="end"
                 android:inputType="none"
                 android:maxLines="1"
-                app:crashReportShortMessage="@{crashReport.message}"
+                app:crashReportShortMessage="@{crashReport.exceptionMessage}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCrashReportDate" />
