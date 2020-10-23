@@ -12,7 +12,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
-import de.rki.coronawarnapp.crash.CrashReportTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -37,7 +36,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    @Inject lateinit var crashReportTree: CrashReportTree
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     @Inject lateinit var watchdogService: WatchdogService
@@ -53,9 +51,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("onCreate(): Initializing Dagger")
         AppInjector.init(this)
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(crashReportTree)
-        }
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): Initializing WorkManager")

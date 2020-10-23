@@ -3,10 +3,8 @@ package de.rki.coronawarnapp.storage
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.crash.CrashReportDao
 import de.rki.coronawarnapp.storage.tracing.TracingIntervalDao
 import de.rki.coronawarnapp.util.di.AppContext
-import javax.inject.Singleton
 
 @Module
 class DatabaseModule {
@@ -24,8 +22,4 @@ class DatabaseModule {
     // @Singleton
     @Provides
     fun provideTracingIntervalDao(db: AppDatabase): TracingIntervalDao = db.tracingIntervalDao()
-
-    @Singleton
-    @Provides
-    fun provideCrashReportDao(db: AppDatabase): CrashReportDao = db.crashReportDao()
 }
