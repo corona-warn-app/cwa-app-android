@@ -100,11 +100,6 @@ android {
                 }
             }
         }
-    } else {
-        signingConfigs {
-            deviceRelease {}
-            deviceForTestersRelease {}
-        }
     }
 
     buildTypes {
@@ -128,7 +123,9 @@ android {
                 envTypeDefault = [debug: "INT", release: "PROD"]
             }
 
-            signingConfig signingConfigs.deviceRelease
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.deviceRelease
+            }
         }
         deviceForTesters {
             // Contains test fragments
@@ -140,7 +137,9 @@ android {
                 envTypeDefault = [debug: "INT", release: "WRU-XD"]
             }
 
-            signingConfig signingConfigs.deviceForTestersRelease
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.deviceForTestersRelease
+            }
         }
     }
     applicationVariants.all { variant ->
