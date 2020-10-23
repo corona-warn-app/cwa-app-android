@@ -10,7 +10,7 @@ interface BugRepository {
 
     suspend fun getAll(): List<BugEvent>
 
-    suspend fun get(id: UUID): BugEvent
+    suspend fun get(id: Long): BugEvent
 
     suspend fun save(bugEvent: BugEvent)
 

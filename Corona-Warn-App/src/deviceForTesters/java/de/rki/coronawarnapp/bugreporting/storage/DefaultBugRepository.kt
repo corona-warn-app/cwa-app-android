@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.storage
 
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
+import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 import javax.inject.Inject
@@ -15,7 +16,7 @@ class DefaultBugRepository @Inject constructor() : BugRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun get(id: UUID): BugEvent {
+    override suspend fun get(id: Long): BugEvent {
         TODO("Not yet implemented")
     }
 
@@ -27,5 +28,9 @@ class DefaultBugRepository @Inject constructor() : BugRepository {
 
     override suspend fun clear() {
         TODO("Not yet implemented")
+    }
+
+    private fun BugEvent.toStoredType(): BugEventEntity {
+        TODO("add values from interface to our internal dao entity?")
     }
 }
