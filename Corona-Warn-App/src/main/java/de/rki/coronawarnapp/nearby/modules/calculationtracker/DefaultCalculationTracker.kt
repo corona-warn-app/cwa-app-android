@@ -1,19 +1,25 @@
 package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.Result
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.State
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.coroutine.HotData
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.min
 
 @Singleton
 class DefaultCalculationTracker @Inject constructor(
@@ -23,25 +29,54 @@ class DefaultCalculationTracker @Inject constructor(
     private val timeStamper: TimeStamper
 ) : CalculationTracker {
 
+    init {
+        Timber.v("init()")
+    }
+
     private val calculationStates: HotData<Map<String, Calculation>> by lazy {
+        val setupAutoSave: (HotData<Map<String, Calculation>>) -> Unit = { hd ->
+            hd.data
+                .onStart { Timber.v("Observing calculation changes.") }
+                .onEach { storage.save(it) }
+                .launchIn(scope = scope + dispatcherProvider.Default)
+        }
+
+        val setupTimeoutEnforcer: (HotData<Map<String, Calculation>>) -> Unit = { hd ->
+            flow<Unit> {
+                while (true) {
+                    hd.updateSafely {
+                        Timber.v("Running timeout check on: %s", values)
+
+                        val timeNow = timeStamper.nowUTC
+                        Timber.v("Time now: %s", timeNow)
+
+                        mutate {
+                            values.filter { it.state == State.CALCULATING }.toList().forEach {
+                                if (timeNow.isAfter(it.startedAt.plus(TIMEOUT_LIMIT))) {
+                                    Timber.w("Calculation timeout on : %s", it)
+                                    remove(it.token)
+                                }
+                            }
+                        }
+                    }
+
+                    delay(TIMEOUT_CHECK_INTERVALL.millis)
+                }
+            }.launchIn(scope + dispatcherProvider.Default)
+        }
+
         HotData(
             loggingTag = TAG,
             scope = scope,
             coroutineContext = dispatcherProvider.Default,
             startValueProvider = { storage.load() }
-        ).also { hotData ->
-            hotData.data
-                .onStart { Timber.v("Observing calculation changes.") }
-                .onEach { Timber.v("New calculations: %s", it) }
-                .onEach { storage.save(it) }
-                .launchIn(scope = scope + dispatcherProvider.Default)
+        ).also {
+            setupAutoSave(it)
+            setupTimeoutEnforcer(it)
         }
     }
-    override val calculations: Flow<Map<String, Calculation>> by lazy { calculationStates.data }
 
-    init {
-        Timber.v("init()")
-    }
+    override val calculations: Flow<Map<String, Calculation>> by lazy { calculationStates.data }
 
     override fun trackNewCalaculation(token: String) {
         Timber.i("trackNewCalaculation(token=%s)", token)
@@ -49,14 +84,14 @@ class DefaultCalculationTracker @Inject constructor(
             mutate {
                 this[token] = Calculation(
                     token = token,
-                    state = Calculation.State.CALCULATING,
+                    state = State.CALCULATING,
                     startedAt = timeStamper.nowUTC
                 )
             }
         }
     }
 
-    override fun finishCalculation(token: String, result: Calculation.Result) {
+    override fun finishCalculation(token: String, result: Result) {
         Timber.i("finishCalculation(token=%s, result=%s)", token, result)
         calculationStates.updateSafely {
             mutate {
@@ -64,18 +99,27 @@ class DefaultCalculationTracker @Inject constructor(
                 if (existing != null) {
                     this[token] = existing.copy(
                         result = result,
-                        state = Calculation.State.DONE,
+                        state = State.DONE,
                         finishedAt = timeStamper.nowUTC
                     )
                 } else {
                     Timber.e("Unknown calculation finished (token=%s, result=%s)", token, result)
                     this[token] = Calculation(
                         token = token,
-                        state = Calculation.State.DONE,
+                        state = State.DONE,
                         result = result,
                         startedAt = timeStamper.nowUTC,
                         finishedAt = timeStamper.nowUTC
                     )
+                }
+                val toKeep = entries
+                    .sortedByDescending { it.value.startedAt } // Keep newest
+                    .subList(0, min(entries.size, MAX_ENTRY_SIZE))
+                    .map { it.key }
+                entries.removeAll { entry ->
+                    val remove = !toKeep.contains(entry.key)
+                    if (remove) Timber.v("Removing stale entry: %s", entry)
+                    remove
                 }
             }
         }
@@ -83,5 +127,8 @@ class DefaultCalculationTracker @Inject constructor(
 
     companion object {
         private const val TAG = "DefaultCalculationTracker"
+        private const val MAX_ENTRY_SIZE = 10
+        private val TIMEOUT_CHECK_INTERVALL = Duration.standardMinutes(5)
+        private val TIMEOUT_LIMIT = Duration.standardMinutes(60)
     }
 }
