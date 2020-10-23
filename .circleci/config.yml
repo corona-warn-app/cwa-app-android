@@ -287,6 +287,6 @@ workflows:
           filters:
             tags:
               only:
-                - /SNAPSHOT/
+                - /^v.*/
             branches:
               ignore: /.*/
