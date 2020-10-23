@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.test.crash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.crash.CrashReportEntity
-import de.rki.coronawarnapp.crash.CrashReportRepository
+import de.rki.coronawarnapp.bugreporting.event.BugEvent
+import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -12,15 +12,15 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SettingsCrashReportViewModel @AssistedInject constructor(
-    private val crashReportRepository: CrashReportRepository
+    private val crashReportRepository: BugRepository
 ) : CWAViewModel() {
 
-    val crashReports = crashReportRepository.allCrashReports
+    val crashReports = crashReportRepository.getAll()
 
-    lateinit var selectedCrashReport: LiveData<CrashReportEntity>
+    lateinit var selectedCrashReport: LiveData<BugEvent>
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
-        crashReportRepository.deleteAllCrashReports()
+        crashReportRepository.clear()
     }
 
     fun simulateExceptioin() {
@@ -33,7 +33,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 
     fun selectCrashReport(id: Long) {
         Timber.d("Selected crash report $id")
-        selectedCrashReport = crashReportRepository.getCrashReportForId(id)
+        selectedCrashReport = crashReportRepository.get(id)
     }
 
     @AssistedInject.Factory

@@ -1,51 +1,68 @@
-package de.rki.coronawarnapp.ui.settings.crash
+package de.rki.coronawarnapp.test.crash
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.bugreporting.storage.repository.DefaultBugRepository
-import de.rki.coronawarnapp.crash.CrashReportEntity
-import de.rki.coronawarnapp.crash.CrashReportRepository
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.event.BugEvent
+import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
+import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
+import javax.inject.Inject
 
-class SettingsCrashReportViewModel @AssistedInject constructor(
-    private val crashReportRepository: CrashReportRepository,
-    private val defaultBugRepository: DefaultBugRepository
-) : CWAViewModel() {
+class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview), AutoInject,
+    CrashReportAdapter.ItemClickListener {
 
-    val crashReports = crashReportRepository.allCrashReports
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: SettingsCrashReportViewModel by cwaViewModels(
+        ownerProducer = { requireActivity().viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
 
-    init {
-        defaultBugRepository.getAll().observeForever() {
-            Timber.d("Bug count ${it.count()}")
+    private val fragmentCrashreporterOverviewBinding: FragmentCrashreporterOverviewBinding by viewBindingLazy()
+    private lateinit var adapter: CrashReportAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        adapter = CrashReportAdapter(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fragmentCrashreporterOverviewBinding.list.adapter = adapter
+
+        vm.crashReports.observe2(this) {
+            adapter.updateCrashReports(it)
+        }
+
+        fragmentCrashreporterOverviewBinding.buttonClearCrashReportList.setOnClickListener {
+            vm.deleteAllCrashReports()
+        }
+
+        fragmentCrashreporterOverviewBinding.buttonTestItemForCrashReport.setOnClickListener {
+            vm.simulateExceptioin()
         }
     }
 
-    lateinit var selectedCrashReport: LiveData<CrashReportEntity>
-
-    fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
-        crashReportRepository.deleteAllCrashReports()
+    override fun crashReportClicked(crashReport: BugEvent) {
+        Timber.d("Clicked on crash report ${crashReport.id}")
+        vm.selectCrashReport(crashReport.id)
+        doNavigate(SettingsCrashReportFragmentDirections.actionCrashReportFragmentToSettingsCrashReportDetailsFragment())
     }
 
-    fun simulateExceptioin() {
-        try {
-            val a = 2 / 0
-        } catch (e: Exception) {
-            Timber.e(e, "Msg: ${e.message}")
-            e.reportProblem(tag = SettingsCrashReportViewModel::class.java.simpleName)
-        }
+    companion object {
+        val TAG = SettingsCrashReportFragment::class.java.simpleName
+        val MENU_ITEM = TestMenuItem(
+            title = "Bug & Problem Reporter",
+            description = "List of Bugs & Exceptions with share option.",
+            targetId = R.id.action_testMenuFragment_to_settingsCrashReportFragment
+        )
     }
-
-    fun selectCrashReport(id: Long) {
-        Timber.d("Selected crash report $id")
-        selectedCrashReport = crashReportRepository.getCrashReportForId(id)
-    }
-
-    @AssistedInject.Factory
-    interface Factory : SimpleCWAViewModelFactory<SettingsCrashReportViewModel>
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="crashReport"
-            type="de.rki.coronawarnapp.bugreporting.event.BugEventEntity" />
+            type="de.rki.coronawarnapp.bugreporting.event.BugEvent" />
 
         <variable
             name="pos"
