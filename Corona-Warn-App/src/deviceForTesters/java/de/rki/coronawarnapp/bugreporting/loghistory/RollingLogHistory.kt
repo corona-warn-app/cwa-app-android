@@ -28,7 +28,7 @@ class RollingLogHistory @Inject constructor(
 
     init {
         logQueue
-            .filter { it.isBlank() }
+            .filter { it.isNotBlank() }
             .onEach {
                 bufferLock.withLock {
                     buffer.addFirst(it)
