@@ -83,11 +83,21 @@ android {
         Properties signingProps = new Properties()
         signingProps.load(new FileInputStream(signingPropFile))
         signingConfigs {
-            release {
-                storeFile file(signingProps['release.storePath'])
-                keyAlias signingProps['release.keyAlias']
-                storePassword signingProps['release.storePassword']
-                keyPassword signingProps['release.keyPassword']
+            deviceRelease {
+                if(signingProps['deviceRelease.storePath'] != null) {
+                    storeFile file(signingProps['deviceRelease.storePath'])
+                    keyAlias signingProps['deviceRelease.keyAlias']
+                    storePassword signingProps['deviceRelease.storePassword']
+                    keyPassword signingProps['deviceRelease.keyPassword']
+                }
+            }
+            deviceForTestersRelease {
+                if(signingProps['deviceForTestersRelease.storePath'] != null) {
+                    storeFile file(signingProps['deviceForTestersRelease.storePath'])
+                    keyAlias signingProps['deviceForTestersRelease.keyAlias']
+                    storePassword signingProps['deviceForTestersRelease.storePassword']
+                    keyPassword signingProps['deviceForTestersRelease.keyPassword']
+                }
             }
         }
     }
@@ -99,10 +109,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            if (signingPropFile.canRead()) {
-                signingConfig signingConfigs.release
-            }
         }
     }
 
@@ -116,15 +122,23 @@ android {
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
             }
+
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.deviceRelease
+            }
         }
         deviceForTesters {
             // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
-            applicationIdSuffix '.dev'
+            applicationIdSuffix '.test'
 
             ext {
                 envTypeDefault = [debug: "INT", release: "WRU-XD"]
+            }
+
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.deviceForTestersRelease
             }
         }
     }

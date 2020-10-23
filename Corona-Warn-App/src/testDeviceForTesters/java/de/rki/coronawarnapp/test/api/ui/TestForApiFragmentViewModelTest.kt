@@ -95,7 +95,6 @@ class TestForApiFragmentViewModelTest : BaseTest() {
         }
         events[0] shouldBe EnvironmentSetup.Type.DEV
 
-
         states[2].apply {
             current shouldBe EnvironmentSetup.Type.WRU_XA
         }
