@@ -58,8 +58,8 @@ class SettingsCrashReportDetailsFragment :
             vm.selectedCrashReport.value?.let { crashReport ->
                 val shareIntent = ShareCompat.IntentBuilder
                     .from(activity)
-                    .setType("text/json")
-                    .setText(Gson().toJson(crashReport))
+                    .setType("text/plain")
+                    .setText(fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text)
                     .createChooserIntent()
 
                 if (shareIntent.resolveActivity(activity.packageManager) != null) {
