@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.bugreporting.storage
+package de.rki.coronawarnapp.bugreporting.storage.repository
 
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
+import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import kotlinx.coroutines.flow.Flow
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.bugreporting.loghistory.RollingLogHistory
 import de.rki.coronawarnapp.bugreporting.processor.BugProcessor
 import de.rki.coronawarnapp.bugreporting.processor.DefaultBugProcessor
 import de.rki.coronawarnapp.bugreporting.reporter.DefaultBugReporter
-import de.rki.coronawarnapp.bugreporting.storage.BugRepository
-import de.rki.coronawarnapp.bugreporting.storage.DefaultBugRepository
+import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
+import de.rki.coronawarnapp.bugreporting.storage.repository.DefaultBugRepository
 import timber.log.Timber
 import javax.inject.Singleton
 

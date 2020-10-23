@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.reporter
 
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.processor.BugProcessor
-import de.rki.coronawarnapp.bugreporting.storage.BugRepository
+import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope

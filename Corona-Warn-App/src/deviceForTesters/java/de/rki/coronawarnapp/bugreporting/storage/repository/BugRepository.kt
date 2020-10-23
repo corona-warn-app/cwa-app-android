@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.storage
+package de.rki.coronawarnapp.bugreporting.storage.repository
 
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import kotlinx.coroutines.flow.Flow
