@@ -47,6 +47,8 @@ class SubmissionIntroFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionIntroFragment>()
         onView(withId(R.id.submission_intro_button_next))
             .perform(click())
+
+        //ToDo verify result
     }
 }
 

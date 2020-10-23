@@ -48,6 +48,9 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click());
+
+        //ToDo verify result
+
     }
 
     @Test fun testEventTeleClicked() {
@@ -55,6 +58,9 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click());
+
+        //ToDo verify result
+
     }
 
     @Test fun testEventTanClicked() {
@@ -62,6 +68,9 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click());
+
+        //ToDo verify result
+
     }
 }
 

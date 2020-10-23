@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission
 
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -12,10 +11,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.submission.fragment.SubmissionTanFragment
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -32,8 +30,6 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
-        every { viewModel.tan } returns MutableLiveData()
 
         setupMockViewModel(object : SubmissionTanViewModel.Factory {
             override fun create(): SubmissionTanViewModel = viewModel
@@ -56,6 +52,9 @@ class SubmissionTanFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_tan_button_enter))
             .perform(scrollTo())
             .perform(click())
+
+            //ToDo verify result
+
     }
 }
 
