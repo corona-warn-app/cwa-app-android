@@ -92,6 +92,23 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
+    fun `provide diagnosis key call is only forwarded if there are actually key files`() {
+        val client = createClient()
+        val keyFiles = emptyList<File>()
+        val configuration = mockk<ExposureConfiguration>()
+        val token = "123"
+
+        coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any()) } returns true
+        runBlocking {
+            client.provideDiagnosisKeys(keyFiles, configuration, token) shouldBe true
+        }
+
+        coVerify(exactly = 0) {
+            diagnosisKeyProvider.provideDiagnosisKeys(any(), any(), any())
+        }
+    }
+
+    @Test
     fun `tracing status check is forwaded to the right module`() = runBlocking {
         every { tracingStatus.isTracingEnabled } returns flowOf(true)
 

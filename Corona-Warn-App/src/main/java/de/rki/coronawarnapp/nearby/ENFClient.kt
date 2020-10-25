@@ -40,8 +40,15 @@ class ENFClient @Inject constructor(
             "asyncProvideDiagnosisKeys(keyFiles=%s, configuration=%s, token=%s)",
             keyFiles, configuration, token
         )
-        calculationTracker.trackNewCalaculation(token)
-        return diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
+
+        return if (keyFiles.isEmpty()) {
+            Timber.d("No key files submitted, returning early.")
+            true
+        } else {
+            Timber.d("Forwarding %d key files to our DiagnosisKeyProvider.", keyFiles.size)
+            calculationTracker.trackNewCalaculation(token)
+            diagnosisKeyProvider.provideDiagnosisKeys(keyFiles, configuration, token)
+        }
     }
 
     override val isLocationLessScanningSupported: Flow<Boolean>
