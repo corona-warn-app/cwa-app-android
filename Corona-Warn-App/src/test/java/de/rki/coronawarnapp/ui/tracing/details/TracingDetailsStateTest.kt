@@ -53,7 +53,7 @@ class TracingDetailsStateTest : BaseTest() {
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevelScore,
         isRefreshing = isRefreshing,
-        riskLevelLastSuccessfulCalculation = riskLevelLastSuccessfulCalculation,
+        lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,

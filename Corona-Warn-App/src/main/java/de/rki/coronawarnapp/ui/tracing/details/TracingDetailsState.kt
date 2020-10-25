@@ -11,7 +11,7 @@ data class TracingDetailsState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
     override val isRefreshing: Boolean,
-    override val riskLevelLastSuccessfulCalculation: Int,
+    override val lastRiskLevelScoreCalculated: Int,
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
     override val activeTracingDaysInRetentionPeriod: Long,

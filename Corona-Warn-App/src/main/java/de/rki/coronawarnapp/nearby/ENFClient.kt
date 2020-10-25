@@ -4,11 +4,14 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -46,5 +49,14 @@ class ENFClient @Inject constructor(
 
     override val isTracingEnabled: Flow<Boolean>
         get() = tracingStatus.isTracingEnabled
+
+    fun isCurrentlyCalculating(): Flow<Boolean> = calculationTracker.calculations.map { snapshot ->
+        snapshot.values.any { it.state == Calculation.State.CALCULATING }
+    }
+
+    fun latestFinishedCalculation(): Flow<Calculation?> =
+        calculationTracker.calculations.map { snapshot ->
+            snapshot.values.maxByOrNull { it.finishedAt ?: Instant.EPOCH }
+        }
 }
 

@@ -62,7 +62,7 @@ class TracingDetailsStateProvider @Inject constructor(
             tracingStatus = status,
             riskLevelScore = riskLevelScore,
             isRefreshing = isRefreshing,
-            riskLevelLastSuccessfulCalculation = riskLevelScoreLastSuccessfulCalculated,
+            lastRiskLevelScoreCalculated = riskLevelScoreLastSuccessfulCalculated,
             matchedKeyCount = matchedKeyCount,
             daysSinceLastExposure = daysSinceLastExposure,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,

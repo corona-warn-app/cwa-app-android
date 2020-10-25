@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.CalculationTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DiagnosisKeyProvider
 import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
@@ -17,9 +18,11 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verifySequence
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
+import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -109,6 +112,66 @@ class ENFClientTest : BaseTest() {
 
         verifySequence {
             scanningSupport.isLocationLessScanningSupported
+        }
+    }
+
+    @Test
+    fun `validate extensions`() {
+        runBlocking {
+            val calculations = flowOf(
+                mapOf(
+                    "1" to Calculation(
+                        token = "1",
+                        state = Calculation.State.DONE,
+                        startedAt = Instant.EPOCH,
+                        finishedAt = Instant.EPOCH
+                    ),
+                    "2" to Calculation(
+                        token = "2",
+                        state = Calculation.State.DONE,
+                        startedAt = Instant.EPOCH,
+                        finishedAt = Instant.EPOCH.plus(1)
+                    )
+                )
+            )
+
+            every { calculationTracker.calculations } returns calculations
+            createClient().apply {
+                isCurrentlyCalculating().first() shouldBe false
+                latestFinishedCalculation().first()!!.token shouldBe "2"
+            }
+
+        }
+
+        runBlocking {
+            val calculations = flowOf(
+                mapOf(
+                    "1" to Calculation(
+                        token = "1",
+                        state = Calculation.State.DONE,
+                        startedAt = Instant.EPOCH,
+                        finishedAt = Instant.EPOCH.plus(2)
+                    ),
+                    "2" to Calculation(
+                        token = "2",
+                        state = Calculation.State.CALCULATING,
+                        startedAt = Instant.EPOCH,
+                    ),
+                    "3" to Calculation(
+                        token = "3",
+                        state = Calculation.State.DONE,
+                        startedAt = Instant.EPOCH,
+                        finishedAt = Instant.EPOCH
+                    )
+                )
+            )
+
+            every { calculationTracker.calculations } returns calculations
+
+            createClient().apply {
+                isCurrentlyCalculating().first() shouldBe true
+                latestFinishedCalculation().first()!!.token shouldBe "1"
+            }
         }
     }
 }
