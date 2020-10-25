@@ -7,19 +7,12 @@ import org.joda.time.Instant
 @Keep
 data class Calculation(
     @SerializedName("identifier") val identifier: String,
-    @SerializedName("state") val state: State = State.CALCULATING,
     @SerializedName("startedAt") val startedAt: Instant,
     @SerializedName("result") val result: Result? = null,
     @SerializedName("finishedAt") val finishedAt: Instant? = null
 ) {
-    @Keep
-    enum class State {
-        @SerializedName("CALCULATING")
-        CALCULATING,
 
-        @SerializedName("DONE")
-        DONE
-    }
+   @Transient val isCalculating: Boolean = finishedAt == null
 
     @Keep
     enum class Result {

@@ -51,12 +51,14 @@ class ENFClient @Inject constructor(
         get() = tracingStatus.isTracingEnabled
 
     fun isCurrentlyCalculating(): Flow<Boolean> = calculationTracker.calculations.map { snapshot ->
-        snapshot.values.any { it.state == Calculation.State.CALCULATING }
+        snapshot.values.any { it.isCalculating }
     }
 
     fun latestFinishedCalculation(): Flow<Calculation?> =
         calculationTracker.calculations.map { snapshot ->
-            snapshot.values.maxByOrNull { it.finishedAt ?: Instant.EPOCH }
+            snapshot.values
+                .filter { !it.isCalculating }
+                .maxByOrNull { it.finishedAt ?: Instant.EPOCH }
         }
 }
 

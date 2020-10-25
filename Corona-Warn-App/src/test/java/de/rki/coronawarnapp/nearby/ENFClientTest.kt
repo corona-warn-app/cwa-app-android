@@ -122,13 +122,11 @@ class ENFClientTest : BaseTest() {
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
-                        state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH
                     ),
                     "2" to Calculation(
                         identifier = "2",
-                        state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH.plus(1)
                     )
@@ -148,18 +146,15 @@ class ENFClientTest : BaseTest() {
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
-                        state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH.plus(2)
                     ),
                     "2" to Calculation(
                         identifier = "2",
-                        state = Calculation.State.CALCULATING,
                         startedAt = Instant.EPOCH,
                     ),
                     "3" to Calculation(
                         identifier = "3",
-                        state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH
                     )

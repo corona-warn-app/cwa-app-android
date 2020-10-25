@@ -64,7 +64,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
     fun `data is restored from storage`() = runBlockingTest2(permanentJobs = true) {
         val calcData = Calculation(
             identifier = UUID.randomUUID().toString(),
-            state = Calculation.State.CALCULATING,
             startedAt = Instant.EPOCH
         )
         val initialData = mapOf(calcData.identifier to calcData)
@@ -87,7 +86,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
                 key shouldBe expectedIdentifier
                 value shouldBe Calculation(
                     identifier = expectedIdentifier,
-                    state = Calculation.State.CALCULATING,
                     startedAt = Instant.EPOCH
                 )
             }
@@ -106,7 +104,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
     fun `finish an existing calcluation`() = runBlockingTest2(permanentJobs = true) {
         val calcData = Calculation(
             identifier = UUID.randomUUID().toString(),
-            state = Calculation.State.CALCULATING,
             startedAt = Instant.EPOCH
         )
         val initialData = mapOf(calcData.identifier to calcData)
@@ -115,7 +112,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
         val expectedData = initialData.mutate {
             this[calcData.identifier] = this[calcData.identifier]!!.copy(
                 finishedAt = Instant.EPOCH.plus(1),
-                state = Calculation.State.DONE,
                 result = Calculation.Result.UPDATED_STATE
             )
         }
@@ -145,7 +141,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
         val calcData = (1..15L).map {
             val calcData = Calculation(
                 identifier = "$it",
-                state = Calculation.State.CALCULATING,
                 startedAt = Instant.EPOCH.plus(it)
             )
             calcData.identifier to calcData
@@ -169,17 +164,48 @@ class DefaultCalculationTrackerTest : BaseTest() {
     fun `60 minute timeout on ongoing calcs`() = runBlockingTest2(permanentJobs = true) {
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.standardMinutes(60))
-            .plus(5)
+            .plus(2)
 
         // First half will be in the timeout, last half will be ok
-        val calcData = (1..10L).map {
-            val calcData = Calculation(
-                identifier = "$it",
-                state = if (it.toInt() % 2 == 0) Calculation.State.CALCULATING else Calculation.State.DONE,
-                startedAt = Instant.EPOCH.plus(it)
-            )
-            calcData.identifier to calcData
-        }.toMap()
+        val timeoutOnRunningCalc = Calculation(
+            identifier = "0",
+            startedAt = Instant.EPOCH
+        )
+        val timeoutonRunningCalc2 = Calculation(
+            identifier = "1",
+            startedAt = Instant.EPOCH.plus(1)
+        )
+        // We shouldn't care for timeouts on finished calculations
+        val timeoutIgnoresFinishedCalcs = Calculation(
+            identifier = "2",
+            startedAt = Instant.EPOCH.plus(1),
+            finishedAt = Instant.EPOCH.plus(60)
+        )
+
+        // This one is right on the edge, testing <= behavior
+        val timeoutRunningOnEdge = Calculation(
+            identifier = "3",
+            startedAt = Instant.EPOCH.plus(2)
+        )
+
+        val noTimeoutCalcRunning = Calculation(
+            identifier = "4",
+            startedAt = Instant.EPOCH.plus(4)
+        )
+        val noTimeOutCalcFinished = Calculation(
+            identifier = "5",
+            startedAt = Instant.EPOCH.plus(5),
+            finishedAt = Instant.EPOCH.plus(60)
+        )
+
+        val calcData = mapOf(
+            timeoutOnRunningCalc.identifier to timeoutOnRunningCalc,
+            timeoutonRunningCalc2.identifier to timeoutonRunningCalc2,
+            timeoutIgnoresFinishedCalcs.identifier to timeoutIgnoresFinishedCalcs,
+            timeoutRunningOnEdge.identifier to timeoutRunningOnEdge,
+            noTimeoutCalcRunning.identifier to noTimeoutCalcRunning,
+            noTimeOutCalcFinished.identifier to noTimeOutCalcFinished,
+        )
 
         coEvery { storage.load() } returns calcData
 
@@ -187,17 +213,23 @@ class DefaultCalculationTrackerTest : BaseTest() {
             advanceUntilIdle()
 
             calculations.first().apply {
-                size shouldBe 8
-                values.map { it.identifier } shouldBe listOf(
-                    "1",
-                    "3",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10"
+                size shouldBe 6
+
+                this["0"] shouldBe timeoutOnRunningCalc.copy(
+                    finishedAt = timeStamper.nowUTC,
+                    result = Calculation.Result.TIMEOUT
                 )
+                this["1"] shouldBe timeoutonRunningCalc2.copy(
+                    finishedAt = timeStamper.nowUTC,
+                    result = Calculation.Result.TIMEOUT
+                )
+                this["2"] shouldBe timeoutIgnoresFinishedCalcs
+
+                this["3"] shouldBe timeoutRunningOnEdge
+
+
+                this["4"] shouldBe noTimeoutCalcRunning
+                this["5"] shouldBe noTimeOutCalcFinished
             }
         }
     }

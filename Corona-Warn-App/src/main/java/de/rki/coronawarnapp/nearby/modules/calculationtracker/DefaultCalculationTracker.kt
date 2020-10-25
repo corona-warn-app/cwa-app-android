@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
 import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.Result
-import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.State
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -51,10 +50,14 @@ class DefaultCalculationTracker @Inject constructor(
                         Timber.v("Time now: %s", timeNow)
 
                         mutate {
-                            values.filter { it.state == State.CALCULATING }.toList().forEach {
+                            values.filter { it.isCalculating }.toList().forEach {
                                 if (timeNow.isAfter(it.startedAt.plus(TIMEOUT_LIMIT))) {
-                                    Timber.w("Calculation timeout on : %s", it)
+                                    Timber.w("Calculation timeout on %s", it)
                                     remove(it.identifier)
+                                    this[it.identifier] = it.copy(
+                                        finishedAt = timeStamper.nowUTC,
+                                        result = Result.TIMEOUT
+                                    )
                                 }
                             }
                         }
@@ -84,7 +87,6 @@ class DefaultCalculationTracker @Inject constructor(
             mutate {
                 this[identifier] = Calculation(
                     identifier = identifier,
-                    state = State.CALCULATING,
                     startedAt = timeStamper.nowUTC
                 )
             }
@@ -99,7 +101,6 @@ class DefaultCalculationTracker @Inject constructor(
                 if (existing != null) {
                     this[identifier] = existing.copy(
                         result = result,
-                        state = State.DONE,
                         finishedAt = timeStamper.nowUTC
                     )
                 } else {
@@ -110,7 +111,6 @@ class DefaultCalculationTracker @Inject constructor(
                     )
                     this[identifier] = Calculation(
                         identifier = identifier,
-                        state = State.DONE,
                         result = result,
                         startedAt = timeStamper.nowUTC,
                         finishedAt = timeStamper.nowUTC
