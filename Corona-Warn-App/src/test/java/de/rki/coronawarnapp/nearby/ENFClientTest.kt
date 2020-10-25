@@ -170,15 +170,24 @@ class ENFClientTest : BaseTest() {
                     "1" to Calculation(
                         identifier = "1",
                         startedAt = Instant.EPOCH,
+                        result = Calculation.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH
                     ),
                     "2" to Calculation(
                         identifier = "2",
                         startedAt = Instant.EPOCH,
+                        result = Calculation.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH.plus(1)
+                    ),
+                    "2-timeout" to Calculation(
+                        identifier = "2-timeout",
+                        startedAt = Instant.EPOCH,
+                        result = Calculation.Result.TIMEOUT,
+                        finishedAt = Instant.EPOCH.plus(2)
                     ),
                     "3" to Calculation(
                         identifier = "3",
+                        result = Calculation.Result.UPDATED_STATE,
                         startedAt = Instant.EPOCH.plus(2)
                     )
                 )
@@ -193,20 +202,30 @@ class ENFClientTest : BaseTest() {
                 mapOf(
                     "0" to Calculation(
                         identifier = "1",
+                        result = Calculation.Result.UPDATED_STATE,
                         startedAt = Instant.EPOCH.plus(3)
+                    ),
+                    "1-timeout" to Calculation(
+                        identifier = "1-timeout",
+                        startedAt = Instant.EPOCH,
+                        result = Calculation.Result.TIMEOUT,
+                        finishedAt = Instant.EPOCH.plus(3)
                     ),
                     "1" to Calculation(
                         identifier = "1",
                         startedAt = Instant.EPOCH,
+                        result = Calculation.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH.plus(2)
                     ),
                     "2" to Calculation(
                         identifier = "2",
+                        result = Calculation.Result.UPDATED_STATE,
                         startedAt = Instant.EPOCH,
                     ),
                     "3" to Calculation(
                         identifier = "3",
                         startedAt = Instant.EPOCH,
+                        result = Calculation.Result.UPDATED_STATE,
                         finishedAt = Instant.EPOCH
                     )
                 )

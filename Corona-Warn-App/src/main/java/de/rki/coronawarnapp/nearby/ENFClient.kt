@@ -57,7 +57,7 @@ class ENFClient @Inject constructor(
     fun latestFinishedCalculation(): Flow<Calculation?> =
         calculationTracker.calculations.map { snapshot ->
             snapshot.values
-                .filter { !it.isCalculating }
+                .filter { !it.isCalculating && it.isSuccessful }
                 .maxByOrNull { it.finishedAt ?: Instant.EPOCH }
         }
 }
