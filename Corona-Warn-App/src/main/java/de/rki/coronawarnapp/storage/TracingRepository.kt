@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -58,11 +58,11 @@ class TracingRepository @Inject constructor(
 
     // TODO shouldn't access this directly
     val internalIsRefreshing = MutableStateFlow(false)
-    val isRefreshing: Flow<Boolean> = combineTransform(
+    val isRefreshing: Flow<Boolean> = combine(
         internalIsRefreshing,
         enfClient.isCurrentlyCalculating()
     ) { isRefreshing, isCalculating ->
-        emit(isRefreshing || isCalculating)
+        isRefreshing || isCalculating
     }
 
     /**
