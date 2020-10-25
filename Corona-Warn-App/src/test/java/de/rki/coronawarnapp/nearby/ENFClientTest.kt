@@ -121,13 +121,13 @@ class ENFClientTest : BaseTest() {
             val calculations = flowOf(
                 mapOf(
                     "1" to Calculation(
-                        token = "1",
+                        identifier = "1",
                         state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH
                     ),
                     "2" to Calculation(
-                        token = "2",
+                        identifier = "2",
                         state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH.plus(1)
@@ -138,7 +138,7 @@ class ENFClientTest : BaseTest() {
             every { calculationTracker.calculations } returns calculations
             createClient().apply {
                 isCurrentlyCalculating().first() shouldBe false
-                latestFinishedCalculation().first()!!.token shouldBe "2"
+                latestFinishedCalculation().first()!!.identifier shouldBe "2"
             }
 
         }
@@ -147,18 +147,18 @@ class ENFClientTest : BaseTest() {
             val calculations = flowOf(
                 mapOf(
                     "1" to Calculation(
-                        token = "1",
+                        identifier = "1",
                         state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH.plus(2)
                     ),
                     "2" to Calculation(
-                        token = "2",
+                        identifier = "2",
                         state = Calculation.State.CALCULATING,
                         startedAt = Instant.EPOCH,
                     ),
                     "3" to Calculation(
-                        token = "3",
+                        identifier = "3",
                         state = Calculation.State.DONE,
                         startedAt = Instant.EPOCH,
                         finishedAt = Instant.EPOCH
@@ -170,7 +170,7 @@ class ENFClientTest : BaseTest() {
 
             createClient().apply {
                 isCurrentlyCalculating().first() shouldBe true
-                latestFinishedCalculation().first()!!.token shouldBe "1"
+                latestFinishedCalculation().first()!!.identifier shouldBe "1"
             }
         }
     }

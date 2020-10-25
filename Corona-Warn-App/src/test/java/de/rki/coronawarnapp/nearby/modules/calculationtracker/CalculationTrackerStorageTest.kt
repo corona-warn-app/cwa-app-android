@@ -30,14 +30,14 @@ class CalculationTrackerStorageTest : BaseIOTest() {
     private val demoJsonString = """
             {
               "b2b98400-058d-43e6-b952-529a5255248b": {
-                "token": "b2b98400-058d-43e6-b952-529a5255248b",
+                "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
                 "state": "CALCULATING",
                 "startedAt": {
                   "iMillis": 1234
                 }
               },
               "aeb15509-fb34-42ce-8795-7a9ae0c2f389": {
-                "token": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
+                "identifier": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
                 "state": "DONE",
                 "startedAt": {
                   "iMillis": 5678
@@ -49,22 +49,23 @@ class CalculationTrackerStorageTest : BaseIOTest() {
               }
             }
         """.trimIndent()
+
     private val demoData = run {
         val calculation1 = Calculation(
-            token = "b2b98400-058d-43e6-b952-529a5255248b",
+            identifier = "b2b98400-058d-43e6-b952-529a5255248b",
             state = Calculation.State.CALCULATING,
             startedAt = Instant.ofEpochMilli(1234)
         )
         val calculation2 = Calculation(
-            token = "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
+            identifier = "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
             startedAt = Instant.ofEpochMilli(5678),
             state = Calculation.State.DONE,
             finishedAt = Instant.ofEpochMilli(1603473968125),
             result = Calculation.Result.UPDATED_STATE
         )
         mapOf(
-            calculation1.token to calculation1,
-            calculation2.token to calculation2
+            calculation1.identifier to calculation1,
+            calculation2.identifier to calculation2
         )
     }
 

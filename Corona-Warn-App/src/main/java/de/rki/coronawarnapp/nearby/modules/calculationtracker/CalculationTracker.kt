@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 interface CalculationTracker {
     val calculations: Flow<Map<String, Calculation>>
 
-    fun trackNewCalaculation(token: String)
+    fun trackNewCalaculation(identifier: String)
 
-    fun finishCalculation(token: String, result: Calculation.Result)
+    fun finishCalculation(identifier: String, result: Calculation.Result)
 }

@@ -63,11 +63,11 @@ class DefaultCalculationTrackerTest : BaseTest() {
     @Test
     fun `data is restored from storage`() = runBlockingTest2(permanentJobs = true) {
         val calcData = Calculation(
-            token = UUID.randomUUID().toString(),
+            identifier = UUID.randomUUID().toString(),
             state = Calculation.State.CALCULATING,
             startedAt = Instant.EPOCH
         )
-        val initialData = mapOf(calcData.token to calcData)
+        val initialData = mapOf(calcData.identifier to calcData)
         coEvery { storage.load() } returns initialData
 
         createInstance(scope = this).calculations.first() shouldBe initialData
@@ -76,17 +76,17 @@ class DefaultCalculationTrackerTest : BaseTest() {
     @Test
     fun `tracking a new calculation`() = runBlockingTest2(permanentJobs = true) {
         createInstance(scope = this).apply {
-            val expectedToken = UUID.randomUUID().toString()
-            trackNewCalaculation(expectedToken)
+            val expectedIdentifier = UUID.randomUUID().toString()
+            trackNewCalaculation(expectedIdentifier)
 
             advanceUntilIdle()
 
             val calculationData = calculations.first()
 
             calculationData.entries.single().apply {
-                key shouldBe expectedToken
+                key shouldBe expectedIdentifier
                 value shouldBe Calculation(
-                    token = expectedToken,
+                    identifier = expectedIdentifier,
                     state = Calculation.State.CALCULATING,
                     startedAt = Instant.EPOCH
                 )
@@ -105,15 +105,15 @@ class DefaultCalculationTrackerTest : BaseTest() {
     @Test
     fun `finish an existing calcluation`() = runBlockingTest2(permanentJobs = true) {
         val calcData = Calculation(
-            token = UUID.randomUUID().toString(),
+            identifier = UUID.randomUUID().toString(),
             state = Calculation.State.CALCULATING,
             startedAt = Instant.EPOCH
         )
-        val initialData = mapOf(calcData.token to calcData)
+        val initialData = mapOf(calcData.identifier to calcData)
         coEvery { storage.load() } returns initialData
 
         val expectedData = initialData.mutate {
-            this[calcData.token] = this[calcData.token]!!.copy(
+            this[calcData.identifier] = this[calcData.identifier]!!.copy(
                 finishedAt = Instant.EPOCH.plus(1),
                 state = Calculation.State.DONE,
                 result = Calculation.Result.UPDATED_STATE
@@ -124,7 +124,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1)
 
         createInstance(scope = this).apply {
-            finishCalculation(calcData.token, Calculation.Result.UPDATED_STATE)
+            finishCalculation(calcData.identifier, Calculation.Result.UPDATED_STATE)
 
             advanceUntilIdle()
 
@@ -144,11 +144,11 @@ class DefaultCalculationTrackerTest : BaseTest() {
     fun `no more than 10 calcluations are tracked`() = runBlockingTest2(permanentJobs = true) {
         val calcData = (1..15L).map {
             val calcData = Calculation(
-                token = "$it",
+                identifier = "$it",
                 state = Calculation.State.CALCULATING,
                 startedAt = Instant.EPOCH.plus(it)
             )
-            calcData.token to calcData
+            calcData.identifier to calcData
         }.toMap()
 
         coEvery { storage.load() } returns calcData
@@ -161,7 +161,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
             val data = calculations.first()
             data.size shouldBe 10
-            data.values.map { it.token }.toList() shouldBe (6..15).map { "$it" }.toList()
+            data.values.map { it.identifier }.toList() shouldBe (6..15).map { "$it" }.toList()
         }
     }
 
@@ -174,11 +174,11 @@ class DefaultCalculationTrackerTest : BaseTest() {
         // First half will be in the timeout, last half will be ok
         val calcData = (1..10L).map {
             val calcData = Calculation(
-                token = "$it",
+                identifier = "$it",
                 state = if (it.toInt() % 2 == 0) Calculation.State.CALCULATING else Calculation.State.DONE,
                 startedAt = Instant.EPOCH.plus(it)
             )
-            calcData.token to calcData
+            calcData.identifier to calcData
         }.toMap()
 
         coEvery { storage.load() } returns calcData
@@ -188,7 +188,16 @@ class DefaultCalculationTrackerTest : BaseTest() {
 
             calculations.first().apply {
                 size shouldBe 8
-                values.map { it.token } shouldBe listOf("1", "3", "5", "6", "7", "8", "9", "10")
+                values.map { it.identifier } shouldBe listOf(
+                    "1",
+                    "3",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10"
+                )
             }
         }
     }

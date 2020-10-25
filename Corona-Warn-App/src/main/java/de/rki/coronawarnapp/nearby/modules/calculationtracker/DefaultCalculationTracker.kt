@@ -54,7 +54,7 @@ class DefaultCalculationTracker @Inject constructor(
                             values.filter { it.state == State.CALCULATING }.toList().forEach {
                                 if (timeNow.isAfter(it.startedAt.plus(TIMEOUT_LIMIT))) {
                                     Timber.w("Calculation timeout on : %s", it)
-                                    remove(it.token)
+                                    remove(it.identifier)
                                 }
                             }
                         }
@@ -78,12 +78,12 @@ class DefaultCalculationTracker @Inject constructor(
 
     override val calculations: Flow<Map<String, Calculation>> by lazy { calculationStates.data }
 
-    override fun trackNewCalaculation(token: String) {
-        Timber.i("trackNewCalaculation(token=%s)", token)
+    override fun trackNewCalaculation(identifier: String) {
+        Timber.i("trackNewCalaculation(token=%s)", identifier)
         calculationStates.updateSafely {
             mutate {
-                this[token] = Calculation(
-                    token = token,
+                this[identifier] = Calculation(
+                    identifier = identifier,
                     state = State.CALCULATING,
                     startedAt = timeStamper.nowUTC
                 )
@@ -91,21 +91,25 @@ class DefaultCalculationTracker @Inject constructor(
         }
     }
 
-    override fun finishCalculation(token: String, result: Result) {
-        Timber.i("finishCalculation(token=%s, result=%s)", token, result)
+    override fun finishCalculation(identifier: String, result: Result) {
+        Timber.i("finishCalculation(token=%s, result=%s)", identifier, result)
         calculationStates.updateSafely {
             mutate {
-                val existing = this[token]
+                val existing = this[identifier]
                 if (existing != null) {
-                    this[token] = existing.copy(
+                    this[identifier] = existing.copy(
                         result = result,
                         state = State.DONE,
                         finishedAt = timeStamper.nowUTC
                     )
                 } else {
-                    Timber.e("Unknown calculation finished (token=%s, result=%s)", token, result)
-                    this[token] = Calculation(
-                        token = token,
+                    Timber.e(
+                        "Unknown calculation finished (token=%s, result=%s)",
+                        identifier,
+                        result
+                    )
+                    this[identifier] = Calculation(
+                        identifier = identifier,
                         state = State.DONE,
                         result = result,
                         startedAt = timeStamper.nowUTC,

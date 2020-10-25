@@ -6,7 +6,7 @@ import org.joda.time.Instant
 
 @Keep
 data class Calculation(
-    @SerializedName("token") val token: String,
+    @SerializedName("identifier") val identifier: String,
     @SerializedName("state") val state: State = State.CALCULATING,
     @SerializedName("startedAt") val startedAt: Instant,
     @SerializedName("result") val result: Result? = null,
