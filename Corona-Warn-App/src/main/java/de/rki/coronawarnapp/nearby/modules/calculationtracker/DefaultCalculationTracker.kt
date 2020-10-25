@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.Result
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.coroutine.HotData
+import de.rki.coronawarnapp.util.coroutine.HotDataFlow
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -32,15 +32,15 @@ class DefaultCalculationTracker @Inject constructor(
         Timber.v("init()")
     }
 
-    private val calculationStates: HotData<Map<String, Calculation>> by lazy {
-        val setupAutoSave: (HotData<Map<String, Calculation>>) -> Unit = { hd ->
+    private val calculationStates: HotDataFlow<Map<String, Calculation>> by lazy {
+        val setupAutoSave: (HotDataFlow<Map<String, Calculation>>) -> Unit = { hd ->
             hd.data
                 .onStart { Timber.v("Observing calculation changes.") }
                 .onEach { storage.save(it) }
                 .launchIn(scope = scope + dispatcherProvider.Default)
         }
 
-        val setupTimeoutEnforcer: (HotData<Map<String, Calculation>>) -> Unit = { hd ->
+        val setupTimeoutEnforcer: (HotDataFlow<Map<String, Calculation>>) -> Unit = { hd ->
             flow<Unit> {
                 while (true) {
                     hd.updateSafely {
@@ -68,7 +68,7 @@ class DefaultCalculationTracker @Inject constructor(
             }.launchIn(scope + dispatcherProvider.Default)
         }
 
-        HotData(
+        HotDataFlow(
             loggingTag = TAG,
             scope = scope,
             coroutineContext = dispatcherProvider.Default,

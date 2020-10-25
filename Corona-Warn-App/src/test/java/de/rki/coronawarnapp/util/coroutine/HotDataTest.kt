@@ -24,7 +24,7 @@ class HotDataTest : BaseTest() {
     @Test
     fun `init call only happens on first collection`() {
         val testScope = TestCoroutineScope()
-        val hotData = HotData<String>(
+        val hotData = HotDataFlow<String>(
             loggingTag = "tag",
             scope = testScope,
             coroutineContext = Dispatchers.Unconfined,
@@ -47,7 +47,7 @@ class HotDataTest : BaseTest() {
         val valueProvider = mockk<suspend CoroutineScope.() -> String>()
         coEvery { valueProvider.invoke(any()) } returns "Test"
 
-        val hotData = HotData(
+        val hotData = HotDataFlow(
             loggingTag = "tag",
             scope = testScope,
             coroutineContext = Dispatchers.Unconfined,
@@ -70,7 +70,7 @@ class HotDataTest : BaseTest() {
         val valueProvider = mockk<suspend CoroutineScope.() -> String>()
         coEvery { valueProvider.invoke(any()) } returns "Test"
 
-        val hotData = HotData(
+        val hotData = HotDataFlow(
             loggingTag = "tag",
             scope = testScope,
             coroutineContext = Dispatchers.Unconfined,
@@ -93,7 +93,7 @@ class HotDataTest : BaseTest() {
         val valueProvider = mockk<suspend CoroutineScope.() -> Long>()
         coEvery { valueProvider.invoke(any()) } returns 1
 
-        val hotData = HotData(
+        val hotData = HotDataFlow(
             loggingTag = "tag",
             scope = testScope,
             startValueProvider = valueProvider,
@@ -128,7 +128,7 @@ class HotDataTest : BaseTest() {
         val valueProvider = mockk<suspend CoroutineScope.() -> String>()
         coEvery { valueProvider.invoke(any()) } returns "Test"
 
-        val hotData = HotData(
+        val hotData = HotDataFlow(
             loggingTag = "tag",
             scope = testScope,
             startValueProvider = valueProvider,

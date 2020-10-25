@@ -18,7 +18,7 @@ import kotlinx.coroutines.plus
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
-class HotData<T : Any>(
+class HotDataFlow<T : Any>(
     loggingTag: String,
     scope: CoroutineScope,
     coroutineContext: CoroutineContext = Dispatchers.Default,
