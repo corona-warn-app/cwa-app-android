@@ -12,9 +12,10 @@ data class Calculation(
     @SerializedName("finishedAt") val finishedAt: Instant? = null
 ) {
 
-    @Transient val isCalculating: Boolean = finishedAt == null
-    @Transient val isSuccessful: Boolean =
-        (result == Result.NO_MATCHES || result == Result.UPDATED_STATE)
+    val isCalculating: Boolean
+        get() = finishedAt == null
+    val isSuccessful: Boolean
+        get() = (result == Result.NO_MATCHES || result == Result.UPDATED_STATE)
 
     @Keep
     enum class Result {

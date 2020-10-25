@@ -118,4 +118,12 @@ class CalculationTrackerStorageTest : BaseIOTest() {
         storedData shouldBe demoData
         gson.toJson(storedData) shouldBe demoJsonString
     }
+
+    @Test
+    fun `gson does weird things to property initialization`() {
+        // This makes sure we are using val-getters, otherwise gson inits our @Ŧransient properties to false
+        val storedData: Map<String, Calculation> = gson.fromJson(demoJsonString)
+        storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").isCalculating shouldBe true
+        storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").isCalculating shouldBe false
+    }
 }
