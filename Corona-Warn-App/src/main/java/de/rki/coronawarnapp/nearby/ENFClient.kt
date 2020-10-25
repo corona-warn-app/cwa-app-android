@@ -75,4 +75,3 @@ class ENFClient @Inject constructor(
                 .maxByOrNull { it.finishedAt ?: Instant.EPOCH }
         }
 }
-

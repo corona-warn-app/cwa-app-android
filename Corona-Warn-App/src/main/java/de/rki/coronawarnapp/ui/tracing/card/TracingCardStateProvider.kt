@@ -57,7 +57,7 @@ class TracingCardStateProvider @Inject constructor(
         },
         settingsRepository.manualKeyRetrievalTimeFlow.onEach {
             Timber.v("manualKeyRetrievalTimeFlow: $it")
-        },
+        }
     ) { status,
         riskLevelScore,
         riskLevelScoreLastSuccessfulCalculated,

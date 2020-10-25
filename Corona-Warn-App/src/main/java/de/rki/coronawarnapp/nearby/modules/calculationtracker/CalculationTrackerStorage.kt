@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CalculationTrackerStorage @Inject constructor(
-    @AppContext private val context: Context,
+    @AppContext private val context: Context
 ) {
     private val mutex = Mutex()
     private val storageDir = File(context.filesDir, "calcuation_tracker")
