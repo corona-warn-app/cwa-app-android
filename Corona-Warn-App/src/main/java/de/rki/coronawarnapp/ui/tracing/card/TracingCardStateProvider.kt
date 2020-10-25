@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
-import de.rki.coronawarnapp.util.coroutine.combine
+import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach

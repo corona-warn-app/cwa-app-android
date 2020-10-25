@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.coroutine
+package de.rki.coronawarnapp.util.flow
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow

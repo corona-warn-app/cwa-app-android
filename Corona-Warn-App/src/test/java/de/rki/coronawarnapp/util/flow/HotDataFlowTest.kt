@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.coroutine
+package de.rki.coronawarnapp.util.flow
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
@@ -19,7 +19,7 @@ import java.io.IOException
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
-class HotDataTest : BaseTest() {
+class HotDataFlowTest : BaseTest() {
 
     @Test
     fun `init call only happens on first collection`() {

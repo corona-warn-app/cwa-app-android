@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.coroutine
+package de.rki.coronawarnapp.util.flow
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -6,7 +6,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
@@ -53,19 +52,16 @@ class HotDataFlow<T : Any>(
 
     val data: Flow<T> = internalFlow
         .onStart { Timber.tag(tag).v("internal onStart") }
-//        .onEach { Timber.tag(tag).v("internal onEach: %s", it) }
         .catch {
             Timber.tag(tag).e(it, "internal Error")
             throw it
         }
         .onCompletion { Timber.tag(tag).v("internal onCompletion") }
-        .buffer(capacity = Int.MAX_VALUE)
         .shareIn(
             scope = scope + coroutineContext,
             replay = 1,
             started = sharingBehavior
         )
-        .buffer(capacity = Int.MAX_VALUE)
         .mapNotNull { it }
 
     fun updateSafely(update: suspend T.() -> T) = updateActions.tryEmit(update)

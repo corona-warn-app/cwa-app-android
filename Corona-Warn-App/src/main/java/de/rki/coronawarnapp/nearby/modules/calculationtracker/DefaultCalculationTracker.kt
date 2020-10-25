@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation.Result
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.coroutine.HotDataFlow
+import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
