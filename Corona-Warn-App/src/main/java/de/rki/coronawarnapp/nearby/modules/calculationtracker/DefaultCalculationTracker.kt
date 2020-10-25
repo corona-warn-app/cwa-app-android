@@ -131,7 +131,7 @@ class DefaultCalculationTracker @Inject constructor(
 
     companion object {
         private const val TAG = "DefaultCalculationTracker"
-        private const val MAX_ENTRY_SIZE = 10
+        private const val MAX_ENTRY_SIZE = 5
         private val TIMEOUT_CHECK_INTERVALL = Duration.standardMinutes(5)
         private val TIMEOUT_LIMIT = Duration.standardMinutes(60)
     }

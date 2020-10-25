@@ -155,8 +155,8 @@ class DefaultCalculationTrackerTest : BaseTest() {
             advanceUntilIdle()
 
             val data = calculations.first()
-            data.size shouldBe 10
-            data.values.map { it.identifier }.toList() shouldBe (6..15).map { "$it" }.toList()
+            data.size shouldBe 5
+            data.values.map { it.identifier }.toList() shouldBe (11..15).map { "$it" }.toList()
         }
     }
 
