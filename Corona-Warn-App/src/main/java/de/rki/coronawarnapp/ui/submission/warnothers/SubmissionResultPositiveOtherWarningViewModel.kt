@@ -105,7 +105,6 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningViewModel> {
-
         fun create(symptoms: Symptoms): SubmissionResultPositiveOtherWarningViewModel
     }
 }
