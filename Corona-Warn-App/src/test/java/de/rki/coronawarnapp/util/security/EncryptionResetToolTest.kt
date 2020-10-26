@@ -14,7 +14,9 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.preferences.MockSharedPreferences
 import java.io.File
+import java.io.IOException
 import java.security.GeneralSecurityException
+import java.security.KeyException
 import java.security.KeyStoreException
 
 class EncryptionResetToolTest : BaseIOTest() {
@@ -166,6 +168,86 @@ class EncryptionResetToolTest : BaseIOTest() {
             this["ea1851.reset.performedAt"] shouldNotBe null
             this["ea1851.reset.windowconsumed"] shouldBe true
             this["ea1851.reset.shownotice"] shouldBe true
+        }
+    }
+
+    @Test
+    fun `nested exception may have the same base exception type, ie GeneralSecurityException`() {
+        // https://github.com/corona-warn-app/cwa-app-android/issues/642#issuecomment-712188157
+        createMockFiles()
+
+        createInstance().tryResetIfNecessary(
+            KeyException( // subclass of GeneralSecurityException
+                "Permantly failed to instantiate encrypted preferences",
+                SecurityException(
+                    "Could not decrypt key. decryption failed",
+                    GeneralSecurityException("decryption failed")
+                )
+            )
+        ) shouldBe true
+
+        encryptedPrefsFile.exists() shouldBe false
+        encryptedDatabaseFile.exists() shouldBe false
+
+        mockPreferences.dataMapPeek.apply {
+            this["ea1851.reset.performedAt"] shouldNotBe null
+            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.shownotice"] shouldBe true
+        }
+    }
+
+    @Test
+    fun `exception check does not care about the first exception type`() {
+        createMockFiles()
+
+        createInstance().tryResetIfNecessary(
+            CwaSecurityException(
+                KeyException( // subclass of GeneralSecurityException
+                    "Permantly failed to instantiate encrypted preferences",
+                    SecurityException(
+                        "Could not decrypt key. decryption failed",
+                        GeneralSecurityException("decryption failed")
+                    )
+                )
+            )
+        ) shouldBe true
+
+        encryptedPrefsFile.exists() shouldBe false
+        encryptedDatabaseFile.exists() shouldBe false
+
+        mockPreferences.dataMapPeek.apply {
+            this["ea1851.reset.performedAt"] shouldNotBe null
+            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.shownotice"] shouldBe true
+        }
+    }
+
+    @Test
+    fun `exception check DOES care about the most nested exception`() {
+        createMockFiles()
+
+        createInstance().tryResetIfNecessary(
+            CwaSecurityException(
+                KeyException( // subclass of GeneralSecurityException
+                    "Permantly failed to instantiate encrypted preferences",
+                    SecurityException(
+                        "Could not decrypt key. decryption failed",
+                        GeneralSecurityException(
+                            "decryption failed",
+                            IOException("I am unexpeted")
+                        )
+                    )
+                )
+            )
+        ) shouldBe false
+
+        encryptedPrefsFile.exists() shouldBe true
+        encryptedDatabaseFile.exists() shouldBe true
+
+        mockPreferences.dataMapPeek.apply {
+            this["ea1851.reset.performedAt"] shouldBe null
+            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.shownotice"] shouldBe null
         }
     }
 
