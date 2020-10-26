@@ -95,7 +95,7 @@ class LocationProviderTest : BaseTest() {
 
         mockLocationStatus(enabled = true)
 
-        val testCollector = instance.isLocationEnabled.test(scope = this)
+        val testCollector = instance.isLocationEnabled.test(startOnScope = this)
 
         lastFilter!!.hasAction(BluetoothAdapter.ACTION_STATE_CHANGED)
 
@@ -105,7 +105,7 @@ class LocationProviderTest : BaseTest() {
             onReceive(mockk(), mockLocationChange(enabled = null))
         }
 
-        testCollector.values() shouldBe listOf(true, false, true)
+        testCollector.latestValues shouldBe listOf(true, false, true)
 
         instance.isLocationEnabled.first() shouldBe true
 
