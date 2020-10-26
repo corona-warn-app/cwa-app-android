@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
+import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
@@ -567,7 +568,9 @@ object RiskLevelTransaction : Transaction() {
                 NotificationCompat.PRIORITY_HIGH
             )
         }
-        if (lastCalculatedScore.raw in 2..6 && lastCalculatedScore.raw > riskLevel.raw) {
+        if (lastCalculatedScore.raw in
+            RiskLevelConstants.LOW_LEVEL_RISK..RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+            && lastCalculatedScore.raw > riskLevel.raw) {
             LocalData.hasRiskStatusLowered(true)
         }
         RiskLevelRepository.setRiskLevelScore(riskLevel)
