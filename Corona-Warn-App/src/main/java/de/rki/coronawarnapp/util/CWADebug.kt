@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.util
 
 import android.app.Application
 import de.rki.coronawarnapp.BuildConfig
-import de.rki.coronawarnapp.logging.FileLoggerServiceImpl
-import de.rki.coronawarnapp.logging.FileLoggerTree
+
 import de.rki.coronawarnapp.util.debug.FileLogger
 import timber.log.Timber
 
@@ -18,8 +17,6 @@ object CWADebug {
         }
         if ((buildFlavor == BuildFlavor.DEVICE_FOR_TESTERS || BuildConfig.DEBUG)) {
             fileLogger = FileLogger(application)
-            FileLoggerTree(FileLoggerServiceImpl.getInstance(application))
-            // ToDo remove old filelogger later if needed
         }
     }
 
