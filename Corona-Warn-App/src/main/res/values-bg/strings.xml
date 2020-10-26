@@ -192,10 +192,6 @@
     <string name="risk_card_outdated_risk_body">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
     <string name="risk_card_outdated_manual_risk_body">"Вашият статус на риск не е обновяван от повече от 48 часа. Моля, актуализирайте го."</string>
-    <!-- XHED: risk card - loading headline, update is ongoing -->
-    <string name="risk_card_loading_headline">"Извършва се проверка..."</string>
-    <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
-    <string name="risk_card_loading_body">"Актуалните данни се свалят и проверяват. Това може да отнеме няколко минути."</string>
 
     <!-- ####################################
                     Main
