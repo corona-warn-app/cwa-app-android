@@ -33,7 +33,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
      */
     suspend fun start(
         callCount: Int,
-        callback: Callback
+        onBenchmarkCompletedListener: OnBenchmarkCompletedListener
     ) {
 
         var resultInfo = StringBuilder()
@@ -44,7 +44,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
             .append("Result: \n\n")
             .append("#\t Combined \t Download \t Sub \t Risk \t File # \t  F. size\n")
 
-        callback(resultInfo.toString())
+        onBenchmarkCompletedListener(resultInfo.toString())
 
         repeat(callCount) { index ->
 
@@ -93,7 +93,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
                     resultInfo.append("Calculation Error: $calculationError\n")
                 }
 
-                callback(resultInfo.toString())
+                onBenchmarkCompletedListener(resultInfo.toString())
             }
         }
     }
@@ -167,4 +167,4 @@ class RiskLevelAndKeyRetrievalBenchmark(
     }
 }
 
-typealias Callback = (resultInfo: String) -> Unit
+typealias OnBenchmarkCompletedListener = (resultInfo: String) -> Unit

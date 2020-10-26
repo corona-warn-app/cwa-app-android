@@ -23,13 +23,16 @@ class RiskLevelsTest {
 
     @Test
     fun `is within defined level threshold`() {
-        // positive
         riskLevels.withinDefinedLevelThreshold(2.0, 1, 3) shouldBe true
+    }
 
-        // negative
+    @Test
+    fun `is not within defined level threshold`() {
         riskLevels.withinDefinedLevelThreshold(4.0, 1, 3) shouldBe false
+    }
 
-        // edge cases
+    @Test
+    fun `is within defined level threshold - edge cases`() {
         riskLevels.withinDefinedLevelThreshold(1.0, 1, 3) shouldBe true
         riskLevels.withinDefinedLevelThreshold(3.0, 1, 3) shouldBe true
     }

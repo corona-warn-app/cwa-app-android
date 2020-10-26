@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk
 
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -187,14 +188,16 @@ class DefaultRiskLevels @Inject constructor(
         return round(riskScore.times(DECIMAL_MULTIPLIER)).div(DECIMAL_MULTIPLIER)
     }
 
-    fun Int.capped() =
+    @VisibleForTesting
+    internal fun Int.capped() =
         if (this > TimeVariables.getMaxAttenuationDuration()) {
             TimeVariables.getMaxAttenuationDuration()
         } else {
             this
         }
 
-    fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
+    @VisibleForTesting
+    internal fun withinDefinedLevelThreshold(riskScore: Double, min: Int, max: Int) =
         riskScore >= min && riskScore <= max
 
     /**
@@ -202,7 +205,8 @@ class DefaultRiskLevels @Inject constructor(
      *
      * @param riskLevel
      */
-    fun updateRiskLevelScore(riskLevel: RiskLevel) {
+    @VisibleForTesting
+    internal fun updateRiskLevelScore(riskLevel: RiskLevel) {
         val lastCalculatedScore = RiskLevelRepository.getLastCalculatedScore()
         if (RiskLevel.riskLevelChangedBetweenLowAndHigh(lastCalculatedScore, riskLevel)) {
             NotificationHelper.sendNotification(
