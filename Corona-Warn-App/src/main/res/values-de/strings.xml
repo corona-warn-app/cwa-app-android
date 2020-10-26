@@ -366,6 +366,11 @@
      <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
 
+    <!-- XHED: risk details - deadman notification title -->
+    <string name="risk_details_deadman_notification_title">"Risiko-Überprüfung aktualisieren"</string>
+    <!-- YTXT: risk details - deadman notification text -->
+    <string name="risk_details_deadman_notification_body">"Bitte öffnen Sie die Corona-Warn-App, um die Risiko-Ermittlung zu aktualisieren."</string>
+
     <!-- ####################################
               Onboarding
     ###################################### -->
