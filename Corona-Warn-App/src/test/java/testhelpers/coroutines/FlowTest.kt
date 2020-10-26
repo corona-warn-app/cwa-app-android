@@ -1,13 +1,15 @@
 package testhelpers.coroutines
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.yield
 import timber.log.Timber
 
 suspend fun <T> Flow<T>.test(
@@ -27,35 +29,32 @@ class TestCollector<T>(
     private var isSetupDone = false
     private val collectedValues = mutableListOf<T>()
     private var error: Throwable? = null
-    private var isFinal = false
+    private lateinit var job: Job
 
     suspend fun ensureSetup() = mutex.withLock {
         if (isSetupDone) return@withLock
         isSetupDone = true
-        try {
-            Timber.tag(tag).v("Setting up.")
-            scope.launch {
-                flow
-                    .onEach {
-                        Timber.tag(tag).v("Collecting: %s", it)
-                        collectedValues.add(it)
-                    }
-                    .toList()
+
+        Timber.tag(tag).v("Setting up.")
+        flow
+            .onEach {
+                Timber.tag(tag).v("Collecting: %s", it)
+                collectedValues.add(it)
             }
-        } catch (e: Exception) {
-            Timber.tag(tag).w(e, "Caught error.")
-            error = e
-        } finally {
-            Timber.tag(tag).d("Final.")
-            isFinal = true
-        }
+            .onCompletion {
+                Timber.tag(tag).d("Final.")
+            }
+            .catch { e ->
+                Timber.tag(tag).w(e, "Caught error.")
+                error = e
+            }
+            .launchIn(scope)
+            .also { job = it }
     }
 
     suspend fun awaitFinal() = apply {
         ensureSetup()
-        while (!isFinal) {
-            yield()
-        }
+        job.join()
     }
 
     suspend fun assertNoErrors() = apply {
@@ -67,5 +66,10 @@ class TestCollector<T>(
     suspend fun values(): List<T> {
         ensureSetup()
         return collectedValues
+    }
+
+    suspend fun cancel() {
+        ensureSetup()
+        job.cancelAndJoin()
     }
 }

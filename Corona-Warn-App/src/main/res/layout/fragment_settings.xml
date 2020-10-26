@@ -7,13 +7,16 @@
         <import type="de.rki.coronawarnapp.util.formatter.FormatterSettingsHelper" />
 
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
+            name="tracingState"
+            type="de.rki.coronawarnapp.ui.settings.start.SettingsTracingState" />
 
         <variable
-            name="settingsViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel" />
+            name="notificationState"
+            type="de.rki.coronawarnapp.ui.settings.start.SettingsNotificationState" />
 
+        <variable
+            name="backgroundState"
+            type="de.rki.coronawarnapp.ui.settings.start.SettingsBackgroundState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,15 +57,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:body="@{@string/settings_tracing_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatSettingsTracingIconColor(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(),settingsViewModel.isLocationEnabled())}"
-                    app:icon="@{FormatterSettingsHelper.formatSettingsTracingIcon(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
+                    app:color="@{tracingState.getTracingIconColor(context)}"
+                    app:icon="@{tracingState.getTracingIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterSettingsHelper.formatTracingStatusText(tracingViewModel.isTracingEnabled(), settingsViewModel.isBluetoothEnabled(), settingsViewModel.isLocationEnabled())}"
-                    app:subtitle="@{@string/settings_tracing_title}"
-                    app:tracingViewModel="@{tracingViewModel}" />
+                    app:statusText="@{tracingState.getTracingStatusText(context)}"
+                    app:subtitle="@{@string/settings_tracing_title}" />
 
                 <include
                     android:id="@+id/settings_notifications"
@@ -70,15 +72,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:body="@{@string/settings_notifications_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatNotificationIconColor(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                    app:icon="@{FormatterSettingsHelper.formatNotificationIcon(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
+                    app:color="@{notificationState.getNotificationIconColor(context)}"
+                    app:icon="@{notificationState.getNotificationIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterSettingsHelper.formatNotificationsStatusText(settingsViewModel.isNotificationsEnabled(), settingsViewModel.isNotificationsRiskEnabled(), settingsViewModel.isNotificationsTestEnabled())}"
-                    app:subtitle="@{@string/settings_notifications_title}"
-                    app:tracingViewModel="@{tracingViewModel}" />
+                    app:statusText="@{notificationState.getNotificationStatusText(context)}"
+                    app:subtitle="@{@string/settings_notifications_title}" />
 
                 <include
                     android:id="@+id/settings_background_priority"
@@ -86,15 +87,14 @@
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     app:body="@{@string/settings_background_priority_body_description}"
-                    app:color="@{FormatterSettingsHelper.formatSettingsBackgroundPriorityIconColor(settingsViewModel.isBackgroundPriorityEnabled())}"
-                    app:icon="@{FormatterSettingsHelper.formatSettingsBackgroundPriorityIcon(settingsViewModel.isBackgroundPriorityEnabled())}"
+                    app:color="@{backgroundState.getBackgroundPriorityIconColor(context)}"
+                    app:icon="@{backgroundState.getBackgroindPriorityIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_notifications"
                     app:showDivider="@{true}"
-                    app:statusText="@{FormatterSettingsHelper.formatStatus(settingsViewModel.isBackgroundPriorityEnabled())}"
-                    app:subtitle="@{@string/settings_background_priority_title}"
-                    app:tracingViewModel="@{tracingViewModel}" />
+                    app:statusText="@{backgroundState.getBackgroundPriorityText(context)}"
+                    app:subtitle="@{@string/settings_background_priority_title}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_reset"

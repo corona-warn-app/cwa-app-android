@@ -2,6 +2,7 @@
 
 package de.rki.coronawarnapp.util.formatter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Spanned
 import android.view.View
@@ -144,9 +145,8 @@ fun formatStringAsHTMLFromLocal(path: String): Spanned {
  * @param color
  * @return
  */
-fun formatColorDivider(color: Int?): Int {
-    val appContext = CoronaWarnApplication.getAppContext()
-    return color ?: appContext.getColor(R.color.colorHairline)
+fun formatColorDivider(context: Context, color: Int?): Int {
+    return color ?: context.getColor(R.color.colorHairline)
 }
 
 /**

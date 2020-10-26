@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.TanConstants
@@ -21,17 +18,23 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionTanViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TanHelper
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import kotlinx.android.synthetic.main.include_submission_tan.*
+import javax.inject.Inject
 
 /**
  * Fragment for TAN entry
  */
-class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
+class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoInject {
 
-    private val viewModel: SubmissionTanViewModel by viewModels()
-    private val submissionViewModel: SubmissionViewModel by activityViewModels()
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val submissionViewModel: SubmissionViewModel by viewModels()
+    private val viewModel: SubmissionTanViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionTanBinding by viewBindingLazy()
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
@@ -97,7 +100,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan) {
             }
 
             if (ApiRequestState.SUCCESS == it) {
-                findNavController().doNavigate(
+                doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionResultFragment()
                 )
             }
