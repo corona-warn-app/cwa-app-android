@@ -99,6 +99,11 @@ class DefaultCalculationTracker @Inject constructor(
             mutate {
                 val existing = this[identifier]
                 if (existing != null) {
+                    if (existing.result == Result.TIMEOUT) {
+                        Timber.w("Calculation is late, already hit timeout, still updating.")
+                    } else if (existing.result != null) {
+                        Timber.e("Duplicate callback. Result is already set for calculation!")
+                    }
                     this[identifier] = existing.copy(
                         result = result,
                         finishedAt = timeStamper.nowUTC

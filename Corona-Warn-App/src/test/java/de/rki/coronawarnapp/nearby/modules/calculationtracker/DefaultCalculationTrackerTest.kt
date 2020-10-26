@@ -137,6 +137,35 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
+    fun `a late calculation overwrites timeout state`() = runBlockingTest2(permanentJobs = true) {
+        val calcData = Calculation(
+            identifier = UUID.randomUUID().toString(),
+            startedAt = Instant.EPOCH,
+            finishedAt = Instant.EPOCH.plus(1),
+            result = Calculation.Result.TIMEOUT
+        )
+        val initialData = mapOf(calcData.identifier to calcData)
+        coEvery { storage.load() } returns initialData
+
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(2)
+
+        val expectedData = initialData.mutate {
+            this[calcData.identifier] = this[calcData.identifier]!!.copy(
+                finishedAt = Instant.EPOCH.plus(2),
+                result = Calculation.Result.UPDATED_STATE
+            )
+        }
+
+        createInstance(scope = this).apply {
+            finishCalculation(calcData.identifier, Calculation.Result.UPDATED_STATE)
+
+            advanceUntilIdle()
+
+            calculations.first() shouldBe expectedData
+        }
+    }
+
+    @Test
     fun `no more than 10 calcluations are tracked`() = runBlockingTest2(permanentJobs = true) {
         val calcData = (1..15L).map {
             val calcData = Calculation(
