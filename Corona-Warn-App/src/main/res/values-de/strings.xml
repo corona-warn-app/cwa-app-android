@@ -629,11 +629,11 @@
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">"Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen."</string>
+    <string name="settings_background_priority_card_body">"Sie können die priorisierte Hintergrundaktivität in den Einstellungen Ihres Smartphones ein- beziehungsweise ausschalten."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">"Geräte-Einstellungen öffnen"</string>
+    <string name="settings_background_priority_card_button">"Smartphone-Einstellungen öffnen"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ausschalten"</string>
+    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ändern"</string>
 
     <!-- ####################################
                App Information
