@@ -15,9 +15,11 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClass
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.RiskScoreClassification
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass.RiskScoreClass
+import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass.RiskScoreClassification
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
@@ -485,7 +487,7 @@ class RiskLevelTransactionTest {
             RiskLevel.INCREASED_RISK, RiskLevelTransaction.getRiskLevel(
                 object : RiskLevelCalculation {
                     override fun calculateRiskScore(
-                        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+                        attenuationParameters: AttenuationDurationOuterClass.AttenuationDuration,
                         exposureSummary: ExposureSummary
                     ) = 0.0
                 },
@@ -512,28 +514,28 @@ class RiskLevelTransactionTest {
         lowMax: Int = 2749,
         highMin: Int = 2750,
         highMax: Int = 4096
-    ): ApplicationConfigurationOuterClass.ApplicationConfiguration {
-        return ApplicationConfigurationOuterClass.ApplicationConfiguration
+    ): AppConfig.ApplicationConfiguration {
+        return AppConfig.ApplicationConfiguration
             .newBuilder()
             .setRiskScoreClasses(buildRiskScoreClassification(lowMax, highMin, highMax))
             .setAttenuationDuration(buildAttenuationDuration())
             .build()
     }
 
-    private fun buildAttenuationDuration(): ApplicationConfigurationOuterClass.AttenuationDuration {
-        return ApplicationConfigurationOuterClass.AttenuationDuration
+    private fun buildAttenuationDuration(): AttenuationDurationOuterClass.AttenuationDuration {
+        return AttenuationDurationOuterClass.AttenuationDuration
             .newBuilder()
             .setRiskScoreNormalizationDivisor(25)
             .setDefaultBucketOffset(0)
             .setThresholds(
-                ApplicationConfigurationOuterClass.Thresholds
+                AttenuationDurationOuterClass.Thresholds
                     .newBuilder()
                     .setLower(50)
                     .setUpper(70)
                     .build()
             )
             .setWeights(
-                ApplicationConfigurationOuterClass.Weights
+                AttenuationDurationOuterClass.Weights
                     .newBuilder()
                     .setHigh(1.0)
                     .setMid(1.0)
