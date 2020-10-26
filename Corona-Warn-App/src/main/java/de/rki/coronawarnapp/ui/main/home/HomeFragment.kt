@@ -85,19 +85,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                     )
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
-                    val removeTestDialog = DialogHelper.DialogInstance(
-                        requireActivity(),
-                        R.string.submission_test_result_dialog_remove_test_title,
-                        R.string.submission_test_result_dialog_remove_test_message,
-                        R.string.submission_test_result_dialog_remove_test_button_positive,
-                        R.string.submission_test_result_dialog_remove_test_button_negative,
-                        positiveButtonFunction = {
-                            vm.deregisterWarningAccepted()
-                        }
-                    )
-                    DialogHelper.showDialog(removeTestDialog).apply {
-                        getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextSemanticRed))
-                    }
+                    showRemoveTestDialog()
                 }
             }
         }
@@ -108,6 +96,23 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         vm.refreshRequiredData()
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun showRemoveTestDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                vm.deregisterWarningAccepted()
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
     }
 
     private fun setupRiskCard() {

@@ -41,8 +41,7 @@ data class SubmissionCardState(
     fun isContentCardVisible(): Boolean =
         uiStateState == ApiRequestState.SUCCESS && (deviceUiState == PAIRED_ERROR ||
             deviceUiState == PAIRED_NEGATIVE ||
-            deviceUiState == PAIRED_NO_RESULT ||
-            deviceUiState == PAIRED_REDEEMED)
+            deviceUiState == PAIRED_NO_RESULT)
 
     fun getContentCardTitleText(c: Context): String = when (deviceUiState) {
         PAIRED_ERROR, PAIRED_REDEEMED, PAIRED_NEGATIVE -> R.string.submission_status_card_title_available
