@@ -42,14 +42,23 @@
                 android:layout_height="wrap_content"
                 android:text="Preview (no interaction possible)" />
 
-            <include
+            <FrameLayout
                 android:id="@+id/test_risk_card"
-                layout="@layout/include_risk_card"
+                style="@style/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="@{FormatterSubmissionHelper.formatShowRiskStatusCard(submissionViewModel.deviceUiState)}"
-                app:tracingCard="@{tracingCard}" />
+                android:focusable="true"
+                android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
+                android:backgroundTintMode="src_over">
+
+                <include
+                    android:id="@+id/risk_card_content"
+                    layout="@layout/include_risk_status"
+                    app:tracingCard="@{tracingCard}" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

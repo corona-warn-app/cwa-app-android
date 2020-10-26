@@ -26,8 +26,9 @@
             android:id="@+id/risk_details_header"
             android:layout_width="match_parent"
             android:layout_height="@dimen/header"
-            android:background="@{tracingDetails.getRiskShape(context)}"
-            android:backgroundTint="@{tracingDetails.getRiskColorStateList(context)}"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@{tracingDetails.getRiskColor(context)}"
+            android:backgroundTintMode="src_over"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -99,17 +100,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include
-                    android:id="@+id/risk_details_risk_card"
-                    layout="@layout/include_risk_card"
+                <FrameLayout
+                    android:id="@+id/risk_card"
+                    gone="@{tracingCard == null}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    gone="@{tracingCard == null}"
+                    android:background="@drawable/rectangle"
+                    android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
+                    android:backgroundTintMode="src_over"
+                    android:padding="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tracingCard="@{tracingCard}" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include
+                        android:id="@+id/risk_card_content"
+                        layout="@layout/include_risk_status"
+                        app:tracingCard="@{tracingCard}" />
+
+                </FrameLayout>
 
                 <include
                     android:id="@+id/risk_details_additional_information"
@@ -119,7 +128,7 @@
                     android:focusable="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/risk_details_risk_card"
+                    app:layout_constraintTop_toBottomOf="@id/risk_card"
                     gone="@{!tracingDetails.isAdditionalInformationVisible}" />
 
                 <TextView

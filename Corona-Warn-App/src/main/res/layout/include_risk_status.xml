@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tracingCard"
+            type="de.rki.coronawarnapp.ui.tracing.card.TracingCardState" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        tools:backgroundTint="@color/card_low"
+        tools:background="@drawable/rectangle"
+        tools:padding="@dimen/spacing_normal"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            gone="@{tracingCard == null || !tracingCard.isTracingInProgress()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/risk_card_progress_headline"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:accessibilityHeading="true"
+                android:text="@{tracingCard.getProgressCardHeadline(context)}"
+                android:textColor="@color/colorStableLight"
+                app:layout_constraintEnd_toStartOf="@+id/risk_card_progress_headline_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginEnd="0dp"
+                tools:text="Daten werden herunter geladen" />
+
+            <ImageView
+                android:id="@+id/risk_card_progress_headline_icon"
+                gone="@{tracingCard.showDetails}"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_forward"
+                android:tint="@color/colorStableLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/risk_card_progress_indicator"
+                style="@style/progressBar"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="24dp"
+                android:text="@{tracingCard.getProgressCardBody(context)}"
+                android:textColor="@color/colorStableLight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/risk_card_progress_indicator"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_progress_headline"
+                tools:text="Es werden aktuelle Daten heruntergeladen. Dies kann mehrere Minuten dauern." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/risk_card_content"
+            gone="@{tracingCard == null || tracingCard.isTracingInProgress()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/risk_card_header"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/risk_card_header_headline"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:accessibilityHeading="true"
+                    android:text="@{tracingCard.getRiskLevelHeadline(context)}"
+                    android:textColor="@{tracingCard.getStableTextColor(context)}"
+                    tools:text="@string/risk_card_outdated_risk_headline"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_goneMarginEnd="0dp"
+                    app:layout_constraintEnd_toStartOf="@+id/risk_card_header_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/risk_card_header_icon"
+                    gone="@{tracingCard.showDetails}"
+                    android:layout_width="@dimen/icon_size_risk_card"
+                    android:layout_height="@dimen/icon_size_risk_card"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_forward"
+                    android:tint="@{tracingCard.getStableTextColor(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Card Content -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_header">
+
+                <TextView
+                    android:id="@+id/risk_card_body"
+                    style="@style/subtitle"
+                    gone="@{tracingCard.getRiskBody(context).empty}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@{tracingCard.getRiskBody(context)}"
+                    android:textColor="@{tracingCard.getStableTextColor(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/risk_card_row_saved_risk"
+                    gone="@{tracingCard.getSavedRiskBody(context).empty}"
+                    layout="@layout/include_risk_status_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:body="@{tracingCard.getSavedRiskBody(context)}"
+                    app:bodyTextColor="@{tracingCard.getStableTextColor(context)}"
+                    app:icon="@{@drawable/ic_risk_card_saved_risk}"
+                    app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_body" />
+
+                <include
+                    android:id="@+id/risk_card_row_contact"
+                    gone="@{tracingCard.getRiskContactBody(context).empty}"
+                    layout="@layout/include_risk_status_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:body="@{tracingCard.getRiskContactBody(context)}"
+                    app:bodyTextColor="@{tracingCard.getStableTextColor(context)}"
+                    app:icon="@{tracingCard.getRiskContactIcon(context)}"
+                    app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_risk" />
+
+                <include
+                    android:id="@+id/risk_card_row_contact_last"
+                    gone="@{tracingCard.getRiskContactLast(context).empty}"
+                    layout="@layout/include_risk_status_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:body="@{tracingCard.getRiskContactLast(context)}"
+                    app:bodyTextColor="@{tracingCard.getStableTextColor(context)}"
+                    app:icon="@{@drawable/ic_risk_card_calendar}"
+                    app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/risk_card_row_saved_days"
+                    gone="@{tracingCard.getRiskActiveTracingDaysInRetentionPeriod(context).empty}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_row_contact_last">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/risk_card_row_saved_days_circle_progress"
+                        android:layout_width="@dimen/icon_size_risk_card"
+                        android:layout_height="@dimen/icon_size_risk_card"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <de.rki.coronawarnapp.ui.view.CircleProgress
+                            android:layout_width="@dimen/circle_small"
+                            android:layout_height="@dimen/circle_small"
+                            app:circleColor="@color/colorStableHairlineLight"
+                            app:circleWidth="@dimen/circle_small_width"
+                            app:disableText="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:progress="@{tracingCard.activeTracingDaysInRetentionPeriod}"
+                            app:progressColor="@color/colorStableLight" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/risk_card_row_saved_days_body"
+                        style="@style/subtitle"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_small"
+                        android:text="@{tracingCard.getRiskActiveTracingDaysInRetentionPeriod(context)}"
+                        android:textColor="@{tracingCard.getStableTextColor(context)}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/risk_card_row_saved_days_circle_progress"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    android:id="@+id/risk_card_row_time_fetched"
+                    gone="@{tracingCard.getTimeFetched(context).empty}"
+                    layout="@layout/include_risk_status_row"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    app:body="@{tracingCard.getTimeFetched(context)}"
+                    app:bodyTextColor="@{tracingCard.getStableTextColor(context)}"
+                    app:icon="@{@drawable/ic_risk_card_time_fetched}"
+                    app:iconTint="@{tracingCard.getStableIconColor(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_row_saved_days" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/risk_card_next_update"
+                    gone="@{tracingCard.getNextUpdate(context).empty}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_row_time_fetched">
+
+                    <include
+                        android:id="@+id/risk_card_next_update_divider"
+                        layout="@layout/include_divider"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        app:dividerColor="@{tracingCard.getStableDividerColor(context)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        style="@style/body2"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@{tracingCard.getNextUpdate(context)}"
+                        android:textColor="@{tracingCard.getStableTextColor(context)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update_divider" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/risk_card_button_enable_tracing"
+                    style="@style/buttonPrimary"
+                    gone="@{!tracingCard.showTracingButton()}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/risk_details_button_enable_tracing"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_next_update" />
+
+                <Button
+                    android:id="@+id/risk_card_button_update"
+                    style="@style/buttonLight"
+                    gone="@{!tracingCard.showUpdateButton()}"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:enabled="@{tracingCard.isUpdateButtonEnabled()}"
+                    android:text="@{tracingCard.getUpdateButtonText(context)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/risk_card_button_enable_tracing" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRAC
 import de.rki.coronawarnapp.risk.RiskLevelConstants.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -38,7 +39,7 @@ class TracingCardStateTest : BaseTest() {
     private fun createInstance(
         tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevel: Int = 0,
-        isRefreshing: Boolean = false,
+        tracingProgress: TracingProgress = TracingProgress.Idle,
         riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 0,
         daysSinceLastExposure: Int = 0,
@@ -50,7 +51,7 @@ class TracingCardStateTest : BaseTest() {
     ) = TracingCardState(
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevel,
-        isRefreshing = isRefreshing,
+        tracingProgress = tracingProgress,
         lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
@@ -92,27 +93,27 @@ class TracingCardStateTest : BaseTest() {
     @Test
     fun `risklevel affects riskcolors`() {
         createInstance(riskLevel = INCREASED_RISK).apply {
-            getRiskColorStateList(context)
+            getRiskInfoContainerBackgroundTint(context)
             verify { context.getColorStateList(R.color.card_increased) }
         }
 
         createInstance(riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS).apply {
-            getRiskColorStateList(context)
+            getRiskInfoContainerBackgroundTint(context)
             verify { context.getColorStateList(R.color.card_outdated) }
         }
 
         createInstance(riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
-            getRiskColorStateList(context)
+            getRiskInfoContainerBackgroundTint(context)
             verify { context.getColorStateList(R.color.card_no_calculation) }
         }
 
         createInstance(riskLevel = LOW_LEVEL_RISK).apply {
-            getRiskColorStateList(context)
+            getRiskInfoContainerBackgroundTint(context)
             verify { context.getColorStateList(R.color.card_low) }
         }
 
         createInstance(riskLevel = UNKNOWN_RISK_INITIAL).apply {
-            getRiskColorStateList(context)
+            getRiskInfoContainerBackgroundTint(context)
             verify { context.getColorStateList(R.color.card_unknown) }
         }
     }
@@ -753,75 +754,38 @@ class TracingCardStateTest : BaseTest() {
     }
 
     @Test
-    fun `risklevel headline is affected by score and refreshingstate`() {
-        createInstance(
-            riskLevel = INCREASED_RISK,
-            isRefreshing = false).apply {
+    fun `risklevel headline is affected by score`() {
+        createInstance(riskLevel = INCREASED_RISK).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_increased_risk_headline) }
         }
 
-        createInstance(
-            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isRefreshing = false).apply {
+        createInstance(riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_outdated_risk_headline) }
         }
 
-        createInstance(
-            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isRefreshing = false).apply {
+        createInstance(riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_no_calculation_possible_headline) }
         }
 
-        createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            isRefreshing = false).apply {
+        createInstance(riskLevel = LOW_LEVEL_RISK).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_low_risk_headline) }
         }
 
-        createInstance(
-            riskLevel = UNKNOWN_RISK_INITIAL,
-            isRefreshing = false).apply {
+        createInstance(riskLevel = UNKNOWN_RISK_INITIAL).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_unknown_risk_headline) }
         }
 
         createInstance(
-            riskLevel = INCREASED_RISK,
-            isRefreshing = true).apply {
-            getRiskLevelHeadline(context)
-            verify { context.getString(R.string.risk_card_loading_headline) }
-        }
-
-        createInstance(
-            riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isRefreshing = true).apply {
-            getRiskLevelHeadline(context)
-            verify { context.getString(R.string.risk_card_loading_headline) }
-        }
-
-        createInstance(
-            riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isRefreshing = true).apply {
-            getRiskLevelHeadline(context)
-            verify { context.getString(R.string.risk_card_loading_headline) }
-        }
-
-        createInstance(
-            riskLevel = LOW_LEVEL_RISK,
-            isRefreshing = true).apply {
-            getRiskLevelHeadline(context)
-            verify { context.getString(R.string.risk_card_loading_headline) }
-        }
-
-        createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            isRefreshing = true).apply {
+            tracingProgress = TracingProgress.Downloading
+        ).apply {
             getRiskLevelHeadline(context)
-            verify { context.getString(R.string.risk_card_loading_headline) }
+            verify { context.getString(R.string.risk_card_unknown_risk_headline) }
         }
     }
 }
