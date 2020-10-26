@@ -1,10 +1,11 @@
 package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
 import android.content.Context
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gson.fromJson
 import de.rki.coronawarnapp.util.gson.toJson
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -14,19 +15,17 @@ import javax.inject.Singleton
 
 @Singleton
 class CalculationTrackerStorage @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    @BaseGson private val gson: Gson
 ) {
     private val mutex = Mutex()
-    private val storageDir = File(context.filesDir, "calcuation_tracker")
-    private val storageFile = File(storageDir, "calculations.json")
-    private var lastCalcuationData: Map<String, Calculation>? = null
-
-    private val gson by lazy {
-        if (storageDir.mkdirs()) {
-            Timber.v("Created %s", storageDir)
+    private val storageDir by lazy {
+        File(context.filesDir, "calcuation_tracker").apply {
+            if (mkdirs()) Timber.v("Created %s", this)
         }
-        GsonBuilder().create()
     }
+    private val storageFile by lazy { File(storageDir, "calculations.json") }
+    private var lastCalcuationData: Map<String, Calculation>? = null
 
     init {
         Timber.v("init()")
