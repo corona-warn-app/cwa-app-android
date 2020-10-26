@@ -12,7 +12,7 @@ class BugReportingModule {
     @Singleton
     @Provides
     fun reporter(): BugReporter = object : BugReporter {
-        override fun report(throwable: Throwable, info: String?) {
+        override fun report(throwable: Throwable, tag: String?, info: String?) {
             // NOOP
         }
     }
