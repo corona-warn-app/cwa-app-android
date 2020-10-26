@@ -50,8 +50,9 @@ class TracingDetailsStateProvider @Inject constructor(
         val isAdditionalInformationVisible = riskDetailPresenter.isAdditionalInfoVisible(
             riskLevelScore, matchedKeyCount
         )
-        val isInformationBodyNoticeVisible = riskDetailPresenter.isInformationBodyNoticeVisible(
-            riskLevelScore, matchedKeyCount
+        val isInformationBodyNoticeVisible =
+            riskDetailPresenter.isInformationBodyNoticeVisible(
+            riskLevelScore
         )
 
         TracingDetailsState(

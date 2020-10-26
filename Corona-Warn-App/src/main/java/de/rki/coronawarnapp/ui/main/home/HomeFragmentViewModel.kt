@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.risk.TimeVariables
+import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -92,6 +93,18 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun refreshDiagnosisKeys() {
         tracingRepository.refreshDiagnosisKeys()
+    }
+
+    fun removeTestPushed() {
+        popupEvents.postValue(HomeFragmentEvents.ShowDeleteTestDialog)
+    }
+
+    fun deregisterWarningAccepted() {
+        SubmissionService.deleteTestGUID()
+        SubmissionService.deleteRegistrationToken()
+        LocalData.isAllowedToSubmitDiagnosisKeys(false)
+        LocalData.initialTestResultReceivedTimestamp(0L)
+        SubmissionRepository.refreshDeviceUIState()
     }
 
     @AssistedInject.Factory

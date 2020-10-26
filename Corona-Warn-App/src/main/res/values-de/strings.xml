@@ -350,8 +350,6 @@
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
-    <!-- YTXT: risk details - risk calculation explanation for low risk -->
-    <string name="risk_details_information_body_notice_low">"Die Infektionswahrscheinlichkeit wird daher als niedrig für Sie eingestuft. Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
     <string name="risk_details_information_body_notice_increased">"Die Infektionswahrscheinlichkeit wird daher als erhöht für Sie eingestuft. Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben. Wenn Sie nach Hause kommen, vermeiden Sie auch Begegnungen mit Familienmitgliedern und Mitbewohnern."</string>
     <!-- NOTR -->
@@ -367,6 +365,11 @@
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
      <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
+
+    <!-- XHED: risk details - deadman notification title -->
+    <string name="risk_details_deadman_notification_title">"Risiko-Überprüfung aktualisieren"</string>
+    <!-- YTXT: risk details - deadman notification text -->
+    <string name="risk_details_deadman_notification_body">"Bitte öffnen Sie die Corona-Warn-App, um die Risiko-Ermittlung zu aktualisieren."</string>
 
     <!-- ####################################
               Onboarding
@@ -626,11 +629,11 @@
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">"Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen."</string>
+    <string name="settings_background_priority_card_body">"Sie können die priorisierte Hintergrundaktivität in den Einstellungen Ihres Smartphones ein- beziehungsweise ausschalten."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">"Geräte-Einstellungen öffnen"</string>
+    <string name="settings_background_priority_card_button">"Smartphone-Einstellungen öffnen"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ausschalten"</string>
+    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ändern"</string>
 
     <!-- ####################################
                App Information
@@ -669,7 +672,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Wie können wir Ihnen helfen?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere technische Hotline wenden.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie in Ihrem App Store / Play Store herunterladen."</string>
+    <string name="information_contact_body">"Für technische Fragen rund um die Corona-Warn-App können Sie sich direkt an unsere technische Hotline wenden.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie im Google Play Store herunterladen."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Technische Hotline:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -910,6 +913,7 @@
     <string name="submission_intro_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
     <!-- YTXT: submission introduction bullet points -->
     <string-array name="submission_intro_bullet_points">
+        <item>"Wenn sich auf Ihrem Testdokument ein QR-Code befindet, können Sie diesen in der App scannen und den Test damit registrieren. Sobald das Ergebnis vorliegt, können Sie es in der App einsehen."</item>
         <item>"Wenn Sie Corona-positiv getestet wurden, können Sie andere warnen."</item>
         <item>"Wenn Ihnen für einen positiven Testbefund eine TAN mitgeteilt wurde, können Sie diese für die Registrierung des Tests nutzen."</item>
         <item>"Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen."</item>
@@ -1033,7 +1037,7 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Info zum Ablauf:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie in Ihrem Play Store herunterladen."</string>
+    <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie im Google Play Store herunterladen."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Anrufen"</string>
     <!-- XBUT: submission contact enter tan button -->
@@ -1048,6 +1052,8 @@
     <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo - So: Täglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"TAN-Anfrage per Telefonanruf"</string>
@@ -1083,6 +1089,8 @@
     <string name="submission_status_card_title_available">"Ihr Ergebnis liegt vor"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Befund positiv"</string>
+    <!-- XHED: Page title for the various submission status fetch failed -->
+    <string name="submission_status_card_title_failed">"Test nicht mehr gültig"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Fehlerhafter Test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
@@ -1099,10 +1107,14 @@
     <string name="submission_status_card_body_positive">"Sie wurden positiv auf SARS-CoV-2 getestet."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Sie wurden negativ auf SARS-CoV-2 getestet."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Informieren &amp; helfen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
+    <!-- XBUT: submission status card fetch failed button -->
+    <string name="submission_status_card_button_failed">"Test löschen"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1338,7 +1350,7 @@
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder zusammen, um über einen gemeinsam betriebenen Austausch-Server länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_randomid">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs verglichen.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
