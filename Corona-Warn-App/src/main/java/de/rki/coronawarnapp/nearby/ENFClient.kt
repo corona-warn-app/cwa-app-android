@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.nearby.modules.locationless.ScanningSupport
 import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
@@ -58,15 +57,11 @@ class ENFClient @Inject constructor(
     override val isTracingEnabled: Flow<Boolean>
         get() = tracingStatus.isTracingEnabled
 
-    fun isCurrentlyCalculating(): Flow<Boolean> = calculationTracker.calculations.map { snapshot ->
-        Timber.v("Snapshot: %s", snapshot)
-        snapshot.values.any {
-            Timber.v("Snapshot sub: %s", it.isCalculating)
-            it.isCalculating
+    fun isCurrentlyCalculating(): Flow<Boolean> = calculationTracker.calculations
+        .map { it.values }
+        .map { values ->
+            values.maxBy { it.startedAt }?.isCalculating == true
         }
-    }.onEach {
-        Timber.v("Flowsnapshot: %b", it)
-    }
 
     fun latestFinishedCalculation(): Flow<Calculation?> =
         calculationTracker.calculations.map { snapshot ->

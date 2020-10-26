@@ -133,9 +133,9 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `calculation state depends on whether there are still unfinished calculations`() {
+    fun `calculation state depends on the last started calculation`() {
         runBlocking {
-            val calculations = flowOf(
+            every { calculationTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
@@ -150,30 +150,45 @@ class ENFClientTest : BaseTest() {
                 )
             )
 
-            every { calculationTracker.calculations } returns calculations
             createClient().isCurrentlyCalculating().first() shouldBe false
         }
+
         runBlocking {
-            val calculations = flowOf(
+            every { calculationTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
-                        startedAt = Instant.EPOCH,
-                        finishedAt = Instant.EPOCH.plus(2)
+                        startedAt = Instant.EPOCH.plus(5),
                     ),
                     "2" to Calculation(
                         identifier = "2",
-                        startedAt = Instant.EPOCH,
-                    ),
-                    "3" to Calculation(
-                        identifier = "3",
-                        startedAt = Instant.EPOCH,
-                        finishedAt = Instant.EPOCH
+                        startedAt = Instant.EPOCH.plus(4),
+                        finishedAt = Instant.EPOCH.plus(1)
                     )
                 )
             )
 
-            every { calculationTracker.calculations } returns calculations
+            createClient().isCurrentlyCalculating().first() shouldBe true
+        }
+
+        runBlocking {
+            every { calculationTracker.calculations } returns flowOf(
+                mapOf(
+                    "1" to Calculation(
+                        identifier = "1",
+                        startedAt = Instant.EPOCH,
+                    ),
+                    "2" to Calculation(
+                        identifier = "2",
+                        startedAt = Instant.EPOCH,
+                        finishedAt = Instant.EPOCH.plus(2)
+                    ),
+                    "3" to Calculation(
+                        identifier = "3",
+                        startedAt = Instant.EPOCH.plus(1)
+                    )
+                )
+            )
 
             createClient().isCurrentlyCalculating().first() shouldBe true
         }
@@ -182,7 +197,7 @@ class ENFClientTest : BaseTest() {
     @Test
     fun `validate that we only get the last finished calcluation`() {
         runBlocking {
-            val calculations = flowOf(
+            every { calculationTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
@@ -210,12 +225,11 @@ class ENFClientTest : BaseTest() {
                 )
             )
 
-            every { calculationTracker.calculations } returns calculations
             createClient().latestFinishedCalculation().first()!!.identifier shouldBe "2"
         }
 
         runBlocking {
-            val calculations = flowOf(
+            every { calculationTracker.calculations } returns flowOf(
                 mapOf(
                     "0" to Calculation(
                         identifier = "1",
@@ -248,7 +262,6 @@ class ENFClientTest : BaseTest() {
                 )
             )
 
-            every { calculationTracker.calculations } returns calculations
             createClient().latestFinishedCalculation().first()!!.identifier shouldBe "1"
         }
     }
