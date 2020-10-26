@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.string.onboarding_energy_optimized_dialog_button_negative,
             false, {
                 // go to battery optimization
-                startActivitySafely(powerManagement.disableBatteryOptimizationsIntent)
+                startActivitySafely(powerManagement.toBatteryOptimizationSettingsIntent)
             }, {
                 // keep battery optimization enabled
                 showManualCheckingRequiredDialog()
