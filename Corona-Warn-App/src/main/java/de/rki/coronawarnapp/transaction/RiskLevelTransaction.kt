@@ -567,6 +567,9 @@ object RiskLevelTransaction : Transaction() {
                 NotificationCompat.PRIORITY_HIGH
             )
         }
+        if (lastCalculatedScore.raw in 2..6 && lastCalculatedScore.raw > riskLevel.raw) {
+            LocalData.hasRiskStatusLowered(true)
+        }
         RiskLevelRepository.setRiskLevelScore(riskLevel)
     }
 

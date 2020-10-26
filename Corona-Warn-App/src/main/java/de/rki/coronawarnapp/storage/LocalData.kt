@@ -357,6 +357,34 @@ object LocalData {
             )
         }
 
+    /**
+     * Gets a boolean that tells weather the risk level
+     * decreased or not.
+     *
+     * @return boolean if risk status lowers from red to green
+     */
+    fun hasRiskStatusLowered(): Boolean {
+        return getSharedPreferenceInstance().getBoolean(
+            CoronaWarnApplication.getAppContext()
+                .getString(R.string.preference_has_risk_status_lowered),
+            false
+        )
+    }
+
+    /**
+     * Sets a boolean depending weather the risk level
+     * decresed or not.
+     *
+     * @return value boolean if risk level decreased
+     */
+    fun hasRiskStatusLowered(value: Boolean) =
+        getSharedPreferenceInstance().edit(commit = true) {
+            putBoolean(
+                CoronaWarnApplication.getAppContext()
+                    .getString(R.string.preference_has_risk_status_lowered), value
+            )
+        }
+
     /****************************************************
      * SERVER FETCH DATA
      ****************************************************/

@@ -1,11 +1,14 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
@@ -50,6 +53,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         setupToolbar()
 
         setupTestResultCard()
+
+        showRiskLevelLoweredDialogIfNeeded()
 
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
@@ -147,6 +152,27 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun showRiskLevelLoweredDialogIfNeeded() {
+        // Get the hasRiskLevelLowered bool value from shared preferences
+        if (LocalData.hasRiskStatusLowered()) {
+            val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.risk_lowered_dialog_headline,
+                R.string.risk_lowered_dialog_body,
+                R.string.risk_lowered_dialog_button_confirm,
+                R.string.risk_lowered_dialog_button_cancel,
+                true,
+                {
+                    LocalData.hasRiskStatusLowered(false)
+                }
+            )
+
+            DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
+            }
         }
     }
 }

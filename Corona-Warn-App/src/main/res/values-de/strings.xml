@@ -369,6 +369,19 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
 
     <!-- ####################################
+               Risk Lowered Dialog
+    ###################################### -->
+
+    <!-- XHED: risk lowered - dialog headline -->
+    <string name="risk_lowered_dialog_headline">"Änderung Ihres Risikostatus"</string>
+    <!-- XTXT: risk lowered - dialog content -->
+    <string name="risk_lowered_dialog_body">"Die Risiko-Begegnung, die zu einem erhöhten Risiko für Sie geführt hat, liegt mehr als 14 Tage zurück. Daher wird das Infektionsrisiko wieder als niedrig für Sie eingestuft. \n So verhalten Sie sich richtig:\n 1. Wenn Sie keine Symptome von COVID-19 aufweisen, halten Sie sich an die allgemein geltenden Verhaltensregeln zu Abstand und Hygiene. \n 2f. Wenn Sie Symptome einer Infektion mit COVID-19 aufweisen, empfehlen wir, dass Sie Ihren Arzt aufsuchen und sich testen lassen."</string>
+    <!-- XBUT: risk lowerd - dialog confirm -->
+    <string name="risk_lowered_dialog_button_confirm">"OK"</string>
+    <!-- XBUT: risk lowered - dialog cancel -->
+    <string name="risk_lowered_dialog_button_cancel">"Mehr"</string>
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 

@@ -72,6 +72,8 @@
     <string name="preference_interoperability_selected_country_codes"><xliff:g id="preference">"preference_interoperability_selected_country_codes"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_interoperability_all_countries_selected">preference_interoperability_all_countries_selected</string>
+    <!-- NOTR -->
+    <string name="preference_has_risk_status_lowered">preference_has_risk_status_lowered</string>
 
     <!-- ####################################
                      Generics
@@ -373,6 +375,19 @@
     <string name="risk_details_explanation_dialog_faq_body">"For further information, please see our FAQ page."</string>
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
+
+    <!-- ####################################
+               Risk Lowered Dialog
+    ###################################### -->
+
+    <!-- XHED: risk lowered - dialog headline -->
+    <string name="risk_lowered_dialog_headline" />
+    <!-- XTXT: risk lowered - dialog content -->
+    <string name="risk_lowered_dialog_body" />
+    <!-- XBUT: risk lowerd - dialog confirm -->
+    <string name="risk_lowered_dialog_button_confirm" />
+    <!-- XBUT: risk lowered - dialog cancel -->
+    <string name="risk_lowered_dialog_button_cancel" />
 
     <!-- ####################################
               Onboarding
