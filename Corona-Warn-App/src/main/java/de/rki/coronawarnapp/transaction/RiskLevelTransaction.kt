@@ -375,7 +375,7 @@ object RiskLevelTransaction : Transaction() {
      * @return the values of the application configuration
      */
     private suspend fun executeRetrieveApplicationConfiguration():
-            ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        ApplicationConfigurationOuterClass.ApplicationConfiguration =
         executeState(RETRIEVE_APPLICATION_CONFIG) {
             return@executeState getApplicationConfiguration()
                 .also {
@@ -550,7 +550,7 @@ object RiskLevelTransaction : Transaction() {
         return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
             Timber.tag(TAG).v(
                 "active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                        "($durationTracingIsActiveThreshold h): $it"
+                    "($durationTracingIsActiveThreshold h): $it"
             )
         }
     }
@@ -569,8 +569,9 @@ object RiskLevelTransaction : Transaction() {
             )
         }
         if (lastCalculatedScore.raw in
-            RiskLevelConstants.LOW_LEVEL_RISK..RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
-            && lastCalculatedScore.raw > riskLevel.raw) {
+            RiskLevelConstants.LOW_LEVEL_RISK..RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL &&
+            lastCalculatedScore.raw > riskLevel.raw
+        ) {
             LocalData.hasRiskStatusLowered(true)
         }
         RiskLevelRepository.setRiskLevelScore(riskLevel)
