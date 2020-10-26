@@ -1,23 +1,17 @@
 package de.rki.coronawarnapp.deadman
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import timber.log.Timber
 
 /**
- * One time background deadman notification worker
+ * Periodic background deadman notification worker
  *
  * @see DeadmanNotificationScheduler
  */
-class DeadmanNotificationOneTimeWorker(
+class DeadmanNotificationPeriodicWorker(
     val context: Context,
     workerParams: WorkerParameters
 ) :
@@ -38,14 +32,8 @@ class DeadmanNotificationOneTimeWorker(
         }
         var result = Result.success()
         try {
-//            if (!CoronaWarnApplication.isAppInForeground) {
-                NotificationHelper.sendNotification(
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.risk_details_deadman_notification_title), CoronaWarnApplication.getAppContext()
-                        .getString(R.string.risk_details_deadman_notification_body),
-                    NotificationCompat.PRIORITY_HIGH
-                )
-//            }
+            // Reschedult one time deadman notification work
+            DeadmanNotificationScheduler().scheduleOneTime(null);
         } catch (e: Exception) {
             result = Result.retry()
         }

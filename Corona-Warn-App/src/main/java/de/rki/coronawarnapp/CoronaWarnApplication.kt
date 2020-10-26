@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -73,7 +74,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         // Check the last time FULL risk calculation was success -> time
         // Reschedule it depending on time obtained
         // Create new package deadman feature
-
+        DeadmanNotificationScheduler().schedulePeriodic()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
