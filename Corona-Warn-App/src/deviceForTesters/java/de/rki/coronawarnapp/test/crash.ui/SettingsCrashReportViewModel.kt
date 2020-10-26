@@ -31,7 +31,6 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.e(e, "Msg: ${e.message}")
             e.reportProblem(SettingsCrashReportViewModel::class.java.simpleName, e.message)
-
         }
     }
 

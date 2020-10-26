@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsCrashReportDetailsBinding
 import de.rki.coronawarnapp.util.di.AutoInject

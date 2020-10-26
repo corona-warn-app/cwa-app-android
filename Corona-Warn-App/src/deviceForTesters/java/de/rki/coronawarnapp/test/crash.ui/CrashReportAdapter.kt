@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 
-
 import de.rki.coronawarnapp.databinding.ViewCrashreportListItemBinding
 
 class CrashReportAdapter(private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>() {

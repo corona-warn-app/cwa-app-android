@@ -22,5 +22,5 @@ class Converters {
 
     @TypeConverter
     fun fromStringList(strings: List<String>?): String? =
-        strings?.let { gson.toJson(it, typeStringList)}
+        strings?.let { gson.toJson(it, typeStringList) }
 }
