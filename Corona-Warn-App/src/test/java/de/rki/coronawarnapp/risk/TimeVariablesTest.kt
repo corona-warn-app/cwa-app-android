@@ -16,7 +16,7 @@ class TimeVariablesTest {
 
     @Test
     fun getTransactionTimeout() {
-        Assert.assertEquals(TimeVariables.getTransactionTimeout(), 180000L)
+        Assert.assertEquals(TimeVariables.getTransactionTimeout(), 480000L)
     }
 
     @Test

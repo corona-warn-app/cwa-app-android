@@ -114,7 +114,7 @@
 
         <Button
             android:id="@+id/submission_test_result_button_positive_continue_without_symptoms"
-            style="@style/buttonPrimary"
+            style="@style/buttonLight"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:text="@string/submission_test_result_positive_continue_button_wo_symptoms"

@@ -5,10 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import androidx.work.WorkManager
@@ -18,11 +14,16 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -36,6 +37,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     @Inject lateinit var watchdogService: WatchdogService
+    @Inject lateinit var taskController: TaskController
+    @Inject lateinit var foregroundState: ForegroundState
 
     override fun onCreate() {
         instance = this
@@ -55,7 +58,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(foregroundStateUpdater)
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 
         // notification to test the WakeUpService from Google when the app was force stopped
@@ -63,20 +65,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             "Application onCreate", "App was woken up"
         )
         watchdogService.launch()
-    }
 
-    private val foregroundStateUpdater = object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun onAppForegrounded() {
-            isAppInForeground = true
-            Timber.v("App is in the foreground")
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun onAppBackgrounded() {
-            isAppInForeground = false
-            Timber.v("App is in the background")
-        }
+        foregroundState.isInForeground
+            .onEach { isAppInForeground = it }
+            .launchIn(GlobalScope)
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

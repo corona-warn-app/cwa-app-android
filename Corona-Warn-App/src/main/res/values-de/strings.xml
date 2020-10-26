@@ -27,12 +27,6 @@
     <!-- NOTR -->
     <string name="preference_string_google_api_token"><xliff:g id="preference">"preference_m_string_google_api_token"</xliff:g></string>
     <!-- NOTR -->
-    <string name="preference_notifications_enabled"><xliff:g id="preference">"preference_notifications_enabled"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_notifications_risk_enabled"><xliff:g id="preference">"preference_notifications_risk_enabled"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_notifications_test_enabled"><xliff:g id="preference">"preference_notifications_test_enabled"</xliff:g></string>
-    <!-- NOTR -->
     <string name="preference_background_job_allowed"><xliff:g id="preference">"preference_background_job_enabled"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_mobile_data_allowed"><xliff:g id="preference">"preference_mobile_data_enabled"</xliff:g></string>
@@ -66,8 +60,6 @@
     <string name="preference_number_successful_submissions"><xliff:g id="preference">"preference_number_successful_submissions"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_teletan"><xliff:g id="preference">"preference_teletan"</xliff:g></string>
-    <!-- NOTR -->
-    <string name="preference_last_three_hours_from_server"><xliff:g id="preference">"preference_last_three_hours_from_server"</xliff:g></string>
     <!-- NOTR -->
     <string name="preference_polling_test_result_started"><xliff:g id="preference">"preference_polling_test_result_started"</xliff:g></string>
     <!-- NOTR -->
@@ -373,8 +365,8 @@
     <string name="risk_details_explanation_dialog_title">"Information zur Funktionsweise der Risiko-Ermittlung"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
-    <!-- XLNK: risk explanations and informations - pointing to the faq page for more information and contains hyperlink-->
-    <string name="risk_details_explanation_faq_body_with_link"><a href="https://www.coronawarn.app/de/faq/#encounter_but_green">Weitere Informationen finden Sie in den FAQ.</a></string>
+     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
 
     <!-- ####################################
               Onboarding
@@ -520,7 +512,7 @@
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Standortdienste deaktiviert"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch RisikoBegegnungen mit Nutzern von  anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer Nutzer empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich eine  Liste mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die diese freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem  Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer verglichen, um Ihr Infektionsrisiko zu berechnen und Sie zu warnen. Die Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden über die App zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf Ihre Identität, Ihren Namen oder andere  persönliche Angaben sind anhand der Zufalls-IDs nicht möglich."</string>
+    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch Risiko-Begegnungen mit Nutzern von  anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer Nutzer empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich eine  Liste mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die diese freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem  Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer verglichen, um Ihr Infektionsrisiko zu berechnen und Sie zu warnen. Die Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden über die App zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf Ihre Identität, Ihren Namen oder andere  persönliche Angaben sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktiv"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -815,6 +807,19 @@
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
+    <!-- QR Code Scan Info Screen -->
+    <!-- XHED: Page headline for QR Scan info screen -->
+    <string name="submission_qr_info_headline">"QR-Code Scan"</string>
+    <!-- YTXT: Body text for for QR Scan info point 1  -->
+    <string name="submission_qr_info_point_1_body">"Scannen Sie nur Ihren eigenen Test."</string>
+    <!-- YTXT: Body text for for QR Scan info point 2  -->
+    <string name="submission_qr_info_point_2_body">"Jeder Test kann <b>nur einmal</b> gescannt werden."</string>
+    <!-- YTXT: Body text for for QR Scan info point 3  -->
+    <string name="submission_qr_info_point_3_body">"Die App kann <b>nicht</b> gleichzeitig mehrere Tests verwalten."</string>
+    <!-- YTXT:Body text for for QR Scan info point 4 -->
+    <string name="submission_qr_info_point_4_body">"Wenn Ihnen ein aktuellerer Test vorliegt, löschen Sie den vorhandenen Test und scannen Sie den QR-Code des aktuellen Tests ein."</string>
+
+
     <!-- QR Code Scan Screen -->
     <string name="submission_qr_code_scan_title">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -832,7 +837,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Testergebnis noch nicht verfügbar"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Ihr Testergebnis steht noch nicht zur Verfügung."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Bitte gedulden Sie sich, die Auswertung kann einige Tage dauern.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nFalls Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, rufen Sie bitte die unter "TAN anfragen" angegebene Nummer an, um Ihr Testergebnis in der App registrieren und andere damit warnen zu können."</string>
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualisieren"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -924,7 +929,7 @@
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Einwilligungserklärung"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"Durch Antippen von „Erlauben“ willigen Sie ein, dass die App den Status Ihres Corona-Virus-Tests abfragen und in der App anzeigen darf. Diese Funktion steht Ihnen zur Verfügung, wenn Sie einen QR-Code erhalten und eingewilligt haben, dass Ihr Testergebnis an das Serversystem der App übermittelt werden darf. Sobald das Testlabor Ihr Testergebnis auf dem Server hinterlegt hat, können Sie das Ergebnis in der App sehen. Falls Sie Mitteilungen aktiviert haben, werden Sie auch außerhalb der App über den Eingang des Testergebnis informiert. Das Testergebnis selbst wird aus Datenschutzgründen jedoch nur in der App angezeigt. Sie können diese Einwilligung jederzeit widerrufen, indem Sie die Testregistrierung in der App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutzinformation“."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"Durch Antippen von „Erlauben“ willigen Sie ein, dass die App den Status Ihres Corona-Virus-Tests abfragen und in der App anzeigen darf. Diese Funktion steht Ihnen zur Verfügung, wenn Sie einen QR-Code erhalten und eingewilligt haben, dass Ihr Testergebnis an das Serversystem der App übermittelt werden darf. Sobald das Testlabor Ihr Testergebnis auf dem Server hinterlegt hat, können Sie das Ergebnis in der App sehen. Falls Sie Mitteilungen aktiviert haben, werden Sie auch außerhalb der App über den Eingang des Testergebnis informiert. Das Testergebnis selbst wird aus Datenschutzgründen jedoch nur in der App angezeigt. Sie können diese Einwilligung jederzeit widerrufen, indem Sie die Testregistrierung in der App löschen. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung nicht berührt. Weitere Informationen finden Sie unter dem Menüpunkt „Datenschutz“."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Erlauben"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -946,7 +951,8 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Helfen Sie mit!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen vor einer möglichen Infektion gewarnt werden.\n\nHierfür können Sie Ihre eigenen Zufalls-IDs der letzten 14 Tage und optional auch Angaben zum ersten Auftreten von eventuellen Corona-Symptomen an den von den teilnehmenden Ländern gemeinsam betriebenen Austausch-Server übertragen. Von dort werden Ihre Zufalls-IDs und eventuelle weitere Angaben an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. So können die anderen Nutzer, mit denen Sie Kontakt hatten, vor einer eventuellen Ansteckung gewarnt werden.\n\nEs werden nur Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
+    <string name="submission_positive_other_warning_body">"Als Nächstes können Sie dafür sorgen, dass Ihre Mitmenschen vor einer möglichen Infektion gewarnt werden.\n\nHierfür können Sie Ihre eigenen Zufalls-IDs der letzten 14 Tage und optional auch Angaben zum ersten Auftreten von eventuellen Corona-Symptomen an den von den teilnehmenden Ländern gemeinsam betriebenen 
+        Server übertragen. Von dort werden Ihre Zufalls-IDs und eventuelle weitere Angaben an die Nutzer der jeweiligen offiziellen Corona-Apps verteilt. So können die anderen Nutzer, mit denen Sie Kontakt hatten, vor einer eventuellen Ansteckung gewarnt werden.\n\nEs werden nur Zufalls-IDs und eventuelle Angaben zum Symptombeginn übertragen. Es werden keine persönlichen Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort mitgeteilt."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1304,7 +1310,7 @@
     <!-- XHED: Header of interoperability information/configuration view -->
     <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
-    <string name="interoperability_configuration_first_section">Mehrere Länder arbeiten zusammen, um über den gemeinsam betriebenen Austausch- Server  länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung auch die Kontakte  mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
+    <string name="interoperability_configuration_first_section">Mehrere Länder arbeiten zusammen, um über den gemeinsam betriebenen Austausch-Server  länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung auch die Kontakte  mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_second_section">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs  verglichen. Der tägliche Download der Liste mit den Zufalls-IDs ist für Sie kostenlos – Ihr Datenvolumen wird nicht belastet und es fallen im europäischen Ausland keine Roaming-Gebühren an.</string>
     <!-- XHED: Header right above the country list in the interoperability information/configuration view -->
@@ -1329,6 +1335,14 @@
     <string name="interoperability_onboarding_delta_terms_link">Nutzungsbedingungen anzeigen</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
     <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">Die Nutzungsbedingungen und die Datenschutzerklärung finden Sie auch unter dem Menüpunkt „App-Informationen“ sowie in der App-Beschreibung Ihres App Stores. Die Änderungen haben keine Auswirkungen auf Ihre Nutzung der App. Wenn Sie die App weiter nutzen oder erneut öffnen, gehen wir davon aus, dass Sie mit den aktualisierten Nutzungsbedingungen einverstanden sind.</string>
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_randomid">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs verglichen.</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_free_download">Der tägliche Download der Liste mit den Zufalls-IDs ist für Sie in der Regel kostenlos. Das heißt: Das von der App verursachte Datenvolumen wird von den Mobilfunk-Betreibern nicht angerechnet und im EU-Ausland werden Ihnen keine Roaming-Gebühren berechnet. Näheres erfahren Sie von Ihrem Mobilfunk-Betreiber.</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">Eine Hand hält ein Smartphone. Im Hintergrund ist Europa und die europäische Flagge illustriert</string>

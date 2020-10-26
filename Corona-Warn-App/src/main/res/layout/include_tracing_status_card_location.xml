@@ -6,13 +6,7 @@
 
         <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterAccessibilityHelper" />
-
         <import type="android.view.View" />
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
 
         <variable
             name="icon"

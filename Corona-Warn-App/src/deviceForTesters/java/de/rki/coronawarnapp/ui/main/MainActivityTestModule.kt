@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
+import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
+import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
@@ -20,4 +22,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [TestForApiFragmentModule::class])
     abstract fun testRiskLevelApiFragment(): TestForAPIFragment
+
+    @ContributesAndroidInjector(modules = [TestTaskControllerFragmentModule::class])
+    abstract fun testTaskControllerFragment(): TestTaskControllerFragment
 }
