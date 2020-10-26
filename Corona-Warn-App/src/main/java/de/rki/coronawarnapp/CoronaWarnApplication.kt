@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.Configuration
 import androidx.work.WorkManager
@@ -87,10 +88,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 localBM.unregisterReceiver(it)
                 errorReceiver = null
             }
+            disableAppLauncherPreviewAndScreenshots(activity)
         }
 
         override fun onActivityStarted(activity: Activity) {
-            // NOOP
+            enableAppLauncherPreviewAndScreenshots(activity)
         }
 
         override fun onActivityDestroyed(activity: Activity) {
@@ -102,7 +104,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         }
 
         override fun onActivityStopped(activity: Activity) {
-            // NOOP
+            disableAppLauncherPreviewAndScreenshots(activity)
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -118,7 +120,16 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             errorReceiver = ErrorReportReceiver(activity).also {
                 localBM.registerReceiver(it, IntentFilter(ERROR_REPORT_LOCAL_BROADCAST_CHANNEL))
             }
+            enableAppLauncherPreviewAndScreenshots(activity)
         }
+    }
+
+    private fun enableAppLauncherPreviewAndScreenshots(activity: Activity) {
+        activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
+    private fun disableAppLauncherPreviewAndScreenshots(activity: Activity) {
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     companion object {

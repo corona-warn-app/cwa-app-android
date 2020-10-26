@@ -50,7 +50,6 @@ class TestCollector<T>(
             }
             .launchIn(scope)
             .also { job = it }
-
     }
 
     suspend fun awaitFinal() = apply {
