@@ -350,8 +350,6 @@
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
-    <!-- YTXT: risk details - risk calculation explanation for low risk -->
-    <string name="risk_details_information_body_notice_low">"Die Infektionswahrscheinlichkeit wird daher als niedrig für Sie eingestuft. Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
     <string name="risk_details_information_body_notice_increased">"Die Infektionswahrscheinlichkeit wird daher als erhöht für Sie eingestuft. Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben. Wenn Sie nach Hause kommen, vermeiden Sie auch Begegnungen mit Familienmitgliedern und Mitbewohnern."</string>
     <!-- NOTR -->
@@ -367,6 +365,11 @@
     <string name="risk_details_explanation_dialog_faq_body">"Weitere Informationen finden Sie in den FAQ."</string>
      <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
+
+    <!-- XHED: risk details - deadman notification title -->
+    <string name="risk_details_deadman_notification_title">"Risiko-Überprüfung aktualisieren"</string>
+    <!-- YTXT: risk details - deadman notification text -->
+    <string name="risk_details_deadman_notification_body">"Bitte öffnen Sie die Corona-Warn-App, um die Risiko-Ermittlung zu aktualisieren."</string>
 
     <!-- ####################################
               Onboarding
@@ -626,11 +629,11 @@
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description" />
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">"Um die priorisierte Hintergrundaktivität auszuschalten, deaktivieren Sie sie bitte in den Geräte-Einstellungen."</string>
+    <string name="settings_background_priority_card_body">"Sie können die priorisierte Hintergrundaktivität in den Einstellungen Ihres Smartphones ein- beziehungsweise ausschalten."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
-    <string name="settings_background_priority_card_button">"Geräte-Einstellungen öffnen"</string>
+    <string name="settings_background_priority_card_button">"Smartphone-Einstellungen öffnen"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ausschalten"</string>
+    <string name="settings_background_priority_card_headline">"Priorisierte Hintergrundaktivität ändern"</string>
 
     <!-- ####################################
                App Information
@@ -1048,6 +1051,8 @@
     <string name="submission_contact_step_2_body">"Test per TAN-Eingabe in der App registrieren"</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Sprachen:\nDeutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo - So: Täglich 24 Stunden\n\nDer Anruf ist kostenfrei."</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"TAN-Anfrage per Telefonanruf"</string>

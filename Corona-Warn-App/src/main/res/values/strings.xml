@@ -374,6 +374,11 @@
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
 
+    <!-- XHED: risk details - deadman notification title -->
+    <string name="risk_details_deadman_notification_title">""</string>
+    <!-- YTXT: risk details - deadman notification text -->
+    <string name="risk_details_deadman_notification_body">""</string>
+
     <!-- ####################################
               Onboarding
     ###################################### -->
@@ -1052,6 +1057,9 @@
     <string name="submission_contact_step_2_body">"Register the test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Languages: \nGerman, English, Turkish\n\nBusiness hours:\nMonday to Sunday: 24 hours\n\nThe call is free of charge."</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="submission_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the hotline for the medical emergency service, telephone: 116 117."</string>
+
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Call the hotline and request a TAN"</string>
