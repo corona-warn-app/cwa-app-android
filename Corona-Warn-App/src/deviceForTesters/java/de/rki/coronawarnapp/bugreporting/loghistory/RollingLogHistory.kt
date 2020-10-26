@@ -51,7 +51,7 @@ class RollingLogHistory @Inject constructor(
     }
 
     companion object {
-        private const val BUFFER_SIZE = 200
+        private const val BUFFER_SIZE = 100
         private fun priorityToString(priority: Int): String = when (priority) {
             Log.ERROR -> "E"
             Log.WARN -> "W"

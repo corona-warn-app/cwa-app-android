@@ -42,8 +42,8 @@ class SettingsCrashReportDetailsFragment :
                     " # AppVersion: ${it.appVersionName} \n" +
                     " # AppVercionCode ${it.appVersionCode} \n" +
                     " # C-Hash ${it.shortID} \n\n\n" +
-                    " ${it.stackTrace}\n\n\n" +
-                    "# corresponding Log: \n\n ${it.logHistory}"
+                    " ${it.stackTrace}\n\n" +
+                    " # Corresponding Log: \n\n ${it.logHistory}"
         }
     }
 
