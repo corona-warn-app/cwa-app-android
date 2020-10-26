@@ -147,7 +147,7 @@
                 <include
                     android:id="@+id/risk_card_row_saved_risk"
                     gone="@{tracingCard.getSavedRiskBody(context).empty}"
-                    layout="@layout/include_risk_status_row"
+                    layout="@layout/include_risk_card_content_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -162,7 +162,7 @@
                 <include
                     android:id="@+id/risk_card_row_contact"
                     gone="@{tracingCard.getRiskContactBody(context).empty}"
-                    layout="@layout/include_risk_status_row"
+                    layout="@layout/include_risk_card_content_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -177,7 +177,7 @@
                 <include
                     android:id="@+id/risk_card_row_contact_last"
                     gone="@{tracingCard.getRiskContactLast(context).empty}"
-                    layout="@layout/include_risk_status_row"
+                    layout="@layout/include_risk_card_content_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
@@ -240,7 +240,7 @@
                 <include
                     android:id="@+id/risk_card_row_time_fetched"
                     gone="@{tracingCard.getTimeFetched(context).empty}"
-                    layout="@layout/include_risk_status_row"
+                    layout="@layout/include_risk_card_content_row"
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"

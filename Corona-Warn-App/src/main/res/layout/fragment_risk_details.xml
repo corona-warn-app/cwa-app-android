@@ -115,7 +115,7 @@
 
                     <include
                         android:id="@+id/risk_card_content"
-                        layout="@layout/include_risk_status"
+                        layout="@layout/include_risk_card_content"
                         app:tracingCard="@{tracingCard}" />
 
                 </FrameLayout>

@@ -16,6 +16,7 @@ import io.mockk.clearAllMocks
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -149,31 +150,36 @@ class TracingCardStateTest : BaseTest() {
     fun `saved risk body is affected by risklevel`() {
         createInstance(
             riskLevel = INCREASED_RISK,
-            riskLevelLastSuccessfulCalculation = 0).apply {
+            riskLevelLastSuccessfulCalculation = 0
+        ).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            riskLevelLastSuccessfulCalculation = 0).apply {
+            riskLevelLastSuccessfulCalculation = 0
+        ).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            riskLevelLastSuccessfulCalculation = 0).apply {
+            riskLevelLastSuccessfulCalculation = 0
+        ).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            riskLevelLastSuccessfulCalculation = 0).apply {
+            riskLevelLastSuccessfulCalculation = 0
+        ).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            riskLevelLastSuccessfulCalculation = 0).apply {
+            riskLevelLastSuccessfulCalculation = 0
+        ).apply {
             getSavedRiskBody(context) shouldBe ""
         }
 
@@ -217,9 +223,11 @@ class TracingCardStateTest : BaseTest() {
             riskLevelLastSuccessfulCalculation = LOW_LEVEL_RISK
         ).apply {
             getSavedRiskBody(context)
-            verify { context
-                .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(context.getString(R.string.risk_card_low_risk_headline)) }
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_low_risk_headline))
+            }
         }
 
         createInstance(
@@ -227,9 +235,11 @@ class TracingCardStateTest : BaseTest() {
             riskLevelLastSuccessfulCalculation = INCREASED_RISK
         ).apply {
             getSavedRiskBody(context)
-            verify { context
-                .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(context.getString(R.string.risk_card_increased_risk_headline)) }
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_increased_risk_headline))
+            }
         }
 
         createInstance(
@@ -237,9 +247,11 @@ class TracingCardStateTest : BaseTest() {
             riskLevelLastSuccessfulCalculation = UNKNOWN_RISK_INITIAL
         ).apply {
             getSavedRiskBody(context)
-            verify { context
-                .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(context.getString(R.string.risk_card_unknown_risk_headline)) }
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_unknown_risk_headline))
+            }
         }
 
         createInstance(
@@ -247,9 +259,11 @@ class TracingCardStateTest : BaseTest() {
             riskLevelLastSuccessfulCalculation = LOW_LEVEL_RISK
         ).apply {
             getSavedRiskBody(context)
-            verify { context
-                .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(context.getString(R.string.risk_card_low_risk_headline)) }
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_low_risk_headline))
+            }
         }
 
         createInstance(
@@ -257,9 +271,11 @@ class TracingCardStateTest : BaseTest() {
             riskLevelLastSuccessfulCalculation = INCREASED_RISK
         ).apply {
             getSavedRiskBody(context)
-            verify { context
-                .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(context.getString(R.string.risk_card_increased_risk_headline)) }
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_increased_risk_headline))
+            }
         }
 
         createInstance(
@@ -267,9 +283,11 @@ class TracingCardStateTest : BaseTest() {
             riskLevelLastSuccessfulCalculation = UNKNOWN_RISK_INITIAL
         ).apply {
             getSavedRiskBody(context)
-            verify { context
-                .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
-                .format(context.getString(R.string.risk_card_unknown_risk_headline)) }
+            verify {
+                context
+                    .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
+                    .format(context.getString(R.string.risk_card_unknown_risk_headline))
+            }
         }
     }
 
@@ -277,73 +295,87 @@ class TracingCardStateTest : BaseTest() {
     fun `risk contact body is affected by risklevel`() {
         createInstance(
             riskLevel = INCREASED_RISK,
-            matchedKeyCount = 0).apply {
+            matchedKeyCount = 0
+        ).apply {
             getRiskContactBody(context)
             verify { context.getString(R.string.risk_card_body_contact) }
         }
 
         createInstance(
             riskLevel = INCREASED_RISK,
-            matchedKeyCount = 2).apply {
+            matchedKeyCount = 2
+        ).apply {
             getRiskContactBody(context)
-            verify { context.resources.getQuantityString(
-                R.plurals.risk_card_body_contact_value_high_risk,
-                2,
-                2)
+            verify {
+                context.resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value_high_risk,
+                    2,
+                    2
+                )
             }
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            matchedKeyCount = 0).apply {
+            matchedKeyCount = 0
+        ).apply {
             getRiskContactBody(context)
             verify { context.getString(R.string.risk_card_body_contact) }
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            matchedKeyCount = 2).apply {
+            matchedKeyCount = 2
+        ).apply {
             getRiskContactBody(context)
-            verify { context.resources.getQuantityString(
-                R.plurals.risk_card_body_contact_value,
-                2,
-                2)
+            verify {
+                context.resources.getQuantityString(
+                    R.plurals.risk_card_body_contact_value,
+                    2,
+                    2
+                )
             }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            matchedKeyCount = 0).apply {
+            matchedKeyCount = 0
+        ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            matchedKeyCount = 0).apply {
+            matchedKeyCount = 0
+        ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            matchedKeyCount = 0).apply {
+            matchedKeyCount = 0
+        ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            matchedKeyCount = 2).apply {
+            matchedKeyCount = 2
+        ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            matchedKeyCount = 2).apply {
+            matchedKeyCount = 2
+        ).apply {
             getRiskContactBody(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            matchedKeyCount = 2).apply {
+            matchedKeyCount = 2
+        ).apply {
             getRiskContactBody(context) shouldBe ""
         }
     }
@@ -380,47 +412,57 @@ class TracingCardStateTest : BaseTest() {
     fun `last risk contact text formatting`() {
         createInstance(
             riskLevel = INCREASED_RISK,
-            daysSinceLastExposure = 2).apply {
+            daysSinceLastExposure = 2
+        ).apply {
             getRiskContactLast(context)
-            verify { context.resources.getQuantityString(
-                R.plurals.risk_card_increased_risk_body_contact_last,
-                2,
-                2)
+            verify {
+                context.resources.getQuantityString(
+                    R.plurals.risk_card_increased_risk_body_contact_last,
+                    2,
+                    2
+                )
             }
         }
 
         createInstance(
             riskLevel = INCREASED_RISK,
-            daysSinceLastExposure = 0).apply {
+            daysSinceLastExposure = 0
+        ).apply {
             getRiskContactLast(context)
-            verify { context.resources.getQuantityString(
-                R.plurals.risk_card_increased_risk_body_contact_last,
-                0,
-                0)
+            verify {
+                context.resources.getQuantityString(
+                    R.plurals.risk_card_increased_risk_body_contact_last,
+                    0,
+                    0
+                )
             }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            daysSinceLastExposure = 2).apply {
+            daysSinceLastExposure = 2
+        ).apply {
             getRiskContactLast(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            daysSinceLastExposure = 2).apply {
+            daysSinceLastExposure = 2
+        ).apply {
             getRiskContactLast(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            daysSinceLastExposure = 2).apply {
+            daysSinceLastExposure = 2
+        ).apply {
             getRiskContactLast(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            daysSinceLastExposure = 2).apply {
+            daysSinceLastExposure = 2
+        ).apply {
             getRiskContactLast(context) shouldBe ""
         }
     }
@@ -429,39 +471,45 @@ class TracingCardStateTest : BaseTest() {
     fun `text for active risktracing in retention period`() {
         createInstance(
             riskLevel = INCREASED_RISK,
-            activeTracingDaysInRetentionPeriod = 1).apply {
+            activeTracingDaysInRetentionPeriod = 1
+        ).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            activeTracingDaysInRetentionPeriod = 1).apply {
+            activeTracingDaysInRetentionPeriod = 1
+        ).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            activeTracingDaysInRetentionPeriod = 1).apply {
+            activeTracingDaysInRetentionPeriod = 1
+        ).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            activeTracingDaysInRetentionPeriod = 1).apply {
+            activeTracingDaysInRetentionPeriod = 1
+        ).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context)
             verify { context.getString(R.string.risk_card_body_saved_days).format(1) }
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            activeTracingDaysInRetentionPeriod = 2).apply {
+            activeTracingDaysInRetentionPeriod = 2
+        ).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context)
             verify { context.getString(R.string.risk_card_body_saved_days).format(2) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            activeTracingDaysInRetentionPeriod = 1).apply {
+            activeTracingDaysInRetentionPeriod = 1
+        ).apply {
             getRiskActiveTracingDaysInRetentionPeriod(context) shouldBe ""
         }
     }
@@ -472,7 +520,8 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskLevel = INCREASED_RISK,
             riskLevelLastSuccessfulCalculation = 2,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
@@ -480,7 +529,8 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
             riskLevelLastSuccessfulCalculation = 2,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
@@ -488,7 +538,8 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
             riskLevelLastSuccessfulCalculation = 2,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
@@ -496,7 +547,8 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
             riskLevelLastSuccessfulCalculation = 2,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
@@ -504,71 +556,82 @@ class TracingCardStateTest : BaseTest() {
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
             riskLevelLastSuccessfulCalculation = 2,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = INCREASED_RISK,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(eq(R.string.risk_card_body_time_fetched), any()) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            lastTimeDiagnosisKeysFetched = date).apply {
+            lastTimeDiagnosisKeysFetched = date
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = INCREASED_RISK,
-            lastTimeDiagnosisKeysFetched = null).apply {
+            lastTimeDiagnosisKeysFetched = null
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(R.string.risk_card_body_not_yet_fetched) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            lastTimeDiagnosisKeysFetched = null).apply {
+            lastTimeDiagnosisKeysFetched = null
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            lastTimeDiagnosisKeysFetched = null).apply {
+            lastTimeDiagnosisKeysFetched = null
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            lastTimeDiagnosisKeysFetched = null).apply {
+            lastTimeDiagnosisKeysFetched = null
+        ).apply {
             getTimeFetched(context)
             verify { context.getString(R.string.risk_card_body_not_yet_fetched) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            lastTimeDiagnosisKeysFetched = null).apply {
+            lastTimeDiagnosisKeysFetched = null
+        ).apply {
             getTimeFetched(context) shouldBe ""
         }
     }
@@ -577,63 +640,73 @@ class TracingCardStateTest : BaseTest() {
     fun `text for next update time`() {
         createInstance(
             riskLevel = INCREASED_RISK,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = INCREASED_RISK,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             getNextUpdate(context)
             verify { context.getString(R.string.risk_card_body_next_update) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             getNextUpdate(context) shouldBe ""
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             getNextUpdate(context)
             verify { context.getString(R.string.risk_card_body_next_update) }
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             getNextUpdate(context)
             verify { context.getString(R.string.risk_card_body_next_update) }
         }
@@ -694,61 +767,71 @@ class TracingCardStateTest : BaseTest() {
     fun `update button visibility`() {
         createInstance(
             riskLevel = INCREASED_RISK,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             showUpdateButton() shouldBe true
         }
 
         createInstance(
             riskLevel = INCREASED_RISK,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             showUpdateButton() shouldBe false
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             showUpdateButton() shouldBe false
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             showUpdateButton() shouldBe false
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             showUpdateButton() shouldBe false
         }
 
         createInstance(
             riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             showUpdateButton() shouldBe false
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             showUpdateButton() shouldBe true
         }
 
         createInstance(
             riskLevel = LOW_LEVEL_RISK,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             showUpdateButton() shouldBe false
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            isBackgroundJobEnabled = false).apply {
+            isBackgroundJobEnabled = false
+        ).apply {
             showUpdateButton() shouldBe true
         }
 
         createInstance(
             riskLevel = UNKNOWN_RISK_INITIAL,
-            isBackgroundJobEnabled = true).apply {
+            isBackgroundJobEnabled = true
+        ).apply {
             showUpdateButton() shouldBe false
         }
     }
@@ -786,6 +869,29 @@ class TracingCardStateTest : BaseTest() {
         ).apply {
             getRiskLevelHeadline(context)
             verify { context.getString(R.string.risk_card_unknown_risk_headline) }
+        }
+    }
+
+    @Test
+    fun `tracing progress state`() {
+        createInstance(tracingProgress = TracingProgress.Idle).apply {
+            getProgressCardHeadline(context)
+            getProgressCardBody(context)
+            verify(exactly = 0) { context.getString(any()) }
+        }
+        createInstance(tracingProgress = TracingProgress.Downloading).apply {
+            getProgressCardHeadline(context)
+            getProgressCardBody(context)
+        }
+        createInstance(tracingProgress = TracingProgress.ENFIsCalculating).apply {
+            getProgressCardHeadline(context)
+            getProgressCardBody(context)
+        }
+        verifySequence {
+            context.getString(R.string.risk_card_progress_download_headline)
+            context.getString(R.string.risk_card_progress_download_body)
+            context.getString(R.string.risk_card_progress_calculation_headline)
+            context.getString(R.string.risk_card_progress_calculation_body)
         }
     }
 }
