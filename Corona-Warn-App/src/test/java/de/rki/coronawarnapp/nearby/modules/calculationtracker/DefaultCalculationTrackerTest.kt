@@ -161,9 +161,9 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `60 minute timeout on ongoing calcs`() = runBlockingTest2(permanentJobs = true) {
+    fun `15 minute timeout on ongoing calcs`() = runBlockingTest2(permanentJobs = true) {
         every { timeStamper.nowUTC } returns Instant.EPOCH
-            .plus(Duration.standardMinutes(60))
+            .plus(Duration.standardMinutes(15))
             .plus(2)
 
         // First half will be in the timeout, last half will be ok
@@ -179,7 +179,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
         val timeoutIgnoresFinishedCalcs = Calculation(
             identifier = "2",
             startedAt = Instant.EPOCH.plus(1),
-            finishedAt = Instant.EPOCH.plus(60)
+            finishedAt = Instant.EPOCH.plus(15)
         )
 
         // This one is right on the edge, testing <= behavior
@@ -195,7 +195,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
         val noTimeOutCalcFinished = Calculation(
             identifier = "5",
             startedAt = Instant.EPOCH.plus(5),
-            finishedAt = Instant.EPOCH.plus(60)
+            finishedAt = Instant.EPOCH.plus(15)
         )
 
         val calcData = mapOf(
