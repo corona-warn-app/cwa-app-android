@@ -615,6 +615,10 @@ object LocalData {
         )
     }
 
+    fun submissionWasSuccessful(): Boolean {
+        return numberOfSuccessfulSubmissions() >= 1
+    }
+
     fun testGUID(): String? = getSharedPreferenceInstance().getString(
         CoronaWarnApplication.getAppContext()
             .getString(R.string.preference_test_guid),
