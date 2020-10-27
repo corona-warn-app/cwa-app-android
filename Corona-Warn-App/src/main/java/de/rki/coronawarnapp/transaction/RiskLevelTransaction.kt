@@ -20,7 +20,9 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -374,7 +376,7 @@ object RiskLevelTransaction : Transaction() {
      * @return the values of the application configuration
      */
     private suspend fun executeRetrieveApplicationConfiguration():
-            ApplicationConfigurationOuterClass.ApplicationConfiguration =
+        ApplicationConfiguration =
         executeState(RETRIEVE_APPLICATION_CONFIG) {
             return@executeState getApplicationConfiguration()
                 .also {
@@ -400,7 +402,7 @@ object RiskLevelTransaction : Transaction() {
      * Executes the [CHECK_INCREASED_RISK] Transaction State
      */
     private suspend fun executeCheckIncreasedRisk(
-        appConfig: ApplicationConfigurationOuterClass.ApplicationConfiguration,
+        appConfig: ApplicationConfiguration,
         exposureSummary: ExposureSummary
     ): RiskLevel =
         executeState(CHECK_INCREASED_RISK) {
@@ -425,9 +427,9 @@ object RiskLevelTransaction : Transaction() {
     fun getRiskLevel(
         riskLevelCalculation: RiskLevelCalculation,
         riskScoreAnalysis: RiskScoreAnalysis,
-        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        attenuationParameters: AttenuationDurationOuterClass.AttenuationDuration,
         exposureSummary: ExposureSummary,
-        riskScoreClassification: ApplicationConfigurationOuterClass.RiskScoreClassification
+        riskScoreClassification: RiskScoreClassificationOuterClass.RiskScoreClassification
     ): RiskLevel {
         // calculate the risk score based on the values collected by the Google EN API and
         // the backend configuration
@@ -528,7 +530,7 @@ object RiskLevelTransaction : Transaction() {
      *
      * @return the [ApplicationConfigurationOuterClass.ApplicationConfiguration] from the backend
      */
-    private suspend fun getApplicationConfiguration(): ApplicationConfigurationOuterClass.ApplicationConfiguration =
+    private suspend fun getApplicationConfiguration(): ApplicationConfiguration =
         withContext(Dispatchers.Default) {
             return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
                 .also { Timber.tag(TAG).d("configuration from backend: $it") }

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.submission
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -31,7 +31,7 @@ class ExposureKeyHistoryCalculationsTest {
                 riskValue: Int,
                 daysSinceOnsetOfSymptoms: Int
             ) =
-                KeyExportFormat.TemporaryExposureKey.newBuilder()
+                TemporaryExposureKeyExportOuterClass.TemporaryExposureKey.newBuilder()
                     .setRollingStartIntervalNumber(key.rollingStartIntervalNumber)
                     .setTransmissionRiskLevel(riskValue)
                     .setDaysSinceOnsetOfSymptoms(daysSinceOnsetOfSymptoms)
@@ -165,7 +165,7 @@ class ExposureKeyHistoryCalculationsTest {
     }
 
     private fun f(
-        result: List<KeyExportFormat.TemporaryExposureKey>,
+        result: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         intArrayOf: IntArray,
         intArrayOf1: IntArray,
         intArrayOf2: IntArray
