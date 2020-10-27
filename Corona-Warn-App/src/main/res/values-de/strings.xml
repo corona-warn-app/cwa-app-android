@@ -376,9 +376,9 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
 
     <!-- XHED: risk details - deadman notification title -->
-    <string name="risk_details_deadman_notification_title">"Risiko-Überprüfung aktualisieren"</string>
+    <string name="risk_details_deadman_notification_title">"Ihr Risikostatus"</string>
     <!-- YTXT: risk details - deadman notification text -->
-    <string name="risk_details_deadman_notification_body">"Bitte öffnen Sie die Corona-Warn-App, um die Risiko-Ermittlung zu aktualisieren."</string>
+    <string name="risk_details_deadman_notification_body">"Bitte denken Sie daran, die Corona-Warn-App regelmäßig zu öffnen, um Ihren Risikostatus zu überprüfen."</string>
 
     <!-- ####################################
               Onboarding
