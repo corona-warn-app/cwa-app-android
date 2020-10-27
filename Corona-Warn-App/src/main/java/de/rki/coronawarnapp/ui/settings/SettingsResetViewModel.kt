@@ -11,10 +11,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.supervisorScope
-import kotlinx.coroutines.withContext
 
 class SettingsResetViewModel @AssistedInject constructor(
     private val dataReset: DataReset
