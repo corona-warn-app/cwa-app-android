@@ -199,11 +199,11 @@
     ###################################### -->
 
     <!-- XHED: risk card - progress - progress card headline displayed downloading key packages -->
-    <string name="risk_card_progress_download_headline">"Daten werden heruntergeladen"</string>
+    <string name="risk_card_progress_download_headline">"Daten werden heruntergeladen…"</string>
     <!-- XTXT: risk card - progress - progress card body displayed downloading key packages -->
     <string name="risk_card_progress_download_body">"Das kann mehrere Minuten dauern. Vielen Dank für Ihre Geduld."</string>
     <!-- XHED: risk card - progress - progress card headline displayed calculating the risklevel -->
-    <string name="risk_card_progress_calculation_headline">"Prüfung läuft"</string>
+    <string name="risk_card_progress_calculation_headline">"Prüfung läuft…"</string>
     <!-- XTXT: risk card - progress - progress card body displayed calculating the risklevel -->
     <string name="risk_card_progress_calculation_body">"Ihre Begegnungsdaten werden nun geprüft. Das kann mehrere Minuten dauern. Vielen Dank für Ihre Geduld."</string>
 
