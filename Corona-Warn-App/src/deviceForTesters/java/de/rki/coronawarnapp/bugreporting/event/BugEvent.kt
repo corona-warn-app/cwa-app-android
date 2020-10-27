@@ -15,6 +15,6 @@ interface BugEvent {
     val deviceInfo: String
     val apiLevel: Int
     val androidVersion: String
-    val shortID: String
+    val shortCommitHash: String
     val logHistory: List<String>
 }

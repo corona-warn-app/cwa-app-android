@@ -41,7 +41,7 @@ class SettingsCrashReportDetailsFragment :
                     " # Android API-Level ${it.apiLevel} \n\n" +
                     " # AppVersion: ${it.appVersionName} \n" +
                     " # AppVercionCode ${it.appVersionCode} \n" +
-                    " # C-Hash ${it.shortID} \n\n\n" +
+                    " # C-Hash ${it.shortCommitHash} \n\n\n" +
                     " ${it.stackTrace}\n\n" +
                     " # Corresponding Log: \n\n ${it.logHistory}"
         }

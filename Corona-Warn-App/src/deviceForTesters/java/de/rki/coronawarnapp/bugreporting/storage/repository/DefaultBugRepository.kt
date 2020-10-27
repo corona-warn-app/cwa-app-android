@@ -41,7 +41,7 @@ class DefaultBugRepository @Inject constructor(
                 appVersionCode = bugEvent.appVersionCode,
                 apiLevel = bugEvent.apiLevel,
                 androidVersion = bugEvent.androidVersion,
-                shortID = bugEvent.shortID,
+                shortCommitHash = bugEvent.shortCommitHash,
                 logHistory = bugEvent.logHistory
             )
         }

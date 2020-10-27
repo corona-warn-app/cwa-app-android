@@ -15,6 +15,6 @@ class DefaultBugEvent(
     override val appVersionCode: Int,
     override val apiLevel: Int,
     override val androidVersion: String,
-    override val shortID: String,
+    override val shortCommitHash: String,
     override val logHistory: List<String>
 ) : BugEvent
