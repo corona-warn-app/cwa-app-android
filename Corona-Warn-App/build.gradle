@@ -25,6 +25,12 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'jacoco'
 
 android {
+
+    println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
+    println("Current VERSION_MINOR: ${VERSION_MINOR}")
+    println("Current VERSION_PATCH: ${VERSION_PATCH}")
+    println("Current VERSION_BUILD: ${VERSION_BUILD}")
+
     ndkVersion "21.2.6472646"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -33,11 +39,20 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 38
-        versionName "1.3.1"
+
+        versionCode(
+                VERSION_MAJOR.toInteger() * 1000000
+                        + VERSION_MINOR.toInteger() * 10000
+                        + VERSION_PATCH.toInteger() * 100
+                        + VERSION_BUILD.toInteger()
+        )
+        println("Used versionCode: $versionCode")
+
+        versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+        println("Used versionName: $versionName")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        
+
         resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
         buildConfigField "String", "DOWNLOAD_CDN_URL", "\"$DOWNLOAD_CDN_URL\""
@@ -98,7 +113,7 @@ android {
             dimension "version"
             buildConfigField "String", "BUILD_VARIANT", "\"deviceForTesters\""
             resValue "string", "app_name", "CWA TEST"
-            applicationIdSuffix '.dev'
+            applicationIdSuffix '.test'
 
             def environmentPropertiesFile = project.rootProject.file('environment.properties')
             if (environmentPropertiesFile.exists()) {
@@ -121,6 +136,19 @@ android {
                 if (PUB_KEYS_SIGNATURE_VERIFICATION)
                     buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
             }
+        }
+    }
+
+    applicationVariants.all { variant ->
+        def flavor = variant.productFlavors[0]
+        def typeName = variant.buildType.name // debug/release
+
+        if (flavor.name == "deviceForTesters") {
+            def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+            variant.outputs.each { output ->
+                output.versionNameOverride = adjustedVersionName
+            }
+            println("deviceForTesters adjusted versionName: $adjustedVersionName")
         }
     }
 
