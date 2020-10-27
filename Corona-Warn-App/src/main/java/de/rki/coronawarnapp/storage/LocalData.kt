@@ -23,6 +23,8 @@ object LocalData {
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
+    private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
+        "preference_has_risk_status_lowered"
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -363,10 +365,9 @@ object LocalData {
      *
      * @return boolean if risk status lowers from red to green
      */
-    fun hasRiskStatusLowered(): Boolean {
+    fun isUserToBeNotifiedOfLoweredRiskLevel(): Boolean {
         return getSharedPreferenceInstance().getBoolean(
-            CoronaWarnApplication.getAppContext()
-                .getString(R.string.preference_has_risk_status_lowered),
+            PREFERENCE_HAS_RISK_STATUS_LOWERED,
             false
         )
     }
@@ -377,12 +378,9 @@ object LocalData {
      *
      * @return value boolean if risk level decreased
      */
-    fun hasRiskStatusLowered(value: Boolean) =
+    fun isUserToBeNotifiedOfLoweredRiskLevel(value: Boolean) =
         getSharedPreferenceInstance().edit(commit = true) {
-            putBoolean(
-                CoronaWarnApplication.getAppContext()
-                    .getString(R.string.preference_has_risk_status_lowered), value
-            )
+            putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value)
         }
 
     /****************************************************

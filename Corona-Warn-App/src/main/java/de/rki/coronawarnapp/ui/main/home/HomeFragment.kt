@@ -183,16 +183,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     private fun showRiskLevelLoweredDialogIfNeeded() {
         // Get the hasRiskLevelLowered bool value from shared preferences
-        if (LocalData.hasRiskStatusLowered()) {
+        if (LocalData.isUserToBeNotifiedOfLoweredRiskLevel()) {
             val riskLevelLoweredDialog = DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.risk_lowered_dialog_headline,
                 R.string.risk_lowered_dialog_body,
                 R.string.risk_lowered_dialog_button_confirm,
-                R.string.risk_lowered_dialog_button_cancel,
-                true,
+                null,
+                false,
                 {
-                    LocalData.hasRiskStatusLowered(false)
+                    LocalData.isUserToBeNotifiedOfLoweredRiskLevel(false)
                 }
             )
 
