@@ -11,6 +11,9 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 
 class SettingsResetViewModel @AssistedInject constructor(
@@ -27,23 +30,24 @@ class SettingsResetViewModel @AssistedInject constructor(
         clickEvent.postValue(SettingsEvents.GoBack)
     }
 
-    suspend fun deleteAllAppContent() {
-        try {
-            val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
-            // only stop tracing if it is currently enabled
-            if (isTracingEnabled) {
-                InternalExposureNotificationClient.asyncStop()
-                BackgroundWorkScheduler.stopWorkScheduler()
+    fun deleteAllAppContent() {
+        launch(Dispatchers.IO) {
+            try {
+                val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
+                // only stop tracing if it is currently enabled
+                if (isTracingEnabled) {
+                    InternalExposureNotificationClient.asyncStop()
+                    BackgroundWorkScheduler.stopWorkScheduler()
+                }
+            } catch (apiException: ApiException) {
+                apiException.report(
+                    ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
+                )
             }
-        } catch (apiException: ApiException) {
-            apiException.report(
-                ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
-            )
-        }
-        withContext(Dispatchers.IO) {
+
             dataReset.clearAllLocalData()
+            clickEvent.postValue(SettingsEvents.GoToOnboarding)
         }
-        clickEvent.postValue(SettingsEvents.GoToOnboarding)
     }
 
     companion object {

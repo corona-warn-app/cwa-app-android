@@ -63,10 +63,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
             R.string.settings_reset_dialog_button_confirm,
             R.string.settings_reset_dialog_button_cancel,
             cancelable = true,
-            positiveButtonFunction = {
-                lifecycleScope.launch { vm.deleteAllAppContent() }
-                Unit
-            }
+            positiveButtonFunction = vm::deleteAllAppContent
         )
 
         DialogHelper.showDialog(resetDialog).apply {
