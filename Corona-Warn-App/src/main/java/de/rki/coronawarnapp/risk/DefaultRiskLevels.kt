@@ -25,11 +25,6 @@ class DefaultRiskLevels @Inject constructor(
     private val appConfigProvider: AppConfigProvider
 ) : RiskLevels {
 
-    companion object {
-        private var TAG = DefaultRiskLevels::class.simpleName
-        private const val DECIMAL_MULTIPLIER = 100
-    }
-
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
@@ -78,9 +73,10 @@ class DefaultRiskLevels @Inject constructor(
 
     override fun calculationNotPossibleBecauseNoKeys() =
         (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
-            if (it)
+            if (it) {
                 Timber.tag(TAG)
                     .v("no last time diagnosis keys from server fetch timestamp was found")
+            }
         }
 
     override suspend fun calculationNotPossibleBecauseTracingIsOff() =
@@ -89,7 +85,6 @@ class DefaultRiskLevels @Inject constructor(
 
     override suspend fun isIncreasedRisk(): Boolean {
         val lastExposureSummary = getNewExposureSummary()
-        // retrieve application configuration
         val appConfiguration = appConfigProvider.getAppConfig()
         Timber.tag(TAG).v("retrieved configuration from backend")
         // custom attenuation parameters to weight the attenuation
@@ -238,5 +233,10 @@ class DefaultRiskLevels @Inject constructor(
             Timber.tag(TAG)
                 .v("generated new exposure summary with $googleToken")
         }
+    }
+
+    companion object {
+        private var TAG = DefaultRiskLevels::class.simpleName
+        private const val DECIMAL_MULTIPLIER = 100
     }
 }

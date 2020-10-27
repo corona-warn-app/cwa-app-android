@@ -27,10 +27,9 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@AppContext
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
-    private val context: Context
+    @AppContext private val context: Context
 ) : Task<DefaultProgress, RiskLevelTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()

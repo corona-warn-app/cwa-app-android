@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -29,7 +30,6 @@ import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -53,6 +53,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
     private val taskController: TaskController,
+    private val appConfigProvider: AppConfigProvider,
     private val keyCacheRepository: KeyCacheRepository,
     tracingCardStateProvider: TracingCardStateProvider
 ) : CWAViewModel(
@@ -108,7 +109,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     e.report(ExceptionCategory.INTERNAL)
                 }
             }
-            AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             riskLevelResetEvent.postValue(Unit)
         }
     }
@@ -134,9 +135,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 val appConfig =
                     ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
 
-                val riskLevelScore = DefaultRiskLevels(
-                    AppInjector.component.appConfigProvider
-                ).calculateRiskScore(
+                val riskLevelScore = DefaultRiskLevels(appConfigProvider).calculateRiskScore(
                     appConfig.attenuationDuration,
                     exposureSummary
                 )

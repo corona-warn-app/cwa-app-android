@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
@@ -40,6 +41,7 @@ import javax.inject.Singleton
 @Singleton
 class TracingRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
+    private val taskController: TaskController,
     enfClient: ENFClient
 ) {
 
@@ -61,7 +63,7 @@ class TracingRepository @Inject constructor(
 
     private val retrievingDiagnosisKeys = MutableStateFlow(false)
     private val internalIsRefreshing =
-        retrievingDiagnosisKeys.combine(AppInjector.component.taskController.tasks) { retrievingDiagnosisKeys, tasks ->
+        retrievingDiagnosisKeys.combine(taskController.tasks) { retrievingDiagnosisKeys, tasks ->
             retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
         }
     val isRefreshing: Flow<Boolean> = combine(
@@ -90,7 +92,7 @@ class TracingRepository @Inject constructor(
             retrievingDiagnosisKeys.value = true
             try {
                 RetrieveDiagnosisKeysTransaction.start()
-                AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+                taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
