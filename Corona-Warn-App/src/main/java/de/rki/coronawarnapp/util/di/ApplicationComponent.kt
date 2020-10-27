@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
-import de.rki.coronawarnapp.storage.DatabaseModule
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
@@ -56,7 +55,6 @@ import javax.inject.Singleton
         RiskModule::class,
         UtilModule::class,
         DeviceModule::class,
-        DatabaseModule::class,
         ENFModule::class,
         HttpModule::class,
         EnvironmentModule::class,
