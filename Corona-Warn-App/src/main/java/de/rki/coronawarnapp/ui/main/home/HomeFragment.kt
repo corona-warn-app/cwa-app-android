@@ -54,8 +54,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
         setupTestResultCard()
 
-        showRiskLevelLoweredDialogIfNeeded()
-
         binding.mainTracing.setOnClickListener {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
@@ -97,6 +95,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
+
+        showRiskLevelLoweredDialogIfNeeded()
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
