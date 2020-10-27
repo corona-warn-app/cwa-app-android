@@ -16,10 +16,6 @@ import javax.inject.Inject
 class SettingsCrashReportDetailsFragment :
     Fragment(R.layout.fragment_settings_crash_report_details), AutoInject {
 
-    companion object {
-        private val TAG = SettingsCrashReportDetailsFragment::class.java.simpleName
-    }
-
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsCrashReportViewModel by cwaViewModels(
         ownerProducer = { requireActivity().viewModelStore },
@@ -67,5 +63,9 @@ class SettingsCrashReportDetailsFragment :
                 }
             }
         }
+    }
+
+    companion object {
+        private val TAG = SettingsCrashReportDetailsFragment::class.java.simpleName
     }
 }
