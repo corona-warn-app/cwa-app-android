@@ -173,6 +173,17 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_result" />
 
+            <de.rki.coronawarnapp.ui.view.TestResultCardFetchFailed
+                android:id="@+id/main_test_failed"
+                style="@style/cardNoPadding"
+                gone="@{submissionCard == null || !submissionCard.isFailedCardVisible()}"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/main_test_fetching" />
+
             <include
                 android:id="@+id/main_test_positive"
                 layout="@layout/include_submission_status_card_positive"
@@ -182,7 +193,7 @@
                 gone="@{submissionCard == null || !submissionCard.isPositiveSubmissionCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_test_fetching" />
+                app:layout_constraintTop_toBottomOf="@+id/main_test_failed" />
 
             <include
                 android:id="@+id/main_test_done"

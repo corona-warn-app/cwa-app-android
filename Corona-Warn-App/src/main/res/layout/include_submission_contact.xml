@@ -102,6 +102,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/submission_contact_step_1_number" />
 
+                    <TextView
+                        android:id="@+id/submission_contact_body_other"
+                        style="@style/body2"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@string/submission_contact_body_other"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/submission_contact_operating_hours_body" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </de.rki.coronawarnapp.ui.view.StepEntry>

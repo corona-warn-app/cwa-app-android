@@ -83,32 +83,59 @@ class SubmissionCardStateTest : BaseTest() {
 
     @Test
     fun `content card visibility`() {
-        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NEGATIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe true
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_ERROR).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NEGATIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe true
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_NO_RESULT).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NO_RESULT,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe true
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_POSITIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.SUBMITTED_FINAL).apply {
+        instance(
+            deviceUiState = DeviceUIState.SUBMITTED_FINAL,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.SUBMITTED_INITIAL).apply {
+        instance(
+            deviceUiState = DeviceUIState.SUBMITTED_INITIAL,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.UNPAIRED).apply {
+        instance(
+            deviceUiState = DeviceUIState.UNPAIRED,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isContentCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_REDEEMED).apply {
-            isContentCardVisible() shouldBe true
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_REDEEMED,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
+            isContentCardVisible() shouldBe false
         }
     }
 
@@ -142,62 +169,116 @@ class SubmissionCardStateTest : BaseTest() {
 
     @Test
     fun `submission positive result card visibility`() {
-        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NEGATIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_REDEEMED).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_REDEEMED,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_ERROR).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_ERROR,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_NO_RESULT).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NO_RESULT,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_POSITIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe true
         }
-        instance(deviceUiState = DeviceUIState.SUBMITTED_FINAL).apply {
+        instance(
+            deviceUiState = DeviceUIState.SUBMITTED_FINAL,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.SUBMITTED_INITIAL).apply {
+        instance(
+            deviceUiState = DeviceUIState.SUBMITTED_INITIAL,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.UNPAIRED).apply {
+        instance(
+            deviceUiState = DeviceUIState.UNPAIRED,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isPositiveSubmissionCardVisible() shouldBe false
         }
     }
 
     @Test
     fun `submission done  card visibility`() {
-        instance(deviceUiState = DeviceUIState.UNPAIRED).apply {
+        instance(
+            deviceUiState = DeviceUIState.UNPAIRED,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_NEGATIVE).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NEGATIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_ERROR).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_ERROR,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_NO_RESULT).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_NO_RESULT,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_POSITIVE,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_POSITIVE_TELETAN,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.SUBMITTED_FINAL).apply {
+        instance(
+            deviceUiState = DeviceUIState.SUBMITTED_FINAL,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe true
         }
-        instance(deviceUiState = DeviceUIState.SUBMITTED_INITIAL).apply {
+        instance(
+            deviceUiState = DeviceUIState.SUBMITTED_INITIAL,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
-        instance(deviceUiState = DeviceUIState.PAIRED_REDEEMED).apply {
+        instance(
+            deviceUiState = DeviceUIState.PAIRED_REDEEMED,
+            uiStateState = ApiRequestState.SUCCESS
+        ).apply {
             isSubmissionDoneCardVisible() shouldBe false
         }
     }
