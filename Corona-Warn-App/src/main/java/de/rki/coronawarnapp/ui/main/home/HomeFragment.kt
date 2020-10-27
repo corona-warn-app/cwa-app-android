@@ -87,6 +87,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                         onDismiss = { vm.errorResetDialogDismissed() }
                     )
                 }
+                HomeFragmentEvents.ShowDeleteTestDialog -> {
+                    showRemoveTestDialog()
+                }
             }
         }
     }
@@ -96,6 +99,23 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         vm.refreshRequiredData()
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun showRemoveTestDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                vm.deregisterWarningAccepted()
+            }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
     }
 
     private fun setupRiskCard() {
@@ -137,6 +157,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             mainTestPositive.apply {
                 submissionStatusCardPositive.setOnClickListener { toSubmissionResult() }
                 submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
+            }
+
+            mainTestFailed.apply {
+                setOnClickListener {
+                    vm.removeTestPushed()
+                }
             }
         }
     }

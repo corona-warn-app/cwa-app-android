@@ -11,7 +11,7 @@ data class TracingDetailsState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
     override val isRefreshing: Boolean,
-    override val riskLevelLastSuccessfulCalculation: Int,
+    override val lastRiskLevelScoreCalculated: Int,
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
     override val activeTracingDaysInRetentionPeriod: Long,
@@ -51,7 +51,7 @@ data class TracingDetailsState(
      * Only applied in special case for low level risk
      */
     fun isBehaviorLowLevelRiskVisible(): Boolean =
-        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK
+        riskLevelScore == RiskLevelConstants.LOW_LEVEL_RISK && matchedKeyCount > 0
 
     /**
      * Formats the risk details text display for each risk level
@@ -85,7 +85,6 @@ data class TracingDetailsState(
      */
     fun getRiskDetailsRiskLevelBodyNotice(c: Context): String = when (riskLevelScore) {
         RiskLevelConstants.INCREASED_RISK -> R.string.risk_details_information_body_notice_increased
-        RiskLevelConstants.LOW_LEVEL_RISK -> R.string.risk_details_information_body_notice_low
         else -> R.string.risk_details_information_body_notice
     }.let { c.getString(it) }
 

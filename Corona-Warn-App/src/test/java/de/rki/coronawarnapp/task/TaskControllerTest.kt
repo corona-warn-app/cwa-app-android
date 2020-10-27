@@ -143,7 +143,7 @@ class TaskControllerTest : BaseIOTest() {
                 taskState.resultOrThrow shouldBe null
             }
         }
-        val progressCollector = infoRunning.progress.test(scope = this)
+        val progressCollector = infoRunning.progress.test(startOnScope = this)
 
         this.advanceUntilIdle()
 
@@ -153,7 +153,7 @@ class TaskControllerTest : BaseIOTest() {
 
         arguments.path.exists() shouldBe true
 
-        val lastProgressMessage = progressCollector.values().last().primaryMessage.get(mockk())
+        val lastProgressMessage = progressCollector.latestValue!!.primaryMessage.get(mockk())
         lastProgressMessage shouldBe arguments.values.last()
 
         infoFinished.apply {
