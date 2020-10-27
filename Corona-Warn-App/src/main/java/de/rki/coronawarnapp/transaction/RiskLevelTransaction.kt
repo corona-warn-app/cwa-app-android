@@ -568,9 +568,8 @@ object RiskLevelTransaction : Transaction() {
                 NotificationCompat.PRIORITY_HIGH
             )
         }
-        if (lastCalculatedScore.raw in
-            RiskLevelConstants.LOW_LEVEL_RISK..RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL &&
-            lastCalculatedScore.raw > riskLevel.raw
+        if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
+            riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK
         ) {
             LocalData.hasRiskStatusLowered(true)
         }
