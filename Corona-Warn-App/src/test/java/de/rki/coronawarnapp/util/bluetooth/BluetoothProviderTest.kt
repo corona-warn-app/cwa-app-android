@@ -93,7 +93,7 @@ class BluetoothProviderTest : BaseTest() {
     fun `system callbacks lead to new emissions with an updated state`() = runBlockingTest {
         val instance = createInstance()
 
-        val testCollector = instance.isBluetoothEnabled.test(scope = this)
+        val testCollector = instance.isBluetoothEnabled.test(startOnScope = this)
 
         lastFilter!!.hasAction(BluetoothAdapter.ACTION_STATE_CHANGED)
 
@@ -103,7 +103,7 @@ class BluetoothProviderTest : BaseTest() {
             onReceive(mockk(), mockBluetoothIntent(enabled = null))
         }
 
-        testCollector.values() shouldBe listOf(true, false, true)
+        testCollector.latestValues shouldBe listOf(true, false, true)
 
         instance.isBluetoothEnabled.first() shouldBe true
 

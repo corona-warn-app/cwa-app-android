@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.timer.TimerHelper
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -34,7 +36,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class TracingRepository @Inject constructor(
-    @AppScope private val scope: CoroutineScope
+    @AppScope private val scope: CoroutineScope,
+    enfClient: ENFClient
 ) {
 
     private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
@@ -55,7 +58,12 @@ class TracingRepository @Inject constructor(
 
     // TODO shouldn't access this directly
     val internalIsRefreshing = MutableStateFlow(false)
-    val isRefreshing: Flow<Boolean> = internalIsRefreshing
+    val isRefreshing: Flow<Boolean> = combine(
+        internalIsRefreshing,
+        enfClient.isCurrentlyCalculating()
+    ) { isRefreshing, isCalculating ->
+        isRefreshing || isCalculating
+    }
 
     /**
      * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
