@@ -72,6 +72,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    fun showRiskLoweredDialog() {
+        if (LocalData.isUserToBeNotifiedOfLoweredRiskLevel()) {
+            popupEvents.postValue(HomeFragmentEvents.ShowRiskLoweredDialog)
+        }
+    }
+
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }

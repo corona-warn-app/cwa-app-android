@@ -88,6 +88,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
                     showRemoveTestDialog()
                 }
+                is HomeFragmentEvents.ShowRiskLoweredDialog -> {
+                    showRiskLevelLoweredDialogIfNeeded()
+                }
             }
         }
     }
@@ -96,7 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         super.onResume()
         vm.refreshRequiredData()
 
-        showRiskLevelLoweredDialogIfNeeded()
+        vm.showRiskLoweredDialog()
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
@@ -183,22 +186,20 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     private fun showRiskLevelLoweredDialogIfNeeded() {
         // Get the hasRiskLevelLowered bool value from shared preferences
-        if (LocalData.isUserToBeNotifiedOfLoweredRiskLevel()) {
-            val riskLevelLoweredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.risk_lowered_dialog_headline,
-                R.string.risk_lowered_dialog_body,
-                R.string.risk_lowered_dialog_button_confirm,
-                null,
-                false,
-                {
-                    LocalData.isUserToBeNotifiedOfLoweredRiskLevel(false)
-                }
-            )
-
-            DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
+        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.risk_lowered_dialog_headline,
+            R.string.risk_lowered_dialog_body,
+            R.string.risk_lowered_dialog_button_confirm,
+            null,
+            false,
+            {
+                LocalData.isUserToBeNotifiedOfLoweredRiskLevel(false)
             }
+        )
+
+        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
         }
     }
 }
