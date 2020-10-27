@@ -31,7 +31,6 @@ android {
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
-    ndkVersion "21.2.6472646"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -39,6 +38,8 @@ android {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
         targetSdkVersion 29
+
+        ndkVersion "21.2.6472646"
 
         versionCode(
                 VERSION_MAJOR.toInteger() * 1000000
@@ -135,6 +136,20 @@ android {
                 def PUB_KEYS_SIGNATURE_VERIFICATION = overridingProperties.getProperty('PUB_KEYS_SIGNATURE_VERIFICATION')
                 if (PUB_KEYS_SIGNATURE_VERIFICATION)
                     buildConfigField "String", "PUB_KEYS_SIGNATURE_VERIFICATION", "\"$PUB_KEYS_SIGNATURE_VERIFICATION\""
+            }
+            if (project.hasProperty("keystore_filename")) {
+                def keystore = project.rootProject.file("$keystore_filename")
+                if (keystore.exists()) {
+                    signingConfigs {
+                        forTesters {
+                            storeFile keystore
+                            storePassword "$keystore_password"
+                            keyAlias "$key_alias"
+                            keyPassword "$key_password"
+                        }
+                    }
+                    signingConfig signingConfigs.forTesters
+                }
             }
         }
     }
