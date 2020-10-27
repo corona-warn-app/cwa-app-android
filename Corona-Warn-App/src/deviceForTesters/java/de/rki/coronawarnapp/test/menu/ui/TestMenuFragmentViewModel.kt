@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.test.menu.ui
 import androidx.lifecycle.MutableLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.test.api.ui.TestForAPIFragment
-import de.rki.coronawarnapp.test.crash.SettingsCrashReportFragment
+import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent

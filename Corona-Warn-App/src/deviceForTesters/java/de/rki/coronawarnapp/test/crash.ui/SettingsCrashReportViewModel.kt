@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.crash
+package de.rki.coronawarnapp.test.crash.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope

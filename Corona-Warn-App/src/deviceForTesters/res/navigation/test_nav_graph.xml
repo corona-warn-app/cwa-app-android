@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/test_bug_report_fragment"
-        android:name="de.rki.coronawarnapp.test.crash.SettingsCrashReportFragment"
+        android:name="de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment"
         android:label="crashreporter"
         tools:layout="@layout/fragment_crashreporter_overview">
         <action
@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/settingsCrashReportDetailsFragment"
-        android:name="de.rki.coronawarnapp.test.crash.SettingsCrashReportDetailsFragment"
+        android:name="de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportDetailsFragment"
         android:label="fragment_settings_crash_report_details"
         tools:layout="@layout/fragment_settings_crash_report_details" />
 

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.crash
+package de.rki.coronawarnapp.test.crash.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
