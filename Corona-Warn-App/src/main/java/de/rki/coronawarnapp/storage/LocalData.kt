@@ -360,7 +360,7 @@ object LocalData {
         }
 
     /**
-     * Gets a boolean that tells weather the risk level
+     * Gets a boolean that tells whether the risk level
      * decreased or not.
      *
      * @return boolean if risk status lowers from red to green
@@ -373,8 +373,8 @@ object LocalData {
     }
 
     /**
-     * Sets a boolean depending weather the risk level
-     * decresed or not.
+     * Sets a boolean depending whether the risk level
+     * decreased or not.
      *
      * @return value boolean if risk level decreased
      */
