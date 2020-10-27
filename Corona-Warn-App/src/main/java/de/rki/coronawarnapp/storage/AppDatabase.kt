@@ -71,7 +71,7 @@ abstract class AppDatabase : RoomDatabase() {
                  * The fallback behavior is to reset the app as we only store exposure summaries
                  * and cached references that are non-critical to app operation.
                  */
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigrationFrom()
                 .openHelperFactory(SupportFactory(SecurityHelper.getDBPassword()))
                 .build()
         }
