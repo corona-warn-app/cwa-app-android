@@ -10,7 +10,7 @@ import org.joda.time.Instant
 
 @BindingAdapter("crashReportTitle")
 fun formatCrashReportId(textView: TextView, id: Int) {
-    textView.text = textView.context.getString(R.string.crash_report_title, id)
+    textView.text = "Error #$id"
 }
 
 @BindingAdapter("crashReportDate")

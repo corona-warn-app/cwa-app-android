@@ -1253,8 +1253,6 @@
     <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
     <!-- NOTR -->
     <string name="test_api_switch_background_notifications">"Background Notifications"</string>
-    <!-- NOTR -->
-    <string name="crash_report_title">Error #%1$d</string>
 
     <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">"Austria"</string>
