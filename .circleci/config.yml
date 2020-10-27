@@ -21,6 +21,21 @@ commands:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
+  run-gradle-cmd:
+    description: "Running gradle command with environment options"
+    parameters:
+      desc:
+        type: string
+        default: "Running gradle command"
+      cmd:
+        type: string
+    steps:
+      - run:
+          name: << parameters.desc >>
+          command: ./gradlew << parameters.cmd >>
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
 jobs:
   quickBuildReleaseWithTestsAndChecks:
     executor: android/android
