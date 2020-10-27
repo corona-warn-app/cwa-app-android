@@ -3,12 +3,12 @@ package de.rki.coronawarnapp.ui.tracing.card
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
-import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.risk.RiskLevelConstants.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevelConstants.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF
 import de.rki.coronawarnapp.risk.RiskLevelConstants.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS
+import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -18,7 +18,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyString
 import testhelpers.BaseTest
 import java.util.Date
 
@@ -52,7 +51,7 @@ class TracingCardStateTest : BaseTest() {
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevel,
         isRefreshing = isRefreshing,
-        riskLevelLastSuccessfulCalculation = riskLevelLastSuccessfulCalculation,
+        lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
@@ -73,7 +72,6 @@ class TracingCardStateTest : BaseTest() {
             getStableIconColor(context)
             verify { context.getColor(R.color.colorTextSemanticNeutral) }
         }
-
 
         createInstance(riskLevel = NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
             getStableIconColor(context)
@@ -262,7 +260,6 @@ class TracingCardStateTest : BaseTest() {
                 .getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                 .format(context.getString(R.string.risk_card_increased_risk_headline)) }
         }
-
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,
@@ -705,7 +702,6 @@ class TracingCardStateTest : BaseTest() {
             isBackgroundJobEnabled = true).apply {
             showUpdateButton() shouldBe false
         }
-
 
         createInstance(
             riskLevel = UNKNOWN_RISK_OUTDATED_RESULTS,

@@ -58,7 +58,7 @@ class BaseTracingStateTest : BaseTest() {
         override val tracingStatus: GeneralTracingStatus.Status = tracingStatus
         override val riskLevelScore: Int = riskLevelScore
         override val isRefreshing: Boolean = isRefreshing
-        override val riskLevelLastSuccessfulCalculation: Int = riskLevelLastSuccessfulCalculation
+        override val lastRiskLevelScoreCalculated: Int = riskLevelLastSuccessfulCalculation
         override val matchedKeyCount: Int = matchedKeyCount
         override val daysSinceLastExposure: Int = daysSinceLastExposure
         override val activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod

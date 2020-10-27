@@ -36,6 +36,6 @@ class EncryptedPreferencesFactory @Inject constructor(
             }
         }
     } catch (e: Exception) {
-        throw KeyException("Permantly failed to instantiate encrypted preferences", e)
+        throw KeyException("Permanently failed to instantiate encrypted preferences", e)
     }
 }

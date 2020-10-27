@@ -53,7 +53,7 @@ class TracingDetailsStateTest : BaseTest() {
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevelScore,
         isRefreshing = isRefreshing,
-        riskLevelLastSuccessfulCalculation = riskLevelLastSuccessfulCalculation,
+        lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
@@ -148,8 +148,11 @@ class TracingDetailsStateTest : BaseTest() {
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
             isBehaviorLowLevelRiskVisible() shouldBe false
         }
-        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK, matchedKeyCount = 1).apply {
             isBehaviorLowLevelRiskVisible() shouldBe true
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK, matchedKeyCount = 0).apply {
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
             isBehaviorLowLevelRiskVisible() shouldBe false
@@ -221,7 +224,7 @@ class TracingDetailsStateTest : BaseTest() {
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
             getRiskDetailsRiskLevelBodyNotice(context)
-            verify { context.getString(R.string.risk_details_information_body_notice_low) }
+            verify { context.getString(R.string.risk_details_information_body_notice) }
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
             getRiskDetailsRiskLevelBodyNotice(context)
