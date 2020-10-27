@@ -13,7 +13,7 @@ abstract class BaseTracingState {
     abstract val tracingStatus: GeneralTracingStatus.Status
     abstract val riskLevelScore: Int
     abstract val isRefreshing: Boolean
-    abstract val riskLevelLastSuccessfulCalculation: Int
+    abstract val lastRiskLevelScoreCalculated: Int
     abstract val matchedKeyCount: Int
     abstract val daysSinceLastExposure: Int
     abstract val activeTracingDaysInRetentionPeriod: Long

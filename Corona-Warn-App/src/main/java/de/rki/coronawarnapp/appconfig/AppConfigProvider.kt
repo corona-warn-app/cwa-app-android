@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers

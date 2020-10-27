@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState
 import de.rki.coronawarnapp.ui.tracing.details.TracingDetailsStateProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.coroutine.shareLatest
+import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.SharingStarted

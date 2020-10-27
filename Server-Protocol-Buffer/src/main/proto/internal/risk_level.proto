@@ -1,0 +1,16 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+
+enum RiskLevel {
+  RISK_LEVEL_UNSPECIFIED = 0;
+  RISK_LEVEL_LOWEST = 1;
+  RISK_LEVEL_LOW = 2;
+  RISK_LEVEL_LOW_MEDIUM = 3;
+  RISK_LEVEL_MEDIUM = 4;
+  RISK_LEVEL_MEDIUM_HIGH = 5;
+  RISK_LEVEL_HIGH = 6;
+  RISK_LEVEL_VERY_HIGH = 7;
+  RISK_LEVEL_HIGHEST = 8;
+}

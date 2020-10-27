@@ -913,6 +913,7 @@
     <string name="submission_intro_illustration_description">"Ein positiver Testbefund wird verschlüsselt ins System übermittelt, das nun andere Nutzerinnen und Nutzer warnt."</string>
     <!-- YTXT: submission introduction bullet points -->
     <string-array name="submission_intro_bullet_points">
+        <item>"Wenn sich auf Ihrem Testdokument ein QR-Code befindet, können Sie diesen in der App scannen und den Test damit registrieren. Sobald das Ergebnis vorliegt, können Sie es in der App einsehen."</item>
         <item>"Wenn Sie Corona-positiv getestet wurden, können Sie andere warnen."</item>
         <item>"Wenn Ihnen für einen positiven Testbefund eine TAN mitgeteilt wurde, können Sie diese für die Registrierung des Tests nutzen."</item>
         <item>"Wenn Sie keine TAN haben, können Sie diese telefonisch anfragen."</item>
@@ -1088,6 +1089,8 @@
     <string name="submission_status_card_title_available">"Ihr Ergebnis liegt vor"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Befund positiv"</string>
+    <!-- XHED: Page title for the various submission status fetch failed -->
+    <string name="submission_status_card_title_failed">"Test nicht mehr gültig"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Fehlerhafter Test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
@@ -1104,10 +1107,14 @@
     <string name="submission_status_card_body_positive">"Sie wurden positiv auf SARS-CoV-2 getestet."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Sie wurden negativ auf SARS-CoV-2 getestet."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Informieren &amp; helfen"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
+    <!-- XBUT: submission status card fetch failed button -->
+    <string name="submission_status_card_button_failed">"Test löschen"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1343,7 +1350,7 @@
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder zusammen, um über einen gemeinsam betriebenen Austausch-Server länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_randomid">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs verglichen.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
