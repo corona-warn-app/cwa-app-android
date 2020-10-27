@@ -7,8 +7,8 @@ import android.content.IntentFilter
 import android.location.LocationManager
 import androidx.core.location.LocationManagerCompat
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.coroutine.shareLatest
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

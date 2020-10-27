@@ -51,7 +51,7 @@ class TracingCardStateTest : BaseTest() {
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevel,
         isRefreshing = isRefreshing,
-        riskLevelLastSuccessfulCalculation = riskLevelLastSuccessfulCalculation,
+        lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,

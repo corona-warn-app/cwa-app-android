@@ -1095,6 +1095,8 @@
     <string name="submission_status_card_title_available">"Your result is available"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Positive Diagnosis"</string>
+    <!-- XHED: Page title for the various submission status fetch failed -->
+    <string name="submission_status_card_title_failed"></string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Invalid test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
@@ -1111,10 +1113,14 @@
     <string name="submission_status_card_body_positive">"You have been diagnosed positive for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed"></string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Learn More and Help"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
+    <!-- XBUT: submission status card fetch failed button -->
+    <string name="submission_status_card_button_failed"></string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Please note:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1351,7 +1357,7 @@
     <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
     <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
-    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder in der EU zusammen, um über das gemeinsam betriebene Serversystem länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern der offiziellen Corona-Apps anderer teilnehmender Länder berücksichtigt werden.</string>
+    <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder zusammen, um über einen gemeinsam betriebenen Austausch-Server länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
     <string name="interoperability_onboarding_delta_randomid">Hierfür lädt die App täglich eine aktuelle Liste mit den Zufalls-IDs aller Nutzer herunter, die diese über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Smartphone aufgezeichneten Zufalls-IDs verglichen.</string>
     <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->

@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.coroutine.shareLatest
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
