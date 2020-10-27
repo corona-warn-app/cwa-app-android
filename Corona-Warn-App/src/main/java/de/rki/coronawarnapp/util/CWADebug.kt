@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util
 
 import android.app.Application
 import de.rki.coronawarnapp.BuildConfig
-
 import de.rki.coronawarnapp.util.debug.FileLogger
 import timber.log.Timber
 

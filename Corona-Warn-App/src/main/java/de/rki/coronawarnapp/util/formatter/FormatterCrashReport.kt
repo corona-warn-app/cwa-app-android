@@ -4,7 +4,6 @@ package de.rki.coronawarnapp.util.formatter
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import de.rki.coronawarnapp.R
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 
