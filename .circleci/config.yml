@@ -1,292 +1,51 @@
 version: 2.1
 orbs:
   android: circleci/android@0.2.1
-  sonarcloud: sonarsource/sonarcloud@1.0.2
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 commands:
   install-ndk: android/install-ndk
-  restore-android-build-cache: android/restore-build-cache
-  save-android-build-cache: android/save-build-cache
+  restore-build-cache: android/restore-build-cache
+  save-build-cache: android/save-build-cache
   scan-sonar: sonarcloud/scan
-  restore-gradle-cache:
-    description: "Restore gradle caches"
+jobs:
+  quickBuildReleaseWithTestsAndChecks:
+    executor: android/android
     steps:
+      - checkout
+      - install-ndk:
+          ndk-sha: "c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8"
+          ndk-version: "android-ndk-r21c"
+      - restore-build-cache
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-  save-gradle-cache:
-    description: "Save gradle caches"
-    steps:
+      - run:
+          name: Quick Build
+          command: ./gradlew quickBuild
+          environment:
+            JVM_OPTS: -Xmx2048m
+            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      - save-build-cache
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
-  require-version-bump:
-    description: "Require version bump for binary assembling"
-    steps:
       - run:
-          name: "Check if assemble required"
-          command: |
-            last_commit=$(git log -1 --pretty=%B)
-            if [[ $last_commit != *"Version bump"* ]]; then
-              circleci-agent step halt
-              echo "Skipping job"
-            fi
-  run-gradle-cmd:
-    description: "Running gradle command with environment options"
-    parameters:
-      desc:
-        type: string
-        default: "Running gradle command"
-      cmd:
-        type: string
-    steps:
-      - run:
-          name: << parameters.desc >>
-          command: ./gradlew << parameters.cmd >>
+          name: JaCoCo report
+          command: ./gradlew :Corona-Warn-App:jacocoTestReportDeviceRelease
           environment:
             JVM_OPTS: -Xmx2048m
             GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-  run-gradle-cmd-test-splitting:
-    description: "Running gradle command with environment options and test splitting"
-    parameters:
-      desc:
-        type: string
-        default: "Running gradle command"
-      cmd:
-        type: string
-    steps:
-      - run:
-          name: Test splitting output
-          command: circleci tests glob "**/test*/**/*.kt" | circleci tests split | xargs -n 1 echo
-      - run:
-          name: << parameters.desc >>
-          command: ./gradlew << parameters.cmd >> -i -PtestFilter="`circleci tests glob "**/test*/**/*.kt" | circleci tests split`"
-          environment:
-            JVM_OPTS: -Xmx2048m
-            GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
-
-jobs:
-  quick_build_device_release_no_tests:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - require-version-bump
-      - run-gradle-cmd:
-          desc: Quick Build
-          cmd: "assembleDeviceRelease"
-      - save-gradle-cache
-      - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  quick_build_device_for_testers_release_no_tests:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - require-version-bump
-      - run-gradle-cmd:
-          desc: Quick Build
-          cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
-      - save-gradle-cache
-      - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  device_release_unit_tests:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    parallelism: 3
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd-test-splitting:
-          desc: Unit tests
-          cmd: ":Corona-Warn-App:testDeviceReleaseUnitTest -i"
-      - save-gradle-cache
-      - save-android-build-cache
       - store_artifacts:
           path: Corona-Warn-App/build/reports
           destination: reports
       - store_test_results:
           path: Corona-Warn-App/build/test-results
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - ./project
-  device_for_testers_release_unit_tests:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    parallelism: 3
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd-test-splitting:
-          desc: Unit tests with splitting
-          cmd: ":Corona-Warn-App:testDeviceForTestersReleaseUnitTest"
-      - save-gradle-cache
-      - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-      - store_test_results:
-          path: Corona-Warn-App/build/test-results
-  lint_device_release_check:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Lint check deviceRelease
-          cmd: ":Corona-Warn-App:lintDeviceRelease -i"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  ktlint_device_release_check:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Ktlint check deviceRelease
-          cmd: ":Corona-Warn-App:ktlintDeviceReleaseCheck"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  lint_device_for_testers_release_check:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Lint check deviceForTestersRelease
-          cmd: ":Corona-Warn-App:lintDeviceForTestersRelease -i"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  ktlint_device_for_testers_release_check:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Ktlint check deviceForTestersRelease
-          cmd: ":Corona-Warn-App:ktlintDeviceForTestersReleaseCheck"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  detekt:
-    executor: android/android
-    resource_class: medium
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: Detekt check
-          cmd: ":Corona-Warn-App:detekt"
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
-  run_sonar:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - attach_workspace:
-          at: /home/circleci
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run-gradle-cmd:
-          desc: JaCoCo report
-          cmd: ":Corona-Warn-App:jacocoTestReportDeviceRelease -i"
       - run:
           name: Skip SonarCloud for external Pull Requests
           command: '[[ -v CIRCLE_PR_REPONAME ]] && circleci-agent step halt || true'
       - scan-sonar
-  quick_build_device_for_testers_signed:
-    executor: android/android
-    resource_class: large
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore-gradle-cache
-      - restore-android-build-cache
-      - run:
-          name: Download Keystore
-          command: |
-            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$keystore_download_filename"
-      - run:
-          name: Download Environment Properties
-          command: |
-            curl --header "Authorization: token $keystore_download_token" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "$keystore_download_url$env_prop_download_filename"
-      - run:
-          name: Decrypt Keystore
-          command: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
-      - run:
-          name: Prepare keystore properties for Signing
-          command: |
-            echo "" >> "./keystore.properties"
-            echo "deviceForTestersRelease.storePath=../$keystore_filename" >> "./keystore.properties"
-            echo "deviceForTestersRelease.storePassword=$keystore_password" >> "./keystore.properties"
-            echo "deviceForTestersRelease.keyAlias=$key_alias" >> "./keystore.properties"
-            echo "deviceForTestersRelease.keyPassword=$key_password" >> "./keystore.properties"
-      - run-gradle-cmd:
-          desc: Quick Build
-          cmd: ":Corona-Warn-App:assembleDeviceForTestersRelease"
-      - save-gradle-cache
-      - save-android-build-cache
-      - store_artifacts:
-          path: Corona-Warn-App/build/outputs/apk
-          destination: apk
-      - store_artifacts:
-          path: Corona-Warn-App/build/reports
-          destination: reports
 workflows:
   version: 2
-  quick_build:
+  workflow:
     jobs:
-      - quick_build_device_release_no_tests
-      - quick_build_device_for_testers_release_no_tests
-      - device_release_unit_tests
-      - device_for_testers_release_unit_tests
-      - lint_device_release_check
-      - lint_device_for_testers_release_check
-      - ktlint_device_release_check
-      - ktlint_device_for_testers_release_check
-      - detekt
-      - run_sonar:
-          requires:
-            - device_release_unit_tests
-  signed_build:
-    jobs:
-      - quick_build_device_for_testers_signed:
-          filters:
-            tags:
-              only:
-                - /^v.*/
-            branches:
-              ignore: /.*/
+      - quickBuildReleaseWithTestsAndChecks
