@@ -262,7 +262,7 @@
     <!-- YTXT: App overview body for glossary key storage -->
     <string name="main_overview_body_glossary_tracing">"Lista otrzymanych i tymczasowych losowych identyfikatorów zapisanych tymczasowo w pamięci masowej systemu operacyjnego. Aplikacja korzysta z listy podczas sprawdzania narażeń. Wszystkie losowe identyfikatory są automatycznie usuwane po 14 dniach."</string>
     <!-- XHED: App overview subtitle for glossary risk calculation  -->
-    <string name="main_overview_subtitle_glossary_calculation">"Sprawdzanie narażenia"</string>
+    <string name="main_overview_subtitle_glossary_calculation">"Sprawdzanie narażeń"</string>
     <!-- YTXT: App overview body for glossary risk calculation -->
     <string name="main_overview_body_glossary_calculation">"Odczytanie danych dziennika narażeń i porównanie ze zgłoszonymi zakażeniami innych użytkowników. Sprawdzanie narażeń jest wykonywane automatycznie mniej więcej co dwie godziny."</string>
     <!-- XHED: App overview subtitle for glossary contact  -->
@@ -349,8 +349,6 @@
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
-    <!-- YTXT: risk details - risk calculation explanation for low risk -->
-    <string name="risk_details_information_body_notice_low">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako niskie. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
     <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
     <!-- NOTR -->
@@ -366,6 +364,11 @@
     <string name="risk_details_explanation_dialog_faq_body">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
      <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
+
+    <!-- XHED: risk details - deadman notification title -->
+    <string name="risk_details_deadman_notification_title">"Aktualizuj sprawdzanie narażeń"</string>
+    <!-- YTXT: risk details - deadman notification text -->
+    <string name="risk_details_deadman_notification_body">"Otwórz aplikację Corona-Warn-App, aby zaktualizować rejestrowanie narażenia."</string>
 
     <!-- ####################################
               Onboarding
@@ -625,11 +628,11 @@
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">"Aby dezaktywować priorytetowe działanie w tle, dezaktywuj je w ustawieniach urządzenia."</string>
+    <string name="settings_background_priority_card_body">"Możesz aktywować i dezaktywować priorytetowe działanie w tle w ustawieniach urządzenia."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
     <string name="settings_background_priority_card_button">"Otwórz ustawienia urządzenia"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">"Dezaktywuj priorytetowe działanie w tle"</string>
+    <string name="settings_background_priority_card_headline">"Zmień priorytetowe działanie w tle"</string>
 
     <!-- ####################################
                App Information
@@ -668,7 +671,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Jak możemy Ci pomóc?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"W przypadku pytań technicznych dotyczących aplikacji Corona-Warn-App skontaktuj się z naszą infolinią.\n\nW celu skontaktowania się z infolinią osoby niedosłyszące mogą skorzystać z usług Tess Relay (tłumaczenie z pisanego języka niemieckiego na język migowy i odwrotnie). To oprogramowanie można pobrać ze sklepu App Store/Google Play."</string>
+    <string name="information_contact_body">"W przypadku pytań technicznych dotyczących aplikacji Corona-Warn-App skontaktuj się z naszą infolinią.\n\nOsoby niedosłyszące mogą skorzystać z usług Tess Relay (tłumaczenie z pisanego języka niemieckiego na język migowy i odwrotnie) w celu skontaktowania się z infolinią. To oprogramowanie można pobrać ze sklepu Google Play."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Infolinia techniczna:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -909,7 +912,8 @@
     <string name="submission_intro_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu, który będzie teraz ostrzegał innych użytkowników."</string>
     <!-- YTXT: submission introduction bullet points -->
     <string-array name="submission_intro_bullet_points">
-        <item>"Jeśli zdiagnozowano u Ciebie COVID-19, możesz powiadomić inne osoby."</item>
+        <item>"Jeżeli w Twoim dokumencie testu znajduje się kod QR, możesz go zeskanować i zarejestrować test. Jak tylko wynik będzie dostępny, będziesz mieć możliwość sprawdzenia go w aplikacji."</item>
+        <item>"Jeśli zdiagnozowano u Ciebie COVID-19, możesz ostrzec inne osoby."</item>
         <item>"Jeżeli otrzymałeś(-aś) numer TAN dla diagnozy zakażenia, możesz użyć go do zarejestrowania testu."</item>
         <item>"Jeśli nie masz numeru TAN, możesz poprosić o niego telefonicznie."</item>
     </string-array>
@@ -928,7 +932,7 @@
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Zgoda"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping \"Accept\", you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under \"Data Privacy Information\"."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping “Accept”, you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Akceptuj"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -950,7 +954,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Pomóż nam wszystkim!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Możesz teraz zapewnić, by inne osoby zostały powiadomione o potencjalnym narażeniu.\n\nW tym celu możesz wysłać swoje własne losowe identyfikatory z ostatnich 14 dni, a opcjonalnie również informacje o dostrzeżeniu objawów koronawirusa u siebie, na wspólny serwer wymiany danych obsługiwany przez wszystkie uczestniczące kraje. Z tego serwera Twoje losowe identyfikatory i wszelkie dodatkowe informacje będą przesyłane do użytkowników oficjalnych aplikacji koronawirusowych. Umożliwi to ostrzeżenie innych użytkowników o potencjalnym narażeniu na kontakt z Tobą.\n\nPrzesyłane są tylko losowe identyfikatory i podane przez Ciebie informacje o wystąpieniu potencjalnych objawów. Dane osobowe, takie jak imię i nazwisko, adres czy lokalizacja, nie są udostępniane."</string>
+    <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz zapewnić, by inni otrzymali ostrzeżenie dotyczące potencjalnego zakażenia.\n\nW tym celu możesz wysłać losowe identyfikatory z ostatnich 14 dni – oraz opcjonalnie informację o dostrzeżeniu objawów koronawirusa u siebie – na serwer obsługiwany wspólnie przez uczestniczące kraje. Z tego serwera Twoje losowe identyfikatory i wszelkie dodatkowe informacje będą przesyłane do użytkowników odpowiednich oficjalnych aplikacji koronawirusowych. Dzięki temu inni użytkownicy, z którymi miałeś(-łaś) kontakt, otrzymają ostrzeżenie dotyczące ewentualnego zakażenia.\n\nJedynymi przesyłanymi informacjami są Twoje losowe identyfikatory oraz wszelkie opcjonalnie podane przez Ciebie informacje o wystąpieniu u Ciebie objawów. Nie są udostępniane żadne dane osobowe, takie jak imię i nazwisko, adres czy lokalizacja."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1046,6 +1050,8 @@
     <string name="submission_contact_step_2_body">"Zarejestruj test poprzez wpisanie numeru TAN w aplikacji."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Języki: \nniemiecki, angielski, turecki\n\nGodziny pracy:\nod poniedziałku do niedzieli:  24 godziny na dobę\n\nPołączenie jest bezpłatne."</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="submission_contact_body_other">"W razie jakichkolwiek pytań związanych ze zdrowiem skontaktuj się z lekarzem rodzinnym lub lekarzem dyżurnym pod numerem: 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Zadzwoń na infolinię i poproś o numer TAN"</string>
@@ -1081,6 +1087,8 @@
     <string name="submission_status_card_title_available">"Twój wynik jest dostępny"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Diagnoza zakażenia"</string>
+    <!-- XHED: Page title for the various submission status fetch failed -->
+    <string name="submission_status_card_title_failed">"Test stracił ważność"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Nieprawidłowy test"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
@@ -1097,10 +1105,14 @@
     <string name="submission_status_card_body_positive">"Zdiagnozowano u Ciebie zakażenie wirusem SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Nie zdiagnozowano u Ciebie zakażenia wirusem SARS-CoV-2."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń tekst. Będziesz mieć wówczas możliwość dodania kolejnego."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Więcej informacji i pomoc"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Wyświetl test"</string>
+    <!-- XBUT: submission status card fetch failed button -->
+    <string name="submission_status_card_button_failed">"Usuń test"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Uwaga:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1333,6 +1345,14 @@
     <string name="interoperability_onboarding_delta_terms_link">"Wyświetl warunki korzystania"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
     <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Warunki korzystania i informacje o prywatności danych można znaleźć w menu w sekcji „Informacje aplikacji” oraz w opisie aplikacji w Twoim App Store. Zmiany nie będą miały wpływu na korzystanie przez Ciebie z aplikacji. W przypadku dalszego korzystania z aplikacji lub jej ponownego otwarcia, zakładamy, że użytkownik zgadza się na zaktualizowane warunki korzystania."</string>
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">"Rejestrowanie narażenia\nw różnych krajach"</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">"Funkcje aplikacji Corona-Warn-App zostały rozszerzone. Wiele krajów połączyło siły w celu aktywacji międzynarodowych ostrzeżeń, na podstawie wspólnie obsługiwanego serwera wymiany. Podczas oceny swojego ryzyka narażenia możesz teraz uwzględnić narażenie na kontakt z użytkownikami oficjalnych aplikacji koronawirusowych w innych krajach uczestniczących."</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_randomid">"W tym celu aplikacja pobiera aktualizowaną codziennie listę losowych identyfikatorów wszystkich użytkowników, którzy udostępnili je za pośrednictwem swojej aplikacji. Ta lista jest następnie porównywana z losowymi identyfikatorami zarejestrowanymi przez Twoje urządzenie."</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_free_download">"Codzienne pobieranie listy z losowymi identyfikatorami jest z reguły bezpłatne. Oznacza to, że operatorzy sieci mobilnych nie będą pobierać opłat za transmisję danych używanych przez aplikację w tym kontekście ani też nie będą naliczane opłaty roamingowe z tego tytułu w innych krajach UE. Aby uzyskać więcej informacji, skontaktuj się ze swoim operatorem sieci mobilnej."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"Ręka trzyma smartfon. W tle przedstawiona jest Europa i flaga europejska."</string>
