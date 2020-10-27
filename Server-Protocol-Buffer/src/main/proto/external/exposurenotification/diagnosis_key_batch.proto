@@ -1,0 +1,29 @@
+// This file is auto-generated, DO NOT make any changes here
+//https://static.googleusercontent.com/media/www.google.com/en//covid19/exposurenotifications/pdfs/Exposure-Key-File-Format-and-Verification.pdf
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.external.exposurenotification;
+
+
+message DiagnosisKeyBatch {
+  repeated DiagnosisKey keys = 1;
+}
+message DiagnosisKey {
+  bytes keyData = 1; // key
+  uint32 rollingStartIntervalNumber = 2;
+  uint32 rollingPeriod = 3; // number of 10-minute windows between key-rolling
+  int32 transmissionRiskLevel = 4; // risk of transmission
+  repeated string visitedCountries = 5;
+  string origin = 6; // country of origin
+  ReportType reportType = 7; // set by backend
+  // Number of days elapsed between symptom onset and the TEK being used.
+  // E.g. 2 means TEK is 2 days after onset of symptoms.
+  sint32 days_since_onset_of_symptoms = 8;
+}
+enum ReportType {
+  UNKNOWN = 0;
+  CONFIRMED_TEST = 1;
+  CONFIRMED_CLINICAL_DIAGNOSIS = 2;
+  SELF_REPORT = 3;
+  RECURSIVE = 4;
+  REVOKED = 5;
+}
