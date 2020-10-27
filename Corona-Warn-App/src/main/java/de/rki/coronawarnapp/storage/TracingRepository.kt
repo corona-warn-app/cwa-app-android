@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
@@ -38,7 +39,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class TracingRepository @Inject constructor(
-    @AppScope private val scope: CoroutineScope
+    @AppScope private val scope: CoroutineScope,
+    enfClient: ENFClient
 ) {
 
     private val internalLastTimeDiagnosisKeysFetched = MutableStateFlow<Date?>(null)
@@ -57,13 +59,17 @@ class TracingRepository @Inject constructor(
             LocalData.lastTimeDiagnosisKeysFromServerFetch()
     }
 
-    // TODO shouldn't access this directly
     private val retrievingDiagnosisKeys = MutableStateFlow(false)
     private val internalIsRefreshing =
         retrievingDiagnosisKeys.combine(AppInjector.component.taskController.tasks) { retrievingDiagnosisKeys, tasks ->
             retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
         }
-    val isRefreshing: Flow<Boolean> = internalIsRefreshing
+    val isRefreshing: Flow<Boolean> = combine(
+        internalIsRefreshing,
+        enfClient.isCurrentlyCalculating()
+    ) { isRefreshing, isCalculating ->
+        isRefreshing || isCalculating
+    }
 
     private fun List<TaskInfo>.isRiskLevelTaskRunning() = find {
         it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class

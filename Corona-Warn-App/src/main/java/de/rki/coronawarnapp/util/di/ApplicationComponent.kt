@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.verification.VerificationModule
 import javax.inject.Singleton
 
@@ -62,7 +63,8 @@ import javax.inject.Singleton
         VerificationModule::class,
         PlaybookModule::class,
         TaskModule::class,
-        DeviceForTestersModule::class
+        DeviceForTestersModule::class,
+        SerializationModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

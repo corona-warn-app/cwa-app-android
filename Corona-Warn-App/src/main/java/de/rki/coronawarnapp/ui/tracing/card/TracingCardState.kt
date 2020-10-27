@@ -14,7 +14,7 @@ data class TracingCardState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
     override val isRefreshing: Boolean,
-    override val riskLevelLastSuccessfulCalculation: Int,
+    override val lastRiskLevelScoreCalculated: Int,
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
     override val activeTracingDaysInRetentionPeriod: Long,
@@ -58,11 +58,11 @@ data class TracingCardState(
             riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ||
             riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
         ) {
-            when (riskLevelLastSuccessfulCalculation) {
+            when (lastRiskLevelScoreCalculated) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
                 RiskLevelConstants.INCREASED_RISK,
                 RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
-                    val arg = formatRiskLevelHeadline(c, riskLevelLastSuccessfulCalculation, false)
+                    val arg = formatRiskLevelHeadline(c, lastRiskLevelScoreCalculated, false)
                     c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                         .format(arg)
                 }
@@ -202,7 +202,7 @@ data class TracingCardState(
             RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
-                when (riskLevelLastSuccessfulCalculation) {
+                when (lastRiskLevelScoreCalculated) {
                     RiskLevelConstants.LOW_LEVEL_RISK,
                     RiskLevelConstants.INCREASED_RISK,
                     RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {

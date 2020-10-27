@@ -38,19 +38,12 @@ class SettingsBackgroundPriorityFragment :
     }
 
     private fun setButtonOnClickListener() {
-        val switch = binding.settingsSwitchRowBackgroundPriority.settingsSwitchRowSwitch
-        val switchRow = binding.settingsSwitchRowBackgroundPriority.settingsSwitchRow
+        val settingsRow = binding.settingsRowBackgroundPriority
 
         // enable background priority
-        setOf(switch, switchRow).forEach {
-            it.setOnClickListener {
-                val isPriorityEnabled = settingsViewModel.isBackgroundPriorityEnabled.value == true
-
-                if (!isPriorityEnabled) {
-                    (requireActivity() as MainActivity).apply {
-                        startActivitySafely(powerManagement.disableBatteryOptimizationsIntent)
-                    }
-                }
+        settingsRow.setOnClickListener {
+            (requireActivity() as MainActivity).apply {
+                startActivitySafely(powerManagement.toBatteryOptimizationSettingsIntent)
             }
         }
 
