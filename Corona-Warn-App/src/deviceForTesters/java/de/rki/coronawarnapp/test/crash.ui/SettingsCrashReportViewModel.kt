@@ -25,7 +25,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         crashReportRepository.clear()
     }
 
-    fun simulateExceptioin() {
+    fun simulateException() {
         try {
             val a = 2 / 0
         } catch (e: Exception) {

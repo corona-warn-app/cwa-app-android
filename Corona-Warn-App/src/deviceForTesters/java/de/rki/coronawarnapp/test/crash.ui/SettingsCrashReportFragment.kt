@@ -47,7 +47,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
         }
 
         fragmentCrashreporterOverviewBinding.buttonTestItemForCrashReport.setOnClickListener {
-            vm.simulateExceptioin()
+            vm.simulateException()
         }
     }
 
