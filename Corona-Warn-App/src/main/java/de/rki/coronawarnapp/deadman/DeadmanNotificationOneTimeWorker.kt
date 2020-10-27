@@ -38,14 +38,7 @@ class DeadmanNotificationOneTimeWorker(
         }
         var result = Result.success()
         try {
-//            if (!CoronaWarnApplication.isAppInForeground) {
-                NotificationHelper.sendNotification(
-                    CoronaWarnApplication.getAppContext()
-                        .getString(R.string.risk_details_deadman_notification_title), CoronaWarnApplication.getAppContext()
-                        .getString(R.string.risk_details_deadman_notification_body),
-                    NotificationCompat.PRIORITY_HIGH
-                )
-//            }
+            DeadmanNotificationSender().sendNotification()
         } catch (e: Exception) {
             result = Result.retry()
         }

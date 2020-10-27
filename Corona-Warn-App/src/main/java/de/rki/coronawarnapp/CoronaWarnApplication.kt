@@ -71,11 +71,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
-
-        // Check the last time FULL risk calculation was success -> time
-        // Reschedule it depending on time obtained
-        // Create new package deadman feature
-        DeadmanNotificationScheduler().schedulePeriodic()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

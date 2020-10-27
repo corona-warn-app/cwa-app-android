@@ -3,7 +3,10 @@ package de.rki.coronawarnapp.deadman
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundConstants
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 /**
@@ -32,9 +35,10 @@ class DeadmanNotificationPeriodicWorker(
         }
         var result = Result.success()
         try {
-            // Reschedult one time deadman notification work
-            DeadmanNotificationScheduler().scheduleOneTime(null);
+            // Schedule one time deadman notification work
+            DeadmanNotificationScheduler().scheduleOneTime();
         } catch (e: Exception) {
+            Timber.d(e)
             result = Result.retry()
         }
 

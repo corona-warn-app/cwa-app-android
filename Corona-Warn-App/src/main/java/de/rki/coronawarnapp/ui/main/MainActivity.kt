@@ -14,6 +14,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -88,6 +89,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
         doBackgroundNoiseCheck()
+        scheduleDeadmanNotification()
     }
 
     private fun doBackgroundNoiseCheck() {
@@ -192,4 +194,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      * Scheduling for a download of keys every hour.
      */
     private fun scheduleWork() = BackgroundWorkScheduler.startWorkScheduler()
+
+    private fun scheduleDeadmanNotification() = DeadmanNotificationScheduler().schedulePeriodic()
 }

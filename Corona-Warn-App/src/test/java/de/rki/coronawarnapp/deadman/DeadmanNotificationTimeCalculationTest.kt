@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.deadman
 
 import io.kotest.matchers.shouldBe
 import org.joda.time.DateTime
+import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import org.junit.Test
 
@@ -11,40 +12,42 @@ class CalendarCalculationTest {
 
     private val parsedTime: (String) -> DateTime = {input -> DateTime.parse(input, DateTimeFormat.forPattern(pattern))}
 
-    @Test
-    fun calculateCheck() {
+//    @MockK
+//    lateinit var timeStamper: TimeStamper
+//
+//    @BeforeEach
+//    fun setup() {
+//        MockKAnnotations.init(this)
+//        every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
+//    }
+//
+//    @AfterEach
+//    fun teardown() {
+//        clearAllMocks()
+//    }
+//
+//    private fun createTimeCalculator() = DeadmanNotificationTimeCalculation(
+//        timeStamper = timeStamper
+//    )
+//
+//    @Test
+//    fun `multiple time test`() {
+//        val currentTime = Instant.parse("2020-08-01T23:00:00.000Z")
+//        every { timeStamper.nowUTC } returns currentTime
+//
+//        createTimeCalculator().getTime(Instant.parse("2020-08-01T22:00:00.000Z")) shouldBe 1
+//    }
 
-        check("27.08.2020 14:00","30.08.2020 14:00", -2160, 0)
-        check("27.08.2020 14:00","27.08.2020 15:00", 2100, 2100)
-        check("27.08.2020 14:00","27.08.2020 14:00", 2160, 2160)
-        check("27.08.2020 15:00","27.08.2020 14:00", 2220, 2160)
+    @Test
+    fun `multiple hours difference`() {
 
         // 72 hours passed -> deadman notification should be executed 36 hours ago
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("27.08.2020 14:00"), parsedTime("30.08.2020 14:00")) shouldBe -2160
+        DeadmanNotificationTimeCalculation().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z"), Instant.parse("2020-08-30T14:00:00.000Z")) shouldBe -2160
 
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("27.08.2020 14:00"), parsedTime("28.08.2020 14:00")) shouldBe 720
-
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("27.08.2020 14:00"), parsedTime("27.08.2020 15:00")) shouldBe 2100
-
-        // Edge case: zero hours left from last success risk calculation
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("27.08.2020 14:00"), parsedTime("27.08.2020 14:00")) shouldBe 2160
+        DeadmanNotificationTimeCalculation().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z"), Instant.parse("2020-08-28T14:00:00.000Z")) shouldBe 720
 
         // Last success in future. Not possible case in real app
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("27.08.2020 15:00"), parsedTime("27.08.2020 14:00")) shouldBe 2220
-
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("27.08.2020 15:00"), parsedTime("27.08.2020 10:00")) shouldBe 2460
-
-        DeadmanNotificationTimeCalculation().getTime(parsedTime("30.08.2020 15:00"), parsedTime("27.08.2020 14:00")) shouldBe 6540
+        DeadmanNotificationTimeCalculation().getHoursDiff(Instant.parse("2020-08-27T15:00:00.000Z"), Instant.parse("2020-08-27T14:00:00.000Z")) shouldBe 2220
 
     }
-
-    private fun check(last: String, current: String, diffShouldBe: Int, delayShouldBe: Int) {
-        val minutesDiff = DeadmanNotificationTimeCalculation().getTime(parsedTime(last), parsedTime(current))
-        minutesDiff shouldBe diffShouldBe
-
-        val delay = DeadmanNotificationTimeCalculation().normaliseInitialDelay(minutesDiff)
-        delay shouldBe delayShouldBe
-    }
-
-
 }
