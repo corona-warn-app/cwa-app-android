@@ -62,7 +62,7 @@ class BaseTracingStateTest : BaseTest() {
         override val matchedKeyCount: Int = matchedKeyCount
         override val daysSinceLastExposure: Int = daysSinceLastExposure
         override val activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod
-        override val lastTimeDiagnosisKeysFetched: Date? = lastTimeDiagnosisKeysFetched
+        override val lastENFCalculation: Date? = lastTimeDiagnosisKeysFetched
         override val isBackgroundJobEnabled: Boolean = isBackgroundJobEnabled
         override val showDetails: Boolean = showDetails
         override val isManualKeyRetrievalEnabled: Boolean = isManualKeyRetrievalEnabled

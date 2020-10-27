@@ -55,7 +55,7 @@ class TracingCardStateTest : BaseTest() {
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
+        lastENFCalculation = lastTimeDiagnosisKeysFetched,
         isBackgroundJobEnabled = isBackgroundJobEnabled,
         isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
         manualKeyRetrievalTime = manualKeyRetrievalTime

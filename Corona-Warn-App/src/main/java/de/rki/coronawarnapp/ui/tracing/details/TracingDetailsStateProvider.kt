@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.details
 
 import dagger.Reusable
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
@@ -9,6 +10,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -21,7 +23,8 @@ class TracingDetailsStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     settingsRepository: SettingsRepository,
-    tracingRepository: TracingRepository
+    tracingRepository: TracingRepository,
+    enfClient: ENFClient
 ) {
 
     // TODO Refactore these singletons away
@@ -33,7 +36,9 @@ class TracingDetailsStateProvider @Inject constructor(
         ExposureSummaryRepository.matchedKeyCount,
         ExposureSummaryRepository.daysSinceLastExposure,
         tracingRepository.activeTracingDaysInRetentionPeriod,
-        tracingRepository.lastTimeDiagnosisKeysFetched,
+        enfClient.latestFinishedCalculation().onEach {
+            Timber.v("latestFinishedCalculation: $it")
+        },
         backgroundModeStatus.isAutoModeEnabled,
         settingsRepository.isManualKeyRetrievalEnabledFlow,
         settingsRepository.manualKeyRetrievalTimeFlow
@@ -42,7 +47,7 @@ class TracingDetailsStateProvider @Inject constructor(
         riskLevelScoreLastSuccessfulCalculated,
         isRefreshing, matchedKeyCount,
         daysSinceLastExposure, activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched,
+        lastENFCalculation,
         isBackgroundJobEnabled,
         isManualKeyRetrievalEnabled,
         manualKeyRetrievalTime ->
@@ -52,8 +57,13 @@ class TracingDetailsStateProvider @Inject constructor(
         )
         val isInformationBodyNoticeVisible =
             riskDetailPresenter.isInformationBodyNoticeVisible(
-            riskLevelScore
-        )
+                riskLevelScore
+            )
+
+        // TODO Remove a later version (1.7+), when everyone likely has tracked calc data
+        // When the update with this change hits, there will not yet be a last tracked calculation
+        val lastUpdateDate = lastENFCalculation?.finishedAt?.toDate()
+            ?: tracingRepository.lastTimeDiagnosisKeysFetched.first()
 
         TracingDetailsState(
             tracingStatus = status,
@@ -63,7 +73,7 @@ class TracingDetailsStateProvider @Inject constructor(
             matchedKeyCount = matchedKeyCount,
             daysSinceLastExposure = daysSinceLastExposure,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
-            lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
+            lastENFCalculation = lastUpdateDate,
             isBackgroundJobEnabled = isBackgroundJobEnabled,
             isManualKeyRetrievalEnabled = isManualKeyRetrievalEnabled,
             manualKeyRetrievalTime = manualKeyRetrievalTime,

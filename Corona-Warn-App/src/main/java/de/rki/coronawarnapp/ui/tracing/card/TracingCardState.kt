@@ -18,7 +18,7 @@ data class TracingCardState(
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
     override val activeTracingDaysInRetentionPeriod: Long,
-    override val lastTimeDiagnosisKeysFetched: Date?,
+    override val lastENFCalculation: Date?,
     override val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val manualKeyRetrievalTime: Long,
@@ -190,10 +190,10 @@ data class TracingCardState(
         return when (riskLevelScore) {
             RiskLevelConstants.LOW_LEVEL_RISK,
             RiskLevelConstants.INCREASED_RISK -> {
-                if (lastTimeDiagnosisKeysFetched != null) {
+                if (lastENFCalculation != null) {
                     c.getString(
                         R.string.risk_card_body_time_fetched,
-                        formatRelativeDateTimeString(c, lastTimeDiagnosisKeysFetched)
+                        formatRelativeDateTimeString(c, lastENFCalculation)
                     )
                 } else {
                     c.getString(R.string.risk_card_body_not_yet_fetched)
@@ -206,10 +206,10 @@ data class TracingCardState(
                     RiskLevelConstants.LOW_LEVEL_RISK,
                     RiskLevelConstants.INCREASED_RISK,
                     RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
-                        if (lastTimeDiagnosisKeysFetched != null) {
+                        if (lastENFCalculation != null) {
                             c.getString(
                                 R.string.risk_card_body_time_fetched,
-                                formatRelativeDateTimeString(c, lastTimeDiagnosisKeysFetched)
+                                formatRelativeDateTimeString(c, lastENFCalculation)
                             )
                         } else {
                             c.getString(R.string.risk_card_body_not_yet_fetched)

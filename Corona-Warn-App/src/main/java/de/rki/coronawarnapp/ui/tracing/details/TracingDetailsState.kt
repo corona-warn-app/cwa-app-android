@@ -15,7 +15,7 @@ data class TracingDetailsState(
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
     override val activeTracingDaysInRetentionPeriod: Long,
-    override val lastTimeDiagnosisKeysFetched: Date?,
+    override val lastENFCalculation: Date?,
     override val isBackgroundJobEnabled: Boolean,
     override val isManualKeyRetrievalEnabled: Boolean,
     override val manualKeyRetrievalTime: Long,

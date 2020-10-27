@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import dagger.Reusable
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.storage.SettingsRepository
@@ -9,6 +10,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
 import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -20,7 +22,8 @@ class TracingCardStateProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     backgroundModeStatus: BackgroundModeStatus,
     settingsRepository: SettingsRepository,
-    tracingRepository: TracingRepository
+    tracingRepository: TracingRepository,
+    enfClient: ENFClient
 ) {
 
     // TODO Refactor these singletons away
@@ -46,8 +49,8 @@ class TracingCardStateProvider @Inject constructor(
         tracingRepository.activeTracingDaysInRetentionPeriod.onEach {
             Timber.v("activeTracingDaysInRetentionPeriod: $it")
         },
-        tracingRepository.lastTimeDiagnosisKeysFetched.onEach {
-            Timber.v("lastTimeDiagnosisKeysFetched: $it")
+        enfClient.latestFinishedCalculation().onEach {
+            Timber.v("latestFinishedCalculation: $it")
         },
         backgroundModeStatus.isAutoModeEnabled.onEach {
             Timber.v("isAutoModeEnabled: $it")
@@ -65,17 +68,22 @@ class TracingCardStateProvider @Inject constructor(
         matchedKeyCount,
         daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod,
-        lastTimeDiagnosisKeysFetched,
+        lastENFCalculation,
         isBackgroundJobEnabled,
         isManualKeyRetrievalEnabled,
         manualKeyRetrievalTime ->
+
+        // TODO Remove a later version (1.7+), when everyone likely has tracked calc data
+        // When the update with this change hits, there will not yet be a last tracked calculation
+        val lastUpdateDate = lastENFCalculation?.finishedAt?.toDate()
+            ?: tracingRepository.lastTimeDiagnosisKeysFetched.first()
 
         TracingCardState(
             tracingStatus = status,
             riskLevelScore = riskLevelScore,
             isRefreshing = isRefreshing,
             lastRiskLevelScoreCalculated = riskLevelScoreLastSuccessfulCalculated,
-            lastTimeDiagnosisKeysFetched = lastTimeDiagnosisKeysFetched,
+            lastENFCalculation = lastUpdateDate,
             matchedKeyCount = matchedKeyCount,
             daysSinceLastExposure = daysSinceLastExposure,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
