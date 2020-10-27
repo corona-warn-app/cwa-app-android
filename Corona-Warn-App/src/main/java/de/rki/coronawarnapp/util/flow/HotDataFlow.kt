@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -51,6 +52,7 @@ class HotDataFlow<T : Any>(
     }
 
     val data: Flow<T> = internalFlow
+        .distinctUntilChanged()
         .onStart { Timber.tag(tag).v("internal onStart") }
         .catch {
             Timber.tag(tag).e(it, "internal Error")
