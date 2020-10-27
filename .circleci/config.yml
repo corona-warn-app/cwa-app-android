@@ -7,6 +7,20 @@ commands:
   restore-build-cache: android/restore-build-cache
   save-build-cache: android/save-build-cache
   scan-sonar: sonarcloud/scan
+  restore-android-build-cache: android/restore-build-cache
+  restore-gradle-cache:
+    description: "Restore gradle caches"
+    steps:
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
+  save-android-build-cache: android/save-build-cache
+  save-gradle-cache:
+    description: "Save gradle caches"
+    steps:
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
 jobs:
   quickBuildReleaseWithTestsAndChecks:
     executor: android/android
