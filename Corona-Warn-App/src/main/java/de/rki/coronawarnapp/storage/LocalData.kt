@@ -370,7 +370,7 @@ object LocalData {
     var isUserToBeNotifiedOfLoweredRiskLevel: Boolean
         get() = getSharedPreferenceInstance().getBoolean(
             PREFERENCE_HAS_RISK_STATUS_LOWERED,
-            true
+            false
         )
         set(value) = getSharedPreferenceInstance().edit(commit = true) {
             putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value)
