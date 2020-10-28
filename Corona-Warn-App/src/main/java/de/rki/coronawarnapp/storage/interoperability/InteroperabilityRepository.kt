@@ -52,4 +52,8 @@ class InteroperabilityRepository @Inject constructor(
             }
         }
     }
+
+    fun clear() {
+        _countryList.postValue(emptyList())
+    }
 }
