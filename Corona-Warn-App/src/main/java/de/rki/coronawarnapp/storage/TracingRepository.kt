@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -69,8 +70,12 @@ class TracingRepository @Inject constructor(
     val isRefreshing: Flow<Boolean> = combine(
         internalIsRefreshing,
         enfClient.isCurrentlyCalculating()
-    ) { isRefreshing, isCalculating ->
-        isRefreshing || isCalculating
+    ) { isDownloading, isCalculating ->
+        when {
+            isDownloading -> TracingProgress.Downloading
+            isCalculating -> TracingProgress.ENFIsCalculating
+            else -> TracingProgress.Idle
+        }
     }
 
     private fun List<TaskInfo>.isRiskLevelTaskRunning() = find {

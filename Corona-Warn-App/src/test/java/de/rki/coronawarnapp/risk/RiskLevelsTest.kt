@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -109,13 +109,13 @@ class RiskLevelsTest {
         low: Double,
         norm: Int = 25,
         offset: Int = 0
-    ): ApplicationConfigurationOuterClass.AttenuationDuration {
-        return ApplicationConfigurationOuterClass.AttenuationDuration
+    ): AttenuationDurationOuterClass.AttenuationDuration {
+        return AttenuationDurationOuterClass.AttenuationDuration
             .newBuilder()
             .setRiskScoreNormalizationDivisor(norm)
             .setDefaultBucketOffset(offset)
             .setWeights(
-                ApplicationConfigurationOuterClass.Weights
+                AttenuationDurationOuterClass.Weights
                     .newBuilder()
                     .setHigh(high)
                     .setMid(mid)

@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
@@ -146,7 +146,7 @@ class DefaultRiskLevels @Inject constructor(
     }
 
     fun calculateRiskScore(
-        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        attenuationParameters: AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double {
         /** all attenuation values are capped to [TimeVariables.MAX_ATTENUATION_DURATION] */
