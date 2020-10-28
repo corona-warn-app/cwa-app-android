@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 import de.rki.coronawarnapp.risk.RiskLevelCalculation
+import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
@@ -551,7 +552,7 @@ object RiskLevelTransaction : Transaction() {
         return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
             Timber.tag(TAG).v(
                 "active tracing time ($activeTracingDurationInHours h) is above threshold " +
-                        "($durationTracingIsActiveThreshold h): $it"
+                    "($durationTracingIsActiveThreshold h): $it"
             )
         }
     }
@@ -573,7 +574,11 @@ object RiskLevelTransaction : Transaction() {
                 NotificationCompat.PRIORITY_HIGH
             )
         }
-        RiskLevelRepository.setRiskLevelScore(riskLevel)
+        if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
+            riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK) {
+            LocalData.isUserToBeNotifiedOfLoweredRiskLevel(true)
+        }
+            RiskLevelRepository.setRiskLevelScore(riskLevel)
     }
 
     /**
