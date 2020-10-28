@@ -8,6 +8,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
@@ -30,6 +31,7 @@ class AppConfigApiTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val cacheFiles = File(testDir, "cache")
     private val cacheDir = File(cacheFiles, "http_app-config")
+
 
     @BeforeEach
     fun setup() {
@@ -59,14 +61,15 @@ class AppConfigApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
+        val cache = AppConfigModule().provideAppConfigCache(context)
         return AppConfigModule().provideAppConfigApi(
-            context = context,
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory
+            gsonConverterFactory = gsonConverterFactory,
+            cache = cache
         )
     }
-
+    
     @Test
     fun `application config download`() {
         val api = createAPI()
