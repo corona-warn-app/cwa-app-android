@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
 import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,6 +43,7 @@ class DefaultBugRepository @Inject constructor(
         }
 
     override suspend fun clear() {
+        Timber.d("Deleting all bug events!")
         bugDao.deleteAllBugEvents()
     }
 }
