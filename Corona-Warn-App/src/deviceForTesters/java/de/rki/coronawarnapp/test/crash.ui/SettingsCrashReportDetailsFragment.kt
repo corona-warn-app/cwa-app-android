@@ -23,8 +23,11 @@ class SettingsCrashReportDetailsFragment :
     )
     private val fragmentSettingsCrashReportDetailsBinding: FragmentSettingsCrashReportDetailsBinding by viewBindingLazy()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.setOnClickListener { shareCrashReport() }
+
         fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text =
             "No crash report was selected"
 
@@ -41,12 +44,6 @@ class SettingsCrashReportDetailsFragment :
                     " ${it.stackTrace}\n\n" +
                     " # Corresponding Log: \n\n ${it.logHistory}"
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.setOnClickListener { shareCrashReport() }
     }
 
     private fun shareCrashReport() {

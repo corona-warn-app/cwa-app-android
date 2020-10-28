@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.bugreporting.storage.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
 import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,13 +12,9 @@ class DefaultBugRepository @Inject constructor(
     private val bugDao: DefaultBugDao
 ) : BugRepository {
 
-    override fun getAll(): LiveData<List<BugEvent>> =
-        Transformations.map(bugDao.getAllBugEvents()) { bugEvents ->
-            bugEvents.map { bugEvent -> bugEvent }
-        }
+    override fun getAll(): Flow<List<BugEvent>> = bugDao.getAllBugEvents()
 
-    override fun get(id: Long): LiveData<BugEvent> =
-        Transformations.map(bugDao.findBugEvent(id)) { it }
+    override fun get(id: Long): Flow<BugEvent> = bugDao.findBugEvent(id)
 
     override suspend fun save(bugEvent: BugEvent) {
         val bugEventEntity: BugEventEntity = mapToBugEventEntity(bugEvent)

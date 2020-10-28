@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.bugreporting.storage.repository
 
-import androidx.lifecycle.LiveData
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
+import kotlinx.coroutines.flow.Flow
 
 interface BugRepository {
-    fun getAll(): LiveData<List<BugEvent>>
-    fun get(id: Long): LiveData<BugEvent>
+    fun getAll(): Flow<List<BugEvent>>
+    fun get(id: Long): Flow<BugEvent>
     suspend fun save(bugEvent: BugEvent)
     suspend fun clear()
 }

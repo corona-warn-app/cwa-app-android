@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.test.crash.ui
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
@@ -17,9 +19,10 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
     private val crashReportRepository: BugRepository
 ) : CWAViewModel() {
 
-    val crashReports = crashReportRepository.getAll()
+    val crashReports = crashReportRepository.getAll().asLiveData()
 
-    lateinit var selectedCrashReport: LiveData<BugEvent>
+    val selectedCrashReport: LiveData<BugEvent> by lazy { selectedCrashReportMutable }
+    private val selectedCrashReportMutable: MutableLiveData<BugEvent> by lazy { MutableLiveData() }
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
         crashReportRepository.clear()
@@ -34,9 +37,8 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
         }
     }
 
-    fun selectCrashReport(id: Long) {
-        Timber.d("Selected crash report $id")
-        selectedCrashReport = crashReportRepository.get(id)
+    fun selectCrashReport(bugEvent: BugEvent) {
+        selectedCrashReportMutable.value = bugEvent
     }
 
     @AssistedInject.Factory
