@@ -192,10 +192,6 @@
     <string name="risk_card_outdated_risk_body">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
     <string name="risk_card_outdated_manual_risk_body">"Вашият статус на риск не е обновяван от повече от 48 часа. Моля, актуализирайте го."</string>
-    <!-- XHED: risk card - loading headline, update is ongoing -->
-    <string name="risk_card_loading_headline">"Извършва се проверка..."</string>
-    <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
-    <string name="risk_card_loading_body">"Актуалните данни се свалят и проверяват. Това може да отнеме няколко минути."</string>
 
     <!-- ####################################
                     Main
@@ -349,8 +345,6 @@
     </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
-    <!-- YTXT: risk details - risk calculation explanation for low risk -->
-    <string name="risk_details_information_body_notice_low">"Това е причината да определим Вашия риск от заразяване като нисък. Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
     <string name="risk_details_information_body_notice_increased">"Това е причината да определим Вашия риск от заразяване като повишен. Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск. Когато се приберете у дома, избягвайте близките контакти с членовете на домакинството си."</string>
     <!-- NOTR -->
@@ -366,6 +360,11 @@
     <string name="risk_details_explanation_dialog_faq_body">"За повече информация вижте страницата „ЧЗВ“."</string>
      <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
+
+    <!-- XHED: risk details - deadman notification title -->
+    <string name="risk_details_deadman_notification_title">"Актуализиране на данните за проверка на риска"</string>
+    <!-- YTXT: risk details - deadman notification text -->
+    <string name="risk_details_deadman_notification_body">"Моля, отворете приложението Corona-Warn-App, за да актуализирате регистрирането на излагания на риск."</string>
 
     <!-- ####################################
               Onboarding
@@ -625,11 +624,11 @@
     <!-- XACT: settings(background priority) - illustraction description -->
     <string name="settings_background_priority_illustration_description"/>
     <!-- XTXT: settings(background priority) - explains user what to do on card if background priority is enabled -->
-    <string name="settings_background_priority_card_body">"Можете да дезактивирате приоритетната работа във фонов режим от настройките на устройството."</string>
+    <string name="settings_background_priority_card_body">"Можете да активирате и дезактивирате приоритетната работа във фонов режим от настройките на устройството."</string>
     <!-- XBUT: settings(background priority) - go to operating system settings button on card -->
     <string name="settings_background_priority_card_button">"Към настройките за устройството"</string>
     <!-- XHED : settings(background priority) - headline on card about the current status and what to do -->
-    <string name="settings_background_priority_card_headline">"Дезактивиране на приоритетната работа във фонов режим"</string>
+    <string name="settings_background_priority_card_headline">"Промяна на приоритетната работа във фонов режим"</string>
 
     <!-- ####################################
                App Information
@@ -668,7 +667,7 @@
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_headline">"Как можем да Ви помогнем?"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body">"За технически въпроси относно Corona-Warn-App се обадете на горещия телефон.\n\nХората със слухови затруднения имат възможността да използват горещата телефонна линия чрез услугата Tess Relay (за превод от писмен немски на немския език на знаците). Можете да свалите необходимия софтуер от App Store/Google Play."</string>
+    <string name="information_contact_body">"За технически въпроси относно Corona-Warn-App се обадете на горещата линия.\n\nЛицата със слухови затруднения могат да използват релейните услуги Tess (за превод между писмен немски и жестомимичен език), за да се обаждат на горещата телефонна линия. Може да изтеглите приложението от Google Play."</string>
     <!-- XHED: Subtitle for technical contact and hotline information page -->
     <string name="information_contact_subtitle_phone">"Гореща линия за технически въпроси:"</string>
     <!-- XLNK: Button / hyperlink to phone call for technical contact and hotline information page -->
@@ -909,8 +908,9 @@
     <string name="submission_intro_illustration_description">"Криптираният положителен резултат от тест се изпраща в системата, за да бъдат предупредени останалите потребители."</string>
     <!-- YTXT: submission introduction bullet points -->
     <string-array name="submission_intro_bullet_points">
-        <item>"Ако Ви е поставена диагноза COVID-19, можете да уведомите останалите потребители."</item>
-        <item>"Ако Ви е предоставен ТАН код за положителен резултат, може да го използвате, за да регистрирате теста."</item>
+        <item>"Ако в документа за Вашия тест има QR код, можете да го сканирате и да регистрирате теста си. В момента, в който резултатът бъде готов, ще можете да го видите в приложението."</item>
+        <item>"Ако Ви е поставена диагноза COVID-19, можете да предупредите останалите потребители."</item>
+        <item>"Ако разполагате с ТАН код за положителен резултат, може да го използвате, за да регистрирате теста."</item>
         <item>"Ако не разполагате с ТАН код, по телефона може да заявите да Ви бъде предоставен такъв."</item>
     </string-array>
     <!-- XACT: Submission Intro page title -->
@@ -928,7 +928,7 @@
     <!-- XHED: Dialog headline for dispatcher QR prviacy dialog  -->
     <string name="submission_dispatcher_qr_privacy_dialog_headline">"Съгласие"</string>
     <!-- YTXT: Dialog Body text for dispatcher QR privacy dialog -->
-    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping \"Accept\", you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under \"Data Privacy Information\"."</string>
+    <string name="submission_dispatcher_qr_privacy_dialog_body">"By tapping “Accept”, you consent to the App querying the status of your coronavirus test and displaying it in the App. This feature is available to you if you have received a QR code and have consented to your test result being transmitted to the App’s server system. As soon as the testing lab has stored your test result on the server, you will be able to see the result in the App. If you have enabled notifications, you will also receive a notification outside the App telling you that your test result has been received. However, for privacy reasons, the test result itself will only be displayed in the App. You can withdraw this consent at any time by deleting your test registration in the App. Withdrawing your consent will not affect the lawfulness of processing before its withdrawal. Further information can be found in the menu under “Data Privacy”."</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - positive button (right) -->
     <string name="submission_dispatcher_qr_privacy_dialog_button_positive">"Приемам"</string>
     <!-- XBUT: submission(dispatcher QR Dialog) - negative button (left) -->
@@ -950,7 +950,7 @@
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Моля, помогнете на всички нас!"</string>
     <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Сега можете да се уверите, че и околните ще бъдат предупредени за възможно заразяване.\n\nЗа целта трябва да споделите на съвместния сървър за обмен на данни, поддържан от участващите държави, своите случайни идентификатори от последните 14 дни и, по желание, кога за пръв път сте забелязали симптомите на коронавирусната инфекция. От там вашите уникални ИД и всяка допълнителна информация се разпращат до потребителите на официални приложения за борба с коронавируса. По този начин и всички потребители, с които сте били в контакт, ще бъдат предупредени за възможно заразяване.\n\nСподелят се единствено Вашите случайни идентификатори и информацията за развитието на симптомите, която доброволно сте споделили. Не се разкриват лични данни като име, адрес или местоположение."</string>
+    <string name="submission_positive_other_warning_body">"Ако желаете, вече можете да помогнете и околните да бъдат предупредени за възможно заразяване.\n\nЗа целта трябва да споделите своите случайни идентификатори от последните 14 дни на сървъра, използван съвместно от участващите държави. По желание може да споделите също кога за пръв път сте забелязали симптомите на коронавирусната инфекция. От там Вашите уникални ИД и всяка допълнителна информация се разпращат до потребителите на съответните официални приложения за борба с коронавируса. По този начин и чуждестранните потребители, с които сте били в контакт, ще бъдат предупредени за възможно заразяване.\n\nСподелят се единствено Вашите случайни идентификатори и информацията за развитието на симптомите, която доброволно сте споделили. Не се разкриват лични данни като име, адрес или местоположение."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_positive_other_warning_button">"Приемам"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
@@ -1031,7 +1031,7 @@
     <!-- XHED: Page headline for contact page in submission flow -->
     <string name="submission_contact_headline">"Как работи:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
-    <string name="submission_contact_body">"За да заявите ТАН код, подгответе резултата от своя тест (ако е наличен) и телефонния си номер.\n\nЛицата със слухови нарушения могат да използват релейните услуги Tess (за превод между писмен немски и жестомимичен език), за да се обаждат на горещата телефонна линия. Може да изтеглите приложението от Google Play."</string>
+    <string name="submission_contact_body">"За да заявите ТАН код, подгответе резултата от своя тест (ако е наличен) и телефонния си номер.\n\nЛицата със слухови затруднения могат да използват релейните услуги Tess (за превод между писмен немски и жестомимичен език), за да се обаждат на горещата телефонна линия. Може да изтеглите приложението от Google Play."</string>
     <!-- XBUT: submission contact call button -->
     <string name="submission_contact_button_call">"Обаждане"</string>
     <!-- XBUT: submission contact enter tan button -->
@@ -1046,6 +1046,8 @@
     <string name="submission_contact_step_2_body">"Регистрирайте теста, като въведете ТАН кода в приложението."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Езици: \nнемски, английски, турски\n\nРаботно време:\nот понеделник до неделя: 24 часа\n\nОбажданията са безплатни."</string>
+    <!-- YTXT: Body text for technical contact and hotline information page -->
+    <string name="submission_contact_body_other">"Ако имате въпроси, свързани със здравето, се обадете на личния си лекар или на горещата линия на службата за медицинска помощ на телефон 116 117"</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Обадете се на горещата линия и поискайте ТАН код"</string>
@@ -1081,6 +1083,8 @@
     <string name="submission_status_card_title_available">"Резултатът от теста Ви е готов"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Положителен резултат"</string>
+    <!-- XHED: Page title for the various submission status fetch failed -->
+    <string name="submission_status_card_title_failed">"Тест с изтекла валидност"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Невалиден тест"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
@@ -1097,10 +1101,14 @@
     <string name="submission_status_card_body_positive">"Потвърден е положителен резултат от теста Ви за SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Потвърден е отрицателен резултат от теста Ви за SARS-CoV-2."</string>
+    <!-- YTXT: Body text for submission status fetch failed -->
+    <string name="submission_status_card_body_failed">"Вашият тест е направен преди повече от 21 дни и вече не е валиден. Моля, изтрийте го, за да можете да добавите друг след това."</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Научете повече и помогнете"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Показване на тест"</string>
+    <!-- XBUT: submission status card fetch failed button -->
+    <string name="submission_status_card_button_failed">"Изтриване на тест"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1333,6 +1341,14 @@
     <string name="interoperability_onboarding_delta_terms_link">"Покажи условията за ползване"</string>
     <!-- XTXT: Description of the expanded terms in delta interopoerability screen part 2 -->
     <string name="interoperability_onboarding_delta_expanded_terms_text_part_2">"Условията за ползване и декларацията за поверителност могат да бъдат прегледани от опцията \"За приложението\" в менюто и от описанието в онлайн магазина. Промените няма да се отразят на работата на приложението. Ако продължите да го ползвате или го отворите повторно, ще приемем, че сте се съгласили с обновените условия за ползване."</string>
+    <!-- XHED: Header of the delta onboarding screen for interoperability. If the user opens the app for the first time after the interoperability update -->
+    <string name="interoperability_onboarding_delta_title">"Международно\nрегистриране на излаганията"</string>
+    <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
+    <string name="interoperability_onboarding_delta_subtitle">"Функциите на приложението Corona-Warn-App бяха разширени. Много държави се обединиха, за да направят възможни международните предупреждения посредством съвместно управляван сървър за обмен на данни. При изчисляването на риска от заразяване вече могат да бъдат взети предвид и контактите с потребители на официалните приложения за проследяване на коронавируса от други държави."</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_randomid">"За тази цел приложението изтегля списък на всички споделени в приложението случайни идентификатори на потребители, който се актуализира ежедневно. След това този списък се сравнява със случайните идентификатори, записани на Вашето устройство."</string>
+    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
+    <string name="interoperability_onboarding_delta_free_download">"Ежедневното изтегляне на списъка със случайни идентификатори обикновено е безплатно за Вас. Това означава, че мобилните оператори не таксуват използваните от приложението данни и не начисляват за тях такси за роуминг в други държави от ЕС. За повече подробности се обърнете към своя мобилен оператор."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"Ръка държи смартфон на фона на Европа и знамето на ЕС."</string>

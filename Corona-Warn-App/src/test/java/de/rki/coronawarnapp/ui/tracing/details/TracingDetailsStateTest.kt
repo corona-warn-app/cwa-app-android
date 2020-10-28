@@ -5,6 +5,7 @@ import android.content.res.Resources
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -38,7 +39,7 @@ class TracingDetailsStateTest : BaseTest() {
     private fun createInstance(
         tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevelScore: Int = 0,
-        isRefreshing: Boolean = false,
+        tracingProgress: TracingProgress = TracingProgress.Idle,
         riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 3,
         daysSinceLastExposure: Int = 2,
@@ -52,7 +53,7 @@ class TracingDetailsStateTest : BaseTest() {
     ) = TracingDetailsState(
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevelScore,
-        isRefreshing = isRefreshing,
+        tracingProgress = tracingProgress,
         lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,

@@ -37,8 +37,8 @@ class TracingCardStateProvider @Inject constructor(
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated.onEach {
             Timber.v("riskLevelScoreLastSuccessfulCalculated: $it")
         },
-        tracingRepository.isRefreshing.onEach {
-            Timber.v("isRefreshing: $it")
+        tracingRepository.tracingProgress.onEach {
+            Timber.v("tracingProgress: $it")
         },
         ExposureSummaryRepository.matchedKeyCount.onEach {
             Timber.v("matchedKeyCount: $it")
@@ -64,7 +64,7 @@ class TracingCardStateProvider @Inject constructor(
     ) { status,
         riskLevelScore,
         riskLevelScoreLastSuccessfulCalculated,
-        isRefreshing,
+        tracingProgress,
         matchedKeyCount,
         daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod,
@@ -81,7 +81,7 @@ class TracingCardStateProvider @Inject constructor(
         TracingCardState(
             tracingStatus = status,
             riskLevelScore = riskLevelScore,
-            isRefreshing = isRefreshing,
+            tracingProgress = tracingProgress,
             lastRiskLevelScoreCalculated = riskLevelScoreLastSuccessfulCalculated,
             lastENFCalculation = lastUpdateDate,
             matchedKeyCount = matchedKeyCount,

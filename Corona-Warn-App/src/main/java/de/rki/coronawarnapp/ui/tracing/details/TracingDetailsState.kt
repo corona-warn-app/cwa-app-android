@@ -4,13 +4,14 @@ import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
 import java.util.Date
 
 data class TracingDetailsState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
-    override val isRefreshing: Boolean,
+    override val tracingProgress: TracingProgress,
     override val lastRiskLevelScoreCalculated: Int,
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
@@ -110,9 +111,7 @@ data class TracingDetailsState(
      * Formats the risk logged period card text display of tracing active duration in days depending on risk level
      * Displayed in case riskLevel is High and Low level
      */
-    fun getRiskActiveTracingDaysInRetentionPeriodLogged(c: Context): String {
-        return c.getString(
-            R.string.risk_details_information_body_period_logged_assessment
-        ).format(activeTracingDaysInRetentionPeriod)
-    }
+    fun getRiskActiveTracingDaysInRetentionPeriodLogged(c: Context): String = c.getString(
+        R.string.risk_details_information_body_period_logged_assessment
+    ).format(activeTracingDaysInRetentionPeriod)
 }
