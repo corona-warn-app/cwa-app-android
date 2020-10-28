@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
 import de.rki.coronawarnapp.timer.TimerHelper
+import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -57,12 +58,16 @@ class TracingRepository @Inject constructor(
     }
 
     // TODO shouldn't access this directly
-    val internalIsRefreshing = MutableStateFlow(false)
-    val isRefreshing: Flow<Boolean> = combine(
+    private val internalIsRefreshing = MutableStateFlow(false)
+    val tracingProgress: Flow<TracingProgress> = combine(
         internalIsRefreshing,
         enfClient.isCurrentlyCalculating()
-    ) { isRefreshing, isCalculating ->
-        isRefreshing || isCalculating
+    ) { isDownloading, isCalculating ->
+        when {
+            isDownloading -> TracingProgress.Downloading
+            isCalculating -> TracingProgress.ENFIsCalculating
+            else -> TracingProgress.Idle
+        }
     }
 
     /**
