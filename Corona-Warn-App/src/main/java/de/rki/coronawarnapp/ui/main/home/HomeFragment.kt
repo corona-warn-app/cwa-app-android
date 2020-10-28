@@ -116,10 +116,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     }
 
     private fun setupRiskCard() {
-        binding.mainRisk.apply {
-            riskCard.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-            }
+        binding.riskCard.setOnClickListener {
+            doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+        }
+        binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
                 vm.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
