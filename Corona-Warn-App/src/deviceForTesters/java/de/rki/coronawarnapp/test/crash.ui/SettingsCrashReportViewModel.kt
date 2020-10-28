@@ -44,7 +44,7 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
     }
 
     fun selectCrashReport(bugEvent: BugEvent) {
-        selectedCrashReportMutable.value = bugEvent
+        selectedCrashReportMutable.postValue(bugEvent)
     }
 
     private fun createBugEventFormattedText(bugEvent: BugEvent): String =
