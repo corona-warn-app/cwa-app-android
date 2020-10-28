@@ -8,7 +8,10 @@ import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfi
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import okhttp3.Cache
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,9 +21,11 @@ class AppConfigProvider @Inject constructor(
     private val appConfigAPI: Lazy<AppConfigApiV1>,
     private val verificationKeys: VerificationKeys,
     @DownloadCDNHomeCountry private val homeCountry: LocationCode,
-    private val configStorage: AppConfigStorage
+    private val configStorage: AppConfigStorage,
+    @AppConfigHttpCache private val cache: Cache
 ) {
 
+    private val mutex = Mutex()
     private val configApi: AppConfigApiV1
         get() = appConfigAPI.get()
 
@@ -58,7 +63,7 @@ class AppConfigProvider @Inject constructor(
             downloadAppConfig()
         } catch (e: Exception) {
             Timber.w(e, "Failed to download latest AppConfig.")
-            if (configStorage.isAppConfigAvailable) {
+            if (configStorage.isAppConfigAvailable()) {
                 null
             } else {
                 Timber.e("No fallback available, rethrowing!")
@@ -76,12 +81,12 @@ class AppConfigProvider @Inject constructor(
         return newConfigParsed?.also {
             Timber.d("Saving new valid config.")
             Timber.v("New Config.supportedCountries: %s", it.supportedCountriesList)
-            configStorage.appConfigRaw = newConfigRaw
+            configStorage.setAppConfigRaw(newConfigRaw)
         }
     }
 
-    private fun getFallback(): ApplicationConfiguration {
-        val lastValidConfig = tryParseConfig(configStorage.appConfigRaw)
+    private suspend fun getFallback(): ApplicationConfiguration {
+        val lastValidConfig = tryParseConfig(configStorage.getAppConfigRaw())
         return if (lastValidConfig != null) {
             Timber.d("Using fallback AppConfig.")
             lastValidConfig
@@ -91,16 +96,29 @@ class AppConfigProvider @Inject constructor(
         }
     }
 
-    suspend fun getAppConfig(): ApplicationConfiguration = withContext(Dispatchers.IO) {
-        val newAppConfig = getNewAppConfig()
+    suspend fun getAppConfig(): ApplicationConfiguration = mutex.withLock {
+        withContext(Dispatchers.IO) {
 
-        return@withContext if (newAppConfig != null) {
-            newAppConfig
-        } else {
-            Timber.w("No new config available, using last valid.")
-            getFallback()
+            val newAppConfig = getNewAppConfig()
+
+            return@withContext if (newAppConfig != null) {
+                newAppConfig
+            } else {
+                Timber.w("No new config available, using last valid.")
+                getFallback()
+            }
+        }.performSanityChecks()
+    }
+
+    suspend fun clear() = mutex.withLock {
+        withContext(Dispatchers.IO) {
+            configStorage.setAppConfigRaw(null)
+
+            // We are using Dispatchers IO to make it appropriate
+            @Suppress("BlockingMethodInNonBlockingContext")
+            cache.evictAll()
         }
-    }.performSanityChecks()
+    }
 
     private fun ApplicationConfiguration.performSanityChecks(): ApplicationConfiguration {
         var sanityChecked = this
