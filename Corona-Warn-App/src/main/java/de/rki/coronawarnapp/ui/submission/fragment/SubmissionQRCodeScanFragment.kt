@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
@@ -23,6 +24,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionQRCodeScanViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.util.CameraPermissionHelper
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
@@ -36,7 +38,8 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
@@ -123,10 +126,21 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
 
             if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
-                    SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
-                )
+                submissionViewModel.deviceUiState.observe2(this) { uiState ->
+                    SubmissionRepository.refreshDeviceUIState(true)
+                    if (uiState != DeviceUIState.UNPAIRED) {
+                        if (uiState == DeviceUIState.PAIRED_REDEEMED) {
+                            showRedeemedTokenWarningDialog()
+                            submissionViewModel.deregisterTestFromDevice()
+                            goBack()
+                        } else {
+                            doNavigate(
+                                SubmissionQRCodeScanFragmentDirections
+                                    .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -165,6 +179,16 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         DialogHelper.showDialog(invalidScanDialogInstance)
     }
 
+    private fun showRedeemedTokenWarningDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_error_dialog_web_tan_redeemed_title,
+            R.string.submission_error_dialog_web_tan_redeemed_body,
+            R.string.submission_error_dialog_web_tan_redeemed_button_positive
+        )
+        DialogHelper.showDialog(dialog)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -172,13 +196,14 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     ) {
         // if permission was denied
         if (requestCode == REQUEST_CAMERA_PERMISSION_CODE &&
-            (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)) {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                    showCameraPermissionRationaleDialog()
-                } else {
-                    // user permanently denied access to the camera
-                    showCameraPermissionDeniedDialog()
-                }
+            (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)
+        ) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                showCameraPermissionRationaleDialog()
+            } else {
+                // user permanently denied access to the camera
+                showCameraPermissionDeniedDialog()
+            }
         }
     }
 
