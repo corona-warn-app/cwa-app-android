@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private lateinit var settingsViewModel: SettingsViewModel
 
-    @Inject
-    lateinit var backgroundPrioritization: BackgroundPrioritization
+    @Inject lateinit var backgroundPrioritization: BackgroundPrioritization
 
-    @Inject
-    lateinit var powerManagement: PowerManagement
+    @Inject lateinit var powerManagement: PowerManagement
+
+    @Inject lateinit var deadmanScheduler: DeadmanNotificationScheduler
 
     /**
      * Register connection callback.
@@ -195,5 +195,5 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     private fun scheduleWork() = BackgroundWorkScheduler.startWorkScheduler()
 
-    private fun scheduleDeadmanNotification() = DeadmanNotificationScheduler().schedulePeriodic()
+    private fun scheduleDeadmanNotification() = deadmanScheduler.schedulePeriodic()
 }

@@ -1,35 +1,17 @@
 package de.rki.coronawarnapp.deadman
 
-import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import dagger.Reusable
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.deadman.DeadmanNotificationTimeCalculation.Companion.DEADMAN_NOTIFICATION_DELAY
-import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.worker.BackgroundConstants
-import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
-import org.joda.time.DateTimeConstants
-import org.joda.time.DateTimeZone
-import org.joda.time.Hours
-import org.joda.time.Instant
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
-class DeadmanNotificationScheduler @Inject constructor() {
-
-    /**
-     * Work manager instance
-     */
-    private val workManager by lazy { WorkManager.getInstance(CoronaWarnApplication.getAppContext()) }
+class DeadmanNotificationScheduler @Inject constructor(
+    val timeCalculation: DeadmanNotificationTimeCalculation,
+    val workManager: WorkManager,
+    val workBuilder: DeadmanNotificationWorkBuilder
+) {
 
     /**
      * Enqueue background deadman notification onetime work
@@ -37,19 +19,16 @@ class DeadmanNotificationScheduler @Inject constructor() {
      */
     suspend fun scheduleOneTime() {
         // Get initial delay
-        val delay = DeadmanNotificationTimeCalculation().getDelay()
+        val delay = timeCalculation.getDelay()
 
-//        Timber.d("Delay: $delay")
-
-        // TODO: seperate logic?
         if(delay < 0) {
-            return // TODO: <- Dont like this one
+            return
         } else {
             //Create unique work and enqueue
             workManager.enqueueUniqueWork(
                 ONE_TIME_WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
-                DeadmanNotificationWorkBuilder().buildOneTimeWork(delay)
+                workBuilder.buildOneTimeWork(delay)
             )
         }
     }
@@ -63,7 +42,7 @@ class DeadmanNotificationScheduler @Inject constructor() {
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.REPLACE,
-            DeadmanNotificationWorkBuilder().buildPeriodicWork()
+            workBuilder.buildPeriodicWork()
         )
     }
 

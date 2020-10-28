@@ -1,53 +1,103 @@
 package de.rki.coronawarnapp.deadman
 
+import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.nearby.modules.calculationtracker.Calculation
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
-import org.joda.time.DateTime
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
+import testhelpers.coroutines.runBlockingTest2
 
-class CalendarCalculationTest {
+class CalendarCalculationTest : BaseTest() {
 
-    private var pattern = "dd.MM.yyyy HH:mm"
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var enfClient: ENFClient
+    @MockK lateinit var mockCalculation: Calculation
 
-    private val parsedTime: (String) -> DateTime = {input -> DateTime.parse(input, DateTimeFormat.forPattern(pattern))}
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
+        every { enfClient.latestFinishedCalculation() } returns flowOf(mockCalculation)
+    }
 
-//    @MockK
-//    lateinit var timeStamper: TimeStamper
-//
-//    @BeforeEach
-//    fun setup() {
-//        MockKAnnotations.init(this)
-//        every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
-//    }
-//
-//    @AfterEach
-//    fun teardown() {
-//        clearAllMocks()
-//    }
-//
-//    private fun createTimeCalculator() = DeadmanNotificationTimeCalculation(
-//        timeStamper = timeStamper
-//    )
-//
-//    @Test
-//    fun `multiple time test`() {
-//        val currentTime = Instant.parse("2020-08-01T23:00:00.000Z")
-//        every { timeStamper.nowUTC } returns currentTime
-//
-//        createTimeCalculator().getTime(Instant.parse("2020-08-01T22:00:00.000Z")) shouldBe 1
-//    }
+    @AfterEach
+    fun teardown() {
+        clearAllMocks()
+    }
+
+    private fun createTimeCalculator() = DeadmanNotificationTimeCalculation(
+        timeStamper = timeStamper,
+        enfClient = enfClient
+    )
 
     @Test
-    fun `multiple hours difference`() {
+    fun `12 hours difference`()  {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
 
-        // 72 hours passed -> deadman notification should be executed 36 hours ago
-        DeadmanNotificationTimeCalculation().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z"), Instant.parse("2020-08-30T14:00:00.000Z")) shouldBe -2160
+        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z")) shouldBe 720
+    }
 
-        DeadmanNotificationTimeCalculation().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z"), Instant.parse("2020-08-28T14:00:00.000Z")) shouldBe 720
+    @Test
+    fun `negative time difference`() {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
 
-        // Last success in future. Not possible case in real app
-        DeadmanNotificationTimeCalculation().getHoursDiff(Instant.parse("2020-08-27T15:00:00.000Z"), Instant.parse("2020-08-27T14:00:00.000Z")) shouldBe 2220
+        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z")) shouldBe -2160
+    }
 
+    @Test
+    fun `success in future case`() {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
+
+        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T15:00:00.000Z")) shouldBe 2220
+    }
+
+    @Test
+    fun `12 hours delay`() = runBlockingTest2(permanentJobs = true)  {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
+        every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
+
+        createTimeCalculator().getDelay() shouldBe 720
+
+        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+    }
+
+    @Test
+    fun `negative delay`() = runBlockingTest2(permanentJobs = true)  {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
+        every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
+
+        createTimeCalculator().getDelay() shouldBe -2160
+
+        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+    }
+
+    @Test
+    fun `success in future delay`() = runBlockingTest2(permanentJobs = true)  {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
+        every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T15:00:00.000Z")
+
+        createTimeCalculator().getDelay() shouldBe 2220
+
+        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
+    }
+
+    @Test
+    fun `initial delay - no successful calculations yet`() = runBlockingTest2(permanentJobs = true)  {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
+        every { enfClient.latestFinishedCalculation() } returns flowOf(null)
+
+        createTimeCalculator().getDelay() shouldBe 2160
+
+        verify(exactly = 1) { enfClient.latestFinishedCalculation() }
     }
 }

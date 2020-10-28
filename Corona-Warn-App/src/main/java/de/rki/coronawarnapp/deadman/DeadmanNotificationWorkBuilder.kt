@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.deadman
 
 import androidx.work.BackoffPolicy
+import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -15,7 +17,7 @@ class DeadmanNotificationWorkBuilder @Inject constructor() {
     /**
      * Build one time work
      */
-    fun buildOneTimeWork(delay: Long) =
+    fun buildOneTimeWork(delay: Long): OneTimeWorkRequest =
         OneTimeWorkRequestBuilder<DeadmanNotificationOneTimeWorker>()
             .setInitialDelay(
                 delay,
@@ -31,8 +33,8 @@ class DeadmanNotificationWorkBuilder @Inject constructor() {
     /**
      * Build periodic work
      */
-    fun buildPeriodicWork() = PeriodicWorkRequestBuilder<DeadmanNotificationPeriodicWorker>(
-        DateTimeConstants.HOURS_PER_DAY.toLong(), TimeUnit.MINUTES
+    fun buildPeriodicWork(): PeriodicWorkRequest = PeriodicWorkRequestBuilder<DeadmanNotificationPeriodicWorker>(
+        DateTimeConstants.MINUTES_PER_HOUR.toLong(), TimeUnit.MINUTES
     )
         .setBackoffCriteria(
             BackoffPolicy.EXPONENTIAL,

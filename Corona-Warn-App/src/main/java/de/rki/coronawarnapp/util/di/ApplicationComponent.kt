@@ -7,6 +7,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -90,6 +92,9 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val playbook: Playbook
 
     val interoperabilityRepository: InteroperabilityRepository
+
+    val deadmanScheduler: DeadmanNotificationScheduler
+    val deadmanSender: DeadmanNotificationSender
 
     @AppScope val appScope: AppCoroutineScope
 

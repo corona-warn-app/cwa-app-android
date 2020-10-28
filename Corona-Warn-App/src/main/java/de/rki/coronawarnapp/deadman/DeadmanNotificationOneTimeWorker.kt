@@ -1,15 +1,10 @@
 package de.rki.coronawarnapp.deadman
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import de.rki.coronawarnapp.worker.BackgroundWorkHelper
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import timber.log.Timber
 
 /**
@@ -38,7 +33,7 @@ class DeadmanNotificationOneTimeWorker(
         }
         var result = Result.success()
         try {
-            DeadmanNotificationSender().sendNotification()
+            AppInjector.component.deadmanSender.sendNotification()
         } catch (e: Exception) {
             result = Result.retry()
         }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -30,4 +31,10 @@ class AndroidModule {
     fun notificationManagerCompat(
         @AppContext context: Context
     ): NotificationManagerCompat = NotificationManagerCompat.from(context)
+
+    @Provides
+    @Singleton
+    fun workManager(
+        @AppContext context: Context
+    ): WorkManager = WorkManager.getInstance(context)
 }
