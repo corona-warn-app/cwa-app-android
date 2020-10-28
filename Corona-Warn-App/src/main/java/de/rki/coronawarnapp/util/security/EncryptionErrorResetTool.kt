@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import de.rki.coronawarnapp.storage.DATABASE_NAME
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.errors.causes
 import org.joda.time.Instant
@@ -23,7 +24,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class EncryptionErrorResetTool @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val timeStamper: TimeStamper
 ) {
     // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/app/ContextImpl.java;drc=3b8e8d76315f6718a982d5e6a019b3aa4f634bcd;l=626
     private val encryptedPreferencesFile by lazy {
@@ -63,9 +65,9 @@ class EncryptionErrorResetTool @Inject constructor(
         }
 
     fun tryResetIfNecessary(error: Throwable): Boolean {
-        Timber.w(error, "isRecoveryWarranted()")
+        Timber.w(error, "tryResetIfNecessary()")
 
-        // We only reset for the first error encountered after upgrading to 1.4.0+
+        // We only try to reset once, if the error reoccurs, on-going resets is not the solution.
         if (isResetWindowConsumed) {
             Timber.v("Reset window has been consumed -> no reset.")
             return false
@@ -122,7 +124,7 @@ class EncryptionErrorResetTool @Inject constructor(
             return false
         }
 
-        resetPerformedAt = Instant.now()
+        resetPerformedAt = timeStamper.nowUTC
         isResetNoticeToBeShown = true
 
         return true
@@ -130,7 +132,10 @@ class EncryptionErrorResetTool @Inject constructor(
 
     companion object {
         private const val PKEY_EA1851_RESET_PERFORMED_AT = "ea1851.reset.performedAt"
-        private const val PKEY_EA1851_WAS_WINDOW_CONSUMED = "ea1851.reset.windowconsumed"
+
+        @Suppress("unused")
+        private const val PKEY_EA1851_WAS_WINDOW_CONSUMED_OLD = "ea1851.reset.windowconsumed"
+        private const val PKEY_EA1851_WAS_WINDOW_CONSUMED = "ea1851.reset.windowconsumed.160"
         private const val PKEY_EA1851_SHOW_RESET_NOTICE = "ea1851.reset.shownotice"
     }
 }
