@@ -220,8 +220,8 @@ class EncryptionResetToolTest : BaseIOTest() {
         encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
-            this["ea1851.reset.performedAt"] shouldNotBe null
-            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.performedAt"] shouldBe 1234567890L
+            this["ea1851.reset.windowconsumed.160"] shouldBe true
             this["ea1851.reset.shownotice"] shouldBe true
         }
     }
@@ -246,8 +246,8 @@ class EncryptionResetToolTest : BaseIOTest() {
         encryptedDatabaseFile.exists() shouldBe false
 
         mockPreferences.dataMapPeek.apply {
-            this["ea1851.reset.performedAt"] shouldNotBe null
-            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.performedAt"] shouldBe 1234567890L
+            this["ea1851.reset.windowconsumed.160"] shouldBe true
             this["ea1851.reset.shownotice"] shouldBe true
         }
     }
@@ -276,7 +276,7 @@ class EncryptionResetToolTest : BaseIOTest() {
 
         mockPreferences.dataMapPeek.apply {
             this["ea1851.reset.performedAt"] shouldBe null
-            this["ea1851.reset.windowconsumed"] shouldBe true
+            this["ea1851.reset.windowconsumed.160"] shouldBe true
             this["ea1851.reset.shownotice"] shouldBe null
         }
     }

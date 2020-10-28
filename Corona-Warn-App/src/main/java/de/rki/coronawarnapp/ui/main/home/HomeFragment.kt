@@ -81,7 +81,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
                         detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                        onDismiss = { vm.errorResetDialogDismissed() }
+                        onPositive = { vm.errorResetDialogDismissed() }
                     )
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
