@@ -89,6 +89,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 }
             }
         }
+
+        vm.showLoweredRiskLevelDialog.observe2(this) {
+            showRiskLevelLoweredDialogIfNeeded()
+        }
     }
 
     override fun onResume() {
@@ -175,6 +179,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun showRiskLevelLoweredDialogIfNeeded() {
+        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.risk_lowered_dialog_headline,
+            message = R.string.risk_lowered_dialog_body,
+            positiveButton = R.string.risk_lowered_dialog_button_confirm,
+            negativeButton = null,
+            cancelable = false,
+            positiveButtonFunction = { vm.userHasAcknowledgedTheLoweredRiskLevel() }
+        )
+
+        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
         }
     }
 }

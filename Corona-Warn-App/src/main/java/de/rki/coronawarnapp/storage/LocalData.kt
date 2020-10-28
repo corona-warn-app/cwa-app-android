@@ -23,6 +23,8 @@ object LocalData {
     private const val PREFERENCE_INTEROPERABILITY_IS_USED_AT_LEAST_ONCE =
         "preference_interoperability_is_used_at_least_once"
 
+    private const val PREFERENCE_HAS_RISK_STATUS_LOWERED =
+        "preference_has_risk_status_lowered"
     /****************************************************
      * ONBOARDING DATA
      ****************************************************/
@@ -355,6 +357,25 @@ object LocalData {
                 CoronaWarnApplication.getAppContext()
                     .getString(R.string.preference_risk_days_explanation_shown), value
             )
+        }
+
+    /**
+     * Sets a boolean depending whether the risk level decreased or not.
+     */
+    private val isUserToBeNotifiedOfLoweredRiskLevelFlowInternal by lazy {
+        MutableStateFlow(isUserToBeNotifiedOfLoweredRiskLevel)
+    }
+    val isUserToBeNotifiedOfLoweredRiskLevelFlow: Flow<Boolean> by lazy {
+        isUserToBeNotifiedOfLoweredRiskLevelFlowInternal
+    }
+    var isUserToBeNotifiedOfLoweredRiskLevel: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(
+            PREFERENCE_HAS_RISK_STATUS_LOWERED,
+            false
+        )
+        set(value) = getSharedPreferenceInstance().edit(commit = true) {
+            putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value)
+            isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value
         }
 
     /****************************************************
