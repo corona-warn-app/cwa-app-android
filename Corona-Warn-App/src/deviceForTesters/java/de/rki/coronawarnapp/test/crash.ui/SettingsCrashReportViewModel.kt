@@ -22,12 +22,10 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 
     val crashReports = crashReportRepository.getAll().asLiveData()
 
-    private val selectedCrashReportMutable: MutableLiveData<BugEvent> by lazy { MutableLiveData() }
-    val selectedCrashReport: LiveData<BugEvent> by lazy { selectedCrashReportMutable }
-    val selectedCrashReportFormattedText: LiveData<String> by lazy {
-        selectedCrashReportMutable.map {
-            createBugEventFormattedText(it)
-        }
+    private val selectedCrashReportMutable: MutableLiveData<BugEvent> = MutableLiveData()
+    val selectedCrashReport: LiveData<BugEvent> = selectedCrashReportMutable
+    val selectedCrashReportFormattedText: LiveData<String> = selectedCrashReportMutable.map {
+        createBugEventFormattedText(it)
     }
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
