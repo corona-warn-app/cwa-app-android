@@ -5,6 +5,7 @@ import android.content.res.Resources
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -38,7 +39,7 @@ class TracingDetailsStateTest : BaseTest() {
     private fun createInstance(
         tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevelScore: Int = 0,
-        isRefreshing: Boolean = false,
+        tracingProgress: TracingProgress = TracingProgress.Idle,
         riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 3,
         daysSinceLastExposure: Int = 2,
@@ -52,8 +53,8 @@ class TracingDetailsStateTest : BaseTest() {
     ) = TracingDetailsState(
         tracingStatus = tracingStatus,
         riskLevelScore = riskLevelScore,
-        isRefreshing = isRefreshing,
-        riskLevelLastSuccessfulCalculation = riskLevelLastSuccessfulCalculation,
+        tracingProgress = tracingProgress,
+        lastRiskLevelScoreCalculated = riskLevelLastSuccessfulCalculation,
         matchedKeyCount = matchedKeyCount,
         daysSinceLastExposure = daysSinceLastExposure,
         activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
@@ -148,8 +149,11 @@ class TracingDetailsStateTest : BaseTest() {
         createInstance(riskLevelScore = RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF).apply {
             isBehaviorLowLevelRiskVisible() shouldBe false
         }
-        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK, matchedKeyCount = 1).apply {
             isBehaviorLowLevelRiskVisible() shouldBe true
+        }
+        createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK, matchedKeyCount = 0).apply {
+            isBehaviorLowLevelRiskVisible() shouldBe false
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
             isBehaviorLowLevelRiskVisible() shouldBe false
@@ -221,7 +225,7 @@ class TracingDetailsStateTest : BaseTest() {
         }
         createInstance(riskLevelScore = RiskLevelConstants.LOW_LEVEL_RISK).apply {
             getRiskDetailsRiskLevelBodyNotice(context)
-            verify { context.getString(R.string.risk_details_information_body_notice_low) }
+            verify { context.getString(R.string.risk_details_information_body_notice) }
         }
         createInstance(riskLevelScore = RiskLevelConstants.INCREASED_RISK).apply {
             getRiskDetailsRiskLevelBodyNotice(context)

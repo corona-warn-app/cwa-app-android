@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
@@ -82,7 +84,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                         onDismiss = { vm.errorResetDialogDismissed() }
                     )
                 }
+                HomeFragmentEvents.ShowDeleteTestDialog -> {
+                    showRemoveTestDialog()
+                }
             }
+        }
+
+        vm.showLoweredRiskLevelDialog.observe2(this) {
+            showRiskLevelLoweredDialogIfNeeded()
         }
     }
 
@@ -93,11 +102,28 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun setupRiskCard() {
-        binding.mainRisk.apply {
-            riskCard.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+    private fun showRemoveTestDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                vm.deregisterWarningAccepted()
             }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
+    }
+
+    private fun setupRiskCard() {
+        binding.riskCard.setOnClickListener {
+            doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+        }
+        binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
                 vm.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
@@ -133,6 +159,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardPositive.setOnClickListener { toSubmissionResult() }
                 submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
             }
+
+            mainTestFailed.apply {
+                setOnClickListener {
+                    vm.removeTestPushed()
+                }
+            }
         }
     }
 
@@ -147,6 +179,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun showRiskLevelLoweredDialogIfNeeded() {
+        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.risk_lowered_dialog_headline,
+            message = R.string.risk_lowered_dialog_body,
+            positiveButton = R.string.risk_lowered_dialog_button_confirm,
+            negativeButton = null,
+            cancelable = false,
+            positiveButtonFunction = { vm.userHasAcknowledgedTheLoweredRiskLevel() }
+        )
+
+        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
         }
     }
 }

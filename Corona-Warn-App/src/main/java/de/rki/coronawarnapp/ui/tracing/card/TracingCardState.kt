@@ -1,20 +1,22 @@
 package de.rki.coronawarnapp.ui.tracing.card
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.ui.tracing.common.BaseTracingState
 import java.util.Date
 
 data class TracingCardState(
     override val tracingStatus: GeneralTracingStatus.Status,
     override val riskLevelScore: Int,
-    override val isRefreshing: Boolean,
-    override val riskLevelLastSuccessfulCalculation: Int,
+    override val tracingProgress: TracingProgress,
+    override val lastRiskLevelScoreCalculated: Int,
     override val matchedKeyCount: Int,
     override val daysSinceLastExposure: Int,
     override val activeTracingDaysInRetentionPeriod: Long,
@@ -58,11 +60,11 @@ data class TracingCardState(
             riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ||
             riskLevelScore == RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
         ) {
-            when (riskLevelLastSuccessfulCalculation) {
+            when (lastRiskLevelScoreCalculated) {
                 RiskLevelConstants.LOW_LEVEL_RISK,
                 RiskLevelConstants.INCREASED_RISK,
                 RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
-                    val arg = formatRiskLevelHeadline(c, riskLevelLastSuccessfulCalculation, false)
+                    val arg = formatRiskLevelHeadline(c, lastRiskLevelScoreCalculated)
                     c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk)
                         .format(arg)
                 }
@@ -202,7 +204,7 @@ data class TracingCardState(
             RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF,
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS,
             RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> {
-                when (riskLevelLastSuccessfulCalculation) {
+                when (lastRiskLevelScoreCalculated) {
                     RiskLevelConstants.LOW_LEVEL_RISK,
                     RiskLevelConstants.INCREASED_RISK,
                     RiskLevelConstants.UNKNOWN_RISK_INITIAL -> {
@@ -260,29 +262,37 @@ data class TracingCardState(
     fun showUpdateButton(): Boolean =
         !isTracingOffRiskLevel() && !isBackgroundJobEnabled && !showDetails
 
-    /**
-     * Formats the risk card headline depending on risk level
-     * Special case of a running update is caught
-     */
-    fun getRiskLevelHeadline(c: Context): String =
-        formatRiskLevelHeadline(c, riskLevelScore, isRefreshing)
+    fun getRiskLevelHeadline(c: Context) = formatRiskLevelHeadline(c, riskLevelScore)
 
-    private fun formatRiskLevelHeadline(c: Context, riskLevelScore: Int, isRefreshing: Boolean) =
-        if (isRefreshing) {
-            c.getString(R.string.risk_card_loading_headline)
-        } else {
-            when (riskLevelScore) {
-                RiskLevelConstants.INCREASED_RISK -> c.getString(R.string.risk_card_increased_risk_headline)
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS ->
-                    c.getString(R.string.risk_card_outdated_risk_headline)
-                RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF ->
-                    c.getString(R.string.risk_card_no_calculation_possible_headline)
-                RiskLevelConstants.LOW_LEVEL_RISK -> c.getString(R.string.risk_card_low_risk_headline)
-                RiskLevelConstants.UNKNOWN_RISK_INITIAL ->
-                    c.getString(R.string.risk_card_unknown_risk_headline)
-                RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL ->
-                    c.getString(R.string.risk_card_unknown_risk_headline)
-                else -> ""
-            }
-        }
+    fun formatRiskLevelHeadline(c: Context, riskLevelScore: Int) = when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.string.risk_card_outdated_risk_headline
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.string.risk_card_no_calculation_possible_headline
+        RiskLevelConstants.LOW_LEVEL_RISK -> R.string.risk_card_low_risk_headline
+        RiskLevelConstants.UNKNOWN_RISK_INITIAL -> R.string.risk_card_unknown_risk_headline
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL -> R.string.risk_card_unknown_risk_headline
+        else -> null
+    }?.let { c.getString(it) } ?: ""
+
+    fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
+        TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
+        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_headline
+        TracingProgress.Idle -> null
+    }?.let { c.getString(it) } ?: ""
+
+    fun getProgressCardBody(c: Context): String = when (tracingProgress) {
+        TracingProgress.Downloading -> R.string.risk_card_progress_download_body
+        TracingProgress.ENFIsCalculating -> R.string.risk_card_progress_calculation_body
+        TracingProgress.Idle -> null
+    }?.let { c.getString(it) } ?: ""
+
+    fun isTracingInProgress(): Boolean = tracingProgress != TracingProgress.Idle
+
+    fun getRiskInfoContainerBackgroundTint(c: Context): ColorStateList = when (riskLevelScore) {
+        RiskLevelConstants.INCREASED_RISK -> R.color.card_increased
+        RiskLevelConstants.UNKNOWN_RISK_OUTDATED_RESULTS -> R.color.card_outdated
+        RiskLevelConstants.NO_CALCULATION_POSSIBLE_TRACING_OFF -> R.color.card_no_calculation
+        RiskLevelConstants.LOW_LEVEL_RISK -> R.color.card_low
+        else -> R.color.card_unknown
+    }.let { c.getColorStateList(it) }
 }

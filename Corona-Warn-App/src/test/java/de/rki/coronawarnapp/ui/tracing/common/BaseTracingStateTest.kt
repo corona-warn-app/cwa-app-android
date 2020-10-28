@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskLevelConstants
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
+import de.rki.coronawarnapp.tracing.TracingProgress
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -44,7 +45,7 @@ class BaseTracingStateTest : BaseTest() {
     private fun createInstance(
         tracingStatus: GeneralTracingStatus.Status = mockk(),
         riskLevelScore: Int = 0,
-        isRefreshing: Boolean = false,
+        tracingProgress: TracingProgress = TracingProgress.Idle,
         riskLevelLastSuccessfulCalculation: Int = 0,
         matchedKeyCount: Int = 0,
         daysSinceLastExposure: Int = 0,
@@ -57,8 +58,8 @@ class BaseTracingStateTest : BaseTest() {
     ) = object : BaseTracingState() {
         override val tracingStatus: GeneralTracingStatus.Status = tracingStatus
         override val riskLevelScore: Int = riskLevelScore
-        override val isRefreshing: Boolean = isRefreshing
-        override val riskLevelLastSuccessfulCalculation: Int = riskLevelLastSuccessfulCalculation
+        override val tracingProgress: TracingProgress = tracingProgress
+        override val lastRiskLevelScoreCalculated: Int = riskLevelLastSuccessfulCalculation
         override val matchedKeyCount: Int = matchedKeyCount
         override val daysSinceLastExposure: Int = daysSinceLastExposure
         override val activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod
@@ -67,18 +68,6 @@ class BaseTracingStateTest : BaseTest() {
         override val showDetails: Boolean = showDetails
         override val isManualKeyRetrievalEnabled: Boolean = isManualKeyRetrievalEnabled
         override val manualKeyRetrievalTime: Long = manualKeyRetrievalTime
-    }
-
-    @Test
-    fun `risk card shape`() {
-        createInstance(showDetails = true).apply {
-            getRiskShape(context)
-            verify { context.getDrawable(R.drawable.rectangle) }
-        }
-        createInstance(showDetails = false).apply {
-            getRiskShape(context)
-            verify { context.getDrawable(R.drawable.rectangle) }
-        }
     }
 
     @Test

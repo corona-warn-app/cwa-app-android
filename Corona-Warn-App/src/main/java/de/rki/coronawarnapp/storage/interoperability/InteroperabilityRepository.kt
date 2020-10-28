@@ -56,4 +56,8 @@ class InteroperabilityRepository @Inject constructor(
             }
         }
     }
+
+    fun clear() {
+        countryListFlowInternal.value = emptyList()
+    }
 }

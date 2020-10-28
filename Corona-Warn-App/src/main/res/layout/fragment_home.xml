@@ -126,17 +126,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_tracing" />
 
-            <include
-                android:id="@+id/main_risk"
-                layout="@layout/include_risk_card"
-                android:layout_width="@dimen/match_constraint"
+            <FrameLayout
+                android:id="@+id/risk_card"
+                style="@style/card"
+                gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                gone="@{tracingCard == null || submissionCard == null || !submissionCard.isRiskCardVisible()}"
+                android:focusable="true"
+                android:backgroundTint="@{tracingCard.getRiskInfoContainerBackgroundTint(context)}"
+                android:backgroundTintMode="src_over"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider"
-                app:tracingCard="@{tracingCard}" />
+                app:layout_constraintTop_toBottomOf="@+id/main_tracing_divider">
+
+                <include
+                    android:id="@+id/risk_card_content"
+                    layout="@layout/include_risk_card_content"
+                    app:tracingCard="@{tracingCard}" />
+
+            </FrameLayout>
 
             <!-- submission status cards -->
             <include
@@ -148,7 +157,7 @@
                 gone="@{submissionCard == null || !submissionCard.isUnregisteredCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@id/main_risk" />
+                app:layout_constraintTop_toBottomOf="@id/risk_card" />
 
             <include
                 android:id="@+id/main_test_result"
@@ -173,6 +182,17 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@id/main_test_result" />
 
+            <de.rki.coronawarnapp.ui.view.TestResultCardFetchFailed
+                android:id="@+id/main_test_failed"
+                style="@style/cardNoPadding"
+                gone="@{submissionCard == null || !submissionCard.isFailedCardVisible()}"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/main_test_fetching" />
+
             <include
                 android:id="@+id/main_test_positive"
                 layout="@layout/include_submission_status_card_positive"
@@ -182,7 +202,7 @@
                 gone="@{submissionCard == null || !submissionCard.isPositiveSubmissionCardVisible()}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/main_test_fetching" />
+                app:layout_constraintTop_toBottomOf="@+id/main_test_failed" />
 
             <include
                 android:id="@+id/main_test_done"
@@ -213,7 +233,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/main_barrier"
                 app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
-                app:layout_constraintVertical_bias="0.0"/>
+                app:layout_constraintVertical_bias="0.0" />
 
             <include layout="@layout/merge_guidelines_side" />
 

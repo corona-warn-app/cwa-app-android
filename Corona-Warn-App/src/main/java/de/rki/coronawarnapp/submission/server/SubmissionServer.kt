@@ -2,7 +2,9 @@ package de.rki.coronawarnapp.submission.server
 
 import com.google.protobuf.ByteString
 import dagger.Lazy
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
+import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
+
 import de.rki.coronawarnapp.util.PaddingTool.requestPadding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -21,7 +23,7 @@ class SubmissionServer @Inject constructor(
 
     data class SubmissionData(
         val authCode: String,
-        val keyList: List<KeyExportFormat.TemporaryExposureKey>,
+        val keyList: List<TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visistedCountries: List<String>
     )
@@ -41,9 +43,9 @@ class SubmissionServer @Inject constructor(
         )
         val fakeKeyPadding = requestPadding(FAKE_KEY_SIZE * fakeKeyCount)
 
-        val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
+        val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
-            .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+            .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .setConsentToFederation(data.consentToFederation)
             .addAllVisitedCountries(data.visistedCountries)
             .build()
@@ -64,8 +66,8 @@ class SubmissionServer @Inject constructor(
 
         val fakeKeyPadding = requestPadding(FAKE_KEY_SIZE * fakeKeyCount)
 
-        val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
-            .setPadding(ByteString.copyFromUtf8(fakeKeyPadding))
+        val submissionPayload = SubmissionPayload.newBuilder()
+            .setRequestPadding(ByteString.copyFromUtf8(fakeKeyPadding))
             .build()
 
         api.submitKeys(

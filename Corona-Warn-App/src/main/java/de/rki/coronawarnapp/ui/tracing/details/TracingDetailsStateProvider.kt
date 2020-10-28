@@ -7,13 +7,12 @@ import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.util.BackgroundModeStatus
+import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
-import java.util.Date
 import javax.inject.Inject
 
 @Reusable
@@ -30,7 +29,7 @@ class TracingDetailsStateProvider @Inject constructor(
         tracingStatus.generalStatus,
         RiskLevelRepository.riskLevelScore,
         RiskLevelRepository.riskLevelScoreLastSuccessfulCalculated,
-        tracingRepository.isRefreshing,
+        tracingRepository.tracingProgress,
         ExposureSummaryRepository.matchedKeyCount,
         ExposureSummaryRepository.daysSinceLastExposure,
         tracingRepository.activeTracingDaysInRetentionPeriod,
@@ -38,31 +37,30 @@ class TracingDetailsStateProvider @Inject constructor(
         backgroundModeStatus.isAutoModeEnabled,
         settingsRepository.isManualKeyRetrievalEnabledFlow,
         settingsRepository.manualKeyRetrievalTimeFlow
-    ) { sources: Array<Any?> ->
-        val status = sources[0] as GeneralTracingStatus.Status
-        val riskLevelScore = sources[1] as Int
-        val riskLevelScoreLastSuccessfulCalculated = sources[2] as Int
-        val isRefreshing = sources[3] as Boolean
-        val matchedKeyCount = sources[4] as Int
-        val daysSinceLastExposure = sources[5] as Int
-        val activeTracingDaysInRetentionPeriod = sources[6] as Long
-        val lastTimeDiagnosisKeysFetched = sources[7] as Date?
-        val isBackgroundJobEnabled = sources[8] as Boolean
-        val isManualKeyRetrievalEnabled = sources[9] as Boolean
-        val manualKeyRetrievalTime = sources[10] as Long
+    ) { status,
+        riskLevelScore,
+        riskLevelScoreLastSuccessfulCalculated,
+        tracingProgress,
+        matchedKeyCount,
+        daysSinceLastExposure, activeTracingDaysInRetentionPeriod,
+        lastTimeDiagnosisKeysFetched,
+        isBackgroundJobEnabled,
+        isManualKeyRetrievalEnabled,
+        manualKeyRetrievalTime ->
 
         val isAdditionalInformationVisible = riskDetailPresenter.isAdditionalInfoVisible(
             riskLevelScore, matchedKeyCount
         )
-        val isInformationBodyNoticeVisible = riskDetailPresenter.isInformationBodyNoticeVisible(
-            riskLevelScore, matchedKeyCount
+        val isInformationBodyNoticeVisible =
+            riskDetailPresenter.isInformationBodyNoticeVisible(
+            riskLevelScore
         )
 
         TracingDetailsState(
             tracingStatus = status,
             riskLevelScore = riskLevelScore,
-            isRefreshing = isRefreshing,
-            riskLevelLastSuccessfulCalculation = riskLevelScoreLastSuccessfulCalculated,
+            tracingProgress = tracingProgress,
+            lastRiskLevelScoreCalculated = riskLevelScoreLastSuccessfulCalculated,
             matchedKeyCount = matchedKeyCount,
             daysSinceLastExposure = daysSinceLastExposure,
             activeTracingDaysInRetentionPeriod = activeTracingDaysInRetentionPeriod,
