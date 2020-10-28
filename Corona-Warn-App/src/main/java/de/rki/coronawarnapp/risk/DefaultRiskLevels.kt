@@ -148,7 +148,7 @@ class DefaultRiskLevels @Inject constructor(
         }
     }
 
-    fun calculateRiskScore(
+    override fun calculateRiskScore(
         attenuationParameters: AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double {

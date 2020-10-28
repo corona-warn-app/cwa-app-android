@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
@@ -40,6 +41,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
     @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
     @MockK lateinit var taskController: TaskController
+    @MockK lateinit var riskLevels: RiskLevels
 
     @BeforeEach
     fun setup() {
@@ -68,6 +70,7 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             keyCacheRepository = keyCacheRepository,
             tracingCardStateProvider = tracingCardStateProvider,
             dispatcherProvider = TestDispatcherProvider,
+            riskLevels = riskLevels,
             taskController = taskController
         )
 

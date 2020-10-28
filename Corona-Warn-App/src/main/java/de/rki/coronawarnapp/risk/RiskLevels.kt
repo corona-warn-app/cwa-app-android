@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.risk
 
+import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
+
 interface RiskLevels {
 
     fun calculationNotPossibleBecauseNoKeys(): Boolean
@@ -20,4 +23,9 @@ interface RiskLevels {
         riskLevel: RiskLevel,
         time: Long
     )
+
+    fun calculateRiskScore(
+        attenuationParameters: AttenuationDurationOuterClass.AttenuationDuration,
+        exposureSummary: ExposureSummary
+    ): Double
 }

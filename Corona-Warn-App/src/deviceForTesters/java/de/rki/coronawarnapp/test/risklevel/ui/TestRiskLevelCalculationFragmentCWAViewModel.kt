@@ -8,15 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -52,8 +51,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @AppContext private val context: Context, // App context
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
+    private val riskLevels: RiskLevels,
     private val taskController: TaskController,
-    private val appConfigProvider: AppConfigProvider,
     private val keyCacheRepository: KeyCacheRepository,
     tracingCardStateProvider: TracingCardStateProvider
 ) : CWAViewModel(
@@ -135,7 +134,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 val appConfig =
                     ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
 
-                val riskLevelScore = DefaultRiskLevels(appConfigProvider).calculateRiskScore(
+                val riskLevelScore = riskLevels.calculateRiskScore(
                     appConfig.attenuationDuration,
                     exposureSummary
                 )
