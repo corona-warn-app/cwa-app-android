@@ -25,10 +25,13 @@ class SettingsCrashReportDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragmentSettingsCrashReportDetailsBinding.settingsCrashReportViewModel = vm
         vm.selectedCrashReport.observe2(this) {
             fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.visibility = View.VISIBLE
             fragmentSettingsCrashReportDetailsBinding.buttonCrashReportShare.setOnClickListener { shareCrashReport() }
+        }
+
+        vm.selectedCrashReportFormattedText.observe2(this) {
+            fragmentSettingsCrashReportDetailsBinding.selectedCrashReportFormattedText = it
         }
     }
 
