@@ -72,7 +72,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun showRiskLoweredDialog() {
+    fun checkLoweredRisk() {
+        if (!LocalData.isUserToBeNotifiedOfLoweredRiskLevel()) return
         popupEvents.postValue(HomeFragmentEvents.ShowRiskLoweredDialog)
     }
 
@@ -109,6 +110,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         LocalData.isAllowedToSubmitDiagnosisKeys(false)
         LocalData.initialTestResultReceivedTimestamp(0L)
         SubmissionRepository.refreshDeviceUIState()
+    }
+
+    fun userHasAcknowledgedTheLoweredRiskLevel() {
+        LocalData.isUserToBeNotifiedOfLoweredRiskLevel(false)
     }
 
     @AssistedInject.Factory

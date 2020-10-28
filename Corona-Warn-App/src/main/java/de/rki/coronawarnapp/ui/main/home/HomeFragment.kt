@@ -7,7 +7,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
-import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -101,7 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
-        vm.showRiskLoweredDialog()
+        vm.checkLoweredRisk()
     }
 
     private fun showRemoveTestDialog() {
@@ -185,23 +184,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     }
 
     private fun showRiskLevelLoweredDialogIfNeeded() {
-        // Get the hasRiskLevelLowered bool value from shared preferences
-        if (LocalData.isUserToBeNotifiedOfLoweredRiskLevel()) {
-            val riskLevelLoweredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.risk_lowered_dialog_headline,
-                R.string.risk_lowered_dialog_body,
-                R.string.risk_lowered_dialog_button_confirm,
-                null,
-                false,
-                {
-                    LocalData.isUserToBeNotifiedOfLoweredRiskLevel(false)
-                }
-            )
+        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.risk_lowered_dialog_headline,
+            message = R.string.risk_lowered_dialog_body,
+            positiveButton = R.string.risk_lowered_dialog_button_confirm,
+            negativeButton = null,
+            cancelable = false,
+            positiveButtonFunction = { vm.userHasAcknowledgedTheLoweredRiskLevel() }
+        )
 
-            DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
-            }
+        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
         }
     }
 }
