@@ -21,25 +21,37 @@ package de.rki.coronawarnapp.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.RiskLevelRepository
-import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.security.SecurityHelper
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Helper for supplying functionality regarding Data Retention
  */
-object DataRetentionHelper {
-    private val TAG: String? = DataRetentionHelper::class.simpleName
+@Singleton
+class DataReset @Inject constructor(
+    @AppContext private val context: Context,
+    private val keyCacheRepository: KeyCacheRepository,
+    private val appConfigProvider: AppConfigProvider,
+    private val interoperabilityRepository: InteroperabilityRepository
+) {
 
+    private val mutex = Mutex()
     /**
      * Deletes all data known to the Application
      *
      */
     @SuppressLint("ApplySharedPref") // We need a commit here to ensure consistency
-    fun clearAllLocalData(context: Context) {
+    suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Database Reset
         AppDatabase.reset(context)
@@ -47,9 +59,9 @@ object DataRetentionHelper {
         SecurityHelper.resetSharedPrefs()
         // Reset the current risk level stored in LiveData
         RiskLevelRepository.reset()
-        // Export File Reset
-        // TODO runBlocking, but also all of the above is BLOCKING and should be called more nicely
-        runBlocking { AppInjector.component.keyCacheRepository.clear() }
+        keyCacheRepository.clear()
+        appConfigProvider.clear()
+        interoperabilityRepository.clear()
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }
