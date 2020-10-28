@@ -67,7 +67,7 @@ class TracingRepository @Inject constructor(
         retrievingDiagnosisKeys.combine(taskController.tasks) { retrievingDiagnosisKeys, tasks ->
             retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
         }
-    val isRefreshing: Flow<Boolean> = combine(
+    val tracingProgress: Flow<TracingProgress> = combine(
         internalIsRefreshing,
         enfClient.isCurrentlyCalculating()
     ) { isDownloading, isCalculating ->
