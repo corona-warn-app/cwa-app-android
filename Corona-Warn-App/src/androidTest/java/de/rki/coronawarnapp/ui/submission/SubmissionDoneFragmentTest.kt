@@ -30,7 +30,6 @@ class SubmissionDoneFragmentTest : BaseUITest() {
         setupMockViewModel(object : SubmissionDoneViewModel.Factory {
             override fun create(): SubmissionDoneViewModel = viewModel
         })
-
     }
 
     @After
@@ -48,8 +47,7 @@ class SubmissionDoneFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_done_button_done))
             .perform(click())
 
-        //ToDo verify result
-
+        // TODO verify result
     }
 }
 
@@ -58,5 +56,3 @@ abstract class SubmissionDoneTestModule {
     @ContributesAndroidInjector
     abstract fun submissionDoneScreen(): SubmissionDoneFragment
 }
-
-

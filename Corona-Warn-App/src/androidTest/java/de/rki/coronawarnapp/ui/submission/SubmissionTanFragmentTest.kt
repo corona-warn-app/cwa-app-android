@@ -26,7 +26,6 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionTanViewModel
 
-
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -48,13 +47,12 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
     @Test fun testEventTanNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionTanFragment>()
-        ViewActions.closeSoftKeyboard();
+        ViewActions.closeSoftKeyboard()
         onView(withId(R.id.submission_tan_button_enter))
             .perform(scrollTo())
             .perform(click())
 
-            //ToDo verify result
-
+        // TODO verify result
     }
 }
 
@@ -63,5 +61,3 @@ abstract class SubmissionTanTestModule {
     @ContributesAndroidInjector
     abstract fun submissionTanScreen(): SubmissionTanFragment
 }
-
-

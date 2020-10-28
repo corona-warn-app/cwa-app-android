@@ -6,11 +6,9 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionIntroFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionIntroViewModel
 import io.mockk.MockKAnnotations
@@ -53,7 +51,6 @@ class SubmissionIntroFragmentTest : BaseUITest() {
     fun launch_fragment() {
         launchFragment<SubmissionIntroFragment>()
         Screengrab.screenshot("submission_Intro_fragment_opened")
-
     }
 
     @Test fun testEventNextClicked() {
@@ -61,9 +58,8 @@ class SubmissionIntroFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_intro_button_next))
             .perform(click())
 
-        //ToDo verify result
+        // TODO verify result
     }
-
 }
 
 @Module

@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass.RiskScoreClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass.RiskScoreClassification
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission
 
-import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
@@ -11,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionFragment
 import de.rki.coronawarnapp.ui.submission.symptoms.introduction.SubmissionSymptomIntroductionViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -25,14 +25,12 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionSymptomIntroductionViewModel
 
-
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(object : SubmissionSymptomIntroductionViewModel.Factory {
             override fun create(): SubmissionSymptomIntroductionViewModel = viewModel
         })
-
     }
 
     @After
@@ -49,10 +47,9 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())
-            .perform(click());
+            .perform(click())
 
-        //ToDo verify result
-
+        // TODO verify result
     }
 }
 

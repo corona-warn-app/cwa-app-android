@@ -23,16 +23,14 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
 @Module(
     includes = [
         HomeFragmentTestModule::class,
-
-        //Onboarding
+        // Onboarding
         OnboardingFragmentTestModule::class,
         OnboardingDeltaInteroperabilityFragmentTestModule::class,
         OnboardingNotificationsTestModule::class,
         OnboardingPrivacyTestModule::class,
         OnboardingTestFragmentModule::class,
         OnboardingTracingFragmentTestModule::class,
-
-        //Submission
+        // Submission
         SubmissionIntroTestModule::class,
         SubmissionDispatcherTestModule::class,
         SubmissionTanTestModule::class,
@@ -43,7 +41,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
         SubmissionContactTestModule::class,
         SubmissionDoneTestModule::class,
         SubmissionQRInfoFragmentModule::class,
-        SubmissionQRScanFragmentModule::class,
+        SubmissionQRScanFragmentModule::class
     ]
 )
 class FragmentTestModuleRegistrar

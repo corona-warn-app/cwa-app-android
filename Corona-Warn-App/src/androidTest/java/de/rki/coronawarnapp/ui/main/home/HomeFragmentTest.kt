@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -34,7 +33,7 @@ class HomeFragmentTest : BaseUITest() {
         every { viewModel.refreshRequiredData() } just Runs
 
         setupMockViewModel(object : HomeFragmentViewModel.Factory {
-           // override fun create(handle: SavedStateHandle){} HomeFragmentViewModel = viewModel}
+            // override fun create(handle: SavedStateHandle){} HomeFragmentViewModel = viewModel}
             override fun create(): HomeFragmentViewModel = viewModel
         })
     }

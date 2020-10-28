@@ -30,7 +30,6 @@ class SubmissionContactFragmentTest : BaseUITest() {
         setupMockViewModel(object : SubmissionContactViewModel.Factory {
             override fun create(): SubmissionContactViewModel = viewModel
         })
-
     }
 
     @After
@@ -48,8 +47,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_contact_button_call))
             .perform(click())
 
-        //ToDo verify result
-
+        // TODO verify result
     }
 
     @Test fun testContactEnterTanClicked() {
@@ -57,8 +55,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
 
-        //ToDo verify result
-
+        // TODO verify result
     }
 }
 
@@ -67,4 +64,3 @@ abstract class SubmissionContactTestModule {
     @ContributesAndroidInjector
     abstract fun submissionContactScreen(): SubmissionContactFragment
 }
-

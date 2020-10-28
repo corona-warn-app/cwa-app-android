@@ -37,7 +37,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         setupMockViewModel(object : SubmissionTestResultViewModel.Factory {
             override fun create(): SubmissionTestResultViewModel = viewModel
         })
-
     }
 
     @After
@@ -55,9 +54,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_pending_refresh))
             .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click());
+            .perform(ViewActions.click())
 
-        //ToDo verify result
+        // TODO verify result
     }
 
     @Test
@@ -65,9 +64,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_pending_remove_test))
             .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click());
+            .perform(ViewActions.click())
 
-        //ToDo verify result
+        // TODO verify result
     }
 
     @Test
@@ -75,9 +74,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_invalid_remove_test))
             .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click());
+            .perform(ViewActions.click())
 
-        //ToDo verify result
+        // TODO verify result
     }
 
     @Test
@@ -85,9 +84,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_positive_continue))
             .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click());
+            .perform(ViewActions.click())
 
-        //ToDo verify result
+        // TODO verify result
     }
 
     @Test
@@ -95,9 +94,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_positive_continue_without_symptoms))
             .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click());
+            .perform(ViewActions.click())
 
-        //ToDo verify result
+        // TODO verify result
     }
 
     @Test
@@ -105,9 +104,9 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionTestResultFragment>()
         Espresso.onView(ViewMatchers.withId(R.id.submission_test_result_button_negative_remove_test))
             .perform(ViewActions.scrollTo())
-            .perform(ViewActions.click());
+            .perform(ViewActions.click())
 
-        //ToDo verify result
+        // TODO verify result
     }
 }
 

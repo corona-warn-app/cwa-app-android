@@ -26,17 +26,18 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: SubmissionSymptomCalendarViewModel
 
-  /*  private val symptoms = Symptoms(Symptoms.StartOf.OneToTwoWeeksAgo, POSITIVE)
-    private val positiveSymptomIndication = POSITIVE;
-    private val negativeSymptomIndication = Symptoms.Indication.NEGATIVE;
-    private val noSymptomIndication = Symptoms.Indication.NO_INFORMATION;*/
+    /*  private val symptoms = Symptoms(Symptoms.StartOf.OneToTwoWeeksAgo, POSITIVE)
+      private val positiveSymptomIndication = POSITIVE;
+      private val negativeSymptomIndication = Symptoms.Indication.NEGATIVE;
+      private val noSymptomIndication = Symptoms.Indication.NO_INFORMATION;*/
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
         setupMockViewModel(object : SubmissionSymptomCalendarViewModel.Factory {
-            override fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel = viewModel
+            override fun create(symptomIndication: Symptoms.Indication): SubmissionSymptomCalendarViewModel =
+                viewModel
         })
     }
 
@@ -54,10 +55,9 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         val scenario = launchFragmentInContainer<SubmissionSymptomCalendarFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())
-            .perform(click());
+            .perform(click())
 
-        //ToDo verify result
-
+        // TODO verify result
     }
 }
 

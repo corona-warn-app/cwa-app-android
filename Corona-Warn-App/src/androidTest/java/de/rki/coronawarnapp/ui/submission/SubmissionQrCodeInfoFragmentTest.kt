@@ -30,7 +30,6 @@ class SubmissionQrCodeInfoFragmentTest : BaseUITest() {
         setupMockViewModel(object : SubmissionQRCodeInfoFragmentViewModel.Factory {
             override fun create(): SubmissionQRCodeInfoFragmentViewModel = viewModel
         })
-
     }
 
     @After
@@ -48,8 +47,7 @@ class SubmissionQrCodeInfoFragmentTest : BaseUITest() {
         onView(withId(R.id.submission_qr_info_button_next))
             .perform(click())
 
-        //ToDo verify result
-
+        // TODO verify result
     }
 }
 
@@ -58,6 +56,3 @@ abstract class SubmissionQRInfoFragmentModule {
     @ContributesAndroidInjector
     abstract fun submissionQRInfoScreen(): SubmissionQRCodeInfoFragment
 }
-
-
-

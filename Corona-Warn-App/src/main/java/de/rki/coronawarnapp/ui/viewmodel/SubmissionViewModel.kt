@@ -9,5 +9,4 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 class SubmissionViewModel : CWAViewModel() {
 
     val deviceUiState: LiveData<DeviceUIState> = SubmissionRepository.deviceUIStateFlow.asLiveData()
-
 }

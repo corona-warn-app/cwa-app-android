@@ -30,7 +30,6 @@ class SubmissionTanViewModel @AssistedInject constructor(
             isTanValidFormat = currentTan.isTanValidFormat,
             areCharactersCorrect = currentTan.areCharactersValid
         )
-
     }.asLiveData(context = dispatcherProvider.Default)
 
     val registrationState = MutableLiveData(ApiRequestState.IDLE)

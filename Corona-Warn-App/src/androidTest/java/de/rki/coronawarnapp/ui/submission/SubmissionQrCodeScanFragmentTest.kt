@@ -25,7 +25,6 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
         setupMockViewModel(object : SubmissionQRCodeScanViewModel.Factory {
             override fun create(): SubmissionQRCodeScanViewModel = viewModel
         })
-
     }
 
     @After
@@ -37,7 +36,6 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
     fun launch_fragment() {
         launchFragment<SubmissionQRCodeScanFragment>()
     }
-
 }
 
 @Module
@@ -45,7 +43,3 @@ abstract class SubmissionQRScanFragmentModule {
     @ContributesAndroidInjector
     abstract fun submissionQRScanScreen(): SubmissionQRCodeScanFragment
 }
-
-
-
-

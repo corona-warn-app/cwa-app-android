@@ -158,7 +158,7 @@ class ENFClientTest : BaseTest() {
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
-                        startedAt = Instant.EPOCH.plus(5),
+                        startedAt = Instant.EPOCH.plus(5)
                     ),
                     "2" to Calculation(
                         identifier = "2",
@@ -176,7 +176,7 @@ class ENFClientTest : BaseTest() {
                 mapOf(
                     "1" to Calculation(
                         identifier = "1",
-                        startedAt = Instant.EPOCH,
+                        startedAt = Instant.EPOCH
                     ),
                     "2" to Calculation(
                         identifier = "2",
@@ -251,7 +251,7 @@ class ENFClientTest : BaseTest() {
                     "2" to Calculation(
                         identifier = "2",
                         result = Calculation.Result.UPDATED_STATE,
-                        startedAt = Instant.EPOCH,
+                        startedAt = Instant.EPOCH
                     ),
                     "3" to Calculation(
                         identifier = "3",
@@ -266,4 +266,3 @@ class ENFClientTest : BaseTest() {
         }
     }
 }
-
