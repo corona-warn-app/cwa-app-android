@@ -87,10 +87,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
                     showRemoveTestDialog()
                 }
-                is HomeFragmentEvents.ShowRiskLoweredDialog -> {
-                    showRiskLevelLoweredDialogIfNeeded()
-                }
             }
+        }
+
+        vm.showLoweredRiskLevelDialog.observe2(this) {
+            showRiskLevelLoweredDialogIfNeeded()
         }
     }
 
@@ -99,8 +100,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         vm.refreshRequiredData()
 
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-
-        vm.checkLoweredRisk()
     }
 
     private fun showRemoveTestDialog() {

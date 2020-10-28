@@ -360,27 +360,21 @@ object LocalData {
         }
 
     /**
-     * Gets a boolean that tells whether the risk level
-     * decreased or not.
-     *
-     * @return boolean if risk status lowers from red to green
+     * Sets a boolean depending whether the risk level decreased or not.
      */
-    fun isUserToBeNotifiedOfLoweredRiskLevel(): Boolean {
-        return getSharedPreferenceInstance().getBoolean(
+    private val isUserToBeNotifiedOfLoweredRiskLevelFlowInternal = MutableStateFlow(
+        isUserToBeNotifiedOfLoweredRiskLevel
+    )
+    val isUserToBeNotifiedOfLoweredRiskLevelFlow: Flow<Boolean> =
+        isUserToBeNotifiedOfLoweredRiskLevelFlowInternal
+    var isUserToBeNotifiedOfLoweredRiskLevel: Boolean
+        get() = getSharedPreferenceInstance().getBoolean(
             PREFERENCE_HAS_RISK_STATUS_LOWERED,
-            false
+            true
         )
-    }
-
-    /**
-     * Sets a boolean depending whether the risk level
-     * decreased or not.
-     *
-     * @return value boolean if risk level decreased
-     */
-    fun isUserToBeNotifiedOfLoweredRiskLevel(value: Boolean) =
-        getSharedPreferenceInstance().edit(commit = true) {
+        set(value) = getSharedPreferenceInstance().edit(commit = true) {
             putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value)
+            isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value
         }
 
     /****************************************************

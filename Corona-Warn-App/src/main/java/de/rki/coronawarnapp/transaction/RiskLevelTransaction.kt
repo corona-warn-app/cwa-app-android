@@ -576,7 +576,7 @@ object RiskLevelTransaction : Transaction() {
         }
         if (lastCalculatedScore.raw == RiskLevelConstants.INCREASED_RISK &&
             riskLevel.raw == RiskLevelConstants.LOW_LEVEL_RISK) {
-            LocalData.isUserToBeNotifiedOfLoweredRiskLevel(true)
+            LocalData.isUserToBeNotifiedOfLoweredRiskLevel = true
         }
             RiskLevelRepository.setRiskLevelScore(riskLevel)
     }

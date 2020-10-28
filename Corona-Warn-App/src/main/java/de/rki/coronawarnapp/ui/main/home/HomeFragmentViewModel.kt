@@ -21,7 +21,9 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
 
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -72,10 +74,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun checkLoweredRisk() {
-        if (!LocalData.isUserToBeNotifiedOfLoweredRiskLevel()) return
-        popupEvents.postValue(HomeFragmentEvents.ShowRiskLoweredDialog)
-    }
+    private var isLoweredRiskLevelDialogBeingShown = false
+    val showLoweredRiskLevelDialog: LiveData<Boolean> =
+        LocalData.isUserToBeNotifiedOfLoweredRiskLevelFlow
+            .filter { it && !isLoweredRiskLevelDialogBeingShown }
+            .onEach { isLoweredRiskLevelDialogBeingShown = true }
+            .asLiveData(context = dispatcherProvider.Default)
 
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
@@ -113,7 +117,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
-        LocalData.isUserToBeNotifiedOfLoweredRiskLevel(false)
+        isLoweredRiskLevelDialogBeingShown = false
+        LocalData.isUserToBeNotifiedOfLoweredRiskLevel = false
     }
 
     @AssistedInject.Factory
