@@ -15,9 +15,9 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultBugProcessor @Inject constructor(
-        @AppContext private val context: Context,
-        private val timeStamper: TimeStamper,
-        private val rollingLogHistory: RollingLogHistory
+    @AppContext private val context: Context,
+    private val timeStamper: TimeStamper,
+    private val rollingLogHistory: RollingLogHistory
 ) : BugProcessor {
 
     override suspend fun processor(throwable: Throwable, tag: String?, info: String?): BugEvent {
@@ -34,19 +34,19 @@ class DefaultBugProcessor @Inject constructor(
         val logHistory = rollingLogHistory.getLoglines(50)
 
         return DefaultBugEvent(
-                createdAt = crashedAt,
-                tag = tag,
-                info = info,
-                exceptionClass = exceptionClass,
-                exceptionMessage = exceptionMessage,
-                stackTrace = stacktrace,
-                deviceInfo = deviceInfo,
-                appVersionName = appVersionName,
-                appVersionCode = appVersionCode,
-                apiLevel = apiLevel,
-                androidVersion = androidVersion,
-                shortCommitHash = shortID,
-                logHistory = logHistory
+            createdAt = crashedAt,
+            tag = tag,
+            info = info,
+            exceptionClass = exceptionClass,
+            exceptionMessage = exceptionMessage,
+            stackTrace = stacktrace,
+            deviceInfo = deviceInfo,
+            appVersionName = appVersionName,
+            appVersionCode = appVersionCode,
+            apiLevel = apiLevel,
+            androidVersion = androidVersion,
+            shortCommitHash = shortID,
+            logHistory = logHistory
         )
     }
 }
