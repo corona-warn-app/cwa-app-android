@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="crashReport"
-            type="de.rki.coronawarnapp.bugreporting.event.BugEvent" />
+            name="crashReportTitle"
+            type="String" />
 
         <variable
-            name="pos"
-            type="int" />
+            name="crashReportDateFormatted"
+            type="String" />
+
+        <variable
+            name="message"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -31,10 +34,10 @@
             <TextView
                 android:id="@+id/textViewCrashReportTitle"
                 style="@style/body1"
-                android:textStyle="bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:crashReportTitle="@{pos}"
+                android:text="@{crashReportTitle}"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,12 +45,12 @@
             <TextView
                 android:id="@+id/textViewCrashReportDate"
                 style="@style/body1"
-                android:textStyle="italic"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:text="@{crashReportDateFormatted}"
                 android:textAppearance="?attr/textAppearanceListItem"
-                app:crashReportDate="@{crashReport.createdAt}"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCrashReportTitle" />
@@ -61,7 +64,7 @@
                 android:ellipsize="end"
                 android:inputType="none"
                 android:maxLines="1"
-                app:crashReportShortMessage="@{crashReport.exceptionMessage}"
+                android:text="@{message}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCrashReportDate" />
