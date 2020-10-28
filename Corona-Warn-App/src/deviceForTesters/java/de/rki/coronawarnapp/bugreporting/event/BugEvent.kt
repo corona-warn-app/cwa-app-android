@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.bugreporting.event
 
 import org.joda.time.Instant
+import java.util.UUID
 
 interface BugEvent {
-    val id: Long
+    val id: UUID
     val createdAt: Instant
     val tag: String?
     val info: String?

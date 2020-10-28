@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultBugRepository @Inject constructor(
-    private val bugDao: DefaultBugDao
+        private val bugDao: DefaultBugDao
 ) : BugRepository {
 
     override fun getAll(): Flow<List<BugEvent>> = bugDao.getAllBugEvents()
@@ -23,24 +23,25 @@ class DefaultBugRepository @Inject constructor(
     }
 
     private fun BugEvent.mapToBugEventEntity(): BugEventEntity =
-        when (this is BugEventEntity) {
-            true -> this
-            else -> BugEventEntity(
-                createdAt = createdAt,
-                tag = tag,
-                info = info,
-                exceptionClass = exceptionClass,
-                exceptionMessage = exceptionMessage,
-                stackTrace = stackTrace,
-                deviceInfo = deviceInfo,
-                appVersionName = appVersionName,
-                appVersionCode = appVersionCode,
-                apiLevel = apiLevel,
-                androidVersion = androidVersion,
-                shortCommitHash = shortCommitHash,
-                logHistory = logHistory
-            )
-        }
+            when (this is BugEventEntity) {
+                true -> this
+                else -> BugEventEntity(
+                        id = id,
+                        createdAt = createdAt,
+                        tag = tag,
+                        info = info,
+                        exceptionClass = exceptionClass,
+                        exceptionMessage = exceptionMessage,
+                        stackTrace = stackTrace,
+                        deviceInfo = deviceInfo,
+                        appVersionName = appVersionName,
+                        appVersionCode = appVersionCode,
+                        apiLevel = apiLevel,
+                        androidVersion = androidVersion,
+                        shortCommitHash = shortCommitHash,
+                        logHistory = logHistory
+                )
+            }
 
     override suspend fun clear() {
         Timber.d("Deleting all bug events!")
