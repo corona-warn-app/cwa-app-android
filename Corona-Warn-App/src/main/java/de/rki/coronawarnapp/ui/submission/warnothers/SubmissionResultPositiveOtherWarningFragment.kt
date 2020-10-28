@@ -64,7 +64,8 @@ class SubmissionResultPositiveOtherWarningFragment :
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSubmissionIntro -> doNavigate(
-                    SubmissionResultPositiveOtherWarningFragmentDirections.actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
+                    SubmissionResultPositiveOtherWarningFragmentDirections
+                        .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionDoneFragment()
                 )
                 is SubmissionNavigationEvents.NavigateToSubmissionDone -> doNavigate(
                     SubmissionResultPositiveOtherWarningFragmentDirections
@@ -99,7 +100,8 @@ class SubmissionResultPositiveOtherWarningFragment :
     }
 
     private fun navigateToSubmissionResultFragment() = doNavigate(
-        SubmissionResultPositiveOtherWarningFragmentDirections.actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
+        SubmissionResultPositiveOtherWarningFragmentDirections
+            .actionSubmissionResultPositiveOtherWarningFragmentToSubmissionResultFragment()
     )
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

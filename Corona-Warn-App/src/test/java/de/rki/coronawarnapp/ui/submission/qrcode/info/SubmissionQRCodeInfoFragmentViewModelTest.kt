@@ -1,6 +1,5 @@
-package de.rki.coronawarnapp.ui.submission.viewmodel
+package de.rki.coronawarnapp.ui.submission.qrcode.info
 
-import de.rki.coronawarnapp.ui.submission.qrcode.info.SubmissionQRCodeInfoFragmentViewModel
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

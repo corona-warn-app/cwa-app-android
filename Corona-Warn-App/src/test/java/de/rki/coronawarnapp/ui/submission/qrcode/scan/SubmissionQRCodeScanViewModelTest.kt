@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.viewmodel
+package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.storage.LocalData
@@ -14,10 +14,11 @@ import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class)
-class SubmissionViewModelTest {
+class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
     @MockK lateinit var backgroundNoise: BackgroundNoise
 
@@ -32,7 +33,7 @@ class SubmissionViewModelTest {
         every { BackgroundNoise.getInstance() } returns backgroundNoise
     }
 
-    private fun createViewModel() = SubmissionViewModel()
+    private fun createViewModel() = SubmissionQRCodeScanViewModel()
 
     @Test
     fun scanStatusValid() {

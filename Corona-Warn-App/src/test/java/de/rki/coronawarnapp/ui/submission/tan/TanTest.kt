@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.util
+package de.rki.coronawarnapp.ui.submission.tan
 
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
-import org.junit.Test
+import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-class TanHelperTest {
+class TanTest : BaseTest() {
 
     @Test
     fun isValidCharacter() {
@@ -14,10 +14,7 @@ class TanHelperTest {
             "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
         )
         for (character in validCharacters) {
-            MatcherAssert.assertThat(
-                TanHelper.isTanCharacterValid(character),
-                CoreMatchers.equalTo(true)
-            )
+            Tan.isTanCharacterValid(character) shouldBe true
         }
 
         // invalid
@@ -26,10 +23,7 @@ class TanHelperTest {
             "c", "ö", "ß", "é", ".", " ", "€", "(", ")", ";", ","
         )
         for (character in invalidCharacters) {
-            MatcherAssert.assertThat(
-                TanHelper.isTanCharacterValid(character),
-                CoreMatchers.equalTo(false)
-            )
+            Tan.isTanCharacterValid(character) shouldBe false
         }
     }
 
@@ -40,10 +34,7 @@ class TanHelperTest {
             "ABCD", "2345", "PTPHM35RP4", "AAAAAAAAAA", "BBBBB"
         )
         for (text in validStrings) {
-            MatcherAssert.assertThat(
-                TanHelper.allCharactersValid(text),
-                CoreMatchers.equalTo(true)
-            )
+            Tan.allCharactersValid(text) shouldBe true
         }
 
         // invalid input strings
@@ -51,10 +42,7 @@ class TanHelperTest {
             "ABCDÖ", "01234", "PTPHM15RP4", "AAAAAA AAA", "BB.BBB"
         )
         for (text in invalidStrings) {
-            MatcherAssert.assertThat(
-                TanHelper.allCharactersValid(text),
-                CoreMatchers.equalTo(false)
-            )
+            Tan.allCharactersValid(text) shouldBe false
         }
     }
 
@@ -65,10 +53,7 @@ class TanHelperTest {
             "9A3B578UMG", "DEU7TKSV3H", "PTPHM35RP4", "V923D59AT8", "H9NC5CQ34E"
         )
         for (tan in validTans) {
-            MatcherAssert.assertThat(
-                TanHelper.isChecksumValid(tan),
-                CoreMatchers.equalTo(true)
-            )
+            Tan.isChecksumValid(tan) shouldBe true
         }
 
         // invalid
@@ -81,10 +66,7 @@ class TanHelperTest {
             "9A3B578UM0", "DEU7TKSV31", "Q4XBJCB43", "929B96CA8"
         )
         for (tan in invalidTans) {
-            MatcherAssert.assertThat(
-                TanHelper.isChecksumValid(tan),
-                CoreMatchers.equalTo(false)
-            )
+            Tan.isChecksumValid(tan) shouldBe false
         }
     }
 }

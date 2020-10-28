@@ -76,7 +76,8 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
             if (ApiRequestState.SUCCESS == it) {
                 doNavigate(
-                    SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
                 )
             }
         }

@@ -116,13 +116,15 @@ class SubmissionTestResultFragment : Fragment(R.layout.fragment_submission_test_
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     doNavigate(
-                        SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionSymptomIntroductionFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToResultPositiveOtherWarning ->
                     doNavigate(
-                        SubmissionTestResultFragmentDirections.actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment(
-                            it.symptoms
-                        )
+                        SubmissionTestResultFragmentDirections
+                            .actionSubmissionResultFragmentToSubmissionResultPositiveOtherWarningFragment(
+                                it.symptoms
+                            )
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     doNavigate(
