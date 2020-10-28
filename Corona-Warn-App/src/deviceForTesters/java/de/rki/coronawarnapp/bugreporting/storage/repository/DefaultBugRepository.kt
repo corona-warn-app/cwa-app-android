@@ -18,27 +18,27 @@ class DefaultBugRepository @Inject constructor(
     override fun get(id: Long): Flow<BugEvent> = bugDao.getBugEvent(id)
 
     override suspend fun save(bugEvent: BugEvent) {
-        val bugEventEntity: BugEventEntity = mapToBugEventEntity(bugEvent)
+        val bugEventEntity: BugEventEntity = bugEvent.mapToBugEventEntity()
         bugDao.insertBugEvent(bugEventEntity)
     }
 
-    private fun mapToBugEventEntity(bugEvent: BugEvent): BugEventEntity =
-        when (bugEvent is BugEventEntity) {
-            true -> bugEvent
+    private fun BugEvent.mapToBugEventEntity(): BugEventEntity =
+        when (this is BugEventEntity) {
+            true -> this
             else -> BugEventEntity(
-                createdAt = bugEvent.createdAt,
-                tag = bugEvent.tag,
-                info = bugEvent.info,
-                exceptionClass = bugEvent.exceptionClass,
-                exceptionMessage = bugEvent.exceptionMessage,
-                stackTrace = bugEvent.stackTrace,
-                deviceInfo = bugEvent.deviceInfo,
-                appVersionName = bugEvent.appVersionName,
-                appVersionCode = bugEvent.appVersionCode,
-                apiLevel = bugEvent.apiLevel,
-                androidVersion = bugEvent.androidVersion,
-                shortCommitHash = bugEvent.shortCommitHash,
-                logHistory = bugEvent.logHistory
+                createdAt = createdAt,
+                tag = tag,
+                info = info,
+                exceptionClass = exceptionClass,
+                exceptionMessage = exceptionMessage,
+                stackTrace = stackTrace,
+                deviceInfo = deviceInfo,
+                appVersionName = appVersionName,
+                appVersionCode = appVersionCode,
+                apiLevel = apiLevel,
+                androidVersion = androidVersion,
+                shortCommitHash = shortCommitHash,
+                logHistory = logHistory
             )
         }
 
