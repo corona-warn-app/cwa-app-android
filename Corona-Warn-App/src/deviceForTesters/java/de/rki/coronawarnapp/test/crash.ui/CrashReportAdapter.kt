@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.bugreporting.event.BugEvent
 
 import de.rki.coronawarnapp.databinding.ViewCrashreportListItemBinding
 
-class CrashReportAdapter(private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>() {
+class CrashReportAdapter(private val itemClickListener: (bugEvent: BugEvent) -> Unit) : RecyclerView.Adapter<CrashReportAdapter.CrashHolder>() {
 
     private var crashReports = listOf<BugEvent>()
 
@@ -22,7 +22,7 @@ class CrashReportAdapter(private val itemClickListener: ItemClickListener) : Rec
     override fun onBindViewHolder(holder: CrashHolder, position: Int) {
         val crashReport = crashReports[position]
         holder.bind(crashReport, position)
-        holder.itemView.setOnClickListener { itemClickListener.crashReportClicked(crashReport) }
+        holder.itemView.setOnClickListener { itemClickListener(crashReport) }
     }
 
     override fun getItemCount() = crashReports.size
@@ -30,10 +30,6 @@ class CrashReportAdapter(private val itemClickListener: ItemClickListener) : Rec
     fun updateCrashReports(crashReportList: List<BugEvent>) {
         crashReports = crashReportList
         notifyDataSetChanged()
-    }
-
-    interface ItemClickListener {
-        fun crashReportClicked(crashReport: BugEvent)
     }
 
     class CrashHolder(private val binding: ViewCrashreportListItemBinding) :

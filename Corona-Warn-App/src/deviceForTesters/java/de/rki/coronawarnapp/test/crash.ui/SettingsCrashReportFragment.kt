@@ -16,8 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
 
-class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview), AutoInject,
-    CrashReportAdapter.ItemClickListener {
+class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_overview), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsCrashReportViewModel by cwaViewModels(
@@ -31,7 +30,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = CrashReportAdapter(this)
+        adapter = CrashReportAdapter { crashReportClicked(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +50,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
         }
     }
 
-    override fun crashReportClicked(crashReport: BugEvent) {
+    private fun crashReportClicked(crashReport: BugEvent) {
         Timber.d("Clicked on crash report ${crashReport.id}")
         vm.selectCrashReport(crashReport)
         doNavigate(SettingsCrashReportFragmentDirections.actionCrashReportFragmentToSettingsCrashReportDetailsFragment())
