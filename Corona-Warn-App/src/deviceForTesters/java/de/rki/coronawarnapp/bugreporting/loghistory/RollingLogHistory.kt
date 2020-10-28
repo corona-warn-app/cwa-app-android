@@ -23,7 +23,7 @@ class RollingLogHistory @Inject constructor(
 ) : Timber.DebugTree() {
 
     private val bufferLock = Mutex()
-    private val buffer: ArrayDeque<String> = ArrayDeque(BUFFER_SIZE + 1)
+    private val buffer: ArrayDeque<String> = ArrayDeque(BUFFER_SIZE)
     private val logQueue = MutableStateFlow("")
 
     init {
@@ -32,7 +32,7 @@ class RollingLogHistory @Inject constructor(
             .onEach {
                 bufferLock.withLock {
                     buffer.addFirst(it)
-                    if (buffer.size > BUFFER_SIZE) {
+                    if (buffer.size >= BUFFER_SIZE) {
                         buffer.removeLast()
                     }
                 }
