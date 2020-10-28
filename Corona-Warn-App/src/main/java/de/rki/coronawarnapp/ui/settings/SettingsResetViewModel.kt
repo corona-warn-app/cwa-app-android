@@ -7,14 +7,15 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.DataReset
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.Dispatchers
 
 class SettingsResetViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     private val dataReset: DataReset
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val clickEvent: SingleLiveEvent<SettingsEvents> = SingleLiveEvent()
 
@@ -27,7 +28,7 @@ class SettingsResetViewModel @AssistedInject constructor(
     }
 
     fun deleteAllAppContent() {
-        launch(Dispatchers.IO) {
+        launch {
             try {
                 val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
                 // only stop tracing if it is currently enabled
