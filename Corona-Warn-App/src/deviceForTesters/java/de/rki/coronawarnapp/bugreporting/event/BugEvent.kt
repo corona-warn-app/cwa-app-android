@@ -12,7 +12,7 @@ interface BugEvent {
     val exceptionMessage: String?
     val stackTrace: String
     val appVersionName: String
-    val appVersionCode: Int
+    val appVersionCode: Long
     val deviceInfo: String
     val apiLevel: Int
     val androidVersion: String

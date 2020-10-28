@@ -42,7 +42,7 @@ class DefaultBugProcessor @Inject constructor(
             stackTrace = stacktrace,
             deviceInfo = deviceInfo,
             appVersionName = appVersionName,
-            appVersionCode = appVersionCode,
+            appVersionCode = appVersionCode.toLong(),
             apiLevel = apiLevel,
             androidVersion = androidVersion,
             shortCommitHash = shortID,

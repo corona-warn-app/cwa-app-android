@@ -13,7 +13,7 @@ class DefaultBugEvent(
     override val stackTrace: String,
     override val deviceInfo: String,
     override val appVersionName: String,
-    override val appVersionCode: Int,
+    override val appVersionCode: Long,
     override val apiLevel: Int,
     override val androidVersion: String,
     override val shortCommitHash: String,
