@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.crash.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
@@ -21,8 +22,13 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
 
     val crashReports = crashReportRepository.getAll().asLiveData()
 
-    val selectedCrashReport: LiveData<BugEvent> by lazy { selectedCrashReportMutable }
     private val selectedCrashReportMutable: MutableLiveData<BugEvent> by lazy { MutableLiveData() }
+    val selectedCrashReport: LiveData<BugEvent> by lazy { selectedCrashReportMutable }
+    val selectedCrashReportFormattedText: LiveData<String> by lazy {
+        selectedCrashReportMutable.map {
+            createBugEventFormattedText(it)
+        }
+    }
 
     fun deleteAllCrashReports() = viewModelScope.launch(Dispatchers.IO) {
         crashReportRepository.clear()
@@ -40,6 +46,18 @@ class SettingsCrashReportViewModel @AssistedInject constructor(
     fun selectCrashReport(bugEvent: BugEvent) {
         selectedCrashReportMutable.value = bugEvent
     }
+
+    private fun createBugEventFormattedText(bugEvent: BugEvent): String =
+        "Selected crash report ${bugEvent.id} \n" +
+            " # appeared at: ${bugEvent.createdAt} \n\n" +
+            " # Device: ${bugEvent.deviceInfo} \n" +
+            " # Android Version ${bugEvent.androidVersion} \n" +
+            " # Android API-Level ${bugEvent.apiLevel} \n\n" +
+            " # AppVersion: ${bugEvent.appVersionName} \n" +
+            " # AppVersionCode ${bugEvent.appVersionCode} \n" +
+            " # C-Hash ${bugEvent.shortCommitHash} \n\n\n" +
+            " ${bugEvent.stackTrace}\n\n" +
+            " # Corresponding Log: \n\n ${bugEvent.logHistory}"
 
     @AssistedInject.Factory
     interface Factory : SimpleCWAViewModelFactory<SettingsCrashReportViewModel>

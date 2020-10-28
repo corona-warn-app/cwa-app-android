@@ -1,39 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".test.crash.ui.SettingsCrashReportDetailsFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <ScrollView
+        <variable
+            name="settingsCrashReportViewModel"
+            type="de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCrashReportShare"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".test.crash.ui.SettingsCrashReportDetailsFragment">
 
-        <TextView
-            android:id="@+id/textViewCrashReportDetails"
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/buttonCrashReportShare"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewCrashReportDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{settingsCrashReportViewModel.selectedCrashReportFormattedText}" />
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/buttonCrashReportShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="empty fragment" />
+            android:layout_margin="10dp"
+            android:background="@color/colorCalendarLayoutFocusOn"
+            android:text="Share"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </ScrollView>
-
-    <Button
-        android:id="@+id/buttonCrashReportShare"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Share"
-        android:background="@color/colorCalendarLayoutFocusOn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
