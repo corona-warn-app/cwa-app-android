@@ -281,6 +281,12 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     getExecutionData().from(fileTree(dir: "$buildDir", includes: ["jacoco/testDeviceReleaseUnitTest.exec"]))
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "androidx.test:monitor:1.3.0"
+    }
+}
+
 dependencies {
     // KOTLIN
     def coroutineVersion = "1.4.0-M1"
