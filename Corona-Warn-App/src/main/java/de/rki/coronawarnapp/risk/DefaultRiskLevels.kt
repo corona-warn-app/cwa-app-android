@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterCl
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,13 +24,14 @@ import kotlin.math.round
 
 @Singleton
 class DefaultRiskLevels @Inject constructor(
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val enfClient: ENFClient
 ) : RiskLevels {
 
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
         try {
-            Timber.tag(TAG).v("update the risk level with $riskLevel")
+            Timber.tag(TAG).v("Update the risk level with $riskLevel")
             val lastCalculatedRiskLevelScoreForRollback =
                 RiskLevelRepository.getLastCalculatedScore()
             updateRiskLevelScore(riskLevel)
@@ -43,13 +46,13 @@ class DefaultRiskLevels @Inject constructor(
                 LocalData.lastTimeRiskLevelCalculation(lastCalculatedRiskLevelDate)
             }
         } catch (error: Exception) {
-            Timber.tag(TAG).e(error)
+            Timber.tag(TAG).e(error, "Updating the RiskLevelRepository failed.")
 
             try {
                 Timber.tag(TAG).d("Initiate Rollback")
                 for (rollbackItem: RollbackItem in rollbackItems) rollbackItem.invoke()
             } catch (rollbackException: Exception) {
-                Timber.tag(TAG).e(rollbackException)
+                Timber.tag(TAG).e(rollbackException, "RiskLevelRepository rollback failed.")
             }
 
             throw error
@@ -62,7 +65,7 @@ class DefaultRiskLevels @Inject constructor(
             TimeVariables.getTimeSinceLastDiagnosisKeyFetchFromServer()
                 ?: throw RiskLevelCalculationException(
                     IllegalArgumentException(
-                        "time since last exposure calculation is null"
+                        "Time since last exposure calculation is null"
                     )
                 )
         /** we only return outdated risk level if the threshold is reached AND the active tracing time is above the
@@ -75,18 +78,18 @@ class DefaultRiskLevels @Inject constructor(
         (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
             if (it) {
                 Timber.tag(TAG)
-                    .v("no last time diagnosis keys from server fetch timestamp was found")
+                    .v("No last time diagnosis keys from server fetch timestamp was found")
             }
         }
 
     override suspend fun calculationNotPossibleBecauseTracingIsOff() =
         // this applies if tracing is not activated
-        !InternalExposureNotificationClient.asyncIsEnabled()
+        !enfClient.isTracingEnabled.first()
 
     override suspend fun isIncreasedRisk(): Boolean {
         val lastExposureSummary = getNewExposureSummary()
         val appConfiguration = appConfigProvider.getAppConfig()
-        Timber.tag(TAG).v("retrieved configuration from backend")
+        Timber.tag(TAG).v("Retrieved configuration from backend")
         // custom attenuation parameters to weight the attenuation
         // values provided by the Google API
         val attenuationParameters = appConfiguration.attenuationDuration
@@ -100,13 +103,13 @@ class DefaultRiskLevels @Inject constructor(
             attenuationParameters,
             lastExposureSummary
         ).also {
-            Timber.tag(TAG).v("calculated risk with the given config: $it")
+            Timber.tag(TAG).v("Calculated risk with the given config: $it")
         }
 
         // get the high risk score class
         val highRiskScoreClass =
             riskScoreClassification.riskClassesList.find { it.label == "HIGH" }
-                ?: throw RiskLevelCalculationException(IllegalStateException("no high risk score class found"))
+                ?: throw RiskLevelCalculationException(IllegalStateException("No high risk score class found"))
 
         // if the calculated risk score is above the defined level threshold we return the high level risk score
         if (withinDefinedLevelThreshold(
@@ -120,7 +123,7 @@ class DefaultRiskLevels @Inject constructor(
             return true
         } else if (riskScore > highRiskScoreClass.max) {
             throw RiskLevelCalculationException(
-                IllegalStateException("risk score is above the max threshold for score class")
+                IllegalStateException("Risk score is above the max threshold for score class")
             )
         }
 
@@ -136,11 +139,11 @@ class DefaultRiskLevels @Inject constructor(
 
         return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
             Timber.tag(TAG).v(
-                "active tracing time ($activeTracingDurationInHours h) is above threshold " +
+                "Active tracing time ($activeTracingDurationInHours h) is above threshold " +
                     "($durationTracingIsActiveThreshold h): $it"
             )
             if (it) {
-                Timber.tag(TAG).v("active tracing time is not enough")
+                Timber.tag(TAG).v("Active tracing time is not enough")
             }
         }
     }
@@ -224,14 +227,14 @@ class DefaultRiskLevels @Inject constructor(
      */
     private suspend fun getNewExposureSummary(): ExposureSummary {
         val googleToken = LocalData.googleApiToken()
-            ?: throw RiskLevelCalculationException(IllegalStateException("exposure summary is not persisted"))
+            ?: throw RiskLevelCalculationException(IllegalStateException("Exposure summary is not persisted"))
 
         val exposureSummary =
             InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
         return exposureSummary.also {
             Timber.tag(TAG)
-                .v("generated new exposure summary with $googleToken")
+                .v("Generated new exposure summary with $googleToken")
         }
     }
 
