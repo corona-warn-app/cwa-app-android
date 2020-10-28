@@ -192,10 +192,6 @@
     <string name="risk_card_outdated_risk_body">"Înregistrarea în jurnal a expunerilor dvs. nu a putut fi actualizată timp de peste 24 de ore."</string>
     <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
     <string name="risk_card_outdated_manual_risk_body">"Starea riscului dvs. nu a fost actualizată timp de peste 48 de ore. Vă rugăm să activați starea riscului dvs."</string>
-    <!-- XHED: risk card - loading headline, update is ongoing -->
-    <string name="risk_card_loading_headline">"Verificarea este în curs…"</string>
-    <!-- XTXT: risk card - loading, data is downloaded and will be checked, this can take several minutes -->
-    <string name="risk_card_loading_body">"Datele curente sunt în curs de descărcare și verificare. Aceasta poate dura mai multe minute."</string>
 
     <!-- ####################################
                     Main
