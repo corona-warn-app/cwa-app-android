@@ -362,11 +362,12 @@ object LocalData {
     /**
      * Sets a boolean depending whether the risk level decreased or not.
      */
-    private val isUserToBeNotifiedOfLoweredRiskLevelFlowInternal = MutableStateFlow(
-        isUserToBeNotifiedOfLoweredRiskLevel
-    )
-    val isUserToBeNotifiedOfLoweredRiskLevelFlow: Flow<Boolean> =
+    private val isUserToBeNotifiedOfLoweredRiskLevelFlowInternal by lazy {
+        MutableStateFlow(isUserToBeNotifiedOfLoweredRiskLevel)
+    }
+    val isUserToBeNotifiedOfLoweredRiskLevelFlow: Flow<Boolean> by lazy {
         isUserToBeNotifiedOfLoweredRiskLevelFlowInternal
+    }
     var isUserToBeNotifiedOfLoweredRiskLevel: Boolean
         get() = getSharedPreferenceInstance().getBoolean(
             PREFERENCE_HAS_RISK_STATUS_LOWERED,

@@ -75,11 +75,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     private var isLoweredRiskLevelDialogBeingShown = false
-    val showLoweredRiskLevelDialog: LiveData<Boolean> =
+
+    // TODO only lazy to keep tests going which would break because of LocalData access
+    val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
         LocalData.isUserToBeNotifiedOfLoweredRiskLevelFlow
             .filter { it && !isLoweredRiskLevelDialogBeingShown }
             .onEach { isLoweredRiskLevelDialogBeingShown = true }
             .asLiveData(context = dispatcherProvider.Default)
+    }
 
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
