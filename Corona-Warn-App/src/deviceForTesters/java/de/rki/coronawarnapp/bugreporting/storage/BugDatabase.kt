@@ -7,14 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
 import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
-import de.rki.coronawarnapp.bugreporting.util.Converters
+import de.rki.coronawarnapp.util.database.CommonConverters
 
 @Database(
     entities = [BugEventEntity::class],
     version = 1,
     exportSchema = true
 )
-@TypeConverters(Converters::class)
+@TypeConverters(CommonConverters::class)
 abstract class BugDatabase : RoomDatabase() {
 
     abstract fun defaultBugDao(): DefaultBugDao
