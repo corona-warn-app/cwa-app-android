@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BugDao<T : BugEvent> {
     suspend fun insertBugEvent(bugEvent: T)
-    fun findBugEvent(id: Long): Flow<T>
+    fun getBugEvent(id: Long): Flow<T>
     fun getAllBugEvents(): Flow<List<T>>
     suspend fun deleteBugEvent(id: Long)
     suspend fun deleteAllBugEvents()

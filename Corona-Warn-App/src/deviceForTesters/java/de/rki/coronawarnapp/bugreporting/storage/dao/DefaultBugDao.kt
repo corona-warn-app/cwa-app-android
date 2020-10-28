@@ -13,7 +13,7 @@ interface DefaultBugDao : BugDao<BugEventEntity> {
     override suspend fun insertBugEvent(bugEvent: BugEventEntity)
 
     @Query("SELECT * FROM BugEventEntity WHERE id = :id")
-    override fun findBugEvent(id: Long): Flow<BugEventEntity>
+    override fun getBugEvent(id: Long): Flow<BugEventEntity>
 
     @Query("SELECT * FROM BugEventEntity")
     override fun getAllBugEvents(): Flow<List<BugEventEntity>>

@@ -14,7 +14,7 @@ class DefaultBugRepository @Inject constructor(
 
     override fun getAll(): Flow<List<BugEvent>> = bugDao.getAllBugEvents()
 
-    override fun get(id: Long): Flow<BugEvent> = bugDao.findBugEvent(id)
+    override fun get(id: Long): Flow<BugEvent> = bugDao.getBugEvent(id)
 
     override suspend fun save(bugEvent: BugEvent) {
         val bugEventEntity: BugEventEntity = mapToBugEventEntity(bugEvent)
