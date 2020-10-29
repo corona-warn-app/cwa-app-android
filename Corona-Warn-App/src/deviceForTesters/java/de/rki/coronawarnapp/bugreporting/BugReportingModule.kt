@@ -7,15 +7,14 @@ import de.rki.coronawarnapp.bugreporting.loghistory.RollingLogHistory
 import de.rki.coronawarnapp.bugreporting.processor.BugProcessor
 import de.rki.coronawarnapp.bugreporting.processor.DefaultBugProcessor
 import de.rki.coronawarnapp.bugreporting.reporter.DefaultBugReporter
-import de.rki.coronawarnapp.bugreporting.storage.BugStorageModule
+import de.rki.coronawarnapp.bugreporting.storage.BugDatabase
+import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
 import de.rki.coronawarnapp.bugreporting.storage.repository.BugRepository
 import de.rki.coronawarnapp.bugreporting.storage.repository.DefaultBugRepository
 import timber.log.Timber
 import javax.inject.Singleton
 
-@Module(
-    includes = [BugStorageModule::class]
-)
+@Module
 class BugReportingModule {
 
     @Singleton
@@ -34,4 +33,9 @@ class BugReportingModule {
     @LogHistoryTree
     @Provides
     fun loggingHistory(loggingHistory: RollingLogHistory): Timber.Tree = loggingHistory
+
+    @Singleton
+    @Provides
+    fun bugEventDao(bugDatabaseFactory: BugDatabase.Factory): DefaultBugDao =
+        bugDatabaseFactory.create().defaultBugDao()
 }

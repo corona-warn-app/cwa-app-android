@@ -8,6 +8,8 @@ import androidx.room.TypeConverters
 import de.rki.coronawarnapp.bugreporting.event.BugEventEntity
 import de.rki.coronawarnapp.bugreporting.storage.dao.DefaultBugDao
 import de.rki.coronawarnapp.util.database.CommonConverters
+import de.rki.coronawarnapp.util.di.AppContext
+import javax.inject.Inject
 
 @Database(
     entities = [BugEventEntity::class],
@@ -19,19 +21,13 @@ abstract class BugDatabase : RoomDatabase() {
 
     abstract fun defaultBugDao(): DefaultBugDao
 
+    class Factory @Inject constructor(@AppContext private val context: Context) {
+        fun create(): BugDatabase = Room
+            .databaseBuilder(context, BugDatabase::class.java, BUG_DATABASE_NAME)
+            .build()
+    }
+
     companion object {
         private const val BUG_DATABASE_NAME = "bugreport-db"
-
-        @Volatile private var instance: BugDatabase? = null
-
-        fun getInstance(ctx: Context): BugDatabase =
-            instance ?: synchronized(this) {
-                instance ?: buildDatabase(ctx)
-                    .also { instance = it }
-            }
-
-        private fun buildDatabase(ctx: Context): BugDatabase = Room
-            .databaseBuilder(ctx, BugDatabase::class.java, BUG_DATABASE_NAME)
-            .build()
     }
 }
