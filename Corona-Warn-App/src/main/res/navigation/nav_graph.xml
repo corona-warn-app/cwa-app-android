@@ -96,7 +96,7 @@
     <fragment
         android:id="@+id/onboardingDeltaInteroperabilityFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragment"
-        android:label="OnboardingDeltaInteroperabilityFragment" >
+        android:label="OnboardingDeltaInteroperabilityFragment">
         <action
             android:id="@+id/action_onboardingDeltaInteroperabilityFragment_to_informationTermsFragment"
             app:destination="@id/informationTermsFragment" />
@@ -359,6 +359,7 @@
         android:id="@+id/submissionSymptomIntroductionFragment"
         android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionSymptomIntroductionFragment"
         android:label="SubmissionSymptomIntroductionFragment" >
+
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
             app:destination="@id/submissionSymptomCalendarFragment" />
@@ -380,5 +381,6 @@
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningFragment" />
     </fragment>
+
 
 </navigation>
