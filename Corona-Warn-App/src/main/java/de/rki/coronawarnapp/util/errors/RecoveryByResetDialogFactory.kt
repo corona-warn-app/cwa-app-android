@@ -14,17 +14,20 @@ class RecoveryByResetDialogFactory(private val fragment: Fragment) {
 
     fun showDialog(
         @StringRes detailsLink: Int,
-        onDismiss: () -> Unit
+        onPositive: () -> Unit
     ) {
-        AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(context)
             .setTitle(R.string.errors_generic_headline)
             .setMessage(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
             .setCancelable(false)
-            .setOnDismissListener { onDismiss() }
-            .setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-                ExternalActionHelper.openUrl(fragment, context.getString(detailsLink))
+            .setNeutralButton(R.string.errors_generic_button_negative, null)
+            .setPositiveButton(R.string.errors_generic_button_positive) { _, _ ->
+                onPositive()
             }
-            .setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
-            .show()
+            .create()
+        dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
+            ExternalActionHelper.openUrl(fragment, context.getString(detailsLink))
+        }
     }
 }
