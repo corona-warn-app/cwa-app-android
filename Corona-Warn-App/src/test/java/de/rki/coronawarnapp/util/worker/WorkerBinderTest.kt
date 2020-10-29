@@ -1,10 +1,19 @@
 package de.rki.coronawarnapp.util.worker
 
+import androidx.work.ListenableWorker
+import dagger.Component
+import dagger.Module
+import dagger.Provides
+import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
+import javax.inject.Provider
+import javax.inject.Singleton
 
 class WorkerBinderTest : BaseTest() {
 
@@ -45,4 +54,23 @@ class WorkerBinderTest : BaseTest() {
         val existingFactories = ourWorkerClasses.map { it.name }
         boundFactories shouldContainAll existingFactories
     }
+}
+
+@Singleton
+@Component(modules = [AssistedInjectModule::class, WorkerBinder::class, MockProvider::class])
+interface WorkerTestComponent {
+
+    val factories: @JvmSuppressWildcards Map<Class<out ListenableWorker>, Provider<InjectedWorkerFactory<out ListenableWorker>>>
+
+    @Component.Factory
+    interface Factory {
+        fun create(): WorkerTestComponent
+    }
+}
+
+@Module
+class MockProvider {
+    // For BackgroundNoiseOneTimeWorker
+    @Provides
+    fun playbook(): Playbook = mockk()
 }
