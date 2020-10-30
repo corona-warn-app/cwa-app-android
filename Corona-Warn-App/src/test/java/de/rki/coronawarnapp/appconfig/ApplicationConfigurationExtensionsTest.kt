@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest

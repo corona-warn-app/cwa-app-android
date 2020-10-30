@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
 
 interface RiskLevelCalculation {
 
     fun calculateRiskScore(
-        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        attenuationParameters: AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double
 }

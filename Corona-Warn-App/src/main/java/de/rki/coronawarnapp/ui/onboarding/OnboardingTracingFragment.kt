@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.nearby.InternalExposureNotificationPermissionHelper
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -49,11 +50,35 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
         vm.countryList.observe2(this) {
             binding.countryData = it
         }
         vm.saveInteroperabilityUsed()
+        binding.apply {
+            onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
+            onboardingButtonDisable.setOnClickListener { vm.showCancelDialog() }
+            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonPress() }
+        }
+        vm.routeToScreen.observe2(this) {
+            when (it) {
+                is OnboardingNavigationEvents.NavigateToOnboardingTest ->
+                    internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
+                is OnboardingNavigationEvents.ShowCancelDialog ->
+                    DialogHelper.showDialog(DialogHelper.DialogInstance(
+                        requireActivity(),
+                        R.string.onboarding_tracing_dialog_headline,
+                        R.string.onboarding_tracing_dialog_body,
+                        R.string.onboarding_tracing_dialog_button_positive,
+                        R.string.onboarding_tracing_dialog_button_negative,
+                        true,
+                        {
+                            navigateToOnboardingTestFragment()
+                        }
+                    ))
+                is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
+                    (requireActivity() as OnboardingActivity).goBack()
+            }
+        }
     }
 
     override fun onResume() {
@@ -62,41 +87,15 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         vm.resetTracing()
     }
 
-    private fun setButtonOnClickListener() {
-        binding.onboardingButtonNext.setOnClickListener {
-            internalExposureNotificationPermissionHelper.requestPermissionToStartTracing()
-        }
-        binding.onboardingButtonDisable.setOnClickListener {
-            showCancelDialog()
-        }
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            (requireActivity() as OnboardingActivity).goBack()
-        }
-    }
-
     override fun onStartPermissionGranted() {
-        navigate()
+        navigateToOnboardingTestFragment()
     }
 
     override fun onFailure(exception: Exception?) {
         // dialog closed, user has to explicitly allow or deny the tracing permission
     }
 
-    private fun showCancelDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.onboarding_tracing_dialog_headline,
-            R.string.onboarding_tracing_dialog_body,
-            R.string.onboarding_tracing_dialog_button_positive,
-            R.string.onboarding_tracing_dialog_button_negative,
-            true,
-            {
-                navigate()
-            })
-        DialogHelper.showDialog(dialog)
-    }
-
-    private fun navigate() {
+    private fun navigateToOnboardingTestFragment() {
         findNavController().doNavigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )

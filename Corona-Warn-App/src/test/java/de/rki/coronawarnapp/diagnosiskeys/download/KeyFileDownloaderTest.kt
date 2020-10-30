@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
-import de.rki.coronawarnapp.storage.AppSettings
 import de.rki.coronawarnapp.storage.DeviceStorage
 import de.rki.coronawarnapp.storage.InsufficientStorageException
+import de.rki.coronawarnapp.storage.TestSettings
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -28,11 +28,8 @@ import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseIOTest
-import testhelpers.extensions.CoroutinesTestExtension
-import testhelpers.extensions.InstantExecutorExtension
-import testhelpers.flakyTest
+import testhelpers.TestDispatcherProvider
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -43,7 +40,6 @@ import kotlin.time.ExperimentalTime
  */
 @ExperimentalTime
 @ExperimentalCoroutinesApi
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class KeyFileDownloaderTest : BaseIOTest() {
 
     @MockK
@@ -59,7 +55,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     private lateinit var deviceStorage: DeviceStorage
 
     @MockK
-    private lateinit var settings: AppSettings
+    private lateinit var testSettings: TestSettings
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val keyRepoData = mutableMapOf<String, CachedKeyInfo>()
@@ -74,7 +70,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        every { settings.isLast3HourModeEnabled } returns false
+        every { testSettings.isHourKeyPkgMode } returns false
 
         coEvery { server.getCountryIndex() } returns listOf("DE".loc, "NL".loc)
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk<DeviceStorage.CheckResult>().apply {
@@ -112,8 +108,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 locationCode = arg(0),
                 day = arg(1),
                 hour = arg(2),
-                saveTo = arg(3),
-                precondition = arg(4)
+                saveTo = arg(3)
             )
         }
 
@@ -181,7 +176,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
         day: LocalDate,
         hour: LocalTime? = null,
         saveTo: File,
-        precondition: suspend (DownloadInfo) -> Boolean = { true },
         checksumServerMD5: String? = "serverMD5",
         checksumLocalMD5: String? = "localMD5"
     ): DownloadInfo {
@@ -218,14 +212,15 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyServer = server,
             keyCache = keyCache,
             legacyKeyCache = legacyMigration,
-            settings = settings
+            testSettings = testSettings,
+            dispatcherProvider = TestDispatcherProvider
         )
         Timber.i("createDownloader(): %s", downloader)
         return downloader
     }
 
     @Test
-    fun `wanted country list is empty, day mode`() = flakyTest {
+    fun `wanted country list is empty, day mode`() {
         val downloader = createDownloader()
         runBlocking {
             downloader.asyncFetchKeyFiles(emptyList()) shouldBe emptyList()
@@ -233,8 +228,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `wanted country list is empty, hour mode`() = flakyTest {
-        every { settings.isLast3HourModeEnabled } returns true
+    fun `wanted country list is empty, hour mode`() {
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val downloader = createDownloader()
         runBlocking {
@@ -243,7 +238,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `fetching is aborted in day if not enough free storage`() = flakyTest {
+    fun `fetching is aborted in day if not enough free storage`() {
         coEvery { deviceStorage.requireSpacePrivateStorage(1048576L) } throws InsufficientStorageException(
             mockk(relaxed = true)
         )
@@ -258,10 +253,10 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `fetching is aborted in hour if not enough free storage`() = flakyTest {
-        every { settings.isLast3HourModeEnabled } returns true
+    fun `fetching is aborted in hour if not enough free storage`() {
+        every { testSettings.isHourKeyPkgMode } returns true
 
-        coEvery { deviceStorage.requireSpacePrivateStorage(67584L) } throws InsufficientStorageException(
+        coEvery { deviceStorage.requireSpacePrivateStorage(540672L) } throws InsufficientStorageException(
             mockk(relaxed = true)
         )
 
@@ -275,7 +270,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `error during country index fetch`() = flakyTest {
+    fun `error during country index fetch`() {
         coEvery { server.getCountryIndex() } throws IOException()
 
         val downloader = createDownloader()
@@ -288,7 +283,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch without prior data`() = flakyTest {
+    fun `day fetch without prior data`() {
         val downloader = createDownloader()
 
         runBlocking {
@@ -327,7 +322,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch with existing data`() = flakyTest {
+    fun `day fetch with existing data`() {
         mockAddData(
             type = Type.COUNTRY_DAY,
             location = "DE".loc,
@@ -371,7 +366,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch deletes stale data`() = flakyTest {
+    fun `day fetch deletes stale data`() {
         coEvery { server.getDayIndex("DE".loc) } returns listOf("2020-09-02".day)
         val (staleKeyInfo, _) = mockAddData(
             type = Type.COUNTRY_DAY,
@@ -415,7 +410,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `day fetch skips single download failures`() = flakyTest {
+    fun `day fetch skips single download failures`() {
         var dlCounter = 0
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
@@ -424,8 +419,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 locationCode = arg(0),
                 day = arg(1),
                 hour = arg(2),
-                saveTo = arg(3),
-                precondition = arg(4)
+                saveTo = arg(3)
             )
         }
 
@@ -440,13 +434,13 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `last3Hours fetch without prior data`() = flakyTest {
-        every { settings.isLast3HourModeEnabled } returns true
+    fun `last3Hours fetch without prior data`() {
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
         }
 
         coVerify {
@@ -488,17 +482,17 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 hourIdentifier = "10".hour
             )
         }
-        coVerify(exactly = 6) { keyCache.markKeyComplete(any(), any()) }
+        coVerify(exactly = 48) { keyCache.markKeyComplete(any(), any()) }
 
-        keyRepoData.size shouldBe 6
+        keyRepoData.size shouldBe 48
         keyRepoData.values.forEach { it.isDownloadComplete shouldBe true }
 
-        coVerify { deviceStorage.requireSpacePrivateStorage(135168L) }
+        coVerify { deviceStorage.requireSpacePrivateStorage(1081344L) }
     }
 
     @Test
-    fun `last3Hours fetch with prior data`() = flakyTest {
-        every { settings.isLast3HourModeEnabled } returns true
+    fun `last3Hours fetch with prior data`() {
+        every { testSettings.isHourKeyPkgMode } returns true
 
         mockAddData(
             type = Type.COUNTRY_HOUR,
@@ -518,9 +512,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(
-                listOf("DE".loc, "NL".loc)
-            ).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
         }
 
         coVerify {
@@ -533,8 +525,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "10".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
 
             keyCache.createCacheEntry(
@@ -546,19 +538,19 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "10".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
         }
-        coVerify(exactly = 4) {
+        coVerify(exactly = 46) {
             server.downloadKeyFile(any(), any(), any(), any(), any())
         }
-        coVerify { deviceStorage.requireSpacePrivateStorage(90112L) }
+        coVerify { deviceStorage.requireSpacePrivateStorage(1036288L) }
     }
 
     @Test
-    fun `last3Hours fetch deletes stale data`() = flakyTest {
-        every { settings.isLast3HourModeEnabled } returns true
+    fun `last3Hours fetch deletes stale data`() {
+        every { testSettings.isHourKeyPkgMode } returns true
 
         val (staleKey1, _) = mockAddData(
             type = Type.COUNTRY_HOUR,
@@ -594,7 +586,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 6
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 48
         }
 
         coVerify {
@@ -607,8 +599,8 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "DE".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "11".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
 
             keyCache.createCacheEntry(
@@ -620,45 +612,44 @@ class KeyFileDownloaderTest : BaseIOTest() {
             keyCache.createCacheEntry(
                 type = Type.COUNTRY_HOUR,
                 location = "NL".loc,
-                dayIdentifier = "2020-09-03".day,
-                hourIdentifier = "11".hour
+                dayIdentifier = "2020-09-02".day,
+                hourIdentifier = "13".hour
             )
         }
-        coVerify(exactly = 4) {
+        coVerify(exactly = 46) {
             server.downloadKeyFile(any(), any(), any(), any(), any())
         }
         coVerify(exactly = 1) { keyCache.delete(listOf(staleKey1, staleKey2)) }
     }
 
     @Test
-    fun `last3Hours fetch skips single download failures`() = flakyTest {
-        every { settings.isLast3HourModeEnabled } returns true
+    fun `last3Hours fetch skips single download failures`() {
+        every { testSettings.isHourKeyPkgMode } returns true
 
         var dlCounter = 0
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
             dlCounter++
-            if (dlCounter == 2) throw IOException("Timeout")
+            if (dlCounter % 3 == 0) throw IOException("Timeout")
             mockDownloadServerDownload(
                 locationCode = arg(0),
                 day = arg(1),
                 hour = arg(2),
-                saveTo = arg(3),
-                precondition = arg(4)
+                saveTo = arg(3)
             )
         }
 
         val downloader = createDownloader()
 
         runBlocking {
-            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 5
+            downloader.asyncFetchKeyFiles(listOf("DE".loc, "NL".loc)).size shouldBe 32
         }
 
         // We delete the entry for the failed download
-        coVerify(exactly = 1) { keyCache.delete(any()) }
+        coVerify(exactly = 16) { keyCache.delete(any()) }
     }
 
     @Test
-    fun `not completed cache entries are overwritten`() = flakyTest {
+    fun `not completed cache entries are overwritten`() {
         mockAddData(
             type = Type.COUNTRY_DAY,
             location = "DE".loc,
@@ -684,7 +675,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `database errors do not abort the whole process`() = flakyTest {
+    fun `database errors do not abort the whole process`() {
         var completionCounter = 0
         coEvery { keyCache.markKeyComplete(any(), any()) } answers {
             completionCounter++
@@ -704,7 +695,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `store server md5`() = flakyTest {
+    fun `store server md5`() {
         coEvery { server.getCountryIndex() } returns listOf("DE".loc)
         coEvery { server.getDayIndex("DE".loc) } returns listOf("2020-09-01".day)
 
@@ -730,7 +721,7 @@ class KeyFileDownloaderTest : BaseIOTest() {
     }
 
     @Test
-    fun `use local MD5 as fallback if there is none available from the server`() = flakyTest {
+    fun `use local MD5 as fallback if there is none available from the server`() {
         coEvery { server.getCountryIndex() } returns listOf("DE".loc)
         coEvery { server.getDayIndex("DE".loc) } returns listOf("2020-09-01".day)
         coEvery { server.downloadKeyFile(any(), any(), any(), any(), any()) } answers {
@@ -739,7 +730,6 @@ class KeyFileDownloaderTest : BaseIOTest() {
                 day = arg(1),
                 hour = arg(2),
                 saveTo = arg(3),
-                precondition = arg(4),
                 checksumServerMD5 = null
             )
         }

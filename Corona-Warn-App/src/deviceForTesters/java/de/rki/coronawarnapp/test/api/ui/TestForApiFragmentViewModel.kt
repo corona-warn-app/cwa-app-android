@@ -11,10 +11,12 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.LocalData
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.smartLiveData
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -24,25 +26,23 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class TestForApiFragmentViewModel @AssistedInject constructor(
-    private val context: Context,
-    private val envSetup: EnvironmentSetup
+    @AppContext private val context: Context,
+    private val envSetup: EnvironmentSetup,
+    private val testSettings: TestSettings
 ) : CWAViewModel() {
 
     val debugOptionsState by smartLiveData {
         DebugOptionsState(
             areNotificationsEnabled = LocalData.backgroundNotification(),
-            is3HourModeEnabled = LocalData.last3HoursMode()
+            isHourlyTestingMode = testSettings.isHourKeyPkgMode
         )
     }
 
-    val last3HourToggleEvent = SingleLiveEvent<Boolean>()
-
-    fun setLast3HoursMode(enabled: Boolean) {
+    fun setHourlyKeyPkgMode(enabled: Boolean) {
         debugOptionsState.update {
-            LocalData.last3HoursMode(enabled)
-            it.copy(is3HourModeEnabled = enabled)
+            testSettings.isHourKeyPkgMode = enabled
+            it.copy(isHourlyTestingMode = enabled)
         }
-        last3HourToggleEvent.postValue(enabled)
     }
 
     val environmentState by smartLiveData {

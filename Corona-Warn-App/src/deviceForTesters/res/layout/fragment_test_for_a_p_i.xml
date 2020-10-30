@@ -4,13 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText">
 
-    <data>
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-    </data>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,12 +33,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Switch
-                    android:id="@+id/three_hour_mode_toggle"
+                    android:id="@+id/hourly_key_pkg_mode"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@string/test_api_switch_last_three_hours_from_server"
+                    android:text="Hourly keyfile mode (last 24)"
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +54,7 @@
                     android:theme="@style/switchBase"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/three_hour_mode_toggle" />
+                    app:layout_constraintTop_toBottomOf="@+id/hourly_key_pkg_mode" />
 
                 <Switch
                     android:id="@+id/test_logfile_toggle"

@@ -11,12 +11,16 @@ import kotlin.reflect.KProperty
 
 fun <T : Any> ViewModel.smartLiveData(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
+    liveDataFactory: (ViewModel, CoroutineDispatcher) -> SmartLiveData<T> = { vm, disp ->
+        SmartLiveData(vm, disp)
+    },
     initAction: suspend () -> T
-) = SmartLiveDataProperty(dispatcher, initAction)
+) = SmartLiveDataProperty(dispatcher, initAction, liveDataFactory)
 
-class SmartLiveDataProperty<T : Any>(
+class SmartLiveDataProperty<T : Any, LV : SmartLiveData<T>>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    private val initialValueProvider: suspend () -> T
+    private val initialValueProvider: suspend () -> T,
+    private val liveDataFactory: (ViewModel, CoroutineDispatcher) -> LV
 ) : ReadOnlyProperty<ViewModel, SmartLiveData<T>> {
 
     private var liveData: SmartLiveData<T>? = null
@@ -29,7 +33,7 @@ class SmartLiveDataProperty<T : Any>(
             return@getValue it
         }
 
-        return SmartLiveData<T>(thisRef, dispatcher).also {
+        return liveDataFactory(thisRef, dispatcher).also {
             liveData = it
             thisRef.viewModelScope.launch(context = dispatcher) {
                 it.postValue(initialValueProvider())
@@ -38,7 +42,7 @@ class SmartLiveDataProperty<T : Any>(
     }
 }
 
-class SmartLiveData<T : Any>(
+open class SmartLiveData<T : Any>(
     private val viewModel: ViewModel,
     private val dispatcher: CoroutineDispatcher
 ) : MutableLiveData<T>() {

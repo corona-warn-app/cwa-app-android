@@ -2,14 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_share_container"
         android:layout_width="match_parent"

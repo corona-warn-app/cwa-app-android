@@ -37,51 +37,51 @@ class AppConfigStorageTest : BaseIOTest() {
     private fun createStorage() = AppConfigStorage(context)
 
     @Test
-    fun `config availability is determined by file existence and min size`() {
+    suspend fun `config availability is determined by file existence and min size`() {
         storageDir.mkdirs()
         val storage = createStorage()
-        storage.isAppConfigAvailable shouldBe false
+        storage.isAppConfigAvailable() shouldBe false
         configPath.createNewFile()
-        storage.isAppConfigAvailable shouldBe false
+        storage.isAppConfigAvailable() shouldBe false
 
         configPath.writeBytes(ByteArray(128) { 1 })
-        storage.isAppConfigAvailable shouldBe false
+        storage.isAppConfigAvailable() shouldBe false
 
         configPath.writeBytes(ByteArray(129) { 1 })
-        storage.isAppConfigAvailable shouldBe true
+        storage.isAppConfigAvailable() shouldBe true
     }
 
     @Test
-    fun `simple read and write config`() {
+    suspend fun `simple read and write config`() {
         configPath.exists() shouldBe false
         val storage = createStorage()
         configPath.exists() shouldBe false
 
-        storage.appConfigRaw = testByteArray
+        storage.setAppConfigRaw(testByteArray)
 
         configPath.exists() shouldBe true
         configPath.readBytes() shouldBe testByteArray
 
-        storage.appConfigRaw shouldBe testByteArray
+        storage.getAppConfigRaw() shouldBe testByteArray
     }
 
     @Test
-    fun `nulling and overwriting`() {
+    suspend fun `nulling and overwriting`() {
         val storage = createStorage()
         configPath.exists() shouldBe false
 
-        storage.appConfigRaw shouldBe null
-        storage.appConfigRaw = null
+        storage.getAppConfigRaw() shouldBe null
+        storage.setAppConfigRaw(null)
         configPath.exists() shouldBe false
 
-        storage.appConfigRaw shouldBe null
-        storage.appConfigRaw = testByteArray
-        storage.appConfigRaw shouldBe testByteArray
+        storage.getAppConfigRaw() shouldBe null
+        storage.setAppConfigRaw(testByteArray)
+        storage.getAppConfigRaw() shouldBe testByteArray
         configPath.exists() shouldBe true
         configPath.readBytes() shouldBe testByteArray
 
-        storage.appConfigRaw = null
-        storage.appConfigRaw shouldBe null
+        storage.setAppConfigRaw(null)
+        storage.getAppConfigRaw() shouldBe null
         configPath.exists() shouldBe false
     }
 }

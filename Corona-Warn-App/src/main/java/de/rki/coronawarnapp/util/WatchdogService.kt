@@ -7,6 +7,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
@@ -16,7 +17,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class WatchdogService @Inject constructor(private val context: Context) {
+class WatchdogService @Inject constructor(
+    @AppContext private val context: Context
+) {
 
     private val powerManager by lazy {
         context.getSystemService(Context.POWER_SERVICE) as PowerManager

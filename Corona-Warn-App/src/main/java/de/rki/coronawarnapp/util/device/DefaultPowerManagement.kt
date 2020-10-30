@@ -5,10 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
+import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
 class DefaultPowerManagement @Inject constructor(
-    private val context: Context
+    @AppContext private val context: Context
 ) : PowerManagement {
 
     private val powerManager by lazy {
