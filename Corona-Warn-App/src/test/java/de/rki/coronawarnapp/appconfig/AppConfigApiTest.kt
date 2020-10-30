@@ -67,7 +67,7 @@ class AppConfigApiTest : BaseIOTest() {
             cache = cache
         )
     }
-    
+
     @Test
     fun `application config download`() {
         val api = createAPI()

@@ -55,12 +55,6 @@ fun formatTestResultSpinnerVisible(uiStateState: ApiRequestState?): Int =
 fun formatTestResultVisible(uiStateState: ApiRequestState?): Int =
     formatVisibility(uiStateState == ApiRequestState.SUCCESS)
 
-fun formatSubmitButtonEnabled(apiRequestState: ApiRequestState) =
-    apiRequestState == ApiRequestState.IDLE || apiRequestState == ApiRequestState.FAILED
-
-fun formatSubmitSpinnerVisible(apiRequestState: ApiRequestState) =
-    formatVisibility(apiRequestState == ApiRequestState.STARTED)
-
 fun formatTestResultStatusText(uiState: DeviceUIState?): String {
     val appContext = CoronaWarnApplication.getAppContext()
     return when (uiState) {
