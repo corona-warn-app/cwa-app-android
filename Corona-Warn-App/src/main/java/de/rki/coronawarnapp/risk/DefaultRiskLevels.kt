@@ -132,10 +132,10 @@ class DefaultRiskLevels @Inject constructor(
 
     override fun isActiveTracingTimeAboveThreshold(): Boolean {
         val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
+        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
+        
         val durationTracingIsActiveThreshold =
             TimeVariables.getMinActivatedTracingTime().toLong()
-
-        val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
 
         return (activeTracingDurationInHours >= durationTracingIsActiveThreshold).also {
             Timber.tag(TAG).v(
