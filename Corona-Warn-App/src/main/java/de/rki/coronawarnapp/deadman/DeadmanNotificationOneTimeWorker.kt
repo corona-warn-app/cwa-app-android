@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.deadman
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.util.di.AppInjector
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber
 
@@ -12,9 +14,11 @@ import timber.log.Timber
  *
  * @see DeadmanNotificationScheduler
  */
-class DeadmanNotificationOneTimeWorker(
-    val context: Context,
-    workerParams: WorkerParameters
+
+class DeadmanNotificationOneTimeWorker @AssistedInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val sender: DeadmanNotificationSender
 ) :
     CoroutineWorker(context, workerParams) {
 
@@ -33,11 +37,14 @@ class DeadmanNotificationOneTimeWorker(
         }
         var result = Result.success()
         try {
-            AppInjector.component.deadmanSender.sendNotification()
+            sender.sendNotification()
         } catch (e: Exception) {
             result = Result.retry()
         }
 
         return result
     }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedWorkerFactory<DeadmanNotificationOneTimeWorker>
 }
