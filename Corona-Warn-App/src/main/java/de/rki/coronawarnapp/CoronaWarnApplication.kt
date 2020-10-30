@@ -7,11 +7,10 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.work.Configuration
-import androidx.work.WorkManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -21,6 +20,7 @@ import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import de.rki.coronawarnapp.util.worker.WorkManagerSetup
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
@@ -35,11 +35,14 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var component: ApplicationComponent
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     @Inject lateinit var watchdogService: WatchdogService
     @Inject lateinit var taskController: TaskController
     @Inject lateinit var foregroundState: ForegroundState
+    @Inject lateinit var workManagerSetup: WorkManagerSetup
+    @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
         instance = this
@@ -49,10 +52,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("onCreate(): Initializing Dagger")
         AppInjector.init(this)
 
+        Timber.plant(rollingLogHistory)
+
         Timber.v("onCreate(): Initializing WorkManager")
-        Configuration.Builder()
-            .apply { setMinimumLoggingLevel(android.util.Log.DEBUG) }.build()
-            .let { WorkManager.initialize(this, it) }
+        workManagerSetup.setup()
 
         NotificationHelper.createNotificationChannel()
 

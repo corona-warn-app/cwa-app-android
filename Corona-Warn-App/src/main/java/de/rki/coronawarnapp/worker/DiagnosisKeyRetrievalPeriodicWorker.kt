@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
 /**
@@ -12,8 +15,10 @@ import timber.log.Timber
  * @see BackgroundWorkScheduler
  * @see DiagnosisKeyRetrievalOneTimeWorker
  */
-class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(context, workerParams) {
+class DiagnosisKeyRetrievalPeriodicWorker @AssistedInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     /**
      * Work execution
@@ -60,4 +65,7 @@ class DiagnosisKeyRetrievalPeriodicWorker(val context: Context, workerParams: Wo
         Timber.d("$id: doWork() finished with %s", result)
         return result
     }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedWorkerFactory<DiagnosisKeyRetrievalPeriodicWorker>
 }

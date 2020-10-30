@@ -387,6 +387,19 @@
     <string name="risk_details_deadman_notification_body">"Please open the Corona-Warn-App to update exposure logging."</string>
 
     <!-- ####################################
+               Risk Lowered Dialog
+    ###################################### -->
+
+    <!-- XHED: risk lowered - dialog headline -->
+    <string name="risk_lowered_dialog_headline" />
+    <!-- XTXT: risk lowered - dialog content -->
+    <string name="risk_lowered_dialog_body" />
+    <!-- XBUT: risk lowerd - dialog confirm -->
+    <string name="risk_lowered_dialog_button_confirm" />
+    <!-- XBUT: risk lowered - dialog cancel -->
+    <string name="risk_lowered_dialog_button_cancel" />
+
+    <!-- ####################################
               Onboarding
     ###################################### -->
 
@@ -1385,4 +1398,6 @@
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">"Your Internet connection may have been lost. Please ensure that you are connected to the Internet."</string>
     <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
     <string name="interoperability_onboarding_list_button_title_no_network">"Open Device Settings"</string>
+
+
 </resources>

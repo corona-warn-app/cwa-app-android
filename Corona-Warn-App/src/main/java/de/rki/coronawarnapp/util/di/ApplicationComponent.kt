@@ -7,6 +7,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.bugreporting.BugReporter
+import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -37,6 +39,7 @@ import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.worker.WorkerBinder
 import de.rki.coronawarnapp.verification.VerificationModule
 import javax.inject.Singleton
 
@@ -63,7 +66,9 @@ import javax.inject.Singleton
         PlaybookModule::class,
         TaskModule::class,
         DeviceForTestersModule::class,
-        SerializationModule::class
+        BugReportingModule::class,
+        SerializationModule::class,
+        WorkerBinder::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
@@ -92,6 +97,8 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val interoperabilityRepository: InteroperabilityRepository
 
     @AppScope val appScope: AppCoroutineScope
+
+    val bugReporter: BugReporter
 
     @Component.Factory
     interface Factory {
