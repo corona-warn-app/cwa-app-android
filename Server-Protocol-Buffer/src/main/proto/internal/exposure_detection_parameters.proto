@@ -3,7 +3,12 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal;
 
 
-message ExpsureDetectionParameters {
+message ExpsureDetectionParametersIOS {
+
+  int32 maxExposureDetectionsPerInterval = 1;
+}
+
+message ExpsureDetectionParametersAndroid {
 
   int32 maxExposureDetectionsPerInterval = 1;
 

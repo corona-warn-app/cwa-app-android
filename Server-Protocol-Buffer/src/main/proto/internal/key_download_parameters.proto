@@ -3,17 +3,20 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal;
 
 
-message KeyDownloadParameters {
+message KeyDownloadParametersIOS {
 
-  int32 numberOfRetriesPerFile = 1;
+  repeated DayPackageMetadata cachedDayPackagesToUpdateOnETagMismatch = 1;
+  repeated HourPackageMetadata cachedHourPackagesToUpdateOnETagMismatch = 2;
+}
 
-  int32 downloadTimeoutInSeconds = 2;
+message KeyDownloadParametersAndroid {
 
-  int32 overallTimeoutInSeconds = 3;
+  repeated DayPackageMetadata cachedDayPackagesToUpdateOnETagMismatch = 1;
+  repeated HourPackageMetadata cachedHourPackagesToUpdateOnETagMismatch = 2;
 
-  repeated DayPackageMetadata cachedDayPackagesToUpdateOnETagMismatch = 4;
+  int32 downloadTimeoutInSeconds = 3;
 
-  repeated HourPackageMetadata cachedHourPackagesToUpdateOnETagMismatch = 5;
+  int32 overallTimeoutInSeconds = 4;
 }
 
 message DayPackageMetadata {

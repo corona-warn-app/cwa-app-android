@@ -26,8 +26,9 @@ message ApplicationConfiguration {
 
   repeated string supportedCountries = 7;
 
-  KeyDownloadParameters keyDownloadParameters = 8;
+  KeyDownloadParametersIOS iosKeyDownloadParameters = 8;
+  KeyDownloadParametersAndroid androidKeyDownloadParameters = 9;
 
-  ExpsureDetectionParameters iosExposureDetectionParameters = 9;
-  ExpsureDetectionParameters androidExposureDetectionParameters = 10;
+  ExpsureDetectionParametersIOS iosExposureDetectionParameters = 10;
+  ExpsureDetectionParametersAndroid androidExposureDetectionParameters= 11;
 }
