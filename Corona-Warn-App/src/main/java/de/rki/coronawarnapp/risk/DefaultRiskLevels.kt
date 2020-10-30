@@ -7,8 +7,6 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
-import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
@@ -16,7 +14,6 @@ import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterCl
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,8 +21,7 @@ import kotlin.math.round
 
 @Singleton
 class DefaultRiskLevels @Inject constructor(
-    private val appConfigProvider: AppConfigProvider,
-    private val enfClient: ENFClient
+    private val appConfigProvider: AppConfigProvider
 ) : RiskLevels {
 
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
@@ -74,7 +70,7 @@ class DefaultRiskLevels @Inject constructor(
             TimeVariables.getMaxStaleExposureRiskRange() && isActiveTracingTimeAboveThreshold()
     }
 
-    override fun calculationNotPossibleBecauseNoKeys() =
+    override fun calculationNotPossibleBecauseOfNoKeys() =
         (TimeVariables.getLastTimeDiagnosisKeysFromServerFetch() == null).also {
             if (it) {
                 Timber.tag(TAG)
@@ -82,12 +78,7 @@ class DefaultRiskLevels @Inject constructor(
             }
         }
 
-    override suspend fun calculationNotPossibleBecauseTracingIsOff() =
-        // this applies if tracing is not activated
-        !enfClient.isTracingEnabled.first()
-
-    override suspend fun isIncreasedRisk(): Boolean {
-        val lastExposureSummary = getNewExposureSummary()
+    override suspend fun isIncreasedRisk(lastExposureSummary: ExposureSummary): Boolean {
         val appConfiguration = appConfigProvider.getAppConfig()
         Timber.tag(TAG).v("Retrieved configuration from backend")
         // custom attenuation parameters to weight the attenuation
@@ -223,27 +214,8 @@ class DefaultRiskLevels @Inject constructor(
         RiskLevelRepository.setRiskLevelScore(riskLevel)
     }
 
-    /**
-     * If there is no persisted exposure summary we try to get a new one with the last persisted
-     * Google API token that was used in the [de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction]
-     *
-     * @return a exposure summary from the Google Exposure Notification API
-     */
-    private suspend fun getNewExposureSummary(): ExposureSummary {
-        val googleToken = LocalData.googleApiToken()
-            ?: throw RiskLevelCalculationException(IllegalStateException("Exposure summary is not persisted"))
-
-        val exposureSummary =
-            InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
-
-        return exposureSummary.also {
-            Timber.tag(TAG)
-                .v("Generated new exposure summary with $googleToken")
-        }
-    }
-
     companion object {
-        private var TAG = DefaultRiskLevels::class.simpleName
+        private val TAG = DefaultRiskLevels::class.simpleName
         private const val DECIMAL_MULTIPLIER = 100
     }
 }

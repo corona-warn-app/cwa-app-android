@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.risk
 
 import android.content.Context
+import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.LOW_LEVEL_RISK
 import de.rki.coronawarnapp.risk.RiskLevel.NO_CALCULATION_POSSIBLE_TRACING_OFF
@@ -11,6 +15,7 @@ import de.rki.coronawarnapp.risk.RiskLevel.UNDETERMINED
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -22,6 +27,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,7 +35,8 @@ import javax.inject.Provider
 
 class RiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val enfClient: ENFClient
 ) : Task<DefaultProgress, RiskLevelTask.Result> {
 
     private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
@@ -49,11 +56,11 @@ class RiskLevelTask @Inject constructor(
             with(riskLevels) {
                 return Result(
                     when {
-                        calculationNotPossibleBecauseTracingIsOff().also {
+                        !enfClient.isTracingEnabled.first().also {
                             checkCancel()
                         } -> NO_CALCULATION_POSSIBLE_TRACING_OFF
 
-                        calculationNotPossibleBecauseNoKeys().also {
+                        calculationNotPossibleBecauseOfNoKeys().also {
                             checkCancel()
                         } -> UNKNOWN_RISK_INITIAL
 
@@ -64,7 +71,7 @@ class RiskLevelTask @Inject constructor(
                         else
                             UNKNOWN_RISK_OUTDATED_RESULTS_MANUAL
 
-                        isIncreasedRisk().also {
+                        isIncreasedRisk(getNewExposureSummary()).also {
                             checkCancel()
                         } -> INCREASED_RISK
 
@@ -86,6 +93,25 @@ class RiskLevelTask @Inject constructor(
         } finally {
             Timber.i("Finished (isCanceled=$isCanceled).")
             internalProgress.close()
+        }
+    }
+
+    /**
+     * If there is no persisted exposure summary we try to get a new one with the last persisted
+     * Google API token that was used in the [de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction]
+     *
+     * @return a exposure summary from the Google Exposure Notification API
+     */
+    private suspend fun getNewExposureSummary(): ExposureSummary {
+        val googleToken = LocalData.googleApiToken()
+            ?: throw RiskLevelCalculationException(IllegalStateException("Exposure summary is not persisted"))
+
+        val exposureSummary =
+            InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
+
+        return exposureSummary.also {
+            Timber.tag(TAG)
+                .v("Generated new exposure summary with $googleToken")
         }
     }
 

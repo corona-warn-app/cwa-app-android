@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterCl
 
 interface RiskLevels {
 
-    fun calculationNotPossibleBecauseNoKeys(): Boolean
+    fun calculationNotPossibleBecauseOfNoKeys(): Boolean
 
     fun calculationNotPossibleBecauseOfOutdatedResults(): Boolean
 
@@ -15,9 +15,7 @@ interface RiskLevels {
      */
     fun isActiveTracingTimeAboveThreshold(): Boolean
 
-    suspend fun isIncreasedRisk(): Boolean
-
-    suspend fun calculationNotPossibleBecauseTracingIsOff(): Boolean
+    suspend fun isIncreasedRisk(lastExposureSummary: ExposureSummary): Boolean
 
     fun updateRepository(
         riskLevel: RiskLevel,

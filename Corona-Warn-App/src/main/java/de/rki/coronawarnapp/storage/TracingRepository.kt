@@ -78,9 +78,9 @@ class TracingRepository @Inject constructor(
         }
     }
 
-    private fun List<TaskInfo>.isRiskLevelTaskRunning() = find {
+    private fun List<TaskInfo>.isRiskLevelTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
-    } != null
+    }
 
     /**
      * Refresh the diagnosis keys. For that isRefreshing is set to true which is displayed in the ui.
