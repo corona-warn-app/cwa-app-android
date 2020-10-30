@@ -9,8 +9,9 @@ import io.mockk.impl.annotations.MockK
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
+import testhelpers.BaseTest
 
-class RiskLevelsTest {
+class RiskLevelsTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     private lateinit var riskLevels: DefaultRiskLevels

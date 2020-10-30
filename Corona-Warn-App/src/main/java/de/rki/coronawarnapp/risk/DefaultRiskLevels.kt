@@ -124,7 +124,6 @@ class DefaultRiskLevels @Inject constructor(
     override fun isActiveTracingTimeAboveThreshold(): Boolean {
         val durationTracingIsActive = TimeVariables.getTimeActiveTracingDuration()
         val activeTracingDurationInHours = durationTracingIsActive.millisecondsToHours()
-        
         val durationTracingIsActiveThreshold =
             TimeVariables.getMinActivatedTracingTime().toLong()
 
