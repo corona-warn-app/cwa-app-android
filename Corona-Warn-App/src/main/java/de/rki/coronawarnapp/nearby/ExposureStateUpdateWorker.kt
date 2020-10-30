@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.di.AppInjector
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
