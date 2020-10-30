@@ -81,13 +81,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
                         detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                        onDismiss = { vm.errorResetDialogDismissed() }
+                        onPositive = { vm.errorResetDialogDismissed() }
                     )
                 }
                 HomeFragmentEvents.ShowDeleteTestDialog -> {
                     showRemoveTestDialog()
                 }
             }
+        }
+
+        vm.showLoweredRiskLevelDialog.observe2(this) {
+            showRiskLevelLoweredDialogIfNeeded()
         }
     }
 
@@ -116,10 +120,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     }
 
     private fun setupRiskCard() {
-        binding.mainRisk.apply {
-            riskCard.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
-            }
+        binding.riskCard.setOnClickListener {
+            doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+        }
+        binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
                 vm.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
@@ -175,6 +179,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun showRiskLevelLoweredDialogIfNeeded() {
+        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.risk_lowered_dialog_headline,
+            message = R.string.risk_lowered_dialog_body,
+            positiveButton = R.string.risk_lowered_dialog_button_confirm,
+            negativeButton = null,
+            cancelable = false,
+            positiveButtonFunction = { vm.userHasAcknowledgedTheLoweredRiskLevel() }
+        )
+
+        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
         }
     }
 }

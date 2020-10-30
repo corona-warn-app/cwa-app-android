@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDate
 import de.rki.coronawarnapp.util.TimeStamper
@@ -41,8 +41,8 @@ class ExposureKeyHistoryCalculations @Inject constructor(
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector,
         now: LocalDate = timeStamper.nowUTC.toLocalDate()
-    ): List<KeyExportFormat.TemporaryExposureKey> {
-        val result = mutableListOf<KeyExportFormat.TemporaryExposureKey>()
+    ): List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey> {
+        val result = mutableListOf<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>()
         keys.groupBy { it.ageInDays(now) }.forEach { entry ->
             val ageInDays = entry.key
             entry.value.forEach {

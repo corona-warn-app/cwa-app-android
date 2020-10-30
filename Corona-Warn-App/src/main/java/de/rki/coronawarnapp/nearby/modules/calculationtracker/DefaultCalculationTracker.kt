@@ -44,16 +44,13 @@ class DefaultCalculationTracker @Inject constructor(
             flow<Unit> {
                 while (true) {
                     hd.updateSafely {
-                        Timber.v("Running timeout check on: %s", values)
-
                         val timeNow = timeStamper.nowUTC
-                        Timber.v("Time now: %s", timeNow)
+                        Timber.v("Running timeout check (now=%s): %s", timeNow, values)
 
                         mutate {
                             values.filter { it.isCalculating }.toList().forEach {
                                 if (timeNow.isAfter(it.startedAt.plus(TIMEOUT_LIMIT))) {
                                     Timber.w("Calculation timeout on %s", it)
-                                    remove(it.identifier)
                                     this[it.identifier] = it.copy(
                                         finishedAt = timeStamper.nowUTC,
                                         result = Result.TIMEOUT

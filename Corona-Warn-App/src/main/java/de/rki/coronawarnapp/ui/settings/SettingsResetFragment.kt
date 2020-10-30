@@ -5,45 +5,41 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
-import de.rki.coronawarnapp.util.DataRetentionHelper
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
-import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * The user is informed what a reset means and he can perform it.
  *
  */
-class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset) {
+class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoInject {
 
-    companion object {
-        private val TAG: String? = SettingsResetFragment::class.simpleName
-    }
-
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: SettingsResetViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSettingsResetBinding by viewBindingLazy()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.settingsResetButtonDelete.setOnClickListener {
-            confirmReset()
+        binding.apply {
+            settingsResetButtonDelete.setOnClickListener { vm.resetAllData() }
+            settingsResetButtonCancel.setOnClickListener { vm.goBack() }
+            settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
         }
-        binding.settingsResetButtonCancel.setOnClickListener {
-            (activity as MainActivity).goBack()
-        }
-        binding.settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+        vm.clickEvent.observe2(this) {
+            when (it) {
+                is SettingsEvents.ResetApp -> confirmReset()
+                is SettingsEvents.GoBack -> (activity as MainActivity).goBack()
+                is SettingsEvents.GoToOnboarding -> navigateToOnboarding()
+            }
         }
     }
 
@@ -52,34 +48,9 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset) {
         binding.settingsResetContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun deleteAllAppContent() {
-        lifecycleScope.launch {
-            try {
-                val isTracingEnabled = InternalExposureNotificationClient.asyncIsEnabled()
-                // only stop tracing if it is currently enabled
-                if (isTracingEnabled) {
-                    InternalExposureNotificationClient.asyncStop()
-                    BackgroundWorkScheduler.stopWorkScheduler()
-                }
-            } catch (apiException: ApiException) {
-                apiException.report(
-                    ExceptionCategory.EXPOSURENOTIFICATION, TAG, null
-                )
-            }
-            withContext(Dispatchers.IO) {
-                deleteLocalAppContent()
-            }
-            navigateToOnboarding()
-        }
-    }
-
     private fun navigateToOnboarding() {
         OnboardingActivity.start(requireContext())
         activity?.finish()
-    }
-
-    private fun deleteLocalAppContent() {
-        DataRetentionHelper.clearAllLocalData(requireContext())
     }
 
     private fun confirmReset() {
@@ -89,10 +60,8 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset) {
             R.string.settings_reset_dialog_body,
             R.string.settings_reset_dialog_button_confirm,
             R.string.settings_reset_dialog_button_cancel,
-            true,
-            {
-                deleteAllAppContent()
-            }
+            cancelable = true,
+            positiveButtonFunction = vm::deleteAllAppContent
         )
 
         DialogHelper.showDialog(resetDialog).apply {

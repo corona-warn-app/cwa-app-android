@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
+
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,7 +19,7 @@ class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
     }
 
     override fun calculateRiskScore(
-        attenuationParameters: ApplicationConfigurationOuterClass.AttenuationDuration,
+        attenuationParameters: AttenuationDuration,
         exposureSummary: ExposureSummary
     ): Double {
 

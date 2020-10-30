@@ -123,6 +123,32 @@ class HotDataFlowTest : BaseTest() {
     }
 
     @Test
+    fun `only emit new values if they actually changed updates`() {
+        val testScope = TestCoroutineScope()
+
+        val hotData = HotDataFlow(
+            loggingTag = "tag",
+            scope = testScope,
+            startValueProvider = { "1" },
+            sharingBehavior = SharingStarted.Lazily
+        )
+
+        val testCollector = hotData.data.test(startOnScope = testScope)
+        testCollector.silent = true
+
+        hotData.updateSafely { "1" }
+        hotData.updateSafely { "2" }
+        hotData.updateSafely { "2" }
+        hotData.updateSafely { "1" }
+
+
+        runBlocking {
+            testCollector.await { list, l -> list.size == 3 }
+            testCollector.latestValues shouldBe listOf("1", "2", "1")
+        }
+    }
+
+    @Test
     fun `multiple subscribers share the flow`() {
         val testScope = TestCoroutineScope()
         val valueProvider = mockk<suspend CoroutineScope.() -> String>()

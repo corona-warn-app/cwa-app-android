@@ -31,6 +31,17 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+def getHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    def result = stdout.toString().trim()
+    return result
+}
+
+
 android {
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
     println("Current VERSION_MINOR: ${VERSION_MINOR}")
@@ -64,6 +75,7 @@ android {
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
+        buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
 
         def devEnvironmentFile = file("../test_environments.json")
         if (devEnvironmentFile.exists()) {
@@ -317,6 +329,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.28.1'
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
     kapt 'com.google.dagger:dagger-android-processor:2.28.1'
+    kaptTest 'com.google.dagger:dagger-compiler:2.28.1'
     kaptAndroidTest 'com.google.dagger:dagger-compiler:2.28.1'
 
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
@@ -353,6 +366,8 @@ dependencies {
     testImplementation "io.kotest:kotest-property-jvm:4.3.0"
     androidTestImplementation "io.kotest:kotest-assertions-core-jvm:4.3.0"
     androidTestImplementation "io.kotest:kotest-property-jvm:4.3.0"
+
+    testImplementation "io.github.classgraph:classgraph:4.8.90"
 
     // Testing - Instrumentation
     androidTestImplementation 'junit:junit:4.13.1'

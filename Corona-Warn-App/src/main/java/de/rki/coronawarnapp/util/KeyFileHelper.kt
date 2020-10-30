@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignature
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TEKSignatureList
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat.TemporaryExposureKeyExport
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeySignatureList.TEKSignature
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeySignatureList.TEKSignatureList
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKeyExport
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.convertToGoogleKey
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.logUTCFormat
 import kotlinx.coroutines.Dispatchers

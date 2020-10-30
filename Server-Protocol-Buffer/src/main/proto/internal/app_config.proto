@@ -1,0 +1,26 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+import "internal/risk_score_classification.proto";
+import "internal/risk_score_parameters.proto";
+import "internal/app_version_config.proto";
+import "internal/attenuation_duration.proto";
+import "internal/app_features.proto";
+
+message ApplicationConfiguration {
+
+  int32 minRiskScore = 1;
+
+  RiskScoreClassification riskScoreClasses = 2;
+
+  RiskScoreParameters exposureConfig = 3;
+
+  AttenuationDuration attenuationDuration = 4;
+
+  ApplicationVersionConfiguration appVersion = 5;
+
+  AppFeatures appFeatures = 6;
+
+  repeated string supportedCountries = 7;
+}

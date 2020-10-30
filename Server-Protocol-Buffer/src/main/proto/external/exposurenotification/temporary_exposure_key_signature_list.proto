@@ -1,0 +1,23 @@
+// This file is auto-generated, DO NOT make any changes here
+//https://static.googleusercontent.com/media/www.google.com/en//covid19/exposurenotifications/pdfs/Exposure-Key-File-Format-and-Verification.pdf
+syntax = "proto2";
+package de.rki.coronawarnapp.server.protocols.external.exposurenotification;
+
+import "external/exposurenotification/temporary_exposure_key_export.proto";
+
+message TEKSignatureList {
+  // Information about associated signatures.
+  repeated TEKSignature signatures = 1;
+}
+
+message TEKSignature {
+  // Information to uniquely identify the public key associated
+  // with the EN server's signing key.
+  optional SignatureInfo signature_info = 1;
+  // Reserved for future use. Both batch_num and batch_size
+  // must be set to a value of 1.
+  optional int32 batch_num = 2;
+  optional int32 batch_size = 3;
+  // Signature in X9.62 format (ASN.1 SEQUENCE of two INTEGER fields).
+  optional bytes signature = 4;
+}

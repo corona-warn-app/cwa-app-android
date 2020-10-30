@@ -5,8 +5,8 @@ import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass.ApplicationConfiguration
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
@@ -143,7 +143,7 @@ class SubmitDiagnosisKeysTransactionTest {
                     any()
                 )
             } returns listOf(
-                KeyExportFormat.TemporaryExposureKey.newBuilder()
+                TemporaryExposureKeyExportOuterClass.TemporaryExposureKey.newBuilder()
                     .setKeyData(ByteString.copyFrom(ByteArray(1)))
                     .setRollingPeriod(144)
                     .setRollingStartIntervalNumber(intervalNumber)
