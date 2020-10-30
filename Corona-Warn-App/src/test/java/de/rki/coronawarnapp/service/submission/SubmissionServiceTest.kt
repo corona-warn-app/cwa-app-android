@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.service.submission
 
-import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
@@ -69,13 +68,6 @@ class SubmissionServiceTest {
     }
 
     @Test
-    fun registerDeviceWithoutTANOrGUIDFails(): Unit = runBlocking {
-        shouldThrow<NoGUIDOrTANSetException> {
-            SubmissionService.asyncRegisterDevice()
-        }
-    }
-
-    @Test
     fun registrationWithGUIDSucceeds() {
         every { LocalData.testGUID() } returns guid
 
@@ -91,7 +83,7 @@ class SubmissionServiceTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDeviceViaGUID(guid)
         }
 
         verify(exactly = 1) {
@@ -119,7 +111,7 @@ class SubmissionServiceTest {
         every { backgroundNoise.scheduleDummyPattern() } just Runs
 
         runBlocking {
-            SubmissionService.asyncRegisterDevice()
+            SubmissionService.asyncRegisterDeviceViaTAN(guid)
         }
 
         verify(exactly = 1) {

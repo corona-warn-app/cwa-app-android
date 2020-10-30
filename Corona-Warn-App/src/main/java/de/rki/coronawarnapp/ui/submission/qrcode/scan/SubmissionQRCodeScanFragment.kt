@@ -14,13 +14,11 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.CameraPermissionHelper
-import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent
@@ -62,13 +60,22 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
         viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
-            if (ScanStatus.SUCCESS == it) {
-                viewModel.doDeviceRegistration()
-            }
-
             if (ScanStatus.INVALID == it) {
                 showInvalidScanDialog()
             }
+        }
+
+        viewModel.showRedeemedTokenWarning.observe2(this) {
+            val dialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_tan_redeemed_title,
+                R.string.submission_error_dialog_web_tan_redeemed_body,
+                R.string.submission_error_dialog_web_tan_redeemed_button_positive
+            )
+
+            DialogHelper.showDialog(dialog)
+            viewModel.deregisterTestFromDevice()
+            goBack()
         }
 
         viewModel.registrationState.observe2(this) {
@@ -76,23 +83,11 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 ApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
-
             if (ApiRequestState.SUCCESS == it) {
-                submissionViewModel.deviceUiState.observe2(this) { uiState ->
-                    SubmissionRepository.refreshDeviceUIState(true)
-                    if (uiState != DeviceUIState.UNPAIRED) {
-                        if (uiState == DeviceUIState.PAIRED_REDEEMED) {
-                            showRedeemedTokenWarningDialog()
-                            submissionViewModel.deregisterTestFromDevice()
-                            goBack()
-                        } else {
-                            doNavigate(
-                                SubmissionQRCodeScanFragmentDirections
-                                    .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
-                            )
-                        }
-                    }
-                }
+                doNavigate(
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
+                )
             }
         }
 
@@ -112,7 +107,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.validateAndStoreTestGUID(it.text)
+            viewModel.validateTestGUID(it.text)
         }
     }
 
@@ -170,16 +165,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         )
 
         DialogHelper.showDialog(invalidScanDialogInstance)
-    }
-
-    private fun showRedeemedTokenWarningDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_error_dialog_web_tan_redeemed_title,
-            R.string.submission_error_dialog_web_tan_redeemed_body,
-            R.string.submission_error_dialog_web_tan_redeemed_button_positive
-        )
-        DialogHelper.showDialog(dialog)
     }
 
     override fun onRequestPermissionsResult(

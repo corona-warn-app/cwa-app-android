@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.service.submission
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
@@ -19,41 +18,31 @@ object SubmissionService {
     private val playbook: Playbook
         get() = AppInjector.component.playbook
 
-    suspend fun asyncRegisterDevice() {
-        val testGUID = LocalData.testGUID()
-        val testTAN = LocalData.teletan()
-
-        when {
-            testGUID != null -> asyncRegisterDeviceViaGUID(testGUID)
-            testTAN != null -> asyncRegisterDeviceViaTAN(testTAN)
-            else -> throw NoGUIDOrTANSetException()
-        }
-        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
-        BackgroundNoise.getInstance().scheduleDummyPattern()
-    }
-
-    private suspend fun asyncRegisterDeviceViaGUID(guid: String) {
+    suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val (registrationToken, testResult) =
             playbook.initialRegistration(
                 guid,
                 VerificationKeyType.GUID
             )
-
         LocalData.registrationToken(registrationToken)
         deleteTestGUID()
         SubmissionRepository.updateTestResult(testResult)
+        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
+        BackgroundNoise.getInstance().scheduleDummyPattern()
+        return testResult
     }
 
-    private suspend fun asyncRegisterDeviceViaTAN(tan: String) {
+    suspend fun asyncRegisterDeviceViaTAN(tan: String) {
         val (registrationToken, testResult) =
             playbook.initialRegistration(
                 tan,
                 VerificationKeyType.TELETAN
             )
-
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
         SubmissionRepository.updateTestResult(testResult)
+        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
+        BackgroundNoise.getInstance().scheduleDummyPattern()
     }
 
     suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>, symptoms: Symptoms) {
