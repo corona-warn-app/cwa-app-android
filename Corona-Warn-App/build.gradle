@@ -130,6 +130,7 @@ android {
         device {
             dimension "version"
             resValue "string", "app_name", "Corona-Warn"
+            resValue "bool", "extract_native_libs", "false"
 
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
@@ -143,6 +144,7 @@ android {
             // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
+            resValue "bool", "extract_native_libs", "true"
             applicationIdSuffix '.test'
 
             ext {
@@ -293,6 +295,12 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     getExecutionData().from(fileTree(dir: "$buildDir", includes: ["jacoco/testDeviceReleaseUnitTest.exec"]))
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "androidx.test:monitor:1.3.0"
+    }
+}
+
 dependencies {
     // KOTLIN
     def coroutineVersion = "1.4.0-M1"
@@ -380,6 +388,8 @@ dependencies {
     androidTestImplementation 'androidx.work:work-testing:2.4.0'
     androidTestImplementation "io.mockk:mockk-android:1.10.2"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+
+    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'
