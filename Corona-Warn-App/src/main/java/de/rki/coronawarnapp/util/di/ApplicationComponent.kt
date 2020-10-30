@@ -98,9 +98,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     val interoperabilityRepository: InteroperabilityRepository
 
-    val deadmanScheduler: DeadmanNotificationScheduler
-    val deadmanSender: DeadmanNotificationSender
-
     @AppScope val appScope: AppCoroutineScope
 
     val bugReporter: BugReporter
