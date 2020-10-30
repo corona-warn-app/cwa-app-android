@@ -29,6 +29,6 @@ message ApplicationConfiguration {
   KeyDownloadParametersIOS iosKeyDownloadParameters = 8;
   KeyDownloadParametersAndroid androidKeyDownloadParameters = 9;
 
-  ExpsureDetectionParametersIOS iosExposureDetectionParameters = 10;
-  ExpsureDetectionParametersAndroid androidExposureDetectionParameters= 11;
+  ExposureDetectionParametersIOS iosExposureDetectionParameters = 10;
+  ExposureDetectionParametersAndroid androidExposureDetectionParameters= 11;
 }
