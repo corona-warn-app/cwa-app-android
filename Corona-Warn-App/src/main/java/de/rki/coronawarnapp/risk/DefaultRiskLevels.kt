@@ -214,7 +214,7 @@ class DefaultRiskLevels @Inject constructor(
     }
 
     companion object {
-        private val TAG = DefaultRiskLevels::class.simpleName
+        private val TAG = DefaultRiskLevels::class.java.simpleName
         private const val DECIMAL_MULTIPLIER = 100
     }
 }
