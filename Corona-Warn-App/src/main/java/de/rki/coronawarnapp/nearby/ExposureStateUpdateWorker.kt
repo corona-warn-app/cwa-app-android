@@ -5,6 +5,8 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.reporting.report
@@ -12,10 +14,14 @@ import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction
+import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
-class ExposureStateUpdateWorker(val context: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(context, workerParams) {
+class ExposureStateUpdateWorker @AssistedInject constructor(
+    @Assisted val context: Context,
+    @Assisted workerParams: WorkerParameters
+) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         try {
@@ -38,4 +44,7 @@ class ExposureStateUpdateWorker(val context: Context, workerParams: WorkerParame
 
         return Result.success()
     }
+
+    @AssistedInject.Factory
+    interface Factory : InjectedWorkerFactory<ExposureStateUpdateWorker>
 }
