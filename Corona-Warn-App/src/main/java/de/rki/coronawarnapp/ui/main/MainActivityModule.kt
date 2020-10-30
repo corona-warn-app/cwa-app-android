@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
 import de.rki.coronawarnapp.ui.settings.SettingsResetModule
-import de.rki.coronawarnapp.ui.submission.SubmissionFragmentModule
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionFragmentModule
 import de.rki.coronawarnapp.ui.tracing.details.RiskDetailsFragmentModule
 
 @Module(
