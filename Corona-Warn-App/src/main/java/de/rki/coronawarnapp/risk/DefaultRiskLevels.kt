@@ -81,7 +81,7 @@ class DefaultRiskLevels @Inject constructor(
     override suspend fun isIncreasedRisk(lastExposureSummary: ExposureSummary): Boolean {
         val appConfiguration = appConfigProvider.getAppConfig()
         Timber.tag(TAG).v("Retrieved configuration from backend")
-        // custom attenuation parameters to weight the attenuation
+        // custom attenuation parameters to weigh the attenuation
         // values provided by the Google API
         val attenuationParameters = appConfiguration.attenuationDuration
         // these are the defined risk classes. They will divide the calculated
