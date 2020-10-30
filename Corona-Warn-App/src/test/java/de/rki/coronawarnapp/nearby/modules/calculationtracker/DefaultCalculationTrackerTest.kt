@@ -116,7 +116,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
             )
         }
 
-
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1)
 
         createInstance(scope = this).apply {
@@ -233,7 +232,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
             timeoutIgnoresFinishedCalcs.identifier to timeoutIgnoresFinishedCalcs,
             timeoutRunningOnEdge.identifier to timeoutRunningOnEdge,
             noTimeoutCalcRunning.identifier to noTimeoutCalcRunning,
-            noTimeOutCalcFinished.identifier to noTimeOutCalcFinished,
+            noTimeOutCalcFinished.identifier to noTimeOutCalcFinished
         )
 
         coEvery { storage.load() } returns calcData
@@ -255,7 +254,6 @@ class DefaultCalculationTrackerTest : BaseTest() {
                 this["2"] shouldBe timeoutIgnoresFinishedCalcs
 
                 this["3"] shouldBe timeoutRunningOnEdge
-
 
                 this["4"] shouldBe noTimeoutCalcRunning
                 this["5"] shouldBe noTimeOutCalcFinished
