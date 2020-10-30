@@ -291,11 +291,8 @@ workflows:
     jobs:
       - quick_build_device_for_testers_signed:
           filters:
-            branches:
+            tags:
               only:
-                - feature/3325-pipeline-build-to-tsystems
-#            tags:
-#              only:
-#                - /^v.*/
-#            branches:
-#              ignore: /.*/
+                - /^v.*/
+            branches:
+              ignore: /.*/
