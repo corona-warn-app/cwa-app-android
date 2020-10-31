@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.deadman
 
 import android.content.Context
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.worker.BackgroundConstants
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -20,7 +20,7 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
 
     @MockK lateinit var sender: DeadmanNotificationSender
     @MockK lateinit var context: Context
-    @MockK lateinit var workerParams: WorkerParameters
+    @RelaxedMockK lateinit var workerParams: WorkerParameters
 
     @BeforeEach
     fun setup() {
@@ -32,15 +32,34 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
         clearAllMocks()
     }
 
-    private fun createSender() = DeadmanNotificationOneTimeWorker(
+    private fun createWorker() = DeadmanNotificationOneTimeWorker(
         context = context,
         workerParams = workerParams,
         sender = sender
     )
 
-    // TODO: Implement tests
     @Test
-    fun `test one`()  {
-        createSender()
+    fun `create worker`()  {
+        createWorker()
+    }
+
+    @Test
+    fun `run worker success`() = runBlockingTest2(permanentJobs = true) {
+        createWorker().doWork()
+
+        verify(exactly = 1) { sender.sendNotification() }
+    }
+
+    @Test
+    fun `run worker fail`() = runBlockingTest2(permanentJobs = true) {
+        val worker = createWorker()
+
+        worker.runAttemptCount shouldBe 0
+
+        every { worker.runAttemptCount } returns BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD + 1
+
+        worker.doWork()
+
+        verify(exactly = 0) { sender.sendNotification() }
     }
 }
