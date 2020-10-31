@@ -7,8 +7,6 @@ import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
-import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule

@@ -21,10 +21,10 @@ class DeadmanNotificationScheduler @Inject constructor(
         // Get initial delay
         val delay = timeCalculation.getDelay()
 
-        if(delay < 0) {
+        if (delay < 0) {
             return
         } else {
-            //Create unique work and enqueue
+            // Create unique work and enqueue
             workManager.enqueueUniqueWork(
                 ONE_TIME_WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
@@ -38,7 +38,7 @@ class DeadmanNotificationScheduler @Inject constructor(
      * Replace with new if older work exists.
      */
     fun schedulePeriodic() {
-        //Create unique work and enqueue
+        // Create unique work and enqueue
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.REPLACE,
@@ -50,10 +50,10 @@ class DeadmanNotificationScheduler @Inject constructor(
         /**
          * Deadman notification one time work
          */
-        const val ONE_TIME_WORK_NAME = "DeadmanNotificationOneTimeWork";
+        const val ONE_TIME_WORK_NAME = "DeadmanNotificationOneTimeWork"
         /**
          * Deadman notification periodic work
          */
-        const val PERIODIC_WORK_NAME = "DeadmanNotificationPeriodicWork";
+        const val PERIODIC_WORK_NAME = "DeadmanNotificationPeriodicWork"
     }
 }

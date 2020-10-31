@@ -20,7 +20,7 @@ class DeadmanNotificationSenderTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)} returns channelId
+        every { context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID) } returns channelId
     }
 
     @AfterEach
@@ -33,7 +33,7 @@ class DeadmanNotificationSenderTest : BaseTest() {
     )
 
     @Test
-    fun `sender creation`()  {
+    fun `sender creation`() {
         createSender()
     }
 }

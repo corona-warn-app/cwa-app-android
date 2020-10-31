@@ -74,7 +74,7 @@ class DeadmanNotificationSender @Inject constructor(
         if (CoronaWarnApplication.isAppInForeground) {
             return
         }
-        val title =  context.getString(R.string.risk_details_deadman_notification_title)
+        val title = context.getString(R.string.risk_details_deadman_notification_title)
         val content = context.getString(R.string.risk_details_deadman_notification_body)
         val notification =
             buildNotification(title, content) ?: return

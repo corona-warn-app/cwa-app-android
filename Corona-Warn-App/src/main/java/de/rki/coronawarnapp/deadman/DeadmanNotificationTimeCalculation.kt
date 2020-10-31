@@ -18,8 +18,8 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
     /**
      * Calculate initial delay in minutes for deadman notification
      */
-    fun getHoursDiff(lastSuccess: Instant) : Int {
-        val hours = Hours.hoursBetween(lastSuccess, timeStamper.nowUTC);
+    fun getHoursDiff(lastSuccess: Instant): Int {
+        val hours = Hours.hoursBetween(lastSuccess, timeStamper.nowUTC)
         return (DEADMAN_NOTIFICATION_DELAY - hours.hours) * DateTimeConstants.MINUTES_PER_HOUR
     }
 
@@ -40,6 +40,6 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
         /**
          * Deadman notification background job delay set to 36 hours
          */
-        const val DEADMAN_NOTIFICATION_DELAY = 36;
+        const val DEADMAN_NOTIFICATION_DELAY = 36
     }
 }

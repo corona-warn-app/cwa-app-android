@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
-class CalendarCalculationTest : BaseTest() {
+class DeadmanNotificationTimeCalculationTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var enfClient: ENFClient
@@ -41,7 +41,7 @@ class CalendarCalculationTest : BaseTest() {
     )
 
     @Test
-    fun `12 hours difference`()  {
+    fun `12 hours difference`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
 
         createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00.000Z")) shouldBe 720
@@ -62,7 +62,7 @@ class CalendarCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `12 hours delay`() = runBlockingTest2(permanentJobs = true)  {
+    fun `12 hours delay`() = runBlockingTest2(permanentJobs = true) {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
         every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
 
@@ -72,7 +72,7 @@ class CalendarCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `negative delay`() = runBlockingTest2(permanentJobs = true)  {
+    fun `negative delay`() = runBlockingTest2(permanentJobs = true) {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
         every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
 
@@ -82,7 +82,7 @@ class CalendarCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `success in future delay`() = runBlockingTest2(permanentJobs = true)  {
+    fun `success in future delay`() = runBlockingTest2(permanentJobs = true) {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
         every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T15:00:00.000Z")
 
@@ -92,7 +92,7 @@ class CalendarCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `initial delay - no successful calculations yet`() = runBlockingTest2(permanentJobs = true)  {
+    fun `initial delay - no successful calculations yet`() = runBlockingTest2(permanentJobs = true) {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
         every { enfClient.latestFinishedCalculation() } returns flowOf(null)
 

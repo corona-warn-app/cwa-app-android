@@ -22,7 +22,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
     @MockK lateinit var timeCalculation: DeadmanNotificationTimeCalculation
     @MockK lateinit var workManager: WorkManager
-    @MockK lateinit var operation:Operation
+    @MockK lateinit var operation: Operation
     @MockK lateinit var workBuilder: DeadmanNotificationWorkBuilder
 
     @MockK lateinit var periodicWorkRequest: PeriodicWorkRequest
@@ -31,8 +31,8 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every {workBuilder.buildPeriodicWork()} returns periodicWorkRequest
-        every {workBuilder.buildOneTimeWork(any())} returns oneTimeWorkRequest
+        every { workBuilder.buildPeriodicWork() } returns periodicWorkRequest
+        every { workBuilder.buildOneTimeWork(any()) } returns oneTimeWorkRequest
         every {
             workManager.enqueueUniquePeriodicWork(
                 DeadmanNotificationScheduler.PERIODIC_WORK_NAME,
@@ -62,7 +62,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `one time work was scheduled`() = runBlockingTest2(permanentJobs = true)   {
+    fun `one time work was scheduled`() = runBlockingTest2(permanentJobs = true) {
         coEvery { timeCalculation.getDelay() } returns 10L
 
         createScheduler().scheduleOneTime()
@@ -79,7 +79,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `one time work was not scheduled`() = runBlockingTest2(permanentJobs = true)   {
+    fun `one time work was not scheduled`() = runBlockingTest2(permanentJobs = true) {
         coEvery { timeCalculation.getDelay() } returns -10L
 
         createScheduler().scheduleOneTime()
@@ -96,7 +96,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `test periodic work was scheduled`()  {
+    fun `test periodic work was scheduled`() {
         createScheduler().schedulePeriodic()
 
         verify(exactly = 1) { workManager.enqueueUniquePeriodicWork(
@@ -110,5 +110,4 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
             oneTimeWorkRequest
         ) }
     }
-
 }

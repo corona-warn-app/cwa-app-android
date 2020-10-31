@@ -22,7 +22,7 @@ class DeadmanNotificationWorkBuilderTest : BaseTest() {
     }
 
     @Test
-    fun `onetime work test`()  {
+    fun `onetime work test`() {
         testOneTimeWork(10L)
         testOneTimeWork(-10L)
         testOneTimeWork(0)
@@ -32,7 +32,7 @@ class DeadmanNotificationWorkBuilderTest : BaseTest() {
      * Delay time in minutes
      * Backoff delay 8 minutes
      */
-    private fun testOneTimeWork(delay:Long) {
+    private fun testOneTimeWork(delay: Long) {
         val periodicWork = DeadmanNotificationWorkBuilder().buildOneTimeWork(delay)
 
         periodicWork.workSpec.backoffPolicy shouldBe BackoffPolicy.EXPONENTIAL
@@ -46,7 +46,7 @@ class DeadmanNotificationWorkBuilderTest : BaseTest() {
      * Interval duration 1 hour
      */
     @Test
-    fun `periodic work test`()  {
+    fun `periodic work test`() {
         val periodicWork = DeadmanNotificationWorkBuilder().buildPeriodicWork()
 
         periodicWork.workSpec.backoffPolicy shouldBe BackoffPolicy.EXPONENTIAL

@@ -5,7 +5,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import timber.log.Timber

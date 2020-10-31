@@ -10,7 +10,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL

@@ -39,7 +39,7 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `create worker`()  {
+    fun `create worker`() {
         createWorker()
     }
 
