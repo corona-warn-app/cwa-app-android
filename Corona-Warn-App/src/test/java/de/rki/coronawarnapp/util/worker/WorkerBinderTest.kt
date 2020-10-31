@@ -4,6 +4,8 @@ import androidx.work.ListenableWorker
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import io.github.classgraph.ClassGraph
@@ -73,4 +75,12 @@ class MockProvider {
     // For BackgroundNoiseOneTimeWorker
     @Provides
     fun playbook(): Playbook = mockk()
+
+    // For DeadmanNotificationScheduler
+    @Provides
+    fun sender(): DeadmanNotificationSender = mockk()
+
+    // For DeadmanNotificationPeriodicWorker
+    @Provides
+    fun scheduler(): DeadmanNotificationScheduler = mockk()
 }
