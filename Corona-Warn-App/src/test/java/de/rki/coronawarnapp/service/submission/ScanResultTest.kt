@@ -27,6 +27,10 @@ class ScanResultTest {
         scanResult = QRScanResult("https://localhost/?$guid")
         scanResult.isValid shouldBe true
 
+        // valid test for incorrectly handed out qr codes
+        scanResult = QRScanResult("https://localhost//?$guid")
+        scanResult.isValid shouldBe true
+
         // more invalid tests checks
         scanResult = QRScanResult("http://localhost/?$guid")
         scanResult.isValid shouldBe false
