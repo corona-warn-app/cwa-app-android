@@ -30,7 +30,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
 
-    open class InvalidQRCodeException() : ReportedIOException(
+    open class InvalidQRCodeException : ReportedIOException(
         ErrorCodes.CWA_WEB_REQUEST_PROBLEM.code, "error in qr code"
     )
 
