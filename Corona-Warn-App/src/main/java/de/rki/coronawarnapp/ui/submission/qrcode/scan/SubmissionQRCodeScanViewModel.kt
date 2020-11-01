@@ -37,6 +37,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
     fun validateTestGUID(rawResult: String) {
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
+            _scanStatus.value = Event(ScanStatus.SUCCESS)
             doDeviceRegistration(scanResult)
         } else {
             _scanStatus.value = Event(ScanStatus.INVALID)
