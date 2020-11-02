@@ -14,15 +14,17 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -50,6 +52,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @AppContext private val context: Context, // App context
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
+    private val riskLevels: RiskLevels,
+    private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     tracingCardStateProvider: TracingCardStateProvider
 ) : CWAViewModel(
@@ -83,13 +87,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun calculateRiskLevel() {
-        viewModelScope.launch {
-            try {
-                RiskLevelTransaction.start()
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.INTERNAL)
-            }
-        }
+        taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
     }
 
     fun resetRiskLevel() {
@@ -111,7 +109,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     e.report(ExceptionCategory.INTERNAL)
                 }
             }
-            RiskLevelTransaction.start()
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             riskLevelResetEvent.postValue(Unit)
         }
     }
@@ -137,8 +135,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 val expDetectConfig: RiskCalculationConfig =
                     AppInjector.component.appConfigProvider.getAppConfig()
 
-                val riskLevelScore = DefaultRiskLevelCalculation().calculateRiskScore(
-                    expDetectConfig.attenuationDuration,
+                val riskLevelScore = riskLevels.calculateRiskScore(
+                    appConfig.attenuationDuration,
                     exposureSummary
                 )
 
@@ -177,9 +175,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
                         "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
                         "Attenuation Durations: [${
-                            exposureSummary.attenuationDurationsInMinutes?.get(
-                                0
-                            )
+                        exposureSummary.attenuationDurationsInMinutes?.get(
+                            0
+                        )
                         }," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
