@@ -91,7 +91,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
-            showRiskLevelLoweredDialog()
+            if (it) { showRiskLevelLoweredDialog() }
         }
     }
 
