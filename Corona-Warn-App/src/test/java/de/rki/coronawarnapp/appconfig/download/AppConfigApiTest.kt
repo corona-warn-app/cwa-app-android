@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
@@ -8,7 +9,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
@@ -31,7 +31,6 @@ class AppConfigApiTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val cacheFiles = File(testDir, "cache")
     private val cacheDir = File(cacheFiles, "http_app-config")
-
 
     @BeforeEach
     fun setup() {
@@ -69,7 +68,7 @@ class AppConfigApiTest : BaseIOTest() {
             cache = cache
         )
     }
-    
+
     @Test
     fun `application config download`() {
         val api = createAPI()

@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.transaction.RiskLevelTransaction.RiskLevelTransactionState.CHECK_APP_CONNECTIVITY
@@ -533,7 +532,7 @@ object RiskLevelTransaction : Transaction() {
      */
     private suspend fun getApplicationConfiguration(): ApplicationConfiguration =
         withContext(Dispatchers.Default) {
-            return@withContext ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+            return@withContext AppInjector.component.appConfigProvider.getAppConfig().rawConfig
                 .also { Timber.tag(TAG).d("configuration from backend: $it") }
         }
 

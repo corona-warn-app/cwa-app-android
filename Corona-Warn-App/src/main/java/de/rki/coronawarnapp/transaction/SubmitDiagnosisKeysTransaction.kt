@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.transaction
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.toNewConfig
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.submission.Symptoms
@@ -13,7 +11,6 @@ import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDia
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.RETRIEVE_TEMPORARY_EXPOSURE_KEY_HISTORY
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction.SubmitDiagnosisKeysTransactionState.STORE_SUCCESS
 import de.rki.coronawarnapp.util.di.AppInjector
-import timber.log.Timber
 
 /**
  * The SubmitDiagnosisKeysTransaction is used to define an atomic Transaction for Key Reports. Its states allow an
@@ -76,8 +73,10 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
             exposureKeyHistoryCalculations.transformToKeyHistoryInExternalFormat(keys, symptoms)
         }
 
-        val visistedCountries =
-            appConfigProvider.getAppConfig().performSanityChecks().supportedCountriesList
+        val visistedCountries = appConfigProvider.getAppConfig().let {
+            if (it.supportedCountries.isEmpty()) listOf(FALLBACK_COUNTRY)
+            else it.supportedCountries
+        }
 
         executeState(RETRIEVE_TAN_AND_SUBMIT_KEYS) {
             val submissionData = Playbook.SubmissionData(
@@ -96,16 +95,4 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
         executeState(CLOSE) {}
     }
 
-    private fun ApplicationConfiguration.performSanityChecks(): ApplicationConfiguration {
-        var sanityChecked = this
-
-        if (sanityChecked.supportedCountriesList.isEmpty()) {
-            sanityChecked = sanityChecked.toNewConfig {
-                addSupportedCountries(FALLBACK_COUNTRY)
-            }
-            Timber.w("Country list was empty, corrected: %s", sanityChecked.supportedCountriesList)
-        }
-
-        return sanityChecked
-    }
 }

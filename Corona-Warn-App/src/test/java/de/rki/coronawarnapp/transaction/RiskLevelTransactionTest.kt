@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.transaction
 import android.content.Context
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigContainerKey
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.risk.RiskLevel
 import de.rki.coronawarnapp.risk.RiskLevel.INCREASED_RISK
@@ -17,10 +19,8 @@ import de.rki.coronawarnapp.risk.RiskScoreAnalysis
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass.RiskScoreClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass.RiskScoreClassification
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -34,7 +34,6 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
@@ -47,8 +46,10 @@ import java.util.concurrent.TimeUnit
 
 class RiskLevelTransactionTest {
 
-    @MockK
-    private lateinit var esRepositoryMock: ExposureSummaryRepository
+    @MockK private lateinit var esRepositoryMock: ExposureSummaryRepository
+    @MockK private lateinit var appComponent: ApplicationComponent
+    @MockK private lateinit var appConfigProvider: AppConfigProvider
+    @MockK private lateinit var configContainer: ConfigContainerKey
 
     @MockK
     private lateinit var context: Context
@@ -58,15 +59,16 @@ class RiskLevelTransactionTest {
         MockKAnnotations.init(this)
 
         mockkObject(AppInjector)
-        val appComponent = mockk<ApplicationComponent>().apply {
-            every { transRiskLevelInjection } returns RiskLevelInjectionHelper(
-                TransactionCoroutineScope()
-            )
-        }
         every { AppInjector.component } returns appComponent
 
+        every { appComponent.transRiskLevelInjection } returns RiskLevelInjectionHelper(
+            TransactionCoroutineScope()
+        )
+        every { appComponent.appConfigProvider } returns appConfigProvider
+        coEvery { appConfigProvider.getAppConfig() } returns configContainer
+
         mockkObject(InternalExposureNotificationClient)
-        mockkObject(ApplicationConfigurationService)
+        mockkObject(AppInjector)
         mockkObject(LocalData)
         every { LocalData.lastSuccessfullyCalculatedRiskLevel() } returns UNDETERMINED
         mockkObject(RiskLevelRepository)
@@ -264,7 +266,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns TimeUnit.HOURS.toMillis(2)
 
         // the risk score of the last exposure summary is above the high min threshold
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
+        coEvery { configContainer.rawConfig } returns testAppConfig
         coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns testExposureSummary
 
         runBlocking {
@@ -326,7 +328,7 @@ class RiskLevelTransactionTest {
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursBelowMinActiveTracingDuration
 
         // the exposure summary risk score is not below high min score
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
+        coEvery { configContainer.rawConfig } returns testAppConfig
         coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns testExposureSummary
 
         runBlocking {
@@ -390,7 +392,7 @@ class RiskLevelTransactionTest {
         // the active tracing duration is above the threshold
         every { TimeVariables.getTimeActiveTracingDuration() } returns twoHoursAboveMinActiveTracingDuration
 
-        coEvery { ApplicationConfigurationService.asyncRetrieveApplicationConfiguration() } returns testAppConfig
+        coEvery { configContainer.rawConfig } returns testAppConfig
         coEvery { InternalExposureNotificationClient.asyncGetExposureSummary(any()) } returns testExposureSummary
 
         runBlocking {

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import okhttp3.ResponseBody
 import retrofit2.http.GET

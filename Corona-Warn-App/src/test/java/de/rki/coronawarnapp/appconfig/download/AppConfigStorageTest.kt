@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
 import io.kotest.matchers.shouldBe
@@ -6,6 +6,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,22 +38,7 @@ class AppConfigStorageTest : BaseIOTest() {
     private fun createStorage() = AppConfigStorage(context)
 
     @Test
-    suspend fun `config availability is determined by file existence and min size`() {
-        storageDir.mkdirs()
-        val storage = createStorage()
-        storage.isAppConfigAvailable() shouldBe false
-        configPath.createNewFile()
-        storage.isAppConfigAvailable() shouldBe false
-
-        configPath.writeBytes(ByteArray(128) { 1 })
-        storage.isAppConfigAvailable() shouldBe false
-
-        configPath.writeBytes(ByteArray(129) { 1 })
-        storage.isAppConfigAvailable() shouldBe true
-    }
-
-    @Test
-    suspend fun `simple read and write config`() {
+    fun `simple read and write config`() = runBlockingTest {
         configPath.exists() shouldBe false
         val storage = createStorage()
         configPath.exists() shouldBe false
@@ -66,7 +52,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    suspend fun `nulling and overwriting`() {
+    fun `nulling and overwriting`() = runBlockingTest {
         val storage = createStorage()
         configPath.exists() shouldBe false
 

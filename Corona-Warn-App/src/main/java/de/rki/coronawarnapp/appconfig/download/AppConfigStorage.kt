@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
 import de.rki.coronawarnapp.util.di.AppContext
@@ -16,10 +16,6 @@ class AppConfigStorage @Inject constructor(
     private val configDir = File(context.filesDir, "appconfig_storage")
     private val configFile = File(configDir, "appconfig")
     private val mutex = Mutex()
-
-    suspend fun isAppConfigAvailable(): Boolean = mutex.withLock {
-        configFile.exists() && configFile.length() > MIN_VALID_CONFIG_BYTES
-    }
 
     suspend fun getAppConfigRaw(): ByteArray? = mutex.withLock {
         Timber.v("get() AppConfig")
@@ -43,10 +39,5 @@ class AppConfigStorage @Inject constructor(
         } else {
             configFile.delete()
         }
-    }
-
-    companion object {
-        // The normal config is ~512B+, we just need to check for a non 0 value, 128 is fine.
-        private const val MIN_VALID_CONFIG_BYTES = 128
     }
 }
