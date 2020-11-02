@@ -136,7 +136,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     AppInjector.component.appConfigProvider.getAppConfig()
 
                 val riskLevelScore = riskLevels.calculateRiskScore(
-                    appConfig.attenuationDuration,
+                    expDetectConfig.attenuationDuration,
                     exposureSummary
                 )
 
