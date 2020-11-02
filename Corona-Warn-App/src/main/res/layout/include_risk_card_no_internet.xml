@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/rectangle"
+        tools:backgroundTint="@color/card_no_calculation"
+        tools:padding="@dimen/spacing_normal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/risk_card_no_internet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/risk_card_no_internet_header_headline"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:accessibilityHeading="true"
+                android:text="@string/risk_card_check_failed_no_internet_headline"
+                android:textColor="@color/colorTextPrimary1"
+                app:layout_constraintEnd_toStartOf="@+id/risk_card_no_internet_header_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/risk_card_no_internet_header_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:importantForAccessibility="no"
+                tools:tint="@color/colorTextPrimary1"
+                android:src="@drawable/ic_forward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/risk_card_no_internet_body"
+                style="@style/subtitle"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/risk_card_check_failed_no_internet_body"
+                android:textColor="@color/colorTextPrimary1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_no_internet_header_headline" />
+
+            <ImageView
+                android:id="@+id/risk_card_no_internet_save_risk_row_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:importantForAccessibility="no"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:src="@drawable/ic_risk_card_saved_risk"
+                android:tint="@color/colorTextSemanticNeutral"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_no_internet_body" />
+
+            <TextView
+                android:id="@+id/risk_card_no_internet_saved_risk_row_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:text="@string/risk_card_no_calculation_possible_body_saved_risk"
+                android:textColor="@color/colorTextPrimary1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/risk_card_no_internet_save_risk_row_icon"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_no_internet_body" />
+
+            <ImageView
+                android:id="@+id/risk_card_no_internet_last_sync_row_icon"
+                android:layout_width="@dimen/icon_size_risk_card"
+                android:layout_height="@dimen/icon_size_risk_card"
+                android:importantForAccessibility="no"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:src="@drawable/ic_risk_card_time_fetched"
+                android:tint="@color/colorTextSemanticNeutral"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_no_internet_save_risk_row_icon" />
+
+            <TextView
+                android:id="@+id/risk_card_no_internet_last_sync_row_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/risk_card_body_time_fetched"
+                android:textColor="@color/colorTextPrimary1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/risk_card_no_internet_last_sync_row_icon"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_no_internet_saved_risk_row_body" />
+
+            <Button
+                android:id="@+id/risk_card_button_enable_tracing"
+                style="@style/buttonPrimary"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/risk_details_button_enable_tracing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/risk_card_no_internet_last_sync_row_body" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
