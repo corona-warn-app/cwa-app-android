@@ -5,6 +5,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.playbook.Playbook
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AssistedInjectModule
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
@@ -73,4 +74,7 @@ class MockProvider {
     // For BackgroundNoiseOneTimeWorker
     @Provides
     fun playbook(): Playbook = mockk()
+
+    @Provides
+    fun taskController(): TaskController = mockk()
 }

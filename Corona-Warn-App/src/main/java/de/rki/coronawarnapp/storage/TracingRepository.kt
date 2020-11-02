@@ -6,11 +6,14 @@ import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPeriod
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskInfo
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +41,7 @@ import javax.inject.Singleton
 @Singleton
 class TracingRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
+    private val taskController: TaskController,
     enfClient: ENFClient
 ) {
 
@@ -57,8 +61,11 @@ class TracingRepository @Inject constructor(
             LocalData.lastTimeDiagnosisKeysFromServerFetch()
     }
 
-    // TODO shouldn't access this directly
-    private val internalIsRefreshing = MutableStateFlow(false)
+    private val retrievingDiagnosisKeys = MutableStateFlow(false)
+    private val internalIsRefreshing =
+        retrievingDiagnosisKeys.combine(taskController.tasks) { retrievingDiagnosisKeys, tasks ->
+            retrievingDiagnosisKeys || tasks.isRiskLevelTaskRunning()
+        }
     val tracingProgress: Flow<TracingProgress> = combine(
         internalIsRefreshing,
         enfClient.isCurrentlyCalculating()
@@ -68,6 +75,10 @@ class TracingRepository @Inject constructor(
             isCalculating -> TracingProgress.ENFIsCalculating
             else -> TracingProgress.Idle
         }
+    }
+
+    private fun List<TaskInfo>.isRiskLevelTaskRunning() = any {
+        it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
     }
 
     /**
@@ -82,17 +93,15 @@ class TracingRepository @Inject constructor(
      */
     fun refreshDiagnosisKeys() {
         scope.launch {
-            internalIsRefreshing.value = true
+            retrievingDiagnosisKeys.value = true
             try {
                 RetrieveDiagnosisKeysTransaction.start()
-                RiskLevelTransaction.start()
-            } catch (e: TransactionException) {
-                e.cause?.report(ExceptionCategory.EXPOSURENOTIFICATION)
+                taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             } catch (e: Exception) {
                 e.report(ExceptionCategory.EXPOSURENOTIFICATION)
             }
             refreshLastTimeDiagnosisKeysFetchedDate()
-            internalIsRefreshing.value = false
+            retrievingDiagnosisKeys.value = false
             TimerHelper.startManualKeyRetrievalTimer()
         }
     }
@@ -149,7 +158,7 @@ class TracingRepository @Inject constructor(
 
                 if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
                     // TODO shouldn't access this directly
-                    internalIsRefreshing.value = true
+                    retrievingDiagnosisKeys.value = true
 
                     // start the fetching and submitting of the diagnosis keys
                     RetrieveDiagnosisKeysTransaction.start()
@@ -162,16 +171,9 @@ class TracingRepository @Inject constructor(
                 e.report(ExceptionCategory.INTERNAL)
             }
 
-            // refresh the risk level
-            try {
-                RiskLevelTransaction.start()
-            } catch (e: TransactionException) {
-                e.cause?.report(ExceptionCategory.INTERNAL)
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.INTERNAL)
-            }
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             // TODO shouldn't access this directly
-            internalIsRefreshing.value = false
+            retrievingDiagnosisKeys.value = false
         }
     }
 
