@@ -10,6 +10,8 @@ import org.junit.Test
 
 class ScanResultTest {
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
+    private val lowerCaseGuid = "123456-12345678-1234-4da7-b166-b86d85475064"
+    private val mixedCaseGuid = "123456-12345678-1234-4dA7-b166-B86d85475064"
 
     @MockK
     private lateinit var scanResult: QRScanResult
@@ -26,6 +28,20 @@ class ScanResultTest {
         // valid test
         scanResult = QRScanResult("https://localhost/?$guid")
         scanResult.isValid shouldBe true
+
+        //UPPERCASE and MIXED Cases Strings
+        scanResult = QRScanResult("https://localhost/?$lowerCaseGuid")
+        scanResult.isValid shouldBe true
+
+        scanResult = QRScanResult("HTTPS://LOCALHOST/?$lowerCaseGuid")
+        scanResult.isValid shouldBe true
+
+        scanResult = QRScanResult("https://localhost/?$mixedCaseGuid")
+        scanResult.isValid shouldBe true
+
+        scanResult = QRScanResult("HTTPS://LOCALHOST/?$mixedCaseGuid")
+        scanResult.isValid shouldBe true
+
 
         // more invalid tests checks
         scanResult = QRScanResult("http://localhost/?$guid")
