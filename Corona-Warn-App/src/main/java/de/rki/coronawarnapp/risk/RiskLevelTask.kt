@@ -142,7 +142,11 @@ class RiskLevelTask @Inject constructor(
         isCanceled = true
     }
 
-    class Result(val riskLevel: RiskLevel) : Task.Result
+    class Result(val riskLevel: RiskLevel) : Task.Result{
+        override fun toString(): String {
+            return "Result(riskLevel=${riskLevel.name})"
+        }
+    }
 
     data class Config(
         // TODO unit-test that not > 9 min
