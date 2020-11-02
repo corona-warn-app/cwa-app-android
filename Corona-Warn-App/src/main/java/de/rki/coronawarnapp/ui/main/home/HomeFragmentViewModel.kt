@@ -21,9 +21,7 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
 
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -86,7 +84,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     isLoweredRiskLevelDialogBeingShown = true
                 }
                 shouldBeShown
-             }
+            }
             .asLiveData(context = dispatcherProvider.Default)
     }
 
