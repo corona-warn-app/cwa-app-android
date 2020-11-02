@@ -21,19 +21,12 @@ import testhelpers.BaseTest
 
 class DeadmanNotificationSchedulerTest : BaseTest() {
 
-    @MockK
-    lateinit var timeCalculation: DeadmanNotificationTimeCalculation
-    @MockK
-    lateinit var workManager: WorkManager
-    @MockK
-    lateinit var operation: Operation
-    @MockK
-    lateinit var workBuilder: DeadmanNotificationWorkBuilder
-
-    @MockK
-    lateinit var periodicWorkRequest: PeriodicWorkRequest
-    @MockK
-    lateinit var oneTimeWorkRequest: OneTimeWorkRequest
+    @MockK lateinit var timeCalculation: DeadmanNotificationTimeCalculation
+    @MockK lateinit var workManager: WorkManager
+    @MockK lateinit var operation: Operation
+    @MockK lateinit var workBuilder: DeadmanNotificationWorkBuilder
+    @MockK lateinit var periodicWorkRequest: PeriodicWorkRequest
+    @MockK lateinit var oneTimeWorkRequest: OneTimeWorkRequest
 
     @BeforeEach
     fun setup() {
