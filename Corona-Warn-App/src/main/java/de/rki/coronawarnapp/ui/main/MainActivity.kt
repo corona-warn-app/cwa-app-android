@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         scheduleWork()
         checkShouldDisplayBackgroundWarning()
         doBackgroundNoiseCheck()
-        scheduleDeadmanNotification()
+        deadmanScheduler.schedulePeriodic()
     }
 
     private fun doBackgroundNoiseCheck() {
@@ -194,6 +194,4 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      * Scheduling for a download of keys every hour.
      */
     private fun scheduleWork() = BackgroundWorkScheduler.startWorkScheduler()
-
-    private fun scheduleDeadmanNotification() = deadmanScheduler.schedulePeriodic()
 }

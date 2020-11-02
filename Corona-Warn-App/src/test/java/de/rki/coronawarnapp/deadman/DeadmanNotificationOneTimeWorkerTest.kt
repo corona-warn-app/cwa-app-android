@@ -10,11 +10,11 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 
 class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
 
@@ -44,14 +44,14 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `run worker success`() = runBlockingTest2(permanentJobs = true) {
+    fun `run worker success`() = runBlockingTest {
         createWorker().doWork()
 
         verify(exactly = 1) { sender.sendNotification() }
     }
 
     @Test
-    fun `run worker fail`() = runBlockingTest2(permanentJobs = true) {
+    fun `run worker fail`() = runBlockingTest {
         val worker = createWorker()
 
         worker.runAttemptCount shouldBe 0

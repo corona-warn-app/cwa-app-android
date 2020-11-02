@@ -10,12 +10,12 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 
 class DeadmanNotificationTimeCalculationTest : BaseTest() {
 
@@ -62,7 +62,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `12 hours delay`() = runBlockingTest2(permanentJobs = true) {
+    fun `12 hours delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
         every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
 
@@ -72,7 +72,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `negative delay`() = runBlockingTest2(permanentJobs = true) {
+    fun `negative delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
         every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T14:00:00.000Z")
 
@@ -82,7 +82,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `success in future delay`() = runBlockingTest2(permanentJobs = true) {
+    fun `success in future delay`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
         every { mockCalculation.finishedAt } returns Instant.parse("2020-08-27T15:00:00.000Z")
 
@@ -92,7 +92,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `initial delay - no successful calculations yet`() = runBlockingTest2(permanentJobs = true) {
+    fun `initial delay - no successful calculations yet`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
         every { enfClient.latestFinishedCalculation() } returns flowOf(null)
 

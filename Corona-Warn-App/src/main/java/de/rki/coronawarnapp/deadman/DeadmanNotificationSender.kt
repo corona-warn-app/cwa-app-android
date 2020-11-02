@@ -20,17 +20,9 @@ class DeadmanNotificationSender @Inject constructor(
     @AppContext private val context: Context
 ) {
 
-    /**
-     * Notification channel id
-     *
-     * @see NotificationConstants.NOTIFICATION_CHANNEL_ID
-     */
     private val channelId =
         context.getString(NotificationConstants.NOTIFICATION_CHANNEL_ID)
 
-    /**
-     * Create pending intent to main activity
-     */
     private fun createPendingIntentToMainActivity() =
         PendingIntent.getActivity(
             context,
@@ -39,16 +31,6 @@ class DeadmanNotificationSender @Inject constructor(
             0
         )
 
-    /**
-     * Build notification
-     * Create notification with defined title, content text and visibility.
-     *
-     * @param title: String
-     * @param content: String
-     *
-     * @see NotificationCompat.VISIBILITY_PUBLIC
-     * @see NotificationCompat.PRIORITY_MAX
-     */
     private fun buildNotification(
         title: String,
         content: String
@@ -67,9 +49,6 @@ class DeadmanNotificationSender @Inject constructor(
         return builder.build()
     }
 
-    /**
-     * Build and send notification with predefined title and content.
-     */
     fun sendNotification() {
         if (CoronaWarnApplication.isAppInForeground) {
             return

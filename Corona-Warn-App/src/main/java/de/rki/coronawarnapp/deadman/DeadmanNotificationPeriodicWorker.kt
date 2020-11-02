@@ -21,11 +21,6 @@ class DeadmanNotificationPeriodicWorker @AssistedInject constructor(
 ) :
     CoroutineWorker(context, workerParams) {
 
-    /**
-     * Work execution
-     *
-     * @return Result
-     */
     override suspend fun doWork(): Result {
         Timber.d("Background job started. Run attempt: $runAttemptCount")
 

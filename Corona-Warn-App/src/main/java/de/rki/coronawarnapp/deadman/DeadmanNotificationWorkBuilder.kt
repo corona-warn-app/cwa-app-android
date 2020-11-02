@@ -14,9 +14,6 @@ import javax.inject.Inject
 @Reusable
 class DeadmanNotificationWorkBuilder @Inject constructor() {
 
-    /**
-     * Build one time work
-     */
     fun buildOneTimeWork(delay: Long): OneTimeWorkRequest =
         OneTimeWorkRequestBuilder<DeadmanNotificationOneTimeWorker>()
             .setInitialDelay(
@@ -30,9 +27,6 @@ class DeadmanNotificationWorkBuilder @Inject constructor() {
             )
             .build()
 
-    /**
-     * Build periodic work
-     */
     fun buildPeriodicWork(): PeriodicWorkRequest = PeriodicWorkRequestBuilder<DeadmanNotificationPeriodicWorker>(
         DateTimeConstants.MINUTES_PER_HOUR.toLong(), TimeUnit.MINUTES
     )
