@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -172,7 +171,7 @@ class TracingRepository @Inject constructor(
                 e.report(ExceptionCategory.INTERNAL)
             }
 
-            AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             // TODO shouldn't access this directly
             retrievingDiagnosisKeys.value = false
         }

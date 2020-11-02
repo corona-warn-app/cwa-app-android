@@ -12,14 +12,15 @@ import de.rki.coronawarnapp.exception.NoTokenException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.storage.ExposureSummaryRepository
+import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
 class ExposureStateUpdateWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters
+    @Assisted workerParams: WorkerParameters,
+    private val taskController: TaskController
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -35,7 +36,7 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
                     Timber.v("exposure summary state updated: $it")
                 }
 
-            AppInjector.component.taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             Timber.v("risk level calculation triggered")
         } catch (e: ApiException) {
             e.report(ExceptionCategory.EXPOSURENOTIFICATION)

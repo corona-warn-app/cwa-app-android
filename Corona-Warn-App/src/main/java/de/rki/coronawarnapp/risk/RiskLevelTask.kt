@@ -142,7 +142,7 @@ class RiskLevelTask @Inject constructor(
         isCanceled = true
     }
 
-    class Result(val riskLevel: RiskLevel) : Task.Result{
+    class Result(val riskLevel: RiskLevel) : Task.Result {
         override fun toString(): String {
             return "Result(riskLevel=${riskLevel.name})"
         }
