@@ -91,16 +91,22 @@ class DefaultRiskLevelCalculation @Inject constructor(
             exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding
 
         val reportTypeOffset = when (exposureWindow.reportType) {
-            ReportType.RECURSIVE -> transmissionRiskLevelEncoding.reportTypeOffsetRecursive
-            ReportType.SELF_REPORT -> transmissionRiskLevelEncoding.reportTypeOffsetSelfReport
-            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS -> transmissionRiskLevelEncoding.reportTypeOffsetConfirmedClinicalDiagnosis
-            ReportType.CONFIRMED_TEST -> transmissionRiskLevelEncoding.reportTypeOffsetConfirmedTest
+            ReportType.RECURSIVE -> transmissionRiskLevelEncoding
+                .reportTypeOffsetRecursive
+            ReportType.SELF_REPORT -> transmissionRiskLevelEncoding
+                .reportTypeOffsetSelfReport
+            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS -> transmissionRiskLevelEncoding
+                .reportTypeOffsetConfirmedClinicalDiagnosis
+            ReportType.CONFIRMED_TEST -> transmissionRiskLevelEncoding
+                .reportTypeOffsetConfirmedTest
             else -> throw UnknownReportTypeException()
         }
 
         val infectiousnessOffset = when (exposureWindow.infectiousness) {
-            Infectiousness.HIGH -> transmissionRiskLevelEncoding.infectiousnessOffsetHigh
-            else -> transmissionRiskLevelEncoding.infectiousnessOffsetStandard
+            Infectiousness.HIGH -> transmissionRiskLevelEncoding
+                .infectiousnessOffsetHigh
+            else -> transmissionRiskLevelEncoding
+                .infectiousnessOffsetStandard
         }
 
         return reportTypeOffset + infectiousnessOffset
@@ -174,7 +180,12 @@ class DefaultRiskLevelCalculation @Inject constructor(
 
         // 6. Determine `Total Risk`
         val totalRiskLevel =
-            if (exposureHistory.any { it.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH }) {
+            if (exposureHistory.any {
+                    it.riskLevel == RiskCalculationParametersOuterClass
+                        .NormalizedTimeToRiskLevelMapping
+                        .RiskLevel
+                        .HIGH
+                }) {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
             } else {
                 RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
@@ -230,7 +241,12 @@ class DefaultRiskLevelCalculation @Inject constructor(
 
         // 4. Determine `Minimum Distinct Encounters With Low Risk per Date`
         val minimumDistinctEncountersWithLowRisk = exposureWindowsAndResultForDate
-            .filter { it.value.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW }
+            .filter {
+                it.value.riskLevel == RiskCalculationParametersOuterClass
+                    .NormalizedTimeToRiskLevelMapping
+                    .RiskLevel
+                    .LOW
+            }
             .map { "${it.value.transmissionRiskLevel}_${it.key.calibrationConfidence}" }
             .distinct()
             .size
@@ -239,7 +255,12 @@ class DefaultRiskLevelCalculation @Inject constructor(
 
         // 5. Determine `Minimum Distinct Encounters With High Risk per Date`
         val minimumDistinctEncountersWithHighRisk = exposureWindowsAndResultForDate
-            .filter { it.value.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH }
+            .filter {
+                it.value.riskLevel == RiskCalculationParametersOuterClass
+                    .NormalizedTimeToRiskLevelMapping
+                    .RiskLevel
+                    .HIGH
+            }
             .map { "${it.value.transmissionRiskLevel}_${it.key.calibrationConfidence}" }
             .distinct()
             .size

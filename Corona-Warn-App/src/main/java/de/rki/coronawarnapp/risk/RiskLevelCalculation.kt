@@ -12,7 +12,7 @@ interface RiskLevelCalculation {
     @Deprecated("Switch to new calculation with Exposure Window")
     fun calculateRiskScore(
         attenuationParameters: AttenuationDuration,
-        exposureSummary: ExposureSummary,
+        exposureSummary: ExposureSummary
     ): Double
 
     fun calculateRisk(
