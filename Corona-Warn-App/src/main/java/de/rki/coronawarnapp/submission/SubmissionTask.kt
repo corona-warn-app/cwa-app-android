@@ -30,19 +30,18 @@ class SubmissionTask @Inject constructor(
     private var isCanceled = false
 
     override suspend fun run(arguments: Task.Arguments) = try {
+        arguments as Arguments
         Timber.d("Running with arguments=%s", arguments)
-        with(arguments as Arguments) {
-            playbook.submission(
-                Playbook.SubmissionData(
-                    registrationToken,
-                    getHistory(),
-                    true,
-                    supportedCountries()
-                ).also {
-                    checkCancel()
-                }
-            )
-        }
+        playbook.submission(
+            Playbook.SubmissionData(
+                arguments.registrationToken,
+                arguments.getHistory(),
+                true,
+                supportedCountries()
+            ).also {
+                checkCancel()
+            }
+        )
         SubmissionService.submissionSuccessful()
         object : Task.Result {}
     } catch (error: Exception) {
