@@ -7,8 +7,9 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
+import de.rki.coronawarnapp.submission.SubmissionTask
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
@@ -59,7 +60,9 @@ object SubmissionService {
     suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>, symptoms: Symptoms) {
         val registrationToken =
             LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        SubmitDiagnosisKeysTransaction.start(registrationToken, keys, symptoms)
+        AppInjector.component.taskController.submit(DefaultTaskRequest(SubmissionTask::class, SubmissionTask.Arguments(
+            registrationToken, keys, symptoms
+        )))
     }
 
     suspend fun asyncRequestTestResult(): TestResult {

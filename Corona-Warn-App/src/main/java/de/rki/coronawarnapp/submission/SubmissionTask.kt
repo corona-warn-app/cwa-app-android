@@ -4,7 +4,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.toNewConfig
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.server.protocols.KeyExportFormat
+import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -53,7 +53,7 @@ class SubmissionTask @Inject constructor(
         internalProgress.close()
     }
 
-    private fun Arguments.getHistory(): List<KeyExportFormat.TemporaryExposureKey> =
+    private fun Arguments.getHistory(): List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey> =
         exposureKeyHistoryCalculations.transformToKeyHistoryInExternalFormat(
             keys,
             symptoms
@@ -89,7 +89,7 @@ class SubmissionTask @Inject constructor(
     ) : Task.Arguments
 
     data class Config(
-        override val executionTimeout: Duration = SUBMISSION_TASK_TIMEOUT,//TODO unit-test that not > 9 min
+        override val executionTimeout: Duration = SUBMISSION_TASK_TIMEOUT, // TODO unit-test that not > 9 min
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
