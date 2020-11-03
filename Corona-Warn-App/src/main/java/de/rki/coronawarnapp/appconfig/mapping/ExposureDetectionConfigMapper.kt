@@ -5,17 +5,20 @@ import com.google.android.gms.nearby.exposurenotification.ExposureConfiguration
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
+import de.rki.coronawarnapp.server.protocols.internal.ExposureDetectionParameters.ExposureDetectionParametersAndroid
 import javax.inject.Inject
 
 @Reusable
 class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionConfig.Mapper {
     override fun map(rawConfig: AppConfig.ApplicationConfiguration): ExposureDetectionConfig =
         ExposureDetectionConfigContainer(
-            exposureDetectionConfiguration = rawConfig.mapRiskScoreToExposureConfiguration()
+            exposureDetectionConfiguration = rawConfig.mapRiskScoreToExposureConfiguration(),
+            exposureDetectionParameters = rawConfig.androidExposureDetectionParameters
         )
 
     data class ExposureDetectionConfigContainer(
-        override val exposureDetectionConfiguration: ExposureConfiguration
+        override val exposureDetectionConfiguration: ExposureConfiguration,
+        override val exposureDetectionParameters: ExposureDetectionParametersAndroid
     ) : ExposureDetectionConfig
 }
 

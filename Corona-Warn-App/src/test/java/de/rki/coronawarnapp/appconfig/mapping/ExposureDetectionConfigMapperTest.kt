@@ -16,6 +16,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             exposureDetectionConfiguration shouldBe rawConfig.mapRiskScoreToExposureConfiguration()
+            exposureDetectionParameters shouldBe rawConfig.androidExposureDetectionParameters
         }
     }
 }

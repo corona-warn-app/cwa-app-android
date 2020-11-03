@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -11,6 +12,8 @@ class DownloadConfigMapperTest : BaseTest() {
     fun `simple creation`() {
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
             .build()
-        createInstance().map(rawConfig)
+        createInstance().map(rawConfig).apply {
+            keyDownloadParameters shouldBe rawConfig.androidKeyDownloadParameters
+        }
     }
 }
