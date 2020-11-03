@@ -12,3 +12,4 @@
 /test_environments.json
 *.jks
 /keystore.properties
+/.idea/codeStyles/Project.xml

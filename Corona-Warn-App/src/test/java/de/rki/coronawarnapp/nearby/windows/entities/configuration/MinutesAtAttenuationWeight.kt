@@ -7,5 +7,5 @@ data class MinutesAtAttenuationWeight(
     @SerializedName("attenuationRange")
     val attenuationRange: Range,
     @SerializedName("weight")
-    val weight: Int
+    val weight: Double
 )
