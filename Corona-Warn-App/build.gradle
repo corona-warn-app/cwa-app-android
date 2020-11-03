@@ -69,7 +69,7 @@ android {
         if (project.hasProperty("commit_hash")) {
             buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"$commit_hash\""
         } else {
-            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "no commit hash"
+            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"no commit hash\""
         }
 
         def devEnvironmentFile = file("../test_environments.json")
