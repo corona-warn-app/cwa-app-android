@@ -75,7 +75,6 @@ android {
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
-        buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
 
         def devEnvironmentFile = file("../test_environments.json")
         if (devEnvironmentFile.exists()) {
@@ -162,6 +161,7 @@ android {
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
 
         if (flavor.name == "deviceForTesters") {
+            variant.buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
             variant.outputs.each { output ->
                 output.versionNameOverride = adjustedVersionName
