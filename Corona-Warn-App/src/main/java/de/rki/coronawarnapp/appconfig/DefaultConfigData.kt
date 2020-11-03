@@ -7,7 +7,8 @@ import org.joda.time.Instant
 data class DefaultConfigData(
     val serverTime: Instant,
     val mappedConfig: ConfigMapping,
-    override val localOffset: Duration
+    override val localOffset: Duration,
+    override val isFallback: Boolean
 ) : ConfigData, ConfigMapping by mappedConfig {
     override val updatedAt: Instant = serverTime.plus(localOffset)
 }

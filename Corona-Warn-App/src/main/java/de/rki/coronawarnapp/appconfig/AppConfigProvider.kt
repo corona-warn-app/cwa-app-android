@@ -52,7 +52,8 @@ class AppConfigProvider @Inject constructor(
                     DefaultConfigData(
                         mappedConfig = it,
                         serverTime = configDownload.serverTime,
-                        localOffset = configDownload.localOffset
+                        localOffset = configDownload.localOffset,
+                        isFallback = false
                     )
                 }
             } catch (e: Exception) {
@@ -68,7 +69,8 @@ class AppConfigProvider @Inject constructor(
                         DefaultConfigData(
                             mappedConfig = parser.parse(it.rawData),
                             serverTime = it.serverTime,
-                            localOffset = it.localOffset
+                            localOffset = it.localOffset,
+                            isFallback = true
                         )
                     }
                 } catch (e: Exception) {

@@ -84,21 +84,18 @@ class AppConfigProviderTest : BaseIOTest() {
 
     @Test
     fun `successful download stores new config`() = runBlockingTest2(ignoreActive = true) {
-        val downloadServer = createInstance(this)
-        downloadServer.getAppConfig()
+        val provider = createInstance(this)
+        provider.getAppConfig() shouldBe DefaultConfigData(
+            serverTime = mockConfigStorage!!.serverTime,
+            localOffset = mockConfigStorage!!.localOffset,
+            mappedConfig = configData,
+            isFallback = false
+        )
 
         mockConfigStorage shouldBe testConfigDownload
 
+
         coVerify { configStorage.setStoredConfig(testConfigDownload) }
-    }
-
-    @Test
-    fun `failed download doesn't overwrite valid config`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { configServer.downloadAppConfig() } throws IOException()
-
-        createInstance(this).getAppConfig()
-
-        coVerify(exactly = 0) { configStorage.setStoredConfig(any()) }
     }
 
     @Test
@@ -108,8 +105,18 @@ class AppConfigProviderTest : BaseIOTest() {
         createInstance(this).getAppConfig() shouldBe DefaultConfigData(
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
-            mappedConfig = configData
+            mappedConfig = configData,
+            isFallback = true
         )
+    }
+
+    @Test
+    fun `failed download doesn't overwrite valid config`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { configServer.downloadAppConfig() } throws IOException()
+
+        createInstance(this).getAppConfig()
+
+        coVerify(exactly = 0) { configStorage.setStoredConfig(any()) }
     }
 
     @Test
