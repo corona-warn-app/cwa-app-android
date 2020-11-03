@@ -5,13 +5,18 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.service.submission.SubmissionService
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
+import de.rki.coronawarnapp.submission.SubmissionTask
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -27,6 +32,7 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
     @Assisted private val symptoms: Symptoms,
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
+    private val taskController: TaskController,
     interoperabilityRepository: InteroperabilityRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -75,26 +81,29 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
         Timber.d("submitDiagnosisKeys(keys=%s, symptoms=%s)", keys, symptoms)
 
         submissionState.value = ApiRequestState.STARTED
-        launch {
-            try {
-                SubmissionService.asyncSubmitExposureKeys(keys, symptoms)
-                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
+        try {
+            val registrationToken =
+                LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+            taskController.submit(DefaultTaskRequest(
+                SubmissionTask::class,
+                SubmissionTask.Arguments(registrationToken, keys, symptoms)
+            ))
+            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
 
-                submissionState.value = ApiRequestState.SUCCESS
-            } catch (err: CwaWebException) {
-                submissionError.postValue(err)
-                submissionState.value = ApiRequestState.FAILED
-            } catch (err: TransactionException) {
-                if (err.cause is CwaWebException) {
-                    submissionError.postValue(err.cause)
-                } else {
-                    err.report(ExceptionCategory.INTERNAL)
-                }
-                submissionState.value = ApiRequestState.FAILED
-            } catch (err: Exception) {
-                submissionState.value = ApiRequestState.FAILED
+            submissionState.value = ApiRequestState.SUCCESS
+        } catch (err: CwaWebException) {
+            submissionError.postValue(err)
+            submissionState.value = ApiRequestState.FAILED
+        } catch (err: TransactionException) {
+            if (err.cause is CwaWebException) {
+                submissionError.postValue(err.cause)
+            } else {
                 err.report(ExceptionCategory.INTERNAL)
             }
+            submissionState.value = ApiRequestState.FAILED
+        } catch (err: Exception) {
+            submissionState.value = ApiRequestState.FAILED
+            err.report(ExceptionCategory.INTERNAL)
         }
     }
 

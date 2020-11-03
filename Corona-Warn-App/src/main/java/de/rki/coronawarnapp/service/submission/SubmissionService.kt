@@ -1,15 +1,11 @@
 package de.rki.coronawarnapp.service.submission
 
-import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.exception.NoGUIDOrTANSetException
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
-import de.rki.coronawarnapp.submission.SubmissionTask
-import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
@@ -55,14 +51,6 @@ object SubmissionService {
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
         SubmissionRepository.updateTestResult(testResult)
-    }
-
-    suspend fun asyncSubmitExposureKeys(keys: List<TemporaryExposureKey>, symptoms: Symptoms) {
-        val registrationToken =
-            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-        AppInjector.component.taskController.submit(DefaultTaskRequest(SubmissionTask::class, SubmissionTask.Arguments(
-            registrationToken, keys, symptoms
-        )))
     }
 
     suspend fun asyncRequestTestResult(): TestResult {
