@@ -97,7 +97,6 @@ class AppConfigProviderTest : BaseIOTest() {
 
         mockConfigStorage shouldBe testConfigDownload
 
-
         coVerify { configStorage.setStoredConfig(testConfigDownload) }
     }
 

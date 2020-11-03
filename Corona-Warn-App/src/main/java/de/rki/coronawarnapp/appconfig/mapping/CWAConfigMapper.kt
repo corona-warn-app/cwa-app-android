@@ -20,16 +20,15 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun AppConfig.ApplicationConfiguration.getMappedSupportedCountries(): List<String> {
-        if (supportedCountriesList == null) return emptyList()
-
-        if (supportedCountriesList.size == 1 && !VALID_CC.matches(supportedCountriesList.single())) {
-            Timber.w("Invalid country data, clearing. (%s)", supportedCountriesList)
-            return emptyList()
+    internal fun AppConfig.ApplicationConfiguration.getMappedSupportedCountries(): List<String> =
+        when {
+            supportedCountriesList == null -> emptyList()
+            supportedCountriesList.size == 1 && !VALID_CC.matches(supportedCountriesList.single()) -> {
+                Timber.w("Invalid country data, clearing. (%s)", supportedCountriesList)
+                emptyList()
+            }
+            else -> supportedCountriesList
         }
-
-        return supportedCountriesList
-    }
 
     data class CWAConfigContainer(
         override val appVersion: AppVersionConfig.ApplicationVersionConfiguration,

@@ -6,18 +6,19 @@ import org.joda.time.Instant
 
 interface ConfigData : ConfigMapping {
 
+    /**
+     * serverTime + localOffset = updatedAt
+     */
     val updatedAt: Instant
 
     /**
-     * serverTime + localOffset = updatedAt
      * If **[isFallback]** returns true,
      * you should probably ignore the time offset.
      */
     val localOffset: Duration
 
     /**
-     * Returns true if this is not a fresh config, e.g.
-     * server could not be reached.
+     * Returns true if this is not a fresh config, e.g. server could not be reached.
      */
     val isFallback: Boolean
 }
