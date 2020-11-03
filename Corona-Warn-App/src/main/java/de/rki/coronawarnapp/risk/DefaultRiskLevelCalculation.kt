@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
+import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,7 +45,7 @@ class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
 
         val attenuationStrings =
             "Weighted Attenuation: ($weightedAttenuationLow + $weightedAttenuationMid + " +
-                    "$weightedAttenuationHigh + $defaultBucketOffset)"
+                "$weightedAttenuationHigh + $defaultBucketOffset)"
         Timber.v(attenuationStrings)
 
         val weightedAttenuationDuration =
@@ -56,12 +60,25 @@ class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
 
         return round(riskScore.times(DECIMAL_MULTIPLIER)).div(DECIMAL_MULTIPLIER)
     }
-
     private fun Int.capped(): Int {
         return if (this > TimeVariables.getMaxAttenuationDuration()) {
             TimeVariables.getMaxAttenuationDuration()
         } else {
             this
         }
+    }
+
+    override fun calculateRisk(
+        exposureWindow: ExposureWindow,
+        riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
+    ): RiskResult {
+        TODO("Not yet implemented")
+    }
+
+    override fun aggregateResults(
+        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
+        riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
+    ): AggregatedRiskResult {
+        TODO("Not yet implemented")
     }
 }
