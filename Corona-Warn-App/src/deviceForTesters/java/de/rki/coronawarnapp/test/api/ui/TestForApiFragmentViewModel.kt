@@ -7,13 +7,14 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
-import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.TransactionException
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.TestSettings
-import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.test.api.ui.EnvironmentState.Companion.toEnvironmentState
 import de.rki.coronawarnapp.test.api.ui.LoggerState.Companion.toLoggerState
+import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -27,8 +28,7 @@ import java.io.File
 class TestForApiFragmentViewModel @AssistedInject constructor(
     @AppContext private val context: Context,
     private val envSetup: EnvironmentSetup,
-    private val testSettings: TestSettings,
-    private val taskController: TaskController
+    private val testSettings: TestSettings
 ) : CWAViewModel() {
 
     val debugOptionsState by smartLiveData {
@@ -80,7 +80,13 @@ class TestForApiFragmentViewModel @AssistedInject constructor(
     }
 
     fun calculateRiskLevelClicked() {
-        taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
+        viewModelScope.launch {
+            try {
+                RiskLevelTransaction.start()
+            } catch (e: TransactionException) {
+                e.report(ExceptionCategory.INTERNAL)
+            }
+        }
     }
 
     val logShareEvent = SingleLiveEvent<File?>()

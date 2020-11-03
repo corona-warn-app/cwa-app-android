@@ -3,10 +3,7 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.storage.LocalData
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler.stop
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -17,10 +14,11 @@ import timber.log.Timber
  *
  * @see BackgroundWorkScheduler
  */
-class BackgroundNoisePeriodicWorker @AssistedInject constructor(
-    @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters
-) : CoroutineWorker(context, workerParams) {
+class BackgroundNoisePeriodicWorker(
+    val context: Context,
+    workerParams: WorkerParameters
+) :
+    CoroutineWorker(context, workerParams) {
 
     companion object {
         private val TAG: String? = BackgroundNoisePeriodicWorker::class.simpleName
@@ -63,7 +61,4 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     private fun stopWorker() {
         BackgroundWorkScheduler.WorkType.BACKGROUND_NOISE_PERIODIC_WORK.stop()
     }
-
-    @AssistedInject.Factory
-    interface Factory : InjectedWorkerFactory<BackgroundNoisePeriodicWorker>
 }

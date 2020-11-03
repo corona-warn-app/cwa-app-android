@@ -3,21 +3,22 @@ package de.rki.coronawarnapp.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import de.rki.coronawarnapp.util.di.AppInjector
 
 /**
  * One time background noise worker
  *
  * @see BackgroundWorkScheduler
  */
-class BackgroundNoiseOneTimeWorker @AssistedInject constructor(
-    @Assisted val context: Context,
-    @Assisted workerParams: WorkerParameters,
+class BackgroundNoiseOneTimeWorker(
+    val context: Context,
+    workerParams: WorkerParameters
+) :
+    CoroutineWorker(context, workerParams) {
+
     private val playbook: Playbook
-) : CoroutineWorker(context, workerParams) {
+        get() = AppInjector.component.playbook
 
     /**
      * Work execution
@@ -40,7 +41,4 @@ class BackgroundNoiseOneTimeWorker @AssistedInject constructor(
 
         return result
     }
-
-    @AssistedInject.Factory
-    interface Factory : InjectedWorkerFactory<BackgroundNoiseOneTimeWorker>
 }

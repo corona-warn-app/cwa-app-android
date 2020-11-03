@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import timber.log.Timber
+import javax.inject.Inject
 import javax.inject.Provider
 
 abstract class BaseTimeoutTask : Task<DefaultProgress, TimeoutTaskResult> {
@@ -38,7 +39,7 @@ abstract class BaseTimeoutTask : Task<DefaultProgress, TimeoutTaskResult> {
         isCanceled = true
     }
 
-    abstract class Factory constructor(
+    abstract class Factory @Inject constructor(
         private val taskByDagger: Provider<BaseTimeoutTask>
     ) : TaskFactory<DefaultProgress, TimeoutTaskResult> {
 

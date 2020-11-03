@@ -141,6 +141,7 @@ class HotDataFlowTest : BaseTest() {
         hotData.updateSafely { "2" }
         hotData.updateSafely { "1" }
 
+
         runBlocking {
             testCollector.await { list, l -> list.size == 3 }
             testCollector.latestValues shouldBe listOf("1", "2", "1")
@@ -159,6 +160,7 @@ class HotDataFlowTest : BaseTest() {
             startValueProvider = valueProvider,
             sharingBehavior = SharingStarted.Lazily
         )
+
 
         testScope.runBlockingTest2(permanentJobs = true) {
             val sub1 = hotData.data.test().start(scope = this)

@@ -124,8 +124,8 @@ class TaskControllerTest : BaseIOTest() {
             path = File(testDir, UUID.randomUUID().toString())
         )
         val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = QueueingTask::class
         )
 
         arguments.path.exists() shouldBe false
@@ -189,8 +189,8 @@ class TaskControllerTest : BaseIOTest() {
             path = File(testDir, UUID.randomUUID().toString())
         )
         val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = QueueingTask::class
         )
 
         arguments.path.exists() shouldBe false
@@ -228,8 +228,8 @@ class TaskControllerTest : BaseIOTest() {
             path = File(testDir, UUID.randomUUID().toString())
         )
         val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = QueueingTask::class
         )
         instance.submit(request)
         delay(1000)
@@ -254,8 +254,8 @@ class TaskControllerTest : BaseIOTest() {
         arguments.path.exists() shouldBe false
 
         val request1 = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = QueueingTask::class
         )
         instance.submit(request1)
 
@@ -305,14 +305,14 @@ class TaskControllerTest : BaseIOTest() {
         arguments.path.exists() shouldBe false
 
         val request1 = DefaultTaskRequest(
-            type = SkippingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = SkippingTask::class
         )
         instance.submit(request1)
 
         val request2 = DefaultTaskRequest(
-            type = SkippingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = SkippingTask::class
         )
         instance.submit(request2)
 
@@ -346,14 +346,14 @@ class TaskControllerTest : BaseIOTest() {
         arguments.path.exists() shouldBe false
 
         val request1 = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = QueueingTask::class
         )
 
         // Class needs to be different, typing is based on that.
         val request2 = DefaultTaskRequest(
-            type = SkippingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = SkippingTask::class
         )
 
         val instance = createInstance(scope = this)
@@ -397,8 +397,8 @@ class TaskControllerTest : BaseIOTest() {
             path = File(testDir, UUID.randomUUID().toString())
         )
         val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
+            arguments = arguments,
+            type = QueueingTask::class
         )
 
         arguments.path.exists() shouldBe false
@@ -426,8 +426,8 @@ class TaskControllerTest : BaseIOTest() {
         val instance = createInstance(scope = this)
 
         val request = DefaultTaskRequest(
-            type = TimeoutTask::class,
-            arguments = TimeoutTaskArguments()
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask::class
         )
 
         instance.submit(request)
@@ -451,12 +451,12 @@ class TaskControllerTest : BaseIOTest() {
         val instance = createInstance(scope = this)
 
         val taskWithTimeout = DefaultTaskRequest(
-            type = TimeoutTask::class,
-            arguments = TimeoutTaskArguments()
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask::class
         )
         val taskWithoutTimeout = DefaultTaskRequest(
-            type = TimeoutTask::class,
-            arguments = TimeoutTaskArguments(delay = 5000)
+            arguments = TimeoutTaskArguments(delay = 5000),
+            type = TimeoutTask::class
         )
         val taskWithoutTimeout2 = taskWithoutTimeout.toNewTask()
 
@@ -492,20 +492,20 @@ class TaskControllerTest : BaseIOTest() {
         val instance = createInstance(scope = this)
 
         val task1WithTimeout = DefaultTaskRequest(
-            type = TimeoutTask::class,
-            arguments = TimeoutTaskArguments()
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask::class
         )
         val task2WithTimeout = DefaultTaskRequest(
-            type = TimeoutTask2::class,
-            arguments = TimeoutTaskArguments()
+            arguments = TimeoutTaskArguments(),
+            type = TimeoutTask2::class
         )
         val task1WithoutTimeout = DefaultTaskRequest(
-            type = TimeoutTask::class,
-            arguments = TimeoutTaskArguments(delay = 5000)
+            arguments = TimeoutTaskArguments(delay = 5000),
+            type = TimeoutTask::class
         )
         val task2WithoutTimeout = DefaultTaskRequest(
-            type = TimeoutTask2::class,
-            arguments = TimeoutTaskArguments(delay = 5000)
+            arguments = TimeoutTaskArguments(delay = 5000),
+            type = TimeoutTask2::class
         )
 
         instance.submit(task1WithTimeout)

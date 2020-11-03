@@ -20,7 +20,7 @@ object RiskLevelRepository {
      * Calculation happens in the [de.rki.coronawarnapp.transaction.RiskLevelTransaction]
      *
      * @see de.rki.coronawarnapp.transaction.RiskLevelTransaction
-     * @see de.rki.coronawarnapp.risk.RiskLevels
+     * @see de.rki.coronawarnapp.risk.RiskLevelCalculation
      *
      * @param riskLevel
      */

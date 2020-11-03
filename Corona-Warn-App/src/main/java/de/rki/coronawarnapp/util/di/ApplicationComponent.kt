@@ -7,8 +7,6 @@ import dagger.android.support.AndroidSupportInjectionModule
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.bugreporting.BugReporter
-import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.download.KeyFileDownloader
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -24,10 +22,10 @@ import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
-import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
+import de.rki.coronawarnapp.transaction.RiskLevelInjectionHelper
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
 import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
@@ -39,7 +37,6 @@ import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.security.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.util.worker.WorkerBinder
 import de.rki.coronawarnapp.verification.VerificationModule
 import javax.inject.Singleton
 
@@ -66,15 +63,14 @@ import javax.inject.Singleton
         PlaybookModule::class,
         TaskModule::class,
         DeviceForTestersModule::class,
-        BugReportingModule::class,
-        SerializationModule::class,
-        WorkerBinder::class
+        SerializationModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     // TODO Remove once Singletons are gone
     val transRetrieveKeysInjection: RetrieveDiagnosisInjectionHelper
+    val transRiskLevelInjection: RiskLevelInjectionHelper
     val transSubmitDiagnosisInjection: SubmitDiagnosisInjectionHelper
 
     val connectivityHelperInjection: ConnectivityHelperInjection
@@ -95,11 +91,7 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     val interoperabilityRepository: InteroperabilityRepository
 
-    val taskController: TaskController
-
     @AppScope val appScope: AppCoroutineScope
-
-    val bugReporter: BugReporter
 
     @Component.Factory
     interface Factory {

@@ -1,12 +1,11 @@
 package de.rki.coronawarnapp.storage.interoperability
 
 import android.text.TextUtils
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.Country
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.Locale
@@ -22,11 +21,8 @@ class InteroperabilityRepository @Inject constructor(
         LocalData.isInteroperabilityShownAtLeastOnce = true
     }
 
-    private val countryListFlowInternal = MutableStateFlow(listOf<Country>())
-    val countryListFlow: Flow<List<Country>> = countryListFlowInternal
-
-    @Deprecated("Use  countryListFlow")
-    val countryList = countryListFlow.asLiveData()
+    private val _countryList: MutableLiveData<List<Country>> = MutableLiveData(listOf())
+    val countryList = Transformations.distinctUntilChanged(_countryList)
 
     init {
         getAllCountries()
@@ -48,16 +44,16 @@ class InteroperabilityRepository @Inject constructor(
                         if (mappedCountry == null) Timber.e("Unknown countrycode: %s", rawCode)
                         mappedCountry
                     }
-                countryListFlowInternal.value = countries
+                _countryList.postValue(countries)
                 Timber.d("Country list: ${TextUtils.join(System.lineSeparator(), countries)}")
             } catch (e: Exception) {
                 Timber.e(e)
-                countryListFlowInternal.value = emptyList()
+                _countryList.postValue(listOf())
             }
         }
     }
 
     fun clear() {
-        countryListFlowInternal.value = emptyList()
+        _countryList.postValue(emptyList())
     }
 }

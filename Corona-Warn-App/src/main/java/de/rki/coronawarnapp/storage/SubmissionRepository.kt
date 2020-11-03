@@ -32,9 +32,11 @@ object SubmissionRepository {
 
     private val testResultReceivedDateFlowInternal = MutableStateFlow(Date())
     val testResultReceivedDateFlow: Flow<Date> = testResultReceivedDateFlowInternal
+    val testResultReceivedDate = testResultReceivedDateFlow.asLiveData()
 
     private val deviceUIStateFlowInternal = MutableStateFlow(DeviceUIState.UNPAIRED)
     val deviceUIStateFlow: Flow<DeviceUIState> = deviceUIStateFlowInternal
+    val deviceUIState = deviceUIStateFlow.asLiveData()
 
     private val testResultFlow = MutableStateFlow<TestResult?>(null)
 
