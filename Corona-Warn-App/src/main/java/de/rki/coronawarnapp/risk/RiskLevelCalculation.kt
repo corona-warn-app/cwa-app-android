@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterCl
 
 interface RiskLevelCalculation {
 
+    @Deprecated("Switch to new calculation with Exposure Windows")
     fun calculateRiskScore(
         attenuationParameters: AttenuationDuration,
         exposureSummary: ExposureSummary
