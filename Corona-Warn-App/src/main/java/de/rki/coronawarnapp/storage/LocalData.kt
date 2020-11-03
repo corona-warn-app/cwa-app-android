@@ -373,10 +373,9 @@ object LocalData {
             PREFERENCE_HAS_RISK_STATUS_LOWERED,
             false
         )
-        set(value) = getSharedPreferenceInstance().edit(commit = true) {
-            putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value)
-            isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value
-        }
+        set(value) = getSharedPreferenceInstance()
+            .edit(commit = true) { putBoolean(PREFERENCE_HAS_RISK_STATUS_LOWERED, value) }
+            .also { isUserToBeNotifiedOfLoweredRiskLevelFlowInternal.value = value }
 
     /****************************************************
      * SERVER FETCH DATA
