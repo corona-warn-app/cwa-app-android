@@ -1,14 +1,19 @@
 package de.rki.coronawarnapp.submission
 
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
 import de.rki.coronawarnapp.submission.server.SubmissionApiV1
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
+import de.rki.coronawarnapp.task.Task
+import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.TaskTypeKey
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
@@ -20,7 +25,14 @@ import java.io.File
 import javax.inject.Singleton
 
 @Module
-class SubmissionModule {
+abstract class SubmissionModule {
+
+    @Binds
+    @IntoMap
+    @TaskTypeKey(SubmissionTask::class)
+    abstract fun submissionTaskFactory(
+        factory: SubmissionTask.Factory
+    ): TaskFactory<out Task.Progress, out Task.Result>
 
     @Reusable
     @SubmissionHttpClient
