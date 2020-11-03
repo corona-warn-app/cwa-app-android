@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -37,22 +39,22 @@ class HotDataFlow<T : Any>(
         onBufferOverflow = BufferOverflow.SUSPEND
     )
 
-    private val internalFlow = channelFlow {
+    private val internalProducer: Flow<DataHolder<T>> = channelFlow {
         var currentValue = startValueProvider().also {
             Timber.tag(tag).v("startValue=%s", it)
-            send(it)
+            val updatedBy: suspend T.() -> T = { it }
+            send(DataHolder(value = it, updatedBy = updatedBy))
         }
 
         updateActions.collect { updateAction ->
             currentValue = updateAction(currentValue).also {
                 currentValue = it
-                send(it)
+                send(DataHolder(value = it, updatedBy = updateAction))
             }
         }
     }
 
-    val data: Flow<T> = internalFlow
-        .distinctUntilChanged()
+    private val internalFlow = internalProducer
         .onStart { Timber.tag(tag).v("internal onStart") }
         .catch {
             Timber.tag(tag).e(it, "internal Error")
@@ -66,5 +68,23 @@ class HotDataFlow<T : Any>(
         )
         .mapNotNull { it }
 
+    val data: Flow<T> = internalFlow.map { it.value }.distinctUntilChanged()
+
     fun updateSafely(update: suspend T.() -> T) = updateActions.tryEmit(update)
+
+    suspend fun updateBlocking(update: suspend T.() -> T): T {
+        updateActions.tryEmit(update)
+        Timber.tag(tag).v("Waiting for update.")
+        return internalFlow.first {
+            val target = it.updatedBy
+            val desired = update
+            Timber.tag(tag).v("Comparing %s with %s; match=%b", target, desired, target == desired)
+            it.updatedBy == update
+        }.value.also { Timber.tag(tag).v("Returning blocking update result: %s", it) }
+    }
+
+    internal data class DataHolder<T>(
+        val value: T,
+        val updatedBy: suspend T.() -> T
+    )
 }

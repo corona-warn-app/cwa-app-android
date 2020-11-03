@@ -4,14 +4,18 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigServer
 import de.rki.coronawarnapp.appconfig.download.AppConfigStorage
 import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
+import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,18 +26,18 @@ class AppConfigProvider @Inject constructor(
     private val storage: AppConfigStorage,
     private val parser: ConfigParser,
     private val dispatcherProvider: DispatcherProvider,
-    @AppScope private val scope: CoroutineScope
+    @AppScope private val scope: CoroutineScope,
+    private val timeStamper: TimeStamper
 ) {
 
     private val configHolder = HotDataFlow(
         loggingTag = "AppConfigProvider",
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
-        sharingBehavior = SharingStarted.WhileSubscribed()
+        sharingBehavior = SharingStarted.Lazily
     ) {
         retrieveConfig()
     }
-    val currentConfig: Flow<ConfigData> = configHolder.data
 
     private suspend fun retrieveConfig(): ConfigData = withContext(dispatcherProvider.IO) {
         Timber.v("retrieveConfig()")
@@ -87,6 +91,17 @@ class AppConfigProvider @Inject constructor(
         return@withContext parsedConfig
     }
 
+    fun getConfig(tryUpdate: Boolean = false): Flow<ConfigData> = configHolder.data.onStart {
+        val now = timeStamper.nowUTC
+        configHolder.updateBlocking {
+            if (tryUpdate || now.isAfter(updatedAt.plus(CACHE_TIMEOUT))) {
+                retrieveConfig()
+            } else {
+                this
+            }
+        }.also { emit(it) }
+    }.distinctUntilChanged()
+
     fun forceUpdate() {
         Timber.tag(TAG).v("forceUpdate()")
         configHolder.updateSafely {
@@ -106,5 +121,6 @@ class AppConfigProvider @Inject constructor(
 
     companion object {
         private const val TAG = "AppConfigProvider"
+        private val CACHE_TIMEOUT = Duration.standardMinutes(3)
     }
 }

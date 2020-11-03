@@ -66,6 +66,8 @@ class AppConfigProviderTest : BaseIOTest() {
         every { configServer.clearCache() } just Runs
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
+
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
 
     @AfterEach
@@ -79,7 +81,8 @@ class AppConfigProviderTest : BaseIOTest() {
         storage = configStorage,
         parser = configParser,
         dispatcherProvider = TestDispatcherProvider,
-        scope = scope
+        scope = scope,
+        timeStamper = timeStamper
     )
 
     @Test
@@ -123,7 +126,7 @@ class AppConfigProviderTest : BaseIOTest() {
     fun `force update clears caches`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
-        val testCollector = instance.currentConfig.test(startOnScope = this)
+        val testCollector = instance.getConfig().test(startOnScope = this)
 
         instance.forceUpdate()
 
@@ -145,7 +148,7 @@ class AppConfigProviderTest : BaseIOTest() {
         coEvery { configServer.downloadAppConfig() } answers {
             ConfigDownload(
                 rawData = "${++counter}".toByteArray(),
-                serverTime = Instant.EPOCH,
+                serverTime = timeStamper.nowUTC,
                 localOffset = Duration.ZERO
             ).also { generatedConfigDownloads.add(it) }
         }
@@ -157,7 +160,7 @@ class AppConfigProviderTest : BaseIOTest() {
 
         val instance = createInstance(this)
 
-        val testCollector = instance.currentConfig.test(startOnScope = this)
+        val testCollector = instance.getConfig().test(startOnScope = this)
 
         advanceUntilIdle()
 
@@ -181,15 +184,54 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     @Test
-    fun `observed config uses WHILE_SUBSCRIBED`() = runBlockingTest2(ignoreActive = true) {
+    fun `getConfig tryUpdate overrides timeout check`() = runBlockingTest2(ignoreActive = true) {
         coVerify(exactly = 0) { configServer.downloadAppConfig() }
         val instance = createInstance(this)
 
-        instance.currentConfig.test(startOnScope = this).cancel()
-        instance.currentConfig.test(startOnScope = this).cancel()
+        instance.getConfig(tryUpdate = true).test(startOnScope = this).cancel()
+        instance.getConfig(tryUpdate = true).test(startOnScope = this).cancel()
+        instance.getConfig(tryUpdate = true).test(startOnScope = this).cancel()
+        instance.getConfig(tryUpdate = true).test(startOnScope = this).cancel()
 
-        coVerify(exactly = 2) { configServer.downloadAppConfig() }
+        coVerify(exactly = 5) { configServer.downloadAppConfig() }
     }
+
+    @Test
+    fun `getConfig uses a 3min timeout check before forcing an update`() =
+        runBlockingTest2(ignoreActive = true) {
+            var startTime = Instant.parse("2020-11-03T05:35:16.000Z")
+            every { timeStamper.nowUTC } returns startTime
+
+            coEvery { configServer.downloadAppConfig() } answers {
+                ConfigDownload(
+                    rawData = APPCONFIG_RAW,
+                    serverTime = startTime,
+                    localOffset = Duration.ZERO
+                )
+            }
+
+            val instance = createInstance(this)
+
+            instance.getConfig().test(startOnScope = this).cancel()
+            instance.getConfig().test(startOnScope = this).cancel()
+            instance.getConfig().test(startOnScope = this).cancel()
+
+            val overTimeout = Duration.standardMinutes(3).plus(1)
+
+            startTime = startTime.plus(overTimeout)
+            every { timeStamper.nowUTC } returns startTime
+
+            instance.getConfig().test(startOnScope = this).cancel()
+            instance.getConfig().test(startOnScope = this).cancel()
+
+            startTime = startTime.plus(overTimeout)
+            every { timeStamper.nowUTC } returns startTime
+
+            instance.getConfig().test(startOnScope = this).cancel()
+            instance.getConfig().test(startOnScope = this).cancel()
+
+            coVerify(exactly = 3) { configServer.downloadAppConfig() }
+        }
 
     companion object {
         private val APPCONFIG_RAW = (
