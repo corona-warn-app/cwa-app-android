@@ -102,6 +102,7 @@ class AppConfigProviderTest : BaseIOTest() {
 
     @Test
     fun `fallback to last config if download fails`() = runBlockingTest2(ignoreActive = true) {
+        mockConfigStorage = testConfigDownload
         coEvery { configServer.downloadAppConfig() } throws Exception()
 
         createInstance(this).getAppConfig() shouldBe DefaultConfigData(
@@ -114,9 +115,12 @@ class AppConfigProviderTest : BaseIOTest() {
 
     @Test
     fun `failed download doesn't overwrite valid config`() = runBlockingTest2(ignoreActive = true) {
+        mockConfigStorage = testConfigDownload
         coEvery { configServer.downloadAppConfig() } throws IOException()
 
         createInstance(this).getAppConfig()
+
+        mockConfigStorage shouldBe testConfigDownload
 
         coVerify(exactly = 0) { configStorage.setStoredConfig(any()) }
     }

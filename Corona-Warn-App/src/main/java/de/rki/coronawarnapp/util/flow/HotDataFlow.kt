@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
@@ -25,6 +24,7 @@ class HotDataFlow<T : Any>(
     scope: CoroutineScope,
     coroutineContext: CoroutineContext = Dispatchers.Default,
     sharingBehavior: SharingStarted = SharingStarted.WhileSubscribed(),
+    forwardException: Boolean = true,
     private val startValueProvider: suspend CoroutineScope.() -> T
 ) {
     private val tag = "$loggingTag:HD"
@@ -39,34 +39,45 @@ class HotDataFlow<T : Any>(
         onBufferOverflow = BufferOverflow.SUSPEND
     )
 
-    private val internalProducer: Flow<DataHolder<T>> = channelFlow {
+    private val internalProducer: Flow<Holder<T>> = channelFlow {
         var currentValue = startValueProvider().also {
             Timber.tag(tag).v("startValue=%s", it)
             val updatedBy: suspend T.() -> T = { it }
-            send(DataHolder(value = it, updatedBy = updatedBy))
+            send(Holder.Data(value = it, updatedBy = updatedBy))
         }
 
         updateActions.collect { updateAction ->
             currentValue = updateAction(currentValue).also {
                 currentValue = it
-                send(DataHolder(value = it, updatedBy = updateAction))
+                send(Holder.Data(value = it, updatedBy = updateAction))
             }
         }
     }
 
     private val internalFlow = internalProducer
-        .onStart { Timber.tag(tag).v("internal onStart") }
+        .onStart { Timber.tag(tag).v("Internal onStart") }
         .catch {
-            Timber.tag(tag).e(it, "internal Error")
-            throw it
+            if (forwardException) {
+                Timber.tag(tag).w(it, "Forwarding internal Error")
+                // Wrap the error to get it past `sharedIn`
+                emit(Holder.Error(error = it))
+            } else {
+                Timber.tag(tag).e(it, "Throwing internal Error")
+                throw it
+            }
         }
-        .onCompletion { Timber.tag(tag).v("internal onCompletion") }
+        .onCompletion { Timber.tag(tag).v("Internal onCompletion") }
         .shareIn(
             scope = scope + coroutineContext,
             replay = 1,
             started = sharingBehavior
         )
-        .mapNotNull { it }
+        .map {
+            when (it) {
+                is Holder.Data<T> -> it
+                is Holder.Error<T> -> throw it.error
+            }
+        }
 
     val data: Flow<T> = internalFlow.map { it.value }.distinctUntilChanged()
 
@@ -76,15 +87,23 @@ class HotDataFlow<T : Any>(
         updateActions.tryEmit(update)
         Timber.tag(tag).v("Waiting for update.")
         return internalFlow.first {
-            val target = it.updatedBy
-            val desired = update
-            Timber.tag(tag).v("Comparing %s with %s; match=%b", target, desired, target == desired)
+            val targetUpdate = it.updatedBy
+            Timber.tag(tag).v(
+                "Comparing %s with %s; match=%b",
+                targetUpdate, update, targetUpdate == update
+            )
             it.updatedBy == update
         }.value.also { Timber.tag(tag).v("Returning blocking update result: %s", it) }
     }
 
-    internal data class DataHolder<T>(
-        val value: T,
-        val updatedBy: suspend T.() -> T
-    )
+    internal sealed class Holder<T> {
+        data class Data<T>(
+            val value: T,
+            val updatedBy: suspend T.() -> T
+        ) : Holder<T>()
+
+        data class Error<T>(
+            val error: Throwable
+        ) : Holder<T>()
+    }
 }

@@ -115,9 +115,7 @@ class AppConfigProvider @Inject constructor(
         }
     }
 
-    suspend fun getAppConfig(): ConfigData {
-        return configHolder.data.first()
-    }
+    suspend fun getAppConfig(): ConfigData = getConfig().first()
 
     companion object {
         private const val TAG = "AppConfigProvider"
