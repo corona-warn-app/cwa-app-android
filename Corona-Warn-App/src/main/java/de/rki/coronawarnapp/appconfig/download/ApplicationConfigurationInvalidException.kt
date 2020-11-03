@@ -4,9 +4,10 @@ import de.rki.coronawarnapp.exception.reporting.ErrorCodes
 import de.rki.coronawarnapp.exception.reporting.ReportedException
 
 class ApplicationConfigurationInvalidException(
-    cause: Exception? = null
+    cause: Exception? = null,
+    message: String? = null
 ) : ReportedException(
     code = ErrorCodes.APPLICATION_CONFIGURATION_INVALID.code,
-    message = "the application configuration is invalid",
+    message = message,
     cause = cause
 )

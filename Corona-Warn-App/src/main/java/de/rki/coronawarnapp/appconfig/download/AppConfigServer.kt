@@ -38,26 +38,26 @@ class AppConfigServer @Inject constructor(
             Instant.ofEpochMilli(it)
         } ?: timeStamper.nowUTC
 
-        val rawConfig = response.body()!!.use { body ->
-            var exportBinary: ByteArray? = null
-            var exportSignature: ByteArray? = null
+        val rawConfig = with(
+            requireNotNull(response.body()) { "Response was successful but body was null" }
+        ) {
+            val fileMap = byteStream().unzip()
+                .fold(emptyMap()) { last: Map<String, ByteArray>, (entry, stream) ->
+                    last.plus(entry.name to stream.readBytes())
+                }
 
-            body.byteStream().unzip { entry, entryContent ->
-                if (entry.name == EXPORT_BINARY_FILE_NAME) {
-                    exportBinary = entryContent.copyOf()
-                }
-                if (entry.name == EXPORT_SIGNATURE_FILE_NAME) {
-                    exportSignature = entryContent.copyOf()
-                }
-            }
+            val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
+            val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
+
             if (exportBinary == null || exportSignature == null) {
-                throw ApplicationConfigurationInvalidException()
+                throw ApplicationConfigurationInvalidException(message = "Unknown files: ${fileMap.keys}")
             }
 
             if (verificationKeys.hasInvalidSignature(exportBinary, exportSignature)) {
                 throw ApplicationConfigurationCorruptException()
             }
-            exportBinary!!
+
+            exportBinary
         }
 
         val serverTime = try {
