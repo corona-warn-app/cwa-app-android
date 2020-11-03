@@ -16,7 +16,7 @@ interface RiskLevelCalculation {
     ): Double
 
     fun calculateRisk(
-        exposureWindow: ExposureWindow,
+        exposureWindow: ExposureWindow
     ): RiskResult?
 
     fun aggregateResults(

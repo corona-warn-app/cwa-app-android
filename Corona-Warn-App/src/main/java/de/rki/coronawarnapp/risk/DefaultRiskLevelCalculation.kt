@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
@@ -28,6 +29,7 @@ class DefaultRiskLevelCalculation @Inject constructor(
         private const val DECIMAL_MULTIPLIER = 100
     }
 
+    @Deprecated("Switch to new calculation with Exposure Window")
     override fun calculateRiskScore(
         attenuationParameters: AttenuationDurationOuterClass.AttenuationDuration,
         exposureSummary: ExposureSummary
@@ -159,6 +161,7 @@ class DefaultRiskLevelCalculation @Inject constructor(
         return RiskResult(transmissionRiskLevel, normalizedTime, riskLevel)
     }
 
+    @SuppressLint("BinaryOperationInTimber")
     override fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
         riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
@@ -176,7 +179,18 @@ class DefaultRiskLevelCalculation @Inject constructor(
             )
         }
 
-        exposureHistory.forEach { Timber.d("(date=${it.date}, riskLevel=${it.riskLevel}, minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})") }
+        exposureHistory.forEach {
+            Timber.d(
+                "(date=%s," +
+                    " riskLevel=%s," +
+                    " minimumDistinctEncountersWithLowRisk=%s," +
+                    " minimumDistinctEncountersWithHighRisk=%s)",
+                it.date,
+                it.riskLevel,
+                it.minimumDistinctEncountersWithLowRisk,
+                it.minimumDistinctEncountersWithHighRisk
+            )
+        }
 
         // 6. Determine `Total Risk`
         val totalRiskLevel =
