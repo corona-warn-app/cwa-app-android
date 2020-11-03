@@ -4,6 +4,7 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskLevelConfigMapper
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
 import de.rki.coronawarnapp.notification.NotificationHelper
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
@@ -136,7 +138,17 @@ object RiskLevelTransaction : Transaction() {
     // @Inject lateinit var riskLevelCalculation: RiskLevelCalculation
     // TODO pass instance of this to constructor as soon as RiskLevelTransaction is converted to a class
     // Injecting here will break Test
-    private val riskLevelCalculation: RiskLevelCalculation = DefaultRiskLevelCalculation()
+    private val riskLevelCalculation: RiskLevelCalculation = DefaultRiskLevelCalculation(
+        // FIXME extremely ugly hack to allow for compilation during testing
+        ExposureWindowRiskLevelConfigMapper.ExposureWindowRiskLevelContainer(
+            emptyList(),
+            emptyList(),
+            RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding.newBuilder().build(),
+            emptyList(),
+            .0,
+            emptyList()
+        )
+    )
 
     /**
      * The maximal runtime of the Risk Level transaction
