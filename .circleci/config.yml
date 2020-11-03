@@ -250,7 +250,7 @@ jobs:
           name: Prepare commit hash
           command: |
             commit_hash=$(echo $CIRCLE_SHA1 | cut -c1-5)
-            echo commit_hash
+            echo $commit_hash
             echo "" >> "./gradle.properties"
             echo "commit_hash=$commit_hash" >> "./gradle.properties"
       - run:
