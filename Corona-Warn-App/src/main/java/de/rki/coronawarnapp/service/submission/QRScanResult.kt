@@ -22,8 +22,8 @@ data class QRScanResult(val rawResult: String) {
     companion object {
         // regex pattern for scanned QR code URL
         val QR_CODE_REGEX: Pattern = Pattern.compile(
-            "^((^https:\\/{2}localhost)(\\/\\?)[A-Fa-f0-9]{6}" +
-                    "[-][A-Fa-f0-9]{8}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{12})\$"
+            "(((?i)(^https:\\/{2}localhost)(\\/{1}\\?)[A-Fa-f0-9]{6}" +
+                "[-][A-Fa-f0-9]{8}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{4}[-][A-Fa-f0-9]{12})\$)"
         )
         const val GUID_SEPARATOR = '?'
         const val MAX_QR_CODE_LENGTH = 150

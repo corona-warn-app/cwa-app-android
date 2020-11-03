@@ -42,6 +42,15 @@ class ScanResultTest {
         scanResult = QRScanResult("HTTPS://LOCALHOST/?$mixedCaseGuid")
         scanResult.isValid shouldBe true
 
+        //should be false for now.
+        scanResult = QRScanResult("HTTPS://LOCALHOST//?$guid")
+        scanResult.isValid shouldBe false
+
+        scanResult = QRScanResult("HTTPS://LOCALHOST//?$guid")
+        scanResult.isValid shouldBe false
+
+        scanResult = QRScanResult("HTTPS://LOCALHOST////?$guid")
+        scanResult.isValid shouldBe false
 
         // more invalid tests checks
         scanResult = QRScanResult("http://localhost/?$guid")
@@ -65,5 +74,7 @@ class ScanResultTest {
     @Test
     fun extractGUID() {
         QRScanResult("https://localhost/?$guid").guid shouldBe guid
+        QRScanResult("https://localhost/?$lowerCaseGuid").guid shouldBe lowerCaseGuid
+        QRScanResult("https://localhost/?$mixedCaseGuid").guid shouldBe mixedCaseGuid
     }
 }
