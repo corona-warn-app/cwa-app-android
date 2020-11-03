@@ -249,11 +249,10 @@ jobs:
       - run:
           name: Prepare commit hash
           command: |
+            commit_hash=$(echo $CIRCLE_SHA1 | cut -c1-5)
+            echo commit_hash
             echo "" >> "./gradle.properties"
-            echo "commit_hash=`echo $CIRCLE_SHA1 | cut -c0-5`" >> "./gradle.properties"
-      - run:
-          name: Prepare commit hash
-          command: echo $CIRCLE_SHA1 | cut -c0-5
+            echo "commit_hash=$commit_hash" >> "./gradle.properties"
       - run:
           name: Prepare keystore properties for Signing
           command: |
