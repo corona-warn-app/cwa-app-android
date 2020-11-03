@@ -11,13 +11,20 @@ class ExposureWindowRiskLevelConfigMapper @Inject constructor() :
     ExposureWindowRiskLevelConfig.Mapper {
 
     override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskLevelConfig {
+        val riskCalculationParameters = rawConfig.riskCalculationParameters
         return ExposureWindowRiskLevelContainer(
-            minutesAtAttenuationFilters = rawConfig.riskCalculationParameters.minutesAtAttenuationFiltersList,
-            minutesAtAttenuationWeights = rawConfig.riskCalculationParameters.minutesAtAttenuationWeightsList,
-            transmissionRiskLevelEncoding = rawConfig.riskCalculationParameters.trlEncoding,
-            transmissionRiskLevelFilters = rawConfig.riskCalculationParameters.trlFiltersList,
-            transmissionRiskLevelMultiplier = rawConfig.riskCalculationParameters.transmissionRiskLevelMultiplier,
-            normalizedTimePerExposureWindowToRiskLevelMapping = rawConfig.riskCalculationParameters.normalizedTimePerEWToRiskLevelMappingList
+            minutesAtAttenuationFilters = riskCalculationParameters
+                .minutesAtAttenuationFiltersList,
+            minutesAtAttenuationWeights = riskCalculationParameters
+                .minutesAtAttenuationWeightsList,
+            transmissionRiskLevelEncoding = riskCalculationParameters
+                .trlEncoding,
+            transmissionRiskLevelFilters = riskCalculationParameters
+                .trlFiltersList,
+            transmissionRiskLevelMultiplier = riskCalculationParameters
+                .transmissionRiskLevelMultiplier,
+            normalizedTimePerExposureWindowToRiskLevelMapping = riskCalculationParameters
+                .normalizedTimePerEWToRiskLevelMappingList
         )
     }
 
@@ -27,6 +34,7 @@ class ExposureWindowRiskLevelConfigMapper @Inject constructor() :
         override val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
         override val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val transmissionRiskLevelMultiplier: Double,
-        override val normalizedTimePerExposureWindowToRiskLevelMapping: List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
+        override val normalizedTimePerExposureWindowToRiskLevelMapping:
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
     ) : ExposureWindowRiskLevelConfig
 }

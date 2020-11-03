@@ -13,8 +13,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelCalculation
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
@@ -50,7 +50,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
     private val keyCacheRepository: KeyCacheRepository,
-    tracingCardStateProvider: TracingCardStateProvider
+    tracingCardStateProvider: TracingCardStateProvider,
+    private val riskLevelCalculation: RiskLevelCalculation
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -136,7 +137,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 val appConfig =
                     ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
 
-                val riskLevelScore = DefaultRiskLevelCalculation().calculateRiskScore(
+                val riskLevelScore = riskLevelCalculation.calculateRiskScore(
                     appConfig.attenuationDuration,
                     exposureSummary
                 )

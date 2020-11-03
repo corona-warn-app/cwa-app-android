@@ -87,17 +87,20 @@ class DefaultRiskLevelCalculation @Inject constructor(
         }
 
     private fun determineTransmissionRiskLevel(exposureWindow: ExposureWindow): Int {
+        val transmissionRiskLevelEncoding =
+            exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding
+
         val reportTypeOffset = when (exposureWindow.reportType) {
-            ReportType.RECURSIVE -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetRecursive
-            ReportType.SELF_REPORT -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetSelfReport
-            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedClinicalDiagnosis
-            ReportType.CONFIRMED_TEST -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedTest
+            ReportType.RECURSIVE -> transmissionRiskLevelEncoding.reportTypeOffsetRecursive
+            ReportType.SELF_REPORT -> transmissionRiskLevelEncoding.reportTypeOffsetSelfReport
+            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS -> transmissionRiskLevelEncoding.reportTypeOffsetConfirmedClinicalDiagnosis
+            ReportType.CONFIRMED_TEST -> transmissionRiskLevelEncoding.reportTypeOffsetConfirmedTest
             else -> throw UnknownReportTypeException()
         }
 
         val infectiousnessOffset = when (exposureWindow.infectiousness) {
-            Infectiousness.HIGH -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.infectiousnessOffsetHigh
-            else -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.infectiousnessOffsetStandard
+            Infectiousness.HIGH -> transmissionRiskLevelEncoding.infectiousnessOffsetHigh
+            else -> transmissionRiskLevelEncoding.infectiousnessOffsetStandard
         }
 
         return reportTypeOffset + infectiousnessOffset

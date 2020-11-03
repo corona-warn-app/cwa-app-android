@@ -9,7 +9,8 @@ interface ExposureWindowRiskLevelConfig {
     val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
     val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>
     val transmissionRiskLevelMultiplier: Double
-    val normalizedTimePerExposureWindowToRiskLevelMapping: List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
+    val normalizedTimePerExposureWindowToRiskLevelMapping:
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
 
     interface Mapper {
         fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskLevelConfig
