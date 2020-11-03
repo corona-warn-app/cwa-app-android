@@ -31,16 +31,6 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
-def getHash = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = stdout
-    }
-    def result = stdout.toString().trim()
-    return result
-}
-
 
 android {
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
@@ -75,6 +65,12 @@ android {
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
+
+        if (project.hasProperty("commit_hash")) {
+            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"$commit_hash\""
+        } else {
+            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"no commit hash\""
+        }
 
         def devEnvironmentFile = file("../test_environments.json")
         if (devEnvironmentFile.exists()) {
@@ -161,7 +157,6 @@ android {
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
 
         if (flavor.name == "deviceForTesters") {
-            variant.buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
             variant.outputs.each { output ->
                 output.versionNameOverride = adjustedVersionName
