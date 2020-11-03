@@ -7,6 +7,8 @@ import "internal/risk_score_parameters.proto";
 import "internal/app_version_config.proto";
 import "internal/attenuation_duration.proto";
 import "internal/app_features.proto";
+import "internal/exposure_detection_parameters.proto";
+import "internal/key_download_parameters.proto";
 
 message ApplicationConfiguration {
 
@@ -23,4 +25,10 @@ message ApplicationConfiguration {
   AppFeatures appFeatures = 6;
 
   repeated string supportedCountries = 7;
+
+  KeyDownloadParametersIOS iosKeyDownloadParameters = 8;
+  KeyDownloadParametersAndroid androidKeyDownloadParameters = 9;
+
+  ExposureDetectionParametersIOS iosExposureDetectionParameters = 10;
+  ExposureDetectionParametersAndroid androidExposureDetectionParameters= 11;
 }

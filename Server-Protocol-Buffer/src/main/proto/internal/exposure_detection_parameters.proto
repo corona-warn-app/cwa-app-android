@@ -1,0 +1,16 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+
+message ExposureDetectionParametersIOS {
+
+  int32 maxExposureDetectionsPerInterval = 1;
+}
+
+message ExposureDetectionParametersAndroid {
+
+  int32 maxExposureDetectionsPerInterval = 1;
+
+  int32 overallTimeoutInSeconds = 2;
+}
