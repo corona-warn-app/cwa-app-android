@@ -74,7 +74,11 @@ class ScanResultTest {
     @Test
     fun extractGUID() {
         QRScanResult("https://localhost/?$guid").guid shouldBe guid
-        QRScanResult("https://LOCALHOST/?$lowerCaseGuid").guid shouldBe lowerCaseGuid
-        QRScanResult("https://LOCALHOST/?$mixedCaseGuid").guid shouldBe mixedCaseGuid
+        QRScanResult("https://localhost/?$lowerCaseGuid").guid shouldBe lowerCaseGuid
+        QRScanResult("https://localhost/?$mixedCaseGuid").guid shouldBe mixedCaseGuid
+        
+        QRScanResult("HTTPS://LOCALHOST/?$guid").guid shouldBe guid
+        QRScanResult("HTTPS://LOCALHOST/?$lowerCaseGuid").guid shouldBe lowerCaseGuid
+        QRScanResult("HTTPS://LOCALHOST/?$mixedCaseGuid").guid shouldBe mixedCaseGuid
     }
 }
