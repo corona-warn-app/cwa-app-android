@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="dataClass"
+            type="de.rki.coronawarnapp.ui.main.riskcards.RiskCardNoInternet" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/risk_card_no_calculation_possible_body_saved_risk"
+                android:text="@{dataClass.getLastCalculatedRiskScore(context)"
                 android:textColor="@color/colorTextPrimary1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/risk_card_no_internet_save_risk_row_icon"
@@ -92,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/risk_card_body_time_fetched"
+                android:text="@{dataClass.getLastTimeFetched(context)}"
                 android:textColor="@color/colorTextPrimary1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/risk_card_no_internet_last_sync_row_icon"
