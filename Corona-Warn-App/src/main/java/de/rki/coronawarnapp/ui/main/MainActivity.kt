@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -20,10 +21,14 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.util.BackgroundPrioritization
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,6 +52,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: MainActivityViewModel by cwaViewModels(
+        ownerProducer = { viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
@@ -77,6 +88,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+
+        if (CWADebug.isDeviceForTestersBuild) {
+            vm.showEnvironmentHint.observe2(this) {
+                Toast.makeText(this, "Current environment: $it", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
