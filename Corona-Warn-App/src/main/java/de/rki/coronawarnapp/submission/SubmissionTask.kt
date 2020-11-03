@@ -33,18 +33,16 @@ class SubmissionTask @Inject constructor(
     override suspend fun run(arguments: Task.Arguments) = try {
         arguments as Arguments
         Timber.d("Running with arguments=%s", arguments)
-        playbook.submission(
-            Playbook.SubmissionData(
-                arguments.registrationToken,
-                arguments.getHistory(),
-                true,
-                applicationConfiguration().supportedCountriesList.also {
-                    Timber.w("supported countries = $it")
-                }
-            ).also {
-                checkCancel()
+        Playbook.SubmissionData(
+            arguments.registrationToken,
+            arguments.getHistory(),
+            true,
+            applicationConfiguration().supportedCountriesList.also {
+                Timber.w("supported countries = $it")
             }
         )
+            .also { checkCancel() }
+            .let { playbook.submission(it) }
         SubmissionService.submissionSuccessful()
         object : Task.Result {}
     } catch (error: Exception) {
@@ -90,7 +88,8 @@ class SubmissionTask @Inject constructor(
     ) : Task.Arguments
 
     data class Config(
-        override val executionTimeout: Duration = SUBMISSION_TASK_TIMEOUT, // TODO unit-test that not > 9 min
+        @Suppress("MagicNumber")
+        override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
@@ -108,7 +107,6 @@ class SubmissionTask @Inject constructor(
     }
 
     companion object {
-        private val SUBMISSION_TASK_TIMEOUT = Duration.standardMinutes(8)
         private const val FALLBACK_COUNTRY = "DE"
         private val TAG: String? = SubmissionTask::class.simpleName
     }
