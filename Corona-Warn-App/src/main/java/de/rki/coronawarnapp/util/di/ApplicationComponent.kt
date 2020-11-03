@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisInjectionHelper
-import de.rki.coronawarnapp.transaction.SubmitDiagnosisInjectionHelper
 import de.rki.coronawarnapp.ui.ActivityBinder
 import de.rki.coronawarnapp.util.ConnectivityHelperInjection
 import de.rki.coronawarnapp.util.UtilModule
@@ -75,7 +74,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
 
     // TODO Remove once Singletons are gone
     val transRetrieveKeysInjection: RetrieveDiagnosisInjectionHelper
-    val transSubmitDiagnosisInjection: SubmitDiagnosisInjectionHelper
 
     val connectivityHelperInjection: ConnectivityHelperInjection
 
