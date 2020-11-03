@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.submission.ExposureKeyHistoryCalculations
@@ -48,12 +47,9 @@ class SubmitDiagnosisKeysTransactionTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        val appConfig = ApplicationConfiguration.newBuilder()
-            .addAllSupportedCountries(defaultCountries)
-            .build()
-        coEvery { configData.rawConfig } returns appConfig
 
         coEvery { appConfigProvider.getAppConfig() } returns configData
+        every { configData.supportedCountries } returns defaultCountries
 
         every { appComponent.transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
             TransactionCoroutineScope(),
@@ -108,8 +104,7 @@ class SubmitDiagnosisKeysTransactionTest {
 
     @Test
     fun `submission without keys and fallback country`(): Unit = runBlocking {
-        val appConfig = ApplicationConfiguration.newBuilder().build()
-        coEvery { configData.rawConfig } returns appConfig
+        coEvery { configData.supportedCountries } returns emptyList()
         coEvery { mockPlaybook.submission(any()) } returns Unit
 
         SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)
