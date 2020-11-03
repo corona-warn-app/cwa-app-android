@@ -29,9 +29,14 @@ class AppConfigServer @Inject constructor(
         Timber.tag(TAG).d("Fetching app config.")
 
         val response = api.get().getApplicationConfiguration(homeCountry.identifier)
-        val localTime = timeStamper.nowUTC
-
         if (!response.isSuccessful) throw HttpException(response)
+
+        val cacheResponse = response.raw().cacheResponse
+
+        // If this is a cached response, we need the original timestamp to calculate the time offset
+        val localTime = cacheResponse?.sentRequestAtMillis?.let {
+            Instant.ofEpochMilli(it)
+        } ?: timeStamper.nowUTC
 
         val rawConfig = response.body()!!.use { body ->
             var exportBinary: ByteArray? = null
@@ -64,10 +69,12 @@ class AppConfigServer @Inject constructor(
             Timber.e("Failed to get server time.")
             localTime
         }
+        val offset = Duration(serverTime, localTime)
+        Timber.tag(TAG).v("Time offset was %dms", offset.millis)
         return ConfigDownload(
             rawData = rawConfig,
             serverTime = serverTime,
-            localOffset = Duration(serverTime, localTime)
+            localOffset = offset
         )
     }
 

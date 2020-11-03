@@ -17,6 +17,7 @@ data class ConfigDownload(
 
         if (!rawData.contentEquals(other.rawData)) return false
         if (serverTime != other.serverTime) return false
+        if (localOffset != other.localOffset) return false
 
         return true
     }
@@ -24,6 +25,7 @@ data class ConfigDownload(
     override fun hashCode(): Int {
         var result = rawData.contentHashCode()
         result = 31 * result + serverTime.hashCode()
+        result = 31 * result + localOffset.hashCode()
         return result
     }
 }
