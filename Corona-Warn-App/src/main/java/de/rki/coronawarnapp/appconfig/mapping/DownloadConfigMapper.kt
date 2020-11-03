@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.server.protocols.internal.KeyDownloadParameters
 import javax.inject.Inject
 
 @Reusable
-class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
+class DownloadConfigMapper @Inject constructor() : ConfigMapper<KeyDownloadConfig> {
     override fun map(rawConfig: AppConfig.ApplicationConfiguration): KeyDownloadConfig {
 
         return KeyDownloadConfigContainer(

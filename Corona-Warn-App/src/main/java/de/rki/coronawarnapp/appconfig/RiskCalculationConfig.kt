@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
+import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.RiskScoreClassificationOuterClass
 
@@ -12,7 +12,5 @@ interface RiskCalculationConfig {
 
     val riskScoreClasses: RiskScoreClassificationOuterClass.RiskScoreClassification
 
-    interface Mapper {
-        fun map(rawConfig: ApplicationConfiguration): RiskCalculationConfig
-    }
+    interface Mapper : ConfigMapper<RiskCalculationConfig>
 }
