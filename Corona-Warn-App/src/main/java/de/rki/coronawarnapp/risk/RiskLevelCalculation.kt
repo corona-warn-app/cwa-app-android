@@ -17,8 +17,7 @@ interface RiskLevelCalculation {
 
     fun calculateRisk(
         exposureWindow: ExposureWindow,
-        riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
-    ): RiskResult
+    ): RiskResult?
 
     fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,

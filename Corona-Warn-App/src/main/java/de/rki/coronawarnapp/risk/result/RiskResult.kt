@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 
 // TODO("Adjust Types")
 data class RiskResult(
-    val transmissionRiskLevel: Any,
-    val normalizedTime: Int,
+    val transmissionRiskLevel: Int,
+    val normalizedTime: Double,
     val riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 )

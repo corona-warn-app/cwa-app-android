@@ -3,21 +3,23 @@ package de.rki.coronawarnapp.risk
 import android.text.TextUtils
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import com.google.android.gms.nearby.exposurenotification.Infectiousness
+import com.google.android.gms.nearby.exposurenotification.ReportType
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskLevelConfig
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureData
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-
 import timber.log.Timber
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.round
 
 @Singleton
-class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
+class DefaultRiskLevelCalculation @Inject constructor(
+    private val exposureWindowRiskLevelConfig: ExposureWindowRiskLevelConfig
+) : RiskLevelCalculation {
 
     companion object {
 
@@ -73,11 +75,79 @@ class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
         }
     }
 
+    private fun dropDueToMinutesAtAttenuation(exposureWindow: ExposureWindow) =
+        exposureWindowRiskLevelConfig.minutesAtAttenuationFilters.any { attenuationFilter ->
+            // Get total seconds at attenuation in exposure window
+            val secondsAtAttenuation = exposureWindow.scanInstances
+                .filter { attenuationFilter.attenuationRange.inRange(it.typicalAttenuationDb) }
+                .fold(0) { acc, scanInstance -> acc + scanInstance.secondsSinceLastScan }
+
+            val minutesAtAttenuation = secondsAtAttenuation / 60
+            return attenuationFilter.dropIfMinutesInRange.inRange(minutesAtAttenuation)
+        }
+
+    private fun determineTransmissionRiskLevel(exposureWindow: ExposureWindow): Int {
+        val reportTypeOffset = when (exposureWindow.reportType) {
+            ReportType.RECURSIVE -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetRecursive
+            ReportType.SELF_REPORT -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetSelfReport
+            ReportType.CONFIRMED_CLINICAL_DIAGNOSIS -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedClinicalDiagnosis
+            ReportType.CONFIRMED_TEST -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.reportTypeOffsetConfirmedTest
+            else -> throw UnknownReportTypeException()
+        }
+
+        val infectiousnessOffset = when (exposureWindow.infectiousness) {
+            Infectiousness.HIGH -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.infectiousnessOffsetHigh
+            else -> exposureWindowRiskLevelConfig.transmissionRiskLevelEncoding.infectiousnessOffsetStandard
+        }
+
+        return reportTypeOffset + infectiousnessOffset
+    }
+
+    private fun dropDueToTransmissionRiskLevel(transmissionRiskLevel: Int) =
+        exposureWindowRiskLevelConfig.transmissionRiskLevelFilters.any {
+            it.dropIfTrlInRange.inRange(transmissionRiskLevel)
+        }
+
+    private fun determineWeightedSeconds(exposureWindow: ExposureWindow): Double =
+        exposureWindow.scanInstances.fold(.0) { seconds, scanInstance ->
+            val weight =
+                exposureWindowRiskLevelConfig.minutesAtAttenuationWeights
+                    .filter { it.attenuationRange.inRange(scanInstance.typicalAttenuationDb) }
+                    .map { it.weight }
+                    .firstOrNull() ?: .0
+            return seconds + scanInstance.secondsSinceLastScan * weight
+        }
+
+    private fun determineRiskLevel(normalizedTime: Double) =
+        exposureWindowRiskLevelConfig.normalizedTimePerExposureWindowToRiskLevelMapping
+            .filter { it.normalizedTimeRange.inRange(normalizedTime) }
+            .map { it.riskLevel }
+            .firstOrNull()
+
     override fun calculateRisk(
-        exposureWindow: ExposureWindow,
-        riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
-    ): RiskResult {
-        TODO("Not yet implemented")
+        exposureWindow: ExposureWindow
+    ): RiskResult? {
+        if (dropDueToMinutesAtAttenuation(exposureWindow)) {
+            return null
+        }
+
+        val transmissionRiskLevel = determineTransmissionRiskLevel(exposureWindow)
+
+        if (dropDueToTransmissionRiskLevel(transmissionRiskLevel)) {
+            return null
+        }
+
+        val transmissionRiskValue =
+            transmissionRiskLevel * exposureWindowRiskLevelConfig.transmissionRiskLevelMultiplier
+
+        val weightedMinutes = determineWeightedSeconds(exposureWindow) / 60
+
+        val normalizedTime = transmissionRiskValue * weightedMinutes
+
+        val riskLevel = determineRiskLevel(normalizedTime)
+            ?: throw NormalizedTimePerExposureWindowToRiskLevelMappingMissingException()
+
+        return RiskResult(transmissionRiskLevel, normalizedTime, riskLevel)
     }
 
     override fun aggregateResults(
@@ -146,7 +216,7 @@ class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
         // 3. Determine `Risk Level per Date`
         val riskLevel = try {
             riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList
-                .filter { inRange(it.normalizedTimeRange, normalizedTime.toLong()) }
+                .filter { it.normalizedTimeRange.inRange(normalizedTime.toLong()) }
                 .map { it.riskLevel }
                 .first()
         } catch (e: Exception) {
@@ -181,11 +251,30 @@ class DefaultRiskLevelCalculation @Inject constructor() : RiskLevelCalculation {
         )
     }
 
-    private fun inRange(range: RiskCalculationParametersOuterClass.Range, value: Long): Boolean {
-        if (range.minExclusive && value <= range.min) return false
-        else if (!range.minExclusive && value < range.min) return false
-        if (range.maxExclusive && value >= range.max) return false
-        else if (!range.maxExclusive && value > range.max) return false
+    private fun RiskCalculationParametersOuterClass.Range.inRange(value: Int): Boolean {
+        if (this.minExclusive && value <= this.min) return false
+        else if (!this.minExclusive && value < this.min) return false
+        if (this.maxExclusive && value >= this.max) return false
+        else if (!this.maxExclusive && value > this.max) return false
+        return true
+    }
+
+    private fun RiskCalculationParametersOuterClass.Range.inRange(value: Float): Boolean {
+        if (this.minExclusive && value <= this.min) return false
+        else if (!this.minExclusive && value < this.min) return false
+        if (this.maxExclusive && value >= this.max) return false
+        else if (!this.maxExclusive && value > this.max) return false
+        return true
+    }
+
+    private fun RiskCalculationParametersOuterClass.Range.inRange(value: Double): Boolean {
+        if (this.minExclusive && value <= this.min) return false
+        else if (!this.minExclusive && value < this.min) return false
+        if (this.maxExclusive && value >= this.max) return false
+        else if (!this.maxExclusive && value > this.max) return false
         return true
     }
 }
+
+class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception()
+class UnknownReportTypeException : Exception()
