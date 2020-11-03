@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.toNewConfig
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -37,7 +38,9 @@ class SubmissionTask @Inject constructor(
                 arguments.registrationToken,
                 arguments.getHistory(),
                 true,
-                supportedCountries()
+                applicationConfiguration().supportedCountriesList.also {
+                    Timber.w("supported countries = $it")
+                }
             ).also {
                 checkCancel()
             }
@@ -58,18 +61,17 @@ class SubmissionTask @Inject constructor(
             symptoms
         )
 
-    private suspend fun supportedCountries(): List<String> {
-        appConfigProvider.getAppConfig().apply {
-            return if (supportedCountriesList.isEmpty()) {
-                toNewConfig {
-                    addSupportedCountries(FALLBACK_COUNTRY)
-                }.also {
-                    Timber.w("Country list was empty, corrected: %s", it.supportedCountriesList)
-                }
-            } else {
-                this
-            }.supportedCountriesList
+    private suspend fun applicationConfiguration(): AppConfig.ApplicationConfiguration {
+        var result = appConfigProvider.getAppConfig()
+
+        if (result.supportedCountriesList.isEmpty()) {
+            result = result.toNewConfig {
+                addSupportedCountries(FALLBACK_COUNTRY)
+            }
+            Timber.w("Country list was empty, corrected")
         }
+
+        return result
     }
 
     private fun checkCancel() {
