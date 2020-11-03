@@ -42,7 +42,7 @@ class SubmissionTask @Inject constructor(
             }
         )
             .also { checkCancel() }
-            .let { playbook.submission(it) }
+            .let { playbook.submit(it) }
         SubmissionService.submissionSuccessful()
         object : Task.Result {}
     } catch (error: Exception) {
