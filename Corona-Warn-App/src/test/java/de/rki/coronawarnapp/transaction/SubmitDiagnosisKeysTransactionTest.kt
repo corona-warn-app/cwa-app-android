@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.transaction
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigContainerKey
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
@@ -36,7 +36,7 @@ class SubmitDiagnosisKeysTransactionTest {
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var mockPlaybook: Playbook
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var configContainer: ConfigContainerKey
+    @MockK lateinit var configData: ConfigData
     @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var exposureKeyHistoryCalculations: ExposureKeyHistoryCalculations
 
@@ -51,9 +51,9 @@ class SubmitDiagnosisKeysTransactionTest {
         val appConfig = ApplicationConfiguration.newBuilder()
             .addAllSupportedCountries(defaultCountries)
             .build()
-        coEvery { configContainer.rawConfig } returns appConfig
+        coEvery { configData.rawConfig } returns appConfig
 
-        coEvery { appConfigProvider.getAppConfig() } returns configContainer
+        coEvery { appConfigProvider.getAppConfig() } returns configData
 
         every { appComponent.transSubmitDiagnosisInjection } returns SubmitDiagnosisInjectionHelper(
             TransactionCoroutineScope(),
@@ -109,7 +109,7 @@ class SubmitDiagnosisKeysTransactionTest {
     @Test
     fun `submission without keys and fallback country`(): Unit = runBlocking {
         val appConfig = ApplicationConfiguration.newBuilder().build()
-        coEvery { configContainer.rawConfig } returns appConfig
+        coEvery { configData.rawConfig } returns appConfig
         coEvery { mockPlaybook.submission(any()) } returns Unit
 
         SubmitDiagnosisKeysTransaction.start(registrationToken, listOf(), symptoms)

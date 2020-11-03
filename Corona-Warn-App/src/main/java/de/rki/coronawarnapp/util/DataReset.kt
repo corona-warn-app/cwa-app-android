@@ -60,7 +60,7 @@ class DataReset @Inject constructor(
         // Reset the current risk level stored in LiveData
         RiskLevelRepository.reset()
         keyCacheRepository.clear()
-        appConfigProvider.clear()
+        appConfigProvider.forceUpdate()
         interoperabilityRepository.clear()
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

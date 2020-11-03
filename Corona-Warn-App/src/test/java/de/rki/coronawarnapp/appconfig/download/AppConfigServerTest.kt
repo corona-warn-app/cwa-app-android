@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -12,11 +13,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
+import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeHex
+import org.joda.time.Duration
+import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Response
 import testhelpers.BaseIOTest
 import java.io.File
 
@@ -24,13 +29,10 @@ class AppConfigServerTest : BaseIOTest() {
 
     @MockK lateinit var api: AppConfigApiV1
     @MockK lateinit var verificationKeys: VerificationKeys
-    @MockK lateinit var appConfigStorage: AppConfigStorage
-
+    @MockK lateinit var timeStamper: TimeStamper
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
     private val defaultHomeCountry = LocationCode("DE")
-
-    private var mockConfigStorage: ByteArray? = null
 
     @BeforeEach
     fun setup() {
@@ -38,8 +40,8 @@ class AppConfigServerTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        coEvery { appConfigStorage.getAppConfigRaw() } answers { mockConfigStorage }
-        coEvery { appConfigStorage.setAppConfigRaw(any()) } answers { mockConfigStorage = arg(0) }
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
+        every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
     }
 
     @AfterEach
@@ -52,29 +54,34 @@ class AppConfigServerTest : BaseIOTest() {
         api = { api },
         verificationKeys = verificationKeys,
         homeCountry = homeCountry,
-        cache = mockk()
+        cache = mockk(),
+        timeStamper = timeStamper
     )
 
     @Test
     fun `application config download`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns APPCONFIG_BUNDLE.toResponseBody()
-
-        every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
+        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody(),
+            Headers.headersOf("Date", "Tue, 03 Nov 2020 05:35:16 GMT")
+        )
 
         val downloadServer = createInstance()
 
-        val rawConfig = downloadServer.downloadAppConfig()
-        rawConfig shouldBe APPCONFIG_RAW.toByteArray()
+        val configDownload = downloadServer.downloadAppConfig()
+        configDownload shouldBe AppConfigServer.ConfigDownload(
+            rawData = APPCONFIG_RAW,
+            serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
+            localOffset = Duration(Instant.EPOCH, Instant.EPOCH)
+        )
 
         verify(exactly = 1) { verificationKeys.hasInvalidSignature(any(), any()) }
     }
 
     @Test
     fun `application config data is faulty`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns "123ABC".decodeHex()
-            .toResponseBody()
-
-        every { verificationKeys.hasInvalidSignature(any(), any()) } returns false
+        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+            "123ABC".decodeHex().toResponseBody()
+        )
 
         val downloadServer = createInstance()
 
@@ -85,9 +92,9 @@ class AppConfigServerTest : BaseIOTest() {
 
     @Test
     fun `application config verification fails`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns APPCONFIG_BUNDLE
-            .toResponseBody()
-
+        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody()
+        )
         every { verificationKeys.hasInvalidSignature(any(), any()) } returns true
 
         val downloadServer = createInstance()
@@ -95,6 +102,39 @@ class AppConfigServerTest : BaseIOTest() {
         shouldThrow<ApplicationConfigurationCorruptException> {
             downloadServer.downloadAppConfig()
         }
+    }
+
+    @Test
+    fun `missing server date leads to local time fallback`() = runBlockingTest {
+        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody()
+        )
+
+        val downloadServer = createInstance()
+
+        val configDownload = downloadServer.downloadAppConfig()
+        configDownload shouldBe AppConfigServer.ConfigDownload(
+            rawData = APPCONFIG_RAW,
+            serverTime = Instant.ofEpochMilli(123456789),
+            localOffset = Duration.ZERO
+        )
+    }
+
+    @Test
+    fun `local offset is the difference between server time and local time`() = runBlockingTest {
+        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+            APPCONFIG_BUNDLE.toResponseBody(),
+            Headers.headersOf("Date", "Tue, 03 Nov 2020 06:35:16 GMT")
+        )
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+
+        val downloadServer = createInstance()
+
+        downloadServer.downloadAppConfig() shouldBe AppConfigServer.ConfigDownload(
+            rawData = APPCONFIG_RAW,
+            serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
+            localOffset = Duration.standardHours(-1)
+        )
     }
 
     companion object {
@@ -124,6 +164,6 @@ class AppConfigServerTest : BaseIOTest() {
                     "0128013001380140012100000000000049402a1008051005180520052805300538054005310000000000003" +
                     "4403a0e1001180120012801300138014001410000000000004940221c0a040837103f121209000000000000" +
                     "f03f11000000000000e03f20192a1a0a0a0a041008180212021005120c0a0408011804120408011804"
-                ).decodeHex()
+                ).decodeHex().toByteArray()
     }
 }

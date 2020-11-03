@@ -13,11 +13,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.view.ViewCompat.generateViewId
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -56,7 +52,6 @@ import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -129,75 +124,6 @@ class TestForAPIFragment : Fragment(R.layout.fragment_test_for_a_p_i),
         qrPager = binding.qrCodeViewpager
         qrPagerAdapter = QRPagerAdapter()
         qrPager.adapter = qrPagerAdapter
-
-        // Debug card
-        binding.hourlyKeyPkgMode.apply {
-            setOnClickListener { vm.setHourlyKeyPkgMode(isChecked) }
-        }
-
-        binding.backgroundNotificationsToggle.apply {
-            setOnClickListener { vm.setBackgroundNotifications(isChecked) }
-        }
-        vm.backgroundNotificationsToggleEvent.observe2(this@TestForAPIFragment) {
-            showToast("Background Notifications are activated: $it")
-        }
-        vm.debugOptionsState.observe2(this) { state ->
-            binding.apply {
-                backgroundNotificationsToggle.isChecked = state.areNotificationsEnabled
-                hourlyKeyPkgMode.isChecked = state.isHourlyTestingMode
-            }
-        }
-        binding.testLogfileToggle.apply {
-            setOnClickListener { vm.setLoggerEnabled(isChecked) }
-        }
-        vm.loggerState.observe2(this) { state ->
-            binding.apply {
-                testLogfileToggle.isChecked = state.isLogging
-                testLogfileShare.setGone(!state.isLogging)
-            }
-        }
-        binding.testLogfileShare.setOnClickListener { vm.shareLogFile() }
-        vm.logShareEvent.observe2(this) { showToast("Logfile copied to $it") }
-
-        // Server environment card
-        binding.environmentToggleGroup.apply {
-            setOnCheckedChangeListener { group, checkedId ->
-                val chip = group.findViewById<RadioButton>(checkedId)
-                if (!chip.isPressed) return@setOnCheckedChangeListener
-                vm.selectEnvironmentTytpe(chip.text.toString())
-            }
-        }
-
-        vm.environmentState.observe2(this) { state ->
-            binding.apply {
-                if (environmentToggleGroup.childCount != state.available.size) {
-                    environmentToggleGroup.removeAllViews()
-                    state.available.forEach { type ->
-                        RadioButton(requireContext()).apply {
-                            id = generateViewId()
-                            text = type.rawKey
-                            layoutParams = RadioGroup.LayoutParams(
-                                RadioGroup.LayoutParams.MATCH_PARENT,
-                                RadioGroup.LayoutParams.WRAP_CONTENT
-                            )
-                            environmentToggleGroup.addView(this)
-                        }
-                    }
-                }
-
-                environmentToggleGroup.children.forEach {
-                    it as RadioButton
-                    it.isChecked = it.text == state.current.rawKey
-                }
-
-                environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
-                environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
-                environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
-            }
-        }
-        vm.environmentChangeEvent.observe2(this) {
-            showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
-        }
 
         // GMS Info card
         vm.gmsState.observe2(this) { state ->

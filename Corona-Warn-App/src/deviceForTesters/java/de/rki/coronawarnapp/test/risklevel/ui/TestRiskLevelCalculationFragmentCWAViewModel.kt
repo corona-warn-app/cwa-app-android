@@ -119,7 +119,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         val backendParameters: String = "",
         val exposureSummary: String = "",
         val formula: String = "",
-        val fullConfig: String = "",
         val exposureInfo: String = ""
     )
 
@@ -197,8 +196,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "+ ${attenuationDurationInMin?.get(2)} * ${atWeights?.high} " +
                         "+ ${attenuationConfig.defaultBucketOffset})"
 
-                workState =
-                    workState.copy(formula = formulaString, fullConfig = expDetectConfig.toString())
+                workState = workState.copy(formula = formulaString)
 
                 val token = LocalData.googleApiToken()
                 if (token != null) {

@@ -2,11 +2,13 @@ package de.rki.coronawarnapp.util.viewmodel
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
@@ -40,4 +42,6 @@ abstract class CWAViewModel constructor(
         }
         super.onCleared()
     }
+
+    fun <T> Flow<T>.asLiveData() = asLiveData(context = dispatcherProvider.Default)
 }

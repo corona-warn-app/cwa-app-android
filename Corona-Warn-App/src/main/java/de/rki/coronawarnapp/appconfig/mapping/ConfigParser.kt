@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.CWAConfig
-import de.rki.coronawarnapp.appconfig.ConfigContainerKey
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
@@ -18,9 +17,9 @@ class ConfigParser @Inject constructor(
     private val riskCalculationConfigMapper: RiskCalculationConfig.Mapper
 ) {
 
-    fun parse(configBytes: ByteArray): ConfigContainerKey = try {
+    fun parse(configBytes: ByteArray): ConfigMapping = try {
         parseRawArray(configBytes).let {
-            DefaultConfigContainerKey(
+            DefaultConfigMapping(
                 rawConfig = it,
                 cwaConfig = cwaConfigMapper.map(it),
                 keyDownloadConfig = keyDownloadConfigMapper.map(it),

@@ -61,7 +61,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `data is restored from storage`() = runBlockingTest2(permanentJobs = true) {
+    fun `data is restored from storage`() = runBlockingTest2(ignoreActive = true) {
         val calcData = Calculation(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
@@ -73,7 +73,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `tracking a new calculation`() = runBlockingTest2(permanentJobs = true) {
+    fun `tracking a new calculation`() = runBlockingTest2(ignoreActive = true) {
         createInstance(scope = this).apply {
             val expectedIdentifier = UUID.randomUUID().toString()
             trackNewCalaculation(expectedIdentifier)
@@ -101,7 +101,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `finish an existing calcluation`() = runBlockingTest2(permanentJobs = true) {
+    fun `finish an existing calcluation`() = runBlockingTest2(ignoreActive = true) {
         val calcData = Calculation(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
@@ -136,7 +136,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `a late calculation overwrites timeout state`() = runBlockingTest2(permanentJobs = true) {
+    fun `a late calculation overwrites timeout state`() = runBlockingTest2(ignoreActive = true) {
         val calcData = Calculation(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH,
@@ -165,7 +165,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `no more than 10 calcluations are tracked`() = runBlockingTest2(permanentJobs = true) {
+    fun `no more than 10 calcluations are tracked`() = runBlockingTest2(ignoreActive = true) {
         val calcData = (1..15L).map {
             val calcData = Calculation(
                 identifier = "$it",
@@ -189,7 +189,7 @@ class DefaultCalculationTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `15 minute timeout on ongoing calcs`() = runBlockingTest2(permanentJobs = true) {
+    fun `15 minute timeout on ongoing calcs`() = runBlockingTest2(ignoreActive = true) {
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.standardMinutes(15))
             .plus(2)

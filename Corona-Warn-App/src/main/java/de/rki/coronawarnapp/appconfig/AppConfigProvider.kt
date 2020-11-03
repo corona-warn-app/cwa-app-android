@@ -4,9 +4,13 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigServer
 import de.rki.coronawarnapp.appconfig.download.AppConfigStorage
 import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import de.rki.coronawarnapp.util.flow.HotDataFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,58 +21,85 @@ class AppConfigProvider @Inject constructor(
     private val server: AppConfigServer,
     private val storage: AppConfigStorage,
     private val parser: ConfigParser,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    @AppScope private val scope: CoroutineScope
 ) {
-    private val mutex = Mutex()
 
-    suspend fun getAppConfig(): ConfigContainerKey = mutex.withLock {
-        withContext(dispatcherProvider.IO) {
+    private val configHolder = HotDataFlow(
+        loggingTag = "AppConfigProvider",
+        scope = scope,
+        coroutineContext = dispatcherProvider.IO,
+        sharingBehavior = SharingStarted.WhileSubscribed()
+    ) {
+        retrieveConfig()
+    }
+    val appConfig: Flow<ConfigData> = configHolder.data
 
-            val (serverBytes, serverError) = try {
-                server.downloadAppConfig() to null
+    private suspend fun retrieveConfig(): ConfigData = withContext(dispatcherProvider.IO) {
+        Timber.v("retrieveConfig()")
+        val (serverBytes, serverError) = try {
+            server.downloadAppConfig() to null
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "Failed to download AppConfig from server .")
+            null to e
+        }
+
+        var parsedConfig: ConfigData? = serverBytes?.let { configDownload ->
+            try {
+                parser.parse(configDownload.rawData).let {
+                    Timber.tag(TAG).d("Got a valid AppConfig from server, saving.")
+                    storage.setStoredConfig(configDownload.rawData)
+                    DefaultConfigData(
+                        mappedConfig = it,
+                        updatedAt = configDownload.serverTime
+                    )
+                }
             } catch (e: Exception) {
-                Timber.w(e, "Failed to download AppConfig from server .")
-                null to e
+                Timber.tag(TAG).e(e, "Failed to parse AppConfig from server, trying fallback.")
+                null
             }
+        }
 
-            var parsedConfig: ConfigContainerKey? = serverBytes?.let { bytes ->
+        if (parsedConfig == null) {
+            parsedConfig = storage.getStoredConfig()?.let { storedRaw ->
                 try {
-                    parser.parse(bytes).also {
-                        Timber.d("Got a valid AppConfig from server, saving.")
-                        storage.setAppConfigRaw(bytes)
+                    storedRaw.let {
+                        DefaultConfigData(
+                            mappedConfig = parser.parse(it.rawData),
+                            updatedAt = it.storedAt
+                        )
+
                     }
                 } catch (e: Exception) {
-                    Timber.e(e, "Failed to parse AppConfig from server, trying fallback.")
-                    null
+                    Timber.tag(TAG).e(e, "Fallback config exists but could not be parsed!")
+                    throw e
                 }
             }
-
-            if (parsedConfig == null) {
-                parsedConfig = storage.getAppConfigRaw()?.let {
-                    try {
-                        parser.parse(it)
-                    } catch (e: Exception) {
-                        Timber.e(e, "Fallback config exists but could not be parsed!")
-                        throw e
-                    }
-                }
-            }
-
-            if (parsedConfig == null) {
-                throw ApplicationConfigurationInvalidException(serverError)
-            }
-
-            return@withContext parsedConfig
         }
+
+        if (parsedConfig == null) {
+            throw ApplicationConfigurationInvalidException(serverError)
+        }
+
+        return@withContext parsedConfig
     }
 
-    suspend fun clear() = mutex.withLock {
-        withContext(dispatcherProvider.IO) {
-            storage.setAppConfigRaw(null)
+    fun forceUpdate() {
+        Timber.tag(TAG).v("forceUpdate()")
+        configHolder.updateSafely {
+            storage.setStoredConfig(null)
 
             // We are using Dispatchers IO to make it appropriate
             @Suppress("BlockingMethodInNonBlockingContext")
             server.clearCache()
+
+            retrieveConfig()
         }
+    }
+
+    suspend fun getAppConfig() = configHolder.data.first()
+
+    companion object {
+        private const val TAG = "AppConfigProvider"
     }
 }
