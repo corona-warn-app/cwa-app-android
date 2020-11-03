@@ -94,5 +94,4 @@ object SubmitDiagnosisKeysTransaction : Transaction() {
 
         executeState(CLOSE) {}
     }
-
 }

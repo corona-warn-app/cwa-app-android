@@ -11,8 +11,6 @@ class DownloadConfigMapperTest : BaseTest() {
     fun `simple creation`() {
         val rawConfig = AppConfig.ApplicationConfiguration.newBuilder()
             .build()
-        createInstance().map(rawConfig).apply {
-
-        }
+        createInstance().map(rawConfig)
     }
 }

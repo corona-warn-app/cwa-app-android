@@ -70,7 +70,6 @@ class AppConfigProvider @Inject constructor(
                             serverTime = it.serverTime,
                             localOffset = it.localOffset
                         )
-
                     }
                 } catch (e: Exception) {
                     Timber.tag(TAG).e(e, "Fallback config exists but could not be parsed!")
@@ -99,7 +98,9 @@ class AppConfigProvider @Inject constructor(
         }
     }
 
-    suspend fun getAppConfig() = configHolder.data.first()
+    suspend fun getAppConfig(): ConfigData {
+        return configHolder.data.first()
+    }
 
     companion object {
         private const val TAG = "AppConfigProvider"
