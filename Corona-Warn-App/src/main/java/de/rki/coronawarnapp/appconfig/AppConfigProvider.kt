@@ -48,10 +48,11 @@ class AppConfigProvider @Inject constructor(
             try {
                 parser.parse(configDownload.rawData).let {
                     Timber.tag(TAG).d("Got a valid AppConfig from server, saving.")
-                    storage.setStoredConfig(configDownload.rawData)
+                    storage.setStoredConfig(configDownload)
                     DefaultConfigData(
                         mappedConfig = it,
-                        updatedAt = configDownload.serverTime
+                        serverTime = configDownload.serverTime,
+                        localOffset = configDownload.localOffset
                     )
                 }
             } catch (e: Exception) {
@@ -61,12 +62,13 @@ class AppConfigProvider @Inject constructor(
         }
 
         if (parsedConfig == null) {
-            parsedConfig = storage.getStoredConfig()?.let { storedRaw ->
+            parsedConfig = storage.getStoredConfig()?.let { storedDownloadConfig ->
                 try {
-                    storedRaw.let {
+                    storedDownloadConfig.let {
                         DefaultConfigData(
                             mappedConfig = parser.parse(it.rawData),
-                            updatedAt = it.storedAt
+                            serverTime = it.serverTime,
+                            localOffset = it.localOffset
                         )
 
                     }

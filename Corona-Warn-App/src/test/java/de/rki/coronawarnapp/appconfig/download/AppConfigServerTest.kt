@@ -68,7 +68,7 @@ class AppConfigServerTest : BaseIOTest() {
         val downloadServer = createInstance()
 
         val configDownload = downloadServer.downloadAppConfig()
-        configDownload shouldBe AppConfigServer.ConfigDownload(
+        configDownload shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
             localOffset = Duration(Instant.EPOCH, Instant.EPOCH)
@@ -113,7 +113,7 @@ class AppConfigServerTest : BaseIOTest() {
         val downloadServer = createInstance()
 
         val configDownload = downloadServer.downloadAppConfig()
-        configDownload shouldBe AppConfigServer.ConfigDownload(
+        configDownload shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.ofEpochMilli(123456789),
             localOffset = Duration.ZERO
@@ -130,7 +130,7 @@ class AppConfigServerTest : BaseIOTest() {
 
         val downloadServer = createInstance()
 
-        downloadServer.downloadAppConfig() shouldBe AppConfigServer.ConfigDownload(
+        downloadServer.downloadAppConfig() shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.standardHours(-1)

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
+import testhelpers.extensions.toComparableJson
 import java.io.File
 
 class AppConfigStorageTest : BaseIOTest() {
@@ -24,19 +26,21 @@ class AppConfigStorageTest : BaseIOTest() {
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val privateFiles = File(testDir, "files")
     private val storageDir = File(privateFiles, "appconfig_storage")
-    private val configPath = File(storageDir, "appconfig")
-    private val testByteArray = "The Cake Is A Lie".toByteArray()
+    private val legacyConfigPath = File(storageDir, "appconfig")
+    private val configPath = File(storageDir, "appconfig.json")
+
+    private val testConfigDownload = ConfigDownload(
+        rawData = "The Cake Is A Lie".toByteArray(),
+        serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
+        localOffset = Duration.standardHours(1)
+    )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { context.filesDir } returns privateFiles
-        var start = Instant.EPOCH
-        every { timeStamper.nowUTC } answers {
-            start.also {
-                start = start.plus(Duration.standardDays(1))
-            }
-        }
+
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234)
     }
 
     @AfterEach
@@ -47,7 +51,8 @@ class AppConfigStorageTest : BaseIOTest() {
 
     private fun createStorage() = AppConfigStorage(
         context = context,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        gson = SerializationModule().baseGson()
     )
 
     @Test
@@ -56,36 +61,22 @@ class AppConfigStorageTest : BaseIOTest() {
         val storage = createStorage()
         configPath.exists() shouldBe false
 
-        storage.setStoredConfig(testByteArray)
+        storage.setStoredConfig(testConfigDownload)
 
         configPath.exists() shouldBe true
-        configPath.readBytes() shouldBe testByteArray
+        configPath.readText().toComparableJson() shouldBe """
+            {
+                "rawData": "The Cake Is A Lie",
+                "serverTime": {
+                    "iMillis": 1604381716000
+                },
+                "localOffset": {
+                    "iMillis": 3600000
+                }
+            }
+        """.toComparableJson()
 
-        storage.getStoredConfig() shouldBe AppConfigStorage.StoredConfig(
-            rawData = testByteArray,
-            storedAt = Instant.ofEpochMilli(configPath.lastModified())
-        )
-    }
-
-    @Test
-    fun `simple update causes date to change`() = runBlockingTest {
-        val storage = createStorage()
-        storage.setStoredConfig(testByteArray)
-
-        val firstConfig = storage.getStoredConfig()
-        firstConfig shouldBe AppConfigStorage.StoredConfig(
-            rawData = testByteArray,
-            storedAt = Instant.ofEpochMilli(configPath.lastModified())
-        )
-
-        storage.setStoredConfig("Mock Config".toByteArray())
-        val secondConfig = storage.getStoredConfig()
-        secondConfig shouldBe AppConfigStorage.StoredConfig(
-            rawData = "Mock Config".toByteArray(),
-            storedAt = Instant.ofEpochMilli(configPath.lastModified())
-        )
-
-        secondConfig!!.storedAt.isAfter(firstConfig!!.storedAt) shouldBe true
+        storage.getStoredConfig() shouldBe testConfigDownload
     }
 
     @Test
@@ -98,13 +89,21 @@ class AppConfigStorageTest : BaseIOTest() {
         configPath.exists() shouldBe false
 
         storage.getStoredConfig() shouldBe null
-        storage.setStoredConfig(testByteArray)
-        storage.getStoredConfig() shouldBe AppConfigStorage.StoredConfig(
-            rawData = testByteArray,
-            storedAt = Instant.ofEpochMilli(configPath.lastModified())
-        )
+        storage.setStoredConfig(testConfigDownload)
+        storage.getStoredConfig() shouldBe testConfigDownload
+
         configPath.exists() shouldBe true
-        configPath.readBytes() shouldBe testByteArray
+        configPath.readText().toComparableJson() shouldBe """
+            {
+                "rawData": "The Cake Is A Lie",
+                "serverTime": {
+                    "iMillis": 1604381716000
+                },
+                "localOffset": {
+                    "iMillis": 3600000
+                }
+            }
+        """.toComparableJson()
 
         storage.setStoredConfig(null)
         storage.getStoredConfig() shouldBe null
@@ -112,13 +111,32 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `we use checksum checks to prevent saving the same config twice`() = runBlockingTest {
+    fun `if no fallback exists, but we have a legacy config, use that`() = runBlockingTest {
+        configPath.exists() shouldBe false
+        legacyConfigPath.exists() shouldBe false
+
+        legacyConfigPath.parentFile!!.mkdirs()
+        legacyConfigPath.writeText("The Cake Is A Lie")
+
         val storage = createStorage()
-        storage.setStoredConfig(testByteArray)
 
-        val firstConfig = storage.getStoredConfig()
+        storage.getStoredConfig() shouldBe ConfigDownload(
+            rawData = "The Cake Is A Lie".toByteArray(),
+            serverTime = Instant.ofEpochMilli(1234),
+            localOffset = Duration.ZERO
+        )
+    }
 
-        val secondConfig = storage.getStoredConfig()
-        secondConfig shouldBe firstConfig
+    @Test
+    fun `writing a new config deletes any legacy configsconfig`() = runBlockingTest {
+        legacyConfigPath.parentFile!!.mkdirs()
+        legacyConfigPath.writeText("The Cake Is A Lie")
+        configPath.exists() shouldBe false
+
+        val storage = createStorage()
+        storage.setStoredConfig(testConfigDownload)
+
+        legacyConfigPath.exists() shouldBe false
+        configPath.exists() shouldBe true
     }
 }

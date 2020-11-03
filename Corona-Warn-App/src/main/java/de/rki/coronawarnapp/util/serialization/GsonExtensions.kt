@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.util.gson
+package de.rki.coronawarnapp.util.serialization
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

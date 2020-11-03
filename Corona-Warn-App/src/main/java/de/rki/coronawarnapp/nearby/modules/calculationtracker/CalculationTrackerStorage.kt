@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.nearby.modules.calculationtracker
 import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.gson.fromJson
-import de.rki.coronawarnapp.util.gson.toJson
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber

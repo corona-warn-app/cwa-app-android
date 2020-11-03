@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.download.AppConfigServer
 import de.rki.coronawarnapp.appconfig.download.AppConfigStorage
+import de.rki.coronawarnapp.appconfig.download.ConfigDownload
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapping
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.util.TimeStamper
@@ -42,10 +43,13 @@ class AppConfigProviderTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
-    private var mockConfigStorage: AppConfigStorage.StoredConfig? = AppConfigStorage.StoredConfig(
+    private var testConfigDownload = ConfigDownload(
         rawData = APPCONFIG_RAW,
-        storedAt = Instant.ofEpochMilli(1234)
+        serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
+        localOffset = Duration.standardHours(1)
     )
+
+    private var mockConfigStorage: ConfigDownload? = null
 
     @BeforeEach
     fun setup() {
@@ -55,19 +59,10 @@ class AppConfigProviderTest : BaseIOTest() {
 
         coEvery { configStorage.getStoredConfig() } answers { mockConfigStorage }
         coEvery { configStorage.setStoredConfig(any()) } answers {
-            mockConfigStorage = arg<ByteArray?>(0)?.let {
-                AppConfigStorage.StoredConfig(
-                    rawData = it,
-                    storedAt = Instant.ofEpochMilli(1234)
-                )
-            }
+            mockConfigStorage = arg(0)
         }
 
-        coEvery { configServer.downloadAppConfig() } returns AppConfigServer.ConfigDownload(
-            rawData = APPCONFIG_RAW,
-            serverTime = Instant.EPOCH,
-            localOffset = Duration.ZERO
-        )
+        coEvery { configServer.downloadAppConfig() } returns testConfigDownload
         every { configServer.clearCache() } just Runs
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
@@ -92,11 +87,9 @@ class AppConfigProviderTest : BaseIOTest() {
         val downloadServer = createInstance(this)
         downloadServer.getAppConfig()
 
-        mockConfigStorage shouldBe AppConfigStorage.StoredConfig(
-            rawData = APPCONFIG_RAW,
-            storedAt = Instant.ofEpochMilli(1234)
-        )
-        coVerify { configStorage.setStoredConfig(APPCONFIG_RAW) }
+        mockConfigStorage shouldBe testConfigDownload
+
+        coVerify { configStorage.setStoredConfig(testConfigDownload) }
     }
 
     @Test
@@ -113,7 +106,8 @@ class AppConfigProviderTest : BaseIOTest() {
         coEvery { configServer.downloadAppConfig() } throws Exception()
 
         createInstance(this).getAppConfig() shouldBe DefaultConfigData(
-            updatedAt = mockConfigStorage!!.storedAt,
+            serverTime = mockConfigStorage!!.serverTime,
+            localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData
         )
     }
@@ -140,12 +134,13 @@ class AppConfigProviderTest : BaseIOTest() {
     fun `appConfig is observable`() = runBlockingTest2(ignoreActive = true) {
         // If all observers unsubscribe, the next subscriber triggers an update
         var counter = 0
+        val generatedConfigDownloads = mutableListOf<ConfigDownload>()
         coEvery { configServer.downloadAppConfig() } answers {
-            AppConfigServer.ConfigDownload(
+            ConfigDownload(
                 rawData = "${++counter}".toByteArray(),
                 serverTime = Instant.EPOCH,
                 localOffset = Duration.ZERO
-            )
+            ).also { generatedConfigDownloads.add(it) }
         }
         val mockConfig1 = mockk<ConfigMapping>()
         every { configParser.parse("1".toByteArray()) } returns mockConfig1
@@ -167,14 +162,14 @@ class AppConfigProviderTest : BaseIOTest() {
         coVerifySequence {
             configServer.downloadAppConfig()
             configParser.parse("1".toByteArray())
-            configStorage.setStoredConfig("1".toByteArray())
+            configStorage.setStoredConfig(generatedConfigDownloads[0])
 
             configStorage.setStoredConfig(null)
             configServer.clearCache()
 
             configServer.downloadAppConfig()
             configParser.parse("2".toByteArray())
-            configStorage.setStoredConfig("2".toByteArray())
+            configStorage.setStoredConfig(generatedConfigDownloads[1])
         }
     }
 

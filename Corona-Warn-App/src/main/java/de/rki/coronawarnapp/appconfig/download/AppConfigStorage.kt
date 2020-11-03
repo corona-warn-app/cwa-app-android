@@ -1,13 +1,15 @@
 package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
-import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
-import de.rki.coronawarnapp.util.HashExtensions.toMD5
+import com.google.gson.Gson
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
+import org.joda.time.Duration
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -16,67 +18,60 @@ import javax.inject.Singleton
 @Singleton
 class AppConfigStorage @Inject constructor(
     @AppContext context: Context,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    @BaseGson private val gson: Gson
 ) {
     private val configDir = File(context.filesDir, "appconfig_storage")
-    private val configFile = File(configDir, "appconfig")
+
+    // This is just the raw protobuf data
+    private val legacyConfigFile = File(configDir, "appconfig")
+    private val configFile = File(configDir, "appconfig.json")
     private val mutex = Mutex()
 
-    suspend fun getStoredConfig(): StoredConfig? = mutex.withLock {
+    suspend fun getStoredConfig(): ConfigDownload? = mutex.withLock {
         Timber.v("get() AppConfig")
-        if (!configFile.exists()) return null
 
-        val value = configFile.readBytes()
-        Timber.v("Read AppConfig of size %s and date %s", value.size, configFile.lastModified())
-        return StoredConfig(
-            rawData = value,
-            storedAt = Instant.ofEpochMilli(configFile.lastModified())
-        )
-    }
+        if (!configFile.exists() && legacyConfigFile.exists()) {
+            Timber.i("Returning legacy config.")
+            return@withLock try {
+                ConfigDownload(
+                    rawData = legacyConfigFile.readBytes(),
+                    serverTime = timeStamper.nowUTC,
+                    localOffset = Duration.ZERO
+                )
+            } catch (e: Exception) {
+                Timber.e(e, "Legacy config exits but couldn't be read.")
+                null
+            }
+        }
 
-    suspend fun setStoredConfig(value: ByteArray?): Unit = mutex.withLock {
-        Timber.v("set(...) AppConfig: %dB", value?.size)
-
-        if (configDir.mkdirs()) Timber.v("Parent folder created.")
-
-        val oldMD5 = try {
-            configFile.hashToMD5()
+        return@withLock try {
+            gson.fromJson<ConfigDownload>(configFile)
         } catch (e: Exception) {
+            Timber.e(e, "Couldn't load config.")
             null
         }
-        val newMD5 = value?.toMD5()
-        if (newMD5 == oldMD5) {
-            Timber.v("Checksums match, no need to update(new=%s, old=%s)", newMD5, oldMD5)
-            return@withLock
-        }
+    }
+
+    suspend fun setStoredConfig(value: ConfigDownload?): Unit = mutex.withLock {
+        Timber.v("set(...) AppConfig: %s", value)
+
+        if (configDir.mkdirs()) Timber.v("Parent folder created.")
 
         if (configFile.exists()) {
             Timber.v("Overwriting %d from %s", configFile.length(), configFile.lastModified())
         }
 
         if (value != null) {
-            configFile.writeBytes(value)
-            configFile.setLastModified(timeStamper.nowUTC.millis)
+            gson.toJson(value, configFile)
+
+            if (legacyConfigFile.exists()) {
+                if (legacyConfigFile.delete()) {
+                    Timber.i("Legacy config file deleted, superseeded.")
+                }
+            }
         } else {
             configFile.delete()
         }
-    }
-
-    data class StoredConfig(
-        val rawData: ByteArray,
-        val storedAt: Instant
-    ) {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as StoredConfig
-
-            if (!rawData.contentEquals(other.rawData)) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int = rawData.contentHashCode()
     }
 }

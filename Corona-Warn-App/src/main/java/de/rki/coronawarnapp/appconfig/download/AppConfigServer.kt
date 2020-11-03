@@ -74,30 +74,6 @@ class AppConfigServer @Inject constructor(
         cache.evictAll()
     }
 
-    data class ConfigDownload(
-        val rawData: ByteArray,
-        val serverTime: Instant,
-        val localOffset: Duration
-    ) {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as ConfigDownload
-
-            if (!rawData.contentEquals(other.rawData)) return false
-            if (serverTime != other.serverTime) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = rawData.contentHashCode()
-            result = 31 * result + serverTime.hashCode()
-            return result
-        }
-    }
-
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"

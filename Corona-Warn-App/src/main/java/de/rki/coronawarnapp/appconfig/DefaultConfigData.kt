@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapping
+import org.joda.time.Duration
 import org.joda.time.Instant
 
 data class DefaultConfigData(
-    override val updatedAt: Instant = Instant.EPOCH,
-    val mappedConfig: ConfigMapping
-) : ConfigData, ConfigMapping by mappedConfig
+    val serverTime: Instant,
+    val mappedConfig: ConfigMapping,
+    override val localOffset: Duration
+) : ConfigData, ConfigMapping by mappedConfig {
+    override val updatedAt: Instant = serverTime.plus(localOffset)
+}
