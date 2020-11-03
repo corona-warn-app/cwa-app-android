@@ -21,9 +21,7 @@ import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
 
 class HomeFragmentViewModel @AssistedInject constructor(
@@ -78,9 +76,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        LocalData.isUserToBeNotifiedOfLoweredRiskLevelFlow
-            .filter { it && !isLoweredRiskLevelDialogBeingShown }
-            .onEach { isLoweredRiskLevelDialogBeingShown = true }
+        LocalData
+            .isUserToBeNotifiedOfLoweredRiskLevelFlow
+            .map { shouldBeNotified ->
+                val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
+                if (shouldBeShown) {
+                    isLoweredRiskLevelDialogBeingShown = true
+                }
+                shouldBeShown
+            }
             .asLiveData(context = dispatcherProvider.Default)
     }
 
