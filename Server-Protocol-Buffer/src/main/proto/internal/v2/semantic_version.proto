@@ -1,0 +1,10 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+  
+message SemanticVersion {
+  uint32 major = 1;
+  uint32 minor = 2;
+  uint32 patch = 3;
+}
