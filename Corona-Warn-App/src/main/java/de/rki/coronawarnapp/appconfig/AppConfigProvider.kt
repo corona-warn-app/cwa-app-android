@@ -33,7 +33,7 @@ class AppConfigProvider @Inject constructor(
     ) {
         retrieveConfig()
     }
-    val appConfig: Flow<ConfigData> = configHolder.data
+    val currentConfig: Flow<ConfigData> = configHolder.data
 
     private suspend fun retrieveConfig(): ConfigData = withContext(dispatcherProvider.IO) {
         Timber.v("retrieveConfig()")

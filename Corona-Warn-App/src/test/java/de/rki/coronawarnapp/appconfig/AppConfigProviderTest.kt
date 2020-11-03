@@ -116,7 +116,7 @@ class AppConfigProviderTest : BaseIOTest() {
     fun `force update clears caches`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
-        val testCollector = instance.appConfig.test(startOnScope = this)
+        val testCollector = instance.currentConfig.test(startOnScope = this)
 
         instance.forceUpdate()
 
@@ -150,7 +150,7 @@ class AppConfigProviderTest : BaseIOTest() {
 
         val instance = createInstance(this)
 
-        val testCollector = instance.appConfig.test(startOnScope = this)
+        val testCollector = instance.currentConfig.test(startOnScope = this)
 
         advanceUntilIdle()
 
@@ -178,8 +178,8 @@ class AppConfigProviderTest : BaseIOTest() {
         coVerify(exactly = 0) { configServer.downloadAppConfig() }
         val instance = createInstance(this)
 
-        instance.appConfig.test(startOnScope = this).cancel()
-        instance.appConfig.test(startOnScope = this).cancel()
+        instance.currentConfig.test(startOnScope = this).cancel()
+        instance.currentConfig.test(startOnScope = this).cancel()
 
         coVerify(exactly = 2) { configServer.downloadAppConfig() }
     }
