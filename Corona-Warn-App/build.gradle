@@ -161,7 +161,7 @@ android {
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
 
         if (flavor.name == "deviceForTesters") {
-            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
+            variant.buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
             variant.outputs.each { output ->
                 output.versionNameOverride = adjustedVersionName
