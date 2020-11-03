@@ -203,6 +203,8 @@
     <string name="risk_card_check_failed_no_internet_headline" />
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
     <string name="risk_card_check_failed_no_internet_body" />
+    <!-- XTXT: risk card - risk check failed, restart button -->
+    <string name="risk_card_check_failed_no_internet_restart_button" />
 
     <!-- ####################################
                   Risk Card - Progress
