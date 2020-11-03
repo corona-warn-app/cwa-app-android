@@ -116,6 +116,10 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"You have new messages from your Corona-Warn-App."</string>
+    <!-- XHED: Notification title - Reminder to share a positive test result-->
+    <string name="notification_headline_share_positive_result">"Helfen Sie mit!"</string>
+    <!-- XTXT: Notification body - Reminder to share a positive test result-->
+    <string name="notification_body_share_positive_result">"Bitte warnen Sie andere und teilen Sie Ihr Testergebnis."</string>
 
     <!-- ####################################
               App Auto Update
@@ -1398,4 +1402,6 @@
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">"Your Internet connection may have been lost. Please ensure that you are connected to the Internet."</string>
     <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
     <string name="interoperability_onboarding_list_button_title_no_network">"Open Device Settings"</string>
+
+
 </resources>
