@@ -250,31 +250,16 @@ class DefaultRiskLevelCalculation @Inject constructor(
             minimumDistinctEncountersWithHighRisk
         )
     }
-
-    private fun RiskCalculationParametersOuterClass.Range.inRange(value: Int): Boolean {
-        if (this.minExclusive && value <= this.min) return false
-        else if (!this.minExclusive && value < this.min) return false
-        if (this.maxExclusive && value >= this.max) return false
-        else if (!this.maxExclusive && value > this.max) return false
-        return true
-    }
-
-    private fun RiskCalculationParametersOuterClass.Range.inRange(value: Float): Boolean {
-        if (this.minExclusive && value <= this.min) return false
-        else if (!this.minExclusive && value < this.min) return false
-        if (this.maxExclusive && value >= this.max) return false
-        else if (!this.maxExclusive && value > this.max) return false
-        return true
-    }
-
-    private fun RiskCalculationParametersOuterClass.Range.inRange(value: Double): Boolean {
-        if (this.minExclusive && value <= this.min) return false
-        else if (!this.minExclusive && value < this.min) return false
-        if (this.maxExclusive && value >= this.max) return false
-        else if (!this.maxExclusive && value > this.max) return false
-        return true
-    }
 }
+
+private fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
+    when {
+        minExclusive && value.toDouble() <= min -> false
+        !minExclusive && value.toDouble() < min -> false
+        maxExclusive && value.toDouble() >= max -> false
+        !maxExclusive && value.toDouble() > max -> false
+        else -> true
+    }
 
 class NormalizedTimePerExposureWindowToRiskLevelMappingMissingException : Exception()
 class UnknownReportTypeException : Exception()
