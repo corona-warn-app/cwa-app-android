@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.util.flow
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 class HotDataFlow<T : Any>(
     loggingTag: String,
     scope: CoroutineScope,
-    coroutineContext: CoroutineContext = Dispatchers.Default,
+    coroutineContext: CoroutineContext = scope.coroutineContext,
     sharingBehavior: SharingStarted = SharingStarted.WhileSubscribed(),
     forwardException: Boolean = true,
     private val startValueProvider: suspend CoroutineScope.() -> T
