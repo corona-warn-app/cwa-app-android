@@ -39,7 +39,7 @@ class ScanResultTest {
         scanResult = QRScanResult("https://localhost/?$mixedCaseGuid")
         scanResult.isValid shouldBe true
 
-        scanResult = QRScanResult("HTTPS://LOCALHOST/?$mixedCaseGuid")
+        scanResult = QRScanResult("https://LOCALHOST/?$mixedCaseGuid")
         scanResult.isValid shouldBe true
 
         //extra slashes should be invalid.
@@ -74,7 +74,7 @@ class ScanResultTest {
     @Test
     fun extractGUID() {
         QRScanResult("https://localhost/?$guid").guid shouldBe guid
-        QRScanResult("https://localhost/?$lowerCaseGuid").guid shouldBe lowerCaseGuid
-        QRScanResult("https://localhost/?$mixedCaseGuid").guid shouldBe mixedCaseGuid
+        QRScanResult("https://LOCALHOST/?$lowerCaseGuid").guid shouldBe lowerCaseGuid
+        QRScanResult("https://LOCALHOST/?$mixedCaseGuid").guid shouldBe mixedCaseGuid
     }
 }
