@@ -1,0 +1,65 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+
+message RiskCalculationParameters {
+
+  repeated MinutesAtAttenuationFilter minutesAtAttenuationFilters = 1;
+
+  repeated TrlFilter trlFilters = 2;
+
+  repeated MinutesAtAttenuationWeight minutesAtAttenuationWeights = 3;
+
+  repeated NormalizedTimeToRiskLevelMapping normalizedTimePerEWToRiskLevelMapping = 4;
+
+  repeated NormalizedTimeToRiskLevelMapping normalizedTimePerDayToRiskLevelMapping = 5;
+
+  TransmissionRiskLevelEncoding trlEncoding = 6;
+
+  double transmissionRiskLevelMultiplier = 7;
+}
+
+message Range {
+  // The lower limit of the range
+  double min = 1;
+  // True if `min` is not part of the range, false otherwise
+  bool minExclusive = 2;
+  // The upper limit of the range
+  double max = 3;
+  // True if `max` is not part of the range, false otherwise
+  bool maxExclusive = 4;
+}
+
+message MinutesAtAttenuationFilter {
+  Range attenuationRange = 1;
+  Range dropIfMinutesInRange = 2;
+}
+
+message TrlFilter {
+  Range dropIfTrlInRange = 1;
+}
+
+message MinutesAtAttenuationWeight {
+  Range attenuationRange = 1;
+  double weight = 2;
+}
+
+message NormalizedTimeToRiskLevelMapping {
+  Range normalizedTimeRange = 1;
+  enum RiskLevel {
+    UNSPECIFIED = 0;
+    LOW = 1;
+    HIGH = 2;
+  }
+  RiskLevel riskLevel = 2;
+}
+
+message TransmissionRiskLevelEncoding {
+  int32 infectiousnessOffsetStandard = 1;
+  int32 infectiousnessOffsetHigh = 2;
+  int32 reportTypeOffsetRecursive = 3;
+  int32 reportTypeOffsetSelfReport = 4;
+  int32 reportTypeOffsetConfirmedClinicalDiagnosis = 5;
+  int32 reportTypeOffsetConfirmedTest = 6;
+}
