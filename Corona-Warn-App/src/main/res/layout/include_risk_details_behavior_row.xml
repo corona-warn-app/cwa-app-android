@@ -4,11 +4,7 @@
 
     <data>
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
-        <variable
-            name="riskLevel"
-            type="Integer" />
+        <import type="de.rki.coronawarnapp.ui.tracing.common.RiskFormatting" />
 
         <variable
             name="body"
@@ -18,6 +14,9 @@
             name="icon"
             type="android.graphics.drawable.Drawable" />
 
+        <variable
+            name="riskLevel"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle"
-            android:backgroundTint="@{FormatterRiskHelper.formatBehaviorIconBackground(riskLevel)}"
+            android:backgroundTint="@{RiskFormatting.formatBehaviorIconBackground(context,riskLevel)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -43,7 +42,7 @@
                 android:focusable="false"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
-                android:tint="@{FormatterRiskHelper.formatBehaviorIcon(riskLevel)}"
+                android:tint="@{RiskFormatting.formatBehaviorIcon(context,riskLevel)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

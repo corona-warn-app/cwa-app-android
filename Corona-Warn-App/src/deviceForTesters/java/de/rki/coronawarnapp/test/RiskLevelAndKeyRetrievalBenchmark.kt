@@ -1,15 +1,19 @@
-package de.rki.coronawarnapp
+package de.rki.coronawarnapp.test
 
 import android.content.Context
 import android.text.format.Formatter
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.task.Task
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.util.di.AppInjector
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import kotlin.system.measureTimeMillis
+import java.util.UUID
 
 class RiskLevelAndKeyRetrievalBenchmark(
     private val context: Context,
@@ -29,7 +33,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
      */
     suspend fun start(
         callCount: Int,
-        callback: (resultInfo: String) -> Unit
+        onBenchmarkCompletedListener: OnBenchmarkCompletedListener
     ) {
 
         var resultInfo = StringBuilder()
@@ -40,7 +44,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
             .append("Result: \n\n")
             .append("#\t Combined \t Download \t Sub \t Risk \t File # \t  F. size\n")
 
-        callback(resultInfo.toString())
+        onBenchmarkCompletedListener(resultInfo.toString())
 
         repeat(callCount) { index ->
 
@@ -70,45 +74,58 @@ class RiskLevelAndKeyRetrievalBenchmark(
             var calculationDuration: Long = -1
             var calculationError = ""
 
-            try {
-                calculationDuration = measureKeyCalculation("#$index")
-            } catch (e: TransactionException) {
-                calculationError = e.message.toString()
-            }
+            measureKeyCalculation("#$index") {
+                if (it != null) calculationDuration = it
 
-            // build result entry for current iteration with all gathered data
-            resultInfo.append(
-                "${index + 1}. \t ${calculationDuration + keyFileDownloadDuration + apiSubmissionDuration} ms \t " +
+                // build result entry for current iteration with all gathered data
+                resultInfo.append(
+                    "${index + 1}. \t ${calculationDuration + keyFileDownloadDuration + apiSubmissionDuration} ms \t " +
                         "$keyFileDownloadDuration ms " + "\t $apiSubmissionDuration ms" +
                         "\t $calculationDuration ms \t $keyFileCount \t " +
                         "${Formatter.formatFileSize(context, keyFilesSize)}\n"
-            )
+                )
 
-            if (keyRetrievalError.isNotEmpty()) {
-                resultInfo.append("Key Retrieval Error: $keyRetrievalError\n")
+                if (keyRetrievalError.isNotEmpty()) {
+                    resultInfo.append("Key Retrieval Error: $keyRetrievalError\n")
+                }
+
+                if (calculationError.isNotEmpty()) {
+                    resultInfo.append("Calculation Error: $calculationError\n")
+                }
+
+                onBenchmarkCompletedListener(resultInfo.toString())
             }
-
-            if (calculationError.isNotEmpty()) {
-                resultInfo.append("Calculation Error: $calculationError\n")
-            }
-
-            callback(resultInfo.toString())
         }
     }
 
-    private suspend fun measureKeyCalculation(label: String): Long {
-        try {
-            Timber.v("MEASURE [Risk Level Calculation] $label started")
-            // start risk level calculation and get duration
-            return measureTimeMillis {
-                RiskLevelTransaction.start()
-            }.also {
-                Timber.v("MEASURE [Risk Level Calculation] $label finished")
+    private suspend fun measureKeyCalculation(label: String, callback: (Long?) -> Unit) {
+        val uuid = UUID.randomUUID()
+        val t0 = System.currentTimeMillis()
+        AppInjector.component.taskController.tasks
+            .map {
+                it
+                    .map { taskInfo -> taskInfo.taskState }
+                    .filter { taskState -> taskState.request.id == uuid && taskState.isFinished }
             }
-        } catch (e: TransactionException) {
-            e.report(ExceptionCategory.INTERNAL)
-            throw e
-        }
+            .collect {
+                it.firstOrNull()?.also { state ->
+                    Timber.v("MEASURE [Risk Level Calculation] $label finished")
+                    callback.invoke(
+                        if (state.error != null)
+                            null
+                        else
+                            System.currentTimeMillis() - t0
+                    )
+                }
+            }
+        Timber.v("MEASURE [Risk Level Calculation] $label started")
+        AppInjector.component.taskController.submit(
+            DefaultTaskRequest(
+                RiskLevelTask::class,
+                object : Task.Arguments {},
+                uuid
+            )
+        )
     }
 
     private suspend fun measureDiagnosticKeyRetrieval(
@@ -149,3 +166,5 @@ class RiskLevelAndKeyRetrievalBenchmark(
         }
     }
 }
+
+typealias OnBenchmarkCompletedListener = (resultInfo: String) -> Unit

@@ -59,11 +59,12 @@ class AppConfigApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
+        val cache = AppConfigModule().provideAppConfigCache(context)
         return AppConfigModule().provideAppConfigApi(
-            context = context,
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory
+            gsonConverterFactory = gsonConverterFactory,
+            cache = cache
         )
     }
 

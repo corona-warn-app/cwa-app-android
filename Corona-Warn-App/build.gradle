@@ -31,6 +31,17 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+def getHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    def result = stdout.toString().trim()
+    return result
+}
+
+
 android {
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
     println("Current VERSION_MINOR: ${VERSION_MINOR}")
@@ -83,11 +94,21 @@ android {
         Properties signingProps = new Properties()
         signingProps.load(new FileInputStream(signingPropFile))
         signingConfigs {
-            release {
-                storeFile file(signingProps['release.storePath'])
-                keyAlias signingProps['release.keyAlias']
-                storePassword signingProps['release.storePassword']
-                keyPassword signingProps['release.keyPassword']
+            deviceRelease {
+                if(signingProps['deviceRelease.storePath'] != null) {
+                    storeFile file(signingProps['deviceRelease.storePath'])
+                    keyAlias signingProps['deviceRelease.keyAlias']
+                    storePassword signingProps['deviceRelease.storePassword']
+                    keyPassword signingProps['deviceRelease.keyPassword']
+                }
+            }
+            deviceForTestersRelease {
+                if(signingProps['deviceForTestersRelease.storePath'] != null) {
+                    storeFile file(signingProps['deviceForTestersRelease.storePath'])
+                    keyAlias signingProps['deviceForTestersRelease.keyAlias']
+                    storePassword signingProps['deviceForTestersRelease.storePassword']
+                    keyPassword signingProps['deviceForTestersRelease.keyPassword']
+                }
             }
         }
     }
@@ -99,10 +120,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            if (signingPropFile.canRead()) {
-                signingConfig signingConfigs.release
-            }
         }
     }
 
@@ -112,19 +129,29 @@ android {
         device {
             dimension "version"
             resValue "string", "app_name", "Corona-Warn"
+            resValue "bool", "extract_native_libs", "false"
 
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
+            }
+
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.deviceRelease
             }
         }
         deviceForTesters {
             // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
-            applicationIdSuffix '.dev'
+            resValue "bool", "extract_native_libs", "true"
+            applicationIdSuffix '.test'
 
             ext {
                 envTypeDefault = [debug: "INT", release: "WRU-XD"]
+            }
+
+            if (signingPropFile.canRead()) {
+                signingConfig signingConfigs.deviceForTestersRelease
             }
         }
     }
@@ -134,6 +161,7 @@ android {
         variant.buildConfigField "String", "ENVIRONMENT_TYPE_DEFAULT", "\"${flavor.envTypeDefault[typeName]}\""
 
         if (flavor.name == "deviceForTesters") {
+            variant.buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"${getHash()}\""
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
             variant.outputs.each { output ->
                 output.versionNameOverride = adjustedVersionName
@@ -159,7 +187,8 @@ android {
             freeCompilerArgs += [
                     "-Xno-kotlin-nothing-value-exception",
                     "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+                    "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
+                    "-Xuse-experimental=kotlin.time.ExperimentalTime"
             ]
         }
     }
@@ -202,6 +231,8 @@ android {
         exclude 'CODEOWNERS'
         exclude 'README.md'
         exclude 'CODE_OF_CONDUCT.md'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
 
     sourceSets {
@@ -264,9 +295,18 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     getExecutionData().from(fileTree(dir: "$buildDir", includes: ["jacoco/testDeviceReleaseUnitTest.exec"]))
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "androidx.test:monitor:1.3.0"
+    }
+}
+
 dependencies {
     // KOTLIN
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
+    def coroutineVersion = "1.4.0-M1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // ANDROID STANDARD
@@ -278,7 +318,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.work:work-runtime-ktx:2.3.4'
+    implementation 'androidx.work:work-runtime-ktx:2.4.0'
 
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
@@ -297,6 +337,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.28.1'
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
     kapt 'com.google.dagger:dagger-android-processor:2.28.1'
+    kaptTest 'com.google.dagger:dagger-compiler:2.28.1'
     kaptAndroidTest 'com.google.dagger:dagger-compiler:2.28.1'
 
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
@@ -315,36 +356,40 @@ dependencies {
     testImplementation('org.robolectric:robolectric:4.4') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation "io.mockk:mockk:1.10.0"
-    testImplementation "com.squareup.okhttp3:mockwebserver:4.8.0"
+    testImplementation "io.mockk:mockk:1.10.2"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9'
 
     // Testing - jUnit4
-    testImplementation 'junit:junit:4.13'
-    testImplementation "org.junit.vintage:junit-vintage-engine:5.6.2"
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation "org.junit.vintage:junit-vintage-engine:5.7.0"
 
     // Testing - jUnit5
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.2"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.2"
-    testImplementation "io.kotest:kotest-runner-junit5:4.2.0"
-    testImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
-    testImplementation "io.kotest:kotest-property-jvm:4.2.0"
-    androidTestImplementation "io.kotest:kotest-assertions-core-jvm:4.2.0"
-    androidTestImplementation "io.kotest:kotest-property-jvm:4.2.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
+    testImplementation "io.kotest:kotest-runner-junit5:4.3.0"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:4.3.0"
+    testImplementation "io.kotest:kotest-property-jvm:4.3.0"
+    androidTestImplementation "io.kotest:kotest-assertions-core-jvm:4.3.0"
+    androidTestImplementation "io.kotest:kotest-property-jvm:4.3.0"
+
+    testImplementation "io.github.classgraph:classgraph:4.8.90"
 
     // Testing - Instrumentation
-    androidTestImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.work:work-testing:2.3.4'
-    androidTestImplementation "io.mockk:mockk-android:1.10.0"
+    androidTestImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.work:work-testing:2.4.0'
+    androidTestImplementation "io.mockk:mockk-android:1.10.2"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+
+    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'
@@ -359,8 +404,8 @@ dependencies {
     implementation('com.squareup.retrofit2:converter-protobuf:2.9.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
-    implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
-    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     // PERSISTENCE
     def room_version = "2.2.5"
@@ -373,7 +418,7 @@ dependencies {
     // UTILS
     implementation project(":Server-Protocol-Buffer")
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.guava:guava:29.0-android'
+    implementation 'com.google.guava:guava:30.0-android'
     implementation 'joda-time:joda-time:2.10.6'
 
     // SECURITY

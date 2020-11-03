@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.environment
 import android.content.Context
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -19,7 +20,6 @@ import testhelpers.preferences.MockSharedPreferences
 class EnvironmentSetupTest : BaseTest() {
     @MockK lateinit var context: Context
     private lateinit var mockPreferences: MockSharedPreferences
-    private fun createEnvSetup() = EnvironmentSetup(context)
 
     @BeforeEach
     fun setUp() {
@@ -42,6 +42,11 @@ class EnvironmentSetupTest : BaseTest() {
     fun teardown() {
         clearAllMocks()
     }
+
+    private fun createEnvSetup() = EnvironmentSetup(
+        context = context,
+        gson = SerializationModule().baseGson()
+    )
 
     @Test
     fun `parsing bad json throws an exception in debug builds`() {

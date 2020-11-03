@@ -20,7 +20,11 @@ import net.sqlcipher.database.SupportFactory
 import java.io.File
 
 @Database(
-    entities = [ExposureSummaryEntity::class, KeyCacheLegacyEntity::class, TracingIntervalEntity::class],
+    entities = [
+        ExposureSummaryEntity::class,
+        KeyCacheLegacyEntity::class,
+        TracingIntervalEntity::class
+    ],
     version = 1,
     exportSchema = true
 )

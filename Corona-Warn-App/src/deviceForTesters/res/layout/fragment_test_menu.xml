@@ -10,16 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:navigationIcon="@drawable/ic_coffee"
         app:layout_constraintStart_toStartOf="parent"
-        app:subtitle="For testers ;)"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_coffee"
+        app:subtitle="For testers ;)"
         app:title="Test Menu" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/test_menu_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

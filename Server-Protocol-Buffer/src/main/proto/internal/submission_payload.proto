@@ -1,0 +1,13 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto2";
+package de.rki.coronawarnapp.server.protocols.internal;
+
+import "external/exposurenotification/temporary_exposure_key_export.proto";
+
+message SubmissionPayload {
+  repeated de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKey keys = 1;
+  optional bytes requestPadding = 2;
+  repeated string visitedCountries = 3;
+  optional string origin = 4;
+  optional bool consentToFederation = 5;
+}

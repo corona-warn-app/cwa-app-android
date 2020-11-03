@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/submission_status_card_fetch_failed_title"
+        style="@style/headline5"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:text="@string/submission_status_card_title_failed"
+        app:layout_constraintEnd_toStartOf="@+id/submission_status_card_fetch_failed_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/submission_status_card_fetch_failed_body"
+        style="@style/subtitleMedium"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/submission_status_card_body_failed"
+        app:layout_constraintEnd_toStartOf="@+id/submission_status_card_fetch_failed_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submission_status_card_fetch_failed_title" />
+
+    <Button
+        android:id="@+id/submission_status_card_fetch_failed_button"
+        style="@style/buttonPrimary"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/card_padding"
+        android:text="@string/submission_status_card_button_failed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submission_status_card_unregistered_barrier" />
+
+    <ImageView
+        android:id="@+id/submission_status_card_fetch_failed_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/submission_status_card_fetch_failed_title"
+        app:srcCompat="@drawable/ic_main_illustration_invalid" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/submission_status_card_unregistered_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="submission_status_card_fetch_failed_icon,submission_status_card_fetch_failed_body" />
+</merge>

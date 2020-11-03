@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.ui.main.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
@@ -24,7 +26,10 @@ import javax.inject.Inject
 class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: HomeFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val vm: HomeFragmentViewModel by cwaViewModels(
+        ownerProducer = { requireActivity().viewModelStore },
+        factoryProducer = { viewModelFactory }
+    )
 
     val binding: FragmentHomeBinding by viewBindingLazy()
 
@@ -34,9 +39,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tracingViewModel = vm.tracingViewModel
-        binding.settingsViewModel = vm.settingsViewModel
-        binding.submissionViewModel = vm.submissionViewModel
+        vm.tracingHeaderState.observe2(this) {
+            binding.tracingHeader = it
+        }
+        vm.tracingCardState.observe2(this) {
+            binding.tracingCard = it
+        }
+        vm.submissionCardState.observe2(this) {
+            binding.submissionCard = it
+        }
 
         setupToolbar()
 
@@ -55,7 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             contentDescription = getString(R.string.hint_external_webpage)
         }
 
-        vm.events.observe2(this) {
+        vm.popupEvents.observe2(this) {
             when (it) {
                 HomeFragmentEvents.ShowInteropDeltaOnboarding -> {
                     doNavigate(
@@ -70,26 +81,51 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 HomeFragmentEvents.ShowErrorResetDialog -> {
                     RecoveryByResetDialogFactory(this).showDialog(
                         detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                        onDismiss = { vm.errorResetDialogDismissed() }
+                        onPositive = { vm.errorResetDialogDismissed() }
                     )
                 }
+                HomeFragmentEvents.ShowDeleteTestDialog -> {
+                    showRemoveTestDialog()
+                }
             }
+        }
+
+        vm.showLoweredRiskLevelDialog.observe2(this) {
+            showRiskLevelLoweredDialogIfNeeded()
         }
     }
 
     override fun onResume() {
         super.onResume()
         vm.refreshRequiredData()
+
         binding.mainScrollview.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun setupRiskCard() {
-        binding.mainRisk.apply {
-            riskCard.setOnClickListener {
-                doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+    private fun showRemoveTestDialog() {
+        val removeTestDialog = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                vm.deregisterWarningAccepted()
             }
+        )
+        DialogHelper.showDialog(removeTestDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(context.getColor(R.color.colorTextSemanticRed))
+        }
+    }
+
+    private fun setupRiskCard() {
+        binding.riskCard.setOnClickListener {
+            doNavigate(HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment())
+        }
+        binding.riskCardContent.apply {
             riskCardButtonUpdate.setOnClickListener {
-                vm.tracingViewModel.refreshDiagnosisKeys()
+                vm.refreshDiagnosisKeys()
                 vm.settingsViewModel.updateManualKeyRetrievalEnabled(false)
             }
             riskCardButtonEnableTracing.setOnClickListener {
@@ -123,6 +159,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
                 submissionStatusCardPositive.setOnClickListener { toSubmissionResult() }
                 submissionStatusCardPositiveButton.setOnClickListener { toSubmissionResult() }
             }
+
+            mainTestFailed.apply {
+                setOnClickListener {
+                    vm.removeTestPushed()
+                }
+            }
         }
     }
 
@@ -137,6 +179,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainHeaderOptionsMenu.buttonIcon.apply {
             contentDescription = getString(R.string.button_menu)
             setOnClickListener { homeMenu.showMenuFor(it) }
+        }
+    }
+
+    private fun showRiskLevelLoweredDialogIfNeeded() {
+        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.risk_lowered_dialog_headline,
+            message = R.string.risk_lowered_dialog_body,
+            positiveButton = R.string.risk_lowered_dialog_button_confirm,
+            negativeButton = null,
+            cancelable = false,
+            positiveButtonFunction = { vm.userHasAcknowledgedTheLoweredRiskLevel() }
+        )
+
+        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
+            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.colorTextTint))
         }
     }
 }

@@ -8,4 +8,6 @@ sealed class HomeFragmentEvents {
     ) : HomeFragmentEvents()
 
     object ShowErrorResetDialog : HomeFragmentEvents()
+
+    object ShowDeleteTestDialog : HomeFragmentEvents()
 }

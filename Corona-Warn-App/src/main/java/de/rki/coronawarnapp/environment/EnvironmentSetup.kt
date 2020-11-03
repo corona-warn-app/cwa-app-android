@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.environment
 
 import android.content.Context
 import androidx.core.content.edit
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
@@ -13,13 +13,15 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EnvironmentSetup @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    @BaseGson private val gson: Gson
 ) {
 
     enum class EnvKey(val rawKey: String) {
@@ -51,7 +53,6 @@ class EnvironmentSetup @Inject constructor(
     }
 
     private val environmentJson: JsonObject by lazy {
-        val gson = GsonBuilder().create()
         gson.fromJson(BuildConfigWrap.ENVIRONMENT_JSONDATA, JsonObject::class.java).also {
             Timber.d("Parsed test environment: %s", it)
         }

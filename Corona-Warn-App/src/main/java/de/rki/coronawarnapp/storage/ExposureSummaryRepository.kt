@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.storage
 
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryDao) {
     companion object {
@@ -26,8 +27,11 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
             )
         }
 
-        val matchedKeyCount = MutableLiveData<Int>()
-        val daysSinceLastExposure = MutableLiveData<Int>()
+        private val internalMatchedKeyCount = MutableStateFlow(0)
+        val matchedKeyCount: Flow<Int> = internalMatchedKeyCount
+
+        private val internalDaysSinceLastExposure = MutableStateFlow(0)
+        val daysSinceLastExposure: Flow<Int> = internalDaysSinceLastExposure
     }
 
     suspend fun getExposureSummaryEntities() = exposureSummaryDao.getExposureSummaryEntities()
@@ -43,17 +47,16 @@ class ExposureSummaryRepository(private val exposureSummaryDao: ExposureSummaryD
                 exposureSummary.attenuationDurationsInMinutes.toTypedArray().toList()
         }.run {
             exposureSummaryDao.insertExposureSummaryEntity(this)
-            ExposureSummaryRepository.matchedKeyCount.postValue(matchedKeyCount)
-            ExposureSummaryRepository.daysSinceLastExposure.postValue(daysSinceLastExposure)
+            internalMatchedKeyCount.value = matchedKeyCount
+            internalDaysSinceLastExposure.value = daysSinceLastExposure
         }
 
     suspend fun getLatestExposureSummary(token: String) {
         if (InternalExposureNotificationClient.asyncIsEnabled())
-            InternalExposureNotificationClient.asyncGetExposureSummary(token)
-                .also {
-                    matchedKeyCount.postValue(it.matchedKeyCount)
-                    daysSinceLastExposure.postValue(it.daysSinceLastExposure)
-                }
+            InternalExposureNotificationClient.asyncGetExposureSummary(token).also {
+                internalMatchedKeyCount.value = it.matchedKeyCount
+                internalDaysSinceLastExposure.value = it.daysSinceLastExposure
+            }
     }
 
     private fun ExposureSummaryEntity.convertToExposureSummary() =

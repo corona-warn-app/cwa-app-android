@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterRiskHelper" />
-
         <variable
-            name="tracingViewModel"
-            type="de.rki.coronawarnapp.ui.viewmodel.TracingViewModel" />
-
+            name="tracingDetails"
+            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,7 +70,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_layout"
-            app:riskLevel="@{tracingViewModel.riskLevel}"
-            app:tracingViewModel="@{tracingViewModel}" />
+            app:tracingDetails="@{tracingDetails}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
