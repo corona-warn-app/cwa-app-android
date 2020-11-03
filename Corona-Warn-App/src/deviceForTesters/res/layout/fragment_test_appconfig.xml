@@ -23,8 +23,28 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/body1"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Last update" />
+
+            <TextView
                 android:id="@+id/last_update"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Last update: ??" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Time offset to server" />
+
+            <TextView
+                android:id="@+id/time_offset"
+                style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Last update: ??" />
@@ -32,8 +52,8 @@
             <Button
                 android:id="@+id/force_download"
                 android:layout_width="wrap_content"
-                android:layout_gravity="end"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Force update" />
 

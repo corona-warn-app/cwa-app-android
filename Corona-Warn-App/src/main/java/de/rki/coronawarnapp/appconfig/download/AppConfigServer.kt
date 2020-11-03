@@ -13,6 +13,7 @@ import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
 
 @Reusable
@@ -77,7 +78,9 @@ class AppConfigServer @Inject constructor(
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
-        private val DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss zzz")
+        private val DATE_FORMAT = DateTimeFormat
+            .forPattern("EEE, dd MMM yyyy HH:mm:ss zzz")
+            .withLocale(Locale.ROOT)
         private val TAG = AppConfigServer::class.java.simpleName
     }
 }

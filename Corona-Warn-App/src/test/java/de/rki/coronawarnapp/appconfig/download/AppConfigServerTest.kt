@@ -62,7 +62,7 @@ class AppConfigServerTest : BaseIOTest() {
     fun `application config download`() = runBlockingTest {
         coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
-            Headers.headersOf("Date", "Tue, 03 Nov 2020 05:35:16 GMT")
+            Headers.headersOf("Date", "Tue, 03 Nov 2020 08:46:03 GMT")
         )
 
         val downloadServer = createInstance()
@@ -70,8 +70,11 @@ class AppConfigServerTest : BaseIOTest() {
         val configDownload = downloadServer.downloadAppConfig()
         configDownload shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
-            serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-            localOffset = Duration(Instant.EPOCH, Instant.EPOCH)
+            serverTime = Instant.parse("2020-11-03T08:46:03.000Z"),
+            localOffset = Duration(
+                Instant.parse("2020-11-03T08:46:03.000Z"),
+                Instant.ofEpochMilli(123456789)
+            )
         )
 
         verify(exactly = 1) { verificationKeys.hasInvalidSignature(any(), any()) }

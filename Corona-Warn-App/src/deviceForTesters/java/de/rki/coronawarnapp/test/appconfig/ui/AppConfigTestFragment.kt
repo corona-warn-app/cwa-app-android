@@ -33,11 +33,10 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
         vm.currentConfig.observe2(this) {
             binding.currentConfiguration.text = it.rawConfig.toString()
             binding.lastUpdate.text = timeFormatter.print(it.updatedAt)
+            binding.timeOffset.text = "${it.localOffset.millis}ms"
         }
 
-        binding.forceDownload.setOnClickListener {
-            vm.forceDownload()
-        }
+        binding.forceDownload.setOnClickListener { vm.forceDownload() }
     }
 
     companion object {
