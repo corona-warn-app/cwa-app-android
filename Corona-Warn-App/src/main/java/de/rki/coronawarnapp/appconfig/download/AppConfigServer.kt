@@ -27,7 +27,9 @@ class AppConfigServer @Inject constructor(
 
     internal suspend fun downloadAppConfig(): ConfigDownload {
         Timber.tag(TAG).d("Fetching app config.")
+
         val response = api.get().getApplicationConfiguration(homeCountry.identifier)
+        val localTime = timeStamper.nowUTC
 
         if (!response.isSuccessful) throw HttpException(response)
 
@@ -53,7 +55,6 @@ class AppConfigServer @Inject constructor(
             exportBinary!!
         }
 
-        val localTime = timeStamper.nowUTC
         val serverTime = try {
             val rawDate = response.headers()["Date"] ?: throw IllegalArgumentException(
                 "Server date unavailable: ${response.headers()}"
