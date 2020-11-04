@@ -54,7 +54,7 @@ class AppConfigStorageTest : BaseIOTest() {
     private fun createStorage() = AppConfigStorage(
         context = context,
         timeStamper = timeStamper,
-        gson = SerializationModule().baseGson()
+        baseGson = SerializationModule().baseGson()
     )
 
     @Test

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
 import android.content.Context
-import com.google.gson.GsonBuilder
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.shouldBe
@@ -26,7 +25,7 @@ class CalculationTrackerStorageTest : BaseIOTest() {
     private val storageDir = File(privateFiles, "calcuation_tracker")
     private val storageFile = File(storageDir, "calculations.json")
 
-    private val gson = GsonBuilder().setPrettyPrinting().create()
+    private val gson = SerializationModule().baseGson().newBuilder().setPrettyPrinting().create()
 
     private val demoJsonString = """
             {

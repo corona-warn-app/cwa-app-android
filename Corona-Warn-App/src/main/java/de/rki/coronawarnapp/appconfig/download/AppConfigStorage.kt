@@ -5,11 +5,14 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.fromJson
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -19,8 +22,15 @@ import javax.inject.Singleton
 class AppConfigStorage @Inject constructor(
     @AppContext context: Context,
     private val timeStamper: TimeStamper,
-    @BaseGson private val gson: Gson
+    @BaseGson private val baseGson: Gson
 ) {
+
+    private val gson by lazy {
+        baseGson.newBuilder()
+            .registerTypeAdapter(Instant::class.java, InstantAdapter())
+            .registerTypeAdapter(Duration::class.java, DurationAdapter())
+            .create()
+    }
     private val configDir = File(context.filesDir, "appconfig_storage")
 
     // This is just the raw protobuf data
