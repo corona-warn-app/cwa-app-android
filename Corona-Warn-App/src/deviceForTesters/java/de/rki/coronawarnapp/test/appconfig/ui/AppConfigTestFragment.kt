@@ -30,14 +30,18 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.currentConfig.observe2(this) {
-            binding.currentConfiguration.text = it.rawConfig.toString()
-            binding.lastUpdate.text = timeFormatter.print(it.updatedAt)
-            binding.timeOffset.text =
+        vm.currentConfig.observe2(this) { data ->
+            binding.currentConfiguration.text =
+                data?.rawConfig?.toString() ?: "No config available."
+            binding.lastUpdate.text = data?.updatedAt?.let { timeFormatter.print(it) } ?: "n/a"
+            binding.timeOffset.text = data?.let {
                 "${it.localOffset.millis}ms (isFallbackConfig=${it.isFallback})"
+            } ?: "n/a"
+
         }
 
-        binding.forceDownload.setOnClickListener { vm.forceDownload() }
+        binding.downloadAction.setOnClickListener { vm.download() }
+        binding.deleteAction.setOnClickListener { vm.clearConfig() }
     }
 
     companion object {

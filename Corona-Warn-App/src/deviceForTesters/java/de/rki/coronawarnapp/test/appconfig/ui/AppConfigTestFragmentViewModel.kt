@@ -12,10 +12,18 @@ class AppConfigTestFragmentViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val currentConfig = appConfigProvider.getConfig().asLiveData()
+    val currentConfig = appConfigProvider.currentConfig.asLiveData()
 
-    fun forceDownload() {
-        launch { appConfigProvider.forceUpdate() }
+    fun download() {
+        launch {
+            appConfigProvider.getAppConfig()
+        }
+    }
+
+    fun clearConfig() {
+        launch {
+            appConfigProvider.clear()
+        }
     }
 
     @AssistedInject.Factory

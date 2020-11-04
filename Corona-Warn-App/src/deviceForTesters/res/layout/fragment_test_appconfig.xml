@@ -49,14 +49,28 @@
                 android:layout_height="wrap_content"
                 android:text="Last update: ??" />
 
-            <Button
-                android:id="@+id/force_download"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="Force update" />
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/delete_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_tiny"
+                    android:layout_weight="1"
+                    android:text="Delete" />
+
+                <Button
+                    android:id="@+id/download_action"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/spacing_tiny"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Download" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -67,18 +81,11 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Current app configuration" />
-
-            <TextView
                 android:id="@+id/current_configuration"
-                style="@style/body2"
+                style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                tools:text="..." />
+                tools:text="@string/lorem_ipsum" />
 
         </LinearLayout>
 
