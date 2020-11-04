@@ -2,10 +2,8 @@ package de.rki.coronawarnapp.submission
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.toNewConfig
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.AppConfig
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -31,19 +29,20 @@ class SubmissionTask @Inject constructor(
     private var isCanceled = false
 
     override suspend fun run(arguments: Task.Arguments) = try {
-        arguments as Arguments
         Timber.d("Running with arguments=%s", arguments)
+        arguments as Arguments
+
         Playbook.SubmissionData(
             arguments.registrationToken,
             arguments.getHistory(),
             true,
-            applicationConfiguration().supportedCountriesList.also {
-                Timber.w("supported countries = $it")
-            }
+            getSupportedCountries()
         )
             .also { checkCancel() }
             .let { playbook.submit(it) }
+
         SubmissionService.submissionSuccessful()
+
         object : Task.Result {}
     } catch (error: Exception) {
         Timber.tag(TAG).e(error)
@@ -59,17 +58,15 @@ class SubmissionTask @Inject constructor(
             symptoms
         )
 
-    private suspend fun applicationConfiguration(): AppConfig.ApplicationConfiguration {
-        var result = appConfigProvider.getAppConfig()
-
-        if (result.supportedCountriesList.isEmpty()) {
-            result = result.toNewConfig {
-                addSupportedCountries(FALLBACK_COUNTRY)
+    private suspend fun getSupportedCountries(): List<String> {
+        val countries = appConfigProvider.getAppConfig().supportedCountries
+        return when {
+            countries.isEmpty() -> {
+                Timber.w("Country list was empty, corrected")
+                listOf(FALLBACK_COUNTRY)
             }
-            Timber.w("Country list was empty, corrected")
-        }
-
-        return result
+            else -> countries
+        }.also { Timber.i("Supported countries = $it") }
     }
 
     private fun checkCancel() {
