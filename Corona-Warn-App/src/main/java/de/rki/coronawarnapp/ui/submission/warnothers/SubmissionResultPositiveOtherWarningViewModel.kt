@@ -65,13 +65,13 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
 
     private fun updateUI(taskState: TaskState) {
         if (taskState.request.id == currentSubmissionRequestId) {
+            currentSubmissionRequestId = null
             when {
                 taskState.isFailed ->
-                    submissionError.postValue(taskState.error)
+                    submissionError.postValue(taskState.error ?: return)
                 taskState.isSuccessful ->
                     routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
             }
-            currentSubmissionRequestId = null
         }
     }
 

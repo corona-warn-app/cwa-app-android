@@ -121,8 +121,8 @@ class SubmissionResultPositiveOtherWarningFragment :
         // NOOP
     }
 
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
+    private fun buildErrorDialog(throwable: Throwable): DialogHelper.DialogInstance {
+        return when (throwable) {
             is BadRequestException -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_paring_invalid_title,
@@ -146,7 +146,7 @@ class SubmissionResultPositiveOtherWarningFragment :
                 R.string.submission_error_dialog_web_generic_error_title,
                 getString(
                     R.string.submission_error_dialog_web_generic_network_error_body,
-                    exception.statusCode
+                    (throwable as CwaWebException).statusCode
                 ),
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
