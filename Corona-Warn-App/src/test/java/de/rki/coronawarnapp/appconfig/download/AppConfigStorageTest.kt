@@ -9,6 +9,8 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.decodeHex
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -30,7 +32,7 @@ class AppConfigStorageTest : BaseIOTest() {
     private val configPath = File(storageDir, "appconfig.json")
 
     private val testConfigDownload = ConfigDownload(
-        rawData = "The Cake Is A Lie".toByteArray(),
+        rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
         localOffset = Duration.standardHours(1)
     )
@@ -66,13 +68,9 @@ class AppConfigStorageTest : BaseIOTest() {
         configPath.exists() shouldBe true
         configPath.readText().toComparableJson() shouldBe """
             {
-                "rawData": "The Cake Is A Lie",
-                "serverTime": {
-                    "iMillis": 1604381716000
-                },
-                "localOffset": {
-                    "iMillis": 3600000
-                }
+                "rawData": "$APPCONFIG_BASE64",
+                "serverTime": 1604381716000,
+                "localOffset": 3600000
             }
         """.toComparableJson()
 
@@ -95,13 +93,9 @@ class AppConfigStorageTest : BaseIOTest() {
         configPath.exists() shouldBe true
         configPath.readText().toComparableJson() shouldBe """
             {
-                "rawData": "The Cake Is A Lie",
-                "serverTime": {
-                    "iMillis": 1604381716000
-                },
-                "localOffset": {
-                    "iMillis": 3600000
-                }
+                "rawData": "$APPCONFIG_BASE64",
+                "serverTime": 1604381716000,
+                "localOffset": 3600000
             }
         """.toComparableJson()
 
@@ -116,12 +110,12 @@ class AppConfigStorageTest : BaseIOTest() {
         legacyConfigPath.exists() shouldBe false
 
         legacyConfigPath.parentFile!!.mkdirs()
-        legacyConfigPath.writeText("The Cake Is A Lie")
+        legacyConfigPath.writeBytes(APPCONFIG_RAW)
 
         val storage = createStorage()
 
         storage.getStoredConfig() shouldBe ConfigDownload(
-            rawData = "The Cake Is A Lie".toByteArray(),
+            rawData = APPCONFIG_RAW,
             serverTime = Instant.ofEpochMilli(1234),
             localOffset = Duration.ZERO
         )
@@ -130,7 +124,7 @@ class AppConfigStorageTest : BaseIOTest() {
     @Test
     fun `writing a new config deletes any legacy configsconfig`() = runBlockingTest {
         legacyConfigPath.parentFile!!.mkdirs()
-        legacyConfigPath.writeText("The Cake Is A Lie")
+        legacyConfigPath.writeBytes(APPCONFIG_RAW)
         configPath.exists() shouldBe false
 
         val storage = createStorage()
@@ -138,5 +132,18 @@ class AppConfigStorageTest : BaseIOTest() {
 
         legacyConfigPath.exists() shouldBe false
         configPath.exists() shouldBe true
+    }
+
+    companion object {
+        private val APPCONFIG_RAW = (
+            "080b124d0a230a034c4f57180f221a68747470733a2f2f777777" +
+                "2e636f726f6e617761726e2e6170700a260a0448494748100f1848221a68747470733a2f2f7777772e636f7" +
+                "26f6e617761726e2e6170701a640a10080110021803200428053006380740081100000000000049401a0a20" +
+                "0128013001380140012100000000000049402a1008051005180520052805300538054005310000000000003" +
+                "4403a0e1001180120012801300138014001410000000000004940221c0a040837103f121209000000000000" +
+                "f03f11000000000000e03f20192a1a0a0a0a041008180212021005120c0a0408011804120408011804"
+            ).decodeHex().toByteArray()
+
+        private val APPCONFIG_BASE64 = APPCONFIG_RAW.toByteString().base64()
     }
 }
