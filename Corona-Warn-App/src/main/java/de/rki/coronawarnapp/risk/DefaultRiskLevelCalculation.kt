@@ -215,10 +215,10 @@ class DefaultRiskLevelCalculation @Inject constructor(
 
         return AggregatedRiskResult(
             totalRiskLevel,
-            totalMinimumDistinctEncountersWithLowRisk = 1,
-            totalMinimumDistinctEncountersWithHighRisk = 1,
-            mostRecentDateWithLowRisk = 1,
-            mostRecentDateWithHighRisk = 1
+            totalMinimumDistinctEncountersWithLowRisk,
+            totalMinimumDistinctEncountersWithHighRisk,
+            mostRecentDateWithLowRisk,
+            mostRecentDateWithHighRisk
         )
     }
 
