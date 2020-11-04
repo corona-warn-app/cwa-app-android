@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.Event
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -23,9 +21,6 @@ import timber.log.Timber
 class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
     CWAViewModel() {
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-    private val _scanStatus = MutableLiveData(Event(ScanStatus.STARTED))
-
-    val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
     val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
@@ -35,10 +30,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
             scanStatusValue.postValue(ScanStatus.SUCCESS)
-            _scanStatus.value = Event(ScanStatus.SUCCESS)
             doDeviceRegistration(scanResult)
         } else {
-            _scanStatus.value = Event(ScanStatus.INVALID)
             scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
