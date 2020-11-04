@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.result.ExposureData
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -157,7 +158,13 @@ class DefaultRiskLevelCalculation @Inject constructor(
         val uniqueDates = exposureWindowsAndResult.keys
             .map { it.dateMillisSinceEpoch }
             .toSet()
-        Timber.d("uniqueDates: ${TextUtils.join(System.lineSeparator(), uniqueDates)}")
+        Timber.d(
+            "uniqueDates: ${
+                TextUtils.join(
+                    System.lineSeparator(),
+                    uniqueDates.map { printDatePretty(it) })
+            }"
+        )
 
         val exposureHistory = uniqueDates.map {
             exposureDataMapper(
@@ -167,7 +174,7 @@ class DefaultRiskLevelCalculation @Inject constructor(
             )
         }
 
-        exposureHistory.forEach { Timber.d("(date=${it.date}, riskLevel=${it.riskLevel}, minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})") }
+        exposureHistory.forEach { Timber.d("(date=${printDatePretty(it.date)}, riskLevel=${it.riskLevel}, minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})") }
 
         // 6. Determine `Total Risk`
         val totalRiskLevel =
@@ -179,22 +186,20 @@ class DefaultRiskLevelCalculation @Inject constructor(
         Timber.d("totalRiskLevel: ${totalRiskLevel.name} (${totalRiskLevel.ordinal})")
 
         // 7. Determine `Date of Most Recent Date with Low Risk`
-        val mostRecentDateWithLowRisk = exposureHistory
-            .filter { it.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW }
-            .sortedBy { it.date }
-            .map { it.date }
-            .first()
+        val mostRecentDateWithLowRisk = mostRecentDateForRisk(
+            exposureHistory,
+            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
+        )
 
-        Timber.d("mostRecentDateWithLowRisk: $mostRecentDateWithLowRisk")
+        Timber.d("mostRecentDateWithLowRisk: ${printDatePretty(mostRecentDateWithLowRisk)}")
 
         // 8. Determine `Date of Most Recent Date with High Risk`
-        val mostRecentDateWithHighRisk = exposureHistory
-            .filter { it.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH }
-            .sortedBy { it.date }
-            .map { it.date }
-            .first()
+        val mostRecentDateWithHighRisk = mostRecentDateForRisk(
+            exposureHistory,
+            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
+        )
 
-        Timber.d("mostRecentDateWithHighRisk: $mostRecentDateWithHighRisk")
+        Timber.d("mostRecentDateWithHighRisk: ${printDatePretty(mostRecentDateWithHighRisk)}")
 
         // 9. Determine `Total Minimum Distinct Encounters With Low Risk`
         val totalMinimumDistinctEncountersWithLowRisk = exposureHistory
@@ -216,6 +221,15 @@ class DefaultRiskLevelCalculation @Inject constructor(
             mostRecentDateWithHighRisk = 1
         )
     }
+
+    private fun printDatePretty(date: Long): String = Instant.ofEpochMilli(date).toString()
+
+    private fun mostRecentDateForRisk(
+        exposureHistory: List<ExposureData>,
+        riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
+    ): Long = exposureHistory
+        .filter { it.riskLevel == riskLevel }
+        .maxOf { it.date }
 
     private fun exposureDataMapper(
         date: Long,
@@ -245,20 +259,18 @@ class DefaultRiskLevelCalculation @Inject constructor(
         Timber.d("riskLevel: ${riskLevel.name} (${riskLevel.ordinal})")
 
         // 4. Determine `Minimum Distinct Encounters With Low Risk per Date`
-        val minimumDistinctEncountersWithLowRisk = exposureWindowsAndResultForDate
-            .filter { it.value.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW }
-            .map { "${it.value.transmissionRiskLevel}_${it.key.calibrationConfidence}" }
-            .distinct()
-            .size
+        val minimumDistinctEncountersWithLowRisk = minimumDistinctEncountersForRisk(
+            exposureWindowsAndResultForDate,
+            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
+        )
 
         Timber.d("minimumDistinctEncountersWithLowRisk: $minimumDistinctEncountersWithLowRisk")
 
         // 5. Determine `Minimum Distinct Encounters With High Risk per Date`
-        val minimumDistinctEncountersWithHighRisk = exposureWindowsAndResultForDate
-            .filter { it.value.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH }
-            .map { "${it.value.transmissionRiskLevel}_${it.key.calibrationConfidence}" }
-            .distinct()
-            .size
+        val minimumDistinctEncountersWithHighRisk = minimumDistinctEncountersForRisk(
+            exposureWindowsAndResultForDate,
+            RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
+        )
 
         Timber.d("minimumDistinctEncountersWithHighRisk: $minimumDistinctEncountersWithHighRisk")
 
@@ -270,6 +282,16 @@ class DefaultRiskLevelCalculation @Inject constructor(
         )
     }
 }
+
+private fun minimumDistinctEncountersForRisk(
+    exposureWindowsAndResultForDate: Map<ExposureWindow, RiskResult>,
+    riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
+): Int =
+    exposureWindowsAndResultForDate
+        .filter { it.value.riskLevel == riskLevel }
+        .map { "${it.value.transmissionRiskLevel}_${it.key.calibrationConfidence}" }
+        .distinct()
+        .size
 
 private fun <T : Number> RiskCalculationParametersOuterClass.Range.inRange(value: T): Boolean =
     when {
