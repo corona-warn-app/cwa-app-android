@@ -4,11 +4,8 @@ import androidx.lifecycle.asLiveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -23,29 +20,50 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.util.*
 
 class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
-    @Assisted private val symptoms: Symptoms,
-    dispatcherProvider: DispatcherProvider,
-    private val enfClient: ENFClient,
-    private val taskController: TaskController,
-    interoperabilityRepository: InteroperabilityRepository
+        @Assisted private val symptoms: Symptoms,
+        dispatcherProvider: DispatcherProvider,
+        private val enfClient: ENFClient,
+        private val taskController: TaskController,
+        interoperabilityRepository: InteroperabilityRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val submissionState = MutableStateFlow(ApiRequestState.IDLE)
+    private var currentSubmissionRequestId: UUID? = null
+    private val currentSubmission = taskController.tasks
+            .map {it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState}
+    private val submissionState = currentSubmission
+            .map { taskState ->
+                when {
+                    taskState == null -> ApiRequestState.IDLE
+                    taskState.isFailed -> ApiRequestState.FAILED.also {
+                        if (taskState.request.id == currentSubmissionRequestId){
+                            currentSubmissionRequestId = null
+                        }
+                    }
+                    taskState.isFinished -> ApiRequestState.SUCCESS.also {
+                        if (taskState.request.id == currentSubmissionRequestId){
+                            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
+                            currentSubmissionRequestId = null
+                        }
+                    }
+                    else -> ApiRequestState.STARTED
+                }
+            }
     val submissionError = SingleLiveEvent<CwaWebException>()
 
     val uiState = combineTransform(
-        submissionState,
-        interoperabilityRepository.countryListFlow
+            submissionState,
+            interoperabilityRepository.countryListFlow
     ) { state, countries ->
         WarnOthersState(
-            apiRequestState = state,
-            countryList = countries
+                apiRequestState = state,
+                countryList = countries
         ).also { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
@@ -79,32 +97,14 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
 
     private fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
         Timber.d("submitDiagnosisKeys(keys=%s, symptoms=%s)", keys, symptoms)
-
-        submissionState.value = ApiRequestState.STARTED
-        try {
-            val registrationToken =
+        val registrationToken =
                 LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
-            taskController.submit(DefaultTaskRequest(
+        val taskRequest = DefaultTaskRequest(
                 SubmissionTask::class,
                 SubmissionTask.Arguments(registrationToken, keys, symptoms)
-            ))
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
-
-            submissionState.value = ApiRequestState.SUCCESS
-        } catch (err: CwaWebException) {
-            submissionError.postValue(err)
-            submissionState.value = ApiRequestState.FAILED
-        } catch (err: TransactionException) {
-            if (err.cause is CwaWebException) {
-                submissionError.postValue(err.cause)
-            } else {
-                err.report(ExceptionCategory.INTERNAL)
-            }
-            submissionState.value = ApiRequestState.FAILED
-        } catch (err: Exception) {
-            submissionState.value = ApiRequestState.FAILED
-            err.report(ExceptionCategory.INTERNAL)
-        }
+        )
+        currentSubmissionRequestId = taskRequest.id
+        taskController.submit(taskRequest)
     }
 
     private fun submitWithNoDiagnosisKeys() {
