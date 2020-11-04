@@ -6,6 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import org.joda.time.Duration
+import org.joda.time.Instant
 
 @Module
 class SerializationModule {
@@ -14,6 +18,8 @@ class SerializationModule {
     @Reusable
     @Provides
     fun baseGson(): Gson = GsonBuilder()
+        .registerTypeAdapter(Instant::class.java, InstantAdapter())
+        .registerTypeAdapter(Duration::class.java, DurationAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
         .create()
 }
