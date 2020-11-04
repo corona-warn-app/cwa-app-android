@@ -77,7 +77,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
         }
     }
 
-    fun deregisterTestFromDevice() {
+    private fun deregisterTestFromDevice() {
         launch {
             Timber.d("deregisterTestFromDevice()")
             SubmissionService.deleteTestGUID()
