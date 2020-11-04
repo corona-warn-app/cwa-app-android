@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import java.util.*
+import java.util.UUID
 
 class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
     @Assisted private val symptoms: Symptoms,
