@@ -63,6 +63,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
             registrationState.postValue(ApiRequestState.FAILED)
         } catch (err: InvalidQRCodeException) {
             registrationState.postValue(ApiRequestState.FAILED)
+            deregisterTestFromDevice()
             showRedeemedTokenWarning.postValue(Unit)
         } catch (err: Exception) {
             registrationState.postValue(ApiRequestState.FAILED)

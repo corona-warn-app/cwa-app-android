@@ -73,7 +73,6 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             )
 
             DialogHelper.showDialog(dialog)
-            viewModel.deregisterTestFromDevice()
             goBack()
         }
 
