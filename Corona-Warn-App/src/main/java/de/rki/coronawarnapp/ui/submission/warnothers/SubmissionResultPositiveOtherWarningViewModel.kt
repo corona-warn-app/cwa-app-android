@@ -27,27 +27,27 @@ import timber.log.Timber
 import java.util.*
 
 class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
-        @Assisted private val symptoms: Symptoms,
-        dispatcherProvider: DispatcherProvider,
-        private val enfClient: ENFClient,
-        private val taskController: TaskController,
-        interoperabilityRepository: InteroperabilityRepository
+    @Assisted private val symptoms: Symptoms,
+    dispatcherProvider: DispatcherProvider,
+    private val enfClient: ENFClient,
+    private val taskController: TaskController,
+    interoperabilityRepository: InteroperabilityRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var currentSubmissionRequestId: UUID? = null
     private val currentSubmission = taskController.tasks
-            .map {it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState}
+            .map { it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState }
     private val submissionState = currentSubmission
             .map { taskState ->
                 when {
                     taskState == null -> ApiRequestState.IDLE
                     taskState.isFailed -> ApiRequestState.FAILED.also {
-                        if (taskState.request.id == currentSubmissionRequestId){
+                        if (taskState.request.id == currentSubmissionRequestId) {
                             currentSubmissionRequestId = null
                         }
                     }
                     taskState.isFinished -> ApiRequestState.SUCCESS.also {
-                        if (taskState.request.id == currentSubmissionRequestId){
+                        if (taskState.request.id == currentSubmissionRequestId) {
                             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
                             currentSubmissionRequestId = null
                         }
