@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.observeEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -59,7 +58,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
 
-        viewModel.scanStatus.observeEvent(viewLifecycleOwner) {
+        viewModel.scanStatusValue.observe2(this) {
             if (ScanStatus.INVALID == it) {
                 showInvalidScanDialog()
             }

@@ -6,8 +6,6 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.TransactionException
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.exception.reporting.ErrorCodes
-import de.rki.coronawarnapp.exception.reporting.ReportedIOException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.service.submission.QRScanResult
 import de.rki.coronawarnapp.service.submission.SubmissionService
@@ -29,18 +27,19 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor() :
 
     val scanStatus: LiveData<Event<ScanStatus>> = _scanStatus
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
+    val scanStatusValue = SingleLiveEvent<ScanStatus>()
 
-    open class InvalidQRCodeException : ReportedIOException(
-        ErrorCodes.CWA_WEB_REQUEST_PROBLEM.code, "error in qr code"
-    )
+    open class InvalidQRCodeException : Exception("error in qr code")
 
     fun validateTestGUID(rawResult: String) {
         val scanResult = QRScanResult(rawResult)
         if (scanResult.isValid) {
+            scanStatusValue.postValue(ScanStatus.SUCCESS)
             _scanStatus.value = Event(ScanStatus.SUCCESS)
             doDeviceRegistration(scanResult)
         } else {
             _scanStatus.value = Event(ScanStatus.INVALID)
+            scanStatusValue.postValue(ScanStatus.INVALID)
         }
     }
 

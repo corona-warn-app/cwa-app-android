@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.transaction.SubmitDiagnosisKeysTransaction
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.verification.server.VerificationKeyType
@@ -18,6 +19,9 @@ object SubmissionService {
     private val playbook: Playbook
         get() = AppInjector.component.playbook
 
+    private val timeStamper: TimeStamper
+        get() = TimeStamper()
+
     suspend fun asyncRegisterDeviceViaGUID(guid: String): TestResult {
         val (registrationToken, testResult) =
             playbook.initialRegistration(
@@ -27,7 +31,7 @@ object SubmissionService {
         LocalData.registrationToken(registrationToken)
         deleteTestGUID()
         SubmissionRepository.updateTestResult(testResult)
-        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
         return testResult
     }
@@ -41,7 +45,7 @@ object SubmissionService {
         LocalData.registrationToken(registrationToken)
         deleteTeleTAN()
         SubmissionRepository.updateTestResult(testResult)
-        LocalData.devicePairingSuccessfulTimestamp(System.currentTimeMillis())
+        LocalData.devicePairingSuccessfulTimestamp(timeStamper.nowUTC.millis)
         BackgroundNoise.getInstance().scheduleDummyPattern()
     }
 
