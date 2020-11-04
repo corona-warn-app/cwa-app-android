@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.appconfig.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestAppconfigBinding
@@ -37,7 +38,10 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
             binding.timeOffset.text = data?.let {
                 "${it.localOffset.millis}ms (isFallbackConfig=${it.isFallback})"
             } ?: "n/a"
+        }
 
+        vm.errorEvent.observe2(this) {
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         }
 
         binding.downloadAction.setOnClickListener { vm.download() }
