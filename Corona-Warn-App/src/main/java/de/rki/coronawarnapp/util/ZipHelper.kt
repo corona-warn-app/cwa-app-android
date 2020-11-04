@@ -85,4 +85,9 @@ object ZipHelper {
             } while (entry != null)
         }
     }
+
+    fun Sequence<Pair<ZipEntry, InputStream>>.readIntoMap() =
+        fold(emptyMap()) { last: Map<String, ByteArray>, (entry, stream) ->
+            last.plus(entry.name to stream.readBytes())
+        }
 }
