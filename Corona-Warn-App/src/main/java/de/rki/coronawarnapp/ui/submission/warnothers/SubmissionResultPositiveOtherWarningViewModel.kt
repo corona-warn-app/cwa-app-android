@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
-import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -13,6 +12,7 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionTask
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -41,21 +41,12 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
             .map { taskState ->
                 when {
                     taskState == null -> ApiRequestState.IDLE
-                    taskState.isFailed -> ApiRequestState.FAILED.also {
-                        if (taskState.request.id == currentSubmissionRequestId) {
-                            currentSubmissionRequestId = null
-                        }
-                    }
-                    taskState.isFinished -> ApiRequestState.SUCCESS.also {
-                        if (taskState.request.id == currentSubmissionRequestId) {
-                            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
-                            currentSubmissionRequestId = null
-                        }
-                    }
+                    taskState.isFailed -> ApiRequestState.FAILED.also { updateUI(taskState) }
+                    taskState.isFinished -> ApiRequestState.SUCCESS.also { updateUI(taskState) }
                     else -> ApiRequestState.STARTED
                 }
             }
-    val submissionError = SingleLiveEvent<CwaWebException>()
+    val submissionError = SingleLiveEvent<Throwable>()
 
     val uiState = combineTransform(
             submissionState,
@@ -71,6 +62,18 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
 
     val requestKeySharing = SingleLiveEvent<Unit>()
     val showEnableTracingEvent = SingleLiveEvent<Unit>()
+
+    private fun updateUI(taskState: TaskState) {
+        if (taskState.request.id == currentSubmissionRequestId) {
+            when {
+                taskState.isFailed ->
+                    submissionError.postValue(taskState.error)
+                taskState.isSuccessful ->
+                    routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
+            }
+            currentSubmissionRequestId = null
+        }
+    }
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToTestResult)
