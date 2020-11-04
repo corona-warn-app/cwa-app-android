@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionModule
+import de.rki.coronawarnapp.submission.SubmissionTaskModule
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
@@ -61,6 +62,7 @@ import javax.inject.Singleton
         DiagnosisKeysModule::class,
         AppConfigModule::class,
         SubmissionModule::class,
+        SubmissionTaskModule::class,
         VerificationModule::class,
         PlaybookModule::class,
         TaskModule::class,
