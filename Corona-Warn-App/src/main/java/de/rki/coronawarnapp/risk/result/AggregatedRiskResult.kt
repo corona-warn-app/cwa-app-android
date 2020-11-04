@@ -7,6 +7,6 @@ data class AggregatedRiskResult(
     val totalRiskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel,
     val totalMinimumDistinctEncountersWithLowRisk: Int,
     val totalMinimumDistinctEncountersWithHighRisk: Int,
-    val mostRecentDateWithLowRisk: Int?,
-    val mostRecentDateWithHighRisk: Int?
+    val mostRecentDateWithLowRisk: Long?,
+    val mostRecentDateWithHighRisk: Long?
 )
