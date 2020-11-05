@@ -40,15 +40,17 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         val viewModel = createViewModel()
 
         // start
-        viewModel.scanStatus.value!!.getContent() shouldBe ScanStatus.STARTED
+        viewModel.scanStatusValue.value = ScanStatus.STARTED
+
+        viewModel.scanStatusValue.value  shouldBe ScanStatus.STARTED
 
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
-        viewModel.validateAndStoreTestGUID("https://localhost/?$guid")
-        viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.SUCCESS, it) }
+        viewModel.validateTestGUID("https://localhost/?$guid")
+        viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.SUCCESS, it.value) }
 
         // invalid guid
-        viewModel.validateAndStoreTestGUID("https://no-guid-here")
-        viewModel.scanStatus.value?.getContent().let { Assert.assertEquals(ScanStatus.INVALID, it) }
+        viewModel.validateTestGUID("https://no-guid-here")
+        viewModel.scanStatusValue.let { Assert.assertEquals(ScanStatus.INVALID, it.value) }
     }
 }
