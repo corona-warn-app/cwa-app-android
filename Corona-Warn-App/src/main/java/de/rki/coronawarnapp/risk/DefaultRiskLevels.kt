@@ -333,9 +333,8 @@ class DefaultRiskLevels @Inject constructor(
     }
 
     @SuppressLint("BinaryOperationInTimber")
-    override fun aggregateResults(
-        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
-        riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
+    override suspend fun aggregateResults(
+        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
         val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
             .map { it.dateMillisSinceEpoch }
@@ -353,8 +352,7 @@ class DefaultRiskLevels @Inject constructor(
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
             exposureDataMapper(
                 it,
-                exposureWindowsAndResult,
-                riskCalculationParameters
+                exposureWindowsAndResult
             )
         }
 
@@ -427,10 +425,10 @@ class DefaultRiskLevels @Inject constructor(
         .maxOfOrNull { it.dateMillisSinceEpoch }
         ?.let { Instant.ofEpochMilli(it) }
 
-    private fun exposureDataMapper(
+
+    private suspend fun exposureDataMapper(
         dateMillisSinceEpoch: Long,
-        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
-        riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
+        exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): ExposureData {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
@@ -444,7 +442,8 @@ class DefaultRiskLevels @Inject constructor(
 
         // 3. Determine `Risk Level per Date`
         val riskLevel = try {
-            riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList
+            val appConfig = appConfigProvider.getAppConfig()
+            appConfig.normalizedTimePerDayToRiskLevelMappingList
                 .filter { it.normalizedTimeRange.inRange(normalizedTime) }
                 .map { it.riskLevel }
                 .first()
