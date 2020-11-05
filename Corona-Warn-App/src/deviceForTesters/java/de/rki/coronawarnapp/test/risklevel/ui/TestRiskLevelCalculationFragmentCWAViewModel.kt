@@ -9,6 +9,7 @@ import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
+import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -24,7 +25,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import de.rki.coronawarnapp.task.common.TaskFinishAdapter
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -76,13 +77,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun retrieveDiagnosisKeys() {
-        viewModelScope.launch {
-            try {
-                RetrieveDiagnosisKeysTransaction.start()
-                calculateRiskLevel()
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.INTERNAL)
-            }
+        TaskFinishAdapter(
+            taskController,
+            DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments())
+        ).runAndThen {
+            calculateRiskLevel()
         }
     }
 
@@ -174,9 +173,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
                         "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
                         "Attenuation Durations: [${
-                        exposureSummary.attenuationDurationsInMinutes?.get(
-                            0
-                        )
+                            exposureSummary.attenuationDurationsInMinutes?.get(
+                                0
+                            )
                         }," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +

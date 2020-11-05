@@ -178,8 +178,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     }
 
     class Arguments(
-        val withConstraints: Boolean,
-        val requestedCountries: List<String>? = null
+        val requestedCountries: List<String>? = null,
+        val withConstraints: Boolean = false
     ) : Task.Arguments
 
     data class Config(
