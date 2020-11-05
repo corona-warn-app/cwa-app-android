@@ -1,8 +1,10 @@
-package de.rki.coronawarnapp.util.gson
+package de.rki.coronawarnapp.util.serialization
 
 import com.google.gson.Gson
+import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
 import java.io.File
+import kotlin.reflect.KClass
 
 inline fun <reified T> Gson.fromJson(json: String): T = fromJson(
     json,
@@ -16,3 +18,5 @@ inline fun <reified T> Gson.fromJson(file: File): T = file.reader().use {
 inline fun <reified T> Gson.toJson(data: T, file: File) = file.writer().use { writer ->
     toJson(data, writer)
 }
+
+fun <T : Any> KClass<T>.getDefaultGsonTypeAdapter(): TypeAdapter<T> = Gson().getAdapter(this.java)

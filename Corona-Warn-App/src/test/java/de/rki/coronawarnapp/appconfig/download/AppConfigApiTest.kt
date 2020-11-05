@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
@@ -75,7 +76,9 @@ class AppConfigApiTest : BaseIOTest() {
         webServer.enqueue(MockResponse().setBody("~appconfig"))
 
         runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+            api.getApplicationConfiguration("DE").apply {
+                body()!!.string() shouldBe "~appconfig"
+            }
         }
 
         val request = webServer.takeRequest(5, TimeUnit.SECONDS)!!
@@ -94,7 +97,9 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+            api.getApplicationConfiguration("DE").apply {
+                body()!!.string() shouldBe "~appconfig"
+            }
         }
         cacheDir.exists() shouldBe true
         cacheDir.listFiles()!!.size shouldBe 3
@@ -106,7 +111,9 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+            api.getApplicationConfiguration("DE").apply {
+                body()!!.string() shouldBe "~appconfig"
+            }
         }
         cacheDir.exists() shouldBe true
         cacheDir.listFiles()!!.size shouldBe 3
@@ -117,7 +124,9 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+            api.getApplicationConfiguration("DE").apply {
+                body()!!.string() shouldBe "~appconfig"
+            }
         }
         cacheDir.exists() shouldBe true
         cacheDir.listFiles()!!.size shouldBe 3
@@ -139,7 +148,9 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(configResponse)
         runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+            api.getApplicationConfiguration("DE").apply {
+                body()!!.string() shouldBe "~appconfig"
+            }
         }
         cacheDir.exists() shouldBe true
         cacheDir.listFiles()!!.size shouldBe 3
@@ -152,7 +163,9 @@ class AppConfigApiTest : BaseIOTest() {
         webServer.enqueue(MockResponse().setSocketPolicy(SocketPolicy.DISCONNECT_DURING_REQUEST_BODY))
 
         runBlocking {
-            api.getApplicationConfiguration("DE").string() shouldBe "~appconfig"
+            api.getApplicationConfiguration("DE").apply {
+                body()!!.string() shouldBe "~appconfig"
+            }
         }
     }
 }

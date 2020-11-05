@@ -6,20 +6,28 @@ import java.util.Locale
 
 internal object HashExtensions {
 
+    fun ByteArray.toSHA256() = this.hashByteArray("SHA-256")
+
+    fun ByteArray.toSHA1() = this.hashByteArray("SHA-1")
+
+    fun ByteArray.toMD5() = this.hashByteArray("MD5")
+
     fun String.toSHA256() = this.hashString("SHA-256")
 
     fun String.toSHA1() = this.hashString("SHA-1")
 
     fun String.toMD5() = this.hashString("MD5")
 
+    private fun String.hashString(type: String): String = toByteArray().hashByteArray(type)
+
+    private fun ByteArray.hashByteArray(type: String): String = MessageDigest
+        .getInstance(type)
+        .digest(this)
+        .formatHash()
+
     private fun ByteArray.formatHash(): String = this
         .joinToString(separator = "") { String.format("%02X", it) }
         .toLowerCase(Locale.ROOT)
-
-    private fun String.hashString(type: String): String = MessageDigest
-        .getInstance(type)
-        .digest(this.toByteArray())
-        .formatHash()
 
     fun File.hashToMD5(): String = this.hashTo("MD5")
 

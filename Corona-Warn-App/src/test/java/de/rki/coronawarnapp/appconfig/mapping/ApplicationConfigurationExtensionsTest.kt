@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig.ApplicationConfiguration
 import io.kotest.matchers.shouldBe
