@@ -7,8 +7,10 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE
+import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -16,6 +18,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import org.joda.time.Duration
 import javax.inject.Inject
 
 /**
@@ -35,6 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
+    @Inject lateinit var timeStamper: TimeStamper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +65,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
         binding.mainAbout.mainCard.apply {
             setOnClickListener {
-                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+//                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+                NotificationHelper.scheduleRepeatingNotification(
+                        timeStamper.nowUTC.plus(Duration.standardMinutes(1)),
+                        Duration.standardMinutes(1),
+                        POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE)
             }
             contentDescription = getString(R.string.hint_external_webpage)
         }

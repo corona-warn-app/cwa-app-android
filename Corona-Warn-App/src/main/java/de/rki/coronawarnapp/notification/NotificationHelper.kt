@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.notification
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
@@ -13,7 +11,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_REQUEST_CODE_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE
 import de.rki.coronawarnapp.ui.main.MainActivity
+import org.joda.time.Duration
+import org.joda.time.Instant
+import org.joda.time.Interval
 import timber.log.Timber
 import kotlin.random.Random
 
@@ -82,6 +85,29 @@ object NotificationHelper {
         }
     }
 
+    fun scheduleRepeatingNotification(initialTime: Instant, interval: Duration, requestCode: Int) {
+        val intent = Intent(CoronaWarnApplication.getAppContext(), NotificationReceiver::class.java)
+        intent.putExtra(NOTIFICATION_REQUEST_CODE_ID, requestCode)
+        val pendingIntent = PendingIntent.getBroadcast(
+                CoronaWarnApplication.getAppContext(),
+                requestCode,
+                intent,
+                FLAG_UPDATE_CURRENT)
+
+        val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
+    }
+
+    fun cancelNotification(requestCode: Int) {
+        val pendingIntent = PendingIntent.getBroadcast(
+                CoronaWarnApplication.getAppContext(),
+                requestCode,
+                Intent(),
+                FLAG_UPDATE_CURRENT)
+        val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        manager.cancel(pendingIntent)
+    }
+
     /**
      * Build notification
      * Create notification with defined title, content text and visibility.
@@ -98,13 +124,14 @@ object NotificationHelper {
         title: String,
         content: String,
         visibility: Int,
-        expandableLongText: Boolean = false
+        expandableLongText: Boolean = false,
+        pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ): Notification? {
         val builder = NotificationCompat.Builder(CoronaWarnApplication.getAppContext(), channelId)
             .setSmallIcon(NotificationConstants.NOTIFICATION_SMALL_ICON)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setVisibility(visibility)
-            .setContentIntent(createPendingIntentToMainActivity())
+            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
         if (expandableLongText) {
@@ -159,10 +186,11 @@ object NotificationHelper {
         title: String,
         content: String,
         visibility: Int,
-        expandableLongText: Boolean = false
+        expandableLongText: Boolean = false,
+        pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ) {
         val notification =
-            buildNotification(title, content, visibility, expandableLongText) ?: return
+            buildNotification(title, content, visibility, expandableLongText, pendingIntent) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
             notify(Random.nextInt(), notification)
         }
