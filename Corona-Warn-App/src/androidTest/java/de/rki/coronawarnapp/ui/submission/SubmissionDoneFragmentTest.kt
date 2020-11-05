@@ -42,8 +42,7 @@ class SubmissionDoneFragmentTest : BaseUITest() {
         launchFragment<SubmissionDoneFragment>()
     }
 
-    @Test
-    fun testDoneClicked() {
+    @Test fun testDoneClicked() {
         val scenario = launchFragmentInContainer<SubmissionDoneFragment>()
         onView(withId(R.id.submission_done_button_done))
             .perform(click())

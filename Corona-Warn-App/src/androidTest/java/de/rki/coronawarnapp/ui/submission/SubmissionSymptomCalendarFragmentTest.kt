@@ -51,8 +51,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         launchFragment<SubmissionSymptomCalendarFragment>()
     }
 
-    @Test
-    fun testSymptomCalendarNextClicked() {
+    @Test fun testSymptomCalendarNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionSymptomCalendarFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())

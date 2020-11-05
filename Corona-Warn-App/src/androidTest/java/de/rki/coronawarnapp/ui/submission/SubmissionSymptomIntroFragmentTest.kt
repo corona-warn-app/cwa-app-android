@@ -43,8 +43,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         launchFragment<SubmissionSymptomIntroductionFragment>()
     }
 
-    @Test
-    fun testSymptomNextClicked() {
+    @Test fun testSymptomNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.symptom_button_next))
             .perform(scrollTo())

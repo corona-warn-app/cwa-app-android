@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 
 class SettingsCrashReportViewModel @AssistedInject constructor(
     private val crashReportRepository: BugRepository

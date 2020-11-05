@@ -42,8 +42,7 @@ class SubmissionQrCodeInfoFragmentTest : BaseUITest() {
         launchFragment<SubmissionQRCodeInfoFragment>()
     }
 
-    @Test
-    fun testQRInfoNextClicked() {
+    @Test fun testQRInfoNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionQRCodeInfoFragment>()
         onView(withId(R.id.submission_qr_info_button_next))
             .perform(click())

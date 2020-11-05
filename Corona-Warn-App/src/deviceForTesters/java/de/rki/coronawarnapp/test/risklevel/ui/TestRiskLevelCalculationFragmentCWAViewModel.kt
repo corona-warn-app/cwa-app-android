@@ -174,9 +174,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
                         "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
                         "Attenuation Durations: [${
-                            exposureSummary.attenuationDurationsInMinutes?.get(
-                                0
-                            )
+                        exposureSummary.attenuationDurationsInMinutes?.get(
+                            0
+                        )
                         }," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +

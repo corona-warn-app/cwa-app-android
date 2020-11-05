@@ -66,8 +66,7 @@ class SubmissionOtherWarningFragmentTest : BaseUITest() {
         launchFragment<SubmissionResultPositiveOtherWarningFragment>()
     }
 
-    @Test
-    fun testOtherWarningNextClicked() {
+    @Test fun testOtherWarningNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionResultPositiveOtherWarningFragment>()
         onView(withId(R.id.submission_positive_other_warning_button_next))
             .perform(scrollTo())

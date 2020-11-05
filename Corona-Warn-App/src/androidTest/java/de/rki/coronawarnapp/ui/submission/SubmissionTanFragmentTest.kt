@@ -45,8 +45,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
         launchFragment<SubmissionTanFragment>()
     }
 
-    @Test
-    fun testEventTanNextClicked() {
+    @Test fun testEventTanNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionTanFragment>()
         ViewActions.closeSoftKeyboard()
         onView(withId(R.id.submission_tan_button_enter))

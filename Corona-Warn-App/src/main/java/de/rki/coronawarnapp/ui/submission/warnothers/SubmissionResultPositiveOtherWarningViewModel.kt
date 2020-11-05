@@ -36,25 +36,25 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
 
     private var currentSubmissionRequestId: UUID? = null
     private val currentSubmission = taskController.tasks
-        .map { it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState }
+            .map { it.find { taskInfo -> taskInfo.taskState.type == SubmissionTask::class }?.taskState }
     private val submissionState = currentSubmission
-        .map { taskState ->
-            when {
-                taskState == null -> ApiRequestState.IDLE
-                taskState.isFailed -> ApiRequestState.FAILED.also { updateUI(taskState) }
-                taskState.isFinished -> ApiRequestState.SUCCESS.also { updateUI(taskState) }
-                else -> ApiRequestState.STARTED
+            .map { taskState ->
+                when {
+                    taskState == null -> ApiRequestState.IDLE
+                    taskState.isFailed -> ApiRequestState.FAILED.also { updateUI(taskState) }
+                    taskState.isFinished -> ApiRequestState.SUCCESS.also { updateUI(taskState) }
+                    else -> ApiRequestState.STARTED
+                }
             }
-        }
     val submissionError = SingleLiveEvent<Throwable>()
 
     val uiState = combineTransform(
-        submissionState,
-        interoperabilityRepository.countryListFlow
+            submissionState,
+            interoperabilityRepository.countryListFlow
     ) { state, countries ->
         WarnOthersState(
-            apiRequestState = state,
-            countryList = countries
+                apiRequestState = state,
+                countryList = countries
         ).also { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
@@ -101,10 +101,10 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
     private fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {
         Timber.d("submitDiagnosisKeys(keys=%s, symptoms=%s)", keys, symptoms)
         val registrationToken =
-            LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
+                LocalData.registrationToken() ?: throw NoRegistrationTokenSetException()
         val taskRequest = DefaultTaskRequest(
-            SubmissionTask::class,
-            SubmissionTask.Arguments(registrationToken, keys, symptoms)
+                SubmissionTask::class,
+                SubmissionTask.Arguments(registrationToken, keys, symptoms)
         )
         currentSubmissionRequestId = taskRequest.id
         taskController.submit(taskRequest)

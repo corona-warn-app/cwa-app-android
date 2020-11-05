@@ -53,8 +53,7 @@ class SubmissionIntroFragmentTest : BaseUITest() {
         Screengrab.screenshot("submission_Intro_fragment_opened")
     }
 
-    @Test
-    fun testEventNextClicked() {
+    @Test fun testEventNextClicked() {
         val scenario = launchFragmentInContainer<SubmissionIntroFragment>()
         onView(withId(R.id.submission_intro_button_next))
             .perform(click())
