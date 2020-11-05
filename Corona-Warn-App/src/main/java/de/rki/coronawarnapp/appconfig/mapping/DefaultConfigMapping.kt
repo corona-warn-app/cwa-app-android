@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
-import de.rki.coronawarnapp.appconfig.ExposureWindowRiskLevelConfig
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
@@ -13,10 +13,10 @@ data class DefaultConfigMapping(
     val keyDownloadConfig: KeyDownloadConfig,
     val exposureDetectionConfig: ExposureDetectionConfig,
     val riskCalculationConfig: RiskCalculationConfig,
-    val exposureWindowRiskLevelConfig: ExposureWindowRiskLevelConfig
+    val exposureWindowRiskCalculationConfig: ExposureWindowRiskCalculationConfig
 ) : ConfigMapping,
     CWAConfig by cwaConfig,
     KeyDownloadConfig by keyDownloadConfig,
     ExposureDetectionConfig by exposureDetectionConfig,
     RiskCalculationConfig by riskCalculationConfig,
-    ExposureWindowRiskLevelConfig by exposureWindowRiskLevelConfig
+    ExposureWindowRiskCalculationConfig by exposureWindowRiskCalculationConfig

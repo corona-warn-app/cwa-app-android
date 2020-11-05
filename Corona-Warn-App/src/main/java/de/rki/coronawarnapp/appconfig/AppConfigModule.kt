@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.appconfig.download.AppConfigHttpCache
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.DownloadConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.ExposureDetectionConfigMapper
-import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskLevelConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.RiskCalculationConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -75,7 +75,7 @@ class AppConfigModule {
     fun riskMapper(mapper: RiskCalculationConfigMapper): RiskCalculationConfig.Mapper = mapper
 
     @Provides
-    fun windowRiskMapper(mapper: ExposureWindowRiskLevelConfigMapper): ExposureWindowRiskLevelConfig.Mapper = mapper
+    fun windowRiskMapper(mapper: ExposureWindowRiskCalculationConfigMapper): ExposureWindowRiskCalculationConfig.Mapper = mapper
 
     companion object {
         private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)

@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
-import de.rki.coronawarnapp.appconfig.ExposureWindowRiskLevelConfig
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import io.mockk.MockKAnnotations
@@ -22,7 +22,7 @@ class ConfigParserTest : BaseTest() {
     @MockK lateinit var keyDownloadConfigMapper: KeyDownloadConfig.Mapper
     @MockK lateinit var exposureDetectionConfigMapper: ExposureDetectionConfig.Mapper
     @MockK lateinit var riskCalculationConfigMapper: RiskCalculationConfig.Mapper
-    @MockK lateinit var exposureWindowRiskLevelConfigMapper: ExposureWindowRiskLevelConfig.Mapper
+    @MockK lateinit var exposureWindowRiskCalculationConfigMapper: ExposureWindowRiskCalculationConfig.Mapper
 
     @BeforeEach
     fun setup() {
@@ -44,7 +44,7 @@ class ConfigParserTest : BaseTest() {
         keyDownloadConfigMapper = keyDownloadConfigMapper,
         exposureDetectionConfigMapper = exposureDetectionConfigMapper,
         riskCalculationConfigMapper = riskCalculationConfigMapper,
-        exposureWindowRiskLevelConfigMapper = exposureWindowRiskLevelConfigMapper
+        exposureWindowRiskLevelConfigMapper = exposureWindowRiskCalculationConfigMapper
     )
 
     @Test

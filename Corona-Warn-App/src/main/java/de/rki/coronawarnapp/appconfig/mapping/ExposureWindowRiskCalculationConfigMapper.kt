@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
-import de.rki.coronawarnapp.appconfig.ExposureWindowRiskLevelConfig
+import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import javax.inject.Inject
 
 @Reusable
-class ExposureWindowRiskLevelConfigMapper @Inject constructor() :
-    ExposureWindowRiskLevelConfig.Mapper {
+class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
+    ExposureWindowRiskCalculationConfig.Mapper {
 
-    override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskLevelConfig {
+    override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskCalculationConfig {
         val riskCalculationParameters = rawConfig.riskCalculationParameters
-        return ExposureWindowRiskLevelContainer(
+        return ExposureWindowRiskCalculationContainer(
             minutesAtAttenuationFilters = riskCalculationParameters
                 .minutesAtAttenuationFiltersList,
             minutesAtAttenuationWeights = riskCalculationParameters
@@ -28,7 +28,7 @@ class ExposureWindowRiskLevelConfigMapper @Inject constructor() :
         )
     }
 
-    data class ExposureWindowRiskLevelContainer(
+    data class ExposureWindowRiskCalculationContainer(
         override val minutesAtAttenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
         override val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
         override val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
@@ -36,5 +36,5 @@ class ExposureWindowRiskLevelConfigMapper @Inject constructor() :
         override val transmissionRiskLevelMultiplier: Double,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
-    ) : ExposureWindowRiskLevelConfig
+    ) : ExposureWindowRiskCalculationConfig
 }

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.appconfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 
-interface ExposureWindowRiskLevelConfig {
+interface ExposureWindowRiskCalculationConfig {
     val minutesAtAttenuationFilters: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>
     val minutesAtAttenuationWeights: List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>
     val transmissionRiskLevelEncoding: RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
@@ -13,6 +13,6 @@ interface ExposureWindowRiskLevelConfig {
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
 
     interface Mapper {
-        fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskLevelConfig
+        fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): ExposureWindowRiskCalculationConfig
     }
 }
