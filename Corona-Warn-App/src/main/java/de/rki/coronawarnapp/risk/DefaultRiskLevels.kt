@@ -378,14 +378,34 @@ class DefaultRiskLevels @Inject constructor(
         Timber.d("totalRiskLevel: ${totalRiskLevel.name} (${totalRiskLevel.ordinal})")
 
         // 7. Determine `Date of Most Recent Date with Low Risk`
+        val mostRecentDateWithLowRisk = exposureHistory
+            .filter { it.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW }
+            .sortedBy { it.date }
+            .map { it.date }
+            .first()
+
+        Timber.d("mostRecentDateWithLowRisk: $mostRecentDateWithLowRisk")
 
         // 8. Determine `Date of Most Recent Date with High Risk`
+        val mostRecentDateWithHighRisk = exposureHistory
+            .filter { it.riskLevel == RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH }
+            .sortedBy { it.date }
+            .map { it.date }
+            .first()
+
+        Timber.d("mostRecentDateWithHighRisk: $mostRecentDateWithHighRisk")
 
         // 9. Determine `Total Minimum Distinct Encounters With Low Risk`
+        val totalMinimumDistinctEncountersWithLowRisk = exposureHistory
+            .sumBy { it.minimumDistinctEncountersWithLowRisk }
+
+        Timber.d("totalMinimumDistinctEncountersWithLowRisk: $totalMinimumDistinctEncountersWithLowRisk")
 
         // 10. Determine `Total Minimum Distinct Encounters With High Risk`
+        val totalMinimumDistinctEncountersWithHighRisk = exposureHistory
+            .sumBy { it.minimumDistinctEncountersWithHighRisk }
 
-        TODO("Implement last steps and adjust values")
+        Timber.d("totalMinimumDistinctEncountersWithHighRisk: $totalMinimumDistinctEncountersWithHighRisk")
 
         return AggregatedRiskResult(
             totalRiskLevel,
