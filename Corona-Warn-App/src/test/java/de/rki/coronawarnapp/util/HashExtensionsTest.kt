@@ -14,7 +14,8 @@ import java.io.File
 
 class HashExtensionsTest : BaseIOTest() {
 
-    private val testInput = "The Cake Is A Lie"
+    private val testInputText = "The Cake Is A Lie"
+    private val testInputByteArray = testInputText.toByteArray()
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
     @BeforeEach
@@ -31,17 +32,32 @@ class HashExtensionsTest : BaseIOTest() {
 
     @Test
     fun `hash string to MD5`() {
-        testInput.toMD5() shouldBe "e42997e37d8d70d4927b0b396254c179"
+        testInputText.toMD5() shouldBe "e42997e37d8d70d4927b0b396254c179"
     }
 
     @Test
     fun `hash string to SHA256`() {
-        testInput.toSHA256() shouldBe "3afc82e0c5df81d1733fe0c289538a1a1f7a5038d5c261860a5c83952f4bcb61"
+        testInputText.toSHA256() shouldBe "3afc82e0c5df81d1733fe0c289538a1a1f7a5038d5c261860a5c83952f4bcb61"
     }
 
     @Test
     fun `hash string to SHA1`() {
-        testInput.toSHA1() shouldBe "4d57f806e5f714ebdb5a74a12fda9523fae21d76"
+        testInputText.toSHA1() shouldBe "4d57f806e5f714ebdb5a74a12fda9523fae21d76"
+    }
+
+    @Test
+    fun `hash bytearray to MD5`() {
+        testInputByteArray.toMD5() shouldBe "e42997e37d8d70d4927b0b396254c179"
+    }
+
+    @Test
+    fun `hash bytearray to SHA256`() {
+        testInputByteArray.toSHA256() shouldBe "3afc82e0c5df81d1733fe0c289538a1a1f7a5038d5c261860a5c83952f4bcb61"
+    }
+
+    @Test
+    fun `hash bytearray to SHA1`() {
+        testInputByteArray.toSHA1() shouldBe "4d57f806e5f714ebdb5a74a12fda9523fae21d76"
     }
 
     @Test

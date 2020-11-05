@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import javax.inject.Qualifier
 

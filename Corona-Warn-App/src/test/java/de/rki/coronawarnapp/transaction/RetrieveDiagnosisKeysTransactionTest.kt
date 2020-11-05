@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.transaction
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.GoogleAPIVersion
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -37,6 +38,8 @@ class RetrieveDiagnosisKeysTransactionTest {
 
     @MockK lateinit var mockEnfClient: ENFClient
     @MockK lateinit var environmentSetup: EnvironmentSetup
+    @MockK lateinit var configProvider: AppConfigProvider
+    @MockK lateinit var configData: ConfigData
 
     @BeforeEach
     fun setUp() {
@@ -50,17 +53,21 @@ class RetrieveDiagnosisKeysTransactionTest {
                 mockEnfClient,
                 environmentSetup
             )
+            every { appConfigProvider } returns configProvider
         }
+
+        coEvery { configProvider.getAppConfig() } returns configData
+        every { configData.supportedCountries } returns emptyList()
+        every { configData.exposureDetectionConfiguration } returns mockk()
+
         every { AppInjector.component } returns appComponent
 
         mockkObject(InternalExposureNotificationClient)
-        mockkObject(ApplicationConfigurationService)
         mockkObject(RetrieveDiagnosisKeysTransaction)
         mockkObject(LocalData)
 
         coEvery { InternalExposureNotificationClient.asyncIsEnabled() } returns true
 
-        coEvery { ApplicationConfigurationService.asyncRetrieveExposureConfiguration() } returns mockk()
         every { LocalData.googleApiToken(any()) } just Runs
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch() } returns Date()
         every { LocalData.lastTimeDiagnosisKeysFromServerFetch(any()) } just Runs

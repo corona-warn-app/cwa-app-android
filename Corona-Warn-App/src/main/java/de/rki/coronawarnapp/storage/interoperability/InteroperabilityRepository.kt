@@ -40,7 +40,7 @@ class InteroperabilityRepository @Inject constructor(
         runBlocking {
             try {
                 val countries = appConfigProvider.getAppConfig()
-                    .supportedCountriesList
+                    .supportedCountries
                     .mapNotNull { rawCode ->
                         val countryCode = rawCode.toLowerCase(Locale.ROOT)
 
