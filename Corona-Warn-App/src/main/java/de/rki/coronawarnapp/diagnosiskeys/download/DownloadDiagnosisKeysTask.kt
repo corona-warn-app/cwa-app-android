@@ -20,9 +20,10 @@ import kotlinx.coroutines.flow.asFlow
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
-import java.util.*
+import java.io.File
+import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -46,23 +47,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             arguments as Arguments
 
             if (arguments.withConstraints) {
-                val currentDate = DateTime(timeStamper.nowUTC, DateTimeZone.UTC)
-                val lastFetch = DateTime(
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch(),
-                    DateTimeZone.UTC
-                )
-                if (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
-                    currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
-                ) {
-                    Timber.tag(TAG)
-                        .d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
-                    BackgroundWorkHelper.sendDebugNotification(
-                        "Start Task",
-                        "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
-                    )
-                } else {
-                    return object : Task.Result {}
-                }
+                if (!noKeysFetchedToday()) return object : Task.Result {}
             }
 
             /**
@@ -81,31 +66,16 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             /****************************************************
              * RETRIEVE TOKEN
              ****************************************************/
-            val googleAPITokenForRollback = LocalData.googleApiToken()
-            rollbackItems.add {
-                LocalData.googleApiToken(googleAPITokenForRollback)
-            }
-            val token = UUID.randomUUID().toString()
-            LocalData.googleApiToken(token)
+            val token = retrieveToken(rollbackItems)
 
             // RETRIEVE RISK SCORE PARAMETERS
-            val appConfig = appConfigProvider.getAppConfig()
-            val exposureConfiguration = appConfig.exposureDetectionConfiguration
+            val exposureConfiguration = appConfigProvider.getAppConfig().exposureDetectionConfiguration
 
             internalProgress.send(Progress.ApiSubmissionStarted)
             internalProgress.send(Progress.KeyFilesDownloadStarted)
 
-            val availableKeyFiles =
-                keyFileDownloader.asyncFetchKeyFiles(if (environmentSetup.useEuropeKeyPackageFiles) {
-                    listOf("EUR")
-                } else {
-                    arguments.requestedCountries
-                        ?: appConfig.supportedCountries
-                }.map { LocationCode(it) })
-
-            if (availableKeyFiles.isEmpty()) {
-                Timber.tag(TAG).w("No keyfiles were available!")
-            }
+            val requestedCountries = arguments.requestedCountries
+            val availableKeyFiles = getAvailableKeyFiles(requestedCountries)
 
             if (CWADebug.isDebugBuildOrMode) {
                 val totalFileSize = availableKeyFiles.fold(0L, { acc, file ->
@@ -144,18 +114,66 @@ class DownloadDiagnosisKeysTask @Inject constructor(
         } catch (error: Exception) {
             Timber.tag(TAG).e(error)
 
-            try {
-                Timber.tag(TAG).d("Initiate Rollback")
-                for (rollbackItem: RollbackItem in rollbackItems) rollbackItem.invoke()
-            } catch (rollbackException: Exception) {
-                Timber.tag(TAG).e(rollbackException, "Rollback failed.")
-            }
+            rollback(rollbackItems)
 
             throw error
         } finally {
             Timber.i("Finished (isCanceled=$isCanceled).")
             internalProgress.close()
         }
+    }
+
+    private fun retrieveToken(rollbackItems: MutableList<RollbackItem>): String {
+        val googleAPITokenForRollback = LocalData.googleApiToken()
+        rollbackItems.add {
+            LocalData.googleApiToken(googleAPITokenForRollback)
+        }
+        return UUID.randomUUID().toString().also {
+            LocalData.googleApiToken(it)
+        }
+    }
+
+    private fun noKeysFetchedToday(): Boolean {
+        val currentDate = DateTime(timeStamper.nowUTC, DateTimeZone.UTC)
+        val lastFetch = DateTime(
+            LocalData.lastTimeDiagnosisKeysFromServerFetch(),
+            DateTimeZone.UTC
+        )
+        return (LocalData.lastTimeDiagnosisKeysFromServerFetch() == null ||
+            currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()).also {
+            if (it) {
+                Timber.tag(TAG)
+                    .d("No keys fetched today yet (last=%s, now=%s)", lastFetch, currentDate)
+                BackgroundWorkHelper.sendDebugNotification(
+                    "Start Task",
+                    "No keys fetched today yet \n${DateTime.now()}\nUTC: $currentDate"
+                )
+            }
+        }
+    }
+
+    private fun rollback(rollbackItems: MutableList<RollbackItem>) {
+        try {
+            Timber.tag(TAG).d("Initiate Rollback")
+            for (rollbackItem: RollbackItem in rollbackItems) rollbackItem.invoke()
+        } catch (rollbackException: Exception) {
+            Timber.tag(TAG).e(rollbackException, "Rollback failed.")
+        }
+    }
+
+    private suspend fun getAvailableKeyFiles(requestedCountries: List<String>?): List<File> {
+        val availableKeyFiles =
+            keyFileDownloader.asyncFetchKeyFiles(if (environmentSetup.useEuropeKeyPackageFiles) {
+                listOf("EUR")
+            } else {
+                requestedCountries
+                    ?: appConfigProvider.getAppConfig().supportedCountries
+            }.map { LocationCode(it) })
+
+        if (availableKeyFiles.isEmpty()) {
+            Timber.tag(TAG).w("No keyfiles were available!")
+        }
+        return availableKeyFiles
     }
 
     private fun checkCancel() {
