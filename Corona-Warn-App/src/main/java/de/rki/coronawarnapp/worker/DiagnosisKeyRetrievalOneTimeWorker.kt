@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 /**
@@ -44,6 +45,9 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
             DownloadDiagnosisKeysTask.Arguments(null, true)
         )
         taskController.tasks
+            .onStart {
+                taskController.submit(taskRequest)
+            }
             .map {
                 it
                     .map { taskInfo -> taskInfo.taskState }
