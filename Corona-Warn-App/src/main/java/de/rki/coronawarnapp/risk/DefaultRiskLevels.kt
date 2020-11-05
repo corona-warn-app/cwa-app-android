@@ -408,7 +408,6 @@ class DefaultRiskLevels @Inject constructor(
 
         Timber.d("totalMinimumDistinctEncountersWithHighRisk: $totalMinimumDistinctEncountersWithHighRisk")
 
-
         return AggregatedRiskResult(
             totalRiskLevel,
             totalMinimumDistinctEncountersWithLowRisk,
