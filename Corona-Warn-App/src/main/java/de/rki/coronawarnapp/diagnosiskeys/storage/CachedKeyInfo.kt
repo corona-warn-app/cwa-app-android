@@ -18,7 +18,7 @@ data class CachedKeyInfo(
     @ColumnInfo(name = "day") val day: LocalDate, // i.e. 2020-08-23
     @ColumnInfo(name = "hour") val hour: LocalTime?, // i.e. 23
     @ColumnInfo(name = "createdAt") val createdAt: Instant,
-    @ColumnInfo(name = "checksumMD5") val checksumMD5: String?,
+    @ColumnInfo(name = "checksumMD5") val checksumMD5: String?, // ETag
     @ColumnInfo(name = "completed") val isDownloadComplete: Boolean
 ) {
 

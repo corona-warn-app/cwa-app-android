@@ -80,5 +80,7 @@ object TimeAndDateExtensions {
 
     fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
-    fun Instant.toLocalDate() = this.toDateTime(DateTimeZone.UTC).toLocalDate()
+    fun Instant.toLocalDate(timezone: DateTimeZone = DateTimeZone.UTC) = this.toDateTime(timezone).toLocalDate()
+
+    fun Instant.toLocalTime(timezone: DateTimeZone = DateTimeZone.UTC) = this.toDateTime(timezone).toLocalTime()
 }

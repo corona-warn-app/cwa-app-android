@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -13,11 +14,13 @@ import testhelpers.BaseTest
 class CountryDataTest : BaseTest() {
     private val locationCode = LocationCode("DE")
 
-    private fun createCachedKey(dayString: String, hourString: String? = null): CachedKeyInfo {
-        return mockk<CachedKeyInfo>().apply {
-            every { location } returns locationCode
-            every { day } returns LocalDate.parse(dayString)
-            every { hour } returns hourString?.let { LocalTime.parse(it) }
+    private fun createCachedKey(dayString: String, hourString: String? = null): CachedKey {
+        return mockk<CachedKey>().apply {
+            every { info } returns mockk<CachedKeyInfo>().apply {
+                every { location } returns locationCode
+                every { day } returns LocalDate.parse(dayString)
+                every { hour } returns hourString?.let { LocalTime.parse(it) }
+            }
         }
     }
 
@@ -65,7 +68,7 @@ class CountryDataTest : BaseTest() {
 
         cd.dayData shouldBe availableDates
 
-        val cachedDays = emptyList<CachedKeyInfo>()
+        val cachedDays = emptyList<CachedKey>()
 
         cd.getMissingDays(cachedDays) shouldBe availableDates
         cd.toMissingDays(cachedDays) shouldBe cd
@@ -183,7 +186,7 @@ class CountryDataTest : BaseTest() {
 
         cd.hourData shouldBe availableHours
 
-        val cachedHours = emptyList<CachedKeyInfo>()
+        val cachedHours = emptyList<CachedKey>()
 
         cd.getMissingHours(cachedHours) shouldBe availableHours
         cd.toMissingHours(cachedHours) shouldBe cd.copy(hourData = availableHours)

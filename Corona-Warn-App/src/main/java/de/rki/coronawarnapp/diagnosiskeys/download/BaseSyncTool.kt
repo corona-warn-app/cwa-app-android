@@ -1,0 +1,89 @@
+package de.rki.coronawarnapp.diagnosiskeys.download
+
+import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
+import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.storage.DeviceStorage
+import timber.log.Timber
+
+abstract class BaseSyncTool(
+    private val keyCache: KeyCacheRepository,
+    private val deviceStorage: DeviceStorage,
+    private val tag: String
+) {
+
+    internal suspend fun invalidateCachedKeys(invalidatedKeyFiles: Collection<KeyDownloadConfig.InvalidatedKeyFile>) {
+        val badEtags = invalidatedKeyFiles.map { it.etag }
+        val toDelete = keyCache.getAllCachedKeys()
+            .filter { badEtags.contains(it.info.checksumMD5) }
+
+        Timber.w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
+        keyCache.delete(toDelete.map { it.info })
+    }
+
+    internal suspend fun requireStorageSpace(data: List<CountryData>): DeviceStorage.CheckResult {
+        val requiredBytes = data.fold(0L) { acc, item ->
+            acc + item.approximateSizeInBytes
+        }
+        Timber.d("%dB are required for %s", requiredBytes, data)
+        return deviceStorage.requireSpacePrivateStorage(requiredBytes).also {
+            Timber.tag(tag).d("Storage check result: %s", it)
+        }
+    }
+
+    // All cached files that are no longer on the server are considered stale
+    internal fun List<CachedKey>.findStaleData(
+        availableData: List<CountryData>
+    ): List<CachedKey> = filter { (cachedKey, _) ->
+        // Is there a day on the server that matches our cached keys day?
+        val serverHasMatchingDay = availableData
+            .mapNotNull { it as? CountryDays }
+            .any { it.dayData.contains(cachedKey.day) }
+
+        when {
+            cachedKey.type == CachedKeyInfo.Type.COUNTRY_DAY -> {
+                // If there is no matching day on the server, our cached key is stale
+                return@filter !serverHasMatchingDay
+            }
+            cachedKey.type == CachedKeyInfo.Type.COUNTRY_HOUR && serverHasMatchingDay -> {
+                // A cached hour for which a server day exists, means we don't need the hour anymore
+                // If there is no match, then we can't decide yet, and need to check the server for hours
+                return@filter true // Stale
+            }
+        }
+
+        // Is there an hour on the server that matches our cached hour?
+        val serverHasMatchingHour = availableData
+            .mapNotNull { it as? CountryHours }
+            .any { serverHours ->
+                serverHours.hourData.any { (day, hours) ->
+                    cachedKey.day == day && hours.contains(cachedKey.hour)
+                }
+            }
+
+        if (serverHasMatchingHour) {
+            // Our hour is still on the server
+            return@filter false // Not stale
+        }
+
+        // If we couldn't find match against the server data, our cache entry is probably stale
+        return@filter true
+    }
+
+    internal suspend fun getCompletedCachedKeys(
+        location: LocationCode,
+        type: CachedKeyInfo.Type
+    ): List<CachedKey> = keyCache.getEntriesForType(type)
+        .filter { it.info.location == location }
+        .filter { key ->
+            val complete = key.info.isDownloadComplete
+            val exists = key.path.exists()
+            if (complete && !exists) {
+                Timber.tag(tag).v("Incomplete download, will overwrite: %s", key)
+            }
+            // We overwrite not completed ones
+            complete && exists
+        }
+}

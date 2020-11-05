@@ -81,16 +81,21 @@ class KeyCacheRepository @Inject constructor(
         delete(dirtyInfos)
     }
 
+    private fun CachedKeyInfo.toCachedKey(): CachedKey = CachedKey(
+        info = this,
+        path = getPathForKey(this)
+    )
+
     fun getPathForKey(cachedKeyInfo: CachedKeyInfo): File {
         return File(storageDir, cachedKeyInfo.fileName)
     }
 
-    suspend fun getAllCachedKeys(): List<Pair<CachedKeyInfo, File>> {
-        return getDao().getAllEntries().map { it to getPathForKey(it) }
+    suspend fun getAllCachedKeys(): List<CachedKey> {
+        return getDao().getAllEntries().map { it.toCachedKey() }
     }
 
-    suspend fun getEntriesForType(type: CachedKeyInfo.Type): List<Pair<CachedKeyInfo, File>> {
-        return getDao().getEntriesForType(type.typeValue).map { it to getPathForKey(it) }
+    suspend fun getEntriesForType(type: CachedKeyInfo.Type): List<CachedKey> {
+        return getDao().getEntriesForType(type.typeValue).map { it.toCachedKey() }
     }
 
     suspend fun createCacheEntry(
@@ -98,8 +103,8 @@ class KeyCacheRepository @Inject constructor(
         location: LocationCode,
         dayIdentifier: LocalDate,
         hourIdentifier: LocalTime?
-    ): Pair<CachedKeyInfo, File> {
-        val newKeyFile = CachedKeyInfo(
+    ): CachedKey {
+        val keyInfo = CachedKeyInfo(
             type = type,
             location = location,
             day = dayIdentifier,
@@ -107,19 +112,19 @@ class KeyCacheRepository @Inject constructor(
             createdAt = timeStamper.nowUTC
         )
 
-        val targetFile = getPathForKey(newKeyFile)
+        val targetFile = getPathForKey(keyInfo)
 
         try {
-            getDao().insertEntry(newKeyFile)
+            getDao().insertEntry(keyInfo)
             if (targetFile.exists()) {
                 Timber.w("Target path despite no collision exists, deleting: %s", targetFile)
             }
         } catch (e: SQLiteConstraintException) {
-            Timber.e(e, "Insertion collision? Overwriting for %s", newKeyFile)
-            delete(listOf(newKeyFile))
+            Timber.e(e, "Insertion collision? Overwriting for %s", keyInfo)
+            delete(listOf(keyInfo))
 
-            Timber.d(e, "Retrying insertion for %s", newKeyFile)
-            getDao().insertEntry(newKeyFile)
+            Timber.d(e, "Retrying insertion for %s", keyInfo)
+            getDao().insertEntry(keyInfo)
         }
 
         // This can't be null unless our cache dir is root `/`
@@ -129,7 +134,7 @@ class KeyCacheRepository @Inject constructor(
             targetParent.mkdirs()
         }
 
-        return newKeyFile to targetFile
+        return CachedKey(info = keyInfo, path = targetFile)
     }
 
     suspend fun markKeyComplete(cachedKeyInfo: CachedKeyInfo, checksumMD5: String) {

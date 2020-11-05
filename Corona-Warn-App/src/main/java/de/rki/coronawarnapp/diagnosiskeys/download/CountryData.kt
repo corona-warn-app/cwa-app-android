@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 
@@ -24,10 +24,10 @@ internal data class CountryDays(
     /**
      * Return a filtered list that contains all dates which are part of this wrapper, but not in the parameter.
      */
-    fun getMissingDays(cachedKeys: List<CachedKeyInfo>): Collection<LocalDate>? {
+    fun getMissingDays(cachedKeys: List<CachedKey>): Collection<LocalDate>? {
         val cachedCountryDates = cachedKeys
-            .filter { it.location == country }
-            .map { it.day }
+            .filter { it.info.location == country }
+            .map { it.info.day }
 
         return dayData.filter { date ->
             !cachedCountryDates.contains(date)
@@ -38,7 +38,7 @@ internal data class CountryDays(
      * Create a new country object that only contains those elements,
      * that are part of this wrapper, but not in the cache.
      */
-    fun toMissingDays(cachedKeys: List<CachedKeyInfo>): CountryDays? {
+    fun toMissingDays(cachedKeys: List<CachedKey>): CountryDays? {
         val missingDays = this.getMissingDays(cachedKeys)
         if (missingDays == null || missingDays.isEmpty()) return null
 
@@ -62,19 +62,19 @@ internal data class CountryHours(
         }
     }
 
-    fun getMissingHours(cachedKeys: List<CachedKeyInfo>): Map<LocalDate, List<LocalTime>>? {
+    fun getMissingHours(cachedKeys: List<CachedKey>): Map<LocalDate, List<LocalTime>>? {
         val cachedHours = cachedKeys
-            .filter { it.location == country }
+            .filter { it.info.location == country }
 
         return hourData.mapNotNull { (day, dayHours) ->
             val missingHours = dayHours.filter { hour ->
-                cachedHours.none { it.day == day && it.hour == hour }
+                cachedHours.none { it.info.day == day && it.info.hour == hour }
             }
             if (missingHours.isEmpty()) null else day to missingHours
         }.toMap()
     }
 
-    fun toMissingHours(cachedKeys: List<CachedKeyInfo>): CountryHours? {
+    fun toMissingHours(cachedKeys: List<CachedKey>): CountryHours? {
         val missingHours = this.getMissingHours(cachedKeys)
         if (missingHours == null || missingHours.isEmpty()) return null
 
