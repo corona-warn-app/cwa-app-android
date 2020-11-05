@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import android.content.Context
+import de.rki.coronawarnapp.appconfig.AppConfigModule
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.API_SUBMISSION
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction.RetrieveDiagnosisKeysTransactionState.CLOSE
@@ -195,11 +194,10 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
         val countries = if (environmentSetup.useEuropeKeyPackageFiles) {
             listOf("EUR")
         } else {
-            requestedCountries ?: ApplicationConfigurationService
-                .asyncRetrieveApplicationConfiguration()
-                .supportedCountriesList
+            requestedCountries
+                ?: AppInjector.component.appConfigProvider.getAppConfig().supportedCountries
         }
-            invokeSubmissionStartedInDebugOrBuildMode()
+        invokeSubmissionStartedInDebugOrBuildMode()
 
         val availableKeyFiles = executeFetchKeyFilesFromServer(countries)
 
@@ -295,7 +293,7 @@ object RetrieveDiagnosisKeysTransaction : Transaction() {
      */
     private suspend fun executeRetrieveRiskScoreParams() =
         executeState(RETRIEVE_RISK_SCORE_PARAMS) {
-            ApplicationConfigurationService.asyncRetrieveExposureConfiguration()
+            AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration
         }
 
     /**

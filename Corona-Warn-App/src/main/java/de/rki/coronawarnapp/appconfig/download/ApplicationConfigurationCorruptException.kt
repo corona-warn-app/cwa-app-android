@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.appconfig
+package de.rki.coronawarnapp.appconfig.download
 
 import de.rki.coronawarnapp.exception.reporting.ErrorCodes
 import de.rki.coronawarnapp.exception.reporting.ReportedException

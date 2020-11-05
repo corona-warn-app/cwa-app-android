@@ -71,7 +71,6 @@ class TestRiskLevelCalculationFragment : Fragment(R.layout.fragment_test_risk_le
             binding.labelBackendParameters.text = state.backendParameters
             binding.labelExposureSummary.text = state.exposureSummary
             binding.labelFormula.text = state.formula
-            binding.labelFullConfig.text = state.fullConfig
             binding.labelExposureInfo.text = state.exposureInfo
         }
         vm.startENFObserver()

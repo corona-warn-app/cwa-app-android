@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.nearby.modules.calculationtracker
 
 import android.content.Context
 import com.google.gson.GsonBuilder
-import de.rki.coronawarnapp.util.gson.fromJson
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
