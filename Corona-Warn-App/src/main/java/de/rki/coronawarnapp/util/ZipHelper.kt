@@ -73,15 +73,21 @@ object ZipHelper {
         zipOutputStream.closeEntry()
     }
 
-    fun InputStream.unzip(callback: (entry: ZipEntry, entryContent: ByteArray) -> Any) =
-        ZipInputStream(this).use {
+    fun InputStream.unzip(): Sequence<Pair<ZipEntry, InputStream>> = sequence {
+        ZipInputStream(this@unzip).use {
             do {
                 val entry = it.nextEntry
                 if (entry != null) {
-                    Timber.v("read zip entry ${entry.name}")
-                    callback(entry, it.readBytes())
+                    Timber.v("Reading zip entry ${entry.name}")
+                    yield(entry to it)
                     it.closeEntry()
                 }
             } while (entry != null)
+        }
+    }
+
+    fun Sequence<Pair<ZipEntry, InputStream>>.readIntoMap() =
+        fold(emptyMap()) { last: Map<String, ByteArray>, (entry, stream) ->
+            last.plus(entry.name to stream.readBytes())
         }
 }
