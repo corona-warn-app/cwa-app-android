@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.serialization.adapter
 
+import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
@@ -15,6 +16,9 @@ class ByteArrayAdapter : TypeAdapter<ByteArray>() {
 
     override fun read(reader: JsonReader): ByteArray? = when (reader.peek()) {
         NULL -> reader.nextNull().let { null }
-        else -> reader.nextString().decodeBase64()!!.toByteArray()
+        else -> {
+            val raw = reader.nextString()
+            raw.decodeBase64()?.toByteArray() ?: throw JsonParseException("Can't decode base64 ByteArray: $raw")
+        }
     }
 }
