@@ -31,6 +31,7 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+
 android {
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
     println("Current VERSION_MINOR: ${VERSION_MINOR}")
@@ -64,6 +65,12 @@ android {
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
+
+        if (project.hasProperty("commit_hash")) {
+            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"$commit_hash\""
+        } else {
+            buildConfigField "String", "GIT_COMMIT_SHORT_HASH", "\"no commit hash\""
+        }
 
         def devEnvironmentFile = file("../test_environments.json")
         if (devEnvironmentFile.exists()) {
@@ -118,6 +125,7 @@ android {
         device {
             dimension "version"
             resValue "string", "app_name", "Corona-Warn"
+            resValue "bool", "extract_native_libs", "false"
 
             ext {
                 envTypeDefault = [debug: "INT", release: "PROD"]
@@ -131,6 +139,7 @@ android {
             // Contains test fragments
             dimension "version"
             resValue "string", "app_name", "CWA TEST"
+            resValue "bool", "extract_native_libs", "true"
             applicationIdSuffix '.test'
 
             ext {
@@ -281,6 +290,12 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     getExecutionData().from(fileTree(dir: "$buildDir", includes: ["jacoco/testDeviceReleaseUnitTest.exec"]))
 }
 
+configurations.all {
+    resolutionStrategy {
+        force "androidx.test:monitor:1.3.0"
+    }
+}
+
 dependencies {
     // KOTLIN
     def coroutineVersion = "1.4.0-M1"
@@ -317,6 +332,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.28.1'
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
     kapt 'com.google.dagger:dagger-android-processor:2.28.1'
+    kaptTest 'com.google.dagger:dagger-compiler:2.28.1'
     kaptAndroidTest 'com.google.dagger:dagger-compiler:2.28.1'
 
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
@@ -354,6 +370,8 @@ dependencies {
     androidTestImplementation "io.kotest:kotest-assertions-core-jvm:4.3.0"
     androidTestImplementation "io.kotest:kotest-property-jvm:4.3.0"
 
+    testImplementation "io.github.classgraph:classgraph:4.8.90"
+
     // Testing - Instrumentation
     androidTestImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test:runner:1.3.0'
@@ -365,6 +383,8 @@ dependencies {
     androidTestImplementation 'androidx.work:work-testing:2.4.0'
     androidTestImplementation "io.mockk:mockk-android:1.10.2"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+
+    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
 
     // Play Services
     implementation 'com.google.android.play:core:1.7.3'
