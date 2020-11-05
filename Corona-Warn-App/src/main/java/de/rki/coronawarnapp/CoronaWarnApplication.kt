@@ -11,9 +11,11 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
+import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ForegroundState
@@ -42,6 +44,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var taskController: TaskController
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManagerSetup: WorkManagerSetup
+    @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
     override fun onCreate() {
@@ -73,6 +76,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
+
+        if (LocalData.onboardingCompletedTimestamp() != null) {
+            deadmanNotificationScheduler.schedulePeriodic()
+        }
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

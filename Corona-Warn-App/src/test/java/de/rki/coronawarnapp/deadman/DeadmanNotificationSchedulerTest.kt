@@ -6,6 +6,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.Operation
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import dagger.Lazy
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -57,7 +58,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
     private fun createScheduler() = DeadmanNotificationScheduler(
         timeCalculation = timeCalculation,
-        workManager = workManager,
+        workManager = Lazy { workManager },
         workBuilder = workBuilder
     )
 
