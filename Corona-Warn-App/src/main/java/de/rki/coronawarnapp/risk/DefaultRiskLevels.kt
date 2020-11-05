@@ -337,18 +337,20 @@ class DefaultRiskLevels @Inject constructor(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
         riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
     ): AggregatedRiskResult {
-        val uniqueDates = exposureWindowsAndResult.keys
+        val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
+            .map { it.dateMillisSinceEpoch }
             .toSet()
-            .map { Instant.ofEpochMilli(it.dateMillisSinceEpoch) }
+
         Timber.d(
             "uniqueDates: ${
                 TextUtils.join(
                     System.lineSeparator(),
-                    uniqueDates)
+                    uniqueDatesMillisSinceEpoch
+                )
             }"
         )
 
-        val exposureHistory = uniqueDates.map {
+        val exposureHistory = uniqueDatesMillisSinceEpoch.map {
             exposureDataMapper(
                 it,
                 exposureWindowsAndResult,
@@ -358,7 +360,7 @@ class DefaultRiskLevels @Inject constructor(
 
         exposureHistory.forEach {
             Timber.d(
-                "(date=${it.date}, " +
+                "(date=${it.dateMillisSinceEpoch}, " +
                     "riskLevel=${it.riskLevel}, " +
                     "minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, " +
                     "minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})"
@@ -420,19 +422,19 @@ class DefaultRiskLevels @Inject constructor(
     private fun mostRecentDateForRisk(
         exposureHistory: List<ExposureData>,
         riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
-    ): Instant = exposureHistory
+    ): Instant? = exposureHistory
         .filter { it.riskLevel == riskLevel }
-        .maxOfWith(compareBy { instant -> instant.millis }) { it.date }
-
+        .maxOfOrNull { it.dateMillisSinceEpoch }
+        ?.let { Instant.ofEpochMilli(it) }
 
     private fun exposureDataMapper(
-        date: Instant,
+        dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
         riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
     ): ExposureData {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
-            .filter { it.key.dateMillisSinceEpoch == date.millis }
+            .filter { it.key.dateMillisSinceEpoch == dateMillisSinceEpoch }
 
         // 2. Determine `Normalized Time per Date`
         val normalizedTime = exposureWindowsAndResultForDate.values
@@ -469,7 +471,7 @@ class DefaultRiskLevels @Inject constructor(
         Timber.d("minimumDistinctEncountersWithHighRisk: $minimumDistinctEncountersWithHighRisk")
 
         return ExposureData(
-            date,
+            dateMillisSinceEpoch,
             riskLevel,
             minimumDistinctEncountersWithLowRisk,
             minimumDistinctEncountersWithHighRisk
