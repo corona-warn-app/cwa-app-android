@@ -17,13 +17,13 @@ abstract class BaseSyncTool(
     internal suspend fun invalidateCachedKeys(invalidatedKeyFiles: Collection<KeyDownloadConfig.InvalidatedKeyFile>) {
         val badEtags = invalidatedKeyFiles.map { it.etag }
         val toDelete = keyCache.getAllCachedKeys()
-            .filter { badEtags.contains(it.info.checksumMD5) }
+            .filter { badEtags.contains(it.info.etag) }
 
         Timber.w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
         keyCache.delete(toDelete.map { it.info })
     }
 
-    internal suspend fun requireStorageSpace(data: List<CountryData>): DeviceStorage.CheckResult {
+    internal suspend fun requireStorageSpace(data: List<LocationData>): DeviceStorage.CheckResult {
         val requiredBytes = data.fold(0L) { acc, item ->
             acc + item.approximateSizeInBytes
         }
@@ -35,19 +35,19 @@ abstract class BaseSyncTool(
 
     // All cached files that are no longer on the server are considered stale
     internal fun List<CachedKey>.findStaleData(
-        availableData: List<CountryData>
+        availableData: List<LocationData>
     ): List<CachedKey> = filter { (cachedKey, _) ->
         // Is there a day on the server that matches our cached keys day?
         val serverHasMatchingDay = availableData
-            .mapNotNull { it as? CountryDays }
+            .mapNotNull { it as? LocationDays }
             .any { it.dayData.contains(cachedKey.day) }
 
         when {
-            cachedKey.type == CachedKeyInfo.Type.COUNTRY_DAY -> {
+            cachedKey.type == CachedKeyInfo.Type.LOCATION_DAY -> {
                 // If there is no matching day on the server, our cached key is stale
                 return@filter !serverHasMatchingDay
             }
-            cachedKey.type == CachedKeyInfo.Type.COUNTRY_HOUR && serverHasMatchingDay -> {
+            cachedKey.type == CachedKeyInfo.Type.LOCATION_HOUR && serverHasMatchingDay -> {
                 // A cached hour for which a server day exists, means we don't need the hour anymore
                 // If there is no match, then we can't decide yet, and need to check the server for hours
                 return@filter true // Stale
@@ -56,7 +56,7 @@ abstract class BaseSyncTool(
 
         // Is there an hour on the server that matches our cached hour?
         val serverHasMatchingHour = availableData
-            .mapNotNull { it as? CountryHours }
+            .mapNotNull { it as? LocationHours }
             .any { serverHours ->
                 serverHours.hourData.any { (day, hours) ->
                     cachedKey.day == day && hours.contains(cachedKey.hour)

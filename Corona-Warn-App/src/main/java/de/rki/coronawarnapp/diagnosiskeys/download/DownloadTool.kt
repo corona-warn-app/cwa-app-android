@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
+import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,9 +24,12 @@ class DownloadTool @Inject constructor(
 
         val preconditionHook: suspend (DownloadInfo) -> Boolean =
             { downloadInfo ->
-                val continueDownload = !legacyKeyCache.tryMigration(
-                    downloadInfo.serverMD5, saveTo
-                )
+                /**
+                 * To try legacy migration, we attempt to the etag as checksum.
+                 * Removing the quotes, the etag can represent the file's MD5 checksum.
+                 */
+                val etagAsChecksum = downloadInfo.etagWithoutQuotes
+                val continueDownload = !legacyKeyCache.tryMigration(etagAsChecksum, saveTo)
                 continueDownload // Continue download if no migration happened
             }
 
@@ -36,10 +40,16 @@ class DownloadTool @Inject constructor(
             saveTo = saveTo,
             precondition = preconditionHook
         )
-
         Timber.tag(TAG).v("Dowwnload finished: %s -> %s", cachedKey, saveTo)
 
-        keyCache.markKeyComplete(keyInfo, dlInfo.serverMD5 ?: dlInfo.localMD5!!)
+        /**
+         * If for some reason the server doesn't supply the etag, let's make our own.
+         * If it later gets used, it will not match.
+         * Worst case, we delete it and download the same file again,
+         * hopefully then with an etag in the header.
+         */
+        val storedETag = dlInfo.etagWithoutQuotes ?: saveTo.hashToMD5()
+        keyCache.markKeyComplete(keyInfo, storedETag)
 
         cachedKey
     } catch (e: Exception) {

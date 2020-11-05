@@ -80,12 +80,12 @@ class DaySyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun determineMissingDays(location: LocationCode, forceSync: Boolean): CountryDays? {
-        val cachedDays = getCompletedCachedKeys(location, Type.COUNTRY_DAY)
+    internal suspend fun determineMissingDays(location: LocationCode, forceSync: Boolean): LocationDays? {
+        val cachedDays = getCompletedCachedKeys(location, Type.LOCATION_DAY)
 
         if (!forceSync && !expectNewDayPackages(cachedDays)) return null
 
-        val availableDays = CountryDays(location, keyServer.getDayIndex(location))
+        val availableDays = LocationDays(location, keyServer.getDayIndex(location))
 
         val staleDays = cachedDays.findStaleData(listOf(availableDays))
 
@@ -100,14 +100,14 @@ class DaySyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun launchDownloads(missingDayData: Collection<CountryDays>): Collection<Deferred<CachedKey?>> {
-        val launcher: CoroutineScope.(CountryDays, LocalDate) -> Deferred<CachedKey?> = { locationData, targetDay ->
+    internal suspend fun launchDownloads(missingDayData: Collection<LocationDays>): Collection<Deferred<CachedKey?>> {
+        val launcher: CoroutineScope.(LocationDays, LocalDate) -> Deferred<CachedKey?> = { locationData, targetDay ->
             async {
                 val cachedKey = keyCache.createCacheEntry(
-                    location = locationData.country,
+                    location = locationData.location,
                     dayIdentifier = targetDay,
                     hourIdentifier = null,
-                    type = Type.COUNTRY_DAY
+                    type = Type.LOCATION_DAY
                 )
 
                 downloadTool.downloadKeyFile(cachedKey)
@@ -115,8 +115,8 @@ class DaySyncTool @Inject constructor(
         }
 
         return missingDayData
-            .flatMap { country ->
-                country.dayData.map { dayDate -> country to dayDate }
+            .flatMap { location ->
+                location.dayData.map { dayDate -> location to dayDate }
             }
             .map { (locationData, targetDay) ->
                 withContext(context = dispatcherProvider.IO) {
@@ -126,6 +126,6 @@ class DaySyncTool @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "${KeyFileSyncTool.TAG}:DaySync"
+        private const val TAG = "${KeyPackageSyncTool.TAG}:DaySync"
     }
 }

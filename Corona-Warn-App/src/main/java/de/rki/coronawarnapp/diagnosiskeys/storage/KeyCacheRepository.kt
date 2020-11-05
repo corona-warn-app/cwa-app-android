@@ -137,8 +137,8 @@ class KeyCacheRepository @Inject constructor(
         return CachedKey(info = keyInfo, path = targetFile)
     }
 
-    suspend fun markKeyComplete(cachedKeyInfo: CachedKeyInfo, checksumMD5: String) {
-        val update = cachedKeyInfo.toDownloadUpdate(checksumMD5)
+    suspend fun markKeyComplete(cachedKeyInfo: CachedKeyInfo, etag: String) {
+        val update = cachedKeyInfo.toDownloadUpdate(etag)
         getDao().updateDownloadState(update)
     }
 

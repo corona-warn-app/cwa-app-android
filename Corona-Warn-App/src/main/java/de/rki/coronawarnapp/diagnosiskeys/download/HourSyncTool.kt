@@ -77,15 +77,15 @@ class HourSyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun launchDownloads(missingHours: Collection<CountryHours>): Collection<Deferred<CachedKey?>> {
-        val launcher: CoroutineScope.(CountryHours, LocalDate, LocalTime) -> Deferred<CachedKey?> =
+    internal suspend fun launchDownloads(missingHours: Collection<LocationHours>): Collection<Deferred<CachedKey?>> {
+        val launcher: CoroutineScope.(LocationHours, LocalDate, LocalTime) -> Deferred<CachedKey?> =
             { locationData, targetDay, targetHour ->
                 async {
                     val cachedKey = keyCache.createCacheEntry(
-                        location = locationData.country,
+                        location = locationData.location,
                         dayIdentifier = targetDay,
                         hourIdentifier = targetHour,
-                        type = Type.COUNTRY_HOUR
+                        type = Type.LOCATION_HOUR
                     )
 
                     downloadTool.downloadKeyFile(cachedKey)
@@ -93,15 +93,15 @@ class HourSyncTool @Inject constructor(
             }
 
         return missingHours
-            .flatMap { country ->
-                country.hourData.map { Triple(country, it.key, it.value) }
+            .flatMap { location ->
+                location.hourData.map { Triple(location, it.key, it.value) }
             }
-            .flatMap { (country, day, hours) ->
-                hours.map { Triple(country, day, it) }
+            .flatMap { (location, day, hours) ->
+                hours.map { Triple(location, day, it) }
             }
-            .map { (country, day, missingHour) ->
+            .map { (location, day, missingHour) ->
                 withContext(context = dispatcherProvider.IO) {
-                    launcher(country, day, missingHour)
+                    launcher(location, day, missingHour)
                 }
             }
     }
@@ -115,21 +115,21 @@ class HourSyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun determineMissingHours(location: LocationCode, forceSync: Boolean): CountryHours? {
-        val cachedHours = getCompletedCachedKeys(location, Type.COUNTRY_HOUR)
+    internal suspend fun determineMissingHours(location: LocationCode, forceSync: Boolean): LocationHours? {
+        val cachedHours = getCompletedCachedKeys(location, Type.LOCATION_HOUR)
 
         if (!forceSync && !expectNewHourPackages(cachedHours)) return null
 
         val today = timeStamper.nowUTC.toLocalDate()
 
         val availableHours = keyServer.getHourIndex(location, today).let { todaysHours ->
-            CountryHours(location, mapOf(today to todaysHours))
+            LocationHours(location, mapOf(today to todaysHours))
         }
 
         // If we have hours in covered by a day, delete the hours
-        val cachedDays = getCompletedCachedKeys(location, Type.COUNTRY_DAY).map {
+        val cachedDays = getCompletedCachedKeys(location, Type.LOCATION_DAY).map {
             it.info.day
-        }.let { CountryDays(location, it) }
+        }.let { LocationDays(location, it) }
 
         val staleHours = cachedHours.findStaleData(listOf(cachedDays, availableHours))
 
@@ -144,6 +144,6 @@ class HourSyncTool @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "${KeyFileSyncTool.TAG}:HourSync"
+        private const val TAG = "${KeyPackageSyncTool.TAG}:HourSync"
     }
 }

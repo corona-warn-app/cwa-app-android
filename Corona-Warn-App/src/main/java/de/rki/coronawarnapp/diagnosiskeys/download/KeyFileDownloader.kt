@@ -10,10 +10,10 @@ import javax.inject.Inject
  */
 @Reusable
 class KeyFileDownloader @Inject constructor(
-    private val keyFileSyncTool: KeyFileSyncTool
+    private val keyPackageSyncTool: KeyPackageSyncTool
 ) {
 
     suspend fun asyncFetchKeyFiles(wantedCountries: List<LocationCode>): List<File> {
-        return keyFileSyncTool.syncKeyFiles(wantedCountries).availableKeys.map { it.path }
+        return keyPackageSyncTool.syncKeyFiles(wantedCountries).availableKeys.map { it.path }
     }
 }

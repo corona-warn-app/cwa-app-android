@@ -26,7 +26,7 @@ class KeySyncToolTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    fun createInstance(): KeyFileSyncTool = TODO()
+    fun createInstance(): KeyPackageSyncTool = TODO()
 
     @Test
     fun `normal call sequence`() {

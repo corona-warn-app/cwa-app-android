@@ -10,7 +10,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class KeyFileSyncTool @Inject constructor(
+class KeyPackageSyncTool @Inject constructor(
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
     private val daySyncTool: DaySyncTool,
@@ -29,7 +29,7 @@ class KeyFileSyncTool @Inject constructor(
             )
         }
 
-        val availableCountries = keyServer.getCountryIndex()
+        val availableCountries = keyServer.getLocationIndex()
         val filteredCountries = availableCountries.filter { wantedLocations.contains(it) }
         Timber.tag(TAG).v(
             "Available=%s; Wanted=%s; Intersect=%s",
@@ -68,8 +68,9 @@ class KeyFileSyncTool @Inject constructor(
                     if (!it) Timber.tag(TAG).w("Missing keyfile for : %s", keyInfo)
                 }
             }
-            .also { Timber.tag(TAG).d("Returning %d available keyfiles", it.size) }
-            .also { Timber.tag(TAG).v("Available keyfiles: %s", it.joinToString("\n")) }
+            .also { Timber.tag(TAG).i("Returning %d available keyfiles", it.size) }
+            .also { Timber.tag(TAG).d("Available keyfiles: %s", it.joinToString("\n")) }
+
         return Result(
             availableKeys = availableKeys,
             wasDaySyncSucccessful = syncedDaysSuccessfully
@@ -82,6 +83,6 @@ class KeyFileSyncTool @Inject constructor(
     )
 
     companion object {
-        internal const val TAG = "KeySyncTool"
+        internal const val TAG = "KeyPackageSync"
     }
 }

@@ -30,4 +30,9 @@ class DownloadToolTest : BaseIOTest() {
     fun `etag from header is stored as checksum`() {
         TODO()
     }
+
+    @Test
+    fun `if the etag is missing we take the file checksum`() {
+        TODO()
+    }
 }

@@ -71,18 +71,18 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             location = LocationCode("DE"),
             day = LocalDate.now(),
             hour = LocalTime.now(),
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            type = CachedKeyInfo.Type.LOCATION_HOUR,
             createdAt = Instant.now()
         ).copy(
             isDownloadComplete = true,
-            checksumMD5 = "checksum"
+            etag = "checksum"
         )
 
         val existingKey = CachedKeyInfo(
             location = LocationCode("NL"),
             day = LocalDate.now(),
             hour = LocalTime.now(),
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            type = CachedKeyInfo.Type.LOCATION_HOUR,
             createdAt = Instant.now()
         )
 
@@ -117,7 +117,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
                 location = LocationCode("NL"),
                 dayIdentifier = LocalDate.parse("2020-09-09"),
                 hourIdentifier = LocalTime.parse("23:00"),
-                type = CachedKeyInfo.Type.COUNTRY_HOUR
+                type = CachedKeyInfo.Type.LOCATION_HOUR
             )
 
             path shouldBe File(context.cacheDir, "diagnosis_keys/${keyFile.id}.zip")
@@ -138,7 +138,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
                 location = LocationCode("NL"),
                 dayIdentifier = LocalDate.parse("2020-09-09"),
                 hourIdentifier = LocalTime.parse("23:00"),
-                type = CachedKeyInfo.Type.COUNTRY_HOUR
+                type = CachedKeyInfo.Type.LOCATION_HOUR
             )
 
             repo.markKeyComplete(keyFile, "checksum")
@@ -162,7 +162,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
                 location = LocationCode("NL"),
                 dayIdentifier = LocalDate.parse("2020-09-09"),
                 hourIdentifier = LocalTime.parse("23:00"),
-                type = CachedKeyInfo.Type.COUNTRY_HOUR
+                type = CachedKeyInfo.Type.LOCATION_HOUR
             )
 
             path.createNewFile() shouldBe true
@@ -184,7 +184,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             location = LocationCode("DE"),
             day = LocalDate.now(),
             hour = LocalTime.now(),
-            type = CachedKeyInfo.Type.COUNTRY_HOUR,
+            type = CachedKeyInfo.Type.LOCATION_HOUR,
             createdAt = Instant.now()
         )
 

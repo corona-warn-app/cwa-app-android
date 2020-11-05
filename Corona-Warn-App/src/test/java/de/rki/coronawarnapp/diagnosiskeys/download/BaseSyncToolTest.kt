@@ -61,7 +61,7 @@ class BaseSyncToolTest : BaseIOTest() {
         deviceStorage = deviceStorage,
         "tag"
     ) {
-        fun findStaleData(keys: List<CachedKey>, available: List<CountryData>): List<CachedKey> =
+        fun findStaleData(keys: List<CachedKey>, available: List<LocationData>): List<CachedKey> =
             keys.findStaleData(available)
     }
 
@@ -80,26 +80,26 @@ class BaseSyncToolTest : BaseIOTest() {
         }
 
         val badDayInfo = mockk<CachedKeyInfo>().apply {
-            every { checksumMD5 } returns "etag-badday"
+            every { etag } returns "etag-badday"
         }
         val badDay = mockk<CachedKey>().apply {
             every { info } returns badDayInfo
         }
         val goodDay = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { checksumMD5 } returns "etag-goodday"
+                every { etag } returns "etag-goodday"
             }
         }
 
         val badHourInfo = mockk<CachedKeyInfo>().apply {
-            every { checksumMD5 } returns "etag-badhour"
+            every { etag } returns "etag-badhour"
         }
         val badHour = mockk<CachedKey>().apply {
             every { info } returns badHourInfo
         }
         val goodHour = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
-                every { checksumMD5 } returns "etag-goodhour"
+                every { etag } returns "etag-goodhour"
             }
         }
 
@@ -115,7 +115,7 @@ class BaseSyncToolTest : BaseIOTest() {
     fun `filtering out stale day data`() {
         val staleKey = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
+                type = CachedKeyInfo.Type.LOCATION_DAY,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
                 hour = null,
@@ -126,7 +126,7 @@ class BaseSyncToolTest : BaseIOTest() {
 
         val freshKey = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
+                type = CachedKeyInfo.Type.LOCATION_DAY,
                 location = "EUR".loc,
                 day = "2020-09-02".day,
                 hour = null,
@@ -135,7 +135,7 @@ class BaseSyncToolTest : BaseIOTest() {
             path = File("")
         )
 
-        val availableCountryDay = CountryDays(
+        val availableCountryDay = LocationDays(
             LocationCode("EUR"),
             listOf("2020-09-02".day)
         )
@@ -151,7 +151,7 @@ class BaseSyncToolTest : BaseIOTest() {
     fun `filtering out stale hour data`() {
         val staleHour = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
+                type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
                 hour = "01".hour,
@@ -161,7 +161,7 @@ class BaseSyncToolTest : BaseIOTest() {
         )
         val freshHour = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
+                type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-02".day,
                 hour = "02".hour,
@@ -169,7 +169,7 @@ class BaseSyncToolTest : BaseIOTest() {
             ),
             path = File("")
         )
-        val availableCountryDay = CountryHours(
+        val availableCountryDay = LocationHours(
             LocationCode("EUR"),
             mapOf("2020-09-02".day to listOf("02".hour))
         )
@@ -185,7 +185,7 @@ class BaseSyncToolTest : BaseIOTest() {
     fun `filtering out stale mixed data`() {
         val staleHour = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
+                type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
                 hour = "01".hour,
@@ -195,7 +195,7 @@ class BaseSyncToolTest : BaseIOTest() {
         )
         val staleHourReplacedByDay = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
+                type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-02".day,
                 hour = "01".hour,
@@ -205,7 +205,7 @@ class BaseSyncToolTest : BaseIOTest() {
         )
         val freshHour = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_HOUR,
+                type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
                 hour = "02".hour,
@@ -213,7 +213,7 @@ class BaseSyncToolTest : BaseIOTest() {
             ),
             path = File("")
         )
-        val availableHour = CountryHours(
+        val availableHour = LocationHours(
             LocationCode("EUR"),
             mapOf(
                 "2020-09-01".day to listOf("02".hour),
@@ -223,7 +223,7 @@ class BaseSyncToolTest : BaseIOTest() {
 
         val staleDay = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
+                type = CachedKeyInfo.Type.LOCATION_DAY,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
                 hour = null,
@@ -233,7 +233,7 @@ class BaseSyncToolTest : BaseIOTest() {
         )
         val freshDay = CachedKey(
             info = CachedKeyInfo(
-                type = CachedKeyInfo.Type.COUNTRY_DAY,
+                type = CachedKeyInfo.Type.LOCATION_DAY,
                 location = "EUR".loc,
                 day = "2020-09-02".day,
                 hour = null,
@@ -241,7 +241,7 @@ class BaseSyncToolTest : BaseIOTest() {
             ),
             path = File("")
         )
-        val availableDay = CountryDays(
+        val availableDay = LocationDays(
             LocationCode("EUR"),
             listOf("2020-09-02".day)
         )
@@ -256,10 +256,10 @@ class BaseSyncToolTest : BaseIOTest() {
     @Test
     fun `required storage check`() = runBlockingTest {
         val instance = createInstance()
-        val countryDay = mockk<CountryDays>().apply {
+        val countryDay = mockk<LocationDays>().apply {
             every { approximateSizeInBytes } returns 9000L
         }
-        val countryHour = mockk<CountryHours>().apply {
+        val countryHour = mockk<LocationHours>().apply {
             every { approximateSizeInBytes } returns 1337L
         }
         instance.requireStorageSpace(listOf(countryDay, countryHour))
@@ -302,14 +302,14 @@ class BaseSyncToolTest : BaseIOTest() {
         val instance = createInstance()
         instance.getCompletedCachedKeys(
             LocationCode("EUR"),
-            CachedKeyInfo.Type.COUNTRY_DAY
+            CachedKeyInfo.Type.LOCATION_DAY
         ) shouldBe listOf(key3)
-        coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_DAY) }
+        coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY) }
 
         instance.getCompletedCachedKeys(
             LocationCode("EUR"),
-            CachedKeyInfo.Type.COUNTRY_HOUR
+            CachedKeyInfo.Type.LOCATION_HOUR
         ) shouldBe listOf(key3)
-        coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.COUNTRY_HOUR) }
+        coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR) }
     }
 }
