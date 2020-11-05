@@ -91,7 +91,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
 
         vm.showLoweredRiskLevelDialog.observe2(this) {
-            showRiskLevelLoweredDialogIfNeeded()
+            if (it) { showRiskLevelLoweredDialog() }
         }
     }
 
@@ -182,7 +182,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         }
     }
 
-    private fun showRiskLevelLoweredDialogIfNeeded() {
+    private fun showRiskLevelLoweredDialog() {
         val riskLevelLoweredDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
             title = R.string.risk_lowered_dialog_headline,

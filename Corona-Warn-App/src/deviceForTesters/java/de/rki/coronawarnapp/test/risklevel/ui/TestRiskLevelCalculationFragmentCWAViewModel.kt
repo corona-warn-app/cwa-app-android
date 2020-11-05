@@ -8,25 +8,28 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.exposurenotification.ExposureInformation
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.RiskCalculationConfig
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
-import de.rki.coronawarnapp.risk.DefaultRiskLevelCalculation
 import de.rki.coronawarnapp.risk.RiskLevel
+import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
-import de.rki.coronawarnapp.service.applicationconfiguration.ApplicationConfigurationService
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
+import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
-import de.rki.coronawarnapp.transaction.RiskLevelTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -49,6 +52,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     @AppContext private val context: Context, // App context
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
+    private val riskLevels: RiskLevels,
+    private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
     tracingCardStateProvider: TracingCardStateProvider
 ) : CWAViewModel(
@@ -82,13 +87,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun calculateRiskLevel() {
-        viewModelScope.launch {
-            try {
-                RiskLevelTransaction.start()
-            } catch (e: Exception) {
-                e.report(ExceptionCategory.INTERNAL)
-            }
-        }
+        taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
     }
 
     fun resetRiskLevel() {
@@ -110,7 +109,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                     e.report(ExceptionCategory.INTERNAL)
                 }
             }
-            RiskLevelTransaction.start()
+            taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             riskLevelResetEvent.postValue(Unit)
         }
     }
@@ -120,7 +119,6 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         val backendParameters: String = "",
         val exposureSummary: String = "",
         val formula: String = "",
-        val fullConfig: String = "",
         val exposureInfo: String = ""
     )
 
@@ -133,11 +131,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 val exposureSummary =
                     InternalExposureNotificationClient.asyncGetExposureSummary(googleToken)
 
-                val appConfig =
-                    ApplicationConfigurationService.asyncRetrieveApplicationConfiguration()
+                val expDetectConfig: RiskCalculationConfig =
+                    AppInjector.component.appConfigProvider.getAppConfig()
 
-                val riskLevelScore = DefaultRiskLevelCalculation().calculateRiskScore(
-                    appConfig.attenuationDuration,
+                val riskLevelScore = riskLevels.calculateRiskScore(
+                    expDetectConfig.attenuationDuration,
                     exposureSummary
                 )
 
@@ -155,17 +153,17 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 workState = workState.copy(riskScoreMsg = riskAsString)
 
                 val lowClass =
-                    appConfig.riskScoreClasses?.riskClassesList?.find { low -> low.label == "LOW" }
+                    expDetectConfig.riskScoreClasses.riskClassesList?.find { low -> low.label == "LOW" }
                 val highClass =
-                    appConfig.riskScoreClasses?.riskClassesList?.find { high -> high.label == "HIGH" }
+                    expDetectConfig.riskScoreClasses.riskClassesList?.find { high -> high.label == "HIGH" }
 
                 val configAsString =
-                    "Attenuation Weight Low: ${appConfig.attenuationDuration?.weights?.low}\n" +
-                        "Attenuation Weight Mid: ${appConfig.attenuationDuration?.weights?.mid}\n" +
-                        "Attenuation Weight High: ${appConfig.attenuationDuration?.weights?.high}\n\n" +
-                        "Attenuation Offset: ${appConfig.attenuationDuration?.defaultBucketOffset}\n" +
+                    "Attenuation Weight Low: ${expDetectConfig.attenuationDuration.weights?.low}\n" +
+                        "Attenuation Weight Mid: ${expDetectConfig.attenuationDuration.weights?.mid}\n" +
+                        "Attenuation Weight High: ${expDetectConfig.attenuationDuration.weights?.high}\n\n" +
+                        "Attenuation Offset: ${expDetectConfig.attenuationDuration.defaultBucketOffset}\n" +
                         "Attenuation Normalization: " +
-                        "${appConfig.attenuationDuration?.riskScoreNormalizationDivisor}\n\n" +
+                        "${expDetectConfig.attenuationDuration.riskScoreNormalizationDivisor}\n\n" +
                         "Risk Score Low Class: ${lowClass?.min ?: 0} - ${lowClass?.max ?: 0}\n" +
                         "Risk Score High Class: ${highClass?.min ?: 0} - ${highClass?.max ?: 0}"
 
@@ -176,9 +174,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                         "Matched Key Count: ${exposureSummary.matchedKeyCount}\n" +
                         "Maximum Risk Score: ${exposureSummary.maximumRiskScore}\n" +
                         "Attenuation Durations: [${
-                            exposureSummary.attenuationDurationsInMinutes?.get(
-                                0
-                            )
+                        exposureSummary.attenuationDurationsInMinutes?.get(
+                            0
+                        )
                         }," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(1)}," +
                         "${exposureSummary.attenuationDurationsInMinutes?.get(2)}]\n" +
@@ -187,19 +185,18 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 workState = workState.copy(exposureSummary = summaryAsString)
 
                 val maxRisk = exposureSummary.maximumRiskScore
-                val atWeights = appConfig.attenuationDuration?.weights
+                val atWeights = expDetectConfig.attenuationDuration.weights
                 val attenuationDurationInMin =
                     exposureSummary.attenuationDurationsInMinutes
-                val attenuationConfig = appConfig.attenuationDuration
+                val attenuationConfig = expDetectConfig.attenuationDuration
                 val formulaString =
-                    "($maxRisk / ${attenuationConfig?.riskScoreNormalizationDivisor}) * " +
+                    "($maxRisk / ${attenuationConfig.riskScoreNormalizationDivisor}) * " +
                         "(${attenuationDurationInMin?.get(0)} * ${atWeights?.low} " +
                         "+ ${attenuationDurationInMin?.get(1)} * ${atWeights?.mid} " +
                         "+ ${attenuationDurationInMin?.get(2)} * ${atWeights?.high} " +
-                        "+ ${attenuationConfig?.defaultBucketOffset})"
+                        "+ ${attenuationConfig.defaultBucketOffset})"
 
-                workState =
-                    workState.copy(formula = formulaString, fullConfig = appConfig.toString())
+                workState = workState.copy(formula = formulaString)
 
                 val token = LocalData.googleApiToken()
                 if (token != null) {
@@ -275,7 +272,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
                 // only testing implementation: this is used to wait for the broadcastreceiver of the OS / EN API
                 enfClient.provideDiagnosisKeys(
                     googleFileList,
-                    ApplicationConfigurationService.asyncRetrieveExposureConfiguration(),
+                    AppInjector.component.appConfigProvider.getAppConfig().exposureDetectionConfiguration,
                     token
                 )
                 apiKeysProvidedEvent.postValue(

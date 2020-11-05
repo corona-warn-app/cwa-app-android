@@ -13,13 +13,13 @@ fun TestCoroutineScope.runBlockingTest2(
     permanentJobs: Boolean = false,
     block: suspend TestCoroutineScope.() -> Unit
 ): Unit = runBlockingTest2(
-    permanentJobs = permanentJobs,
+    ignoreActive = permanentJobs,
     context = coroutineContext,
     testBody = block
 )
 
 fun runBlockingTest2(
-    permanentJobs: Boolean = false,
+    ignoreActive: Boolean = false,
     context: CoroutineContext = EmptyCoroutineContext,
     testBody: suspend TestCoroutineScope.() -> Unit
 ) {
@@ -31,14 +31,12 @@ fun runBlockingTest2(
                     testBody = testBody
                 )
             } catch (e: UncompletedCoroutinesError) {
-                if (!permanentJobs) throw e
+                if (!ignoreActive) throw e
             }
         }
     } catch (e: Exception) {
-        if (!permanentJobs || (e.message != "This job has not completed yet")) {
+        if (!ignoreActive || (e.message != "This job has not completed yet")) {
             throw e
         }
     }
 }
-
-

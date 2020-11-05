@@ -85,7 +85,7 @@ class DefaultPlaybookTest : BaseTest() {
     fun `submission matches request pattern`(): Unit = runBlocking {
         coEvery { verificationServer.retrieveTan(any()) } returns "tan"
 
-        createPlaybook().submission(
+        createPlaybook().submit(
             Playbook.SubmissionData(
                 registrationToken = "token",
                 temporaryExposureKeys = listOf(),
@@ -107,7 +107,7 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveTan(any()) } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().submission(
+            createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
@@ -221,7 +221,7 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveTan(any()) } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().submission(
+            createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
                     temporaryExposureKeys = listOf(),
