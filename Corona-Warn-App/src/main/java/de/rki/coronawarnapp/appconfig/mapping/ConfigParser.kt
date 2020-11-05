@@ -21,6 +21,7 @@ class ConfigParser @Inject constructor(
 ) {
 
     fun parse(configBytes: ByteArray): ConfigMapping = try {
+        // TODO replace with actual v2 config
         val dummyConfig = AppConfigAndroid
             .ApplicationConfigurationAndroid
             .newBuilder()
