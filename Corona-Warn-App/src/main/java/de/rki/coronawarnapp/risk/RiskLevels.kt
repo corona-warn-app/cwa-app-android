@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 
 interface RiskLevels {
 

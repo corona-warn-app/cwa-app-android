@@ -425,7 +425,6 @@ class DefaultRiskLevels @Inject constructor(
         .maxOfOrNull { it.dateMillisSinceEpoch }
         ?.let { Instant.ofEpochMilli(it) }
 
-
     private suspend fun exposureDataMapper(
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
