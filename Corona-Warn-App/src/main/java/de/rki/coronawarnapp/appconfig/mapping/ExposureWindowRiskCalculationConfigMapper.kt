@@ -24,7 +24,9 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             transmissionRiskLevelMultiplier = riskCalculationParameters
                 .transmissionRiskLevelMultiplier,
             normalizedTimePerExposureWindowToRiskLevelMapping = riskCalculationParameters
-                .normalizedTimePerEWToRiskLevelMappingList
+                .normalizedTimePerEWToRiskLevelMappingList,
+            normalizedTimePerDayToRiskLevelMappingList = riskCalculationParameters
+                .normalizedTimePerDayToRiskLevelMappingList
         )
     }
 
@@ -35,6 +37,8 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         override val transmissionRiskLevelFilters: List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val transmissionRiskLevelMultiplier: Double,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        override val normalizedTimePerDayToRiskLevelMappingList:
         List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>
     ) : ExposureWindowRiskCalculationConfig
 }
