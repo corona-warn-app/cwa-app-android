@@ -76,6 +76,11 @@ class HourSyncToolTest : BaseIOTest() {
     }
 
     @Test
+    fun `hourly download happens on metered connections if enabled via settings`() {
+        TODO()
+    }
+
+    @Test
     fun `once we have a day package the corresponding hour packages are stale`() {
         TODO()
     }

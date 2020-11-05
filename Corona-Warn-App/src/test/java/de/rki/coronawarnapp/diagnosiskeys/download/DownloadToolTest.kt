@@ -35,4 +35,9 @@ class DownloadToolTest : BaseIOTest() {
     fun `if the etag is missing we take the file checksum`() {
         TODO()
     }
+
+    @Test
+    fun `invididual downloads timeout based on appconfig`() {
+        TODO()
+    }
 }

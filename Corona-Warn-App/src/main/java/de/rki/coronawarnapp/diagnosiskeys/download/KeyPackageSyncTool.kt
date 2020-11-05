@@ -15,20 +15,13 @@ class KeyPackageSyncTool @Inject constructor(
     private val keyCache: KeyCacheRepository,
     private val daySyncTool: DaySyncTool,
     private val hourSyncTool: HourSyncTool,
-    private val localData: KeyDownloadLocalData,
+    private val syncSettings: KeyPackageSyncSettings,
     private val timeStamper: TimeStamper
 ) {
 
     suspend fun syncKeyFiles(
         wantedLocations: List<LocationCode> = listOf(LocationCode("EUR"))
     ): Result {
-        val lastDownload = localData.lastDownload.value
-        localData.lastDownload.update {
-            KeyDownloadLocalData.LastDownload(
-                startedAt = timeStamper.nowUTC,
-            )
-        }
-
         val availableCountries = keyServer.getLocationIndex()
         val filteredCountries = availableCountries.filter { wantedLocations.contains(it) }
         Timber.tag(TAG).v(
@@ -36,29 +29,11 @@ class KeyPackageSyncTool @Inject constructor(
             availableCountries, wantedLocations, filteredCountries
         )
 
-        Timber.d("Synchronizing available days.")
-        val syncedDaysSuccessfully = daySyncTool.syncMissingDays(
-            availableLocations = filteredCountries,
-            forceSync = lastDownload == null || !lastDownload.successful
-        )
-        Timber.d("Synchronizing available hours.")
-        val syncedHoursSuccessfully = hourSyncTool.syncMissingHours(
-            availableLocations = filteredCountries,
-            forceSync = lastDownload == null || !lastDownload.successful
-        )
+        val syncedDaysSuccessfully = runDaySync(availableCountries)
 
-        if (syncedDaysSuccessfully && syncedHoursSuccessfully) {
-            localData.lastDownload.update {
-                if (it == null) {
-                    Timber.tag(TAG).e("Finished a download that didn't start? Missing `LastDownload`.")
-                    null
-                } else {
-                    it.copy(
-                        finishedAt = timeStamper.nowUTC,
-                        successful = true
-                    )
-                }
-            }
+        val isMeteredConnection = false
+        if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
+            runHourSync(availableCountries)
         }
 
         val availableKeys = keyCache.getAllCachedKeys()
@@ -75,6 +50,66 @@ class KeyPackageSyncTool @Inject constructor(
             availableKeys = availableKeys,
             wasDaySyncSucccessful = syncedDaysSuccessfully
         )
+    }
+
+    private suspend fun runDaySync(locations: List<LocationCode>): Boolean {
+        val lastDownload = syncSettings.lastDownloadDays.value
+        Timber.d("Synchronizing available days (lastDownload=%s).", lastDownload)
+
+        syncSettings.lastDownloadDays.update {
+            KeyPackageSyncSettings.LastDownload(startedAt = timeStamper.nowUTC)
+        }
+
+        val successfulSync = daySyncTool.syncMissingDays(
+            availableLocations = locations,
+            forceSync = lastDownload == null || !lastDownload.successful
+        )
+
+        if (successfulSync) {
+            syncSettings.lastDownloadDays.update {
+                if (it == null) {
+                    Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
+                    null
+                } else {
+                    it.copy(finishedAt = timeStamper.nowUTC, successful = true)
+                }
+            }
+        }
+
+        return successfulSync.also {
+            Timber.tag(TAG).d("runDaySync(locations=%s): success=%b", locations, it)
+        }
+    }
+
+    private suspend fun runHourSync(locations: List<LocationCode>): Boolean {
+        val lastDownload = syncSettings.lastDownloadHours.value
+        Timber.tag(TAG).d("Synchronizing available hours (lastDownload=%s).", lastDownload)
+
+        syncSettings.lastDownloadHours.update {
+            KeyPackageSyncSettings.LastDownload(
+                startedAt = timeStamper.nowUTC,
+            )
+        }
+
+        val successfulSync = hourSyncTool.syncMissingHours(
+            availableLocations = locations,
+            forceSync = lastDownload == null || !lastDownload.successful
+        )
+
+        if (successfulSync) {
+            syncSettings.lastDownloadHours.update {
+                if (it == null) {
+                    Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
+                    null
+                } else {
+                    it.copy(finishedAt = timeStamper.nowUTC, successful = true)
+                }
+            }
+        }
+
+        return successfulSync.also {
+            Timber.tag(TAG).d("runHourSync(locations=%s): success=%b", locations, it)
+        }
     }
 
     data class Result(

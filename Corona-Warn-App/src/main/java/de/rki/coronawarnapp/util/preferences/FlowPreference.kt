@@ -33,17 +33,44 @@ class FlowPreference<T> constructor(
     }
 
     companion object {
-        inline fun <reified T> createGsonReader(
+        inline fun <reified T> gsonReader(
             gson: Gson,
             defaultValue: T
         ): SharedPreferences.(key: String) -> T = { key ->
             getString(key, null)?.let { gson.fromJson<T>(it) } ?: defaultValue
         }
 
-        inline fun <reified T> createGsonWriter(
+        inline fun <reified T> gsonWriter(
             gson: Gson
         ): SharedPreferences.Editor.(key: String, value: T) -> Unit = { key, value ->
             putString(key, value?.let { gson.toJson(it) })
         }
+
+        inline fun <reified T> basicReader(defaultValue: T): SharedPreferences.(key: String) -> T =
+            { key ->
+                (this.all[key] ?: defaultValue) as T
+            }
+
+        inline fun <reified T> basicWriter(): SharedPreferences.Editor.(key: String, value: T) -> Unit =
+            { key, value ->
+                when (value) {
+                    is Boolean -> putBoolean(key, value)
+                    is String -> putString(key, value)
+                    is Int -> putInt(key, value)
+                    is Long -> putLong(key, value)
+                    is Float -> putFloat(key, value)
+                    else -> throw NotImplementedError()
+                }
+            }
     }
 }
+
+inline fun <reified T : Any> SharedPreferences.createFlowPreference(
+    key: String,
+    defaultValue: T
+) = FlowPreference(
+    preferences = this,
+    key = key,
+    reader = FlowPreference.basicReader(defaultValue),
+    writer = FlowPreference.basicWriter()
+)
