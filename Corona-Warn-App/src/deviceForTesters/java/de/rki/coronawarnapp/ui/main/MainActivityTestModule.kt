@@ -4,6 +4,10 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.test.api.ui.TestForAPIFragment
 import de.rki.coronawarnapp.test.api.ui.TestForApiFragmentModule
+import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
+import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
+import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
+import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragment
 import de.rki.coronawarnapp.test.menu.ui.TestMenuFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
@@ -25,4 +29,10 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [TestTaskControllerFragmentModule::class])
     abstract fun testTaskControllerFragment(): TestTaskControllerFragment
+
+    @ContributesAndroidInjector(modules = [AppConfigTestFragmentModule::class])
+    abstract fun appConfigTestFragment(): AppConfigTestFragment
+
+    @ContributesAndroidInjector(modules = [DebugOptionsFragmentModule::class])
+    abstract fun debugOptions(): DebugOptionsFragment
 }

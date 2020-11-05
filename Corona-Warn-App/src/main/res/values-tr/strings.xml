@@ -194,6 +194,19 @@
     <string name="risk_card_outdated_manual_risk_body">"Risk durumunuz 48 saatten uzun süredir güncellenmedi. Lütfen risk durumunuzu güncelleyin."</string>
 
     <!-- ####################################
+              Risk Card - Progress
+    ###################################### -->
+
+    <!-- XHED: risk card - progress - progress card headline displayed downloading key packages -->
+    <string name="risk_card_progress_download_headline">"Veri indiriliyor…"</string>
+    <!-- XTXT: risk card - progress - progress card body displayed downloading key packages -->
+    <string name="risk_card_progress_download_body">"Bu işlem birkaç dakika sürebilir. Gösterdiğiniz sabır için teşekkür ederiz."</string>
+    <!-- XHED: risk card - progress - progress card headline displayed calculating the risklevel -->
+    <string name="risk_card_progress_calculation_headline">"Kontrol devam ediyor…"</string>
+    <!-- XTXT: risk card - progress - progress card body displayed calculating the risklevel -->
+    <string name="risk_card_progress_calculation_body">"Maruz kalma verileriniz kontrol ediliyor. Bu işlem birkaç dakika sürebilir. Gösterdiğiniz sabır için teşekkür ederiz."</string>
+
+    <!-- ####################################
                     Main
     ###################################### -->
 
@@ -358,13 +371,26 @@
     <string name="risk_details_explanation_dialog_title">"Maruz kalma günlüğü işlevi hakkında bilgi"</string>
     <!-- YTXT: one time risk explanation dialog - pointing to the faq page for more information-->
     <string name="risk_details_explanation_dialog_faq_body">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
-     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
+    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
 
     <!-- XHED: risk details - deadman notification title -->
-    <string name="risk_details_deadman_notification_title">"Maruz Kalma Kontrolünü Güncelle"</string>
+    <string name="risk_details_deadman_notification_title">"Risk Durumunuz"</string>
     <!-- YTXT: risk details - deadman notification text -->
-    <string name="risk_details_deadman_notification_body">"Maruz kalma günlüğünü güncellemek için lütfen Corona-Warn-App\'i açın."</string>
+    <string name="risk_details_deadman_notification_body">"Risk durumunuzu kontrol etmek için lütfen Corona-Warn-App\'i düzenli olarak açmayı unutmayın."</string>
+
+    <!-- ####################################
+               Risk Lowered Dialog
+    ###################################### -->
+
+    <!-- XHED: risk lowered - dialog headline -->
+    <string name="risk_lowered_dialog_headline">"Risk Durumunuzda Değişiklik"</string>
+    <!-- XTXT: risk lowered - dialog content -->
+    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma 14 günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
+    <!-- XBUT: risk lowerd - dialog confirm -->
+    <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
+    <!-- XBUT: risk lowered - dialog cancel -->
+    <string name="risk_lowered_dialog_button_cancel">"Daha Fazla"</string>
 
     <!-- ####################################
               Onboarding
