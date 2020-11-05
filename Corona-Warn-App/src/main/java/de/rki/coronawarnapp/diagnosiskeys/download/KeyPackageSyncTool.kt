@@ -20,20 +20,21 @@ class KeyPackageSyncTool @Inject constructor(
 ) {
 
     suspend fun syncKeyFiles(
-        wantedLocations: List<LocationCode> = listOf(LocationCode("EUR"))
+        wanted: List<LocationCode> = listOf(LocationCode("EUR"))
     ): Result {
-        val availableCountries = keyServer.getLocationIndex()
-        val filteredCountries = availableCountries.filter { wantedLocations.contains(it) }
-        Timber.tag(TAG).v(
-            "Available=%s; Wanted=%s; Intersect=%s",
-            availableCountries, wantedLocations, filteredCountries
-        )
+        val targetLocations = keyServer.getLocationIndex().let { available ->
+            available.filter { wanted.contains(it) }.apply {
+                Timber.tag(TAG).v("Available=%s; Wanted=%s; Intersect=%s", available, wanted, this)
+            }
+        }
 
-        val syncedDaysSuccessfully = runDaySync(availableCountries)
+        cleanUpStaleLocation(targetLocations)
+
+        val syncedDaysSuccessfully = runDaySync(targetLocations)
 
         val isMeteredConnection = false
         if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
-            runHourSync(availableCountries)
+            runHourSync(targetLocations)
         }
 
         val availableKeys = keyCache.getAllCachedKeys()
@@ -50,6 +51,17 @@ class KeyPackageSyncTool @Inject constructor(
             availableKeys = availableKeys,
             wasDaySyncSucccessful = syncedDaysSuccessfully
         )
+    }
+
+    private suspend fun cleanUpStaleLocation(acceptedLocations: List<LocationCode>) {
+        Timber.tag(TAG).d("Checking for stale location, acceptable is: %s", acceptedLocations)
+
+        val staleLocationData = keyCache.getAllCachedKeys()
+            .map { it.info }
+            .filter { !acceptedLocations.contains(it.location) }
+
+        Timber.tag(TAG).d("Deleting stale location data: %s", staleLocationData.joinToString("\n"))
+        keyCache.delete(staleLocationData)
     }
 
     private suspend fun runDaySync(locations: List<LocationCode>): Boolean {

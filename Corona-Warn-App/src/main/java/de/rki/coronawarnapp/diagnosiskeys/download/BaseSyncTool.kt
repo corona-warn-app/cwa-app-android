@@ -19,15 +19,19 @@ abstract class BaseSyncTool(
         val toDelete = keyCache.getAllCachedKeys()
             .filter { badEtags.contains(it.info.etag) }
 
-        Timber.w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
-        keyCache.delete(toDelete.map { it.info })
+        if (toDelete.isNotEmpty()) {
+            Timber.tag(tag).w("Deleting invalidated cached keys: %s", toDelete.joinToString("\n"))
+            keyCache.delete(toDelete.map { it.info })
+        } else {
+            Timber.tag(tag).d("No invalid files to delete.")
+        }
     }
 
     internal suspend fun requireStorageSpace(data: List<LocationData>): DeviceStorage.CheckResult {
         val requiredBytes = data.fold(0L) { acc, item ->
             acc + item.approximateSizeInBytes
         }
-        Timber.d("%dB are required for %s", requiredBytes, data)
+        Timber.tag(tag).d("%dB are required for %s", requiredBytes, data)
         return deviceStorage.requireSpacePrivateStorage(requiredBytes).also {
             Timber.tag(tag).d("Storage check result: %s", it)
         }
