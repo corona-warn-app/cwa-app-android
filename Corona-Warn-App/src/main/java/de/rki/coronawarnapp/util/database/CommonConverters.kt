@@ -23,7 +23,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.util.gson.fromJson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime

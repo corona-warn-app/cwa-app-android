@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/test_menu_fragment"
         android:name="de.rki.coronawarnapp.test.menu.ui.TestMenuFragment"
-        android:label="TestMenuFragment">
+        android:label="TestMenuFragment"
+        tools:layout="@layout/fragment_test_menu">
         <action
             android:id="@+id/action_testMenuFragment_to_settingsCrashReportFragment"
             app:destination="@id/test_bug_report_fragment" />
@@ -21,6 +22,12 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_testTaskControllerFragment"
             app:destination="@id/test_taskcontroller_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_appConfigTestFragment"
+            app:destination="@id/test_appconfig_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_debugOptionsFragment"
+            app:destination="@id/test_debugoptions_fragment" />
     </fragment>
 
     <fragment
@@ -61,5 +68,15 @@
         android:name="de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment"
         android:label="TestTaskControllerFragment"
         tools:layout="@layout/fragment_test_task_controller" />
+    <fragment
+        android:id="@+id/test_appconfig_fragment"
+        android:name="de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment"
+        android:label="AppConfigTestFragment"
+        tools:layout="@layout/fragment_test_appconfig" />
+    <fragment
+        android:id="@+id/test_debugoptions_fragment"
+        android:name="de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment"
+        android:label="DebugOptionsFragment"
+        tools:layout="@layout/fragment_test_debugoptions" />
 
 </navigation>

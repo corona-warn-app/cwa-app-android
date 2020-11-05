@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_coffee"
-        app:subtitle="For testers ;)"
+        app:subtitle="For testers &amp; QA &lt;3"
         app:title="Test Menu" />
 
     <androidx.recyclerview.widget.RecyclerView
