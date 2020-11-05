@@ -1,5 +1,5 @@
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/menu_help"
         android:title="@string/menu_help" />
@@ -11,7 +11,7 @@
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/menu_test"
-        android:visible="false"
         android:title="Test Menu"
+        android:visible="false"
         tools:ignore="HardcodedText" />
 </menu>

@@ -23,6 +23,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.util.serialization.fromJson
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -42,6 +43,14 @@ class CommonConverters {
     fun fromIntList(list: List<Int?>?): String {
         return gson.toJson(list)
     }
+
+    @TypeConverter
+    fun toStringList(string: String?): List<String>? =
+        string?.let { gson.fromJson(it) }
+
+    @TypeConverter
+    fun fromStringList(strings: List<String>?): String? =
+        strings?.let { gson.toJson(it) }
 
     @TypeConverter
     fun toUUID(value: String?): UUID? = value?.let { UUID.fromString(it) }
