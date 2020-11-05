@@ -338,13 +338,13 @@ class DefaultRiskLevels @Inject constructor(
         riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
     ): AggregatedRiskResult {
         val uniqueDates = exposureWindowsAndResult.keys
-            .map { it.dateMillisSinceEpoch }
             .toSet()
+            .map { Instant.ofEpochMilli(it.dateMillisSinceEpoch) }
         Timber.d(
             "uniqueDates: ${
                 TextUtils.join(
                     System.lineSeparator(),
-                    uniqueDates.map { printDatePretty(it) })
+                    uniqueDates)
             }"
         )
 
@@ -358,7 +358,7 @@ class DefaultRiskLevels @Inject constructor(
 
         exposureHistory.forEach {
             Timber.d(
-                "(date=${printDatePretty(it.date)}, " +
+                "(date=${it.date}, " +
                     "riskLevel=${it.riskLevel}, " +
                     "minimumDistinctEncountersWithLowRisk=${it.minimumDistinctEncountersWithLowRisk}, " +
                     "minimumDistinctEncountersWithHighRisk=${it.minimumDistinctEncountersWithHighRisk})"
@@ -386,7 +386,7 @@ class DefaultRiskLevels @Inject constructor(
             RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW
         )
 
-        Timber.d("mostRecentDateWithLowRisk: ${printDatePretty(mostRecentDateWithLowRisk)}")
+        Timber.d("mostRecentDateWithLowRisk: $mostRecentDateWithLowRisk")
 
         // 8. Determine `Date of Most Recent Date with High Risk`
         val mostRecentDateWithHighRisk = mostRecentDateForRisk(
@@ -394,7 +394,7 @@ class DefaultRiskLevels @Inject constructor(
             RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH
         )
 
-        Timber.d("mostRecentDateWithHighRisk: ${printDatePretty(mostRecentDateWithHighRisk)}")
+        Timber.d("mostRecentDateWithHighRisk: $mostRecentDateWithHighRisk")
 
         // 9. Determine `Total Minimum Distinct Encounters With Low Risk`
         val totalMinimumDistinctEncountersWithLowRisk = exposureHistory
@@ -417,23 +417,22 @@ class DefaultRiskLevels @Inject constructor(
         )
     }
 
-    private fun printDatePretty(date: Long): String = Instant.ofEpochMilli(date).toString()
-
     private fun mostRecentDateForRisk(
         exposureHistory: List<ExposureData>,
         riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
-    ): Long = exposureHistory
+    ): Instant = exposureHistory
         .filter { it.riskLevel == riskLevel }
-        .maxOf { it.date }
+        .maxOfWith(compareBy { instant -> instant.millis }) { it.date }
+
 
     private fun exposureDataMapper(
-        date: Long,
+        date: Instant,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>,
         riskCalculationParameters: RiskCalculationParametersOuterClass.RiskCalculationParameters
     ): ExposureData {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
-            .filter { it.key.dateMillisSinceEpoch == date }
+            .filter { it.key.dateMillisSinceEpoch == date.millis }
 
         // 2. Determine `Normalized Time per Date`
         val normalizedTime = exposureWindowsAndResultForDate.values
@@ -444,7 +443,7 @@ class DefaultRiskLevels @Inject constructor(
         // 3. Determine `Risk Level per Date`
         val riskLevel = try {
             riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList
-                .filter { it.normalizedTimeRange.inRange(normalizedTime.toLong()) }
+                .filter { it.normalizedTimeRange.inRange(normalizedTime) }
                 .map { it.riskLevel }
                 .first()
         } catch (e: Exception) {
