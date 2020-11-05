@@ -276,9 +276,9 @@
     <!-- YTXT: App overview body for glossary risk calculation -->
     <string name="main_overview_body_glossary_calculation">"Abfrage der Begegnungs-Aufzeichnung und Abgleich mit den gemeldeten Infektionen anderer Nutzerinnen und Nutzer. Die Risiko-Überprüfung erfolgt automatisch ungefähr alle zwei Stunden."</string>
     <!-- XHED: App overview subtitle for glossary contact  -->
-    <string name="main_overview_subtitle_glossary_contact">"Risiko-Begegnungen"</string>
+    <string name="main_overview_subtitle_glossary_contact">"Risiko-Begegnung"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Jene Begegnungen mit einer Corona-positiv getesteten Person, die über einen längeren Zeitraum und in geringer Distanz stattfanden."</string>
+    <string name="main_overview_body_glossary_contact">"Begegnung mit einer infizierten Person, die ihr positives Testergebnis über die CWA mit anderen geteilt hat. Eine Begegnung muss bestimmte Kriterien hinsichtlich Dauer, Abstand und vermuteter Infektiosität der anderen Person erfüllen, um als Risiko-Begegnung eingestuft zu werden."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Risiko-Benachrichtigung"</string>
     <!-- YTXT: App overview body for glossary notifications -->
