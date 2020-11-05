@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +34,6 @@ import javax.inject.Singleton
  *
  * @see LocalData
  * @see InternalExposureNotificationClient
- * @see RetrieveDiagnosisKeysTransaction
  * @see RiskLevelRepository
  */
 @Singleton
