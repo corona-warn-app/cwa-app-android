@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.storage.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.observeEvent

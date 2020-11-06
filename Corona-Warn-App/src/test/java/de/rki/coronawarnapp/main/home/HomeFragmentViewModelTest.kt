@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ui.main.home.TracingHeaderState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -41,6 +42,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var tracingCardStateProvider: TracingCardStateProvider
     @MockK lateinit var submissionCardsStateProvider: SubmissionCardsStateProvider
     @MockK lateinit var tracingRepository: TracingRepository
+    @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
     fun setup() {
@@ -63,7 +65,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingStatus = generalTracingStatus,
         tracingCardStateProvider = tracingCardStateProvider,
         submissionCardsStateProvider = submissionCardsStateProvider,
-        tracingRepository = tracingRepository
+        tracingRepository = tracingRepository,
+        timeStamper = timeStamper
     )
 
     @Test

@@ -57,7 +57,6 @@ class SubmissionTestResultViewModel @AssistedInject constructor(
         ).let { emit(it) }
     }.asLiveData(context = dispatcherProvider.Default)
 
-
     suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
         SubmissionRepository.deviceUIStateFlow
             .first { it == DeviceUIState.PAIRED_POSITIVE || it == DeviceUIState.PAIRED_POSITIVE_TELETAN }

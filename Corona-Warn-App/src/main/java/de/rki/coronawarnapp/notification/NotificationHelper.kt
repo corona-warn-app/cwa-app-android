@@ -1,14 +1,18 @@
 package de.rki.coronawarnapp.notification
 
-import android.app.*
+import android.app.AlarmManager
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
-import android.app.PendingIntent.FLAG_NO_CREATE
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
@@ -32,9 +36,6 @@ import kotlin.random.Random
  * @see NotificationConstants
  */
 object NotificationHelper {
-
-    private val TAG: String? = NotificationHelper::class.simpleName
-
 
     /**
      * Notification channel id
@@ -105,19 +106,28 @@ object NotificationHelper {
     }
 
     fun cancelFutureNotifications(notificationId: Int) {
-        val pendingIntent = createPendingIntentToScheduleNotification(notificationId,)
-        val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
+        val manager =
+            CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
         Timber.v("Canceled future notifications with id: %s", notificationId)
     }
 
-    private fun scheduleRepeatingNotification(initialTime: Instant, interval: Duration, notificationId: NotificationId) {
+    private fun scheduleRepeatingNotification(
+        initialTime: Instant,
+        interval: Duration,
+        notificationId: NotificationId
+    ) {
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
-        val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val manager =
+            CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
     }
 
-    private fun createPendingIntentToScheduleNotification(notificationId: NotificationId, flag: Int = FLAG_CANCEL_CURRENT) =
+    private fun createPendingIntentToScheduleNotification(
+        notificationId: NotificationId,
+        flag: Int = FLAG_CANCEL_CURRENT
+    ) =
         PendingIntent.getBroadcast(
             CoronaWarnApplication.getAppContext(),
             notificationId,
@@ -199,19 +209,20 @@ object NotificationHelper {
      * @param title: String
      * @param content: String
      * @param visibility: Int
+     * @param expandableLongText: Boolean
      * @param notificationId: NotificationId
      * @param pendingIntent: PendingIntent
      */
+
     fun sendNotification(
         title: String,
         content: String,
-        visibility: Int,
         expandableLongText: Boolean = false,
         notificationId: NotificationId = Random.nextInt(),
         pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ) {
         val notification =
-            buildNotification(title, content, visibility, expandableLongText, pendingIntent) ?: return
+            buildNotification(title, content, PRIORITY_HIGH, expandableLongText, pendingIntent) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
             notify(notificationId, notification)
         }
@@ -223,11 +234,10 @@ object NotificationHelper {
      * Notification is only sent if app is not in foreground.
      *
      * @param content: String
-     * @param visibility: Int
      */
-    fun sendNotification(content: String, visibility: Int) {
+    fun sendNotification(content: String) {
         if (!CoronaWarnApplication.isAppInForeground) {
-            sendNotification("", content, visibility, true)
+            sendNotification("", content, true)
         }
     }
 
