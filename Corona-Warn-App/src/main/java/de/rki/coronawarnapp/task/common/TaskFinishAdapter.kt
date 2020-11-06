@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.TaskRequest
 import de.rki.coronawarnapp.task.TaskState
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 
 class TaskFinishAdapter(
@@ -19,7 +20,11 @@ class TaskFinishAdapter(
     }
 
     fun runAndThen(callback: (TaskState) -> Unit) = runBlocking {
-        taskController.tasks.collect { list: List<TaskInfo> ->
+        taskController.tasks
+            .onStart {
+                taskController.submit(taskRequest)
+            }
+            .collect { list: List<TaskInfo> ->
             if (alive) {
                 list.find { it.taskState.request.id == taskRequest.id }?.taskState?.also {
                     if (it.isFinished) {
@@ -29,6 +34,5 @@ class TaskFinishAdapter(
                 }
             }
         }
-        taskController.submit(taskRequest)
     }
 }

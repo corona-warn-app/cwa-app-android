@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.TaskRequest
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 
 class TaskProgressAdapter(
@@ -20,21 +21,24 @@ class TaskProgressAdapter(
     }
 
     fun runAnd(callback: (Task.Progress) -> Unit) = runBlocking {
-        if (alive) {
-            taskController.tasks.collect { list: List<TaskInfo> ->
-                list.find { it.taskState.request.id == taskRequest.id }?.also {
-                    if (it.taskState.isFinished) {
-                        stopObserving()
-                    }
-                    if (!progressObserverAdded) {
-                        progressObserverAdded = true
-                        it.progress.collect { progress ->
-                            callback.invoke(progress)
+        taskController.tasks
+            .onStart {
+                taskController.submit(taskRequest)
+            }
+            .collect { list: List<TaskInfo> ->
+                if (alive) {
+                    list.find { it.taskState.request.id == taskRequest.id }?.also {
+                        if (it.taskState.isFinished) {
+                            stopObserving()
+                        }
+                        if (!progressObserverAdded) {
+                            progressObserverAdded = true
+                            it.progress.collect { progress ->
+                                callback.invoke(progress)
+                            }
                         }
                     }
                 }
             }
-        }
-        taskController.submit(taskRequest)
     }
 }
