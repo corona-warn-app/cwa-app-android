@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.risk
 
-import android.annotation.SuppressLint
 import android.text.TextUtils
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NotificationCompat
@@ -344,26 +343,20 @@ class DefaultRiskLevels @Inject constructor(
         return RiskResult(transmissionRiskLevel, normalizedTime, riskLevel)
     }
 
-    @SuppressLint("BinaryOperationInTimber")
     override suspend fun aggregateResults(
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): AggregatedRiskResult {
         val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
             .map { it.dateMillisSinceEpoch }
             .toSet()
-        Timber.d("uniqueDates: ${
-                TextUtils.join(
-                    System.lineSeparator(),
-                    uniqueDatesMillisSinceEpoch
-                )
+
+        Timber.d(
+            "uniqueDates: ${
+                TextUtils.join(System.lineSeparator(), uniqueDatesMillisSinceEpoch)
             }"
         )
-
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
-            aggregateRiskPerDate(
-                it,
-                exposureWindowsAndResult
-            )
+            aggregateRiskPerDate(it, exposureWindowsAndResult)
         }
 
         exposureHistory.forEach {
