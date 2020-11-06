@@ -49,6 +49,7 @@ class NotificationReceiver : BroadcastReceiver() {
         } else {
             NotificationHelper.cancelFutureNotifications(notificationId)
         }
+        Timber.d("### out: %s", LocalData.numberOfRemainingPositiveTestResultReminders)
     }
 
     companion object {

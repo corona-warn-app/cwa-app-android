@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.notification
 
 import android.app.*
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
-import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.PendingIntent.FLAG_NO_CREATE
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
@@ -13,6 +13,11 @@ import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.ui.main.MainActivity
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -85,27 +90,41 @@ object NotificationHelper {
         }
     }
 
-    fun scheduleRepeatingNotification(initialTime: Instant, interval: Duration, notificationId: NotificationId) {
-        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
-        val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
+    fun schedulePositiveTestResultReminder(nowUTC: Instant) {
+        if (LocalData.numberOfRemainingPositiveTestResultReminders < 0) {
+            Timber.v("Schedule positive test result notification")
+            LocalData.numberOfRemainingPositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
+            scheduleRepeatingNotification(
+                nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
+                POSITIVE_RESULT_NOTIFICATION_INTERVAL,
+                POSITIVE_RESULT_NOTIFICATION_ID
+            )
+        } else {
+            Timber.v("Positive test result notification has already been scheduled")
+        }
     }
 
     fun cancelFutureNotifications(notificationId: Int) {
-        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId,)
         val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
         Timber.v("Canceled future notifications with id: %s", notificationId)
     }
 
-    private fun createPendingIntentToScheduleNotification(notificationId: NotificationId) =
+    private fun scheduleRepeatingNotification(initialTime: Instant, interval: Duration, notificationId: NotificationId) {
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
+        val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
+    }
+
+    private fun createPendingIntentToScheduleNotification(notificationId: NotificationId, flag: Int = FLAG_CANCEL_CURRENT) =
         PendingIntent.getBroadcast(
             CoronaWarnApplication.getAppContext(),
             notificationId,
             Intent(CoronaWarnApplication.getAppContext(), NotificationReceiver::class.java).apply {
                 putExtra(NOTIFICATION_ID, notificationId)
             },
-            FLAG_CANCEL_CURRENT)
+            flag)
 
     /**
      * Build notification

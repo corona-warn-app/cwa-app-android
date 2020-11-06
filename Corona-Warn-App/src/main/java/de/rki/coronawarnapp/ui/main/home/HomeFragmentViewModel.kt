@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.squareup.inject.assisted.AssistedInject
+import de.rki.coronawarnapp.notification.NotificationConstants
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
+import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
@@ -16,22 +19,27 @@ import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanati
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardState
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.sample
+import timber.log.Timber
 
 class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     tracingStatus: GeneralTracingStatus,
     tracingCardStateProvider: TracingCardStateProvider,
-    submissionCardsStateProvider: SubmissionCardsStateProvider,
+    private val submissionCardsStateProvider: SubmissionCardsStateProvider,
     val settingsViewModel: SettingsViewModel,
-    private val tracingRepository: TracingRepository
+    private val tracingRepository: TracingRepository,
+    private val timeStamper: TimeStamper
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider,
     childViewModels = listOf(settingsViewModel)
@@ -73,6 +81,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     private var isLoweredRiskLevelDialogBeingShown = false
+
+    suspend fun observeTestResultToSchedulePositiveTestResultReminder() =
+        submissionCardsStateProvider.state
+            .first { it.isPositiveSubmissionCardVisible() }
+            .also { NotificationHelper.schedulePositiveTestResultReminder(timeStamper.nowUTC) }
 
     // TODO only lazy to keep tests going which would break because of LocalData access
     val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {

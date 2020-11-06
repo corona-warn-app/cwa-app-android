@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.testing.FragmentScenario.launch
+import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
@@ -14,6 +16,7 @@ import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_N
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
@@ -22,6 +25,9 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import javax.inject.Inject
@@ -43,7 +49,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
     @Inject lateinit var homeMenu: HomeMenu
     @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
-    @Inject lateinit var timeStamper: TimeStamper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,12 +75,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
 
         binding.mainAbout.mainCard.apply {
             setOnClickListener {
-//                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
-                LocalData.numberOfRemainingPositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
-                NotificationHelper.scheduleRepeatingNotification(
-                        timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
-                        POSITIVE_RESULT_NOTIFICATION_INTERVAL,
-                        POSITIVE_RESULT_NOTIFICATION_ID)
+                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
             }
             contentDescription = getString(R.string.hint_external_webpage)
         }
@@ -107,6 +107,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         vm.showLoweredRiskLevelDialog.observe2(this) {
             if (it) { showRiskLevelLoweredDialog() }
         }
+
+        lifecycleScope.launch { vm.observeTestResultToSchedulePositiveTestResultReminder() }
     }
 
     override fun onResume() {
