@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.RiskLevels
 import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -15,12 +14,10 @@ import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -47,9 +44,6 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(RetrieveDiagnosisKeysTransaction)
-        coEvery { RetrieveDiagnosisKeysTransaction.start() } returns Unit
-
         coEvery { keyCacheRepository.clear() } returns Unit
         every { enfClient.internalClient } returns exposureNotificationClient
         every { tracingCardStateProvider.state } returns flowOf(mockk())
@@ -73,28 +67,6 @@ class TestRiskLevelCalculationFragmentCWAViewModelTest : BaseTest() {
             riskLevels = riskLevels,
             taskController = taskController
         )
-
-    @Test
-    fun `action retrieveDiagnosisKeys, retieves diagnosis keys and calls risklevel calculation`() {
-        val vm = createViewModel()
-
-        vm.retrieveDiagnosisKeys()
-
-        coVerifyOrder {
-            RetrieveDiagnosisKeysTransaction.start()
-            taskController.submit(any())
-        }
-    }
-
-    @Test
-    fun `action calculateRiskLevel, calls risklevel calculation`() {
-        val vm = createViewModel()
-
-        vm.calculateRiskLevel()
-
-        coVerify(exactly = 1) { taskController.submit(any()) }
-        coVerify(exactly = 0) { RetrieveDiagnosisKeysTransaction.start() }
-    }
 
     @Test
     fun `action clearDiagnosisKeys calls the keyCacheRepo`() {

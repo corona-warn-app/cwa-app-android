@@ -13,3 +13,7 @@ data class CachedString(val provider: (Context) -> String) : LazyString {
         cached = it
     }
 }
+
+fun String.toLazyString() = object : LazyString {
+    override fun get(context: Context) = this@toLazyString
+}
