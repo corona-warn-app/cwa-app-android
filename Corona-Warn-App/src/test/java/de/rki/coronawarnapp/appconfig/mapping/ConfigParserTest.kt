@@ -44,7 +44,7 @@ class ConfigParserTest : BaseTest() {
         keyDownloadConfigMapper = keyDownloadConfigMapper,
         exposureDetectionConfigMapper = exposureDetectionConfigMapper,
         riskCalculationConfigMapper = riskCalculationConfigMapper,
-        exposureWindowRiskLevelConfigMapper = exposureWindowRiskCalculationConfigMapper
+        exposureWindowRiskCalculationConfigMapper = exposureWindowRiskCalculationConfigMapper
     )
 
     @Test
