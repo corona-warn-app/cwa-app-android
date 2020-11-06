@@ -6,6 +6,8 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.NoRegistrationTokenSetException
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.service.submission.SubmissionService
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -96,6 +98,7 @@ class SubmissionResultPositiveOtherWarningViewModel @AssistedInject constructor(
             submitWithNoDiagnosisKeys()
             routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSubmissionDone)
         }
+        NotificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID)
     }
 
     private fun submitDiagnosisKeys(keys: List<TemporaryExposureKey>) {

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.notification
 
 import android.app.*
+import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
@@ -11,12 +12,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
-import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_REQUEST_CODE_ID
-import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE
+import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.ui.main.MainActivity
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.Interval
 import timber.log.Timber
 import kotlin.random.Random
 
@@ -30,6 +29,7 @@ import kotlin.random.Random
 object NotificationHelper {
 
     private val TAG: String? = NotificationHelper::class.simpleName
+
 
     /**
      * Notification channel id
@@ -85,28 +85,26 @@ object NotificationHelper {
         }
     }
 
-    fun scheduleRepeatingNotification(initialTime: Instant, interval: Duration, requestCode: Int) {
-        val intent = Intent(CoronaWarnApplication.getAppContext(), NotificationReceiver::class.java)
-        intent.putExtra(NOTIFICATION_REQUEST_CODE_ID, requestCode)
-        val pendingIntent = PendingIntent.getBroadcast(
-                CoronaWarnApplication.getAppContext(),
-                requestCode,
-                intent,
-                FLAG_UPDATE_CURRENT)
-
+    fun scheduleRepeatingNotification(initialTime: Instant, interval: Duration, notificationId: NotificationId) {
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
         val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
     }
 
-    fun cancelNotification(requestCode: Int) {
-        val pendingIntent = PendingIntent.getBroadcast(
-                CoronaWarnApplication.getAppContext(),
-                requestCode,
-                Intent(),
-                FLAG_UPDATE_CURRENT)
+    fun cancelFutureNotifications(notificationId: Int) {
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
         val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
     }
+
+    private fun createPendingIntentToScheduleNotification(notificationId: NotificationId) =
+        PendingIntent.getBroadcast(
+            CoronaWarnApplication.getAppContext(),
+            notificationId,
+            Intent(CoronaWarnApplication.getAppContext(), NotificationReceiver::class.java).apply {
+                putExtra(NOTIFICATION_ID, notificationId)
+            },
+            FLAG_CANCEL_CURRENT)
 
     /**
      * Build notification
@@ -181,18 +179,21 @@ object NotificationHelper {
      * @param title: String
      * @param content: String
      * @param visibility: Int
+     * @param notificationId: NotificationId
+     * @param pendingIntent: PendingIntent
      */
     fun sendNotification(
         title: String,
         content: String,
         visibility: Int,
         expandableLongText: Boolean = false,
+        notificationId: NotificationId = Random.nextInt(),
         pendingIntent: PendingIntent = createPendingIntentToMainActivity()
     ) {
         val notification =
             buildNotification(title, content, visibility, expandableLongText, pendingIntent) ?: return
         with(NotificationManagerCompat.from(CoronaWarnApplication.getAppContext())) {
-            notify(Random.nextInt(), notification)
+            notify(notificationId, notification)
         }
     }
 

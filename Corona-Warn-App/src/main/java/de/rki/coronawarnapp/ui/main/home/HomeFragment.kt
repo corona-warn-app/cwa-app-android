@@ -7,7 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
-import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeStamper
@@ -67,9 +67,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
             setOnClickListener {
 //                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
                 NotificationHelper.scheduleRepeatingNotification(
-                        timeStamper.nowUTC.plus(Duration.standardMinutes(1)),
-                        Duration.standardMinutes(1),
-                        POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE)
+                        timeStamper.nowUTC.plus(Duration.standardSeconds(5)),
+                        Duration.standardSeconds(20),
+                        POSITIVE_RESULT_NOTIFICATION_ID)
             }
             contentDescription = getString(R.string.hint_external_webpage)
         }

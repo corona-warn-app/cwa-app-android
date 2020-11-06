@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.R
  */
 object NotificationConstants {
 
-    const val NOTIFICATION_REQUEST_CODE_ID = "NOTIFICATION_REQUEST_CODE_ID"
+    const val NOTIFICATION_ID = "NOTIFICATION_ID"
 
-    const val POSITIVE_RESULT_NOTIFICATION_REQUEST_CODE = 100
+    const val POSITIVE_RESULT_NOTIFICATION_ID = 100
 
     /**
      * Notification channel id String.xml path
