@@ -8,11 +8,8 @@ import com.squareup.inject.assisted.AssistedInject
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 /**
@@ -40,39 +37,30 @@ class DiagnosisKeyRetrievalOneTimeWorker @AssistedInject constructor(
         )
 
         var result = Result.success()
-        val taskRequest = DefaultTaskRequest(
-            DownloadDiagnosisKeysTask::class,
-            DownloadDiagnosisKeysTask.Arguments(null, true)
-        )
-        taskController.tasks
-            .onStart {
-                taskController.submit(taskRequest)
-            }
-            .map {
-                it
-                    .map { taskInfo -> taskInfo.taskState }
-                    .find { taskState -> taskState.request.id == taskRequest.id && taskState.isFinished }
-            }
-            .filterNotNull()
-            .first()
-            .error?.also { error: Throwable ->
-                Timber.w(error, "$id: Error during startWithConstraints()."
+        taskController.submitBlocking(
+            DefaultTaskRequest(
+                DownloadDiagnosisKeysTask::class,
+                DownloadDiagnosisKeysTask.Arguments(null, true)
+            )
+        ).error?.also { error: Throwable ->
+            Timber.w(
+                error, "$id: Error during startWithConstraints()."
+            )
+
+            if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
+                Timber.w(error, "$id: Retry attempts exceeded.")
+
+                BackgroundWorkHelper.sendDebugNotification(
+                    "KeyOneTime Executing: Failure",
+                    "KeyOneTime failed with $runAttemptCount attempts"
                 )
 
-                if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-                    Timber.w(error, "$id: Retry attempts exceeded.")
-
-                    BackgroundWorkHelper.sendDebugNotification(
-                        "KeyOneTime Executing: Failure",
-                        "KeyOneTime failed with $runAttemptCount attempts"
-                    )
-
-                    return Result.failure()
-                } else {
-                    Timber.d(error, "$id: Retrying.")
-                    result = Result.retry()
-                }
+                return Result.failure()
+            } else {
+                Timber.d(error, "$id: Retrying.")
+                result = Result.retry()
             }
+        }
 
         BackgroundWorkHelper.sendDebugNotification(
             "KeyOneTime Executing: End", "KeyOneTime result: $result "

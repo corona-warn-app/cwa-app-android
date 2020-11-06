@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.risk.TimeVariables.getActiveTracingDaysInRetentionPe
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.common.TaskFinishAdapter
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ConnectivityHelper
@@ -90,13 +90,14 @@ class TracingRepository @Inject constructor(
      * @see RiskLevelRepository
      */
     fun refreshDiagnosisKeys() {
-        retrievingDiagnosisKeys.value = true
-        TaskFinishAdapter(
-            taskController, DefaultTaskRequest(
-                DownloadDiagnosisKeysTask::class,
-                DownloadDiagnosisKeysTask.Arguments()
+        scope.launch {
+            retrievingDiagnosisKeys.value = true
+            taskController.submitBlocking(
+                DefaultTaskRequest(
+                    DownloadDiagnosisKeysTask::class,
+                    DownloadDiagnosisKeysTask.Arguments()
+                )
             )
-        ).runAndThen {
             taskController.submit(DefaultTaskRequest(RiskLevelTask::class))
             refreshLastTimeDiagnosisKeysFetchedDate()
             retrievingDiagnosisKeys.value = false
@@ -156,12 +157,13 @@ class TracingRepository @Inject constructor(
             retrievingDiagnosisKeys.value = true
 
             // start the fetching and submitting of the diagnosis keys
-            TaskFinishAdapter(
-                taskController, DefaultTaskRequest(
-                    DownloadDiagnosisKeysTask::class,
-                    DownloadDiagnosisKeysTask.Arguments()
+            scope.launch {
+                taskController.submitBlocking(
+                    DefaultTaskRequest(
+                        DownloadDiagnosisKeysTask::class,
+                        DownloadDiagnosisKeysTask.Arguments()
+                    )
                 )
-            ).runAndThen {
                 refreshLastTimeDiagnosisKeysFetchedDate()
                 TimerHelper.checkManualKeyRetrievalTimer()
 

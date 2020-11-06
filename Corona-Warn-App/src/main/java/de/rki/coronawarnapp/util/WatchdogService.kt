@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.common.TaskFinishAdapter
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.worker.BackgroundWorkHelper
 import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
@@ -48,27 +48,25 @@ class WatchdogService @Inject constructor(
             BackgroundWorkHelper.sendDebugNotification(
                 "Automatic mode is on", "Check if we have downloaded keys already today"
             )
-            TaskFinishAdapter(
-                taskController,
+            val state = taskController.submitBlocking(
                 DefaultTaskRequest(
                     DownloadDiagnosisKeysTask::class,
                     DownloadDiagnosisKeysTask.Arguments(null, true)
                 )
-            ).runAndThen {
-                if (it.isFailed) {
-                    BackgroundWorkHelper.sendDebugNotification(
-                        "RetrieveDiagnosisKeysTransaction failed",
-                        (it.error?.localizedMessage
-                            ?: "Unknown exception occurred in onCreate") + "\n\n" + (it.error?.cause
-                            ?: "Cause is unknown").toString()
-                    )
-                    // retry the key retrieval in case of an error with a scheduled work
-                    BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
-                }
-
-                if (wifiLock.isHeld) wifiLock.release()
-                if (wakeLock.isHeld) wakeLock.release()
+            )
+            if (state.isFailed) {
+                BackgroundWorkHelper.sendDebugNotification(
+                    "RetrieveDiagnosisKeysTransaction failed",
+                    (state.error?.localizedMessage
+                        ?: "Unknown exception occurred in onCreate") + "\n\n" + (state.error?.cause
+                        ?: "Cause is unknown").toString()
+                )
+                // retry the key retrieval in case of an error with a scheduled work
+                BackgroundWorkScheduler.scheduleDiagnosisKeyOneTimeWork()
             }
+
+            if (wifiLock.isHeld) wifiLock.release()
+            if (wakeLock.isHeld) wakeLock.release()
         }
 
         // if the user is onboarded we will schedule period background jobs

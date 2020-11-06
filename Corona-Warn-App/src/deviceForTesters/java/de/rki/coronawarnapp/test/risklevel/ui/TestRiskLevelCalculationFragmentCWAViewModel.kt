@@ -25,7 +25,7 @@ import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.common.TaskFinishAdapter
+import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.ui.tracing.card.TracingCardStateProvider
 import de.rki.coronawarnapp.util.KeyFileHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -77,11 +77,13 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun retrieveDiagnosisKeys() {
-        TaskFinishAdapter(
-            taskController,
-            DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments())
-        ).runAndThen {
-            calculateRiskLevel()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                taskController.submitBlocking(
+                    DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments())
+                )
+                calculateRiskLevel()
+            }
         }
     }
 
