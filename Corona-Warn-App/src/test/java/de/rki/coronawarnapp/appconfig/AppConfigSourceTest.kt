@@ -107,7 +107,7 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
-            configType = ConfigData.Type.FALLBACK_LAST_RETRIEVED
+            configType = ConfigData.Type.LAST_RETRIEVED
         )
 
         verify(exactly = 0) { appConfigDefaultFallback.getRawDefaultConfig() }
@@ -151,7 +151,7 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = Instant.EPOCH,
             localOffset = Duration.standardHours(12),
             mappedConfig = configData,
-            configType = ConfigData.Type.FALLBACK_LOCAL_DEFAULT
+            configType = ConfigData.Type.LOCAL_DEFAULT
         )
 
         verify { appConfigDefaultFallback.getRawDefaultConfig() }

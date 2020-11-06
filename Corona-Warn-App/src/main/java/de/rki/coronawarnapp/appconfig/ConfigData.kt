@@ -31,11 +31,11 @@ interface ConfigData : ConfigMapping {
         /**
          * Server config locally stored.
          */
-        FALLBACK_LAST_RETRIEVED,
+        LAST_RETRIEVED,
 
         /**
          * Last resort, default config shipped with the app.
          */
-        FALLBACK_LOCAL_DEFAULT
+        LOCAL_DEFAULT
     }
 }

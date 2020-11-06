@@ -56,7 +56,7 @@ class AppConfigSource @Inject constructor(
                             mappedConfig = parser.parse(it.rawData),
                             serverTime = it.serverTime,
                             localOffset = it.localOffset,
-                            configType = ConfigData.Type.FALLBACK_LAST_RETRIEVED
+                            configType = ConfigData.Type.LAST_RETRIEVED
                         )
                     }
                 } catch (e: Exception) {
@@ -72,7 +72,7 @@ class AppConfigSource @Inject constructor(
                 mappedConfig = parser.parse(defaultAppConfig.getRawDefaultConfig()),
                 serverTime = Instant.EPOCH,
                 localOffset = Duration.standardHours(12),
-                configType = ConfigData.Type.FALLBACK_LOCAL_DEFAULT
+                configType = ConfigData.Type.LOCAL_DEFAULT
             )
         }
 
