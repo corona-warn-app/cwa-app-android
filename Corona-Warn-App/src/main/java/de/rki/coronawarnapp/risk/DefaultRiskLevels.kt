@@ -351,9 +351,7 @@ class DefaultRiskLevels @Inject constructor(
         val uniqueDatesMillisSinceEpoch = exposureWindowsAndResult.keys
             .map { it.dateMillisSinceEpoch }
             .toSet()
-
-        Timber.d(
-            "uniqueDates: ${
+        Timber.d("uniqueDates: ${
                 TextUtils.join(
                     System.lineSeparator(),
                     uniqueDatesMillisSinceEpoch

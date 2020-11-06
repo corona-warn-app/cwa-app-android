@@ -62,20 +62,24 @@ class AppConfigModule {
     }
 
     @Provides
-    fun cwaMapper(mapper: CWAConfigMapper): CWAConfig.Mapper = mapper
+    fun cwaMapper(mapper: CWAConfigMapper):
+        CWAConfig.Mapper = mapper
 
     @Provides
-    fun downloadMapper(mapper: DownloadConfigMapper): KeyDownloadConfig.Mapper = mapper
+    fun downloadMapper(mapper: DownloadConfigMapper):
+        KeyDownloadConfig.Mapper = mapper
 
     @Provides
-    fun exposurMapper(mapper: ExposureDetectionConfigMapper): ExposureDetectionConfig.Mapper =
-        mapper
+    fun exposurMapper(mapper: ExposureDetectionConfigMapper):
+        ExposureDetectionConfig.Mapper = mapper
 
     @Provides
-    fun riskMapper(mapper: RiskCalculationConfigMapper): RiskCalculationConfig.Mapper = mapper
+    fun riskMapper(mapper: RiskCalculationConfigMapper):
+        RiskCalculationConfig.Mapper = mapper
 
     @Provides
-    fun windowRiskMapper(mapper: ExposureWindowRiskCalculationConfigMapper): ExposureWindowRiskCalculationConfig.Mapper = mapper
+    fun windowRiskMapper(mapper: ExposureWindowRiskCalculationConfigMapper):
+        ExposureWindowRiskCalculationConfig.Mapper = mapper
 
     companion object {
         private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)
