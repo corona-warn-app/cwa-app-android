@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,7 +18,8 @@ class KeyPackageSyncTool @Inject constructor(
     private val daySyncTool: DaySyncTool,
     private val hourSyncTool: HourSyncTool,
     private val syncSettings: KeyPackageSyncSettings,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val networkStateProvider: NetworkStateProvider
 ) {
 
     suspend fun syncKeyFiles(
@@ -32,7 +35,8 @@ class KeyPackageSyncTool @Inject constructor(
 
         val syncedDaysSuccessfully = runDaySync(targetLocations)
 
-        val isMeteredConnection = false
+        val isMeteredConnection = networkStateProvider.networkState.first().isMeteredConnection
+        Timber.tag(TAG).d("Checking hour sync... (isMetered=%b)", isMeteredConnection)
         if (!isMeteredConnection || syncSettings.allowMeteredConnections.value) {
             runHourSync(targetLocations)
         }
@@ -59,9 +63,12 @@ class KeyPackageSyncTool @Inject constructor(
         val staleLocationData = keyCache.getAllCachedKeys()
             .map { it.info }
             .filter { !acceptedLocations.contains(it.location) }
-
-        Timber.tag(TAG).d("Deleting stale location data: %s", staleLocationData.joinToString("\n"))
-        keyCache.delete(staleLocationData)
+        if (staleLocationData.isNotEmpty()) {
+            Timber.tag(TAG).i("Deleting stale location data: %s", staleLocationData.joinToString("\n"))
+            keyCache.delete(staleLocationData)
+        } else {
+            Timber.tag(TAG).d("No stale location data exists.")
+        }
     }
 
     private suspend fun runDaySync(locations: List<LocationCode>): Boolean {

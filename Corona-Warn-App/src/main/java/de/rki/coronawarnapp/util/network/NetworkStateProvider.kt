@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.util.network
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.location.LocationManager
-import androidx.core.location.LocationManagerCompat
+import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -21,47 +20,60 @@ import javax.inject.Singleton
 @Singleton
 class NetworkStateProvider @Inject constructor(
     @AppContext private val context: Context,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
+    private val networkRequestBuilderProvider: NetworkRequestBuilderProvider
 ) {
-    private val locationManager: LocationManager
-        get() = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val manager: ConnectivityManager
+        get() = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    val isLocationEnabled: Flow<Boolean> = callbackFlow {
-        send(startingState)
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action?.matches(INTENT_ACTION.toRegex()) != true) {
-                    Timber.d("Unknown intent action: %s", intent)
-                    return
-                }
+    val networkState: Flow<State> = callbackFlow {
+        send(currentState)
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                Timber.tag(TAG).v("onAvailable(network=%s)", network)
+                appScope.launch { send(currentState) }
+            }
 
-                val isGpsEnabled = locationManager.isProviderEnabled(
-                    LocationManager.GPS_PROVIDER
-                )
-                val isNetworkEnabled = locationManager.isProviderEnabled(
-                    LocationManager.NETWORK_PROVIDER
-                )
-
-                this@callbackFlow.launch {
-                    (isGpsEnabled || isNetworkEnabled).let {
-                        this@callbackFlow.send(it)
-                        Timber.d("Location available update: enabled=$it")
-                    }
-                }
+            override fun onUnavailable() {
+                Timber.tag(TAG).v("onUnavailable()")
+                appScope.launch { send(currentState) }
             }
         }
-        context.registerReceiver(receiver, IntentFilter(INTENT_ACTION))
-        awaitClose { context.unregisterReceiver(receiver) }
+
+        val request = networkRequestBuilderProvider.get()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+        manager.registerNetworkCallback(request, callback)
+
+        awaitClose {
+            Timber.tag(TAG).v("unregisterNetworkCallback()")
+            manager.unregisterNetworkCallback(callback)
+        }
     }
         .shareLatest(
-            tag = "locationState",
+            tag = TAG,
             scope = appScope
         )
 
-    private val startingState: Boolean
-        get() = LocationManagerCompat.isLocationEnabled(locationManager)
+    private val currentState: State
+        get() = manager.activeNetwork.let { network ->
+            State(
+                activeNetwork = network,
+                capabilities = network?.let { manager.getNetworkCapabilities(it) },
+                linkProperties = network?.let { manager.getLinkProperties(it) }
+            )
+        }
+
+    data class State(
+        val activeNetwork: Network?,
+        val capabilities: NetworkCapabilities?,
+        val linkProperties: LinkProperties?
+    ) {
+        val isMeteredConnection: Boolean
+            get() = !(capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) ?: false)
+    }
 
     companion object {
-        private const val INTENT_ACTION = "android.location.PROVIDERS_CHANGED"
+        private const val TAG = "NetworkStateProvider"
     }
 }
