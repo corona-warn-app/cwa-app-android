@@ -60,6 +60,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return object : Task.Result {}
             }
 
+            checkCancel()
             val currentDate = Date(timeStamper.nowUTC.millis)
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
@@ -67,6 +68,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
              * RETRIEVE TOKEN
              ****************************************************/
             val token = retrieveToken(rollbackItems)
+            checkCancel()
 
             // RETRIEVE RISK SCORE PARAMETERS
             val exposureConfiguration = appConfigProvider.getAppConfig().exposureDetectionConfiguration
@@ -76,6 +78,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             val requestedCountries = arguments.requestedCountries
             val availableKeyFiles = getAvailableKeyFiles(requestedCountries)
+            checkCancel()
 
             if (CWADebug.isDebugBuildOrMode) {
                 val totalFileSize = availableKeyFiles.fold(0L, { acc, file ->
@@ -95,19 +98,14 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 keyFiles = availableKeyFiles,
                 configuration = exposureConfiguration,
                 token = token
-            ).also {
-                Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", it, token)
-            }
+            )
+            Timber.tag(TAG).d("Diagnosis Keys provided (success=%s, token=%s)", isSubmissionSuccessful, token)
 
             internalProgress.send(Progress.ApiSubmissionFinished)
+            checkCancel()
 
             if (isSubmissionSuccessful) {
-                val lastFetchDateForRollback = LocalData.lastTimeDiagnosisKeysFromServerFetch()
-                rollbackItems.add {
-                    LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback)
-                }
-                Timber.tag(TAG).d("dateUpdate(currentDate=%s)", currentDate)
-                LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
+                saveTimestamp(currentDate, rollbackItems)
             }
 
             return object : Task.Result {}
@@ -121,6 +119,18 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.i("Finished (isCanceled=$isCanceled).")
             internalProgress.close()
         }
+    }
+
+    private fun saveTimestamp(
+        currentDate: Date,
+        rollbackItems: MutableList<RollbackItem>
+    ) {
+        val lastFetchDateForRollback = LocalData.lastTimeDiagnosisKeysFromServerFetch()
+        rollbackItems.add {
+            LocalData.lastTimeDiagnosisKeysFromServerFetch(lastFetchDateForRollback)
+        }
+        Timber.tag(TAG).d("dateUpdate(currentDate=%s)", currentDate)
+        LocalData.lastTimeDiagnosisKeysFromServerFetch(currentDate)
     }
 
     private fun retrieveToken(rollbackItems: MutableList<RollbackItem>): String {
