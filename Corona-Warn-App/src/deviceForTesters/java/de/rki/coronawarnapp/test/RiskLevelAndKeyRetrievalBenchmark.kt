@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask.Pro
 import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.task.common.TaskProgressAdapter
+import de.rki.coronawarnapp.task.submitAndListen
 import de.rki.coronawarnapp.util.di.AppInjector
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -126,7 +126,7 @@ class RiskLevelAndKeyRetrievalBenchmark(
         )
     }
 
-    private fun measureDiagnosticKeyRetrieval(
+    private suspend fun measureDiagnosticKeyRetrieval(
         label: String,
         countries: List<String>,
         downloadFinished: (duration: Long, keyCount: Int, fileSize: Long) -> Unit,
@@ -135,10 +135,9 @@ class RiskLevelAndKeyRetrievalBenchmark(
         var keyFileDownloadStart: Long = -1
         var apiSubmissionStarted: Long = -1
 
-        TaskProgressAdapter(
-            AppInjector.component.taskController,
+        AppInjector.component.taskController.submitAndListen(
             DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments(countries))
-        ).runAnd { progress: Task.Progress ->
+        ).collect { progress: Task.Progress ->
             when (progress) {
                 is KeyFilesDownloadStarted -> {
                     Timber.v("MEASURE [Diagnostic Key Files] $label started")

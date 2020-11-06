@@ -237,13 +237,3 @@ class TaskController @Inject constructor(
         private const val TAG = "TaskController"
     }
 }
-suspend fun TaskController.submitBlocking(ourRequest: TaskRequest): TaskState {
-    submit(ourRequest)
-    Timber.v("submitBlocking(request=%s) waiting for result...", ourRequest)
-
-    return tasks.flatMapMerge { it.asFlow() }.map { it.taskState }.first {
-        it.request.id == ourRequest.id && it.isFinished
-    }.also {
-        Timber.v("submitBlocking(request=%s) continuing with result %s", ourRequest, it)
-    }
-}
