@@ -14,7 +14,7 @@ abstract class DownloadDiagnosisKeysTaskModule {
     @Binds
     @IntoMap
     @TaskTypeKey(DownloadDiagnosisKeysTask::class)
-    abstract fun dsownloadDiagnosisKeysTaskFactory(
+    abstract fun downloadDiagnosisKeysTaskFactory(
         factory: DownloadDiagnosisKeysTask.Factory
     ): TaskFactory<out Task.Progress, out Task.Result>
 }

@@ -80,18 +80,16 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val availableKeyFiles = getAvailableKeyFiles(requestedCountries)
             checkCancel()
 
-            if (CWADebug.isDebugBuildOrMode) {
-                val totalFileSize = availableKeyFiles.fold(0L, { acc, file ->
-                    file.length() + acc
-                })
+            val totalFileSize = availableKeyFiles.fold(0L, { acc, file ->
+                file.length() + acc
+            })
 
-                internalProgress.send(
-                    Progress.KeyFilesDownloadFinished(
-                        availableKeyFiles.size,
-                        totalFileSize
-                    )
+            internalProgress.send(
+                Progress.KeyFilesDownloadFinished(
+                    availableKeyFiles.size,
+                    totalFileSize
                 )
-            }
+            )
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
