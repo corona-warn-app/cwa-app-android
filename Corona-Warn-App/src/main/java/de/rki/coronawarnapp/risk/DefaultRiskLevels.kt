@@ -11,6 +11,7 @@ import com.google.android.gms.nearby.exposurenotification.ReportType
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.exception.RiskLevelCalculationException
 import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
@@ -23,6 +24,9 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
+import okhttp3.internal.notifyAll
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,6 +37,17 @@ import kotlin.math.round
 class DefaultRiskLevels @Inject constructor(
     private val appConfigProvider: AppConfigProvider
 ) : RiskLevels {
+
+    private var appConfig: ConfigData
+
+    init {
+        runBlocking {
+            appConfig = appConfigProvider.getAppConfig()
+        }
+
+        appConfigProvider.currentConfig
+            .onEach { if (it != null) appConfig = it }
+    }
 
     override fun updateRepository(riskLevel: RiskLevel, time: Long) {
         val rollbackItems = mutableListOf<RollbackItem>()
@@ -298,8 +313,6 @@ class DefaultRiskLevels @Inject constructor(
     override suspend fun calculateRisk(
         exposureWindow: ExposureWindow
     ): RiskResult? {
-        val appConfig = appConfigProvider.getAppConfig()
-
         if (dropDueToMinutesAtAttenuation(exposureWindow, appConfig.minutesAtAttenuationFilters)) {
             return null
         }
@@ -425,7 +438,8 @@ class DefaultRiskLevels @Inject constructor(
         .maxOfOrNull { it.dateMillisSinceEpoch }
         ?.let { Instant.ofEpochMilli(it) }
 
-    private suspend fun exposureDataMapper(
+
+    private fun exposureDataMapper(
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
     ): ExposureData {
@@ -441,7 +455,6 @@ class DefaultRiskLevels @Inject constructor(
 
         // 3. Determine `Risk Level per Date`
         val riskLevel = try {
-            val appConfig = appConfigProvider.getAppConfig()
             appConfig.normalizedTimePerDayToRiskLevelMappingList
                 .filter { it.normalizedTimeRange.inRange(normalizedTime) }
                 .map { it.riskLevel }
