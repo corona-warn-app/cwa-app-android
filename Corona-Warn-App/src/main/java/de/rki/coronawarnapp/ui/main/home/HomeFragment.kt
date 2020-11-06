@@ -8,7 +8,11 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentHomeBinding
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
 import de.rki.coronawarnapp.notification.NotificationHelper
+import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -19,6 +23,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
+import org.joda.time.LocalDate
 import javax.inject.Inject
 
 /**
@@ -66,9 +71,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), AutoInject {
         binding.mainAbout.mainCard.apply {
             setOnClickListener {
 //                ExternalActionHelper.openUrl(this@HomeFragment, getString(R.string.main_about_link))
+                LocalData.numberOfRemainingPositiveTestResultReminders = POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
                 NotificationHelper.scheduleRepeatingNotification(
-                        timeStamper.nowUTC.plus(Duration.standardSeconds(5)),
-                        Duration.standardSeconds(20),
+                        timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
+                        POSITIVE_RESULT_NOTIFICATION_INTERVAL,
                         POSITIVE_RESULT_NOTIFICATION_ID)
             }
             contentDescription = getString(R.string.hint_external_webpage)

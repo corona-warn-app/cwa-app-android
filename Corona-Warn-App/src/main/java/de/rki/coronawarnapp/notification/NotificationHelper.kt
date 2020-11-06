@@ -95,6 +95,7 @@ object NotificationHelper {
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId)
         val manager = CoronaWarnApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.cancel(pendingIntent)
+        Timber.v("Canceled future notifications with id: %s", notificationId)
     }
 
     private fun createPendingIntentToScheduleNotification(notificationId: NotificationId) =
