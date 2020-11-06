@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.deadman
 
 import android.content.Context
 import de.rki.coronawarnapp.notification.NotificationConstants
+import de.rki.coronawarnapp.util.ForegroundState
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -14,6 +15,7 @@ import testhelpers.BaseTest
 class DeadmanNotificationSenderTest : BaseTest() {
 
     @MockK lateinit var context: Context
+    @MockK lateinit var foregroundState: ForegroundState
 
     private val channelId = "de.rki.coronawarnapp.notification.exposureNotificationChannelId"
 
@@ -29,7 +31,8 @@ class DeadmanNotificationSenderTest : BaseTest() {
     }
 
     private fun createSender() = DeadmanNotificationSender(
-        context = context
+        context = context,
+        foregroundState = foregroundState
     )
 
     @Test

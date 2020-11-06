@@ -7,17 +7,19 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
-import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import kotlin.random.Random
 
 @Reusable
 class DeadmanNotificationSender @Inject constructor(
-    @AppContext private val context: Context
+    @AppContext private val context: Context,
+    private val foregroundState: ForegroundState
 ) {
 
     private val channelId =
@@ -49,8 +51,8 @@ class DeadmanNotificationSender @Inject constructor(
         return builder.build()
     }
 
-    fun sendNotification() {
-        if (CoronaWarnApplication.isAppInForeground) {
+    suspend fun sendNotification() {
+        if (foregroundState.isInForeground.first()) {
             return
         }
         val title = context.getString(R.string.risk_details_deadman_notification_title)

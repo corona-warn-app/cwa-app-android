@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.worker.BackgroundConstants
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -47,7 +48,7 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
     fun `run worker success`() = runBlockingTest {
         createWorker().doWork()
 
-        verify(exactly = 1) { sender.sendNotification() }
+        coVerify (exactly = 1) { sender.sendNotification() }
     }
 
     @Test
@@ -60,6 +61,6 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
 
         worker.doWork()
 
-        verify(exactly = 0) { sender.sendNotification() }
+        coVerify (exactly = 0) { sender.sendNotification() }
     }
 }
