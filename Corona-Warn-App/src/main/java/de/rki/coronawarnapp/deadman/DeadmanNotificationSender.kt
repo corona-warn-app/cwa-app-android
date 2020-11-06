@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
-import kotlin.random.Random
 
 @Reusable
 class DeadmanNotificationSender @Inject constructor(
@@ -60,7 +59,14 @@ class DeadmanNotificationSender @Inject constructor(
         val notification =
             buildNotification(title, content) ?: return
         with(NotificationManagerCompat.from(context)) {
-            notify(Random.nextInt(), notification)
+            notify(DEADMAN_NOTIFICATION_ID, notification)
         }
+    }
+
+    companion object {
+        /**
+         * Deadman notification id
+         */
+        const val DEADMAN_NOTIFICATION_ID = 3
     }
 }
