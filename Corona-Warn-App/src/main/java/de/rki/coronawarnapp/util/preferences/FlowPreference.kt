@@ -28,7 +28,7 @@ class FlowPreference<T> constructor(
     val value: T
         get() = internalValue
 
-    fun update(update: (T?) -> T) {
+    fun update(update: (T) -> T) {
         internalValue = update(internalValue)
     }
 
