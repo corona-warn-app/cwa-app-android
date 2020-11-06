@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.notification.NotificationHelper
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_INITIAL
 import de.rki.coronawarnapp.risk.RiskLevel.UNKNOWN_RISK_OUTDATED_RESULTS
 import de.rki.coronawarnapp.risk.result.AggregatedRiskResult
-import de.rki.coronawarnapp.risk.result.ExposureData
+import de.rki.coronawarnapp.risk.result.AggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.AttenuationDurationOuterClass.AttenuationDuration
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.storage.RiskLevelRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHours
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.notifyAll
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -363,7 +362,7 @@ class DefaultRiskLevels @Inject constructor(
         )
 
         val exposureHistory = uniqueDatesMillisSinceEpoch.map {
-            exposureDataMapper(
+            aggregateRiskPerDate(
                 it,
                 exposureWindowsAndResult
             )
@@ -431,18 +430,17 @@ class DefaultRiskLevels @Inject constructor(
     }
 
     private fun mostRecentDateForRisk(
-        exposureHistory: List<ExposureData>,
+        exposureHistory: List<AggregatedRiskPerDateResult>,
         riskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
     ): Instant? = exposureHistory
         .filter { it.riskLevel == riskLevel }
         .maxOfOrNull { it.dateMillisSinceEpoch }
         ?.let { Instant.ofEpochMilli(it) }
 
-
-    private fun exposureDataMapper(
+    private fun aggregateRiskPerDate(
         dateMillisSinceEpoch: Long,
         exposureWindowsAndResult: Map<ExposureWindow, RiskResult>
-    ): ExposureData {
+    ): AggregatedRiskPerDateResult {
         // 1. Group `Exposure Windows by Date`
         val exposureWindowsAndResultForDate = exposureWindowsAndResult
             .filter { it.key.dateMillisSinceEpoch == dateMillisSinceEpoch }
@@ -481,7 +479,7 @@ class DefaultRiskLevels @Inject constructor(
 
         Timber.d("minimumDistinctEncountersWithHighRisk: $minimumDistinctEncountersWithHighRisk")
 
-        return ExposureData(
+        return AggregatedRiskPerDateResult(
             dateMillisSinceEpoch,
             riskLevel,
             minimumDistinctEncountersWithLowRisk,
