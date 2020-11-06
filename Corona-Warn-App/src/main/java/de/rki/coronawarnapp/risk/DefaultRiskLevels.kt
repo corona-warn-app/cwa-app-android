@@ -449,7 +449,7 @@ class DefaultRiskLevels @Inject constructor(
         val normalizedTime = exposureWindowsAndResultForDate.values
             .sumOf { it.normalizedTime }
 
-        Timber.d("normalizedTime: $normalizedTime")
+        Timber.d("Aggregating result for date $dateMillisSinceEpoch - ${Instant.ofEpochMilli(dateMillisSinceEpoch)}")
 
         // 3. Determine `Risk Level per Date`
         val riskLevel = try {
