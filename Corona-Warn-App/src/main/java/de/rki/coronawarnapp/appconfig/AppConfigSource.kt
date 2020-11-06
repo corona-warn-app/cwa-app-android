@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.download.AppConfigServer
 import de.rki.coronawarnapp.appconfig.download.AppConfigStorage
-import de.rki.coronawarnapp.appconfig.download.ApplicationConfigurationInvalidException
+import de.rki.coronawarnapp.appconfig.download.DefaultAppConfigSource
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,6 +17,7 @@ class AppConfigSource @Inject constructor(
     private val server: AppConfigServer,
     private val storage: AppConfigStorage,
     private val parser: ConfigParser,
+    private val defaultAppConfig: DefaultAppConfigSource,
     private val dispatcherProvider: DispatcherProvider
 ) {
 
@@ -36,7 +39,7 @@ class AppConfigSource @Inject constructor(
                         mappedConfig = it,
                         serverTime = configDownload.serverTime,
                         localOffset = configDownload.localOffset,
-                        isFallback = false
+                        configType = ConfigData.Type.FROM_SERVER
                     )
                 }
             } catch (e: Exception) {
@@ -53,7 +56,7 @@ class AppConfigSource @Inject constructor(
                             mappedConfig = parser.parse(it.rawData),
                             serverTime = it.serverTime,
                             localOffset = it.localOffset,
-                            isFallback = true
+                            configType = ConfigData.Type.FALLBACK_LAST_RETRIEVED
                         )
                     }
                 } catch (e: Exception) {
@@ -64,7 +67,13 @@ class AppConfigSource @Inject constructor(
         }
 
         if (parsedConfig == null) {
-            throw ApplicationConfigurationInvalidException(serverError)
+            Timber.tag(TAG).w("Current or fallback config was unavailable, using default.")
+            parsedConfig = DefaultConfigData(
+                mappedConfig = parser.parse(defaultAppConfig.getRawDefaultConfig()),
+                serverTime = Instant.EPOCH,
+                localOffset = Duration.standardHours(12),
+                configType = ConfigData.Type.FALLBACK_LOCAL_DEFAULT
+            )
         }
 
         return@withContext parsedConfig

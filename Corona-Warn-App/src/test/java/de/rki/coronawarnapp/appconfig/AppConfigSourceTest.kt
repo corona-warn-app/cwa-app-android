@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.appconfig
 import de.rki.coronawarnapp.appconfig.download.AppConfigServer
 import de.rki.coronawarnapp.appconfig.download.AppConfigStorage
 import de.rki.coronawarnapp.appconfig.download.ConfigDownload
+import de.rki.coronawarnapp.appconfig.download.DefaultAppConfigSource
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -15,6 +16,8 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -34,6 +37,7 @@ class AppConfigSourceTest : BaseIOTest() {
     @MockK lateinit var configParser: ConfigParser
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var appConfigDefaultFallback: DefaultAppConfigSource
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
@@ -74,6 +78,7 @@ class AppConfigSourceTest : BaseIOTest() {
         server = configServer,
         storage = configStorage,
         parser = configParser,
+        defaultAppConfig = appConfigDefaultFallback,
         dispatcherProvider = TestDispatcherProvider
     )
 
@@ -84,12 +89,13 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
-            isFallback = false
+            configType = ConfigData.Type.FROM_SERVER
         )
 
         mockConfigStorage shouldBe testConfigDownload
 
         coVerify { configStorage.setStoredConfig(testConfigDownload) }
+        verify(exactly = 0) { appConfigDefaultFallback.getRawDefaultConfig() }
     }
 
     @Test
@@ -101,8 +107,10 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
-            isFallback = true
+            configType = ConfigData.Type.FALLBACK_LAST_RETRIEVED
         )
+
+        verify(exactly = 0) { appConfigDefaultFallback.getRawDefaultConfig() }
     }
 
     @Test
@@ -129,6 +137,24 @@ class AppConfigSourceTest : BaseIOTest() {
             configStorage.setStoredConfig(null)
             configServer.clearCache()
         }
+    }
+
+    @Test
+    fun `local default config is used as last resort`() = runBlockingTest {
+        coEvery { configServer.downloadAppConfig() } throws IOException()
+        coEvery { configStorage.getStoredConfig() } returns null
+        every { appConfigDefaultFallback.getRawDefaultConfig() } returns APPCONFIG_RAW
+
+        val instance = createInstance()
+
+        instance.retrieveConfig() shouldBe DefaultConfigData(
+            serverTime = Instant.EPOCH,
+            localOffset = Duration.standardHours(12),
+            mappedConfig = configData,
+            configType = ConfigData.Type.FALLBACK_LOCAL_DEFAULT
+        )
+
+        verify { appConfigDefaultFallback.getRawDefaultConfig() }
     }
 
     companion object {

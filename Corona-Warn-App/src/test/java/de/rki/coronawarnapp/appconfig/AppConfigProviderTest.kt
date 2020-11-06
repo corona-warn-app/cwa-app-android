@@ -43,7 +43,7 @@ class AppConfigProviderTest : BaseIOTest() {
             serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
-            isFallback = false
+            configType = ConfigData.Type.FROM_SERVER
         )
         coEvery { source.clear() } just Runs
         coEvery { source.retrieveConfig() } returns testConfigDownload
