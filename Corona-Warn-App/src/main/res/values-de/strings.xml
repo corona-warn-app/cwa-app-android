@@ -288,7 +288,7 @@
     <!-- XHED: App overview subtitle for glossary contact  -->
     <string name="main_overview_subtitle_glossary_contact">"Risiko-Begegnung"</string>
     <!-- YTXT: App overview body for glossary contact -->
-    <string name="main_overview_body_glossary_contact">"Begegnung mit einer infizierten Person, die ihr positives Testergebnis über die CWA mit anderen geteilt hat. Eine Begegnung muss bestimmte Kriterien hinsichtlich Dauer, Abstand und vermuteter Infektiosität der anderen Person erfüllen, um als Risiko-Begegnung eingestuft zu werden."</string>
+    <string name="main_overview_body_glossary_contact">"Begegnung mit einer infizierten Person, die ihr positives Testergebnis über die App mit anderen geteilt hat. Eine Begegnung muss bestimmte Kriterien hinsichtlich Dauer, Abstand und vermuteter Infektiosität der anderen Person erfüllen, um als Risiko-Begegnung eingestuft zu werden."</string>
     <!-- XHED: App overview subtitle for glossary notifications -->
     <string name="main_overview_subtitle_glossary_notification">"Risiko-Benachrichtigung"</string>
     <!-- YTXT: App overview body for glossary notifications -->
