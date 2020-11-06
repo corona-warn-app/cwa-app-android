@@ -42,7 +42,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         // start
         viewModel.scanStatusValue.value = ScanStatus.STARTED
 
-        viewModel.scanStatusValue.value  shouldBe ScanStatus.STARTED
+        viewModel.scanStatusValue.value shouldBe ScanStatus.STARTED
 
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
