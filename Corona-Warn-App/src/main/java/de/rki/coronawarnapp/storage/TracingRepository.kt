@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.storage
 
-import de.rki.coronawarnapp.CoronaWarnApplication
+import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.timer.TimerHelper
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +40,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class TracingRepository @Inject constructor(
+    @AppContext private val context: Context,
     @AppScope private val scope: CoroutineScope,
     private val taskController: TaskController,
     enfClient: ENFClient
@@ -138,19 +140,15 @@ class TracingRepository @Inject constructor(
                 currentDate.withTimeAtStartOfDay() != lastFetch.withTimeAtStartOfDay()
 
         // check if the network is enabled to make the server fetch
-        val isNetworkEnabled =
-            ConnectivityHelper.isNetworkEnabled(CoronaWarnApplication.getAppContext())
+        val isNetworkEnabled = ConnectivityHelper.isNetworkEnabled(context)
 
         // only fetch the diagnosis keys if background jobs are enabled, so that in manual
         // model the keys are only fetched on button press of the user
-        val isBackgroundJobEnabled =
-            ConnectivityHelper.autoModeEnabled(CoronaWarnApplication.getAppContext())
+        val isBackgroundJobEnabled = ConnectivityHelper.autoModeEnabled(context)
 
-        Timber.tag(TAG)
-            .v("Keys were not retrieved today $keysWereNotRetrievedToday")
+        Timber.tag(TAG).v("Keys were not retrieved today $keysWereNotRetrievedToday")
         Timber.tag(TAG).v("Network is enabled $isNetworkEnabled")
-        Timber.tag(TAG)
-            .v("Background jobs are enabled $isBackgroundJobEnabled")
+        Timber.tag(TAG).v("Background jobs are enabled $isBackgroundJobEnabled")
 
         if (keysWereNotRetrievedToday && isNetworkEnabled && isBackgroundJobEnabled) {
             // TODO shouldn't access this directly

@@ -77,13 +77,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     }
 
     fun retrieveDiagnosisKeys() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                taskController.submitBlocking(
-                    DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments())
-                )
-                calculateRiskLevel()
-            }
+        launch {
+            taskController.submitBlocking(
+                DefaultTaskRequest(DownloadDiagnosisKeysTask::class, DownloadDiagnosisKeysTask.Arguments())
+            )
+            calculateRiskLevel()
         }
     }
 
