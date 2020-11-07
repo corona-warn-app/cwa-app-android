@@ -56,9 +56,9 @@ class AppConfigServer @Inject constructor(
         // If this is a cached response, we need the original timestamp to calculate the time offset
         val localTime = response.getCacheTimestamp() ?: timeStamper.nowUTC
 
-        val etag = response.headers().etag()
-            ?: // Shouldn't happen, but hey ¯\_(ツ)_/¯
-            throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
+        // Shouldn't happen, but hey ¯\_(ツ)_/¯
+        val etag =
+            response.headers().etag() ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
 
         val serverTime = response.getServerDate() ?: localTime
         val offset = Duration(serverTime, localTime)
