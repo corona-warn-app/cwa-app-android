@@ -27,7 +27,7 @@ class DaySyncTool @Inject constructor(
     deviceStorage: DeviceStorage,
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
-    private val downloadTool: DownloadTool,
+    private val downloadTool: KeyDownloadTool,
     private val timeStamper: TimeStamper,
     private val configProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider
@@ -61,7 +61,7 @@ class DaySyncTool @Inject constructor(
         Timber.tag(TAG).d("Downloading missing days: %s", missingDays)
         requireStorageSpace(missingDays)
 
-        val downloads = launchDownloads(missingDays)
+        val downloads = launchDownloads(missingDays, downloadConfig)
 
         Timber.tag(TAG).d("Waiting for %d missing day downloads.", downloads.size)
         val downloadedDays = downloads.awaitAll().filterNotNull().also {
@@ -100,7 +100,10 @@ class DaySyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun launchDownloads(missingDayData: Collection<LocationDays>): Collection<Deferred<CachedKey?>> {
+    internal suspend fun launchDownloads(
+        missingDayData: Collection<LocationDays>,
+        downloadConfig: KeyDownloadConfig
+    ): Collection<Deferred<CachedKey?>> {
         val launcher: CoroutineScope.(LocationDays, LocalDate) -> Deferred<CachedKey?> = { locationData, targetDay ->
             async {
                 val cachedKey = keyCache.createCacheEntry(
@@ -110,19 +113,19 @@ class DaySyncTool @Inject constructor(
                     type = Type.LOCATION_DAY
                 )
 
-                downloadTool.downloadKeyFile(cachedKey)
+                downloadTool.downloadKeyFile(cachedKey, downloadConfig)
             }
         }
+        val downloads = missingDayData.flatMap { location ->
+            location.dayData.map { dayDate -> location to dayDate }
+        }
+        Timber.tag(TAG).d("Launching %d downloads, with config: %s", downloads.size, downloadConfig)
 
-        return missingDayData
-            .flatMap { location ->
-                location.dayData.map { dayDate -> location to dayDate }
+        return downloads.map { (locationData, targetDay) ->
+            withContext(context = dispatcherProvider.IO) {
+                launcher(locationData, targetDay)
             }
-            .map { (locationData, targetDay) ->
-                withContext(context = dispatcherProvider.IO) {
-                    launcher(locationData, targetDay)
-                }
-            }
+        }
     }
 
     companion object {

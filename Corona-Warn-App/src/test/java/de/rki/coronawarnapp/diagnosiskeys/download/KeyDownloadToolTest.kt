@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 
-class DownloadToolTest : BaseIOTest() {
+class KeyDownloadToolTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 

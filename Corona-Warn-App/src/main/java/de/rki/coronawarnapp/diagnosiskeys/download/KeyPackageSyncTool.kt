@@ -33,7 +33,7 @@ class KeyPackageSyncTool @Inject constructor(
 
         cleanUpStaleLocation(targetLocations)
 
-        val syncedDaysSuccessfully = runDaySync(targetLocations)
+        val hasSyncedDays = runDaySync(targetLocations)
 
         val isMeteredConnection = networkStateProvider.networkState.first().isMeteredConnection
         Timber.tag(TAG).d("Checking hour sync... (isMetered=%b)", isMeteredConnection)
@@ -53,7 +53,7 @@ class KeyPackageSyncTool @Inject constructor(
 
         return Result(
             availableKeys = availableKeys,
-            wasDaySyncSucccessful = syncedDaysSuccessfully
+            wasDaySyncSucccessful = hasSyncedDays
         )
     }
 

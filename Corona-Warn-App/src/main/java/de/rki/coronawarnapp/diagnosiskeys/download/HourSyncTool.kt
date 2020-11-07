@@ -29,7 +29,7 @@ class HourSyncTool @Inject constructor(
     deviceStorage: DeviceStorage,
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository,
-    private val downloadTool: DownloadTool,
+    private val downloadTool: KeyDownloadTool,
     private val timeStamper: TimeStamper,
     private val configProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider
@@ -63,7 +63,7 @@ class HourSyncTool @Inject constructor(
         Timber.tag(TAG).d("Downloading missing hours: %s", missingHours)
         requireStorageSpace(missingHours)
 
-        val hourDownloads = launchDownloads(missingHours)
+        val hourDownloads = launchDownloads(missingHours, downloadConfig)
 
         Timber.tag(TAG).d("Waiting for %d missing hour downloads.", hourDownloads.size)
         val downloadedHours = hourDownloads.awaitAll().filterNotNull()
@@ -77,7 +77,10 @@ class HourSyncTool @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun launchDownloads(missingHours: Collection<LocationHours>): Collection<Deferred<CachedKey?>> {
+    internal suspend fun launchDownloads(
+        missingHours: Collection<LocationHours>,
+        downloadConfig: KeyDownloadConfig
+    ): Collection<Deferred<CachedKey?>> {
         val launcher: CoroutineScope.(LocationHours, LocalDate, LocalTime) -> Deferred<CachedKey?> =
             { locationData, targetDay, targetHour ->
                 async {
@@ -88,22 +91,24 @@ class HourSyncTool @Inject constructor(
                         type = Type.LOCATION_HOUR
                     )
 
-                    downloadTool.downloadKeyFile(cachedKey)
+                    downloadTool.downloadKeyFile(cachedKey, downloadConfig)
                 }
             }
 
-        return missingHours
+        val downloads = missingHours
             .flatMap { location ->
                 location.hourData.map { Triple(location, it.key, it.value) }
             }
             .flatMap { (location, day, hours) ->
                 hours.map { Triple(location, day, it) }
             }
-            .map { (location, day, missingHour) ->
-                withContext(context = dispatcherProvider.IO) {
-                    launcher(location, day, missingHour)
-                }
+        Timber.tag(TAG).d("Launching %d downloads, with config: %s", downloads.size, downloadConfig)
+
+        return downloads.map { (location, day, missingHour) ->
+            withContext(context = dispatcherProvider.IO) {
+                launcher(location, day, missingHour)
             }
+        }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

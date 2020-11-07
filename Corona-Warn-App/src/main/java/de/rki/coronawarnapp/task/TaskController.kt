@@ -86,7 +86,7 @@ class TaskController @Inject constructor(
         requireNotNull(taskFactory) { "No factory available for $newRequest" }
 
         Timber.tag(TAG).v("Initiating task data for request: %s", newRequest)
-        val taskConfig = taskFactory.config
+        val taskConfig = taskFactory.createConfig()
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(start = CoroutineStart.LAZY) {

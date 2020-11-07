@@ -217,10 +217,14 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ) : TaskFactory.Config
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<DownloadDiagnosisKeysTask>
+        private val taskByDagger: Provider<DownloadDiagnosisKeysTask>,
+        private val appConfigProvider: AppConfigProvider
     ) : TaskFactory<Progress, Task.Result> {
 
-        override val config: TaskFactory.Config = Config()
+        override suspend fun createConfig(): TaskFactory.Config = Config(
+            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
+        )
+
         override val taskProvider: () -> Task<Progress, Task.Result> = {
             taskByDagger.get()
         }

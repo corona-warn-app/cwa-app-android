@@ -2,10 +2,15 @@ package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 
 interface KeyDownloadConfig {
+
+    val individualDownloadTimeout: Duration
+
+    val overallDownloadTimeout: Duration
 
     val invalidDayETags: Collection<InvalidatedKeyFile.Day>
 

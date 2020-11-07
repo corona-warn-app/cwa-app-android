@@ -21,7 +21,7 @@ class HourSyncToolTest : BaseIOTest() {
     @MockK lateinit var deviceStorage: DeviceStorage
     @MockK lateinit var keyCache: KeyCacheRepository
     @MockK lateinit var keyServer: DiagnosisKeyServer
-    @MockK lateinit var downloadTool: DownloadTool
+    @MockK lateinit var downloadTool: KeyDownloadTool
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var configProvider: AppConfigProvider
 

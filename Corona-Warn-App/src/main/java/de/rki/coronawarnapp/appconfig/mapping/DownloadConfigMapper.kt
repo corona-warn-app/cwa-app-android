@@ -4,6 +4,8 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.server.protocols.internal.AppConfig
+import de.rki.coronawarnapp.server.protocols.internal.KeyDownloadParameters.KeyDownloadParametersAndroid
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
@@ -13,35 +15,54 @@ import javax.inject.Inject
 @Reusable
 class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
     override fun map(rawConfig: AppConfig.ApplicationConfiguration): KeyDownloadConfig {
+        val rawParameters = rawConfig.androidKeyDownloadParameters
 
         return KeyDownloadConfigContainer(
-            invalidDayETags = rawConfig.androidKeyDownloadParameters.cachedDayPackagesToUpdateOnETagMismatchList.mapNotNull {
-                try {
-                    InvalidatedKeyFile.Day(
-                        etag = it.etag,
-                        region = LocationCode(it.region),
-                        day = LocalDate.parse(it.date, DAY_FORMATTER)
-                    )
-                } catch (e: Exception) {
-                    Timber.e(e, "Failed to parse invalidated day metadata: %s", it)
-                    null
-                }
-            },
-            invalidHourEtags = rawConfig.androidKeyDownloadParameters.cachedHourPackagesToUpdateOnETagMismatchList.mapNotNull {
-                try {
-                    InvalidatedKeyFile.Hour(
-                        etag = it.etag,
-                        region = LocationCode(it.region),
-                        day = LocalDate.parse(it.date, DAY_FORMATTER),
-                        hour = LocalTime.parse("${it.hour}", HOUR_FORMATTER)
-                    )
-                } catch (e: Exception) {
-                    Timber.e(e, "Failed to parse invalidated hour metadata: %s", it)
-                    null
-                }
-            }
+            individualDownloadTimeout = rawParameters.individualTimeout(),
+            overallDownloadTimeout = rawParameters.overAllTimeout(),
+            invalidDayETags = rawParameters.mapDayEtags(),
+            invalidHourEtags = rawParameters.mapHourEtags()
         )
     }
+
+    private fun KeyDownloadParametersAndroid.individualTimeout(): Duration {
+        return if (downloadTimeoutInSeconds == 0) Duration.standardSeconds(60)
+        else Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
+    }
+
+    private fun KeyDownloadParametersAndroid.overAllTimeout(): Duration {
+        return if (overallTimeoutInSeconds == 0) Duration.standardMinutes(8)
+        else Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+    }
+
+    private fun KeyDownloadParametersAndroid.mapDayEtags(): List<InvalidatedKeyFile.Day> =
+        this.cachedDayPackagesToUpdateOnETagMismatchList.mapNotNull {
+            try {
+                InvalidatedKeyFile.Day(
+                    etag = it.etag,
+                    region = LocationCode(it.region),
+                    day = LocalDate.parse(it.date, DAY_FORMATTER)
+                )
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to parse invalidated day metadata: %s", it)
+                null
+            }
+        }
+
+    private fun KeyDownloadParametersAndroid.mapHourEtags(): List<InvalidatedKeyFile.Hour> =
+        this.cachedHourPackagesToUpdateOnETagMismatchList.mapNotNull {
+            try {
+                InvalidatedKeyFile.Hour(
+                    etag = it.etag,
+                    region = LocationCode(it.region),
+                    day = LocalDate.parse(it.date, DAY_FORMATTER),
+                    hour = LocalTime.parse("${it.hour}", HOUR_FORMATTER)
+                )
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to parse invalidated hour metadata: %s", it)
+                null
+            }
+        }
 
     sealed class InvalidatedKeyFile : KeyDownloadConfig.InvalidatedKeyFile {
 
@@ -60,6 +81,8 @@ class DownloadConfigMapper @Inject constructor() : KeyDownloadConfig.Mapper {
     }
 
     data class KeyDownloadConfigContainer(
+        override val individualDownloadTimeout: Duration,
+        override val overallDownloadTimeout: Duration,
         override val invalidDayETags: Collection<KeyDownloadConfig.InvalidatedKeyFile.Day>,
         override val invalidHourEtags: Collection<KeyDownloadConfig.InvalidatedKeyFile.Hour>
     ) : KeyDownloadConfig

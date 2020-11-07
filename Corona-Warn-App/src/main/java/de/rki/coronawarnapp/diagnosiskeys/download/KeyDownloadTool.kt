@@ -1,23 +1,26 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.DiagnosisKeyServer
 import de.rki.coronawarnapp.diagnosiskeys.server.DownloadInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.legacy.LegacyKeyCacheMigration
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DownloadTool @Inject constructor(
+class KeyDownloadTool @Inject constructor(
     private val legacyKeyCache: LegacyKeyCacheMigration,
     private val keyServer: DiagnosisKeyServer,
     private val keyCache: KeyCacheRepository
 ) {
     suspend fun downloadKeyFile(
-        cachedKey: CachedKey
+        cachedKey: CachedKey,
+        downloadConfig: KeyDownloadConfig
     ): CachedKey? = try {
         val saveTo = cachedKey.path
         val keyInfo = cachedKey.info
@@ -33,13 +36,15 @@ class DownloadTool @Inject constructor(
                 continueDownload // Continue download if no migration happened
             }
 
-        val dlInfo = keyServer.downloadKeyFile(
-            locationCode = keyInfo.location,
-            day = keyInfo.day,
-            hour = keyInfo.hour,
-            saveTo = saveTo,
-            precondition = preconditionHook
-        )
+        val dlInfo = withTimeout(downloadConfig.individualDownloadTimeout.millis) {
+            keyServer.downloadKeyFile(
+                locationCode = keyInfo.location,
+                day = keyInfo.day,
+                hour = keyInfo.hour,
+                saveTo = saveTo,
+                precondition = preconditionHook
+            )
+        }
         Timber.tag(TAG).v("Dowwnload finished: %s -> %s", cachedKey, saveTo)
 
         /**
