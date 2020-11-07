@@ -7,6 +7,12 @@ import org.joda.time.Instant
 interface ConfigData : ConfigMapping {
 
     /**
+     * A unique value to identify this app config by.
+     * When this value changes, the app config has changed.
+     */
+    val identifier: String
+
+    /**
      * serverTime + localOffset = updatedAt
      */
     val updatedAt: Instant

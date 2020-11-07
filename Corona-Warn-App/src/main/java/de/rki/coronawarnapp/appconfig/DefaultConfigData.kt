@@ -7,6 +7,7 @@ import org.joda.time.Instant
 data class DefaultConfigData(
     val serverTime: Instant,
     val mappedConfig: ConfigMapping,
+    override val identifier: String,
     override val localOffset: Duration,
     override val configType: ConfigData.Type
 ) : ConfigData, ConfigMapping by mappedConfig {

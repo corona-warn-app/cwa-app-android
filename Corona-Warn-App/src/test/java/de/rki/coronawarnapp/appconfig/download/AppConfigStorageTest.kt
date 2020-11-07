@@ -34,7 +34,8 @@ class AppConfigStorageTest : BaseIOTest() {
     private val testConfigDownload = ConfigDownload(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-        localOffset = Duration.standardHours(1)
+        localOffset = Duration.standardHours(1),
+        etag = "I am an ETag :)!"
     )
 
     @BeforeEach
@@ -69,6 +70,7 @@ class AppConfigStorageTest : BaseIOTest() {
         configPath.readText().toComparableJson() shouldBe """
             {
                 "rawData": "$APPCONFIG_BASE64",
+                "etag": "I am an ETag :)!",
                 "serverTime": 1604381716000,
                 "localOffset": 3600000
             }
@@ -94,6 +96,7 @@ class AppConfigStorageTest : BaseIOTest() {
         configPath.readText().toComparableJson() shouldBe """
             {
                 "rawData": "$APPCONFIG_BASE64",
+                "etag": "I am an ETag :)!",
                 "serverTime": 1604381716000,
                 "localOffset": 3600000
             }
@@ -117,7 +120,8 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.getStoredConfig() shouldBe ConfigDownload(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.ofEpochMilli(1234),
-            localOffset = Duration.ZERO
+            localOffset = Duration.ZERO,
+            etag = "I am an ETag :)!"
         )
     }
 

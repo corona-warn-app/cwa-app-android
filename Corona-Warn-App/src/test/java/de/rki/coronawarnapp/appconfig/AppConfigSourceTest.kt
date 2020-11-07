@@ -44,7 +44,8 @@ class AppConfigSourceTest : BaseIOTest() {
     private var testConfigDownload = ConfigDownload(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-        localOffset = Duration.standardHours(1)
+        localOffset = Duration.standardHours(1),
+        etag = "etag"
     )
 
     private var mockConfigStorage: ConfigDownload? = null
@@ -89,7 +90,8 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
-            configType = ConfigData.Type.FROM_SERVER
+            configType = ConfigData.Type.FROM_SERVER,
+            identifier = "etag"
         )
 
         mockConfigStorage shouldBe testConfigDownload
@@ -107,7 +109,8 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
-            configType = ConfigData.Type.LAST_RETRIEVED
+            configType = ConfigData.Type.LAST_RETRIEVED,
+            identifier = "etag"
         )
 
         verify(exactly = 0) { appConfigDefaultFallback.getRawDefaultConfig() }
@@ -151,7 +154,8 @@ class AppConfigSourceTest : BaseIOTest() {
             serverTime = Instant.EPOCH,
             localOffset = Duration.standardHours(12),
             mappedConfig = configData,
-            configType = ConfigData.Type.LOCAL_DEFAULT
+            configType = ConfigData.Type.LOCAL_DEFAULT,
+            identifier = "fallback.local"
         )
 
         verify { appConfigDefaultFallback.getRawDefaultConfig() }

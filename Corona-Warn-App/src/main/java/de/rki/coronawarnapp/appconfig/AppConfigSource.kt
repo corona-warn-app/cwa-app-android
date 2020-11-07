@@ -39,6 +39,7 @@ class AppConfigSource @Inject constructor(
                         mappedConfig = it,
                         serverTime = configDownload.serverTime,
                         localOffset = configDownload.localOffset,
+                        identifier = configDownload.etag,
                         configType = ConfigData.Type.FROM_SERVER
                     )
                 }
@@ -56,6 +57,7 @@ class AppConfigSource @Inject constructor(
                             mappedConfig = parser.parse(it.rawData),
                             serverTime = it.serverTime,
                             localOffset = it.localOffset,
+                            identifier = it.etag,
                             configType = ConfigData.Type.LAST_RETRIEVED
                         )
                     }
@@ -72,6 +74,7 @@ class AppConfigSource @Inject constructor(
                 mappedConfig = parser.parse(defaultAppConfig.getRawDefaultConfig()),
                 serverTime = Instant.EPOCH,
                 localOffset = Duration.standardHours(12),
+                identifier = "fallback.local",
                 configType = ConfigData.Type.LOCAL_DEFAULT
             )
         }
